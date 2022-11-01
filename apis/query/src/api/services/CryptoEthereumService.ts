@@ -11,7 +11,7 @@ export class CryptoEthereumService {
   ) {}
 
   async getEthBalanceAnonymitySet(balance: string) {
-    return this.repository.queryEthBalance(balance).then(addresses => {
+    return this.repository.queryEthBalance(balance).then((addresses) => {
       this.logger.info('Get ETH-balance based anonymity set')
       return addresses
     })
