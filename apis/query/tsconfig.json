@@ -1,0 +1,64 @@
+{
+  "include": [
+    "src"
+  ],
+  "compilerOptions": {
+    "target": "ES2022",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "baseUrl": ".",
+    "paths": {
+      "@controllers": [
+        "src/api/controllers"
+      ],
+      "@controllers/*": [
+        "src/api/controllers/*"
+      ],
+      "@decorators/*": [
+        "src/decorators/*"
+      ],
+      "@middlewares": [
+        "src/api/middlewares"
+      ],
+      "@models": [
+        "src/api/models"
+      ],
+      "@models/*": [
+        "src/api/models/*"
+      ],
+      "@repositories": [
+        "src/api/repositories"
+      ],
+      "@repositories/*": [
+        "src/api/repositories/*"
+      ],
+      "@services": [
+        "src/api/services"
+      ],
+      "~/*": [
+        "src/lib/*"
+      ]
+    },
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "removeComments": true,
+    "importHelpers": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "declarationDir": "./dist/types",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictPropertyInitialization": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
+  }
+}
