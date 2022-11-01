@@ -1,0 +1,9 @@
+.idea
+dist
+logs
+node_modules
+*.log
+.env
+*.db
+dev.db-journal
+

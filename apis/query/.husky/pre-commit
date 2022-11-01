@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+export PATH="$HOME/.asdf/shims:$HOME/.asdf/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.cargo/bin:$PWD/node_modules/.bin:/usr/local/bin:$HOME/.foundry/bin"
+nps format.check lint.check
