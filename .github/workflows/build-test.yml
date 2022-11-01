@@ -41,7 +41,4 @@ jobs:
         working-directory: ./apis/query
         run: |
           pnpm install
-          npm run nps lint.check
-          npm run nps format.check
-          npm run nps build
-          npm run nps test
+          npm run nps lint.check format.check build test
