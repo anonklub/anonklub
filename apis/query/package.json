@@ -50,7 +50,6 @@
     "reflect-metadata": "^0.1.13",
     "supertest": "^6.3.1",
     "ts-jest": "^29.0.3",
-    "ts-node": "^10.9.1",
     "tslib": "^2.4.0",
     "typescript": "^4.8.4"
   },

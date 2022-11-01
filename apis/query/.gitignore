@@ -6,4 +6,6 @@ node_modules
 .env
 *.db
 dev.db-journal
+.key.json
+
 

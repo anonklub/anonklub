@@ -1,1 +1,1 @@
-export { CryptoEthereumService } from 'src/api/services/CryptoEthereumService'
+export { CryptoEthereumService } from './CryptoEthereumService'
