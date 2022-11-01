@@ -37,7 +37,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Check - Build - Test
+      - name: Lint - Format - Build - Test
         working-directory: ./apis/query
         run: |
           pnpm install
