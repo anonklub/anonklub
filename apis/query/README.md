@@ -5,21 +5,18 @@
 | GET    | `/anonymity-set/balance?asset&balance` | `string[]` | List of addresses that have at least `balance` of `asset` |
 
 
-## Getting Started
-1. To authenticate BigQuery API Requests, you need to [set up a service account and create credentials](https://codelabs.developers.google.com/codelabs/cloud-bigquery-nodejs#3) (e.g. exported as `keys.json`).
-2. Start
+## Getting Started - Develop
+1. Authenticate BigQuery API Requests  
+   1. [Set up a service account and create credentials](https://codelabs.developers.google.com/codelabs/cloud-bigquery-nodejs#3). Export credentials in an `.keys.json` file. 
+   2. Define environment variables: `echo "GOOGLE_PROJECT_ID=your-project-id\nGOOGLE_CLOUD_CREDENTIALS=./.keys.json" > .env`
+   3. Source `.env` file: `source .env`
+
+2. Start  
+  You can either use the node/npm scripts or docker compose
     - node
       ```commandline
       npm i -g pnpm nps
       pnpm i
-      nps start
+      nps start.dev
       ``` 
-    - docker
-      1. Build image
-         ```commandline
-         docker build -t r1oga:zk-ecdsa-query-api .
-         ```
-      2. Run container
-         ```commandline
-         docker run -p 3000:3000 -e "GOOGLE_CLOUD_PROJECT=ethereum-analytics-366016" -e "GOOGLE_APPLICATION_CREDENTIALS=./.key.json" r1oga:zk-ecdsa-query-api 
-         ```
+    - docker: `docker compose up`
