@@ -8,11 +8,10 @@ COPY .npmrc package.json pnpm-lock.yaml ./
 
 RUN pnpm i --frozen-lockfile
 
-COPY .key.json .
 COPY tsconfig.json .
 COPY package-scripts.yaml .
 COPY src src
 
 EXPOSE 3000
 
-CMD ["npm", "run" ,"nps", "transpile", "start.prod"]
+CMD ["npm", "run" ,"nps", "start.dev"]
