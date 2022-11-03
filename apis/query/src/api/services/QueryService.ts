@@ -18,7 +18,10 @@ export class QueryService {
     ...rest: string[]
   ): Promise<string[]> {
     return new Promise((resolve, reject) => {
-      const python = spawn(process.env.PYTHON!, [scriptPath, ...rest])
+      const python = spawn(process.env.PYTHON || 'python3', [
+        scriptPath,
+        ...rest,
+      ])
 
       let result = ''
 
