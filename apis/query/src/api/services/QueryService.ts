@@ -13,12 +13,12 @@ export class QueryService {
     @Logger() private logger: LoggerInterface,
   ) {}
 
-  private async python(scriptPath:string, ...rest:string[]): Promise<string[]> {
+  private async python(
+    scriptPath: string,
+    ...rest: string[]
+  ): Promise<string[]> {
     return new Promise((resolve, reject) => {
-      const python = spawn(
-        process.env.PYTHON!,
-        [scriptPath, ...rest],
-      )
+      const python = spawn(process.env.PYTHON!, [scriptPath, ...rest])
 
       let result = ''
 
@@ -36,7 +36,7 @@ export class QueryService {
     })
   }
 
-  private queryDune(queryId:string) {
+  private queryDune(queryId: string) {
     return this.python('src/api/services/query.py', queryId)
   }
 
