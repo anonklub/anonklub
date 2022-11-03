@@ -1,28 +1,26 @@
-import {
-  JsonController,
-  Get,
-  QueryParam,
-  NotFoundError,
-} from 'routing-controllers'
+import { JsonController, Get, QueryParam } from 'routing-controllers'
 import { Service } from 'typedi'
 
-import { CryptoEthereumService } from '@services'
+import { QueryService } from '@services'
 
 @Service()
 @JsonController()
 export class Controller {
-  constructor(private service: CryptoEthereumService) {}
+  constructor(private service: QueryService) {}
 
-  @Get('/anonymity-set/balance')
-  async anonymitySet(
-    @QueryParam('asset') asset: string,
-    @QueryParam('balance') balance: string,
+  @Get('/anonymity-set/balance/ETH')
+  async ethBalanceAnonymitySet(@QueryParam('min') balance: string) {
+    return this.service.getEthBalanceAnonymitySet(balance)
+  }
+
+  @Get('/anonymity-set/balance/ERC20')
+  async erc20BalanceAnonymitySet(
+    @QueryParam('min') balance: string,
+    @QueryParam('tokenAddress') tokenAddress: string,
   ) {
-    switch (asset) {
-      case 'ETH':
-        return this.service.getEthBalanceAnonymitySet(balance)
-      default:
-        throw new NotFoundError('asset not supported')
-    }
+    return this.service.getTokenBalanceAnonymitySet({
+      balance,
+      tokenAddress: tokenAddress?.toLowerCase(),
+    })
   }
 }
