@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# https://github.com/adrian-gheorghe/demo-docker-secrets-env-vars
 set -e
 
 file_env() {
