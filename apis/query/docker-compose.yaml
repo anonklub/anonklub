@@ -5,13 +5,19 @@ services:
      build: .
      environment:
        GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/google_credentials
-       GOOGLE_PROJECT_ID: ${GOOGLE_PROJECT_ID}
+       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT}
+       PYTHON: python3
+       DUNE_USER: r1oga
+       DUNE_PWD_FILE: /run/secrets/dune_pwd
      secrets:
        - google_credentials
+       - dune_pwd
      ports:
        - "3000:3000"
 
 secrets:
    google_credentials:
      file: .keys.json
+   dune_pwd:
+     file: .dune_pwd
 

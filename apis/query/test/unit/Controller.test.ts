@@ -1,6 +1,6 @@
 import { Controller } from '@controllers/Controller'
 import { CryptoEthereumRepository } from '@repositories'
-import { CryptoEthereumService } from '@services'
+import { QueryService } from '@services'
 import { createMockContext, DbMock } from './lib/RepositoryMock'
 import { logger } from '~/logger'
 // import { objectContainsValue } from 'jest-mock-extended'
@@ -12,7 +12,7 @@ describe('Controller', () => {
   beforeEach(() => {
     dbMock = createMockContext()
     itemController = new Controller(
-      new CryptoEthereumService(new CryptoEthereumRepository(dbMock), logger),
+      new QueryService(new CryptoEthereumRepository(dbMock), logger),
     )
   })
 
@@ -24,7 +24,7 @@ describe('Controller', () => {
       dbMock.query.mockResolvedValue([addresses.map(address=>({address}))])
 
       await expect(
-        itemController.anonymitySet('ETH', '10'),
+        itemController.ethBalanceAnonymitySet('10'),
       ).resolves.toMatchObject(addresses)
     })
   })

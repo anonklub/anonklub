@@ -1,1 +1,1 @@
-export { CryptoEthereumService } from './CryptoEthereumService'
+export { QueryService } from 'src/api/services/QueryService'

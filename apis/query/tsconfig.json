@@ -55,7 +55,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "strictPropertyInitialization": true,
+    "strictPropertyInitialization": false,
     "alwaysStrict": true,
     "noUnusedLocals": true,
     "skipDefaultLibCheck": true,
