@@ -59,4 +59,11 @@ export class QueryService {
       return result
     })
   }
+
+  async getBeaconDepositorsAnonymitySet() {
+    return this.queryDune('1499468').then((result) => {
+      this.logger.info('Get Beacon Contract Depositors anonymity set')
+      return result
+    })
+  }
 }

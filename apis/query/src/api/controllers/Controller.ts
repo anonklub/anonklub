@@ -23,4 +23,9 @@ export class Controller {
       tokenAddress: tokenAddress?.toLowerCase(),
     })
   }
+
+  @Get('/anonymity-set/beacon')
+  async beaconDepositorsAnonymitySet() {
+    return this.service.getBeaconDepositorsAnonymitySet()
+  }
 }
