@@ -1,5 +1,12 @@
 FROM node:19-alpine
 
+
+
+RUN apk update
+RUN apk add python3 py3-pip bash
+
+RUN pip install requests duneanalytics
+
 RUN npm i -g pnpm
 
 WORKDIR app
@@ -13,5 +20,9 @@ COPY package-scripts.yaml .
 COPY src src
 
 EXPOSE 3000
+
+COPY secrets-entrypoint.sh /usr/local/bin/secrets-entrypoint.sh
+RUN chmod +x /usr/local/bin/secrets-entrypoint.sh
+ENTRYPOINT ["secrets-entrypoint.sh"]
 
 CMD ["npm", "run" ,"nps", "start.dev"]
