@@ -3,9 +3,14 @@ FROM node:19-alpine
 
 
 RUN apk update
-RUN apk add python3 py3-pip bash
+RUN apk add python3 \
+            python3-dev \
+            gcc \
+            libc-dev \
+            py3-pip \
+            bash
 
-RUN pip install requests duneanalytics
+RUN pip install duneapi
 
 RUN npm i -g pnpm
 

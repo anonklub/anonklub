@@ -4,6 +4,17 @@ import { Logger, LoggerInterface } from '@decorators/Logger'
 import { CryptoEthereumRepository } from '@repositories'
 import { spawn } from 'child_process'
 
+// FIXME
+/* eslint-disable */
+enum ParameterType {
+  Enum = 'enum',
+  Text = 'text',
+  Number = 'number',
+  Date = 'date',
+}
+
+/* eslint-disable */
+
 @Service()
 export class QueryService {
   // private python: ChildProcessWithoutNullStreams
@@ -39,8 +50,21 @@ export class QueryService {
     })
   }
 
-  private queryDune(queryId: string) {
-    return this.python('src/api/services/query.py', queryId)
+  private queryDune(
+    queryId: string,
+    parameters?: {
+      name: string
+      type: ParameterType
+      value: string | number
+    }[],
+  ) {
+    return parameters
+      ? this.python(
+          'src/api/services/query.py',
+          queryId,
+          JSON.stringify(parameters),
+        )
+      : this.python('src/api/services/query.py', queryId)
   }
 
   async getEthBalanceAnonymitySet(balance: string) {
@@ -57,7 +81,14 @@ export class QueryService {
     balance: string
     tokenAddress: string
   }) {
-    return this.queryDune('1517285').then((result) => {
+    return this.queryDune('1500107', [
+      { name: 'min', type: ParameterType.Number, value: Number(balance) },
+      {
+        name: 'tokenAddress',
+        type: ParameterType.Text,
+        value: `'${tokenAddress}'`,
+      },
+    ]).then((result) => {
       this.logger.info('Get ERC20-balance based anonymity set')
       return result
     })
