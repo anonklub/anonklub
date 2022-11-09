@@ -1,8 +1,11 @@
 # Query API
 
-| Method | Route                                  | Response   | Description                                               |
-|--------|----------------------------------------|------------|-----------------------------------------------------------|
-| GET    | `/anonymity-set/balance?asset&balance` | `string[]` | List of addresses that have at least `balance` of `asset` |
+| Method | Route                                           | Response   | Description                                                                |
+|--------|-------------------------------------------------|------------|----------------------------------------------------------------------------|
+| GET    | `/anonymity-set/balance/ETH?min`                | `string[]` | List of addresses that have at least `min` balance of ETH                  |
+| GET    | `/anonymity-set/balance/ERC20?min&tokenAddress` | `string[]` | List of addresses that have at least `min` balance of a given ERC20        |
+| GET    | `/anonymity-set/beacon`                         | `string[]` | List of addresses that deposited into the Beacon Chain Deposit Contract    |
+| GET    | `/anonymity-set/ens-proposal-voters`            | `string[]` | List of addresses that deposited voted for or against a given ENS proposal |
 
 
 ## Getting Started - Develop
@@ -22,3 +25,9 @@
       nps start.dev
       ``` 
     - docker: `docker compose up`
+
+## The Graph
+In case new queries are added or existing ones are updated, re create the artifacts with:
+```commandline
+pnpm exec graphclient build
+```

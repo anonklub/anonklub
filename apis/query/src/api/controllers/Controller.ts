@@ -1,7 +1,8 @@
-import { JsonController, Get, QueryParam } from 'routing-controllers'
+import { Get, JsonController, QueryParam } from 'routing-controllers'
 import { Service } from 'typedi'
 
 import { QueryService } from '@services'
+import { VoteChoice } from '../../../.graphclient'
 
 @Service()
 @JsonController()
@@ -27,5 +28,13 @@ export class Controller {
   @Get('/anonymity-set/beacon')
   async beaconDepositorsAnonymitySet() {
     return this.service.getBeaconDepositorsAnonymitySet()
+  }
+
+  @Get('/anonymity-set/ens-proposal-voters')
+  async ensProposalVotersAnonymitySet(
+    @QueryParam('id', { required: true }) id: string,
+    @QueryParam('choice', { required: false }) choice: VoteChoice,
+  ) {
+    return this.service.getEnsGovVotersAnonymitySet(id, choice)
   }
 }
