@@ -3,6 +3,7 @@ import { Service } from 'typedi'
 import { Logger, LoggerInterface } from '@decorators/Logger'
 import { CryptoEthereumRepository } from '@repositories'
 import { spawn } from 'child_process'
+import { getVotersPerProposal } from '~/graph'
 
 // FIXME
 /* eslint-disable */
@@ -99,5 +100,12 @@ export class QueryService {
       this.logger.info('Get Beacon Contract Depositors anonymity set')
       return result
     })
+  }
+
+  async getEnsGovVotersAnonymitySet(
+    ...args: Parameters<typeof getVotersPerProposal>
+  ) {
+    console.log(args)
+    return getVotersPerProposal(...args)
   }
 }

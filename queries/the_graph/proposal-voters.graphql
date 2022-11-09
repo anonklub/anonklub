@@ -1,0 +1,17 @@
+# ENS Governance Subgraph
+# https://thegraph.com/explorer/subgraph?id=F7MznC87sv5y5jNUaBSrKFgCqTqP9Vgc11xcreZQpX7e&view=Playground
+
+query VotersPerProposal {
+  proposal(
+    id: "107166664722174233740232174220463354481004128961821575530758100250899337476509"
+  ) {
+    state
+    id
+    votes {
+      choice
+      voter {
+        id
+      }
+    }
+  }
+}

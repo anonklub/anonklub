@@ -22,3 +22,9 @@
       nps start.dev
       ``` 
     - docker: `docker compose up`
+
+## The Graph
+In case new queries are added or existing ones are updated, re create the artifacts with:
+```commandline
+pnpm exec graphclient build
+```

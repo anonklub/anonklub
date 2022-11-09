@@ -1,0 +1,12 @@
+query VotersPerProposal($id: ID!, $choice: VoteChoice) {
+  proposal(
+    id: $id
+  ) {
+    state
+    votes(where: {choice: $choice}) {
+      voter {
+        id
+      }
+    }
+  }
+}

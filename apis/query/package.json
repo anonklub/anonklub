@@ -29,6 +29,7 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@graphprotocol/client-cli": "^2.2.15",
     "@types/express": "^4.17.14",
     "@types/jest": "^29.2.0",
     "@types/morgan": "^1.9.3",
