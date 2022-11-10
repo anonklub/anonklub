@@ -10,36 +10,36 @@ export class Controller {
   constructor(readonly service: QueryService) {}
 
   @Get('/anonymity-set/balance/ETH')
-  async ethBalanceAnonymitySet(@QueryParam('min') balance: string) {
-    return this.service.getEthBalanceAnonymitySet(balance)
+  async getEthBalanceAnonSet(@QueryParam('min') balance: string) {
+    return this.service.getEthBalanceAnonSet(balance)
   }
 
   @Get('/anonymity-set/balance/ERC20')
-  async erc20BalanceAnonymitySet(
+  async getErc20BalanceAnonSet(
     @QueryParam('min') balance: string,
     @QueryParam('tokenAddress') tokenAddress: string,
   ) {
-    return this.service.getTokenBalanceAnonymitySet({
+    return this.service.getErc20BalanceAnonSet({
       balance,
       tokenAddress: tokenAddress?.toLowerCase(),
     })
   }
 
   @Get('/anonymity-set/beacon')
-  async beaconDepositorsAnonymitySet() {
-    return this.service.getBeaconDepositorsAnonymitySet()
+  async getBeaconDepositors() {
+    return this.service.getBeaconDepositors()
   }
 
   @Get('/anonymity-set/ens-proposal-voters')
-  async ensProposalVotersAnonymitySet(
+  async getEnsProposalVoters(
     @QueryParam('id', { required: true }) id: string,
     @QueryParam('choice', { required: false }) choice: VoteChoice,
   ) {
-    return this.service.getEnsGovVotersAnonymitySet(id, choice)
+    return this.service.getEnsGovVoters(id, choice)
   }
 
   @Get('/anonymity-set/punks')
-  async punkOwnersAnonymitySet() {
-    return this.service.getPunkOwnersAnonymitySet()
+  async getPunkOwners() {
+    return this.service.getPunkOwners()
   }
 }

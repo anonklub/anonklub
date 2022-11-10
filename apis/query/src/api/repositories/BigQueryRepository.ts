@@ -3,7 +3,7 @@ import { Service } from 'typedi'
 import { Db } from '../../db'
 
 @Service()
-export class CryptoEthereumRepository {
+export class BigQueryRepository {
   constructor(public db: Db) {}
 
   async queryEthBalance(balance: string) {
