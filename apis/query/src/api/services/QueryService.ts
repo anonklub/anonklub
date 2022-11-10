@@ -5,8 +5,6 @@ import { CryptoEthereumRepository } from '@repositories'
 import { spawn } from 'child_process'
 import { getPunkOwners, getVotersPerProposal } from '~/graph'
 
-// FIXME
-/* eslint-disable */
 enum ParameterType {
   Enum = 'enum',
   Text = 'text',
@@ -14,23 +12,20 @@ enum ParameterType {
   Date = 'date',
 }
 
-/* eslint-disable */
-
 @Service()
 export class QueryService {
-  // private python: ChildProcessWithoutNullStreams
 
   constructor(
     public repository: CryptoEthereumRepository,
-    @Logger() private logger: LoggerInterface,
+    @Logger() readonly logger: LoggerInterface,
   ) {}
 
   private async python(
     scriptPath: string,
     ...rest: string[]
-  ): Promise<string[]> {
-    return new Promise((resolve, reject) => {
-      const python = spawn(process.env.PYTHON || 'python3', [
+  ) {
+    return new Promise<string[]>((resolve, reject) => {
+      const python = spawn(process.env.PYTHON ?? 'python3', [
         scriptPath,
         ...rest,
       ])
@@ -38,7 +33,7 @@ export class QueryService {
       let result = ''
 
       python.stdout.on('data', (data) => {
-        result += data.toString()
+        result += data.toString() as string
       })
 
       python.stdout.on('end', () => {
@@ -51,15 +46,15 @@ export class QueryService {
     })
   }
 
-  private queryDune(
+  private async queryDune(
     queryId: string,
-    parameters?: {
+    parameters?: Array<{
       name: string
       type: ParameterType
       value: string | number
-    }[],
+    }>,
   ) {
-    return parameters
+    return parameters !== undefined
       ? this.python(
           'src/api/services/query.py',
           queryId,
