@@ -1,11 +1,16 @@
 import {
   execute,
   Proposal,
+  Punk,
+  PunkOwnersDocument,
   Scalars,
   Vote,
   VoteChoice,
   VotersPerProposalDocument,
 } from '../../.graphclient'
+
+export const getSubgraphUrl = (graphId: string) =>
+  `https://gateway.thegraph.com/api/${process.env.GRAPH_API_KEY}/subgraphs/id/${graphId}`
 
 export const getVotersPerProposal = async (
   id: Scalars['ID'],
@@ -19,4 +24,9 @@ export const getVotersPerProposal = async (
     },
   )
   return data.proposal.votes.map((vote: Vote) => vote.voter.id)
+}
+
+export const getPunkOwners = async () => {
+  const { data } = await execute(PunkOwnersDocument)
+  return data.punks.map((punk: Punk) => punk.owner.id)
 }

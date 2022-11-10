@@ -9,7 +9,7 @@ dev.db-journal
 .key.json
 .dune_pwd
 .graphclientrc.yml
-.graphendpoint
+.graphapikey
 
 
 
