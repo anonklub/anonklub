@@ -39,8 +39,7 @@ export class Controller {
   }
 
   @Get('/anonymity-set/punks')
-  async punkOwnersAnonymitySet(
-  ) {
+  async punkOwnersAnonymitySet() {
     return this.service.getPunkOwnersAnonymitySet()
   }
 }
