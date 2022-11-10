@@ -10,6 +10,7 @@ import {
 } from '../../.graphclient'
 
 export const getSubgraphUrl = (graphId: string) =>
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   `https://gateway.thegraph.com/api/${process.env.GRAPH_API_KEY}/subgraphs/id/${graphId}`
 
 export const getVotersPerProposal = async (

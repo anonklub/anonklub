@@ -1,8 +1,8 @@
 # https://thegraph.com/explorer/subgraphs/YqMJatbgbqy1GodtbYZv4U9NzyaScCgSF7CAE5ivAM7?view=Playground
 query PunkOwners {
-  punks {
-    owner {
-      id
+    punks {
+        owner {
+            id
+        }
     }
-  }
 }
