@@ -7,7 +7,7 @@ import { VoteChoice } from '../../../.graphclient'
 @Service()
 @JsonController()
 export class Controller {
-  constructor(private service: QueryService) {}
+  constructor(readonly service: QueryService) {}
 
   @Get('/anonymity-set/balance/ETH')
   async ethBalanceAnonymitySet(@QueryParam('min') balance: string) {

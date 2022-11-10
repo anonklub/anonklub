@@ -20,7 +20,7 @@ describe('Controller', () => {
     it('Gets anonymity set based on ETH balance', async () => {
       const addresses = ['0xfoo', '0xbar']
 
-      // @ts-ignore
+      // @ts-expect-error
       dbMock.query.mockResolvedValue([addresses.map(address=>({address}))])
 
       await expect(

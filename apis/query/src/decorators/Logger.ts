@@ -3,12 +3,11 @@ import { Container } from 'typedi'
 import { logger } from '~/logger'
 
 export function Logger(): ParameterDecorator {
-  return (object, propertyKey, index) => {
-    const propertyName = propertyKey ? propertyKey.toString() : ''
+  return (object, propertyKey = '', index) => {
     Container.registerHandler({
-      // @ts-ignore
+      // @ts-expect-error
       object,
-      propertyName,
+      propertyName: propertyKey.toString(),
       index,
       value: () => logger,
     })
@@ -16,8 +15,8 @@ export function Logger(): ParameterDecorator {
 }
 
 export interface LoggerInterface {
-  debug(message: string, ...args: any[]): void
-  info(message: string, ...args: any[]): void
-  warn(message: string, ...args: any[]): void
-  error(message: string, ...args: any[]): void
+  debug: (message: string, ...args: any[]) => void
+  info: (message: string, ...args: any[]) => void
+  warn: (message: string, ...args: any[]) => void
+  error: (message: string, ...args: any[]) => void
 }

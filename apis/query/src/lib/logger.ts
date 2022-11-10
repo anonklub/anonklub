@@ -30,9 +30,19 @@ const logger = createLogger({
     new Console({
       format: combine(
         printf(({ level, message, stack, timestamp }) => {
-          const defaultMessage = `${level} ${timestamp} ${message}`
-          const showStack = process.env.NODE_ENV !== 'production' && stack
-          return showStack ? `${defaultMessage} ${stack}` : defaultMessage
+          let print = level
+
+          if (typeof timestamp === 'string' && typeof message === 'string')
+            print = `${level} ${timestamp} ${message}`
+
+          if (
+            typeof stack === 'string' &&
+            stack !== '' &&
+            process.env.NODE_ENV !== 'production'
+          )
+            print = `${print} ${stack}`
+
+          return print
         }),
         colorize({ all: true }),
       ),

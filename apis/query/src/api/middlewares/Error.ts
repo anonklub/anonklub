@@ -11,7 +11,7 @@ import { Service } from 'typedi'
 @Service()
 @Middleware({ type: 'after' })
 export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
-  constructor(@Logger() private logger: LoggerInterface) {}
+  constructor(@Logger() readonly logger: LoggerInterface) {}
 
   public error(
     error: HttpError,
