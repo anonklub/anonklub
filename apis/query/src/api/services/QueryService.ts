@@ -3,7 +3,7 @@ import { Service } from 'typedi'
 import { Logger, LoggerInterface } from '@decorators/Logger'
 import { CryptoEthereumRepository } from '@repositories'
 import { spawn } from 'child_process'
-import { getVotersPerProposal } from '~/graph'
+import { getPunkOwners, getVotersPerProposal } from '~/graph'
 
 // FIXME
 /* eslint-disable */
@@ -105,7 +105,10 @@ export class QueryService {
   async getEnsGovVotersAnonymitySet(
     ...args: Parameters<typeof getVotersPerProposal>
   ) {
-    console.log(args)
     return getVotersPerProposal(...args)
+  }
+
+  async getPunkOwnersAnonymitySet() {
+    return getPunkOwners()
   }
 }

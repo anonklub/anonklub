@@ -37,4 +37,9 @@ export class Controller {
   ) {
     return this.service.getEnsGovVotersAnonymitySet(id, choice)
   }
+
+  @Get('/anonymity-set/punks')
+  async punkOwnersAnonymitySet() {
+    return this.service.getPunkOwnersAnonymitySet()
+  }
 }

@@ -9,9 +9,11 @@ services:
        PYTHON: python3
        DUNE_USER: ${DUNE_USER}
        DUNE_PWD_FILE: /run/secrets/dune_pwd
+       GRAPH_API_KEY_FILE: /run/secrets/graph_api_key
      secrets:
        - google_credentials
        - dune_pwd
+       - graph_api_key
      ports:
        - "3000:3000"
      env_file:
@@ -22,4 +24,6 @@ secrets:
      file: .keys.json
    dune_pwd:
      file: .dune_pwd
+   graph_api_key:
+     file: .graphapikey
 

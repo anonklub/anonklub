@@ -1,6 +1,8 @@
 import {
   execute,
   Proposal,
+  Punk,
+  PunkOwnersDocument,
   Scalars,
   Vote,
   VoteChoice,
@@ -19,4 +21,9 @@ export const getVotersPerProposal = async (
     },
   )
   return data.proposal.votes.map((vote: Vote) => vote.voter.id)
+}
+
+export const getPunkOwners = async () => {
+  const { data } = await execute(PunkOwnersDocument)
+  return data.punks.map((punk: Punk) => punk.owner.id)
 }
