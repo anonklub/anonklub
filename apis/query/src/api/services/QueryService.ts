@@ -1,109 +1,66 @@
 import { Service } from 'typedi'
 
 import { Logger, LoggerInterface } from '@decorators/Logger'
-import { CryptoEthereumRepository } from '@repositories'
-import { spawn } from 'child_process'
-import { getPunkOwners, getVotersPerProposal } from '~/graph'
-
-enum ParameterType {
-  Enum = 'enum',
-  Text = 'text',
-  Number = 'number',
-  Date = 'date',
-}
+import {
+  BigQueryRepository,
+  DuneRepository,
+  GraphRepository,
+  ParameterType,
+  Query,
+} from '@repositories'
 
 @Service()
 export class QueryService {
-
   constructor(
-    public repository: CryptoEthereumRepository,
+    readonly bigQueryRepository: BigQueryRepository,
+    readonly duneRepository: DuneRepository,
+    readonly graphRepository: GraphRepository,
     @Logger() readonly logger: LoggerInterface,
   ) {}
 
-  private async python(
-    scriptPath: string,
-    ...rest: string[]
-  ) {
-    return new Promise<string[]>((resolve, reject) => {
-      const python = spawn(process.env.PYTHON ?? 'python3', [
-        scriptPath,
-        ...rest,
-      ])
-
-      let result = ''
-
-      python.stdout.on('data', (data) => {
-        result += data.toString() as string
-      })
-
-      python.stdout.on('end', () => {
-        resolve(JSON.parse(result))
-      })
-
-      python.stderr.on('data', (err) => {
-        reject(err.toString())
-      })
-    })
-  }
-
-  private async queryDune(
-    queryId: string,
-    parameters?: Array<{
-      name: string
-      type: ParameterType
-      value: string | number
-    }>,
-  ) {
-    return parameters !== undefined
-      ? this.python(
-          'src/api/services/query.py',
-          queryId,
-          JSON.stringify(parameters),
-        )
-      : this.python('src/api/services/query.py', queryId)
-  }
-
-  async getEthBalanceAnonymitySet(balance: string) {
-    return this.repository.queryEthBalance(balance).then((addresses) => {
+  async getEthBalanceAnonSet(min: string) {
+    return this.bigQueryRepository.queryEthBalance(min).then((addresses) => {
       this.logger.info('Get ETH-balance based anonymity set')
       return addresses
     })
   }
 
-  async getTokenBalanceAnonymitySet({
-    balance,
+  async getErc20BalanceAnonSet({
+    min,
     tokenAddress,
   }: {
-    balance: string
+    min: string
     tokenAddress: string
   }) {
-    return this.queryDune('1500107', [
-      { name: 'min', type: ParameterType.Number, value: Number(balance) },
-      {
-        name: 'tokenAddress',
-        type: ParameterType.Text,
-        value: `'${tokenAddress}'`,
-      },
-    ]).then((result) => {
-      this.logger.info('Get ERC20-balance based anonymity set')
-      return result
-    })
+    return this.duneRepository
+      .executeDuneQuery(Query.Erc20, [
+        { name: 'min', type: ParameterType.Number, value: Number(min) },
+        {
+          name: 'tokenAddress',
+          type: ParameterType.Text,
+          value: `'${tokenAddress}'`,
+        },
+      ])
+      .then((result) => {
+        this.logger.info('Get ERC20-balance based anonymity set')
+        return result
+      })
   }
 
-  async getBeaconDepositorsAnonymitySet() {
-    return this.queryDune('1499468').then((result) => {
+  async getBeaconDepositors() {
+    return this.duneRepository.executeDuneQuery(Query.Beacon).then((result) => {
       this.logger.info('Get Beacon Contract Depositors anonymity set')
       return result
     })
   }
 
-  async getEnsGovVotersAnonymitySet(
-    ...args: Parameters<typeof getVotersPerProposal>
+  async getEnsProposalVoters(
+    ...args: Parameters<typeof this.graphRepository.getEnsProposalVoters>
   ) {
-    return getVotersPerProposal(...args)
+    return this.graphRepository.getEnsProposalVoters(...args)
   }
 
-  async getPunkOwnersAnonymitySet() {
-    return getPunkOwners()
+  async getPunkOwners() {
+    return this.graphRepository.getPunkOwners()
   }
 }

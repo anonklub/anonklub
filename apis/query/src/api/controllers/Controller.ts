@@ -9,37 +9,42 @@ import { VoteChoice } from '../../../.graphclient'
 export class Controller {
   constructor(readonly service: QueryService) {}
 
+  @Get('/healthcheck')
+  async healthcheck() {
+    return 'OK'
+  }
+
   @Get('/anonymity-set/balance/ETH')
-  async ethBalanceAnonymitySet(@QueryParam('min') balance: string) {
-    return this.service.getEthBalanceAnonymitySet(balance)
+  async getEthBalanceAnonSet(@QueryParam('min') min: string) {
+    return this.service.getEthBalanceAnonSet(min)
   }
 
   @Get('/anonymity-set/balance/ERC20')
-  async erc20BalanceAnonymitySet(
-    @QueryParam('min') balance: string,
-    @QueryParam('tokenAddress') tokenAddress: string,
+  async getErc20BalanceAnonSet(
+    @QueryParam('min') min: string,
+    @QueryParam('tokenAddress', { required: true }) tokenAddress: string,
   ) {
-    return this.service.getTokenBalanceAnonymitySet({
-      balance,
+    return this.service.getErc20BalanceAnonSet({
+      min,
       tokenAddress: tokenAddress?.toLowerCase(),
     })
   }
 
   @Get('/anonymity-set/beacon')
-  async beaconDepositorsAnonymitySet() {
-    return this.service.getBeaconDepositorsAnonymitySet()
+  async getBeaconDepositors() {
+    return this.service.getBeaconDepositors()
   }
 
   @Get('/anonymity-set/ens-proposal-voters')
-  async ensProposalVotersAnonymitySet(
+  async getEnsProposalVoters(
     @QueryParam('id', { required: true }) id: string,
     @QueryParam('choice', { required: false }) choice: VoteChoice,
   ) {
-    return this.service.getEnsGovVotersAnonymitySet(id, choice)
+    return this.service.getEnsProposalVoters({ id, choice })
   }
 
   @Get('/anonymity-set/punks')
-  async punkOwnersAnonymitySet() {
-    return this.service.getPunkOwnersAnonymitySet()
+  async getPunkOwners() {
+    return this.service.getPunkOwners()
   }
 }

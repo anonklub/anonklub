@@ -3,10 +3,10 @@ import { Service } from 'typedi'
 import { Db } from '../../db'
 
 @Service()
-export class CryptoEthereumRepository {
+export class BigQueryRepository {
   constructor(public db: Db) {}
 
-  async queryEthBalance(balance: string) {
+  async queryEthBalance(balance: string): Promise<string[]> {
     return this.db
       .query({
         query: `select distinct address
