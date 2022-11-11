@@ -9,18 +9,23 @@ import { VoteChoice } from '../../../.graphclient'
 export class Controller {
   constructor(readonly service: QueryService) {}
 
+  @Get('/healthcheck')
+  async healthcheck() {
+    return 'OK'
+  }
+
   @Get('/anonymity-set/balance/ETH')
-  async getEthBalanceAnonSet(@QueryParam('min') balance: string) {
-    return this.service.getEthBalanceAnonSet(balance)
+  async getEthBalanceAnonSet(@QueryParam('min') min: string) {
+    return this.service.getEthBalanceAnonSet(min)
   }
 
   @Get('/anonymity-set/balance/ERC20')
   async getErc20BalanceAnonSet(
-    @QueryParam('min') balance: string,
-    @QueryParam('tokenAddress') tokenAddress: string,
+    @QueryParam('min') min: string,
+    @QueryParam('tokenAddress', { required: true }) tokenAddress: string,
   ) {
     return this.service.getErc20BalanceAnonSet({
-      balance,
+      min,
       tokenAddress: tokenAddress?.toLowerCase(),
     })
   }
@@ -35,7 +40,7 @@ export class Controller {
     @QueryParam('id', { required: true }) id: string,
     @QueryParam('choice', { required: false }) choice: VoteChoice,
   ) {
-    return this.service.getEnsGovVoters(id, choice)
+    return this.service.getEnsProposalVoters({ id, choice })
   }
 
   @Get('/anonymity-set/punks')

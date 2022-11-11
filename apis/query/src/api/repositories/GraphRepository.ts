@@ -12,7 +12,13 @@ import {
 
 @Service()
 export class GraphRepository {
-  async getEnsGovVoters(id: Scalars['ID'], choice: VoteChoice) {
+  async getEnsProposalVoters({
+    id,
+    choice,
+  }: {
+    id: Scalars['ID']
+    choice: VoteChoice
+  }) {
     const { data }: { data: { proposal: Proposal } } = await execute(
       VotersPerProposalDocument,
       {
@@ -23,7 +29,7 @@ export class GraphRepository {
     return data.proposal.votes.map((vote: Vote) => vote.voter.id)
   }
 
-  async getPunkOwners() {
+  async getPunkOwners(): Promise<string[]> {
     const { data } = await execute(PunkOwnersDocument)
     return data.punks.map((punk: Punk) => punk.owner.id)
   }

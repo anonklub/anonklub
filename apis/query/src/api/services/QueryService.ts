@@ -18,25 +18,23 @@ export class QueryService {
     @Logger() readonly logger: LoggerInterface,
   ) {}
 
-  async getEthBalanceAnonSet(balance: string) {
-    return this.bigQueryRepository
-      .queryEthBalance(balance)
-      .then((addresses) => {
-        this.logger.info('Get ETH-balance based anonymity set')
-        return addresses
-      })
+  async getEthBalanceAnonSet(min: string) {
+    return this.bigQueryRepository.queryEthBalance(min).then((addresses) => {
+      this.logger.info('Get ETH-balance based anonymity set')
+      return addresses
+    })
   }
 
   async getErc20BalanceAnonSet({
-    balance,
+    min,
     tokenAddress,
   }: {
-    balance: string
+    min: string
     tokenAddress: string
   }) {
     return this.duneRepository
       .executeDuneQuery(Query.Erc20, [
-        { name: 'min', type: ParameterType.Number, value: Number(balance) },
+        { name: 'min', type: ParameterType.Number, value: Number(min) },
         {
           name: 'tokenAddress',
           type: ParameterType.Text,
@@ -56,10 +54,10 @@ export class QueryService {
     })
   }
 
-  async getEnsGovVoters(
-    ...args: Parameters<typeof this.graphRepository.getEnsGovVoters>
+  async getEnsProposalVoters(
+    ...args: Parameters<typeof this.graphRepository.getEnsProposalVoters>
   ) {
-    return this.graphRepository.getEnsGovVoters(...args)
+    return this.graphRepository.getEnsProposalVoters(...args)
   }
 
   async getPunkOwners() {
