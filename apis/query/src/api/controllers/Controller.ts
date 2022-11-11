@@ -1,7 +1,7 @@
 import { Get, JsonController, QueryParam } from 'routing-controllers'
 import { Service } from 'typedi'
-
 import { QueryService } from '@services'
+
 import { VoteChoice } from '~/graph'
 
 @Service()
@@ -40,7 +40,7 @@ export class Controller {
     @QueryParam('id', { required: true }) id: string,
     @QueryParam('choice', { required: false }) choice: VoteChoice,
   ) {
-    return this.service.getEnsProposalVoters({ id, choice })
+    return this.service.getEnsProposalVoters({ choice, id })
   }
 
   @Get('/anonymity-set/punks')

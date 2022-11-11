@@ -9,10 +9,10 @@ export class BigQueryRepository {
   async queryEthBalance(balance: string): Promise<string[]> {
     return this.db
       .query({
+        params: { balance },
         query: `select distinct address
                          from \`bigquery-public-data.crypto_ethereum.balances\`
                          where eth_balance >= @balance;`,
-        params: { balance },
         types: { balance: 'NUMERIC' },
       })
       .then((rows) => rows[0].map(({ address }) => address))

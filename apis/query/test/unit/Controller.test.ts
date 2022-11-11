@@ -1,8 +1,7 @@
+import { faker } from '@faker-js/faker'
 import request from 'supertest'
-
 import { QueryService } from '@services'
 import { app } from 'src/app'
-import { faker } from '@faker-js/faker'
 
 describe('Routes', () => {
   let addresses: string[]
@@ -73,7 +72,7 @@ describe('Routes', () => {
 
     await request(app)
       .get('/anonymity-set/ens-proposal-voters')
-      .query({ id: faker.datatype.number(), choice: 'FOR' })
+      .query({ choice: 'FOR', id: faker.datatype.number() })
       .expect('Content-Type', /json/)
       .expect(200)
       .expect(addresses)

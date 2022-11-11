@@ -4,9 +4,8 @@ import {
   HttpError,
   Middleware,
 } from 'routing-controllers'
-
-import { Logger, LoggerInterface } from '@decorators/Logger'
 import { Service } from 'typedi'
+import { Logger, LoggerInterface } from '@decorators/Logger'
 
 @Service()
 @Middleware({ type: 'after' })

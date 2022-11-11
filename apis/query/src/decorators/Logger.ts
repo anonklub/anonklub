@@ -5,10 +5,10 @@ import { logger } from '~/logger'
 export function Logger(): ParameterDecorator {
   return (object, propertyKey = '', index) => {
     Container.registerHandler({
+      index,
       // @ts-expect-error
       object,
       propertyName: propertyKey.toString(),
-      index,
       value: () => logger,
     })
   }

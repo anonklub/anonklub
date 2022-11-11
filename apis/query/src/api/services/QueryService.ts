@@ -1,5 +1,4 @@
 import { Service } from 'typedi'
-
 import { Logger, LoggerInterface } from '@decorators/Logger'
 import {
   BigQueryRepository,
