@@ -63,3 +63,8 @@ scripts:
   ci:
     script: 'nps lint.ci format.ci transpile test.ci'
     hiddenFromHelp: true
+
+  graph:
+    build:
+      script: 'graphclient build  --dir src/lib/graph'
+      description: 'Build the graph artifacts'
