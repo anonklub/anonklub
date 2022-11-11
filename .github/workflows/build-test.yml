@@ -39,8 +39,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Lint - Format - Build - Test
+      - name: Install - Lint - Format - Build - Test
         working-directory: ./apis/query
         run: |
-          pnpm install
-          npm run nps lint.check format.check build test
+          pnpm i --ignore-scripts --reporter=silent
+          npm run nps ci

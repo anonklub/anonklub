@@ -2,15 +2,21 @@ scripts:
   clean:
     script: 'rm -rf dist'
     hiddenFromHelp: true
+
   transpile:
     script: 'tsc'
     hiddenFromHelp: true
+
   lint:
     check:
       script: 'eslint . --ext .ts'
       hiddenFromHelp: true
     fix:
       script: 'eslint . --ext .ts --fix'
+    ci:
+      script: 'eslint . --ext .ts --quiet'
+      hiddenFromHelp: true
+
   format:
     check:
       script: 'prettier "src" --check'
@@ -18,6 +24,8 @@ scripts:
     fix:
       script: 'prettier "src" --write'
       description: 'Format files'
+    ci:
+      script: 'prettier "src" --check --loglevel warn'
   prepare:
     script: "husky install"
     hiddenFromHelp: true
@@ -29,11 +37,15 @@ scripts:
     watch:
       script: 'jest --watch'
       description: 'Run tests (watch)'
+    ci:
+      script: 'jest --silent  --reporters=jest-silent-reporter'
+      hiddenFromHelp: true
 
   build:
     default:
-      script: 'nps format.fix lint.fix clean transpile'
+      script: 'nps clean transpile'
       description: 'Build project'
+
   start:
     dev:
       script: 'NODE_ENV=development tsnd --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src'
@@ -47,3 +59,7 @@ scripts:
     default:
       script: 'nps build start.prod'
       description: 'Start project (prod)'
+
+  ci:
+    script: 'nps lint.ci format.ci transpile test.ci'
+    hiddenFromHelp: true
