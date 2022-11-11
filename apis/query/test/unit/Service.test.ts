@@ -1,8 +1,9 @@
 import { faker } from '@faker-js/faker'
 import { Container } from 'typedi'
+
+import { Db } from '~/bigquery'
 import { DuneRepository, GraphRepository } from '@repositories'
 import { QueryService } from '@services'
-import { Db } from 'src/db'
 
 describe('Service', () => {
   const queryService = Container.get(QueryService)
@@ -32,12 +33,12 @@ describe('Service', () => {
       await expect(queryService.getErc20BalanceAnonSet({min, tokenAddress})).resolves.toMatchObject(addresses)
     })
 
-    it('deposited into the Beacon  Contract', async () => {
+    it('deposited into the Beacon Contract', async () => {
       jest.spyOn(DuneRepository.prototype, 'executeDuneQuery').mockResolvedValueOnce(addresses)
       await expect(queryService.getBeaconDepositors()).resolves.toMatchObject(addresses)
     })
 
-    it('owns a cryptopunk', async () => {
+    it('own a cryptopunk', async () => {
       jest.spyOn(GraphRepository.prototype, 'getPunkOwners').mockResolvedValueOnce(addresses)
       await expect(queryService.getPunkOwners()).resolves.toMatchObject(addresses)
     })

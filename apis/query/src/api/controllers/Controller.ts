@@ -2,7 +2,7 @@ import { Get, JsonController, QueryParam } from 'routing-controllers'
 import { Service } from 'typedi'
 
 import { QueryService } from '@services'
-import { VoteChoice } from '../../../.graphclient'
+import { VoteChoice } from '~/graph'
 
 @Service()
 @JsonController()

@@ -1,4 +1,5 @@
 import { Service } from 'typedi'
+
 import {
   execute,
   Proposal,
@@ -8,7 +9,7 @@ import {
   Vote,
   VoteChoice,
   VotersPerProposalDocument,
-} from '.graphclient'
+} from '~/graph'
 
 @Service()
 export class GraphRepository {

@@ -13,7 +13,7 @@ describe('Routes', () => {
     )
   })
 
-  it('/healthcheck', async () => {
+  it('GET /healthcheck', async () => {
     await request(app).get('/healthcheck').expect(200)
   })
 

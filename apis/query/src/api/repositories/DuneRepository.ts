@@ -1,6 +1,6 @@
 import { Service } from 'typedi'
 
-import { python } from '~/python'
+import { python } from '~/dune'
 
 export enum ParameterType {
   Enum = 'enum',
@@ -14,7 +14,7 @@ export enum Query {
   Beacon = '1499468',
 }
 
-const SCRIPT_PATH = 'src/api/repositories/DuneRepository/query.py'
+const SCRIPT_PATH = 'src/lib/dune/query.py'
 
 @Service()
 export class DuneRepository {
