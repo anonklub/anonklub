@@ -1,15 +1,19 @@
 # no use of eslint-plugin-prettier: it is against prettier philosophy https://prettier.io/docs/en/integrating-with-linters.html#notes
 
-extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'standard-with-typescript', 'prettier']
+plugins: ['@typescript-eslint', 'jest', 'sort']
+extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:sort/recommended', 'standard-with-typescript', 'prettier']
 parser: '@typescript-eslint/parser'
 parserOptions:
-  project: './tsconfig.eslint.json'
-plugins: ['@typescript-eslint', 'jest']
+  project: ['tsconfig.json', 'test/tsconfig.json']
 root: true
 rules:
   '@typescript-eslint/ban-ts-comment': warn
   '@typescript-eslint/explicit-function-return-type': off
   '@typescript-eslint/return-await': off
+  import/order:
+    - warn
+    - newlines-between: always
+  import/newline-after-import: warn
   no-console: warn
   no-useless-constructor: warn
 env:

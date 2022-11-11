@@ -14,8 +14,8 @@ import {
 @Service()
 export class GraphRepository {
   async getEnsProposalVoters({
-    id,
     choice,
+    id,
   }: {
     id: Scalars['ID']
     choice: VoteChoice
@@ -23,8 +23,8 @@ export class GraphRepository {
     const { data }: { data: { proposal: Proposal } } = await execute(
       VotersPerProposalDocument,
       {
-        id,
         choice,
+        id,
       },
     )
     return data.proposal.votes.map((vote: Vote) => vote.voter.id)

@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
 import { Container } from 'typedi'
-
-import { Db } from '~/bigquery'
 import { DuneRepository, GraphRepository } from '@repositories'
 import { QueryService } from '@services'
+
+import { Db } from '~/bigquery'
 
 describe('Service', () => {
   const queryService = Container.get(QueryService)
@@ -45,7 +45,7 @@ describe('Service', () => {
 
     it('voted for/against an ENS governance proposal', async () => {
       jest.spyOn(GraphRepository.prototype, 'getEnsProposalVoters').mockResolvedValueOnce(addresses)
-      await expect(queryService.getEnsProposalVoters({id:"1234", choice: 'FOR'})).resolves.toMatchObject(addresses)
+      await expect(queryService.getEnsProposalVoters({choice: 'FOR', id:"1234"})).resolves.toMatchObject(addresses)
     })
   })
 })
