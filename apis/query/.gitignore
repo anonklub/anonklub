@@ -8,7 +8,7 @@ node_modules
 dev.db-journal
 .key.json
 .dune_pwd
-.graphapikey
+.graph_api_key
 
 
 

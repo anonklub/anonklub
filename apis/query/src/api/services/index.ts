@@ -1,1 +1,1 @@
-export { QueryService } from 'src/api/services/QueryService'
+export { QueryService } from './QueryService'

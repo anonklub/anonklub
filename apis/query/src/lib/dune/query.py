@@ -1,4 +1,5 @@
 import json
+import pathlib
 import os
 import sys
 
@@ -8,6 +9,7 @@ from duneapi.types import DashboardTile, DuneQuery
 dune = DuneAPI(os.environ["DUNE_USER"], os.environ["DUNE_PWD"])
 dune.login()
 
+path = str(pathlib.Path(__file__).parent.resolve())
 query_id = int(sys.argv[1])
 parameters = None
 
@@ -18,7 +20,7 @@ if len(sys.argv[1:]) == 2:
 # duneapi api is a bit weird, can't simply pass a query id and execute, need to provide a query_file parameter even
 # if unused
 dashboard_tile = DashboardTile.from_dict(
-    {"id": query_id, "parameters": parameters, "query_file": "./.empty", "network": "mainnet"}, os.getcwd()
+    {"id": query_id, "parameters": parameters, "query_file": "empty.js", "network": "mainnet"}, path
 )
 dune_query = DuneQuery.from_tile(dashboard_tile)
 records = dune.execute_and_await_results(dune_query)
