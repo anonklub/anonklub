@@ -35,7 +35,7 @@ const html = `
           <td>List of addresses that deposited into the Beacon Chain Deposit Contract</td>
         </tr><tr>
           <td>GET</td>
-          <td>/anonymity-set/ens-proposal-voters?choide&id</td>
+          <td>/anonymity-set/ens-proposal-voters?choice&id</td>
           <td>List of addresses that deposited voted <code>choice</code> for ENS proposal of ID <code>id</code> </td>
         </tr>
         </tr><tr>
