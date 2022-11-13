@@ -33,9 +33,9 @@ export class QueryService {
   }) {
     return this.duneRepository
       .executeDuneQuery(Query.Erc20, [
-        { name: 'min', type: ParameterType.Number, value: Number(min) },
+        { key: 'min', type: ParameterType.Number, value: Number(min) },
         {
-          name: 'tokenAddress',
+          key: 'tokenAddress',
           type: ParameterType.Text,
           value: `'${tokenAddress}'`,
         },

@@ -21,7 +21,7 @@ export class DuneRepository {
   public async executeDuneQuery(
     queryId: Query,
     parameters?: Array<{
-      name: string
+      key: string
       type: ParameterType
       value: string | number
     }>,
