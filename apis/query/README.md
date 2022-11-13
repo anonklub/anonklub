@@ -1,4 +1,5 @@
 # Query API
+[https://e2e-zkecdsa-query-api.fly.dev/](https://e2e-zkecdsa-query-api.fly.dev/)
 
 | Method | Route                                           | Response   | Description                                                                |
 |--------|-------------------------------------------------|------------|----------------------------------------------------------------------------|
@@ -38,6 +39,7 @@ nps graph.build
 ```
 
 ## Deploy
+Install [`flyctl`](https://fly.io/docs/flyctl/installing/).  
 ```commandline
 fly deploy --dockerfile Dockerfile-deploy
 ```
