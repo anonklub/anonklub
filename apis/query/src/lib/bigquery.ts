@@ -1,14 +1,26 @@
 import { BigQuery } from '@google-cloud/bigquery'
 import { Service } from 'typedi'
 
-const prop = process.env.NODE_ENV === 'hosted' ? 'credentials' : 'keyFilename'
-
 @Service()
 export class Db extends BigQuery {
   constructor() {
-    super({
-      projectId: process.env.GOOGLE_CLOUD_PROJECT,
-      [prop]: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-    })
+    const { GOOGLE_APPLICATION_CREDENTIALS, GOOGLE_CLOUD_PROJECT: projectId } =
+      process.env
+
+    if (GOOGLE_APPLICATION_CREDENTIALS === undefined)
+      throw new Error('missing google credentials')
+    if (projectId === undefined) throw new Error('missing google project id')
+
+    if (process.env.NODE_ENV === 'hosted') {
+      super({
+        credentials: JSON.parse(GOOGLE_APPLICATION_CREDENTIALS),
+        projectId,
+      })
+    } else {
+      super({
+        keyFilename: GOOGLE_APPLICATION_CREDENTIALS,
+        projectId,
+      })
+    }
   }
 }
