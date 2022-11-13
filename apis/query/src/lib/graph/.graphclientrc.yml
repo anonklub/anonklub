@@ -7,7 +7,12 @@ sources:
     handler:
       graphql:
         endpoint: https://gateway.thegraph.com/api/${GRAPH_API_KEY}/subgraphs/id/YqMJatbgbqy1GodtbYZv4U9NzyaScCgSF7CAE5ivAM7
+  - name: beacon-depositors
+    handler:
+      graphql:
+        endpoint: https://gateway.thegraph.com/api/${GRAPH_API_KEY}/subgraphs/id/3QQgWcYVRWS7ni5nCftJzSnZELTZMVQV6HTiSZKKmZBZ
 
 documents:
-  - ./proposal-voters.graphql
-  - ./punk.graphql
+  - beacon-depositors.graphql
+  - proposal-voters.graphql
+  - punk.graphql
