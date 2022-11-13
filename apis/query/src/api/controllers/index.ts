@@ -1,3 +1,4 @@
 import { Controller } from './Controller'
+import { HomeController } from './Home'
 
-export const controllers = [Controller]
+export const controllers = [HomeController, Controller]

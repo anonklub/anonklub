@@ -1,4 +1,5 @@
 # Query API
+[https://e2e-zkecdsa-query-api.fly.dev/](https://e2e-zkecdsa-query-api.fly.dev/)
 
 | Method | Route                                           | Response   | Description                                                                |
 |--------|-------------------------------------------------|------------|----------------------------------------------------------------------------|
@@ -35,4 +36,10 @@ In case new queries are added or existing ones are updated, re-create the artifa
 
 ```commandline
 nps graph.build
+```
+
+## Deploy
+Install [`flyctl`](https://fly.io/docs/flyctl/installing/).  
+```commandline
+fly deploy --dockerfile Dockerfile-deploy
 ```
