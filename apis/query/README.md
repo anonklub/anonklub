@@ -34,5 +34,5 @@
 In case new queries are added or existing ones are updated, re-create the artifacts with:
 
 ```commandline
-pnpm exec graphclient build --dir ./src/api/repositories/GrahRepository
+nps graph.build
 ```

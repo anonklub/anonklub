@@ -34,7 +34,7 @@ describe('Service', () => {
     })
 
     it('deposited into the Beacon Contract', async () => {
-      jest.spyOn(DuneRepository.prototype, 'executeDuneQuery').mockResolvedValueOnce(addresses)
+      jest.spyOn(GraphRepository.prototype, 'getBeaconDepositors').mockResolvedValueOnce(addresses)
       await expect(queryService.getBeaconDepositors()).resolves.toMatchObject(addresses)
     })
 

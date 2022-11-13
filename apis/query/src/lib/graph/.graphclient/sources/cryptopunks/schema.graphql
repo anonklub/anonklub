@@ -4947,8 +4947,6 @@ type _Block_ {
   hash: Bytes
   """The block number"""
   number: Int!
-  """Integer representation of the timestamp stored in blocks for the chain"""
-  timestamp: Int
 }
 
 """The type for the top-level _meta field"""

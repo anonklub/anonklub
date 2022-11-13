@@ -1,0 +1,5 @@
+query BeaconDepositors {
+  depositors {
+    id
+  }
+}
