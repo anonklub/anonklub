@@ -1,3 +1,5 @@
+import path from 'path'
+
 import { Service } from 'typedi'
 
 import { python } from '~/dune'
@@ -14,7 +16,7 @@ export enum Query {
   Beacon = '1499468',
 }
 
-const SCRIPT_PATH = 'src/lib/dune/query.py'
+const SCRIPT_PATH = path.join(__dirname, '..', '..', 'lib', 'dune', 'query.py')
 
 @Service()
 export class DuneRepository {

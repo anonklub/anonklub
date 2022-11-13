@@ -2,7 +2,9 @@ version: "3.9"
 
 services:
    query-api:
-     build: .
+     build:
+       context: .
+       dockerfile: Dockerfile-dev
      environment:
        GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/google_credentials
        GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT}
