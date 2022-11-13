@@ -1,4 +1,4 @@
-# fly.toml file generated for e2e-zkecdsa-query-api on 2022-11-12T23:43:06+01:00
+# fly.toml file generated for e2e-zkecdsa-query-api on 2022-11-13T17:18:42+01:00
 
 app = "e2e-zkecdsa-query-api"
 kill_signal = "SIGINT"
@@ -6,8 +6,8 @@ kill_timeout = 5
 processes = []
 
 [env]
-  GOOGLE_CLOUD_PROJECT = "ethereum-analytics-366016"
   DUNE_USER = "r1oga"
+  GOOGLE_CLOUD_PROJECT = "ethereum-analytics-366016"
 
 [experimental]
   allowed_public_ports = []

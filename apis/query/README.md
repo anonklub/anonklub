@@ -36,3 +36,8 @@ In case new queries are added or existing ones are updated, re-create the artifa
 ```commandline
 nps graph.build
 ```
+
+## Deploy
+```commandline
+fly deploy --dockerfile Dockerfile-deploy
+```
