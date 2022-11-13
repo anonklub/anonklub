@@ -1,7 +1,5 @@
 FROM node:19-alpine
 
-
-
 RUN apk update
 RUN apk add python3 \
             python3-dev \
@@ -10,7 +8,7 @@ RUN apk add python3 \
             py3-pip \
             bash
 
-RUN pip install duneapi
+RUN pip install duneapi==7.0.0
 
 RUN npm i -g pnpm
 
@@ -23,6 +21,7 @@ RUN pnpm i --frozen-lockfile
 COPY tsconfig.json .
 COPY package-scripts.yaml .
 COPY src src
+COPY .empty .empty
 
 EXPOSE 3000
 
