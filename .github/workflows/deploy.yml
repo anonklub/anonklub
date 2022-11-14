@@ -1,14 +1,17 @@
+name: Fly Deploy
 on:
-  pull_request:
+  workflow_dispatch:
+  push:
     branches:
       - main
     paths-ignore:
       - '**/*.md'
-
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
-  apis-build-test:
+  deploy:
+    name: Deploy app
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -39,8 +42,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install - Lint - Format - Test
+      - name: Build
         working-directory: ./apis/query
         run: |
           pnpm i --ignore-scripts --reporter=silent
-          npm run nps ci
+          npm run nps transpile
+
+      -  uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy
+        working-directory: ./apis/query
+        run: flyctl deploy --remote-only --dockerfile Dockerfile-deploy
