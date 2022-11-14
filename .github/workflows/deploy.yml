@@ -41,10 +41,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Build - Deploy
-        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Build
         working-directory: ./apis/query
         run: |
           pnpm i --ignore-scripts --reporter=silent
           npm run nps transpile
-          flyctl deploy --remote-only
+
+      -  uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy
+        working-directory: ./apis/query
+        run: flyctl deploy --remote-only --dockerfile Dockerfile-deploy
