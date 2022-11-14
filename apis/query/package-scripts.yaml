@@ -64,7 +64,7 @@ scripts:
       description: 'Start project (prod)'
 
   ci:
-    script: 'nps lint.ci format.ci transpile test.ci'
+    script: 'nps lint.ci format.ci test.ci'
     hiddenFromHelp: true
 
   graph:
