@@ -1,15 +1,16 @@
-name: Fly Deploy
+name: Deployment
 on:
   workflow_dispatch:
   push:
     branches:
       - main
-    paths-ignore:
-      - '**/*.md'
+    paths:
+      - 'apis/query/**'
+      - '!**/*.md'
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
-  deploy:
+  query-api-server:
     name: Deploy app
     runs-on: ubuntu-latest
     steps:
