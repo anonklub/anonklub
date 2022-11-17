@@ -64,7 +64,7 @@ Unlike Mixers, it wouldn't require smart contracts to manage an anonymity set, t
 Unlike [Semaphore](http://semaphore.appliedzkp.org/) or [Interep](https://interep.link/), it wouldn't require the creation of a new identiy and the management of corresponding secret, therefore offering a better UX.
 
 ### Workflow Examples
-1. A user able to select the attributes that should define the anonymity set. Corresponding artifacts required to gnerate proofs and verifications are generated accordingly.
+1. A user able to select the attributes that should define the anonymity set. Corresponding artifacts required to generate proofs and verifications are generated accordingly.
 ![](https://i.imgur.com/Kf6HtvQ.png)
 
 2. The on chain querying to generate the anonymity set, the proof generation and the verification are performed by separate APIs that can be integrated in a web application to gate access to some content/action.
