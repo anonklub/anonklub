@@ -28,6 +28,7 @@ template MerkleTreeChecker(levels) {
 
     component selectors[levels];
     component hashers[levels];
+
     for (var i = 0; i < levels; i++) {
         selectors[i] = DualMux();
         selectors[i].in[0] <== i == 0 ? leaf : hashers[i - 1].out;
@@ -38,5 +39,6 @@ template MerkleTreeChecker(levels) {
         hashers[i].inputs[0] <== selectors[i].out[0];
         hashers[i].inputs[1] <== selectors[i].out[1];
     }
+
     root === hashers[levels - 1].out;
 }
