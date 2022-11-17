@@ -1,0 +1,20 @@
+name: Issue-PR Link
+on:
+  pull_request:
+    types: [opened]
+
+# set minimum required permissions for automatic `GITHUB_TOKEN` token
+permissions:
+  pull-requests: write
+  issues: read
+
+jobs:
+  issue-links:
+    name: Link PR to Issue
+    runs-on: ubuntu-latest
+    steps:
+      - uses: tkt-actions/add-issue-links@71526d15c5fcf2c50fbe34c77f194ee91a4a8355 # 1.8.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          branch-prefix: 'issue-'
+          resolve: true
