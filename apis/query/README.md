@@ -13,11 +13,11 @@
 
 1. Authenticate requests
   
-    | Data Provider  | Register/Get Credentials                                                                                 | For node script                                                                             | For docker compose                                    |
-    |----------------|----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|-------------------------------------------------------|
-    | BigQuery       | [Define Google Service Account](https://codelabs.developers.google.com/codelabs/cloud-bigquery-nodejs#3) | `echo "GOOGLE_CLOUD_PROJECT=your-project-id\nGOOGLE_CLOUD_CREDENTIALS=./.keys.json" > .env` | export google credentials in an **`.keys.json`** file |
-    | Dune Analytics | [Create Dune Account](https://dune.com/)                                                                 | `echo "DUNE_USER=yourusername" >> .env`                                                     | `echo yourdunepwd > .dune_pwd`                        |
-    | The Graph      | [Subgraph Studio](https://thegraph.com/studio/apikeys/)                                                  | `echo "GRAPH_API_KEY=yourapikey" >> .env`                                                   | `echo yourapikey > .graphapikey`                      |
+    | Data Provider  | Register/Get Credentials                                                                                 | For node script                                                                            | For docker compose                                   |
+    |----------------|---------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------|
+    | BigQuery       | [Define Google Service Account](https://codelabs.developers.google.com/codelabs/cloud-bigquery-nodejs#3) | `echo "GOOGLE_CLOUD_PROJECT=your-project-id\nGOOGLE_CLOUD_CREDENTIALS=./.key.json" > .env` | export google credentials in an **`.key.json`** file |
+    | Dune Analytics | [Create Dune Account](https://dune.com/)                                                                 | `echo "DUNE_USER=yourusername" >> .env`                                                    | `echo yourdunepwd > .dune_pwd`                       |
+    | The Graph      | [Subgraph Studio](https://thegraph.com/studio/apikeys/)                                                  | `echo "GRAPH_API_KEY=yourapikey" >> .env`                                                  | `echo yourapikey > .graphapikey`                     |
 
 2. Source `.env` file: `source .env`
 3. Start
@@ -27,7 +27,7 @@
       pnpm i
       nps start.dev
       ``` 
-    - docker: `docker compose up -f docker-compose-dev.yaml  --build query-api`
+    - docker: `docker compose -f up docker-compose-dev.yaml  --build query-api`
 
 
 ## The Graph
