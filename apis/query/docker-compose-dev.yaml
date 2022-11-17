@@ -23,7 +23,7 @@ services:
 
 secrets:
    google_credentials:
-     file: .keys.json
+     file: .key.json
    dune_pwd:
      file: .dune_pwd
    graph_api_key:
