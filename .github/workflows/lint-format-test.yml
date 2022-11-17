@@ -1,4 +1,4 @@
-name: Lint - Format - Test
+name: Code Quality
 on:
   pull_request:
     branches:
@@ -7,7 +7,7 @@ on:
       - '**/*.md'
 
 jobs:
-  apis-build-test:
+  lint-format-test:
     runs-on: ubuntu-latest
 
     steps:
