@@ -6,7 +6,7 @@ import { VoteChoice } from '~/graph'
 
 @Service()
 @JsonController()
-export class Controller {
+export class AnonymitySet {
   constructor(readonly service: QueryService) {}
 
   @Get('/healthcheck')
