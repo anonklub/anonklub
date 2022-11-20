@@ -7,28 +7,29 @@ describe('Routes', () => {
   let addresses: string[]
 
   beforeEach(() => {
-    addresses = [...Array(faker.datatype.number({ max: 10 })).keys()].map(
+    addresses = [...Array(faker.datatype.number({max: 10})).keys()].map(
       faker.finance.ethereumAddress,
     )
   })
 
-  it('GET /healthcheck', async () => {
-    await request(app).get('/healthcheck').expect(200)
-  })
+  describe('GET /anonymity-set/balance/ETH', () => {
+    it.skip('validates query params', async () => {
 
-  it('GET /anonymity-set/balance/ETH', async () => {
-    const min = faker.datatype.number().toString()
+    })
+    it('returns addresses', async () => {
+      const min = faker.datatype.number().toString()
 
-    jest
-      .spyOn(QueryService.prototype, 'getEthBalanceAnonSet')
-      .mockResolvedValueOnce(addresses)
+      jest
+        .spyOn(QueryService.prototype, 'getEthBalanceAnonSet')
+        .mockResolvedValueOnce(addresses)
 
-    await request(app)
-      .get('/anonymity-set/balance/ETH')
-      .query({ min })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .expect(addresses)
+      await request(app)
+        .get('/anonymity-set/balance/ETH')
+        .query({min})
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(addresses)
+    })
   })
 
   it('GET /anonymity-set/balance/ERC20', async () => {
@@ -40,17 +41,17 @@ describe('Routes', () => {
 
     await request(app)
       .get('/anonymity-set/balance/ERC20')
-      .query({ min, tokenAddress })
+      .query({min, tokenAddress})
       .expect('Content-Type', /json/)
       .expect(200)
       .expect(addresses)
 
-    const { body } = await request(app)
+    const {body} = await request(app)
       .get('/anonymity-set/balance/ERC20')
-      .query({ min })
+      .query({min})
       .expect('Content-Type', /json/)
       .expect(400)
-    expect(body).toMatchObject({ name: 'ParamRequiredError' })
+    expect(body).toMatchObject({name: 'ParamRequiredError'})
   })
 
   it('GET /anonymity-set/beacon', async () => {
@@ -65,23 +66,46 @@ describe('Routes', () => {
       .expect(addresses)
   })
 
-  it('GET /anonymity-set/ens-proposal-voters', async () => {
-    jest
-      .spyOn(QueryService.prototype, 'getEnsProposalVoters')
-      .mockResolvedValueOnce(addresses)
+  describe('GET /anonymity-set/ens-proposal-voters', () => {
+    it('validate query parameters', async () => {
 
-    await request(app)
-      .get('/anonymity-set/ens-proposal-voters')
-      .query({ choice: 'FOR', id: faker.datatype.number() })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .expect(addresses)
+      await request(app)
+        .get('/anonymity-set/ens-proposal-voters')
+        .query({choice: 'FO', id: faker.random.numeric(78)})
+        .expect(400)
 
-    const { body } = await request(app)
-      .get('/anonymity-set/ens-proposal-voters')
-      .query({ choice: 'FOR' })
-      .expect(400)
-    expect(body).toMatchObject({ name: 'ParamRequiredError' })
+      await request(app)
+        .get('/anonymity-set/ens-proposal-voters')
+        .query({choice: 'FOR', id: faker.random.numeric(77)})
+        .expect(400)
+
+      await request(app)
+        .get('/anonymity-set/ens-proposal-voters')
+        .query({choice: 'FOR'})
+        .expect(400)
+
+      await request(app)
+        .get('/anonymity-set/ens-proposal-voters')
+        .query({ id: faker.random.numeric(78)})
+        .expect(400)
+
+      await request(app)
+        .get('/anonymity-set/ens-proposal-voters')
+        .query({ id: faker.datatype.number()})
+        .expect(400)
+    })
+    it('returns addresses', async () => {
+      jest
+        .spyOn(QueryService.prototype, 'getEnsProposalVoters')
+        .mockResolvedValueOnce(addresses)
+
+      await request(app)
+        .get('/anonymity-set/ens-proposal-voters')
+        .query({choice: 'FOR', id: faker.random.numeric(78)})
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(addresses)
+    })
   })
 
   it('GET /anonymity-set/punks', async () => {

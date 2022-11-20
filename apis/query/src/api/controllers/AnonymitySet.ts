@@ -1,28 +1,23 @@
-import { Get, JsonController, QueryParam } from 'routing-controllers-extended'
+import { Get, JsonController, QueryParam, QueryParams } from 'routing-controllers-extended'
 import { Service } from 'typedi'
 import { QueryService } from '@services'
 
-import { VoteChoice } from '~/graph'
+import { getEnsProposalVotersQuery } from '@controllers/requests/EnsProposalVote'
 
 @Service()
-@JsonController()
+@JsonController('/anonymity-set')
 export class AnonymitySet {
   constructor(readonly service: QueryService) {}
 
-  @Get('/healthcheck')
-  async healthcheck() {
-    return 'OK'
-  }
-
-  @Get('/anonymity-set/balance/ETH')
+  @Get('/balance/ETH')
   async getEthBalanceAnonSet(@QueryParam('min') min: string) {
     return this.service.getEthBalanceAnonSet(min)
   }
 
-  @Get('/anonymity-set/balance/ERC20')
+  @Get('/balance/ERC20')
   async getErc20BalanceAnonSet(
     @QueryParam('min') min: string,
-    @QueryParam('tokenAddress', { required: true }) tokenAddress: string,
+    @QueryParam('tokenAddress', {required: true}) tokenAddress: string,
   ) {
     return this.service.getErc20BalanceAnonSet({
       min,
@@ -30,20 +25,19 @@ export class AnonymitySet {
     })
   }
 
-  @Get('/anonymity-set/beacon')
+  @Get('/beacon')
   async getBeaconDepositors() {
     return this.service.getBeaconDepositors()
   }
 
-  @Get('/anonymity-set/ens-proposal-voters')
+  @Get('/ens-proposal-voters')
   async getEnsProposalVoters(
-    @QueryParam('id', { required: true }) id: string,
-    @QueryParam('choice', { required: false }) choice: VoteChoice,
+    @QueryParams() query: getEnsProposalVotersQuery
   ) {
-    return this.service.getEnsProposalVoters({ choice, id })
+    return this.service.getEnsProposalVoters(query)
   }
 
-  @Get('/anonymity-set/punks')
+  @Get('/punks')
   async getPunkOwners() {
     return this.service.getPunkOwners()
   }
