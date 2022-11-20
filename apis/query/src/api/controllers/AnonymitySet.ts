@@ -2,7 +2,7 @@ import { Get, JsonController, QueryParam, QueryParams } from 'routing-controller
 import { Service } from 'typedi'
 import { QueryService } from '@services'
 
-import { getEnsProposalVotersQuery } from '@controllers/requests/EnsProposalVote'
+import { getEnsProposalVotersQuery } from './requests/EnsProposalVote'
 
 @Service()
 @JsonController('/anonymity-set')
