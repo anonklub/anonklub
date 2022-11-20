@@ -1,4 +1,4 @@
-import { Get, JsonController, QueryParam } from 'routing-controllers'
+import { Get, JsonController, QueryParam } from 'routing-controllers-extended'
 import { Service } from 'typedi'
 import { QueryService } from '@services'
 

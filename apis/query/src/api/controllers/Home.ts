@@ -1,4 +1,4 @@
-import { Controller, Get } from 'routing-controllers'
+import { Controller, Get } from 'routing-controllers-extended'
 import { Service } from 'typedi'
 
 const html = `
