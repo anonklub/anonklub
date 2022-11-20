@@ -1,6 +1,9 @@
 import * as express from 'express'
 import morgan from 'morgan'
-import { ExpressMiddlewareInterface, Middleware } from 'routing-controllers-extended'
+import {
+  ExpressMiddlewareInterface,
+  Middleware,
+} from 'routing-controllers-extended'
 import { Service } from 'typedi'
 
 import { logger } from '~/logger'
