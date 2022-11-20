@@ -3,7 +3,7 @@ import {
   ExpressErrorMiddlewareInterface,
   HttpError,
   Middleware,
-} from 'routing-controllers'
+} from 'routing-controllers-extended'
 import { Service } from 'typedi'
 import { Logger, LoggerInterface } from '@decorators/Logger'
 
