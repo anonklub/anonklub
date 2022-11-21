@@ -32,26 +32,36 @@ describe('Routes', () => {
     })
   })
 
-  it('GET /anonymity-set/balance/ERC20', async () => {
-    const min = faker.datatype.number().toString()
-    const tokenAddress = faker.finance.ethereumAddress()
-    jest
-      .spyOn(QueryService.prototype, 'getErc20BalanceAnonSet')
-      .mockResolvedValueOnce(addresses)
+  describe('GET /anonymity-set/balance/ERC20', () => {
+    it('validates query params', async () => {
+      await Promise.all(
+        [
+          { min: '1.2', tokenAddress: faker.finance.ethereumAddress() },
+          { min: '1', tokenAddress: '0x123' },
+          { min: 1 },
+        ].map(async (query) => {
+          await request(app)
+            .get('/anonymity-set/balance/ERC20')
+            .query(query)
+            .expect(400)
+        }),
+      )
+    })
 
-    await request(app)
-      .get('/anonymity-set/balance/ERC20')
-      .query({min, tokenAddress})
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .expect(addresses)
+    it('returns addresses', async () => {
+      const min = faker.datatype.number().toString()
+      const tokenAddress = faker.finance.ethereumAddress()
+      jest
+        .spyOn(QueryService.prototype, 'getErc20BalanceAnonSet')
+        .mockResolvedValueOnce(addresses)
 
-    const {body} = await request(app)
-      .get('/anonymity-set/balance/ERC20')
-      .query({min})
-      .expect('Content-Type', /json/)
-      .expect(400)
-    expect(body).toMatchObject({name: 'ParamRequiredError'})
+      await request(app)
+        .get('/anonymity-set/balance/ERC20')
+        .query({ min, tokenAddress })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(addresses)
+    })
   })
 
   it('GET /anonymity-set/beacon', async () => {

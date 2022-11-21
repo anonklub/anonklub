@@ -1,8 +1,14 @@
-import { Get, JsonController, QueryParam, QueryParams } from 'routing-controllers-extended'
 import { Service } from 'typedi'
+import { getErc20BalanceAnonSetQuery } from '@controllers/requests/getErc20BalanceAnonSetQuery'
+import { getEthBalanceAnonSetQuery } from '@controllers/requests/getEthBalanceAnonSetQuery'
 import { QueryService } from '@services'
+import {
+  Get,
+  JsonController,
+  QueryParams,
+} from 'routing-controllers-extended'
 
-import { getEnsProposalVotersQuery } from './requests/EnsProposalVote'
+import { getEnsProposalVotersQuery } from './requests/getEnsProposalVotersQuery'
 
 @Service()
 @JsonController('/anonymity-set')
@@ -16,8 +22,7 @@ export class AnonymitySet {
 
   @Get('/balance/ERC20')
   async getErc20BalanceAnonSet(
-    @QueryParam('min') min: string,
-    @QueryParam('tokenAddress', {required: true}) tokenAddress: string,
+    @QueryParams() { min, tokenAddress }: getErc20BalanceAnonSetQuery,
   ) {
     return this.service.getErc20BalanceAnonSet({
       min,
