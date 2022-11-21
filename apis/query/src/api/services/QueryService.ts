@@ -1,4 +1,5 @@
 import { Service } from 'typedi'
+import { getErc20BalanceAnonSetQuery } from '@controllers/requests/getErc20BalanceAnonSetQuery'
 import { Logger, LoggerInterface } from '@decorators/Logger'
 import {
   BigQueryRepository,
@@ -7,7 +8,6 @@ import {
   ParameterType,
   Query,
 } from '@repositories'
-import { getErc20BalanceAnonSetQuery } from '@controllers/requests/getErc20BalanceAnonSetQuery'
 
 @Service()
 export class QueryService {
@@ -29,7 +29,6 @@ export class QueryService {
     min,
     tokenAddress,
   }: getErc20BalanceAnonSetQuery) {
-    console.log({min, tokenAddress})
     return this.duneRepository
       .executeDuneQuery(Query.Erc20, [
         { key: 'min', type: ParameterType.Number, value: min },

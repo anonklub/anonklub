@@ -15,7 +15,7 @@ describe('Routes', () => {
   describe('GET /anonymity-set/balance/ETH', () => {
     it('validates query params', async () => {
       await request(app)
-        .get('/anonymity-set/balance/ERC20')
+        .get('/anonymity-set/balance/ETH')
         .query({ min: '1.2' })
         .expect(400)
     })
@@ -25,16 +25,15 @@ describe('Routes', () => {
         .spyOn(QueryService.prototype, 'getEthBalanceAnonSet')
         .mockResolvedValue(addresses)
 
-      await Promise.all(
-        [{ min: faker.random.numeric() }, {}].map(async (query) => {
-          await request(app)
-            .get('/anonymity-set/balance/ETH')
-            .query(query)
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .expect(addresses)
-        }),
-      )
+      for (const query of [{ min: faker.random.numeric() }, {}]) {
+        await request(app)
+          .get('/anonymity-set/balance/ETH')
+          .query(query)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(addresses)
+        expect(spy).toHaveBeenLastCalledWith(Number(query?.min ?? 0))
+      }
 
       spy.mockReset()
     })
@@ -61,24 +60,27 @@ describe('Routes', () => {
         .spyOn(QueryService.prototype, 'getErc20BalanceAnonSet')
         .mockResolvedValue(addresses)
 
-      await Promise.all(
-        [
-          {
-            min: faker.random.numeric(),
-            tokenAddress: faker.finance.ethereumAddress(),
-          },
-          {
-            tokenAddress: faker.finance.ethereumAddress(),
-          },
-        ].map(async (query) => {
-          await request(app)
-            .get('/anonymity-set/balance/ERC20')
-            .query(query)
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .expect(addresses)
-        }),
-      )
+      for (const { min, tokenAddress } of [
+        {
+          min: faker.random.numeric(),
+          tokenAddress: faker.finance.ethereumAddress(),
+        },
+        {
+          tokenAddress: faker.finance.ethereumAddress(),
+        },
+      ]) {
+        await request(app)
+          .get('/anonymity-set/balance/ERC20')
+          .query({ min, tokenAddress })
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(addresses)
+
+        expect(spy).toHaveBeenLastCalledWith({
+          min: Number(min ?? 0),
+          tokenAddress,
+        })
+      }
 
       spy.mockReset()
     })
@@ -116,17 +118,31 @@ describe('Routes', () => {
         }),
       )
     })
-    it('returns addresses', async () => {
-      jest
-        .spyOn(QueryService.prototype, 'getEnsProposalVoters')
-        .mockResolvedValueOnce(addresses)
 
-      await request(app)
-        .get('/anonymity-set/ens-proposal-voters')
-        .query({ choice: 'FOR', id: faker.random.numeric(78) })
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .expect(addresses)
+    it('returns addresses', async () => {
+      const spy = jest
+        .spyOn(QueryService.prototype, 'getEnsProposalVoters')
+        .mockResolvedValue(addresses)
+
+      for (const query of [
+        { choice: 'FOR', id: faker.random.numeric(78) },
+        {
+          choice: 'AGAINST',
+          id: faker.random.numeric(78),
+        },
+        { choice: 'ABSTAIN', id: faker.random.numeric(78) },
+      ]) {
+        await request(app)
+          .get('/anonymity-set/ens-proposal-voters')
+          .query(query)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect(addresses)
+
+        expect(spy).toHaveBeenLastCalledWith(query)
+      }
+
+      spy.mockReset()
     })
   })
 
