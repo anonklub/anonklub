@@ -67,32 +67,24 @@ describe('Routes', () => {
   })
 
   describe('GET /anonymity-set/ens-proposal-voters', () => {
-    it('validate query parameters', async () => {
-
-      await request(app)
-        .get('/anonymity-set/ens-proposal-voters')
-        .query({choice: 'FO', id: faker.random.numeric(78)})
-        .expect(400)
-
-      await request(app)
-        .get('/anonymity-set/ens-proposal-voters')
-        .query({choice: 'FOR', id: faker.random.numeric(77)})
-        .expect(400)
-
-      await request(app)
-        .get('/anonymity-set/ens-proposal-voters')
-        .query({choice: 'FOR'})
-        .expect(400)
-
-      await request(app)
-        .get('/anonymity-set/ens-proposal-voters')
-        .query({ id: faker.random.numeric(78)})
-        .expect(400)
-
-      await request(app)
-        .get('/anonymity-set/ens-proposal-voters')
-        .query({ id: faker.datatype.number()})
-        .expect(400)
+    it('validates query parameters', async () => {
+      await Promise.all(
+        [
+          { choice: 'FO', id: faker.random.numeric(78) },
+          {
+            choice: 'FOR',
+            id: faker.random.numeric(77),
+          },
+          { choice: 'FOR' },
+          { id: faker.random.numeric(78) },
+          { choice: 'AGAINST', id: faker.datatype.number() },
+        ].map(async (query) => {
+          await request(app)
+            .get('/anonymity-set/ens-proposal-voters')
+            .query(query)
+            .expect(400)
+        }),
+      )
     })
     it('returns addresses', async () => {
       jest
