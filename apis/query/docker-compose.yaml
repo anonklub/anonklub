@@ -4,7 +4,7 @@ services:
    query-api:
      build: .
      environment:
-       GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/google_credentials
+       GOOGLE_APPLICATION_CREDENTIALS_FILE: /run/secrets/google_credentials
        GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT}
        PYTHON: python3
        DUNE_USER: ${DUNE_USER}

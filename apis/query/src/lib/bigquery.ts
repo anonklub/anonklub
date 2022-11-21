@@ -10,21 +10,18 @@ export class Db extends BigQuery {
       NODE_ENV,
     } = process.env
 
-    if (NODE_ENV !== 'test') {
+    if (NODE_ENV === 'test') {
+      super({
+        credentials: {},
+        projectId: '',
+      })
+    } else {
       if (GOOGLE_APPLICATION_CREDENTIALS === undefined)
         throw new Error('missing google credentials')
       if (projectId === undefined) throw new Error('missing google project id')
-    }
 
-    if (process.env.NODE_ENV === 'hosted') {
       super({
-        // @ts-expect-error
         credentials: JSON.parse(GOOGLE_APPLICATION_CREDENTIALS),
-        projectId,
-      })
-    } else {
-      super({
-        keyFilename: GOOGLE_APPLICATION_CREDENTIALS,
         projectId,
       })
     }

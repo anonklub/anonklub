@@ -25,4 +25,4 @@ COPY src/lib/dune/query.py dist/lib/dune
 
 EXPOSE 3000
 
-CMD ["npm", "run" ,"nps", "start.hosted "]
+CMD ["npm", "run" ,"nps", "start.prod "]
