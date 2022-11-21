@@ -1,4 +1,5 @@
 import { Service } from 'typedi'
+import { getErc20BalanceAnonSetQuery } from '@controllers/requests/getErc20BalanceAnonSetQuery'
 import { Logger, LoggerInterface } from '@decorators/Logger'
 import {
   BigQueryRepository,
@@ -17,7 +18,7 @@ export class QueryService {
     @Logger() readonly logger: LoggerInterface,
   ) {}
 
-  async getEthBalanceAnonSet(min: string) {
+  async getEthBalanceAnonSet(min: number) {
     return this.bigQueryRepository.queryEthBalance(min).then((addresses) => {
       this.logger.info('Get ETH-balance based anonymity set')
       return addresses
@@ -27,13 +28,10 @@ export class QueryService {
   async getErc20BalanceAnonSet({
     min,
     tokenAddress,
-  }: {
-    min: string
-    tokenAddress: string
-  }) {
+  }: getErc20BalanceAnonSetQuery) {
     return this.duneRepository
       .executeDuneQuery(Query.Erc20, [
-        { key: 'min', type: ParameterType.Number, value: Number(min) },
+        { key: 'min', type: ParameterType.Number, value: min },
         {
           key: 'tokenAddress',
           type: ParameterType.Text,

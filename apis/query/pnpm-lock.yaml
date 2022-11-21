@@ -11,6 +11,7 @@ specifiers:
   '@types/supertest': ^2.0.12
   '@typescript-eslint/eslint-plugin': ^5.41.0
   '@typescript-eslint/parser': ^5.41.0
+  class-validator: ^0.13.2
   eslint: ^8.26.0
   eslint-config-prettier: ^8.5.0
   eslint-config-standard-with-typescript: ^23.0.0
@@ -42,6 +43,7 @@ specifiers:
 dependencies:
   '@google-cloud/bigquery': 6.0.3
   '@graphprotocol/client-cli': 2.2.15_jygcr4pndfvizn6bmt5y6dnzfq
+  class-validator: 0.13.2
   express: 4.18.2
   helmet: 6.0.0
   module-alias: 2.2.2

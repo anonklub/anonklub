@@ -1,7 +1,7 @@
 import { createExpressServer, useContainer } from 'routing-controllers-extended'
 import { Container } from 'typedi'
-import { controllers } from '@controllers'
-import { middlewares } from '@middlewares'
+
+import { controllers, middlewares } from './config'
 
 useContainer(Container)
 export const app = createExpressServer({
