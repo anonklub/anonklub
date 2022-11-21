@@ -23,6 +23,7 @@ file_env() {
 }
 
 file_env "DUNE_PWD"
+file_env "GOOGLE_APPLICATION_CREDENTIALS"
 
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then

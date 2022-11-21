@@ -56,9 +56,6 @@ scripts:
     prod:
       script: 'NODE_ENV=production node -r module-alias/register ./dist'
       hiddenFromHelp: true
-    hosted:
-      script: 'NODE_ENV=hosted node -r module-alias/register ./dist'
-      hiddenFromHelp: true
     default:
       script: 'nps build start.prod'
       description: 'Start project (prod)'

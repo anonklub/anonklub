@@ -16,17 +16,10 @@ export class Db extends BigQuery {
       if (projectId === undefined) throw new Error('missing google project id')
     }
 
-    if (process.env.NODE_ENV === 'hosted') {
-      super({
-        // @ts-expect-error
-        credentials: JSON.parse(GOOGLE_APPLICATION_CREDENTIALS),
-        projectId,
-      })
-    } else {
-      super({
-        keyFilename: GOOGLE_APPLICATION_CREDENTIALS,
-        projectId,
-      })
-    }
+    super({
+      // @ts-expect-error
+      credentials: JSON.parse(GOOGLE_APPLICATION_CREDENTIALS),
+      projectId,
+    })
   }
 }
