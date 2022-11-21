@@ -27,7 +27,7 @@
       pnpm i
       nps start.dev
       ``` 
-    - docker: `docker compose -f up docker-compose-dev.yaml  --build query-api`
+    - docker: `docker compose -f docker-compose-dev.yaml up --build query-api`
 
 
 ## The Graph
