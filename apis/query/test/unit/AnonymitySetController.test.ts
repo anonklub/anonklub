@@ -7,28 +7,36 @@ describe('Routes', () => {
   let addresses: string[]
 
   beforeEach(() => {
-    addresses = [...Array(faker.datatype.number({max: 10})).keys()].map(
+    addresses = [...Array(faker.datatype.number({ max: 10 })).keys()].map(
       faker.finance.ethereumAddress,
     )
   })
 
   describe('GET /anonymity-set/balance/ETH', () => {
-    it.skip('validates query params', async () => {
-
-    })
-    it('returns addresses', async () => {
-      const min = faker.datatype.number().toString()
-
-      jest
-        .spyOn(QueryService.prototype, 'getEthBalanceAnonSet')
-        .mockResolvedValueOnce(addresses)
-
+    it('validates query params', async () => {
       await request(app)
-        .get('/anonymity-set/balance/ETH')
-        .query({min})
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .expect(addresses)
+        .get('/anonymity-set/balance/ERC20')
+        .query({ min: '1.2' })
+        .expect(400)
+    })
+
+    it('returns addresses', async () => {
+      const spy = jest
+        .spyOn(QueryService.prototype, 'getEthBalanceAnonSet')
+        .mockResolvedValue(addresses)
+
+      await Promise.all(
+        [{ min: faker.random.numeric() }, {}].map(async (query) => {
+          await request(app)
+            .get('/anonymity-set/balance/ETH')
+            .query(query)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(addresses)
+        }),
+      )
+
+      spy.mockReset()
     })
   })
 
@@ -49,18 +57,30 @@ describe('Routes', () => {
     })
 
     it('returns addresses', async () => {
-      const min = faker.datatype.number().toString()
-      const tokenAddress = faker.finance.ethereumAddress()
-      jest
+      const spy = jest
         .spyOn(QueryService.prototype, 'getErc20BalanceAnonSet')
-        .mockResolvedValueOnce(addresses)
+        .mockResolvedValue(addresses)
 
-      await request(app)
-        .get('/anonymity-set/balance/ERC20')
-        .query({ min, tokenAddress })
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .expect(addresses)
+      await Promise.all(
+        [
+          {
+            min: faker.random.numeric(),
+            tokenAddress: faker.finance.ethereumAddress(),
+          },
+          {
+            tokenAddress: faker.finance.ethereumAddress(),
+          },
+        ].map(async (query) => {
+          await request(app)
+            .get('/anonymity-set/balance/ERC20')
+            .query(query)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(addresses)
+        }),
+      )
+
+      spy.mockReset()
     })
   })
 
@@ -103,7 +123,7 @@ describe('Routes', () => {
 
       await request(app)
         .get('/anonymity-set/ens-proposal-voters')
-        .query({choice: 'FOR', id: faker.random.numeric(78)})
+        .query({ choice: 'FOR', id: faker.random.numeric(78) })
         .expect('Content-Type', /json/)
         .expect(200)
         .expect(addresses)

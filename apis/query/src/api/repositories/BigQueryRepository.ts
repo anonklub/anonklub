@@ -6,7 +6,7 @@ import { Db } from '~/bigquery'
 export class BigQueryRepository {
   constructor(public db: Db) {}
 
-  async queryEthBalance(balance: string): Promise<string[]> {
+  async queryEthBalance(balance: number): Promise<string[]> {
     return this.db
       .query({
         params: { balance },

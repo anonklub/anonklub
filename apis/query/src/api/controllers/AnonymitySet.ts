@@ -16,7 +16,9 @@ export class AnonymitySet {
   constructor(readonly service: QueryService) {}
 
   @Get('/balance/ETH')
-  async getEthBalanceAnonSet(@QueryParam('min') min: string) {
+  async getEthBalanceAnonSet(
+    @QueryParams() { min }: getEthBalanceAnonSetQuery,
+  ) {
     return this.service.getEthBalanceAnonSet(min)
   }
 
@@ -36,9 +38,7 @@ export class AnonymitySet {
   }
 
   @Get('/ens-proposal-voters')
-  async getEnsProposalVoters(
-    @QueryParams() query: getEnsProposalVotersQuery
-  ) {
+  async getEnsProposalVoters(@QueryParams() query: getEnsProposalVotersQuery) {
     return this.service.getEnsProposalVoters(query)
   }
 
