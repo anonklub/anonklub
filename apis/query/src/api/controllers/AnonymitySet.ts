@@ -1,12 +1,8 @@
+import { Get, JsonController, QueryParams } from 'routing-controllers-extended'
 import { Service } from 'typedi'
 import { getErc20BalanceAnonSetQuery } from '@controllers/requests/getErc20BalanceAnonSetQuery'
 import { getEthBalanceAnonSetQuery } from '@controllers/requests/getEthBalanceAnonSetQuery'
 import { QueryService } from '@services'
-import {
-  Get,
-  JsonController,
-  QueryParams,
-} from 'routing-controllers-extended'
 
 import { getEnsProposalVotersQuery } from './requests/getEnsProposalVotersQuery'
 
