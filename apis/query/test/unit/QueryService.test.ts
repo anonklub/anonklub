@@ -4,7 +4,7 @@ import { DuneRepository, GraphRepository } from '@repositories'
 import { QueryService } from '@services'
 
 import { Db } from '~/bigquery'
-//
+
 describe('Service', () => {
   const queryService = Container.get(QueryService)
   let addresses: string[]
