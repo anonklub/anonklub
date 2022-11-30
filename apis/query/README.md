@@ -1,4 +1,6 @@
 # Query API
+[![Coverage Status](https://coveralls.io/repos/github/privacy-scaling-explorations/e2e-zk-ecdsa/badge.svg?branch=main)](https://coveralls.io/github/privacy-scaling-explorations/e2e-zk-ecdsa?branch=main)  
+
 [https://e2e-zkecdsa-query-api.fly.dev/](https://e2e-zkecdsa-query-api.fly.dev/)
 
 | Method | Route                                           | Response   | Description                                                                |
