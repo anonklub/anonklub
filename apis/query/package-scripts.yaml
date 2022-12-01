@@ -60,10 +60,6 @@ scripts:
       script: 'nps build start.prod'
       description: 'Start project (prod)'
 
-  ci:
-    script: 'nps lint.ci format.ci test.ci'
-    hiddenFromHelp: true
-
   graph:
     build:
       script: 'graphclient build  --dir src/lib/graph'
