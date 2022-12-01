@@ -3,7 +3,7 @@ import request from 'supertest'
 import { QueryService } from '@services'
 import { app } from 'src/app'
 
-describe('Routes', () => {
+describe('AnonymitySet Controller', () => {
   let addresses: string[]
 
   beforeEach(() => {
