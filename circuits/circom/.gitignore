@@ -1,0 +1,7 @@
+# circom/snarkjs artifacts
+*.r1cs
+*.sym
+
+# test artifacts
+*_js
+
