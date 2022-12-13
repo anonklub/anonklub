@@ -5,6 +5,7 @@
 pragma circom 2.0.0;
 
 include "node_modules/circomlib/circuits/poseidon.circom";
+include "node_modules/circom-ecdsa/circuits/bigint.circom";
 
 // if s == 0 returns [in[0], in[1]]
 // if s == 1 returns [in[1], in[0]]
