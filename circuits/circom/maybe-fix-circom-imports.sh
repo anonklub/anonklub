@@ -1,9 +1,8 @@
 #!/bin/bash
 
-dest="$PWD/node_modules/circom-ecdsa/node_modules/circomlib"
+dest="$PWD/node_modules/circom-ecdsa/node_modules"
 
 if [[ ! -d $dir ]];then
-  mkdir -p $dest
-  src=node_modules/circomlib/circuits
+  src=node_modules/circomlib
   cp -r $src $dest
 fi
