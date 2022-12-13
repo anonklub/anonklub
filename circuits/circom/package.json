@@ -10,11 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "chai": "^4.3.7",
-    "circom_tester": "^0.0.19",
     "circom-ecdsa": "github:0xPARC/circom-ecdsa",
+    "circom_tester": "^0.0.19",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
     "hardhat": "^2.12.2",
+    "mocha": "^10.2.0",
     "play-contracts": "github:ChihChengLiang/poseidon-tornado",
     "ts-node": "^10.9.1"
   },
