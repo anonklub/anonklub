@@ -1,0 +1,3 @@
+packages:
+  - apis/query
+  - circuits/circom
