@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@noble/secp256k1': ^1.7.0
   '@types/mocha': ^10.0.0
   '@types/node': ^18.11.9
   chai: ^4.3.7
@@ -9,6 +10,7 @@ specifiers:
   circomlib: ^2.0.5
   circomlibjs: ^0.1.7
   ethers: ^5.7.2
+  ffjavascript: ^0.2.57
   hardhat: ^2.12.2
   mocha: ^10.2.0
   play-contracts: github:ChihChengLiang/poseidon-tornado
@@ -16,9 +18,11 @@ specifiers:
   typescript: ^4.9.4
 
 dependencies:
+  '@noble/secp256k1': 1.7.0
   circom-ecdsa: github.com/0xPARC/circom-ecdsa/d87eb7068cb35c951187093abe966275c1839ead
   circomlib: 2.0.5
   circomlibjs: 0.1.7
+  ffjavascript: 0.2.57
   play-contracts: github.com/ChihChengLiang/poseidon-tornado/a104ef37ec2770cd5938849a9abd4c1ca94a0d7b
 
 devDependencies:
@@ -369,6 +373,10 @@ packages:
   /@noble/secp256k1/1.6.3:
     resolution: {integrity: sha512-T04e4iTurVy7I8Sw4+c5OSN9/RkPlo1uKxAomtxQNLq8j1uPAqnsqG1bqvY3Jv7c13gyr6dui0zmh/I3+f/JaQ==}
     dev: true
+
+  /@noble/secp256k1/1.7.0:
+    resolution: {integrity: sha512-kbacwGSsH/CTout0ZnZWxnW1B+jH/7r/WAAKLBtrRJ/+CUH7lgmQzl3GTrQua3SGKWNSDsS6lmjnDpIJ5Dxyaw==}
+    dev: false
 
   /@nomicfoundation/ethereumjs-block/4.0.0:
     resolution: {integrity: sha512-bk8uP8VuexLgyIZAHExH1QEovqx0Lzhc9Ntm63nCRKLHXIZkobaFaeCVwTESV7YkPKUk7NiK11s8ryed4CS9yA==}

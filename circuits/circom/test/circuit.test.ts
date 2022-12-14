@@ -20,9 +20,7 @@ describe('Poseidon Merkle Tree', function () {
 
   before(async () => {
     let p = join(__dirname, 'merkle_tree_test.circom')
-    circuit = await wasm_tester(p,
-      // { "verbose": true }
-    )
+    circuit = await wasm_tester(p)
     poseidon = await buildPoseidon()
     F = poseidon.F // TODO: do we actually need this or is it the default field?
   })
@@ -30,12 +28,11 @@ describe('Poseidon Merkle Tree', function () {
 
   it('Should check membership in a depth 2 merkle tree', async () => {
     // merkle
-    const leaf = 2
-    const root = F.toObject(poseidon([poseidon([1, 2]), poseidon([3, 4])]))
-    const path = [1, F.toObject(poseidon([3, 4]))]
+    const root = F.toObject(poseidon([poseidon([0, 1]), poseidon([2, 3])]))
+    const path = [0, F.toObject(poseidon([2, 3]))]
     const indices = [1, 0]
+    const leaf = 1
 
-    console.log(circuit.calculateWitness[0])
     const w = await circuit.calculateWitness({leaf: leaf, root: root, pathElements: path, pathIndices: indices}, true)
     await circuit.checkConstraints(w)
   })
@@ -65,10 +62,10 @@ describe('SetMembership', function () {
       BigNumber.from(utils.computeAddress(BigNumber.from(priv).toHexString())).toBigInt()
     )
 
-    const merkle_root = F.toObject(poseidon(
-      poseidon([addresses[0], addresses[1]]),
-      poseidon([addresses[2], addresses[3]]),
-    ))
+    const root = F.toObject(poseidon([
+        poseidon([addresses[0], addresses[1]]),
+        poseidon([addresses[2], addresses[3]]),
+    ]))
     const path = [addresses[1], F.toObject(poseidon([addresses[2], addresses[3]]))]
     const indices = [0, 0]
     const leaf = addresses[0]
@@ -91,7 +88,7 @@ describe('SetMembership', function () {
       'pathElements': path,
       'pathIndices': indices,
       'leaf': leaf,
-      'root': merkle_root,
+      'root': root,
     })
 
     await circuit.checkConstraints(witness)

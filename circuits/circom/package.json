@@ -9,9 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@noble/secp256k1": "^1.7.0",
     "circom-ecdsa": "github:0xPARC/circom-ecdsa",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
+    "ffjavascript": "^0.2.57",
     "play-contracts": "github:ChihChengLiang/poseidon-tornado"
   },
   "devDependencies": {
