@@ -46,7 +46,7 @@ describe('SetMembership', function () {
 
   let circuit: any
   before(async function () {
-    circuit = await wasm_tester(join(__dirname, 'membership_test.circom'), {'verbose': true})
+    circuit = await wasm_tester(join(__dirname, 'membership_test.circom'))
     console.log('compiled circom')
     poseidon = await buildPoseidon()
     F = poseidon.F // TODO: do we actually need this or is it the default field?
