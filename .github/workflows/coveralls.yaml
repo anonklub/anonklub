@@ -51,7 +51,6 @@ jobs:
           lerna run test.ci
 
       - name: Coveralls
-        working-directory: ./apis/query
         uses: coverallsapp/github-action@master
         with:
           base-path: ./apis/query
