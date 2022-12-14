@@ -19,7 +19,6 @@ COPY .npmrc package.json pnpm-lock.yaml ./
 RUN pnpm i -P --frozen-lockfile --ignore-scripts --reporter=silent
 
 COPY tsconfig.json .
-COPY package-scripts.yaml .
 COPY dist dist
 COPY src/lib/dune/query.py dist/lib/dune
 
@@ -29,4 +28,4 @@ COPY secrets-entrypoint.sh /usr/local/bin/secrets-entrypoint.sh
 RUN chmod +x /usr/local/bin/secrets-entrypoint.sh
 ENTRYPOINT ["secrets-entrypoint.sh"]
 
-CMD ["npm", "run" ,"nps", "start.prod"]
+CMD ["npm", "run" , "start.prod"]
