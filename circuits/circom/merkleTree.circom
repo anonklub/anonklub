@@ -39,7 +39,6 @@ template MerkleTreeChecker(levels) {
         hashers[i].inputs[0] <== selectors[i].out[0];
         hashers[i].inputs[1] <== selectors[i].out[1];
     }
-    log(1234);
+    log(leaf);
     root === hashers[levels - 1].out;
-    log(4321);
 }
