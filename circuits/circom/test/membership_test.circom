@@ -1,5 +1,5 @@
-pragma circom 2.0.0;
+pragma circom 2.0.2;
 
-include "../merkleTree.circom";
+include "../membership.circom";
 
-component main {public [leaf, root, pathElements, pathIndices]} = MerkleTreeChecker(2);
+component main {public [msghash, root]} = InAddressSet(64, 4, 2);
