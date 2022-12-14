@@ -3,7 +3,7 @@ package-lock.json
 pnpm-lock.yaml
 yarn.lock
 
-# TS build dir
+# build dirs
 build
 dist
 
@@ -13,5 +13,4 @@ coverage
 # JetBrains IDE
 .idea
 
-*.graphql
-.graphclient
+package-scripts.js

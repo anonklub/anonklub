@@ -1,0 +1,3 @@
+extends: ['@r1oga']
+parserOptions:
+  project: ['tsconfig.json', 'apis/query/tsconfig.json']

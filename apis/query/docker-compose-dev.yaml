@@ -1,31 +1,30 @@
-version: "3.9"
+version: '3.9'
 
 services:
-   query-api:
-     build:
-       context: .
-       dockerfile: Dockerfile-dev
-     environment:
-       GOOGLE_APPLICATION_CREDENTIALS_FILE: /run/secrets/google_credentials
-       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT}
-       PYTHON: python3
-       DUNE_USER: ${DUNE_USER}
-       DUNE_PWD_FILE: /run/secrets/dune_pwd
-       GRAPH_API_KEY_FILE: /run/secrets/graph_api_key
-     secrets:
-       - google_credentials
-       - dune_pwd
-       - graph_api_key
-     ports:
-       - "3000:3000"
-     env_file:
+  query-api:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS_FILE: /run/secrets/google_credentials
+      GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT}
+      PYTHON: python3
+      DUNE_USER: ${DUNE_USER}
+      DUNE_PWD_FILE: /run/secrets/dune_pwd
+      GRAPH_API_KEY_FILE: /run/secrets/graph_api_key
+    secrets:
+      - google_credentials
+      - dune_pwd
+      - graph_api_key
+    ports:
+      - '3000:3000'
+    env_file:
       - .env
 
 secrets:
-   google_credentials:
-     file: .key.json
-   dune_pwd:
-     file: .dune_pwd
-   graph_api_key:
-     file: .graph_api_key
-
+  google_credentials:
+    file: .key.json
+  dune_pwd:
+    file: .dune_pwd
+  graph_api_key:
+    file: .graph_api_key
