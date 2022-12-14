@@ -5,7 +5,6 @@
 pragma circom 2.0.0;
 
 include "node_modules/circomlib/circuits/poseidon.circom";
-include "node_modules/circom-ecdsa/circuits/bigint.circom";
 
 // if s == 0 returns [in[0], in[1]]
 // if s == 1 returns [in[1], in[0]]
@@ -29,8 +28,8 @@ template MerkleTreeChecker(levels) {
 
     component selectors[levels];
     component hashers[levels];
-
     for (var i = 0; i < levels; i++) {
+        log(i);
         selectors[i] = DualMux();
         selectors[i].in[0] <== i == 0 ? leaf : hashers[i - 1].out;
         selectors[i].in[1] <== pathElements[i];
@@ -40,6 +39,7 @@ template MerkleTreeChecker(levels) {
         hashers[i].inputs[0] <== selectors[i].out[0];
         hashers[i].inputs[1] <== selectors[i].out[1];
     }
-
+    log(1234);
     root === hashers[levels - 1].out;
+    log(4321);
 }

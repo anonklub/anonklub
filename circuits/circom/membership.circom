@@ -1,7 +1,6 @@
 pragma circom 2.0.2;
 
 include "node_modules/circom-ecdsa/circuits/zk-identity/eth.circom";
-include "node_modules/circom-ecdsa/circuits/ecdsa.circom";
 include "./merkleTree.circom";
 
 // Proves that a message is signed by one of the addresses in a merkle tree
@@ -22,21 +21,8 @@ template InAddressSet(n, k, levels) {
     signal input pathIndices[levels];
 
     // Validate public key
-    component pubKeyCheck = ECDSACheckPubKey(n, k);
-    for (var i = 0; i < k; i++) {
-        pubKeyCheck.pubkey[0][i] <== pubkey[0][i];
-        pubKeyCheck.pubkey[1][i] <== pubkey[1][i];
-    }
 
     // Check signature
-    component signatureCheck = ECDSAVerifyNoPubkeyCheck(n, k);
-    for (var i = 0; i < k; i++) {
-        signatureCheck.r[i] <== r[i];
-        signatureCheck.s[i] <== s[i];
-        signatureCheck.msghash[i] <== msghash[i];
-        signatureCheck.pubkey[0][i] <== pubkey[0][i];
-        signatureCheck.pubkey[1][i] <== pubkey[1][i];
-    }
 
     // Derive address from public key
     component flatten = FlattenPubkey(n, k);
