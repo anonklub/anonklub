@@ -43,7 +43,6 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install - Lint - Format
-        working-directory: ./apis/query
         run: |
           pnpm i --ignore-scripts --reporter=silent
-          pnpm run nps lint.ci format.ci
+          lerna run validate

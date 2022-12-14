@@ -46,12 +46,12 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install & Test
-        working-directory: ./apis/query
         run: |
           pnpm i --ignore-scripts --reporter=silent
-          pnpm run nps test.ci
+          lerna run test.ci
 
       - name: Coveralls
+        working-directory: ./apis/query
         uses: coverallsapp/github-action@master
         with:
           base-path: ./apis/query
