@@ -47,7 +47,7 @@ jobs:
         working-directory: ./apis/query
         run: |
           pnpm i --ignore-scripts --reporter=silent
-          npm run compile
+          pnpm run compile
 
       -  uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy
