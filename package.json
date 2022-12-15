@@ -4,12 +4,11 @@
   "devDependencies": {
     "@r1oga/eslint-config": "^1.1.2",
     "@r1oga/prettier-config": "^1.1.5",
+    "concurrently": "^7.6.0",
     "lerna": "^6.1.0"
   },
   "scripts": {
     "clean": "lerna clean && lerna run clean && rm -rf node_modules"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "workspaces": ["packages/*"]
 }
