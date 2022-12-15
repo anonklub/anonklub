@@ -17,11 +17,20 @@ importers:
       '@faker-js/faker': ^7.6.0
       '@google-cloud/bigquery': ^6.0.3
       '@graphprotocol/client-cli': ^2.2.15
+      '@graphql-mesh/cache-localforage': ^0.7.3
+      '@graphql-mesh/cross-helpers': ^0.3.0
+      '@graphql-mesh/graphql': ^0.33.4
+      '@graphql-mesh/http': ^0.3.3
+      '@graphql-mesh/merger-stitching': ^0.18.4
+      '@graphql-mesh/runtime': ^0.46.2
+      '@graphql-mesh/store': ^0.9.3
+      '@graphql-mesh/utils': ^0.43.3
       '@types/express': ^4.17.14
       '@types/jest': ^29.2.0
       '@types/morgan': ^1.9.3
       '@types/node': ^18.11.7
       '@types/supertest': ^2.0.12
+      '@whatwg-node/fetch': ^0.5.3
       class-validator: ^0.13.2
       concurrently: ^7.6.0
       express: ^4.18.2
@@ -46,6 +55,15 @@ importers:
     dependencies:
       '@google-cloud/bigquery': 6.0.3
       '@graphprotocol/client-cli': 2.2.16_euddgsqjeffc6uesso7c47q7ly
+      '@graphql-mesh/cache-localforage': 0.7.3_z2445wejdd462ogel4j3b6xzum
+      '@graphql-mesh/cross-helpers': 0.3.0_z2445wejdd462ogel4j3b6xzum
+      '@graphql-mesh/graphql': 0.33.4_sx3bxcnfohbzssqyxb7hdsqiwy
+      '@graphql-mesh/http': 0.3.3_sx3bxcnfohbzssqyxb7hdsqiwy
+      '@graphql-mesh/merger-stitching': 0.18.4_z2445wejdd462ogel4j3b6xzum
+      '@graphql-mesh/runtime': 0.46.2_z2445wejdd462ogel4j3b6xzum
+      '@graphql-mesh/store': 0.9.3_z2445wejdd462ogel4j3b6xzum
+      '@graphql-mesh/utils': 0.43.3_z2445wejdd462ogel4j3b6xzum
+      '@whatwg-node/fetch': 0.5.3
       class-validator: 0.13.2
       concurrently: 7.6.0
       express: 4.18.2
@@ -2016,6 +2034,32 @@ packages:
       - utf-8-validate
     dev: false
 
+  /@graphql-mesh/graphql/0.33.4_sx3bxcnfohbzssqyxb7hdsqiwy:
+    resolution: {integrity: sha512-PKUGXtUa44nZUz/V05bgeW7FUH+B++ME3bpkrtB7I1KRIHUgZguo5v8Fl253Ijt7AHDdwAL12Okblp22jTn3kQ==}
+    peerDependencies:
+      graphql: '*'
+    dependencies:
+      '@graphql-mesh/cross-helpers': 0.3.0_z2445wejdd462ogel4j3b6xzum
+      '@graphql-mesh/store': 0.9.3_z2445wejdd462ogel4j3b6xzum
+      '@graphql-mesh/string-interpolation': 0.4.1_graphql@16.6.0
+      '@graphql-mesh/types': 0.89.2_graphql@16.6.0
+      '@graphql-mesh/utils': 0.43.3_z2445wejdd462ogel4j3b6xzum
+      '@graphql-tools/delegate': 9.0.20_graphql@16.6.0
+      '@graphql-tools/url-loader': 7.16.26_xaoh644muq5dthlxw3gxk7jhry
+      '@graphql-tools/utils': 9.1.3_graphql@16.6.0
+      '@graphql-tools/wrap': 9.2.21_graphql@16.6.0
+      graphql: 16.6.0
+      lodash.get: 4.4.2
+      tslib: 2.4.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - encoding
+      - react-native
+      - react-native-windows
+      - utf-8-validate
+    dev: false
+
   /@graphql-mesh/http/0.3.3_sx3bxcnfohbzssqyxb7hdsqiwy:
     resolution: {integrity: sha512-wSTyl7DOVBqmxawCoRZOioFzXQnLKuiJADNYaP3Velzx55ANLhCcXxSj5E9ncryR1wTmskBsZ+rJMoDd8H0thg==}
     peerDependencies:
@@ -2290,6 +2334,25 @@ packages:
       - encoding
     dev: false
 
+  /@graphql-tools/executor-http/0.0.7_xaoh644muq5dthlxw3gxk7jhry:
+    resolution: {integrity: sha512-g0NV4HVZVABsylk6SIA/gfjQbMIsy3NjZYW0k0JZmTcp9698J37uG50GZC2mKe0F8pIlDvPLvrPloqdKGX3ZAA==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      '@graphql-tools/utils': 9.1.3_graphql@16.6.0
+      '@repeaterjs/repeater': 3.0.4
+      '@whatwg-node/fetch': 0.5.3
+      dset: 3.1.2
+      extract-files: 11.0.0
+      graphql: 16.6.0
+      meros: 1.2.1_@types+node@18.11.15
+      tslib: 2.4.1
+      value-or-promise: 1.0.11
+    transitivePeerDependencies:
+      - '@types/node'
+      - encoding
+    dev: false
+
   /@graphql-tools/executor-legacy-ws/0.0.5_graphql@16.6.0:
     resolution: {integrity: sha512-j2ZQVTI4rKIT41STzLPK206naYDhHxmGHot0siJKBKX1vMqvxtWBqvL66v7xYEOaX79wJrFc8l6oeURQP2LE6g==}
     peerDependencies:
@@ -2466,6 +2529,32 @@ packages:
       '@graphql-tools/delegate': 9.0.20_graphql@16.6.0
       '@graphql-tools/executor-graphql-ws': 0.0.5_graphql@16.6.0
       '@graphql-tools/executor-http': 0.0.6_xaoh644muq5dthlxw3gxk7jhry
+      '@graphql-tools/executor-legacy-ws': 0.0.5_graphql@16.6.0
+      '@graphql-tools/utils': 9.1.3_graphql@16.6.0
+      '@graphql-tools/wrap': 9.2.21_graphql@16.6.0
+      '@types/ws': 8.5.3
+      '@whatwg-node/fetch': 0.5.3
+      graphql: 16.6.0
+      isomorphic-ws: 5.0.0_ws@8.11.0
+      tslib: 2.4.1
+      value-or-promise: 1.0.11
+      ws: 8.11.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@graphql-tools/url-loader/7.16.26_xaoh644muq5dthlxw3gxk7jhry:
+    resolution: {integrity: sha512-mrbFhShlthSdvMD3GPeKYxUt54CBUteN0eR6WgJJSXibycTSA6h0LAn6iyCAg+uUsBP/KR6GcjvQHifl00Q7rQ==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      '@ardatan/sync-fetch': 0.0.1
+      '@graphql-tools/delegate': 9.0.20_graphql@16.6.0
+      '@graphql-tools/executor-graphql-ws': 0.0.5_graphql@16.6.0
+      '@graphql-tools/executor-http': 0.0.7_xaoh644muq5dthlxw3gxk7jhry
       '@graphql-tools/executor-legacy-ws': 0.0.5_graphql@16.6.0
       '@graphql-tools/utils': 9.1.3_graphql@16.6.0
       '@graphql-tools/wrap': 9.2.21_graphql@16.6.0
@@ -7710,7 +7799,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.1.2
+      minimatch: 3.0.5
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
@@ -9890,7 +9979,7 @@ packages:
       redent: 3.0.0
       trim-newlines: 3.0.1
       type-fest: 0.18.1
-      yargs-parser: 20.2.4
+      yargs-parser: 20.2.9
     dev: true
 
   /merge-descriptors/1.0.1:
@@ -13783,6 +13872,11 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /yargs-parser/20.2.9:
+    resolution: {integrity: sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==}
+    engines: {node: '>=10'}
+    dev: true
+
   /yargs-parser/21.1.1:
     resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
     engines: {node: '>=12'}
@@ -13830,7 +13924,7 @@ packages:
       require-directory: 2.1.1
       string-width: 4.2.3
       y18n: 5.0.8
-      yargs-parser: 20.2.4
+      yargs-parser: 20.2.9
     dev: true
 
   /yargs/17.6.2:
