@@ -1,12 +1,7 @@
 name: Code Quality
 on:
   pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.yaml'
-      - '**/*.yml'
+    branches: [main]
 
 jobs:
   lint-format-test:

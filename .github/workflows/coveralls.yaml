@@ -3,13 +3,11 @@ on:
   # push trigger required to get coveralls monitoring of default branch
   # pull_request required to get PR comments
   pull_request:
+    branches: [main]
+    paths-ignore: ['**/*.md', '**/*.yaml', '**/*.yml']
   push:
-    branches:
-      - main
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.yaml'
-      - '**/*.yml'
+    branches: [main]
+    paths-ignore: ['**/*.md', '**/*.yaml', '**/*.yml']
 
 jobs:
   coveralls:

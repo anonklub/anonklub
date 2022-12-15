@@ -2,11 +2,9 @@ name: Deployment
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
-    paths:
-      - 'apis/query/**'
-      - '!**/*.md'
+    branches: [main]
+    paths: ['apis/query/**', '!**/*.md']
+
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
