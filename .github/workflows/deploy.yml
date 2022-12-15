@@ -2,11 +2,9 @@ name: Deployment
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
-    paths:
-      - 'apis/query/**'
-      - '!**/*.md'
+    branches: [main]
+    paths: ['apis/query/**', '!**/*.md']
+
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
@@ -47,7 +45,7 @@ jobs:
         working-directory: ./apis/query
         run: |
           pnpm i --ignore-scripts --reporter=silent
-          npm run compile
+          pnpm run compile
 
       -  uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy

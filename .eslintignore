@@ -12,5 +12,3 @@ coverage
 
 # JetBrains IDE
 .idea
-
-package-scripts.js
