@@ -22,13 +22,10 @@ export class GraphRepository {
     id: Scalars['ID']
     choice: VoteChoice
   }) {
-    const { data }  = await execute(
-      VotersPerProposalDocument,
-      {
-        choice,
-        id,
-      },
-    ) as { data: { proposal: Proposal } }
+    const { data } = (await execute(VotersPerProposalDocument, {
+      choice,
+      id,
+    })) as { data: { proposal: Proposal } }
     return (data?.proposal ?? []).votes.map((vote: Vote) => vote.voter.id)
   }
 
