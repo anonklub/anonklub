@@ -22,23 +22,23 @@ export class GraphRepository {
     id: Scalars['ID']
     choice: VoteChoice
   }) {
-    const { data }: { data: { proposal: Proposal } } = await execute(
+    const { data }  = await execute(
       VotersPerProposalDocument,
       {
         choice,
         id,
       },
-    )
+    ) as { data: { proposal: Proposal } }
     return (data?.proposal ?? []).votes.map((vote: Vote) => vote.voter.id)
   }
 
   async getPunkOwners(): Promise<string[]> {
-    const { data } = await execute(PunkOwnersDocument)
+    const { data } = await execute(PunkOwnersDocument, {})
     return (data?.punks ?? []).map((punk: Punk) => punk.owner.id)
   }
 
   async getBeaconDepositors() {
-    const { data } = await execute(BeaconDepositorsDocument)
+    const { data } = await execute(BeaconDepositorsDocument, {})
     return (data?.depositors ?? []).map((depositor: Depositor) => depositor.id)
   }
 }
