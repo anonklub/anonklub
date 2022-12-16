@@ -1,6 +1,5 @@
 // Whole file copied from https://github.com/ChihChengLiang/poseidon-tornado
 // TODO: import as a dependency - note circom doesn't appear to work well with nested dependencies, as poseidon-tornado needs its own node_modules for circomlib
-// Note, the ecdsa directory is similarly taken from https://github.com/0xPARC/circom-ecdsa
 
 pragma circom 2.0.0;
 
