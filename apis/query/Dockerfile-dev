@@ -14,7 +14,8 @@ RUN npm i -g pnpm
 
 WORKDIR app
 
-COPY .npmrc package.json ./
+COPY package.json ./
+RUN echo "auto-install-peers=true" > .npmrc
 
 RUN pnpm i
 

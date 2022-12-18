@@ -32,7 +32,9 @@
     "express": "^4.18.2",
     "graphql": "^16.6.0",
     "helmet": "^6.0.0",
+    "module-alias": "^2.2.2",
     "morgan": "^1.10.0",
+    "reflect-metadata": "^0.1.13",
     "routing-controllers-extended": "^1.0.4",
     "typedi": "^0.10.0",
     "winston": "^3.8.2"
