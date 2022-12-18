@@ -45,7 +45,7 @@ jobs:
           pnpm i --ignore-scripts --reporter=silent
           pnpm run compile
 
-      -  uses: superfly/flyctl-actions/setup-flyctl@master
+      - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy
         working-directory: ./apis/query
         run: flyctl deploy --remote-only --dockerfile Dockerfile-deploy
