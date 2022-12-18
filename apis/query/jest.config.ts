@@ -4,9 +4,6 @@ import { pathsToModuleNameMapper } from 'ts-jest'
 import { compilerOptions } from './tsconfig.json'
 
 const jestConfig: JestConfigWithTsJest = {
-  collectCoverage: true,
-  collectCoverageFrom: ['src/**', '!src/lib/**'],
-  coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: ['index.ts', '/node_modules/'],
   coverageThreshold: {
     global: {
@@ -16,6 +13,7 @@ const jestConfig: JestConfigWithTsJest = {
       statements: 70,
     },
   },
+  displayName: 'query-api',
   moduleDirectories: ['node_modules', __dirname],
   moduleFileExtensions: ['ts', 'js', 'json'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
@@ -23,7 +21,6 @@ const jestConfig: JestConfigWithTsJest = {
   }),
   preset: 'ts-jest',
   setupFilesAfterEnv: ['./test/setup.ts'],
-  verbose: true,
 }
 
 export default jestConfig

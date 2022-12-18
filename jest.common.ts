@@ -1,6 +1,6 @@
 import type { JestConfigWithTsJest } from 'ts-jest'
 
-const jestLintConfig: JestConfigWithTsJest = {
+const jestCommonConfig: JestConfigWithTsJest = {
   testPathIgnorePatterns: [
     'node_modules',
     'coverage',
@@ -10,4 +10,4 @@ const jestLintConfig: JestConfigWithTsJest = {
   ],
 }
 
-export default jestLintConfig
+export default jestCommonConfig
