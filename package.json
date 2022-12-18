@@ -22,8 +22,10 @@
   },
   "scripts": {
     "clean": "lerna clean && lerna run clean && rm -rf node_modules",
-    "format.fix": "prettier --write .",
-    "validate": "jest"
+    "fix": "concurrently 'npm run format' 'npm run lint'",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .js,.ts --fix",
+    "validate": "concurrently tsc 'tsc -p apis/query/tsconfig.json' jest"
   },
   "workspaces": ["packages/*"],
   "dependencies": {
