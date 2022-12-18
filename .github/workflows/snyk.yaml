@@ -1,21 +1,17 @@
-name: Coverage Report
+name: Snyk Security Checks
 on:
-  # push trigger required to get coveralls monitoring of default branch
-  # pull_request required to get PR comments
-  pull_request:
+  push:
     branches: [main]
     paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
-  push:
+  pull_request:
     branches: [main]
     paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
 
 jobs:
-  coveralls:
+  security:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@main
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -41,14 +37,12 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-store-
 
-      - name: Install & Test
-        run: |
-          pnpm i --ignore-scripts --reporter=silent
-          lerna run test.ci
+      - name: Install
+        run: pnpm i --ignore-scripts --reporter=silent
 
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          base-path: ./apis/query
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./apis/query/coverage/lcov.info
+          args: --all-projects
