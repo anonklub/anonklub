@@ -1,7 +1,8 @@
 {
   "include": ["jest*"],
   "compilerOptions": {
-    "strictNullChecks": true,
-    "resolveJsonModule": true
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true
   }
 }

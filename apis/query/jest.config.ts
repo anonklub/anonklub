@@ -4,7 +4,7 @@ import { pathsToModuleNameMapper } from 'ts-jest'
 import { compilerOptions } from './tsconfig.json'
 
 const jestConfig: JestConfigWithTsJest = {
-  coveragePathIgnorePatterns: ['index.ts', '/node_modules/'],
+  coveragePathIgnorePatterns: ['index.ts', 'node_modules'],
   coverageThreshold: {
     global: {
       // branches: 70,
