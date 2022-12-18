@@ -23,9 +23,13 @@
   "scripts": {
     "clean": "lerna clean && lerna run clean && rm -rf node_modules",
     "fix": "concurrently 'npm run format' 'npm run lint'",
-    "format": "prettier --write .",
+    "format": "prettier -w .",
     "lint": "eslint . --ext .js,.ts --fix",
-    "validate": "concurrently tsc 'tsc -p apis/query/tsconfig.json' jest"
+    "test": "jest --watch",
+    "test.coverage": "lerna run test.coverage",
+    "validate.ci": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'jest --selectProjects prettier lint --silent --reporters=jest-silent-reporter --coverage false'",
+    "validate.local": "concurrently tsc 'tsc -p apis/query/tsconfig.json' jest",
+    "validate": "is-ci-cli validate.ci validate.local"
   },
   "workspaces": ["packages/*"],
   "dependencies": {

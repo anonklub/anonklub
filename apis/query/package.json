@@ -55,12 +55,6 @@
     "start.docker.prod": "docker compose up --build query-api",
     "start.prod": "NODE_ENV=production node -r module-alias/register ./dist",
     "start.watch": "NODE_ENV=development tsnd --respawn --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
-    "test": "is-ci-cli test.ci test.watch",
-    "test.ci": "jest --silent  --reporters=jest-silent-reporter",
-    "test.once": "jest",
-    "test.watch": "jest --watch",
-    "validate": "is-ci-cli validate.ci validate.local",
-    "validate.ci": "concurrently tsc 'npm run format' 'npm run lint'",
-    "validate.local": "concurrently tsc 'npm run test.once' 'npm run format' 'npm run lint'"
+    "test.coverage": "jest"
   }
 }

@@ -1,12 +1,7 @@
 import type { JestConfigWithTsJest } from 'ts-jest'
 
 const jestConfig: JestConfigWithTsJest = {
-  collectCoverage: true,
-  collectCoverageFrom: [
-    'apis/query/src/**',
-    '!apis/query/src/lib/**',
-  ],
-  coverageDirectory: 'coverage',
+  // FIXME: coverage not triggered when configured here?
   projects: ['jest.lint.ts', 'jest.prettier.ts', 'apis/query/jest.config.ts'],
   verbose: true,
   watchPlugins: [
