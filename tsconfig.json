@@ -1,3 +1,8 @@
 {
-  // to avoid eslint complaining
+  "include": ["jest*"],
+  "compilerOptions": {
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true
+  }
 }

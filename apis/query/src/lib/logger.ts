@@ -1,3 +1,4 @@
+import { join } from 'path'
 import { addColors, createLogger, format, transports } from 'winston'
 
 const { colorize, combine, errors, json, printf, timestamp } = format
@@ -49,11 +50,14 @@ const logger = createLogger({
       silent,
     }),
     new File({
-      filename: 'logs/error.log',
+      filename: join(__dirname, 'logs', 'error.log'),
       format: combine(errors(), json()),
       level: 'error',
     }),
-    new File({ filename: 'logs/all.log', format: combine(errors(), json()) }),
+    new File({
+      filename: join(__dirname, 'logs', 'all.log'),
+      format: combine(errors(), json()),
+    }),
   ],
 })
 

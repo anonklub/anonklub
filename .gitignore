@@ -1,3 +1,16 @@
 .idea
 coverage
+dist
 node_modules
+
+*.log
+
+.env
+
+*.db
+dev.db-journal
+
+# secrets
+.key.json
+.dune_pwd
+.graph_api_key

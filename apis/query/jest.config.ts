@@ -6,8 +6,8 @@ import { compilerOptions } from './tsconfig.json'
 const jestConfig: JestConfigWithTsJest = {
   collectCoverage: true,
   collectCoverageFrom: ['src/**', '!src/lib/**'],
-  coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: ['index.ts', '/node_modules/'],
+  coverageDirectory: '../../coverage',
+  coveragePathIgnorePatterns: ['index.ts'],
   coverageThreshold: {
     global: {
       // branches: 70,
@@ -16,14 +16,14 @@ const jestConfig: JestConfigWithTsJest = {
       statements: 70,
     },
   },
+  displayName: 'query-api',
   moduleDirectories: ['node_modules', __dirname],
   moduleFileExtensions: ['ts', 'js', 'json'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',
   }),
   preset: 'ts-jest',
-  setupFilesAfterEnv: ['./test/setup.ts'],
-  verbose: true,
+  setupFilesAfterEnv: ['jest-chain', './test/setup.ts'],
 }
 
 export default jestConfig

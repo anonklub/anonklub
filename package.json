@@ -4,11 +4,38 @@
   "devDependencies": {
     "@r1oga/eslint-config": "^1.1.2",
     "@r1oga/prettier-config": "^1.1.5",
+    "@types/jest": "^29.2.4",
+    "@types/node": "^18.11.15",
     "concurrently": "^7.6.0",
-    "lerna": "^6.1.0"
+    "jest": "^29.2.2",
+    "jest-chain": "^1.1.6",
+    "jest-mock-extended": "^3.0.1",
+    "jest-runner-eslint": "^1.1.0",
+    "jest-runner-prettier": "^1.0.0",
+    "jest-silent-reporter": "^0.5.0",
+    "jest-watch-select-projects": "^2.0.0",
+    "jest-watch-typeahead": "^2.2.1",
+    "lerna": "^6.1.0",
+    "ts-jest": "^29.0.3",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.4"
   },
   "scripts": {
-    "clean": "lerna clean && lerna run clean && rm -rf node_modules"
+    "clean": "lerna clean && lerna run clean && rm -rf node_modules",
+    "fix": "concurrently 'npm run format' 'npm run lint'",
+    "format": "prettier -w .",
+    "lint": "eslint . --ext .js,.ts --fix",
+    "test": "jest --watch",
+    "test.coverage": "lerna run test.coverage",
+    "validate.ci": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'jest --selectProjects prettier lint --silent --reporters=jest-silent-reporter --coverage false'",
+    "validate.local": "concurrently tsc 'tsc -p apis/query/tsconfig.json' jest",
+    "validate": "is-ci-cli validate.ci validate.local"
   },
-  "workspaces": ["packages/*"]
+  "workspaces": ["packages/*"],
+  "dependencies": {
+    "is-ci-cli": "^2.2.0",
+    "module-alias": "^2.2.2",
+    "reflect-metadata": "^0.1.13",
+    "tslib": "^2.4.1"
+  }
 }
