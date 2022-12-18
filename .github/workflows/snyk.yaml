@@ -5,7 +5,7 @@ on:
     paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
   pull_request:
     branches: [main]
-#    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
+    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
 
 jobs:
   security:
