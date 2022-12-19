@@ -44,7 +44,7 @@ jobs:
       - name: Install & Test
         run: |
           pnpm i --ignore-scripts --reporter=silent
-          lerna run test.coverage
+          pnpm t
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

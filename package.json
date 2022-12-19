@@ -25,8 +25,8 @@
     "fix": "concurrently 'npm run format' 'npm run lint'",
     "format": "prettier -w .",
     "lint": "eslint . --ext .js,.ts --fix",
-    "test": "jest --watch",
-    "test.coverage": "lerna run test.coverage",
+    "test.watch": "jest --watch",
+    "test": "lerna run test",
     "validate.ci": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'jest --selectProjects prettier lint --silent --reporters=jest-silent-reporter --coverage false'",
     "validate.local": "concurrently tsc 'tsc -p apis/query/tsconfig.json' jest",
     "validate": "is-ci-cli validate.ci validate.local"
