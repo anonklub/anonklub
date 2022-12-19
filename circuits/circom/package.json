@@ -24,6 +24,7 @@
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
     "concurrently": "^7.6.0",
+    "eslint": "^8.30.0",
     "ffjavascript": "^0.2.57",
     "is-ci-cli": "^2.2.0",
     "play-contracts": "github:ChihChengLiang/poseidon-tornado"
@@ -31,8 +32,10 @@
   "devDependencies": {
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
     "chai": "^4.3.7",
     "circom_tester": "^0.0.19",
+    "eslint-plugin-sort": "^2.4.0",
     "ethers": "^5.7.2",
     "hardhat": "^2.12.2",
     "mocha": "^10.2.0",

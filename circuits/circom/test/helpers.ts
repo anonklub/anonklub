@@ -1,6 +1,5 @@
 // TODO: import from circom-ecdsa instead
 
-// bigendian
 export function bigintToUint8Array(x: bigint) {
   const ret: Uint8Array = new Uint8Array(32)
   for (let idx = 31; idx >= 0; idx--) {
