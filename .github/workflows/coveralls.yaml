@@ -4,7 +4,7 @@ on:
   # pull_request required to get PR comments
   pull_request:
     branches: [main]
-    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
+  #    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
   push:
     branches: [main]
     paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
@@ -21,6 +21,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 19
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
 
       - uses: pnpm/action-setup@v2.2.4
         name: Install pnpm
@@ -41,10 +46,24 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-store-
 
-      - name: Install & Test
-        run: |
-          pnpm i --ignore-scripts --reporter=silent
-          pnpm t
+      - name: Clone circom
+        run: git clone https://github.com/iden3/circom.git
+      - name: Build circom
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release  --manifest-path circom/Cargo.toml
+      - name: Install circom
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: --path circom/circom
+
+      - name: Install node deps
+        run: pnpm i --ignore-scripts --reporter=silent
+
+      - name: Run tests
+        run: pnpm t
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
