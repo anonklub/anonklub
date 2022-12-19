@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020"],
+    "module": "commonjs",
+    "target": "es2020",
+    "esModuleInterop": true,
+    "strictNullChecks": true
+  },
+  "include": ["./test"]
+}
