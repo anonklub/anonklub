@@ -2,7 +2,7 @@ import type { JestConfigWithTsJest } from 'ts-jest'
 
 import common from './jest.common'
 
-const jestLintConfig: JestConfigWithTsJest = {
+const jestPrettierConfig: JestConfigWithTsJest = {
   ...common,
   displayName: 'prettier',
   moduleFileExtensions: [
@@ -29,4 +29,4 @@ const jestLintConfig: JestConfigWithTsJest = {
   ],
 }
 
-export default jestLintConfig
+export default jestPrettierConfig

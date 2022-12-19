@@ -1,8 +1,10 @@
 {
   "include": ["jest*"],
+  "files": ["node_modules/jest-chain/types/index.d.ts"],
   "compilerOptions": {
     "noEmit": true,
     "resolveJsonModule": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "skipLibCheck": true
   }
 }

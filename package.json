@@ -31,9 +31,7 @@
     "validate.local": "concurrently tsc 'tsc -p apis/query/tsconfig.json' jest",
     "validate": "is-ci-cli validate.ci validate.local"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "dependencies": {
     "is-ci-cli": "^2.2.0"
   }
