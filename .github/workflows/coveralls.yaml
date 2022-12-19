@@ -52,12 +52,12 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --release  --manifest-path circom/Cargo.toml
+          args: --release  --manifest-path circom/Cargo.toml --quiet
       - name: Install circom
         uses: actions-rs/cargo@v1
         with:
           command: install
-          args: --path circom/circom
+          args: --path circom/circom --quiet
 
       - name: Install node deps
         run: pnpm i --ignore-scripts --reporter=silent
