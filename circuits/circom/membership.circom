@@ -15,7 +15,6 @@ template InAddressSet(n, k, levels) {
     signal input msghash[k];
 
     // Merkle proof
-    signal input leaf;
     signal input root;
     signal input pathElements[levels];
     signal input pathIndices[levels];
@@ -38,7 +37,7 @@ template InAddressSet(n, k, levels) {
 
     // Check address is in set
     component tree = MerkleTreeChecker(levels);
-    tree.leaf <== leaf;
+    tree.leaf <== address.address;
     tree.root <== root;
     for (var i = 0; i < levels; i++) {
         tree.pathElements[i] <== pathElements[i];

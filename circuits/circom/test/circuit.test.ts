@@ -73,7 +73,6 @@ describe('SetMembership', function () {
         F.toObject(poseidon([addresses[2], addresses[3]])),
     ]
     const indices = [0, 0]
-    const leaf = addresses[0]
 
     const privkey = privkeys[0]
     const pubkey: Point = Point.fromPrivateKey(privkey)
@@ -83,7 +82,6 @@ describe('SetMembership', function () {
     const msghashArray: bigint[] = bigintToArray(64, 4, msghashBigint)
 
     const witness = await circuit.calculateWitness({
-      leaf,
       msghash : msghashArray,
       pathElements : path,
       pathIndices : indices,
