@@ -107,8 +107,6 @@ importers:
   circuits/circom:
     specifiers:
       '@noble/secp256k1': ^1.7.0
-      '@types/mocha': ^10.0.0
-      chai: ^4.3.7
       circom-ecdsa: github:0xPARC/circom-ecdsa
       circom_tester: ^0.0.19
       circomlib: ^2.0.5
@@ -117,7 +115,6 @@ importers:
       ethers: ^5.7.2
       ffjavascript: ^0.2.57
       hardhat: ^2.12.2
-      mocha: ^10.2.0
       play-contracts: github:ChihChengLiang/poseidon-tornado
     dependencies:
       '@noble/secp256k1': 1.7.0
@@ -128,12 +125,9 @@ importers:
       ffjavascript: 0.2.57
       play-contracts: github.com/ChihChengLiang/poseidon-tornado/a104ef37ec2770cd5938849a9abd4c1ca94a0d7b
     devDependencies:
-      '@types/mocha': 10.0.1
-      chai: 4.3.7
       circom_tester: 0.0.19
       ethers: 5.7.2
       hardhat: 2.12.4
-      mocha: 10.2.0
 
 packages:
 
@@ -5254,10 +5248,6 @@ packages:
 
   /@types/minimist/1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
-    dev: true
-
-  /@types/mocha/10.0.1:
-    resolution: {integrity: sha512-/fvYntiO1GeICvqbQ3doGDIP97vWmvFt83GKguJ6prmQM2iXZfFcq6YE8KteFyRtX2/h5Hf91BYvPodJKFYv5Q==}
     dev: true
 
   /@types/morgan/1.9.3:
