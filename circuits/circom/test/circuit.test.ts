@@ -27,11 +27,11 @@ describe('Poseidon Merkle Tree', function () {
   it('Should check membership in a depth 2 merkle tree', async () => {
     // merkle
     const root = F.toObject(poseidon([poseidon([0, 1]), poseidon([2, 3])]))
-    const path = [0, F.toObject(poseidon([2, 3]))]
-    const indices = [1, 0]
+    const pathElements = [0, F.toObject(poseidon([2, 3]))]
+    const pathIndices = [1, 0]
     const leaf = 1
 
-    const w = await circuit.calculateWitness({leaf: leaf, root: root, pathElements: path, pathIndices: indices}, true)
+    const w = await circuit.calculateWitness({leaf, pathElements, pathIndices, root }, true)
     await circuit.checkConstraints(w)
   })
 })
@@ -40,11 +40,10 @@ describe('SetMembership', function () {
   this.timeout(1000 * 1000)
   let poseidon
   let F
+  let circuit
 
-  let circuit: any
   before(async function () {
     circuit = await wasm_tester(join(__dirname, 'membership_test.circom'))
-    console.log('compiled circom')
     poseidon = await buildPoseidon()
     F = poseidon.F // TODO: do we actually need this or is it the default field?
   })
@@ -84,17 +83,17 @@ describe('SetMembership', function () {
     const msghashArray: bigint[] = bigintToArray(64, 4, msghashBigint)
 
     const witness = await circuit.calculateWitness({
-      'r': bigintToArray(64, 4, uint8ArrayToBigint(sig.slice(0, 32))),
-      's': bigintToArray(64, 4, uint8ArrayToBigint(sig.slice(32, 64))),
-      'msghash': msghashArray,
-      'pubkey': [
+      leaf,
+      msghash : msghashArray,
+      pathElements : path,
+      pathIndices : indices,
+      pubkey : [
         bigintToArray(64, 4, pubkey.x),
         bigintToArray(64, 4, pubkey.y)
       ],
-      'pathElements': path,
-      'pathIndices': indices,
-      'leaf': leaf,
-      'root': root,
+      r: bigintToArray(64, 4, uint8ArrayToBigint(sig.slice(0, 32))),
+      root,
+      s: bigintToArray(64, 4, uint8ArrayToBigint(sig.slice(32, 64))),
     })
 
     await circuit.checkConstraints(witness)
