@@ -2,22 +2,22 @@ import { Point, sign } from '@noble/secp256k1'
 import { wasm as wasm_tester } from 'circom_tester'
 import { buildPoseidon } from 'circomlibjs'
 import { BigNumber, utils } from 'ethers'
-
 import { join } from 'path'
+
 import {
   bigintToArray,
   bigintToUint8Array,
   uint8ArrayToBigint,
 } from './helpers'
 
+jest.setTimeout(1_000_000)
+
 describe('Poseidon Merkle Tree', function () {
   let poseidon
   let F
   let circuit
 
-  this.timeout(1000000)
-
-  before(async () => {
+  beforeAll(async () => {
     const p = join(__dirname, 'merkle_tree_test.circom')
     circuit = await wasm_tester(p)
     poseidon = await buildPoseidon()
@@ -40,12 +40,11 @@ describe('Poseidon Merkle Tree', function () {
 })
 
 describe('SetMembership', function () {
-  this.timeout(1000 * 1000)
   let poseidon
   let F
   let circuit
 
-  before(async function () {
+  beforeAll(async function () {
     circuit = await wasm_tester(join(__dirname, 'membership_test.circom'))
     poseidon = await buildPoseidon()
     F = poseidon.F // TODO: do we actually need this or is it the default field?
