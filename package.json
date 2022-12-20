@@ -2,8 +2,8 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "@r1oga/eslint-config": "^1.1.2",
-    "@r1oga/prettier-config": "^1.1.5",
+    "@r1oga/eslint-config": "^1.1.5",
+    "@r1oga/prettier-config": "^1.1.8",
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.15",
     "concurrently": "^7.6.0",
