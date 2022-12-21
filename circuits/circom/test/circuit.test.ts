@@ -7,6 +7,7 @@ import { join } from 'path'
 import {
   bigintToArray,
   bigintToUint8Array,
+  MerkleTree,
   uint8ArrayToBigint,
 } from './helpers'
 
@@ -25,17 +26,90 @@ describe('Poseidon Merkle Tree', function () {
   })
 
   it('Should check membership in a depth 2 merkle tree', async () => {
-    // merkle
-    const root = F.toObject(poseidon([poseidon([0, 1]), poseidon([2, 3])]))
-    const pathElements = [0, F.toObject(poseidon([2, 3]))]
-    const pathIndices = [1, 0]
+    let tree = new MerkleTree([0n, 1n, 2n, 3n], 3, poseidon, F);
     const leaf = 1
+    const {pathElements, pathIndices} = tree.merkleProof(leaf);
 
     const w = await circuit.calculateWitness(
-      { leaf, pathElements, pathIndices, root },
+      { leaf, pathElements, pathIndices, root: tree.root() },
       true,
     )
     await circuit.checkConstraints(w)
+  })
+
+  it('Should generate merkle proofs', async () => {
+    const pathElements = [0n, F.toObject(poseidon([2, 3]))];
+    const pathIndices = [1, 0];
+    const tree = new MerkleTree([0n, 1n, 2n, 3n], 3, poseidon, F);
+
+    expect(tree.merkleProof(1)).toEqual({pathElements, pathIndices})
+  })
+
+  it('Should generate merkle roots', async () => {
+    expect(new MerkleTree([0n], 2, poseidon, F).root()).toEqual(F.toObject(poseidon([0, 0])));
+    expect(new MerkleTree([0n, 1n], 2, poseidon, F).root()).toEqual(F.toObject(poseidon([0, 1])));
+    expect(new MerkleTree([0n, 1n, 2n], 3, poseidon, F).root()).toEqual(F.toObject(poseidon([
+      F.toObject(poseidon([0, 1])),
+      F.toObject(poseidon([2, 0]))
+    ])));
+
+    expect(new MerkleTree([0n, 1n, 2n, 3n], 3, poseidon, F).root()).toEqual(F.toObject(poseidon([
+      F.toObject(poseidon([0, 1])),
+      F.toObject(poseidon([2, 3]))
+    ])));
+
+    expect(new MerkleTree([0n, 1n, 2n, 3n, 4n], 4, poseidon, F).root()).toEqual(
+      F.toObject(poseidon([
+        F.toObject(poseidon([
+          F.toObject(poseidon([0, 1])),
+          F.toObject(poseidon([2, 3]))
+        ])),
+        F.toObject(poseidon([
+          F.toObject(poseidon([4, 0])),
+          0,
+        ]))
+      ])
+    ));
+
+    expect(new MerkleTree([0n, 1n, 2n, 3n, 4n, 5n], 4, poseidon, F).root()).toEqual(
+      F.toObject(poseidon([
+        F.toObject(poseidon([
+          F.toObject(poseidon([0, 1])),
+          F.toObject(poseidon([2, 3]))
+        ])),
+        F.toObject(poseidon([
+          F.toObject(poseidon([4, 5])),
+          0,
+        ]))
+      ])
+    ));
+
+
+    expect(new MerkleTree([0n, 1n, 2n, 3n, 4n, 5n, 6n], 4, poseidon, F).root()).toEqual(
+      F.toObject(poseidon([
+        F.toObject(poseidon([
+          F.toObject(poseidon([0, 1])),
+          F.toObject(poseidon([2, 3]))
+        ])),
+        F.toObject(poseidon([
+          F.toObject(poseidon([4, 5])),
+          F.toObject(poseidon([6, 0])),
+        ]))
+      ])
+    ));
+
+    expect(new MerkleTree([0n, 1n, 2n, 3n, 4n, 5n, 6n, 7n], 4, poseidon, F).root()).toEqual(
+      F.toObject(poseidon([
+        F.toObject(poseidon([
+          F.toObject(poseidon([0, 1])),
+          F.toObject(poseidon([2, 3]))
+        ])),
+        F.toObject(poseidon([
+          F.toObject(poseidon([4, 5])),
+          F.toObject(poseidon([6, 7])),
+        ]))
+      ])
+    ));
   })
 })
 
@@ -64,17 +138,8 @@ describe('SetMembership', function () {
       ).toBigInt(),
     )
 
-    const root = F.toObject(
-      poseidon([
-        poseidon([addresses[0], addresses[1]]),
-        poseidon([addresses[2], addresses[3]]),
-      ]),
-    )
-    const path = [
-      addresses[1],
-      F.toObject(poseidon([addresses[2], addresses[3]])),
-    ]
-    const indices = [0, 0]
+    const tree = new MerkleTree(addresses, 3, poseidon, F);
+    const merkleProof = tree.merkleProof(0);
 
     const privkey = privkeys[0]
     const pubkey: Point = Point.fromPrivateKey(privkey)
@@ -88,11 +153,11 @@ describe('SetMembership', function () {
 
     const witness = await circuit.calculateWitness({
       msghash: msghashArray,
-      pathElements: path,
-      pathIndices: indices,
+      pathElements: merkleProof.pathElements,
+      pathIndices: merkleProof.pathIndices,
       pubkey: [bigintToArray(64, 4, pubkey.x), bigintToArray(64, 4, pubkey.y)],
       r: bigintToArray(64, 4, uint8ArrayToBigint(sig.slice(0, 32))),
-      root,
+      root: tree.root(),
       s: bigintToArray(64, 4, uint8ArrayToBigint(sig.slice(32, 64))),
     })
 
