@@ -1,3 +1,56 @@
+// Merkle tree of a specified depth padded with zeroes.
+// One zero is added per layer at most, so we can create very deep trees with few elements,
+// meaning that we can efficiently make merkle proofs for many sizes of sets, while using a single circuit.
+export class MerkleTree {
+  depth: number
+  levels: bigint[][]
+
+  constructor(elements: bigint[], depth: number, hashFunction, field) {
+    if (elements.length > Math.pow(2, depth)) {
+      throw new Error(
+        `Merkle tree depth ${depth} is too small for ${elements.length} items`,
+      )
+    }
+
+    this.depth = depth
+    this.levels = []
+    this.levels[0] = elements
+    for (let i = 1; i < depth; i++) {
+      this.levels[i] = hashLevel(this.levels[i - 1], hashFunction, field)
+    }
+  }
+
+  root(): bigint {
+    return this.levels[this.levels.length - 1][0]
+  }
+
+  merkleProof(index: number): {
+    pathIndices: number[]
+    pathElements: bigint[]
+  } {
+    const pathIndices: number[] = []
+    const pathElements: bigint[] = []
+    for (let i = 0; i < this.depth - 1; i++) {
+      pathIndices.push(index & 1)
+      pathElements.push(this.levels[i][index % 2 === 0 ? index + 1 : index - 1])
+      index = index >> 1
+    }
+    return { pathElements, pathIndices }
+  }
+}
+
+function hashLevel(level: bigint[], h, f): bigint[] {
+  const nextLevel: bigint[] = []
+  for (let i = 0; i < level.length; i += 2) {
+    if (i + 1 === level.length) {
+      nextLevel.push(f.toObject(h([level[i], 0])))
+    } else {
+      nextLevel.push(f.toObject(h([level[i], level[i + 1]])))
+    }
+  }
+  return nextLevel
+}
+
 // TODO: import from circom-ecdsa instead
 
 export function bigintToUint8Array(x: bigint) {
