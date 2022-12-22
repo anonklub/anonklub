@@ -4,7 +4,7 @@ on:
     branches: [main]
 
 jobs:
-  lint-format-test:
+  lint-format:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,7 +36,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pnpm-store-
 
       - name: Install
-        run: pnpm i --ignore-scripts --reporter=silent
+        run: pnpm i --ignore-scripts
 
       - name: Validate (Lint & Format)
         run: pnpm run validate
