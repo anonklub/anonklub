@@ -35,7 +35,8 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-store-
 
-      - name: Install - Lint - Format
-        run: |
-          pnpm i --ignore-scripts --reporter=silent
-          pnpm run validate
+      - name: Install
+        run: pnpm i --ignore-scripts --reporter=silent
+
+      - name: Validate (Lint & Format)
+        run: pnpm run validate
