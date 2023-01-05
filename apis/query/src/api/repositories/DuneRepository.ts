@@ -20,7 +20,7 @@ export class DuneRepository {
     min,
     tokenAddress,
   }: {
-    min: number
+    min: string
     tokenAddress: string
   }) {
     return this.dune.query(Query.Erc20, [

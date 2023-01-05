@@ -24,7 +24,7 @@ export class QueryService {
   }
 
   async getErc20BalanceAnonSet({
-    min,
+    min = '0',
     tokenAddress,
   }: getErc20BalanceAnonSetQuery) {
     return this.duneRepository

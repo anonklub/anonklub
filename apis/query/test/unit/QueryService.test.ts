@@ -8,7 +8,7 @@ import { Db } from '~/bigquery'
 describe('Service', () => {
   const queryService = Container.get(QueryService)
   let addresses: string[]
-  let min: number
+  let min: string
   let tokenAddress: string
 
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe('Service', () => {
       faker.finance.ethereumAddress,
     )
     tokenAddress = faker.finance.ethereumAddress()
-    min = faker.datatype.number()
+    min = faker.random.numeric()
   })
 
   describe('Get a list of addresses that', () => {
