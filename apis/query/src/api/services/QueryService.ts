@@ -5,8 +5,6 @@ import {
   BigQueryRepository,
   DuneRepository,
   GraphRepository,
-  ParameterType,
-  Query,
 } from '@repositories'
 
 @Service()
@@ -30,17 +28,10 @@ export class QueryService {
     tokenAddress,
   }: getErc20BalanceAnonSetQuery) {
     return this.duneRepository
-      .executeDuneQuery(Query.Erc20, [
-        { key: 'min', type: ParameterType.Number, value: min },
-        {
-          key: 'tokenAddress',
-          type: ParameterType.Text,
-          value: `'${tokenAddress}'`,
-        },
-      ])
-      .then((result) => {
+      .queryErc20Balance({ min, tokenAddress })
+      .then(({ data }) => {
         this.logger.info('Get ERC20-balance based anonymity set')
-        return result
+        return data
       })
   }
 

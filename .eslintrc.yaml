@@ -6,3 +6,5 @@ parserOptions:
       'apis/query/tsconfig.json',
       'circuits/circom/tsconfig.json',
     ]
+
+
