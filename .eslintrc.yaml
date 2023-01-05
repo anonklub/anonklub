@@ -10,8 +10,7 @@ parserOptions:
 overrides:
   - files: ['apis/query/test/unit/QueryService.test.ts']
     rules:
-        '@typescript-eslint/ban-ts-comment': 'off'
+      '@typescript-eslint/ban-ts-comment': 'off'
   - files: ['apis/query/test/unit/AnonymitySetController.test.ts']
     rules:
       jest/expect-expect: 'off'
-
