@@ -77,7 +77,7 @@ describe('AnonymitySet Controller', () => {
           .expect(addresses)
 
         expect(spy).toHaveBeenLastCalledWith({
-          min: Number(min ?? 0),
+          min: min ?? '0',
           tokenAddress,
         })
       }

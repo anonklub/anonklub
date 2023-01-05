@@ -8,13 +8,12 @@ services:
     environment:
       GOOGLE_APPLICATION_CREDENTIALS_FILE: /run/secrets/google_credentials
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT}
-      PYTHON: python3
-      DUNE_USER: ${DUNE_USER}
-      DUNE_PWD_FILE: /run/secrets/dune_pwd
+      DUNE_USERNAME: ${DUNE_USER}
+      DUNE_PASSWORD_FILE: /run/secrets/dune_password
       GRAPH_API_KEY_FILE: /run/secrets/graph_api_key
     secrets:
       - google_credentials
-      - dune_pwd
+      - dune_password
       - graph_api_key
     ports:
       - '3000:3000'
@@ -24,7 +23,7 @@ services:
 secrets:
   google_credentials:
     file: .key.json
-  dune_pwd:
+  dune_password:
     file: .dune_pwd
   graph_api_key:
     file: .graph_api_key

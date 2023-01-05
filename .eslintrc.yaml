@@ -6,3 +6,28 @@ parserOptions:
       'apis/query/tsconfig.json',
       'circuits/circom/tsconfig.json',
     ]
+
+rules:
+  no-useless-constructor: off
+
+overrides:
+  - files: ['apis/query/src/index.ts']
+    rules:
+      no-console: off
+  - files: ['apis/query/src/decorators/Logger.ts']
+    rules:
+      '@typescript-eslint/no-explicit-any': 'off'
+  - files:
+      [
+        'apis/query/test/unit/QueryService.test.ts',
+        'apis/query/src/decorators/Logger.ts',
+      ]
+    rules:
+      '@typescript-eslint/ban-ts-comment': 'off'
+  - files:
+      [
+        'apis/query/test/unit/*Controller.test.ts',
+        'circuits/circom/test/circuit.test.ts',
+      ]
+    rules:
+      jest/expect-expect: 'off'
