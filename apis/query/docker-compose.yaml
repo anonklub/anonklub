@@ -6,7 +6,6 @@ services:
     environment:
       GOOGLE_APPLICATION_CREDENTIALS_FILE: /run/secrets/google_credentials
       GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT}
-      PYTHON: python3
       DUNE_USER: ${DUNE_USER}
       DUNE_PWD_FILE: /run/secrets/dune_pwd
       GRAPH_API_KEY_FILE: /run/secrets/graph_api_key
