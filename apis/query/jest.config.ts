@@ -5,7 +5,7 @@ import { compilerOptions } from './tsconfig.json'
 
 const jestConfig: JestConfigWithTsJest = {
   collectCoverage: true,
-  collectCoverageFrom: ['src/**', '!src/lib/**'],
+  collectCoverageFrom: ['src/**', '!src/lib/**', '!src/lib/graph/**'],
   coverageDirectory: '../../coverage',
   coveragePathIgnorePatterns: ['index.ts'],
   coverageThreshold: {
