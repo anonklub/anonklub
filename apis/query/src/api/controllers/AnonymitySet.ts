@@ -23,7 +23,7 @@ export class AnonymitySet {
     @QueryParams() { min, tokenAddress }: getErc20BalanceAnonSetQuery,
   ) {
     return this.service.getErc20BalanceAnonSet({
-      min,
+      min: min ?? '0',
       tokenAddress: tokenAddress?.toLowerCase(),
     })
   }

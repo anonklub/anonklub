@@ -1,8 +1,14 @@
-import { IsDefined, IsEthereumAddress, IsInt } from 'class-validator'
+import {
+  IsDefined,
+  IsEthereumAddress,
+  IsNumberString,
+  IsOptional,
+} from 'class-validator'
 
 export class getErc20BalanceAnonSetQuery {
-  @IsInt()
-  min = 0
+  @IsOptional()
+  @IsNumberString({ no_symbols: true })
+  min: string
 
   @IsDefined()
   @IsEthereumAddress()

@@ -63,6 +63,9 @@ jobs:
         run: pnpm i --ignore-scripts --reporter=silent
 
       - name: Run tests
+        env:
+          DUNE_USERNAME: foo
+          DUNE_PASSWORD: bar
         run: pnpm t
 
       - name: Coveralls
