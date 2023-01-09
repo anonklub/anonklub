@@ -63,9 +63,13 @@ jobs:
         run: pnpm i --ignore-scripts --reporter=silent
 
       - name: Run tests
+        env:
+          DUNE_USERNAME: foo
+          DUNE_PASSWORD: bar
         run: pnpm t
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
+          base-path: ./apis/query
           github-token: ${{ secrets.GITHUB_TOKEN }}

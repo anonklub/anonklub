@@ -1,14 +1,7 @@
 FROM node:19-alpine
 
 RUN apk update
-RUN apk add python3 \
-            python3-dev \
-            gcc \
-            libc-dev \
-            py3-pip \
-            bash
-
-RUN pip install duneapi==7.0.0
+RUN apk add bash
 
 RUN npm i -g pnpm
 
@@ -21,7 +14,6 @@ RUN pnpm i -P --ignore-scripts --reporter=silent
 
 COPY tsconfig.json .
 COPY dist dist
-COPY src/lib/dune/query.py dist/lib/dune
 
 EXPOSE 3000
 

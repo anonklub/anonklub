@@ -1,35 +1,31 @@
-import path from 'path'
-
+import { Dune, ParameterType } from 'dune-ts'
 import { Service } from 'typedi'
 
-import { python } from '~/dune'
-
-export enum ParameterType {
-  Enum = 'enum',
-  Text = 'text',
-  Number = 'number',
-  Date = 'date',
-}
-
 export enum Query {
-  Erc20 = '1500107',
-  Beacon = '1499468',
+  Erc20 = 1500107,
 }
-
-const SCRIPT_PATH = path.join(__dirname, '..', '..', 'lib', 'dune', 'query.py')
 
 @Service()
 export class DuneRepository {
-  public async executeDuneQuery(
-    queryId: Query,
-    parameters?: Array<{
-      key: string
-      type: ParameterType
-      value: string | number
-    }>,
-  ) {
-    return parameters !== undefined
-      ? python(SCRIPT_PATH, queryId, JSON.stringify(parameters))
-      : python(SCRIPT_PATH, queryId)
+  dune: Dune
+
+  constructor() {
+    this.dune = new Dune({
+      password: process.env.DUNE_PASSWORD,
+      username: process.env.DUNE_USERNAME,
+    })
+  }
+
+  public async queryErc20Balance({
+    min,
+    tokenAddress,
+  }: {
+    min: string
+    tokenAddress: string
+  }) {
+    return this.dune.query(Query.Erc20, [
+      { key: 'tokenAddress', type: ParameterType.Text, value: tokenAddress },
+      { key: 'min', type: ParameterType.Number, value: min },
+    ])
   }
 }

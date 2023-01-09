@@ -26,9 +26,7 @@
     "format": "prettier -w .",
     "lint": "eslint . --ext .js,.ts --fix",
     "test.watch": "jest --watch",
-    "test": "is-ci-cli test.ci test.local",
-    "test.ci": "lerna run test -- --silent --reporters=jest-silent-reporter",
-    "test.local": "lerna run test",
+    "test": "lerna run test",
     "validate.ci": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'jest --selectProjects prettier lint --silent --reporters=jest-silent-reporter --coverage false'",
     "validate.local": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'tsc -p circuits/circom/tsconfig.json' jest",
     "validate": "is-ci-cli validate.ci validate.local"
