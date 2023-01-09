@@ -109,7 +109,7 @@ importers:
   circuits/circom:
     specifiers:
       '@noble/secp256k1': ^1.7.0
-      circom-ecdsa: github:0xPARC/circom-ecdsa
+      circom-ecdsa: github:blakemscurr/circom-ecdsa#feat/public-key-check
       circom_tester: ^0.0.19
       circomlib: ^2.0.5
       circomlibjs: ^0.1.7
@@ -120,7 +120,7 @@ importers:
       play-contracts: github:ChihChengLiang/poseidon-tornado
     dependencies:
       '@noble/secp256k1': 1.7.0
-      circom-ecdsa: github.com/0xPARC/circom-ecdsa/d87eb7068cb35c951187093abe966275c1839ead
+      circom-ecdsa: github.com/blakemscurr/circom-ecdsa/0ba34e640542f238058ff6d0c1df13802b5191ab
       circomlib: 2.0.5
       circomlibjs: 0.1.7
       eslint: 8.31.0
@@ -16373,8 +16373,14 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  github.com/0xPARC/circom-ecdsa/d87eb7068cb35c951187093abe966275c1839ead:
-    resolution: {tarball: https://codeload.github.com/0xPARC/circom-ecdsa/tar.gz/d87eb7068cb35c951187093abe966275c1839ead}
+  github.com/ChihChengLiang/poseidon-tornado/a104ef37ec2770cd5938849a9abd4c1ca94a0d7b:
+    resolution: {tarball: https://codeload.github.com/ChihChengLiang/poseidon-tornado/tar.gz/a104ef37ec2770cd5938849a9abd4c1ca94a0d7b}
+    name: play-contracts
+    version: 1.0.0
+    dev: false
+
+  github.com/blakemscurr/circom-ecdsa/0ba34e640542f238058ff6d0c1df13802b5191ab:
+    resolution: {tarball: https://codeload.github.com/blakemscurr/circom-ecdsa/tar.gz/0ba34e640542f238058ff6d0c1df13802b5191ab}
     name: circom-ecdsa
     version: 0.0.1
     dependencies:
@@ -16384,10 +16390,4 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
-
-  github.com/ChihChengLiang/poseidon-tornado/a104ef37ec2770cd5938849a9abd4c1ca94a0d7b:
-    resolution: {tarball: https://codeload.github.com/ChihChengLiang/poseidon-tornado/tar.gz/a104ef37ec2770cd5938849a9abd4c1ca94a0d7b}
-    name: play-contracts
-    version: 1.0.0
     dev: false

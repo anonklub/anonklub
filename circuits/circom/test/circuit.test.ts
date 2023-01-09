@@ -37,7 +37,7 @@ describe('Poseidon Merkle Tree', function () {
     await circuit.checkConstraints(w)
   })
 
-  it('Should generate merkle proofs', async () => {
+  it('Should generate merkle proofs', () => {
     const pathElements = [0n, F.toObject(poseidon([2, 3]))]
     const pathIndices = [1, 0]
     const tree = new MerkleTree([0n, 1n, 2n, 3n], 3, poseidon, F)
@@ -45,7 +45,7 @@ describe('Poseidon Merkle Tree', function () {
     expect(tree.merkleProof(1)).toEqual({ pathElements, pathIndices })
   })
 
-  it('Should generate merkle roots', async () => {
+  it('Should generate merkle roots', () => {
     expect(new MerkleTree([0n], 2, poseidon, F).root()).toEqual(
       F.toObject(poseidon([0, 0])),
     )
