@@ -190,37 +190,40 @@ describe('SetMembership', function () {
   })
 })
 
-describe("ECDSACheckPubKey", function () {
-  var test_cases: Array<[bigint, bigint]> = [];
-  var privkeys: Array<bigint> = [
-      88549154299169935420064281163296845505587953610183896504176354567359434168161n,
-      37706893564732085918706190942542566344879680306879183356840008504374628845468n,
-      90388020393783788847120091912026443124559466591761394939671630294477859800601n,
-      110977009687373213104962226057480551605828725303063265716157300460694423838923n
-  ];
+describe('ECDSACheckPubKey', function () {
+  const testCases: Array<[bigint, bigint]> = []
+  const privkeys: bigint[] = [
+    88549154299169935420064281163296845505587953610183896504176354567359434168161n,
+    37706893564732085918706190942542566344879680306879183356840008504374628845468n,
+    90388020393783788847120091912026443124559466591761394939671630294477859800601n,
+    110977009687373213104962226057480551605828725303063265716157300460694423838923n,
+  ]
 
-  for (var idx = 0; idx < privkeys.length; idx++) {
-      var pubkey: Point = Point.fromPrivateKey(privkeys[idx]);
-      test_cases.push([pubkey.x, pubkey.y]);
+  for (let idx = 0; idx < privkeys.length; idx++) {
+    const pubkey: Point = Point.fromPrivateKey(privkeys[idx])
+    testCases.push([pubkey.x, pubkey.y])
   }
 
-  let circuit: any;
+  let circuit: any
   beforeAll(async function () {
-      circuit = await wasm_tester(join(__dirname, "test_ecdsa_check_pub_key.circom"));
-  });
+    circuit = await wasm_tester(
+      join(__dirname, 'test_ecdsa_check_pub_key.circom'),
+    )
+  })
 
-  var test_ecdsa_verify = function (test_case: [bigint, bigint]) {
-      let pub0 = test_case[0];
-      let pub1 = test_case[1];
+  const testECDSAVerify = function (testCase: [bigint, bigint]) {
+    const pub0 = testCase[0]
+    const pub1 = testCase[1]
 
-
-      var pub0_array: bigint[] = bigintToArray(64, 4, pub0);
-      var pub1_array: bigint[] = bigintToArray(64, 4, pub1);
-      it('Testing valid pub key: pub0: ' + pub0 + ' pub1: ' + pub1, async function() {
-          let witness = await circuit.calculateWitness({"pubkey": [pub0_array, pub1_array]});
-          await circuit.checkConstraints(witness);
-      });
+    const pub0Array: bigint[] = bigintToArray(64, 4, pub0)
+    const pub1Array: bigint[] = bigintToArray(64, 4, pub1)
+    it(`Testing valid pub key: pub0: ${pub0} pub1: ${pub1}`, async function () {
+      const witness = await circuit.calculateWitness({
+        pubkey: [pub0Array, pub1Array],
+      })
+      await circuit.checkConstraints(witness)
+    })
   }
 
-  test_cases.forEach(test_ecdsa_verify);
-});
+  testCases.forEach(testECDSAVerify)
+})
