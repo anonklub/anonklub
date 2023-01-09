@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@noble/secp256k1": "^1.7.0",
-    "circom-ecdsa": "github:blakemscurr/circom-ecdsa#feat/public-key-check",
+    "circom-ecdsa": "github:0xparc/circom-ecdsa",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
     "eslint": "^8.30.0",
