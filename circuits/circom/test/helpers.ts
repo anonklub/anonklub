@@ -1,5 +1,5 @@
-const minAddress = 0n;
-const maxAddress = BigInt((2 >> 160) - 1);
+export const minAddress = 0n;
+export const maxAddress = (2n ** 160n) - 1n;
 
 // Merkle tree of a specified depth padded with zeroes.
 // One zero is added per layer at most, so we can create very deep trees with few elements,
@@ -75,7 +75,7 @@ export class ExcludableMerkleTree extends MerkleTree {
   }{
     // Find the index of the leaf that would be immediately before the non member
     let leftLeafIndex = 0;
-    while (this.levels[0][leftLeafIndex] < nonMember && leftLeafIndex < this.levels[0].length) {
+    while (this.levels[0][leftLeafIndex+1] < nonMember && leftLeafIndex < this.levels[0].length) {
       leftLeafIndex++;
     }
 

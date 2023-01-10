@@ -7,7 +7,10 @@ import { join } from 'path'
 import {
   bigintToArray,
   bigintToUint8Array,
+  ExcludableMerkleTree,
+  maxAddress,
   MerkleTree,
+  minAddress,
   uint8ArrayToBigint,
 } from './helpers'
 
@@ -43,6 +46,16 @@ describe('Poseidon Merkle Tree', function () {
     const tree = new MerkleTree([0n, 1n, 2n, 3n], 3, poseidon, F)
 
     expect(tree.merkleProof(1)).toEqual({ pathElements, pathIndices })
+  })
+
+  it('Should generate exclusion proofs', () => {
+    expect(new ExcludableMerkleTree([10n, 1000n], 3, poseidon, F).exclusionProof(99n)).toEqual(
+      {
+        leaves: [10n, 1000n],
+        pathIndices: [1, 0],
+        pathElements: [[minAddress, F.toObject(poseidon([1000n, maxAddress]))], [maxAddress, F.toObject(poseidon([minAddress, 10n]))]],
+      }
+    )
   })
 
   it('Should generate merkle roots', () => {
