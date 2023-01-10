@@ -189,3 +189,41 @@ describe('SetMembership', function () {
     await circuit.checkConstraints(witness)
   })
 })
+
+describe('ECDSACheckPubKey', function () {
+  const testCases: Array<[bigint, bigint]> = []
+  const privkeys: bigint[] = [
+    88549154299169935420064281163296845505587953610183896504176354567359434168161n,
+    37706893564732085918706190942542566344879680306879183356840008504374628845468n,
+    90388020393783788847120091912026443124559466591761394939671630294477859800601n,
+    110977009687373213104962226057480551605828725303063265716157300460694423838923n,
+  ]
+
+  for (let idx = 0; idx < privkeys.length; idx++) {
+    const pubkey: Point = Point.fromPrivateKey(privkeys[idx])
+    testCases.push([pubkey.x, pubkey.y])
+  }
+
+  let circuit: any
+  beforeAll(async function () {
+    circuit = await wasm_tester(
+      join(__dirname, 'test_ecdsa_check_pub_key.circom'),
+    )
+  })
+
+  const testECDSAVerify = function (testCase: [bigint, bigint]) {
+    const pub0 = testCase[0]
+    const pub1 = testCase[1]
+
+    const pub0Array: bigint[] = bigintToArray(64, 4, pub0)
+    const pub1Array: bigint[] = bigintToArray(64, 4, pub1)
+    it(`Testing valid pub key: pub0: ${pub0} pub1: ${pub1}`, async function () {
+      const witness = await circuit.calculateWitness({
+        pubkey: [pub0Array, pub1Array],
+      })
+      await circuit.checkConstraints(witness)
+    })
+  }
+
+  testCases.forEach(testECDSAVerify)
+})
