@@ -52,8 +52,14 @@ describe('Poseidon Merkle Tree', function () {
     expect(new ExcludableMerkleTree([10n, 1000n], 3, poseidon, F).exclusionProof(99n)).toEqual(
       {
         leaves: [10n, 1000n],
-        pathIndices: [1, 0],
-        pathElements: [[minAddress, F.toObject(poseidon([1000n, maxAddress]))], [maxAddress, F.toObject(poseidon([minAddress, 10n]))]],
+        pathIndices: [
+          [1, 0],
+          [0, 1],
+        ],
+        pathElements: [
+          [minAddress, F.toObject(poseidon([1000n, maxAddress]))],
+          [maxAddress, F.toObject(poseidon([minAddress, 10n]))]
+        ],
       }
     )
   })
@@ -152,30 +158,31 @@ describe('Poseidon Merkle Tree', function () {
 })
 
 describe('SetMembership', function () {
-  let poseidon
-  let F
-  let circuit
+  let poseidon;
+  let F;
+  let membershipCircuit;
+  let nonMembershipCircuit;
+
+  const privkeys: bigint[] = [
+    88549154299169935420064281163296845505587953610183896504176354567359434168161n,
+    37706893564732085918706190942542566344879680306879183356840008504374628845468n,
+    90388020393783788847120091912026443124559466591761394939671630294477859800601n,
+    110977009687373213104962226057480551605828725303063265716157300460694423838923n,
+  ]
+
+  const addresses = privkeys.map((priv) =>
+  BigNumber.from(
+    utils.computeAddress(BigNumber.from(priv).toHexString()),
+  ).toBigInt())
 
   beforeAll(async function () {
-    circuit = await wasm_tester(join(__dirname, 'membership_test.circom'))
+    // membershipCircuit = await wasm_tester(join(__dirname, 'membership_test.circom'))
+    nonMembershipCircuit = await wasm_tester(join(__dirname, 'non_membership_test.circom'))
     poseidon = await buildPoseidon()
     F = poseidon.F // TODO: do we actually need this or is it the default field?
   })
 
-  it('Should produce valid proofs', async () => {
-    const privkeys: bigint[] = [
-      88549154299169935420064281163296845505587953610183896504176354567359434168161n,
-      37706893564732085918706190942542566344879680306879183356840008504374628845468n,
-      90388020393783788847120091912026443124559466591761394939671630294477859800601n,
-      110977009687373213104962226057480551605828725303063265716157300460694423838923n,
-    ]
-
-    const addresses = privkeys.map((priv) =>
-      BigNumber.from(
-        utils.computeAddress(BigNumber.from(priv).toHexString()),
-      ).toBigInt(),
-    )
-
+  it('Should accept valid inclusion proofs', async () => {
     const tree = new MerkleTree(addresses, 3, poseidon, F)
     const merkleProof = tree.merkleProof(0)
 
@@ -189,7 +196,7 @@ describe('SetMembership', function () {
     })
     const msghashArray: bigint[] = bigintToArray(64, 4, msghashBigint)
 
-    const witness = await circuit.calculateWitness({
+    const witness = await membershipCircuit.calculateWitness({
       msghash: msghashArray,
       pathElements: merkleProof.pathElements,
       pathIndices: merkleProof.pathIndices,
@@ -199,6 +206,38 @@ describe('SetMembership', function () {
       s: bigintToArray(64, 4, uint8ArrayToBigint(sig.slice(32, 64))),
     })
 
-    await circuit.checkConstraints(witness)
+    await membershipCircuit.checkConstraints(witness)
+  })
+
+  it('Should accept valid exclusion proofs', async () => {
+    // Generate exclusion proof
+    const inTree = [addresses[1], addresses[2]];
+    const tree = new ExcludableMerkleTree(inTree, 3, poseidon, F);
+    const exclusionProof = tree.exclusionProof(addresses[0]);
+
+    // Sign a message
+    const privkey = privkeys[0]
+    const pubkey: Point = Point.fromPrivateKey(privkey)
+    const msghashBigint = 1234n
+    const msghash: Uint8Array = bigintToUint8Array(msghashBigint)
+    const sig: Uint8Array = await sign(msghash, bigintToUint8Array(privkey), {
+      canonical: true,
+      der: false,
+    })
+    const msghashArray: bigint[] = bigintToArray(64, 4, msghashBigint)
+
+    // Make ZK proof witness
+    const witness = await nonMembershipCircuit.calculateWitness({
+      msghash: msghashArray,
+      pathElements: exclusionProof.pathElements,
+      pathIndices: exclusionProof.pathIndices,
+      leaves: exclusionProof.leaves,
+      pubkey: [bigintToArray(64, 4, pubkey.x), bigintToArray(64, 4, pubkey.y)],
+      r: bigintToArray(64, 4, uint8ArrayToBigint(sig.slice(0, 32))),
+      root: tree.root(),
+      s: bigintToArray(64, 4, uint8ArrayToBigint(sig.slice(32, 64))),
+    })
+
+    await nonMembershipCircuit.checkConstraints(witness)
   })
 })

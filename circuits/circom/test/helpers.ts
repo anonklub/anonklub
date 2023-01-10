@@ -70,10 +70,10 @@ export class ExcludableMerkleTree extends MerkleTree {
 
   exclusionProof(nonMember: bigint): {
     leaves: [bigint, bigint],
-    pathIndices: number[]; // Path to the first leaf
+    pathIndices: [number[], number[]];
     pathElements: [bigint[], bigint[]];
   }{
-    // Find the index of the leaf that would be immediately before the non member
+    // Find the index of the leaf that would be immediately before the non member (TODO: binary search)
     let leftLeafIndex = 0;
     while (this.levels[0][leftLeafIndex+1] < nonMember && leftLeafIndex < this.levels[0].length) {
       leftLeafIndex++;
@@ -93,7 +93,7 @@ export class ExcludableMerkleTree extends MerkleTree {
 
     return { 
       leaves: [leftLeaf, rightLeaf],
-      pathIndices: leftProof.pathIndices,
+      pathIndices: [leftProof.pathIndices, rightProof.pathIndices],
       pathElements: [leftProof.pathElements, rightProof.pathElements],
     }
   }

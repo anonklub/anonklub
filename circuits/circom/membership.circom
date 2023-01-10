@@ -2,8 +2,8 @@ pragma circom 2.0.2;
 
 include "node_modules/circom-ecdsa/circuits/zk-identity/eth.circom";
 include "node_modules/circom-ecdsa/circuits/ecdsa.circom";
-include "node_modules/circomlib/circuits/bitify.circom";
-include "node_modules/circomlib/circuits/comparators.circom";
+include "node_modules/circom-ecdsa/node_modules/circomlib/circuits/bitify.circom";
+include "node_modules/circom-ecdsa/node_modules/circomlib/circuits/comparators.circom"; // TODO: fix insane dependency twiddling
 include "./merkleTree.circom";
 
 // Proves that a message is signed by one of the addresses in a merkle tree
@@ -24,11 +24,11 @@ template InAddressSet(n, k, levels) {
 
     component validator = ValidateSignatureForAddress(n, k);
     for (var i = 0; i < k; i++) {
-        validator.pubkey[0][i] = pubkey[0][i];
-        validator.pubkey[1][i] = pubkey[1][i];
-        validator.r[i] = r[i];
-        validator.s[i] = s[i];
-        validator.msghash[i] = msghash[i];
+        validator.pubkey[0][i] <== pubkey[0][i];
+        validator.pubkey[1][i] <== pubkey[1][i];
+        validator.r[i] <== r[i];
+        validator.s[i] <== s[i];
+        validator.msghash[i] <== msghash[i];
     }
 
     // Check address is in set
@@ -56,16 +56,16 @@ template NotInAddressSet(n, k, levels) {
     // Merkle proofs
     signal input root;
     signal input pathElements[2][levels];
-    signal input pathIndices[levels];
-    signal leaves[2];
+    signal input pathIndices[2][levels];
+    signal input leaves[2];
 
     component validator = ValidateSignatureForAddress(n, k);
     for (var i = 0; i < k; i++) {
-        validator.pubkey[0][i] = pubkey[0][i];
-        validator.pubkey[1][i] = pubkey[1][i];
-        validator.r[i] = r[i];
-        validator.s[i] = s[i];
-        validator.msghash[i] = msghash[i];
+        validator.pubkey[0][i] <== pubkey[0][i];
+        validator.pubkey[1][i] <== pubkey[1][i];
+        validator.r[i] <== r[i];
+        validator.s[i] <== s[i];
+        validator.msghash[i] <== msghash[i];
     }
 
     // Make sure the indices are adjacent
@@ -96,8 +96,8 @@ template NotInAddressSet(n, k, levels) {
         rangeCheck[i] = Num2Bits(160);
     }
     rangeCheck[0].in <== leaves[0];
-    rangeCheck[0].in <== validator.address;
-    rangeCheck[0].in <== leaves[1];
+    rangeCheck[1].in <== validator.address;
+    rangeCheck[2].in <== leaves[1];
 
     component lt[2];
     for (var i = 0; i < 2; i++) {
@@ -106,9 +106,11 @@ template NotInAddressSet(n, k, levels) {
 
     lt[0].in[0] <== leaves[0];
     lt[0].in[1] <== validator.address;
+    lt[0].out === 1;
 
     lt[1].in[0] <== validator.address;
     lt[1].in[1] <== leaves[1];
+    lt[1].out === 1;
 }
 
 template ValidateSignatureForAddress(n, k) {
@@ -119,7 +121,7 @@ template ValidateSignatureForAddress(n, k) {
     signal input s[k];
     signal input msghash[k];
 
-    signal out address;
+    signal output address;
 
     // Validate public key
     component pubKeyCheck = ECDSACheckPubKey(n, k);
