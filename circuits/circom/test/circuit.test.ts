@@ -49,19 +49,21 @@ describe('Poseidon Merkle Tree', function () {
   })
 
   it('Should generate exclusion proofs', () => {
-    expect(new ExcludableMerkleTree([10n, 1000n], 3, poseidon, F).exclusionProof(99n)).toEqual(
-      {
-        leaves: [10n, 1000n],
-        pathIndices: [
-          [1, 0],
-          [0, 1],
-        ],
-        pathElements: [
-          [minAddress, F.toObject(poseidon([1000n, maxAddress]))],
-          [maxAddress, F.toObject(poseidon([minAddress, 10n]))]
-        ],
-      }
-    )
+    expect(
+      new ExcludableMerkleTree([10n, 1000n], 3, poseidon, F).exclusionProof(
+        99n,
+      ),
+    ).toEqual({
+      leaves: [10n, 1000n],
+      pathElements: [
+        [minAddress, F.toObject(poseidon([1000n, maxAddress]))],
+        [maxAddress, F.toObject(poseidon([minAddress, 10n]))],
+      ],
+      pathIndices: [
+        [1, 0],
+        [0, 1],
+      ],
+    })
   })
 
   it('Should generate merkle roots', () => {
@@ -158,10 +160,10 @@ describe('Poseidon Merkle Tree', function () {
 })
 
 describe('SetMembership', function () {
-  let poseidon;
-  let F;
-  let membershipCircuit;
-  let nonMembershipCircuit;
+  let poseidon
+  let F
+  let membershipCircuit
+  let nonMembershipCircuit
 
   const privkeys: bigint[] = [
     88549154299169935420064281163296845505587953610183896504176354567359434168161n,
@@ -171,13 +173,16 @@ describe('SetMembership', function () {
   ]
 
   const addresses = privkeys.map((priv) =>
-  BigNumber.from(
-    utils.computeAddress(BigNumber.from(priv).toHexString()),
-  ).toBigInt())
+    BigNumber.from(
+      utils.computeAddress(BigNumber.from(priv).toHexString()),
+    ).toBigInt(),
+  )
 
   beforeAll(async function () {
     // membershipCircuit = await wasm_tester(join(__dirname, 'membership_test.circom'))
-    nonMembershipCircuit = await wasm_tester(join(__dirname, 'non_membership_test.circom'))
+    nonMembershipCircuit = await wasm_tester(
+      join(__dirname, 'non_membership_test.circom'),
+    )
     poseidon = await buildPoseidon()
     F = poseidon.F // TODO: do we actually need this or is it the default field?
   })
@@ -211,9 +216,9 @@ describe('SetMembership', function () {
 
   it('Should accept valid exclusion proofs', async () => {
     // Generate exclusion proof
-    const inTree = [addresses[1], addresses[2]];
-    const tree = new ExcludableMerkleTree(inTree, 3, poseidon, F);
-    const exclusionProof = tree.exclusionProof(addresses[0]);
+    const inTree = [addresses[1], addresses[2]]
+    const tree = new ExcludableMerkleTree(inTree, 3, poseidon, F)
+    const exclusionProof = tree.exclusionProof(addresses[0])
 
     // Sign a message
     const privkey = privkeys[0]
@@ -228,10 +233,10 @@ describe('SetMembership', function () {
 
     // Make ZK proof witness
     const witness = await nonMembershipCircuit.calculateWitness({
+      leaves: exclusionProof.leaves,
       msghash: msghashArray,
       pathElements: exclusionProof.pathElements,
       pathIndices: exclusionProof.pathIndices,
-      leaves: exclusionProof.leaves,
       pubkey: [bigintToArray(64, 4, pubkey.x), bigintToArray(64, 4, pubkey.y)],
       r: bigintToArray(64, 4, uint8ArrayToBigint(sig.slice(0, 32))),
       root: tree.root(),
