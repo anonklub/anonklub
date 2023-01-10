@@ -179,7 +179,9 @@ describe('SetMembership', function () {
   )
 
   beforeAll(async function () {
-    membershipCircuit = await wasm_tester(join(__dirname, 'membership_test.circom'))
+    membershipCircuit = await wasm_tester(
+      join(__dirname, 'membership_test.circom'),
+    )
     nonMembershipCircuit = await wasm_tester(
       join(__dirname, 'non_membership_test.circom'),
     )
