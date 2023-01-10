@@ -43,10 +43,11 @@ template InAddressSet(n, k, levels) {
 
 // Proves that a message is signed by an address which is not in the merkle tree
 // We show that the signer's address would be between two adjacent addresses in a sorted list
-// This assumes that the list is sorted, which should generally be done outside the circuit
+// This assumes that the list is sorted, which should generally be done outside the circuit.
+// If sorted is impossible, you need a different algorithm, as explained here https://crypto.stackexchange.com/a/31915
 template NotInAddressSet(n, k, levels) {
     signal input pubkey[2][k];
-    
+
     // Signature
     signal input r[k];
     signal input s[k];
@@ -112,7 +113,7 @@ template NotInAddressSet(n, k, levels) {
 
 template ValidateSignatureForAddress(n, k) {
     signal input pubkey[2][k];
-    
+
     // Signature
     signal input r[k];
     signal input s[k];
