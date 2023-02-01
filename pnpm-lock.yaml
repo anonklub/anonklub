@@ -58,11 +58,13 @@ importers:
       '@graphql-mesh/types': ^0.89.2
       '@graphql-mesh/utils': ^0.43.3
       '@graphql-typed-document-node/core': ^3.1.1
+      '@types/cors': ^2.8.13
       '@types/express': ^4.17.14
       '@types/morgan': ^1.9.3
       '@types/supertest': ^2.0.12
       '@whatwg-node/fetch': ^0.5.3
       class-validator: ^0.14.0
+      cors: ^2.8.5
       dune-ts: ^1.1.4
       express: ^4.18.2
       graphql: ^16.6.0
@@ -72,6 +74,7 @@ importers:
       reflect-metadata: ^0.1.13
       routing-controllers-extended: ^1.0.4
       supertest: ^6.3.1
+      swagger-ui-express: ^4.6.0
       typedi: ^0.10.0
       winston: ^3.8.2
     dependencies:
@@ -89,6 +92,7 @@ importers:
       '@graphql-typed-document-node/core': 3.1.1_graphql@16.6.0
       '@whatwg-node/fetch': 0.5.4
       class-validator: 0.14.0
+      cors: 2.8.5
       dune-ts: 1.1.4
       express: 4.18.2
       graphql: 16.6.0
@@ -97,10 +101,12 @@ importers:
       morgan: 1.10.0
       reflect-metadata: 0.1.13
       routing-controllers-extended: 1.0.5_p4ywi7fdcrugq6nsanv77hac4q
+      swagger-ui-express: 4.6.0_express@4.18.2
       typedi: 0.10.0
       winston: 3.8.2
     devDependencies:
       '@faker-js/faker': 7.6.0
+      '@types/cors': 2.8.13
       '@types/express': 4.17.15
       '@types/morgan': 1.9.4
       '@types/supertest': 2.0.12
@@ -5413,6 +5419,12 @@ packages:
     resolution: {integrity: sha512-t73xJJrvdTjXrn4jLS9VSGRbz0nUY3cl2DMGDU48lKl+HR9dbbjW2A9r3g40VA++mQpy6uuHg33gy7du2BKpog==}
     dev: true
 
+  /@types/cors/2.8.13:
+    resolution: {integrity: sha512-RG8AStHlUiV5ysZQKq97copd2UmVYw3/pRMLefISZ3S1hK104Cwm7iLQ3fTKx+lsUH2CE8FlLaYeEA2LSeqYUA==}
+    dependencies:
+      '@types/node': 18.11.18
+    dev: true
+
   /@types/express-serve-static-core/4.17.32:
     resolution: {integrity: sha512-aI5h/VOkxOF2Z1saPy0Zsxs5avets/iaiAJYznQFm5By/pamU31xWKL//epiF4OfUA2qTOc9PV6tCUjhO8wlZA==}
     dependencies:
@@ -7495,6 +7507,14 @@ packages:
 
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
+
+  /cors/2.8.5:
+    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
+    engines: {node: '>= 0.10'}
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
+    dev: false
 
   /cosmiconfig/5.2.1:
     resolution: {integrity: sha512-H65gsXo1SKjf8zmrJ67eJk8aIRKV5ff2D4uKZIBZShbhGSpEmsQOPW/SKMKYhSTrqR7ufy6RP69rPogdaPh/kA==}
@@ -15146,6 +15166,20 @@ packages:
   /supports-preserve-symlinks-flag/1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  /swagger-ui-dist/4.15.5:
+    resolution: {integrity: sha512-V3eIa28lwB6gg7/wfNvAbjwJYmDXy1Jo1POjyTzlB6wPcHiGlRxq39TSjYGVjQrUSAzpv+a7nzp7mDxgNy57xA==}
+    dev: false
+
+  /swagger-ui-express/4.6.0_express@4.18.2:
+    resolution: {integrity: sha512-ZxpQFp1JR2RF8Ar++CyJzEDdvufa08ujNUJgMVTMWPi86CuQeVdBtvaeO/ysrz6dJAYXf9kbVNhWD7JWocwqsA==}
+    engines: {node: '>= v0.10.32'}
+    peerDependencies:
+      express: '>=4.0.0'
+    dependencies:
+      express: 4.18.2
+      swagger-ui-dist: 4.15.5
+    dev: false
 
   /swap-case/2.0.2:
     resolution: {integrity: sha512-kc6S2YS/2yXbtkSMunBtKdah4VFETZ8Oh6ONSmSd9bRxhqTrtARUCBUiWXH3xVPpvR7tz2CSnkuXVE42EcGnMw==}
