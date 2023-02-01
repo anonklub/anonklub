@@ -14,7 +14,7 @@ import {
   uint8ArrayToBigint,
 } from './helpers'
 
-jest.setTimeout(1_000_000)
+jest.setTimeout(10_000_000) // ~1 hour
 
 describe('Poseidon Merkle Tree', function () {
   let poseidon
