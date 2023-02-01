@@ -51,4 +51,4 @@ jobs:
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy
         working-directory: ./apis/query
-        run: flyctl deploy --config fly-prod.toml --dockerfile Dockerfile-deploy
+        run: flyctl deploy --config fly-staging.toml --dockerfile Dockerfile-deploy
