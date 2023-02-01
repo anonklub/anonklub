@@ -1,15 +1,18 @@
-name: Deployment
+name: Deployment - Staging
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [staging]
     paths: ['apis/query/**', '!**/*.md']
 
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
-  query-api-server:
-    name: Deploy app
+  deployment:
+    environment:
+      name: staging
+      url: https://anon-set-staging.fly.dev
+    name: Deploy to staging
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,4 +51,4 @@ jobs:
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy
         working-directory: ./apis/query
-        run: flyctl deploy --remote-only --dockerfile Dockerfile-deploy
+        run: flyctl deploy --config fly-prod.toml --dockerfile Dockerfile-deploy
