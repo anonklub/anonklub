@@ -4,6 +4,7 @@ include "node_modules/circom-ecdsa/circuits/zk-identity/eth.circom";
 include "node_modules/circom-ecdsa/circuits/ecdsa.circom";
 include "node_modules/circom-ecdsa/node_modules/circomlib/circuits/bitify.circom";
 include "node_modules/circom-ecdsa/node_modules/circomlib/circuits/comparators.circom"; // TODO: fix insane dependency twiddling
+include "./ecdsa.circom";
 include "./merkleTree.circom";
 
 // Proves that a message is signed by one of the addresses in a merkle tree
