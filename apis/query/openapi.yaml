@@ -77,6 +77,8 @@ paths:
 
   /beacon:
     get:
+      tags:
+        - beacon
       summary: List addresses that have deposited into the beacon contract.
       description: ''
       operationId: getBeaconAnonSet

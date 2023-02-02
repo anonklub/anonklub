@@ -7,7 +7,7 @@ import { QueryService } from '@services'
 import { getEnsProposalVotersQuery } from './requests/getEnsProposalVotersQuery'
 
 @Service()
-@JsonController('/anonymity-set')
+@JsonController()
 export class AnonymitySet {
   constructor(readonly service: QueryService) {}
 
