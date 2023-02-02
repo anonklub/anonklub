@@ -3,6 +3,15 @@ info:
   title: Anonnymity Set API
   description: Anonnymity Set API
   version: 1.0.0
+  license:
+    name: MIT
+    url: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/blob/main/LICENSE'
+  contact:
+    name: Privacy Scaling Explorations
+    url: 'https://appliedzkp.org/'
+  externalDocs:
+    description: 'GitHub repository'
+    url: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/tree/main/apis/query'
 servers:
   - url: 'https://anon-set.fly.dev'
     description: 'Production server'
