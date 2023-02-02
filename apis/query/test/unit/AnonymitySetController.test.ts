@@ -12,10 +12,10 @@ describe('AnonymitySet Controller', () => {
     )
   })
 
-  describe('GET /anonymity-set/balance/ETH', () => {
+  describe('GET /balance/ETH', () => {
     it('validates query params', async () => {
       await request(app)
-        .get('/anonymity-set/balance/ETH')
+        .get('/balance/ETH')
         .query({ min: '1.2' })
         .expect(400)
     })
@@ -27,7 +27,7 @@ describe('AnonymitySet Controller', () => {
 
       for (const query of [{ min: faker.random.numeric() }, {}]) {
         await request(app)
-          .get('/anonymity-set/balance/ETH')
+          .get('/balance/ETH')
           .query(query)
           .expect('Content-Type', /json/)
           .expect(200)
@@ -39,7 +39,7 @@ describe('AnonymitySet Controller', () => {
     })
   })
 
-  describe('GET /anonymity-set/balance/ERC20', () => {
+  describe('GET /balance/ERC20', () => {
     it('validates query params', async () => {
       await Promise.all(
         [
@@ -48,7 +48,7 @@ describe('AnonymitySet Controller', () => {
           { min: 1 },
         ].map(async (query) => {
           await request(app)
-            .get('/anonymity-set/balance/ERC20')
+            .get('/balance/ERC20')
             .query(query)
             .expect(400)
         }),
@@ -70,7 +70,7 @@ describe('AnonymitySet Controller', () => {
         },
       ]) {
         await request(app)
-          .get('/anonymity-set/balance/ERC20')
+          .get('/balance/ERC20')
           .query({ min, tokenAddress })
           .expect('Content-Type', /json/)
           .expect(200)
@@ -86,19 +86,19 @@ describe('AnonymitySet Controller', () => {
     })
   })
 
-  it('GET /anonymity-set/beacon', async () => {
+  it('GET /beacon', async () => {
     jest
       .spyOn(QueryService.prototype, 'getBeaconDepositors')
       .mockResolvedValueOnce(addresses)
 
     await request(app)
-      .get('/anonymity-set/beacon')
+      .get('/beacon')
       .expect('Content-Type', /json/)
       .expect(200)
       .expect(addresses)
   })
 
-  describe('GET /anonymity-set/ens-proposal-voters', () => {
+  describe('GET /ens-proposal-voters', () => {
     it('validates query parameters', async () => {
       await Promise.all(
         [
@@ -112,7 +112,7 @@ describe('AnonymitySet Controller', () => {
           { choice: 'AGAINST', id: faker.datatype.number() },
         ].map(async (query) => {
           await request(app)
-            .get('/anonymity-set/ens-proposal-voters')
+            .get('/ens-proposal-voters')
             .query(query)
             .expect(400)
         }),
@@ -133,7 +133,7 @@ describe('AnonymitySet Controller', () => {
         { choice: 'ABSTAIN', id: faker.random.numeric(78) },
       ]) {
         await request(app)
-          .get('/anonymity-set/ens-proposal-voters')
+          .get('/ens-proposal-voters')
           .query(query)
           .expect('Content-Type', /json/)
           .expect(200)
@@ -146,13 +146,13 @@ describe('AnonymitySet Controller', () => {
     })
   })
 
-  it('GET /anonymity-set/punks', async () => {
+  it('GET /punks', async () => {
     jest
       .spyOn(QueryService.prototype, 'getPunkOwners')
       .mockResolvedValueOnce(addresses)
 
     await request(app)
-      .get('/anonymity-set/punks')
+      .get('/punks')
       .expect('Content-Type', /json/)
       .expect(200)
       .expect(addresses)
