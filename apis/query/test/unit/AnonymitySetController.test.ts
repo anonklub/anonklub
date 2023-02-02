@@ -14,10 +14,7 @@ describe('AnonymitySet Controller', () => {
 
   describe('GET /balance/ETH', () => {
     it('validates query params', async () => {
-      await request(app)
-        .get('/balance/ETH')
-        .query({ min: '1.2' })
-        .expect(400)
+      await request(app).get('/balance/ETH').query({ min: '1.2' }).expect(400)
     })
 
     it('returns addresses', async () => {
@@ -47,10 +44,7 @@ describe('AnonymitySet Controller', () => {
           { min: '1', tokenAddress: '0x123' },
           { min: 1 },
         ].map(async (query) => {
-          await request(app)
-            .get('/balance/ERC20')
-            .query(query)
-            .expect(400)
+          await request(app).get('/balance/ERC20').query(query).expect(400)
         }),
       )
     })
