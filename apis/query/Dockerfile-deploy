@@ -13,6 +13,7 @@ RUN echo "auto-install-peers=true" > .npmrc
 RUN pnpm i -P --ignore-scripts --reporter=silent
 
 COPY tsconfig.json .
+COPY openapi.yaml .
 COPY dist dist
 
 EXPOSE 3000

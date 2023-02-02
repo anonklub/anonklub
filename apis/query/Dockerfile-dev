@@ -13,6 +13,7 @@ RUN echo "auto-install-peers=true" > .npmrc
 RUN pnpm i
 
 COPY tsconfig.json .
+COPY openapi.yaml .
 COPY src src
 
 EXPOSE 3000
