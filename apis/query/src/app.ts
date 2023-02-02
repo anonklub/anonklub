@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express'
 import { Container } from 'typedi'
 import { parse } from 'yaml'
 import { controllers, middlewares } from './config'
+import express from 'express'
 
 const openApiSpecYaml = readFileSync(
   join(__dirname, '..', 'openapi.yaml'),
@@ -19,7 +20,14 @@ const app = createExpressServer({
   middlewares,
 })
 
+app.use(express.static('public'))
 app.use('/', swaggerUi.serve)
-app.get('/', swaggerUi.setup(parse(openApiSpecYaml), { explorer: true }))
+app.get(
+  '/',
+  swaggerUi.setup(parse(openApiSpecYaml), {
+    customfavIcon: '/favicon.ico',
+    customSiteTitle: 'Anon Set API',
+  }),
+)
 
 export { app }
