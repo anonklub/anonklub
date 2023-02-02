@@ -6,5 +6,6 @@ import { controllers, middlewares } from './config'
 useContainer(Container)
 export const app = createExpressServer({
   controllers,
+  cors: true,
   middlewares,
 })
