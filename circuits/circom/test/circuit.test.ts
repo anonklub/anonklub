@@ -297,15 +297,15 @@ describe('Ordering', function () {
 
   it('Should check ordering', async () => {
     let witness = await orderingCircuit.calculateWitness({
-      addresses: [1,2,3,4],
+      addresses: [1, 2, 3, 4],
     })
-    await orderingCircuit.checkConstraints(witness);
-    await orderingCircuit.assertOut(witness, {out: 1n});
+    await orderingCircuit.checkConstraints(witness)
+    await orderingCircuit.assertOut(witness, { out: 1n })
 
     witness = await orderingCircuit.calculateWitness({
-      addresses: [1,2,4,3],
+      addresses: [1, 2, 4, 3],
     })
-    await orderingCircuit.checkConstraints(witness);
-    await orderingCircuit.assertOut(witness, {out: 0n});
+    await orderingCircuit.checkConstraints(witness)
+    await orderingCircuit.assertOut(witness, { out: 0n })
   })
 })
