@@ -121,18 +121,13 @@ template IsOrdered(address_count) {
     signal output out;
 
     component lt[address_count - 1];
-    var pairs_in_order = 0;
     for (var i = 0; i < address_count-1; i++) {
         // Assumes inputs are properly formatted 160 bit addresses
         lt[i] = LessThan(160);
         lt[i].in[0] <== addresses[i];
         lt[i].in[1] <== addresses[i+1];
-        pairs_in_order += lt[i].out;
+        lt[i].out === 1;
     }
-
-    component all_in_order = IsZero();
-    all_in_order.in <== pairs_in_order - address_count + 1;
-    out <== all_in_order.out;
 }
 
 template ValidateSignatureForAddress(n, k) {
