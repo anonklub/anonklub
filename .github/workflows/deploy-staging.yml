@@ -1,17 +1,22 @@
-name: Snyk Security Checks
+name: Deployment - Staging
 on:
+  workflow_dispatch:
   push:
-    branches: [main, staging]
-    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
-  pull_request:
-    branches: [main, staging]
-    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
+    branches: [staging]
+    paths: ['apis/query/**', '!**/*.md']
 
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
-  security:
+  deployment:
+    environment:
+      name: staging
+      url: https://anon-set-staging.fly.dev
+    name: Deploy to staging
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -37,12 +42,13 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-store-
 
-      - name: Install
-        run: pnpm i --ignore-scripts --reporter=silent
+      - name: Build
+        working-directory: ./apis/query
+        run: |
+          pnpm i --ignore-scripts --reporter=silent
+          pnpm run compile
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --all-projects
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy
+        working-directory: ./apis/query
+        run: flyctl deploy --config fly-staging.toml --dockerfile Dockerfile-deploy
