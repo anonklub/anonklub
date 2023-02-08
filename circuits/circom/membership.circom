@@ -118,8 +118,8 @@ template NotInAddressSet(n, k, levels) {
 // of the address list can't be verified outside the circuit (perhaps it's private).
 template IsOrdered(address_count) {
     signal input addresses[address_count];
-
     component lt[address_count - 1];
+
     for (var i = 0; i < address_count-1; i++) {
         // Assumes inputs are properly formatted 160 bit addresses
         lt[i] = LessThan(160);
