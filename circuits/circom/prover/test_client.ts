@@ -25,19 +25,17 @@ const addresses = privkeys.map((priv) =>
   ).toBigInt(),
 )
 
-const privkey = 88549154299169935420064281163296845505587953610183896504176354567359434168161n;
+const address_index = 0;
+const privkey = privkeys[address_index];
 const pubkey: Point = Point.fromPrivateKey(privkey)
-const msghashBigint = 1234n
-const msghash: Uint8Array = bigintToUint8Array(msghashBigint)
-const signature: Uint8Array = signSync(msghash, bigintToUint8Array(privkey), {
+const msghash = 1234n
+const msghashArray: Uint8Array = bigintToUint8Array(msghash)
+const signature: Uint8Array = signSync(msghashArray, bigintToUint8Array(privkey), {
   canonical: true,
   der: false,
 })
-const postData = new ProofRequest(addresses, signature, msghash, 3, pubkey).stringify()
+const postData = new ProofRequest(addresses, signature, msghash, address_index, pubkey).stringify()
 
-console.log("fffasdf")
-console.log(postData)
-console.log(Buffer.byteLength(postData))
 var options = {
   host: "localhost",
   port: 3000,
@@ -48,7 +46,6 @@ var options = {
     'Content-Length': Buffer.byteLength(postData),
   },
 };
-console.log("asdf")
   
 const req = http.request(options, function(res) {
   console.log('STATUS: ' + res.statusCode);
