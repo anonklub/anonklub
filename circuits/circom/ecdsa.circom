@@ -1,3 +1,5 @@
+pragma circom 2.0.2;
+
 include "node_modules/circom-ecdsa/circuits/ecdsa.circom";
 
 // Checks pubkey is a valid public key by making sure its points are on the curve and that nQ = 0.
