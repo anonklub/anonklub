@@ -141,6 +141,7 @@ export type Account_filter = {
   id_not_contains?: InputMaybe<Scalars['Bytes']>;
   punksOwned_?: InputMaybe<Punk_filter>;
   bought_?: InputMaybe<Sale_filter>;
+  nftsOwned_?: InputMaybe<NFT_filter>;
   assigned_?: InputMaybe<Assign_filter>;
   sent_?: InputMaybe<Transfer_filter>;
   received_?: InputMaybe<Transfer_filter>;
@@ -413,6 +414,7 @@ export type AskCreated_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -614,6 +616,7 @@ export type AskRemoved_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -735,6 +738,7 @@ export type Ask_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   created?: InputMaybe<Scalars['String']>;
   created_not?: InputMaybe<Scalars['String']>;
   created_gt?: InputMaybe<Scalars['String']>;
@@ -755,6 +759,7 @@ export type Ask_filter = {
   created_ends_with_nocase?: InputMaybe<Scalars['String']>;
   created_not_ends_with?: InputMaybe<Scalars['String']>;
   created_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  created_?: InputMaybe<Event_filter>;
   removed?: InputMaybe<Scalars['String']>;
   removed_not?: InputMaybe<Scalars['String']>;
   removed_gt?: InputMaybe<Scalars['String']>;
@@ -775,6 +780,7 @@ export type Ask_filter = {
   removed_ends_with_nocase?: InputMaybe<Scalars['String']>;
   removed_not_ends_with?: InputMaybe<Scalars['String']>;
   removed_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  removed_?: InputMaybe<Event_filter>;
   offerType?: InputMaybe<OfferType>;
   offerType_not?: InputMaybe<OfferType>;
   offerType_in?: InputMaybe<Array<OfferType>>;
@@ -862,6 +868,7 @@ export type Assign_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   to?: InputMaybe<Scalars['String']>;
   to_not?: InputMaybe<Scalars['String']>;
   to_gt?: InputMaybe<Scalars['String']>;
@@ -1129,6 +1136,7 @@ export type BidCreated_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -1330,6 +1338,7 @@ export type BidRemoved_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -1451,6 +1460,7 @@ export type Bid_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   created?: InputMaybe<Scalars['String']>;
   created_not?: InputMaybe<Scalars['String']>;
   created_gt?: InputMaybe<Scalars['String']>;
@@ -1471,6 +1481,7 @@ export type Bid_filter = {
   created_ends_with_nocase?: InputMaybe<Scalars['String']>;
   created_not_ends_with?: InputMaybe<Scalars['String']>;
   created_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  created_?: InputMaybe<Event_filter>;
   removed?: InputMaybe<Scalars['String']>;
   removed_not?: InputMaybe<Scalars['String']>;
   removed_gt?: InputMaybe<Scalars['String']>;
@@ -1491,6 +1502,7 @@ export type Bid_filter = {
   removed_ends_with_nocase?: InputMaybe<Scalars['String']>;
   removed_not_ends_with?: InputMaybe<Scalars['String']>;
   removed_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  removed_?: InputMaybe<Event_filter>;
   offerType?: InputMaybe<OfferType>;
   offerType_not?: InputMaybe<OfferType>;
   offerType_in?: InputMaybe<Array<OfferType>>;
@@ -2060,6 +2072,7 @@ export type Event_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   type?: InputMaybe<EventType>;
   type_not?: InputMaybe<EventType>;
   type_in?: InputMaybe<Array<EventType>>;
@@ -2385,6 +2398,7 @@ export type NFT_filter = {
   owner_not_ends_with?: InputMaybe<Scalars['String']>;
   owner_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
   owner_?: InputMaybe<Account_filter>;
+  events_?: InputMaybe<Event_filter>;
   currentAsk?: InputMaybe<Scalars['String']>;
   currentAsk_not?: InputMaybe<Scalars['String']>;
   currentAsk_gt?: InputMaybe<Scalars['String']>;
@@ -2525,6 +2539,7 @@ export type Offer_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   created?: InputMaybe<Scalars['String']>;
   created_not?: InputMaybe<Scalars['String']>;
   created_gt?: InputMaybe<Scalars['String']>;
@@ -2545,6 +2560,7 @@ export type Offer_filter = {
   created_ends_with_nocase?: InputMaybe<Scalars['String']>;
   created_not_ends_with?: InputMaybe<Scalars['String']>;
   created_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  created_?: InputMaybe<Event_filter>;
   removed?: InputMaybe<Scalars['String']>;
   removed_not?: InputMaybe<Scalars['String']>;
   removed_gt?: InputMaybe<Scalars['String']>;
@@ -2565,6 +2581,7 @@ export type Offer_filter = {
   removed_ends_with_nocase?: InputMaybe<Scalars['String']>;
   removed_not_ends_with?: InputMaybe<Scalars['String']>;
   removed_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  removed_?: InputMaybe<Event_filter>;
   offerType?: InputMaybe<OfferType>;
   offerType_not?: InputMaybe<OfferType>;
   offerType_in?: InputMaybe<Array<OfferType>>;
@@ -2787,6 +2804,7 @@ export type Punk_filter = {
   wrapped_not?: InputMaybe<Scalars['Boolean']>;
   wrapped_in?: InputMaybe<Array<Scalars['Boolean']>>;
   wrapped_not_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  events_?: InputMaybe<Event_filter>;
   currentAsk?: InputMaybe<Scalars['String']>;
   currentAsk_not?: InputMaybe<Scalars['String']>;
   currentAsk_gt?: InputMaybe<Scalars['String']>;
@@ -3562,6 +3580,7 @@ export type Sale_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -4264,6 +4283,7 @@ export type Transfer_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -4441,6 +4461,7 @@ export type Unwrap_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -4700,6 +4721,7 @@ export type Wrap_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -4763,6 +4785,8 @@ export type _Block_ = {
   hash?: Maybe<Scalars['Bytes']>;
   /** The block number */
   number: Scalars['Int'];
+  /** Integer representation of the timestamp stored in blocks for the chain */
+  timestamp?: Maybe<Scalars['Int']>;
 };
 
 /** The type for the top-level _meta field */

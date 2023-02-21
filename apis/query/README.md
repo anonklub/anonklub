@@ -26,7 +26,7 @@
      ```commandline
      npm i -g pnpm nps
      pnpm i
-     nps start.dev
+     pn start.dev
      ```
    - docker: `docker compose -f docker-compose-dev.yaml up --build query-api`
 
@@ -35,7 +35,7 @@
 In case new queries are added or existing ones are updated, re-create the artifacts with:
 
 ```commandline
-nps graph.build
+pn graph
 ```
 
 ## Deploy

@@ -3,14 +3,28 @@ sources:
     handler:
       graphql:
         endpoint: https://gateway.thegraph.com/api/${GRAPH_API_KEY}/subgraphs/id/F7MznC87sv5y5jNUaBSrKFgCqTqP9Vgc11xcreZQpX7e
+    transforms:
+      - autoPagination:
+          validateSchema: true
+          limitOfRecords: 1000
+
   - name: cryptopunks
     handler:
       graphql:
         endpoint: https://gateway.thegraph.com/api/${GRAPH_API_KEY}/subgraphs/id/YqMJatbgbqy1GodtbYZv4U9NzyaScCgSF7CAE5ivAM7
+    transforms:
+      - autoPagination:
+          validateSchema: true
+          limitOfRecords: 1000
+
   - name: beacon-depositors
     handler:
       graphql:
         endpoint: https://gateway.thegraph.com/api/${GRAPH_API_KEY}/subgraphs/id/3QQgWcYVRWS7ni5nCftJzSnZELTZMVQV6HTiSZKKmZBZ
+    transforms:
+      - autoPagination:
+          validateSchema: true
+          limitOfRecords: 1000
 
 documents:
   - beacon-depositors.graphql

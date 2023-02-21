@@ -60,6 +60,7 @@ input Account_filter {
   id_not_contains: Bytes
   punksOwned_: Punk_filter
   bought_: Sale_filter
+  nftsOwned_: NFT_filter
   assigned_: Assign_filter
   sent_: Transfer_filter
   received_: Transfer_filter
@@ -333,6 +334,7 @@ input AskCreated_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -535,6 +537,7 @@ input AskRemoved_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -657,6 +660,7 @@ input Ask_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   created: String
   created_not: String
   created_gt: String
@@ -677,6 +681,7 @@ input Ask_filter {
   created_ends_with_nocase: String
   created_not_ends_with: String
   created_not_ends_with_nocase: String
+  created_: Event_filter
   removed: String
   removed_not: String
   removed_gt: String
@@ -697,6 +702,7 @@ input Ask_filter {
   removed_ends_with_nocase: String
   removed_not_ends_with: String
   removed_not_ends_with_nocase: String
+  removed_: Event_filter
   offerType: OfferType
   offerType_not: OfferType
   offerType_in: [OfferType!]
@@ -785,6 +791,7 @@ input Assign_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   to: String
   to_not: String
   to_gt: String
@@ -1053,6 +1060,7 @@ input BidCreated_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -1255,6 +1263,7 @@ input BidRemoved_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -1377,6 +1386,7 @@ input Bid_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   created: String
   created_not: String
   created_gt: String
@@ -1397,6 +1407,7 @@ input Bid_filter {
   created_ends_with_nocase: String
   created_not_ends_with: String
   created_not_ends_with_nocase: String
+  created_: Event_filter
   removed: String
   removed_not: String
   removed_gt: String
@@ -1417,6 +1428,7 @@ input Bid_filter {
   removed_ends_with_nocase: String
   removed_not_ends_with: String
   removed_not_ends_with_nocase: String
+  removed_: Event_filter
   offerType: OfferType
   offerType_not: OfferType
   offerType_in: [OfferType!]
@@ -1998,6 +2010,7 @@ input Event_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   type: EventType
   type_not: EventType
   type_in: [EventType!]
@@ -2307,6 +2320,7 @@ input NFT_filter {
   owner_not_ends_with: String
   owner_not_ends_with_nocase: String
   owner_: Account_filter
+  events_: Event_filter
   currentAsk: String
   currentAsk_not: String
   currentAsk_gt: String
@@ -2449,6 +2463,7 @@ input Offer_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   created: String
   created_not: String
   created_gt: String
@@ -2469,6 +2484,7 @@ input Offer_filter {
   created_ends_with_nocase: String
   created_not_ends_with: String
   created_not_ends_with_nocase: String
+  created_: Event_filter
   removed: String
   removed_not: String
   removed_gt: String
@@ -2489,6 +2505,7 @@ input Offer_filter {
   removed_ends_with_nocase: String
   removed_not_ends_with: String
   removed_not_ends_with_nocase: String
+  removed_: Event_filter
   offerType: OfferType
   offerType_not: OfferType
   offerType_in: [OfferType!]
@@ -2706,6 +2723,7 @@ input Punk_filter {
   wrapped_not: Boolean
   wrapped_in: [Boolean!]
   wrapped_not_in: [Boolean!]
+  events_: Event_filter
   currentAsk: String
   currentAsk_not: String
   currentAsk_gt: String
@@ -3615,6 +3633,7 @@ input Sale_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -4444,6 +4463,7 @@ input Transfer_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -4622,6 +4642,7 @@ input Unwrap_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -4883,6 +4904,7 @@ input Wrap_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -4947,6 +4969,8 @@ type _Block_ {
   hash: Bytes
   """The block number"""
   number: Int!
+  """Integer representation of the timestamp stored in blocks for the chain"""
+  timestamp: Int
 }
 
 """The type for the top-level _meta field"""
