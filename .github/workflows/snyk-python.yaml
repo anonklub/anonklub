@@ -1,0 +1,19 @@
+name: Snyk Python Security Checks
+on:
+  push:
+    branches: [main, staging]
+    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
+  pull_request:
+    branches: [main, staging]
+    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python-3.10@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
