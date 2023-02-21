@@ -20,7 +20,7 @@
     "@graphql-mesh/cache-localforage": "^0.7.3",
     "@graphql-mesh/cross-helpers": "^0.3.0",
     "@graphql-mesh/graphql": "^0.33.4",
-    "@graphql-mesh/http": "^0.3.3",
+    "@graphql-mesh/http": "^0.3.19",
     "@graphql-mesh/merger-stitching": "^0.18.4",
     "@graphql-mesh/runtime": "^0.46.2",
     "@graphql-mesh/store": "^0.9.3",
