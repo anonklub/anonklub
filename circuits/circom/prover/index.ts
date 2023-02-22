@@ -3,7 +3,7 @@ import { ProofRequest, stringifyWithBigInts } from './interface'
 import { buildPoseidon } from 'circomlibjs'
 import { bigintToArray, MerkleTree, uint8ArrayToBigint } from '../test/helpers'
 import { execSync } from 'child_process'
-import { rmSync, writeFileSync } from 'fs'
+import { rmSync, writeFileSync, readFileSync } from 'fs'
 
 const app = express()
 app.use(express.json())
@@ -42,10 +42,11 @@ app.post('/', async (req, res) => {
   execSync(
     'snarkjs groth16 prove prover/circuit_0001.zkey prover/witness.wtns prover/proof.json prover/public.json',
   )
-  res.sendFile('prover/proof.json', { root: '.' })
-  res.sendFile('prover/public.json', { root: '.' })
+  res.send(JSON.stringify(readFileSync('prover/proof.json')) + JSON.stringify(readFileSync('prover/public.json')));
   rmSync('prover/witness.wtns')
   rmSync('prover/input.json')
+  rmSync('prover/proof.json')
+  rmSync('prover/public.json')
 })
 
 app.listen(port, () => {
