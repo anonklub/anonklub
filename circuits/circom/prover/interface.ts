@@ -20,8 +20,7 @@ export class ProofRequest {
         return stringifyWithBigInts(this)
     }
 
-    static fromJSON(data) {
-        let req: ProofRequest = JSON.parse(data);
+    static fromReq(req) {
         for (var i = 0; i < req.addresses.length; i++) {
             req.addresses[i] = BigInt(req.addresses[i]);
         }
@@ -29,7 +28,6 @@ export class ProofRequest {
             BigInt(req.pubkey.x),
             BigInt(req.pubkey.y),
         );
-        console.log(req.pubkey)
         req.msghash = BigInt(req.msghash);
         req.signature = Uint8Array.from(Object.values(req.signature));
         return req;

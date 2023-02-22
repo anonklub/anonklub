@@ -39,7 +39,7 @@ const postData = new ProofRequest(addresses, signature, msghash, address_index, 
 var options = {
   host: "localhost",
   port: 3000,
-  path: "",
+  path: "/",
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
