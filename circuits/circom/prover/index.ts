@@ -7,7 +7,7 @@ import {
     uint8ArrayToBigint,
   } from '../test/helpers'
 import { execSync } from 'child_process';
-import { rmSync } from 'fs';
+import { rmSync, writeFileSync} from 'fs';
 
 const app = express();
 app.use(express.json());
@@ -30,15 +30,15 @@ app.post('/', async (req, res) => {
         s: bigintToArray(64, 4, uint8ArrayToBigint(request.signature.slice(32, 64))),
     }
 
-    // TODO: probably don't have to call this as a separate command, this is just how the code is generated from circom
-    execSync("node generate_witness.js circuit.wasm ../input.json ../witness.wtns");
-    execSync("snarkjs groth16 prove circuit_0001.zkey wasm/witness.wtns proof.json public.json");
-    res.sendFile("proof.json");
-    rmSync("proof.json");
-    rmSync("witness.wtns");
+    writeFileSync("prover/input.json", stringifyWithBigInts(circuitInput));
 
-    console.log(stringifyWithBigInts(circuitInput))
-    res.send("Hello world");
+    // TODO: probably don't have to call this as a separate command, this is just how the code is generated from circom
+    execSync("node prover/wasm/generate_witness.js prover/wasm/main.wasm prover/input.json prover/witness.wtns");
+    execSync("snarkjs groth16 prove prover/circuit_0001.zkey prover/witness.wtns prover/proof.json prover/public.json");
+    res.sendFile("prover/proof.json", {root: '.'});
+    res.sendFile("prover/public.json");
+    rmSync("prover/witness.wtns");
+    rmSync("prover/input.json");
 });
 
 app.listen(port, () => {
