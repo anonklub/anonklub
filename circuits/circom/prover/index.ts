@@ -43,7 +43,7 @@ app.post('/', async (req, res) => {
     'snarkjs groth16 prove prover/circuit_0001.zkey prover/witness.wtns prover/proof.json prover/public.json',
   )
   res.sendFile('prover/proof.json', { root: '.' })
-  res.sendFile('prover/public.json')
+  res.sendFile('prover/public.json', { root: '.' })
   rmSync('prover/witness.wtns')
   rmSync('prover/input.json')
 })
