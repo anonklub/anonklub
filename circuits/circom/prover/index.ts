@@ -9,9 +9,10 @@ const app = express()
 app.use(express.json())
 const port = 3000
 
+const poseidonPromise = buildPoseidon();
 app.post('/', async (req, res) => {
   let request = ProofRequest.fromReq(req.body)
-  const poseidon = await buildPoseidon()
+  const poseidon = await poseidonPromise;
 
   const tree = new MerkleTree(request.addresses, 21, poseidon, poseidon.F)
   const merkleProof = tree.merkleProof(request.address_index)
