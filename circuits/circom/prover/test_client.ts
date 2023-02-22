@@ -1,16 +1,16 @@
-import http from "http";
-import { ProofRequest } from "./interface";
-import { Point, signSync, utils as secp256k1utils } from '@noble/secp256k1';
-import { BigNumber, utils } from 'ethers';
+import http from 'http'
+import { ProofRequest } from './interface'
+import { Point, signSync, utils as secp256k1utils } from '@noble/secp256k1'
+import { BigNumber, utils } from 'ethers'
 
-import { hmac } from '@noble/hashes/hmac';
-import { sha256 } from '@noble/hashes/sha256';
-secp256k1utils.hmacSha256Sync = (key, ...msgs) => hmac(sha256, key, secp256k1utils.concatBytes(...msgs))
-secp256k1utils.sha256Sync = (...msgs) => sha256(secp256k1utils.concatBytes(...msgs))
+import { hmac } from '@noble/hashes/hmac'
+import { sha256 } from '@noble/hashes/sha256'
+secp256k1utils.hmacSha256Sync = (key, ...msgs) =>
+  hmac(sha256, key, secp256k1utils.concatBytes(...msgs))
+secp256k1utils.sha256Sync = (...msgs) =>
+  sha256(secp256k1utils.concatBytes(...msgs))
 
-import {
-  bigintToUint8Array,
-} from '../test/helpers'
+import { bigintToUint8Array } from '../test/helpers'
 
 const privkeys: bigint[] = [
   88549154299169935420064281163296845505587953610183896504176354567359434168161n,
@@ -25,34 +25,44 @@ const addresses = privkeys.map((priv) =>
   ).toBigInt(),
 )
 
-const address_index = 0;
-const privkey = privkeys[address_index];
+const address_index = 0
+const privkey = privkeys[address_index]
 const pubkey: Point = Point.fromPrivateKey(privkey)
 const msghash = 1234n
 const msghashArray: Uint8Array = bigintToUint8Array(msghash)
-const signature: Uint8Array = signSync(msghashArray, bigintToUint8Array(privkey), {
-  canonical: true,
-  der: false,
-})
-const postData = new ProofRequest(addresses, signature, msghash, address_index, pubkey).stringify()
+const signature: Uint8Array = signSync(
+  msghashArray,
+  bigintToUint8Array(privkey),
+  {
+    canonical: true,
+    der: false,
+  },
+)
+const postData = new ProofRequest(
+  addresses,
+  signature,
+  msghash,
+  address_index,
+  pubkey,
+).stringify()
 
 var options = {
-  host: "localhost",
+  host: 'localhost',
   port: 3000,
-  path: "/",
+  path: '/',
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
     'Content-Length': Buffer.byteLength(postData),
   },
-};
-  
-const req = http.request(options, function(res) {
-  res.setEncoding('utf8');
-  res.on('data', function (chunk) {
-    console.log('BODY: ' + chunk);
-  });
-});
+}
 
-req.write(postData);
-req.end();
+const req = http.request(options, function (res) {
+  res.setEncoding('utf8')
+  res.on('data', function (chunk) {
+    console.log('BODY: ' + chunk)
+  })
+})
+
+req.write(postData)
+req.end()
