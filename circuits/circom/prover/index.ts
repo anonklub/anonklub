@@ -39,7 +39,7 @@ app.post('/', async (req, res) => {
 
   // TODO: probably don't have to call this as a separate command, this is just how the code is generated from circom
   execSync(
-    'node prover/wasm/generate_witness.js prover/wasm/main.wasm prover/input.json prover/witness.wtns',
+    'node prover/generated/generate_witness.js prover/generated/main.wasm prover/input.json prover/witness.wtns',
   )
   execSync(
     'snarkjs groth16 prove prover/circuit_0001.zkey prover/witness.wtns prover/proof.json prover/public.json',
