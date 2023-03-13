@@ -85,6 +85,7 @@ const config = {
             title: 'More',
           },
         ],
+        copyright: `Copyright © ${new Date().getFullYear()} Ethereum Foundation.`,
         style: 'dark',
       },
       // Replace with your project's social card
@@ -119,7 +120,6 @@ const config = {
         darkTheme: darkCodeTheme,
         theme: lightCodeTheme,
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Ethereum Foundation.`,
     },
 
   title: 'ECDSA GROUPS',
