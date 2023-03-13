@@ -4,6 +4,7 @@ import { buildPoseidon } from 'circomlibjs'
 import { bigintToArray, MerkleTree, uint8ArrayToBigint } from '../test/helpers'
 import { execSync } from 'child_process'
 import { rmSync, writeFileSync, readFileSync } from 'fs'
+import 'express-async-errors';
 
 const app = express()
 app.use(express.json())
