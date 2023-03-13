@@ -49,7 +49,7 @@ const config = {
   tagline: 'Anonymous proof of membership',
 
   themeConfig:
-  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     {
       footer: {
         links: [
