@@ -88,7 +88,7 @@ const config = {
         style: 'dark',
       },
       // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      image: 'img/anonymity.jpg',
       navbar: {
         items: [
           {
@@ -110,7 +110,7 @@ const config = {
           },
         ],
         logo: {
-          alt: 'My Site Logo',
+          alt: 'ECDSA Groups Logo',
           src: 'img/logo.svg',
         },
         title: 'ECDSA GROUPS',
