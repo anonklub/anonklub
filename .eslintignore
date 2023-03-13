@@ -15,3 +15,5 @@ coverage
 
 docs/docusaurus.config.js
 .docusaurus
+
+.idea

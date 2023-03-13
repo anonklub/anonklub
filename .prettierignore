@@ -18,3 +18,5 @@ coverage
 
 .docusaurus
 docs/docs
+
+.idea
