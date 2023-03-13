@@ -119,10 +119,10 @@ const config = {
         darkTheme: darkCodeTheme,
         theme: lightCodeTheme,
       },
+      copyright: `Copyright © ${new Date().getFullYear()} Ethereum Foundation.`,
     },
 
   title: 'ECDSA GROUPS',
-
   // Set the production url of your site here
   url: 'https://privacy-scaling-explorations.github.io',
 }
