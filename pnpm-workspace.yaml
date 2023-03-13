@@ -1,3 +1,4 @@
 packages:
   - apis/query
   - circuits/circom
+  - docs
