@@ -1,11 +1,13 @@
 name: Snyk Security Checks
 on:
-  push:
-    branches: [main, staging]
-    paths-ignore: ['docs/**', '**/*md', '**/*yaml', '**/*yml']
   pull_request:
     branches: [main, staging]
-    paths-ignore: ['docs/**', '**/*md', '**/*yaml', '**/*yml']
+    paths: ['apis', 'circuits']
+    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
+  push:
+    branches: [main, staging]
+    paths: ['apis', 'circuits']
+    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
 
 jobs:
   security:
