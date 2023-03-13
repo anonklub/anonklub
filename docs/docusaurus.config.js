@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula')
 const config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/e2e-zk-ecdsa/',
   // Usually your repo name.
   deploymentBranch: 'gh-pages',
   favicon: 'img/favicon.ico',
