@@ -6,4 +6,4 @@ sidebar_position: 4
 
 You've completed the tutorial.
 
-lorem ipsum dolor sit amet 
+lorem ipsum dolor sit amet

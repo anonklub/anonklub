@@ -6,24 +6,12 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula')
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'ECDSA GROUPS',
-  tagline: 'Anonymous proof of membership',
-  favicon: 'img/favicon.ico',
-
-  // Set the production url of your site here
-  url: 'https://privacy-scaling-explorations.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
-
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'privacy-scaling-explorations', // Usually your GitHub org/user name.
-  projectName: 'e2e-zk-ecdsa', // Usually your repo name.
-  deploymentBranch: 'gh-pages', // The branch that GitHub pages will deploy from.
-
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  // Usually your repo name.
+  deploymentBranch: 'gh-pages',
+  favicon: 'img/favicon.ico',
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -32,49 +20,88 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  // The branch that GitHub pages will deploy from.
 
+  onBrokenLinks: 'throw',
+
+  onBrokenMarkdownLinks: 'warn', // GitHub pages deployment config.
+  // If you aren't using GitHub pages, you don't need these.
+  organizationName: 'privacy-scaling-explorations',
   presets: [
     [
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/privacy-scaling-explorations/tree/main/docs/docs',
+          sidebarPath: require.resolve('./sidebars.js'),
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
       },
     ],
-  ],
+  ], // Usually your GitHub org/user name.
+  projectName: 'e2e-zk-ecdsa',
+  tagline: 'Anonymous proof of membership',
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     {
+      footer: {
+        links: [
+          {
+            items: [
+              {
+                label: 'Tutorial',
+                to: '/docs/intro',
+              },
+            ],
+            title: 'Docs',
+          },
+          {
+            items: [
+              {
+                href: 'https://discord.gg/VVudpjfxCWt',
+                label: 'Discord',
+              },
+              {
+                href: 'https://twitter.com/PrivacyScaling',
+                label: 'Twitter',
+              },
+            ],
+            title: 'Community',
+          },
+          {
+            items: [
+              {
+                href: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa',
+                label: 'GitHub',
+              },
+            ],
+            title: 'More',
+          },
+        ],
+        style: 'dark',
+      },
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'ECDSA GROUPS',
-        logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
-        },
         items: [
           {
-            type: 'doc',
             docId: 'intro',
-            position: 'left',
             label: 'Introduction',
+            position: 'left',
+            type: 'doc',
           },
           {
-            type: 'doc',
             docId: 'tutorial/intro',
-            position: 'left',
             label: 'Tutorial',
+            position: 'left',
+            type: 'doc',
           },
           {
             href: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa',
@@ -82,48 +109,22 @@ const config = {
             position: 'right',
           },
         ],
-      },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Tutorial',
-                to: '/docs/intro',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Discord',
-                href: 'https://discord.gg/VVudpjfxCWt',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/PrivacyScaling',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa',
-              },
-            ],
-          },
-        ],
+        logo: {
+          alt: 'My Site Logo',
+          src: 'img/logo.svg',
+        },
+        title: 'ECDSA GROUPS',
       },
       prism: {
-        theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        theme: lightCodeTheme,
       },
     },
+
+  title: 'ECDSA GROUPS',
+
+  // Set the production url of your site here
+  url: 'https://privacy-scaling-explorations.github.io',
 }
 
 module.exports = config
