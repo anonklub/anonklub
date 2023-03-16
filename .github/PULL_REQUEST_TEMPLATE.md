@@ -19,8 +19,10 @@ Please describe the tests (manual, unit....) that you ran to verify your changes
 # Checklist
 
 - [ ] I have performed a self-review of my code.
-- [ ] My code compiles.
-- [ ] My code follows the style guidelines of this project (code is linted and formatted).
+- [ ] All existing CI checks pass
+  - My code compiles
+  - My code follows the style guidelines of this project (code is linted and formatted)
+  - My code doesn't break existing tests
 - [ ] I have added tests that prove my fix is effective or that my feature works.
 - [ ] I added a reviewer for this pull request.
 - [ ] I have assigned myself to this pull request.
