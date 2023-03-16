@@ -2,8 +2,8 @@ name: Deploy Docusaurus
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths: ['docs']
 
 jobs:
   test-deploy:
