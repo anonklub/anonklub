@@ -2,8 +2,8 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "@r1oga/eslint-config": "^1.1.5",
-    "@r1oga/prettier-config": "^1.1.8",
+    "@r1oga/eslint-config": "^1.1.8",
+    "@r1oga/prettier-config": "^1.1.11",
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.15",
     "concurrently": "^7.6.0",
@@ -31,7 +31,7 @@
     "validate.local": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'tsc -p circuits/circom/tsconfig.json' jest",
     "validate": "is-ci-cli validate.ci validate.local"
   },
-  "workspaces": ["packages/*"],
+  "workspaces": ["apis/query", "circuits/circom"],
   "dependencies": {
     "is-ci-cli": "^2.2.0"
   }

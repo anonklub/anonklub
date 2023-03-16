@@ -1,23 +1,16 @@
-name: Deployment Query API - Production
-on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ['apis/query/**', '!**/*.md']
+name: Test Docusaurus Deployment
 
-env:
-  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+on:
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  deployment:
-    environment:
-      name: production
-      url: https://anon-set.fly.dev
-    name: Deploy to production
+  test-deploy:
+    name: Test deployment
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
+      - uses: actions/checkout@v3
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
@@ -42,13 +35,10 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-store-
 
-      - name: Build
-        working-directory: ./apis/query
-        run: |
-          pnpm i --ignore-scripts --reporter=silent
-          pnpm run compile
+      - name: Install
+        working-directory: ./docs
+        run: pnpm i
 
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Deploy
-        working-directory: ./apis/query
-        run: flyctl deploy --config fly-prod.toml --dockerfile Dockerfile-deploy
+      - name: Build
+        working-directory: ./docs
+        run: pnpm run build
