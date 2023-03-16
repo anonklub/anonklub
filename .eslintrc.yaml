@@ -14,10 +14,22 @@ rules:
   no-useless-constructor: off
 
 overrides:
+  - files: ['apis/proving/generated/*.js']
+    rules:
+      eqeqeq: off
+  - files: ['apis/proving/generated/witness_calculator.js']
+    env:
+      browser: true
+    rules:
+      prefer-const: off
+      camelcase: off
+  - files: ['apis/proving/generated/generate_witness.js']
+    rules:
+      '@typescript-eslint/no-var-requires': off
   - files: ['apis/proving/src/routes.ts']
     rules:
       '@typescript-eslint/no-misused-promises': off
-  - files: ['apis/*/src/index.ts']
+  - files: ['apis/*/src/index.ts', 'apis/proving/generated/*.js']
     rules:
       no-console: off
   - files: ['apis/query/src/decorators/Logger.ts']

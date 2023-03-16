@@ -6,7 +6,8 @@
     "target": "es2020",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "allowJs": true
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", "generated"]
 }
