@@ -6,6 +6,7 @@
     "@r1oga/prettier-config": "^1.1.11",
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.15",
+    "barrelsby": "^2.5.1",
     "concurrently": "^7.6.0",
     "jest": "^29.2.2",
     "jest-chain": "^1.1.6",
@@ -21,6 +22,7 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
+    "barrels": "barrelsby --config .barrelsby.json",
     "clean": "lerna clean && lerna run clean && rm -rf node_modules",
     "fix": "concurrently 'npm run format' 'npm run lint'",
     "format": "prettier -w .",
@@ -31,7 +33,6 @@
     "validate.local": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'tsc -p circuits/circom/tsconfig.json' jest",
     "validate": "is-ci-cli validate.ci validate.local"
   },
-  "workspaces": ["apis/query", "circuits/circom"],
   "dependencies": {
     "is-ci-cli": "^2.2.0"
   }

@@ -4,7 +4,11 @@ import { buildPoseidon } from 'circomlibjs'
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 import { readFileSync, rmSync, writeFileSync } from 'fs'
-import { bigintToArray, MerkleTree, uint8ArrayToBigint } from '../test/helpers'
+import {
+  bigintToArray,
+  MerkleTree,
+  uint8ArrayToBigint,
+} from '@e2e-zk-ecdsa/shared'
 import { ProofRequest, stringifyWithBigInts } from './interface'
 
 const app = express()
