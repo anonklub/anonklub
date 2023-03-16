@@ -17,3 +17,7 @@ docs/docusaurus.config.js
 .docusaurus
 
 .idea
+
+# Generated code
+
+circuits/circom/prover/generated

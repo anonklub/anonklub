@@ -2,9 +2,9 @@ import express from 'express'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { createExpressServer, useContainer } from 'routing-controllers-extended'
+import swaggerUi from 'swagger-ui-express'
 import { Container } from 'typedi'
 import { parse } from 'yaml'
-import swaggerUi from 'swagger-ui-express'
 import { controllers, middlewares } from './config'
 
 const openApiSpecYaml = readFileSync(

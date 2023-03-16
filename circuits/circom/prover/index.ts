@@ -1,22 +1,23 @@
-import express from 'express'
-import { ProofRequest, stringifyWithBigInts } from './interface'
-import { buildPoseidon } from 'circomlibjs'
-import { bigintToArray, MerkleTree, uint8ArrayToBigint } from '../test/helpers'
+import 'express-async-errors'
 import { execSync } from 'child_process'
-import { rmSync, writeFileSync, readFileSync } from 'fs'
-import 'express-async-errors';
+import { buildPoseidon } from 'circomlibjs'
+import express from 'express'
+import asyncHandler from 'express-async-handler';
+import { readFileSync, rmSync, writeFileSync } from 'fs'
+import { bigintToArray, MerkleTree, uint8ArrayToBigint } from '../test/helpers'
+import { ProofRequest, stringifyWithBigInts } from './interface'
 
 const app = express()
 app.use(express.json())
 const port = 3000
 
-const poseidonPromise = buildPoseidon();
-app.post('/', async (req, res) => {
-  let request = ProofRequest.fromReq(req.body)
-  const poseidon = await poseidonPromise;
+const poseidonPromise = buildPoseidon()
+app.post('/', asyncHandler(async (req, res) => {
+  const request = ProofRequest.fromReq(req.body)
+  const poseidon = await poseidonPromise
 
   const tree = new MerkleTree(request.addresses, 21, poseidon, poseidon.F)
-  const merkleProof = tree.merkleProof(request.address_index)
+  const merkleProof = tree.merkleProof(request.addressIndex)
 
   const circuitInput = {
     msghash: bigintToArray(64, 4, request.msghash),
@@ -52,7 +53,7 @@ app.post('/', async (req, res) => {
   rmSync('prover/input.json')
   rmSync('prover/proof.json')
   rmSync('prover/public.json')
-})
+}))
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`)

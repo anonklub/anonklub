@@ -19,6 +19,7 @@
     "eslint": "^8.30.0",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "express-async-handler": "^1.2.0",
     "ffjavascript": "^0.2.57",
     "play-contracts": "github:ChihChengLiang/poseidon-tornado"
   },
