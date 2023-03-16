@@ -4,9 +4,7 @@
   "description": "ZK Proofs generation API",
   "main": "index.js",
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
-  "contributors": [
-    "r1oga <me@r1oga.io>"
-  ],
+  "contributors": ["r1oga <me@r1oga.io>"],
   "license": "MIT",
   "dependencies": {
     "@e2e-zk-ecdsa/shared": "workspace:^1.0.0",

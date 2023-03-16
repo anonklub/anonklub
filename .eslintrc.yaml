@@ -14,7 +14,10 @@ rules:
   no-useless-constructor: off
 
 overrides:
-  - files: ['apis/query/src/index.ts']
+  - files: ['apis/proving/src/routes.ts']
+    rules:
+      '@typescript-eslint/no-misused-promises': off
+  - files: ['apis/*/src/index.ts']
     rules:
       no-console: off
   - files: ['apis/query/src/decorators/Logger.ts']
