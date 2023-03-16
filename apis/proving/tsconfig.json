@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "lib": ["es2020"],
+    "module": "commonjs",
+    "target": "es2020",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true
+  },
+  "include": ["src", "test"]
+}

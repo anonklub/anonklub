@@ -3,6 +3,7 @@ parserOptions:
   project:
     [
       'tsconfig.json',
+      'apis/proving/tsconfig.json',
       'apis/query/tsconfig.json',
       'circuits/circom/tsconfig.json',
       'docs/tsconfig.json',
