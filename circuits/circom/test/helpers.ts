@@ -46,6 +46,9 @@ export class MerkleTree {
     for (let i = 0; i < this.depth - 1; i++) {
       pathIndices.push(index & 1)
       pathElements.push(this.levels[i][index % 2 === 0 ? index + 1 : index - 1])
+      if (typeof pathElements[pathElements.length - 1] === 'undefined') {
+        pathElements[pathElements.length - 1] = 0n
+      }
       index = index >> 1
     }
     return { pathElements, pathIndices }
