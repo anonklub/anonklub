@@ -24,4 +24,4 @@ Please describe the tests (manual, unit....) that you ran to verify your changes
 - [ ] I have added tests that prove my fix is effective or that my feature works.
 - [ ] I added a reviewer for this pull request.
 - [ ] I have assigned myself to this pull request.
-- [ ] I have added the appropriate label to this pull request.
+- [ ] I have added the appropriate label(s) to this pull request.
