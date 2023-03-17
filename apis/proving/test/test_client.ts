@@ -6,7 +6,7 @@ import { BigNumber, utils } from 'ethers'
 import http from 'http'
 import { bigintToUint8Array } from '@e2e-zk-ecdsa/shared'
 
-import { ProofRequest } from './interface'
+import { ProofRequest } from '../src/interface'
 
 secp256k1utils.hmacSha256Sync = (key, ...msgs) =>
   hmac(sha256, key, secp256k1utils.concatBytes(...msgs))

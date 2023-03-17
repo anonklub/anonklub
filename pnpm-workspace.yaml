@@ -1,5 +1,6 @@
 packages:
   - apis/query
+  - apis/proving
   - circuits/circom
   - shared
   - docs
