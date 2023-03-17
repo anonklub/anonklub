@@ -2,7 +2,7 @@
 
 Ethereum is a principled project, popular for being a credibly neutral payment, financial, and computing system.
 
-Unfortunately, to achieve neutrality, it has sacrificed privacy because every transaction must be public to be verified. However, recent advances in ZKP (Zero Knowledge Proof) systems have made it practical to achieve privacy while maintaining verifiability. There are new privacy focussed ZK blockchains such as [TODO: cite Mina, Aleo, Zcash etc], but L1 development is hard and slow, especially on a large and established protocol like Ethereum. Instead of adding privacy to the underlying system, we as smart contract developers can rewrite the ecosystem to respect privacy, while keeping the L1 simple and transparent. This is the promise of zk-ECDSA.
+Unfortunately, to achieve neutrality, it has sacrificed privacy because every transaction must be public to be verified. However, recent advances in ZKP (Zero Knowledge Proof) systems have made it practical to achieve privacy while maintaining verifiability. There are new privacy focussed ZK blockchains such as [Mina](https://minaprotocol.com/), [Aleo](https://www.aleo.org/) and [Zcash](https://z.cash/), but L1 development is hard and slow, especially on a large and established protocol like Ethereum. Instead of adding privacy to the underlying system, we as smart contract developers can rewrite the ecosystem to respect privacy, while keeping the L1 simple and transparent. This is the promise of zk-ECDSA.
 
 Broadly speaking, dApps work by verifying ECDSA signatures on transactions then executing smart contract logic. Instead, we can verify ECDSA signatures and execute arbitrary logic inside ZKPs, then verify those proofs onchain, then execute our smart contract logic. Thus, without any change to Ethereum itself, we can support privacy where users want it.
 
@@ -12,13 +12,21 @@ This blog was written as part of a grant from the Ethereum Foundation's Privacy 
 
 ### Mixers
 
-Mixers were one of the first widespread usecase for ZKPs on Ethereum, with Tornado Cash handling over $7B (TODO: cite). Tornado Cash prevents double spending by using an interactive nullifier, which is a special piece of data the user must hold onto to access their funds. Keeping this nullifier secure can be just as important as keeping a private key secure, but in practice it just exists in plaintext in the browser [TODO: factcheck that (surely they add more security somehow)]. This is a significant UX problem, especially for a security conscious user who has already gone to great lengths to protect their private key.
+Mixers were one of the first widespread usecase for ZKPs on Ethereum, with Tornado Cash handling [over $7B](https://home.treasury.gov/news/press-releases/jy0916). Tornado Cash prevents double spending by using an interactive nullifier, which is a special piece of data the user must hold onto to access their funds. Keeping this nullifier secure can be just as important as keeping a private key secure, but in practice it needs to at some point be in plaintext outside the wallet/secure enclave in order to generate the ZKP. This is a significant UX problem, especially for a security conscious user who has already gone to great lengths to protect their private key.
 
-zk-ECDSA can solve this by generating a nullifier deterministically from the private key, while keeping the user private. This is a subtle problem, and existing ECDSA signatures aren't quite suitable. [PLUME nullifiers](TODO: cite) are a leading contender for this application, promising high privacy, security, and usability. [This blog](TODO: cite) is a useful introduction to them.
+zk-ECDSA can solve this by generating a nullifier deterministically from the private key, while keeping the user private. This is a subtle problem, and existing ECDSA signatures aren't quite suitable. We explain the PLUME nullifier, the top contender to solve this problem, [below](#nullifiers). 
+
+Uses [nullifiers 🪶](#nullifiers)
 
 #### Blacklists
 
-Uses [nullifiers 🪶](#nullifiers)
+Financial privacy is good, but it can have downsides. The US Treasury [accused Tornado Cash](https://home.treasury.gov/news/press-releases/jy0916) of laundering over $455M of funds stolen by a US sanctioned North Korean hacker group. Tornado Cash itself was subsequently sanctioned.
+
+There may be a middle ground, where privacy is preserved for normal users, but authorities can prevent hackers recieving their funds. The following is not an ideal scheme, as it gives authorities power to freeze funds of law abiding citizens, but it is a start.
+
+In order to get your funds out of a compliant mixed, you must prove in a ZKP that you own an address that deposited funds, has not already retrieved their funds, and *does not belong to a blacklist*. This means having to that inside the ZKP you must provide a proof of non-membership, which is explained [below](#non-membersip)
+
+Uses [non-membership 🚫](#non-membership)
 
 ### Private Safes
 
@@ -67,6 +75,14 @@ Most of the work below was done at PersonaeLabs (TODO: cite) and 0xparc (TODO: c
 ### Merkle Tree Basics
 
 The circuits for most applications require some kind of signature/nullifier verifcation, and set membership. Merkle trees are a simple efficient method of set membership, and a circom implementation originating from tornado cash has been well battle tested. During my grant I used a Merkle tree with the Poseidon hash, which is a hash function that's efficient in ZK circuits. [This implementation](TODO: cite), which verifies a public key, signature, and merkle proof may be instructive for your application. Note, that you should remove the public key check if unnecessary, and swap the signature verification out for the most efficient version possible for your constraints.
+
+### Non-Membership
+
+Merkle trees don't naturally enable us to prove that an address is *not* in a given list. There are two possible modifications we can make to make this possible, and the first is [probably the best option](TODO: cite article).
+
+The reccomended approach is using a sparse merkle tree. A sparse merkle tree of addresses contains every possible address arranged in order. Since Ethereum addresses are 160 bits, the merkle tree will be of depth 160 (note the amazing power of logarithmic complexity!), meaning merkle proofs can still be efficiently verified in a ZKP circuit. The leaves of the tree will be 1 if the address is included in the set, and 0 if it is not. So by providing a normal merkle proof that the leaf corresponding to an address is 0, we prove that the address is not in the list.
+
+The alternative is sorting a list of addresses, and using 2 adjacent merkle proofs to show that the address's point in the list is unoccupied. This is the approach [I used](TODO) in this grant, but I wouldn't reccomend it, due to the complexity of the circuit, and additional proof required to show that the list is sorted.
 
 ### Offchain, no nullifiers
 
@@ -120,6 +136,4 @@ Another subtlety was that an elliptic curve equation calculating $a/b^c$ inexpli
 
 ### Proving Server
 
-For onchain nullifiers especially, the proving time is very high (TODO: 10m?), so we wanted to create a trusted server which would generate the proof for you. (TODO complete)
-
-## Conclusion
+For onchain nullifiers especially, the proving time is very high (TODO: 10m?), so we wanted to create a trusted server which would generate the proof for you. However, this server must be trusted with your privacy, so it will be deprecated as proving times improve.
