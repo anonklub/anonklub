@@ -6,6 +6,7 @@ parserOptions:
       'apis/query/tsconfig.json',
       'circuits/circom/tsconfig.json',
       'docs/tsconfig.json',
+      'shared/tsconfig.json',
     ]
 
 rules:

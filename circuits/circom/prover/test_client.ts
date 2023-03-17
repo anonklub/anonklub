@@ -4,7 +4,7 @@ import { Point, signSync, utils as secp256k1utils } from '@noble/secp256k1'
 import { BigNumber, utils } from 'ethers'
 
 import http from 'http'
-import { bigintToUint8Array } from '../test/helpers'
+import { bigintToUint8Array } from '@e2e-zk-ecdsa/shared'
 
 import { ProofRequest } from './interface'
 

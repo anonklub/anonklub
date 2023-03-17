@@ -1,0 +1,6 @@
+{
+  "directory": ["shared/src"],
+  "delete": true,
+  "noSemicolon": true,
+  "singleQuotes": true
+}
