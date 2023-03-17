@@ -35,21 +35,21 @@ export const provingRouter = Router().post('/', async (req, res) => {
     ),
   }
 
-  writeFileSync('prover/input.json', stringifyWithBigInts(circuitInput))
+  writeFileSync('./input.json', stringifyWithBigInts(circuitInput))
 
   // TODO: probably don't have to call this as a separate command, this is just how the code is generated from circom
   execSync(
-    'node prover/generated/generate_witness.js prover/generated/main.wasm prover/input.json prover/witness.wtns',
+    'node ./generated/generate_witness.js ./generated/main.wasm ./input.json ./witness.wtns',
   )
   execSync(
-    'snarkjs groth16 prove prover/circuit_0001.zkey prover/witness.wtns prover/proof.json prover/public.json',
+    'snarkjs groth16 prove ./circuit_0001.zkey ./witness.wtns ./proof.json ./public.json',
   )
   res.send(
-    readFileSync('prover/proof.json').toString() +
-      readFileSync('prover/public.json').toString(),
+    readFileSync('./proof.json').toString() +
+      readFileSync('./public.json').toString(),
   )
-  rmSync('prover/witness.wtns')
-  rmSync('prover/input.json')
-  rmSync('prover/proof.json')
-  rmSync('prover/public.json')
+  rmSync('./witness.wtns')
+  rmSync('./input.json')
+  rmSync('./proof.json')
+  rmSync('./public.json')
 })
