@@ -7,8 +7,8 @@
   "contributors": ["r1oga <me@r1oga.io>"],
   "license": "MIT",
   "scripts": {
-    "server": "ts-node ./src/index.ts",
-    "client": "ts-node ./test/test_client.ts"
+    "server": "tsnd ./src/index.ts",
+    "client": "tsnd ./test/test_client.ts"
   },
   "dependencies": {
     "@e2e-zk-ecdsa/shared": "workspace:^1.0.0",
