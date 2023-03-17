@@ -1,5 +1,5 @@
 import { Service } from 'typedi'
-import { getErc20BalanceAnonSetQuery } from '@controllers/requests/getErc20BalanceAnonSetQuery'
+import { getErc20BalanceAnonSetQuery } from '@controllers/requests'
 import { Logger, LoggerInterface } from '@decorators/Logger'
 import {
   BigQueryRepository,
