@@ -1,0 +1,11 @@
+{
+  "directory": [
+    "shared/src",
+    "apis/query/src/api/controllers/requests",
+    "apis/query/src/api/services",
+    "apis/query/src/api/repositories"
+  ],
+  "delete": true,
+  "noSemicolon": true,
+  "singleQuotes": true
+}

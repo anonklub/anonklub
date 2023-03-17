@@ -4,22 +4,32 @@
   "description": "Prove membership in a poseidon merkle tree by proving an ECDSA signature",
   "main": "",
   "scripts": {
-    "test": "bash maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest"
+    "test": "bash maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest",
+    "server": "ts-node ./prover/index.ts",
+    "client": "ts-node ./prover/test_client.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@e2e-zk-ecdsa/shared": "workspace:^1.0.0",
     "@noble/secp256k1": "^1.7.0",
+    "@types/node": "^18.13.0",
     "circom-ecdsa": "github:0xparc/circom-ecdsa",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
     "eslint": "^8.30.0",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "express-async-handler": "^1.2.0",
     "ffjavascript": "^0.2.57",
     "play-contracts": "github:ChihChengLiang/poseidon-tornado"
   },
   "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node-fetch": "^2.6.2",
     "circom_tester": "^0.0.19",
     "ethers": "^5.7.2",
-    "hardhat": "^2.12.2"
+    "hardhat": "^2.12.2",
+    "ts-node": "^10.9.1"
   }
 }

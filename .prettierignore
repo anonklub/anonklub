@@ -15,3 +15,8 @@ coverage
 
 *.graphql
 .graphclient
+
+.docusaurus
+docs/docs
+
+.idea

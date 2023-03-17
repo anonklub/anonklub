@@ -27,6 +27,14 @@ const jestPrettierConfig: JestConfigWithTsJest = {
   testMatch: [
     '<rootDir>/**/*.(cjs|mjs|js|jsx|ts|tsx|css|scss|less|html|md|markdown|json|yaml|yml)',
   ],
+  testPathIgnorePatterns: [
+    '<rootDir>/.idea/',
+    'pnpm-lock.yaml',
+    '<rootDir>/apis/query/dist',
+    '<rootDir>/apis/query/src/lib/graph/.graphclient',
+    '<rootDir>/docs/.docusaurus',
+    '<rootDir>/coverage',
+  ],
 }
 
 export default jestPrettierConfig

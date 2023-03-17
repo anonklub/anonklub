@@ -1,4 +1,4 @@
-name: Deployment - Staging
+name: Deployment Query API - Staging
 on:
   workflow_dispatch:
   push:
