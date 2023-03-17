@@ -48,12 +48,14 @@ importers:
   apis/proving:
     specifiers:
       '@e2e-zk-ecdsa/shared': workspace:^1.0.0
+      '@noble/secp256k1': ^1.7.0
       '@types/express': ^4.17.17
       circomlibjs: ^0.1.7
       express: ^4.18.2
       express-async-errors: ^3.1.1
     dependencies:
       '@e2e-zk-ecdsa/shared': link:../../shared
+      '@noble/secp256k1': 1.7.0
       circomlibjs: 0.1.7
       express: 4.18.2
       express-async-errors: 3.1.1_express@4.18.2
@@ -200,6 +202,9 @@ importers:
       '@docusaurus/types': 2.3.1_sfoxds7t5ydpegc3knd667wn6m
       '@tsconfig/docusaurus': 1.0.7
       typescript: 4.9.4
+
+  shared:
+    specifiers: {}
 
 packages:
 
