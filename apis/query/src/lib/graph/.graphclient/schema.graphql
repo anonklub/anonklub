@@ -3,6 +3,15 @@ schema {
   subscription: Subscription
 }
 
+"Marks the GraphQL type as indexable entity.  Each type that should be an entity is required to be annotated with this directive."
+directive @entity on OBJECT
+
+"Defined a Subgraph ID for an object type"
+directive @subgraphId(id: String!) on OBJECT
+
+"creates a virtual field on the entity that may be queried but cannot be set manually through the mappings API."
+directive @derivedFrom(field: String!) on FIELD_DEFINITION
+
 type Query {
   delegateChange(
     id: ID!
@@ -3784,6 +3793,8 @@ input Aggregation_filter {
   totalAmountDeposited_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Aggregation_filter]
+  or: [Aggregation_filter]
 }
 
 enum Aggregation_orderBy {
@@ -3826,6 +3837,8 @@ input DailyDeposit_filter {
   dailyDepositCount_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [DailyDeposit_filter]
+  or: [DailyDeposit_filter]
 }
 
 enum DailyDeposit_orderBy {
@@ -3896,12 +3909,20 @@ input Deposit_filter {
   depositor_: Depositor_filter
   pubkey: Bytes
   pubkey_not: Bytes
+  pubkey_gt: Bytes
+  pubkey_lt: Bytes
+  pubkey_gte: Bytes
+  pubkey_lte: Bytes
   pubkey_in: [Bytes!]
   pubkey_not_in: [Bytes!]
   pubkey_contains: Bytes
   pubkey_not_contains: Bytes
   withdrawal_credentials: Bytes
   withdrawal_credentials_not: Bytes
+  withdrawal_credentials_gt: Bytes
+  withdrawal_credentials_lt: Bytes
+  withdrawal_credentials_gte: Bytes
+  withdrawal_credentials_lte: Bytes
   withdrawal_credentials_in: [Bytes!]
   withdrawal_credentials_not_in: [Bytes!]
   withdrawal_credentials_contains: Bytes
@@ -3924,12 +3945,17 @@ input Deposit_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Deposit_filter]
+  or: [Deposit_filter]
 }
 
 enum Deposit_orderBy {
   id
   dayID
   depositor
+  depositor__id
+  depositor__totalAmountDeposited
+  depositor__depositCount
   pubkey
   withdrawal_credentials
   amount
@@ -3971,6 +3997,8 @@ input Depositor_filter {
   deposits_: Deposit_filter
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Depositor_filter]
+  or: [Depositor_filter]
 }
 
 enum Depositor_orderBy {
@@ -4022,12 +4050,17 @@ type Account {
 input Account_filter {
   id: Bytes
   id_not: Bytes
+  id_gt: Bytes
+  id_lt: Bytes
+  id_gte: Bytes
+  id_lte: Bytes
   id_in: [Bytes!]
   id_not_in: [Bytes!]
   id_contains: Bytes
   id_not_contains: Bytes
   punksOwned_: Punk_filter
   bought_: Sale_filter
+  nftsOwned_: NFT_filter
   assigned_: Assign_filter
   sent_: Transfer_filter
   received_: Transfer_filter
@@ -4119,6 +4152,8 @@ input Account_filter {
   accountUrl_not_ends_with_nocase: String
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Account_filter]
+  or: [Account_filter]
 }
 
 enum Account_orderBy {
@@ -4301,6 +4336,7 @@ input AskCreated_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -4323,12 +4359,20 @@ input AskCreated_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -4343,16 +4387,53 @@ input AskCreated_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [AskCreated_filter]
+  or: [AskCreated_filter]
 }
 
 enum AskCreated_orderBy {
   id
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   ask
+  ask__id
+  ask__open
+  ask__amount
+  ask__offerType
   amount
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   logNumber
   type
   blockNumber
@@ -4503,6 +4584,7 @@ input AskRemoved_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -4525,12 +4607,20 @@ input AskRemoved_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -4545,16 +4635,53 @@ input AskRemoved_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [AskRemoved_filter]
+  or: [AskRemoved_filter]
 }
 
 enum AskRemoved_orderBy {
   id
   ask
+  ask__id
+  ask__open
+  ask__amount
+  ask__offerType
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   amount
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   logNumber
   type
   blockNumber
@@ -4625,6 +4752,7 @@ input Ask_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   created: String
   created_not: String
   created_gt: String
@@ -4645,6 +4773,7 @@ input Ask_filter {
   created_ends_with_nocase: String
   created_not_ends_with: String
   created_not_ends_with_nocase: String
+  created_: Event_filter
   removed: String
   removed_not: String
   removed_gt: String
@@ -4665,22 +4794,55 @@ input Ask_filter {
   removed_ends_with_nocase: String
   removed_not_ends_with: String
   removed_not_ends_with_nocase: String
+  removed_: Event_filter
   offerType: OfferType
   offerType_not: OfferType
   offerType_in: [OfferType!]
   offerType_not_in: [OfferType!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Ask_filter]
+  or: [Ask_filter]
 }
 
 enum Ask_orderBy {
   id
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   open
   amount
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   created
+  created__id
+  created__amount
+  created__type
+  created__logNumber
+  created__blockNumber
+  created__blockHash
+  created__txHash
+  created__timestamp
   removed
+  removed__id
+  removed__amount
+  removed__type
+  removed__logNumber
+  removed__blockNumber
+  removed__blockHash
+  removed__txHash
+  removed__timestamp
   offerType
 }
 
@@ -4753,6 +4915,7 @@ input Assign_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   to: String
   to_not: String
   to_gt: String
@@ -4825,12 +4988,20 @@ input Assign_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -4845,15 +5016,48 @@ input Assign_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Assign_filter]
+  or: [Assign_filter]
 }
 
 enum Assign_orderBy {
   id
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   amount
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   type
   logNumber
   blockNumber
@@ -5021,6 +5225,7 @@ input BidCreated_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -5043,12 +5248,20 @@ input BidCreated_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -5063,16 +5276,53 @@ input BidCreated_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [BidCreated_filter]
+  or: [BidCreated_filter]
 }
 
 enum BidCreated_orderBy {
   id
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   bid
+  bid__id
+  bid__open
+  bid__amount
+  bid__offerType
   amount
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   logNumber
   type
   blockNumber
@@ -5223,6 +5473,7 @@ input BidRemoved_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -5245,12 +5496,20 @@ input BidRemoved_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -5265,16 +5524,53 @@ input BidRemoved_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [BidRemoved_filter]
+  or: [BidRemoved_filter]
 }
 
 enum BidRemoved_orderBy {
   id
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   amount
   bid
+  bid__id
+  bid__open
+  bid__amount
+  bid__offerType
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   logNumber
   type
   blockNumber
@@ -5345,6 +5641,7 @@ input Bid_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   created: String
   created_not: String
   created_gt: String
@@ -5365,6 +5662,7 @@ input Bid_filter {
   created_ends_with_nocase: String
   created_not_ends_with: String
   created_not_ends_with_nocase: String
+  created_: Event_filter
   removed: String
   removed_not: String
   removed_gt: String
@@ -5385,22 +5683,55 @@ input Bid_filter {
   removed_ends_with_nocase: String
   removed_not_ends_with: String
   removed_not_ends_with_nocase: String
+  removed_: Event_filter
   offerType: OfferType
   offerType_not: OfferType
   offerType_in: [OfferType!]
   offerType_not_in: [OfferType!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Bid_filter]
+  or: [Bid_filter]
 }
 
 enum Bid_orderBy {
   id
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   open
   amount
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   created
+  created__id
+  created__amount
+  created__type
+  created__logNumber
+  created__blockNumber
+  created__blockHash
+  created__txHash
+  created__timestamp
   removed
+  removed__id
+  removed__amount
+  removed__type
+  removed__logNumber
+  removed__blockNumber
+  removed__blockHash
+  removed__txHash
+  removed__timestamp
   offerType
 }
 
@@ -5554,12 +5885,20 @@ input CToken_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -5574,12 +5913,34 @@ input CToken_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [CToken_filter]
+  or: [CToken_filter]
 }
 
 enum CToken_orderBy {
   id
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   owner
   amount
   punkId
@@ -5702,6 +6063,8 @@ input Contract_filter {
   imageHash_not_ends_with_nocase: String
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Contract_filter]
+  or: [Contract_filter]
 }
 
 enum Contract_orderBy {
@@ -5738,6 +6101,8 @@ input EpnsNotificationCounter_filter {
   totalCount_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [EpnsNotificationCounter_filter]
+  or: [EpnsNotificationCounter_filter]
 }
 
 enum EpnsNotificationCounter_orderBy {
@@ -5811,6 +6176,8 @@ input EpnsPushNotification_filter {
   notification_not_ends_with_nocase: String
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [EpnsPushNotification_filter]
+  or: [EpnsPushNotification_filter]
 }
 
 enum EpnsPushNotification_orderBy {
@@ -5950,6 +6317,7 @@ input Event_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   type: EventType
   type_not: EventType
   type_in: [EventType!]
@@ -5972,12 +6340,20 @@ input Event_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -5992,15 +6368,48 @@ input Event_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Event_filter]
+  or: [Event_filter]
 }
 
 enum Event_orderBy {
   id
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   amount
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   type
   logNumber
   blockNumber
@@ -6153,6 +6562,8 @@ input MetaData_filter {
   traits_: Trait_filter
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [MetaData_filter]
+  or: [MetaData_filter]
 }
 
 enum MetaData_orderBy {
@@ -6163,6 +6574,13 @@ enum MetaData_orderBy {
   svg
   contractURI
   punk
+  punk__id
+  punk__tokenId
+  punk__wrapped
+  punk__numberOfTransfers
+  punk__numberOfSales
+  punk__totalAmountSpentOnPunk
+  punk__averageSalePrice
   traits
 }
 
@@ -6259,6 +6677,7 @@ input NFT_filter {
   owner_not_ends_with: String
   owner_not_ends_with_nocase: String
   owner_: Account_filter
+  events_: Event_filter
   currentAsk: String
   currentAsk_not: String
   currentAsk_gt: String
@@ -6303,18 +6722,45 @@ input NFT_filter {
   currentBid_: Bid_filter
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [NFT_filter]
+  or: [NFT_filter]
 }
 
 enum NFT_orderBy {
   id
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   numberOfTransfers
   numberOfSales
   tokenId
   owner
+  owner__id
+  owner__numberOfPunksOwned
+  owner__numberOfPunksAssigned
+  owner__numberOfTransfers
+  owner__numberOfSales
+  owner__numberOfPurchases
+  owner__totalSpent
+  owner__totalEarned
+  owner__averageAmountSpent
+  owner__accountUrl
   events
   currentAsk
+  currentAsk__id
+  currentAsk__open
+  currentAsk__amount
+  currentAsk__offerType
   currentBid
+  currentBid__id
+  currentBid__open
+  currentBid__amount
+  currentBid__offerType
 }
 
 interface Offer {
@@ -6401,6 +6847,7 @@ input Offer_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   created: String
   created_not: String
   created_gt: String
@@ -6421,6 +6868,7 @@ input Offer_filter {
   created_ends_with_nocase: String
   created_not_ends_with: String
   created_not_ends_with_nocase: String
+  created_: Event_filter
   removed: String
   removed_not: String
   removed_gt: String
@@ -6441,22 +6889,55 @@ input Offer_filter {
   removed_ends_with_nocase: String
   removed_not_ends_with: String
   removed_not_ends_with_nocase: String
+  removed_: Event_filter
   offerType: OfferType
   offerType_not: OfferType
   offerType_in: [OfferType!]
   offerType_not_in: [OfferType!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Offer_filter]
+  or: [Offer_filter]
 }
 
 enum Offer_orderBy {
   id
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   open
   amount
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   created
+  created__id
+  created__amount
+  created__type
+  created__logNumber
+  created__blockNumber
+  created__blockHash
+  created__txHash
+  created__timestamp
   removed
+  removed__id
+  removed__amount
+  removed__type
+  removed__logNumber
+  removed__blockNumber
+  removed__blockHash
+  removed__txHash
+  removed__timestamp
   offerType
 }
 
@@ -6652,6 +7133,7 @@ input Punk_filter {
   wrapped_not: Boolean
   wrapped_in: [Boolean!]
   wrapped_not_in: [Boolean!]
+  events_: Event_filter
   currentAsk: String
   currentAsk_not: String
   currentAsk_gt: String
@@ -6812,27 +7294,122 @@ input Punk_filter {
   averageSalePrice_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Punk_filter]
+  or: [Punk_filter]
 }
 
 enum Punk_orderBy {
   id
   transferedTo
+  transferedTo__id
+  transferedTo__numberOfPunksOwned
+  transferedTo__numberOfPunksAssigned
+  transferedTo__numberOfTransfers
+  transferedTo__numberOfSales
+  transferedTo__numberOfPurchases
+  transferedTo__totalSpent
+  transferedTo__totalEarned
+  transferedTo__averageAmountSpent
+  transferedTo__accountUrl
   assignedTo
+  assignedTo__id
+  assignedTo__numberOfPunksOwned
+  assignedTo__numberOfPunksAssigned
+  assignedTo__numberOfTransfers
+  assignedTo__numberOfSales
+  assignedTo__numberOfPurchases
+  assignedTo__totalSpent
+  assignedTo__totalEarned
+  assignedTo__averageAmountSpent
+  assignedTo__accountUrl
   purchasedBy
+  purchasedBy__id
+  purchasedBy__numberOfPunksOwned
+  purchasedBy__numberOfPunksAssigned
+  purchasedBy__numberOfTransfers
+  purchasedBy__numberOfSales
+  purchasedBy__numberOfPurchases
+  purchasedBy__totalSpent
+  purchasedBy__totalEarned
+  purchasedBy__averageAmountSpent
+  purchasedBy__accountUrl
   metadata
+  metadata__id
+  metadata__tokenId
+  metadata__tokenURI
+  metadata__image
+  metadata__svg
+  metadata__contractURI
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   tokenId
   owner
+  owner__id
+  owner__numberOfPunksOwned
+  owner__numberOfPunksAssigned
+  owner__numberOfTransfers
+  owner__numberOfSales
+  owner__numberOfPurchases
+  owner__totalSpent
+  owner__totalEarned
+  owner__averageAmountSpent
+  owner__accountUrl
   wrapped
   events
   currentAsk
+  currentAsk__id
+  currentAsk__open
+  currentAsk__amount
+  currentAsk__offerType
   currentBid
+  currentBid__id
+  currentBid__open
+  currentBid__amount
+  currentBid__offerType
   currentAskCreated
+  currentAskCreated__id
+  currentAskCreated__amount
+  currentAskCreated__logNumber
+  currentAskCreated__type
+  currentAskCreated__blockNumber
+  currentAskCreated__blockHash
+  currentAskCreated__txHash
+  currentAskCreated__timestamp
   currentBidCreated
+  currentBidCreated__id
+  currentBidCreated__amount
+  currentBidCreated__logNumber
+  currentBidCreated__type
+  currentBidCreated__blockNumber
+  currentBidCreated__blockHash
+  currentBidCreated__txHash
+  currentBidCreated__timestamp
   numberOfTransfers
   numberOfSales
   currentAskRemoved
+  currentAskRemoved__id
+  currentAskRemoved__amount
+  currentAskRemoved__logNumber
+  currentAskRemoved__type
+  currentAskRemoved__blockNumber
+  currentAskRemoved__blockHash
+  currentAskRemoved__txHash
+  currentAskRemoved__timestamp
   currentBidRemoved
+  currentBidRemoved__id
+  currentBidRemoved__amount
+  currentBidRemoved__logNumber
+  currentBidRemoved__type
+  currentBidRemoved__blockNumber
+  currentBidRemoved__blockHash
+  currentBidRemoved__txHash
+  currentBidRemoved__timestamp
   totalAmountSpentOnPunk
   averageSalePrice
 }
@@ -6958,6 +7535,7 @@ input Sale_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -6980,12 +7558,20 @@ input Sale_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -7000,15 +7586,48 @@ input Sale_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Sale_filter]
+  or: [Sale_filter]
 }
 
 enum Sale_orderBy {
   id
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   amount
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   logNumber
   type
   blockNumber
@@ -7055,6 +7674,8 @@ input Trait_filter {
   numberOfNfts_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Trait_filter]
+  or: [Trait_filter]
 }
 
 enum Trait_orderBy {
@@ -7184,6 +7805,7 @@ input Transfer_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -7206,12 +7828,20 @@ input Transfer_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -7226,15 +7856,48 @@ input Transfer_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Transfer_filter]
+  or: [Transfer_filter]
 }
 
 enum Transfer_orderBy {
   id
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   amount
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   logNumber
   type
   blockNumber
@@ -7362,6 +8025,7 @@ input Unwrap_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -7384,12 +8048,20 @@ input Unwrap_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -7404,15 +8076,48 @@ input Unwrap_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Unwrap_filter]
+  or: [Unwrap_filter]
 }
 
 enum Unwrap_orderBy {
   id
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   amount
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   logNumber
   type
   blockNumber
@@ -7473,12 +8178,20 @@ input UserProxy_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -7493,11 +8206,23 @@ input UserProxy_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [UserProxy_filter]
+  or: [UserProxy_filter]
 }
 
 enum UserProxy_orderBy {
   id
   user
+  user__id
+  user__numberOfPunksOwned
+  user__numberOfPunksAssigned
+  user__numberOfTransfers
+  user__numberOfSales
+  user__numberOfPurchases
+  user__totalSpent
+  user__totalEarned
+  user__averageAmountSpent
+  user__accountUrl
   blockNumber
   blockHash
   txHash
@@ -7623,6 +8348,7 @@ input Wrap_filter {
   nft_ends_with_nocase: String
   nft_not_ends_with: String
   nft_not_ends_with_nocase: String
+  nft_: NFT_filter
   logNumber: BigInt
   logNumber_not: BigInt
   logNumber_gt: BigInt
@@ -7645,12 +8371,20 @@ input Wrap_filter {
   blockNumber_not_in: [BigInt!]
   blockHash: Bytes
   blockHash_not: Bytes
+  blockHash_gt: Bytes
+  blockHash_lt: Bytes
+  blockHash_gte: Bytes
+  blockHash_lte: Bytes
   blockHash_in: [Bytes!]
   blockHash_not_in: [Bytes!]
   blockHash_contains: Bytes
   blockHash_not_contains: Bytes
   txHash: Bytes
   txHash_not: Bytes
+  txHash_gt: Bytes
+  txHash_lt: Bytes
+  txHash_gte: Bytes
+  txHash_lte: Bytes
   txHash_in: [Bytes!]
   txHash_not_in: [Bytes!]
   txHash_contains: Bytes
@@ -7665,15 +8399,48 @@ input Wrap_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Wrap_filter]
+  or: [Wrap_filter]
 }
 
 enum Wrap_orderBy {
   id
   from
+  from__id
+  from__numberOfPunksOwned
+  from__numberOfPunksAssigned
+  from__numberOfTransfers
+  from__numberOfSales
+  from__numberOfPurchases
+  from__totalSpent
+  from__totalEarned
+  from__averageAmountSpent
+  from__accountUrl
   to
+  to__id
+  to__numberOfPunksOwned
+  to__numberOfPunksAssigned
+  to__numberOfTransfers
+  to__numberOfSales
+  to__numberOfPurchases
+  to__totalSpent
+  to__totalEarned
+  to__averageAmountSpent
+  to__accountUrl
   amount
   contract
+  contract__id
+  contract__symbol
+  contract__name
+  contract__totalSupply
+  contract__totalSales
+  contract__totalAmountTraded
+  contract__imageHash
   nft
+  nft__id
+  nft__numberOfTransfers
+  nft__numberOfSales
+  nft__tokenId
   logNumber
   type
   blockNumber
