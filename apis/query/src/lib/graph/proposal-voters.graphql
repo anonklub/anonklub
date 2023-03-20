@@ -1,4 +1,4 @@
-query VotersPerProposal($id: ID!, $choice: VoteChoice) {
+query VotersPerProposal($id: ID!, $choice: VoteChoice, $skip: Int) {
   proposal(
     id: $id
   ) {

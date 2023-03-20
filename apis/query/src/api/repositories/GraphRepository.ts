@@ -4,7 +4,6 @@ import {
   BeaconDepositorsDocument,
   Depositor,
   execute,
-  Proposal,
   Punk,
   PunkOwnersDocument,
   Scalars,
@@ -16,7 +15,10 @@ import {
 @Service()
 export class GraphRepository {
   async autoPage<T, U>(
-    query: any,
+    query:
+      | typeof BeaconDepositorsDocument
+      | typeof PunkOwnersDocument
+      | typeof VotersPerProposalDocument,
     variables: T,
     key: string,
     idFn: (arg0: U) => string,
@@ -52,28 +54,35 @@ export class GraphRepository {
     id: Scalars['ID']
     choice: VoteChoice
   }) {
-    const { data } = (await execute(VotersPerProposalDocument, {
-      choice,
-      id,
-    })) as { data: { proposal: Proposal } }
-    return (data?.proposal ?? []).votes.map((vote: Vote) => vote.voter.id)
+    return this.autoPage<
+      {
+        id: Scalars['ID']
+        choice: VoteChoice
+      },
+      Vote
+    >(
+      VotersPerProposalDocument,
+      { choice, id },
+      'proposal',
+      (vote) => vote.voter.id,
+    )
   }
 
   async getPunkOwners(): Promise<string[]> {
-    return this.autoPage(
+    return this.autoPage<object, Punk>(
       PunkOwnersDocument,
       {},
       'punks',
-      (punk: Punk) => punk.owner.id,
+      (punk) => punk.owner.id,
     )
   }
 
   async getBeaconDepositors() {
-    return this.autoPage(
+    return this.autoPage<object, Depositor>(
       BeaconDepositorsDocument,
       {},
       'depositors',
-      (depositor: Depositor) => depositor.id,
+      (depositor) => depositor.id,
     )
   }
 }
