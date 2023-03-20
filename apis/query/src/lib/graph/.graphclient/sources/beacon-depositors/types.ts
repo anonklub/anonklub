@@ -63,6 +63,8 @@ export type Aggregation_filter = {
   totalAmountDeposited_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Aggregation_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Aggregation_filter>>>;
 };
 
 export type Aggregation_orderBy =
@@ -114,6 +116,8 @@ export type DailyDeposit_filter = {
   dailyDepositCount_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<DailyDeposit_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<DailyDeposit_filter>>>;
 };
 
 export type DailyDeposit_orderBy =
@@ -183,12 +187,20 @@ export type Deposit_filter = {
   depositor_?: InputMaybe<Depositor_filter>;
   pubkey?: InputMaybe<Scalars['Bytes']>;
   pubkey_not?: InputMaybe<Scalars['Bytes']>;
+  pubkey_gt?: InputMaybe<Scalars['Bytes']>;
+  pubkey_lt?: InputMaybe<Scalars['Bytes']>;
+  pubkey_gte?: InputMaybe<Scalars['Bytes']>;
+  pubkey_lte?: InputMaybe<Scalars['Bytes']>;
   pubkey_in?: InputMaybe<Array<Scalars['Bytes']>>;
   pubkey_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   pubkey_contains?: InputMaybe<Scalars['Bytes']>;
   pubkey_not_contains?: InputMaybe<Scalars['Bytes']>;
   withdrawal_credentials?: InputMaybe<Scalars['Bytes']>;
   withdrawal_credentials_not?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_gt?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_lt?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_gte?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_lte?: InputMaybe<Scalars['Bytes']>;
   withdrawal_credentials_in?: InputMaybe<Array<Scalars['Bytes']>>;
   withdrawal_credentials_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   withdrawal_credentials_contains?: InputMaybe<Scalars['Bytes']>;
@@ -211,12 +223,17 @@ export type Deposit_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Deposit_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Deposit_filter>>>;
 };
 
 export type Deposit_orderBy =
   | 'id'
   | 'dayID'
   | 'depositor'
+  | 'depositor__id'
+  | 'depositor__totalAmountDeposited'
+  | 'depositor__depositCount'
   | 'pubkey'
   | 'withdrawal_credentials'
   | 'amount'
@@ -266,6 +283,8 @@ export type Depositor_filter = {
   deposits_?: InputMaybe<Deposit_filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Depositor_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Depositor_filter>>>;
 };
 
 export type Depositor_orderBy =

@@ -54,6 +54,8 @@ input Aggregation_filter {
   totalAmountDeposited_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Aggregation_filter]
+  or: [Aggregation_filter]
 }
 
 enum Aggregation_orderBy {
@@ -112,6 +114,8 @@ input DailyDeposit_filter {
   dailyDepositCount_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [DailyDeposit_filter]
+  or: [DailyDeposit_filter]
 }
 
 enum DailyDeposit_orderBy {
@@ -182,12 +186,20 @@ input Deposit_filter {
   depositor_: Depositor_filter
   pubkey: Bytes
   pubkey_not: Bytes
+  pubkey_gt: Bytes
+  pubkey_lt: Bytes
+  pubkey_gte: Bytes
+  pubkey_lte: Bytes
   pubkey_in: [Bytes!]
   pubkey_not_in: [Bytes!]
   pubkey_contains: Bytes
   pubkey_not_contains: Bytes
   withdrawal_credentials: Bytes
   withdrawal_credentials_not: Bytes
+  withdrawal_credentials_gt: Bytes
+  withdrawal_credentials_lt: Bytes
+  withdrawal_credentials_gte: Bytes
+  withdrawal_credentials_lte: Bytes
   withdrawal_credentials_in: [Bytes!]
   withdrawal_credentials_not_in: [Bytes!]
   withdrawal_credentials_contains: Bytes
@@ -210,12 +222,17 @@ input Deposit_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Deposit_filter]
+  or: [Deposit_filter]
 }
 
 enum Deposit_orderBy {
   id
   dayID
   depositor
+  depositor__id
+  depositor__totalAmountDeposited
+  depositor__depositCount
   pubkey
   withdrawal_credentials
   amount
@@ -257,6 +274,8 @@ input Depositor_filter {
   deposits_: Deposit_filter
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Depositor_filter]
+  or: [Depositor_filter]
 }
 
 enum Depositor_orderBy {

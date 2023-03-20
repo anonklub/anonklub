@@ -4,7 +4,6 @@ import {
   BeaconDepositorsDocument,
   Depositor,
   execute,
-  Proposal,
   Punk,
   PunkOwnersDocument,
   Scalars,
@@ -15,6 +14,39 @@ import {
 
 @Service()
 export class GraphRepository {
+  async autoPage<T, U>(
+    query:
+      | typeof BeaconDepositorsDocument
+      | typeof PunkOwnersDocument
+      | typeof VotersPerProposalDocument,
+    variables: T,
+    resultFn: (arg0: any) => U[],
+    idFn: (arg0: U) => string,
+  ): Promise<string[]> {
+    let current: U[] | undefined
+    let skip = 0
+    const results: string[] = []
+
+    while (current === undefined || current?.length > 0) {
+      const { data } = await execute(query, { ...variables, skip })
+      current = resultFn(data)
+      if (current !== undefined) {
+        for (const item of current) {
+          const id = idFn(item).toLowerCase()
+          if (!results.includes(id)) {
+            results.push(id)
+          }
+        }
+      }
+
+      console.log(`Fetched ${results.length} results so far...`)
+
+      skip += 1000
+    }
+
+    return results
+  }
+
   async getEnsProposalVoters({
     choice,
     id,
@@ -22,20 +54,35 @@ export class GraphRepository {
     id: Scalars['ID']
     choice: VoteChoice
   }) {
-    const { data } = (await execute(VotersPerProposalDocument, {
-      choice,
-      id,
-    })) as { data: { proposal: Proposal } }
-    return (data?.proposal ?? []).votes.map((vote: Vote) => vote.voter.id)
+    return this.autoPage<
+      {
+        id: Scalars['ID']
+        choice: VoteChoice
+      },
+      Vote
+    >(
+      VotersPerProposalDocument,
+      { choice, id },
+      (data) => data.proposal.votes,
+      (vote) => vote.voter.id,
+    )
   }
 
   async getPunkOwners(): Promise<string[]> {
-    const { data } = await execute(PunkOwnersDocument, {})
-    return (data?.punks ?? []).map((punk: Punk) => punk.owner.id)
+    return this.autoPage<object, Punk>(
+      PunkOwnersDocument,
+      {},
+      (data) => data.punks,
+      (punk) => punk.owner.id,
+    )
   }
 
   async getBeaconDepositors() {
-    const { data } = await execute(BeaconDepositorsDocument, {})
-    return (data?.depositors ?? []).map((depositor: Depositor) => depositor.id)
+    return this.autoPage<object, Depositor>(
+      BeaconDepositorsDocument,
+      {},
+      (data) => data.depositors,
+      (depositor) => depositor.id,
+    )
   }
 }
