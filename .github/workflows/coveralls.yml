@@ -4,12 +4,10 @@ on:
   # pull_request required to get PR comments
   pull_request:
     branches: [main, staging]
-    paths: ['apis', 'circuits']
-    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
+    paths: ['apis', 'circuits', '!**/*md', '!**/*yaml', '!**/*yml']
   push:
     branches: [main, staging]
-    paths: ['apis', 'circuits']
-    paths-ignore: ['**/*md', '**/*yaml', '**/*yml']
+    paths: ['apis', 'circuits', '!**/*md', '!**/*yaml', '!**/*yml']
 
 jobs:
   coveralls:
