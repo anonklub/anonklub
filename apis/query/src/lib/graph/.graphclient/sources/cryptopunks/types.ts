@@ -135,12 +135,17 @@ export type AccountasksArgs = {
 export type Account_filter = {
   id?: InputMaybe<Scalars['Bytes']>;
   id_not?: InputMaybe<Scalars['Bytes']>;
+  id_gt?: InputMaybe<Scalars['Bytes']>;
+  id_lt?: InputMaybe<Scalars['Bytes']>;
+  id_gte?: InputMaybe<Scalars['Bytes']>;
+  id_lte?: InputMaybe<Scalars['Bytes']>;
   id_in?: InputMaybe<Array<Scalars['Bytes']>>;
   id_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   id_contains?: InputMaybe<Scalars['Bytes']>;
   id_not_contains?: InputMaybe<Scalars['Bytes']>;
   punksOwned_?: InputMaybe<Punk_filter>;
   bought_?: InputMaybe<Sale_filter>;
+  nftsOwned_?: InputMaybe<NFT_filter>;
   assigned_?: InputMaybe<Assign_filter>;
   sent_?: InputMaybe<Transfer_filter>;
   received_?: InputMaybe<Transfer_filter>;
@@ -232,6 +237,8 @@ export type Account_filter = {
   accountUrl_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Account_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Account_filter>>>;
 };
 
 export type Account_orderBy =
@@ -413,6 +420,7 @@ export type AskCreated_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -435,12 +443,20 @@ export type AskCreated_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -455,16 +471,53 @@ export type AskCreated_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<AskCreated_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<AskCreated_filter>>>;
 };
 
 export type AskCreated_orderBy =
   | 'id'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'ask'
+  | 'ask__id'
+  | 'ask__open'
+  | 'ask__amount'
+  | 'ask__offerType'
   | 'amount'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'logNumber'
   | 'type'
   | 'blockNumber'
@@ -614,6 +667,7 @@ export type AskRemoved_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -636,12 +690,20 @@ export type AskRemoved_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -656,16 +718,53 @@ export type AskRemoved_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<AskRemoved_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<AskRemoved_filter>>>;
 };
 
 export type AskRemoved_orderBy =
   | 'id'
   | 'ask'
+  | 'ask__id'
+  | 'ask__open'
+  | 'ask__amount'
+  | 'ask__offerType'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'amount'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'logNumber'
   | 'type'
   | 'blockNumber'
@@ -735,6 +834,7 @@ export type Ask_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   created?: InputMaybe<Scalars['String']>;
   created_not?: InputMaybe<Scalars['String']>;
   created_gt?: InputMaybe<Scalars['String']>;
@@ -755,6 +855,7 @@ export type Ask_filter = {
   created_ends_with_nocase?: InputMaybe<Scalars['String']>;
   created_not_ends_with?: InputMaybe<Scalars['String']>;
   created_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  created_?: InputMaybe<Event_filter>;
   removed?: InputMaybe<Scalars['String']>;
   removed_not?: InputMaybe<Scalars['String']>;
   removed_gt?: InputMaybe<Scalars['String']>;
@@ -775,22 +876,55 @@ export type Ask_filter = {
   removed_ends_with_nocase?: InputMaybe<Scalars['String']>;
   removed_not_ends_with?: InputMaybe<Scalars['String']>;
   removed_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  removed_?: InputMaybe<Event_filter>;
   offerType?: InputMaybe<OfferType>;
   offerType_not?: InputMaybe<OfferType>;
   offerType_in?: InputMaybe<Array<OfferType>>;
   offerType_not_in?: InputMaybe<Array<OfferType>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Ask_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Ask_filter>>>;
 };
 
 export type Ask_orderBy =
   | 'id'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'open'
   | 'amount'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'created'
+  | 'created__id'
+  | 'created__amount'
+  | 'created__type'
+  | 'created__logNumber'
+  | 'created__blockNumber'
+  | 'created__blockHash'
+  | 'created__txHash'
+  | 'created__timestamp'
   | 'removed'
+  | 'removed__id'
+  | 'removed__amount'
+  | 'removed__type'
+  | 'removed__logNumber'
+  | 'removed__blockNumber'
+  | 'removed__blockHash'
+  | 'removed__txHash'
+  | 'removed__timestamp'
   | 'offerType';
 
 export type Assign = Event & {
@@ -862,6 +996,7 @@ export type Assign_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   to?: InputMaybe<Scalars['String']>;
   to_not?: InputMaybe<Scalars['String']>;
   to_gt?: InputMaybe<Scalars['String']>;
@@ -934,12 +1069,20 @@ export type Assign_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -954,15 +1097,48 @@ export type Assign_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Assign_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Assign_filter>>>;
 };
 
 export type Assign_orderBy =
   | 'id'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'amount'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'type'
   | 'logNumber'
   | 'blockNumber'
@@ -1129,6 +1305,7 @@ export type BidCreated_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -1151,12 +1328,20 @@ export type BidCreated_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -1171,16 +1356,53 @@ export type BidCreated_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<BidCreated_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<BidCreated_filter>>>;
 };
 
 export type BidCreated_orderBy =
   | 'id'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'bid'
+  | 'bid__id'
+  | 'bid__open'
+  | 'bid__amount'
+  | 'bid__offerType'
   | 'amount'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'logNumber'
   | 'type'
   | 'blockNumber'
@@ -1330,6 +1552,7 @@ export type BidRemoved_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -1352,12 +1575,20 @@ export type BidRemoved_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -1372,16 +1603,53 @@ export type BidRemoved_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<BidRemoved_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<BidRemoved_filter>>>;
 };
 
 export type BidRemoved_orderBy =
   | 'id'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'amount'
   | 'bid'
+  | 'bid__id'
+  | 'bid__open'
+  | 'bid__amount'
+  | 'bid__offerType'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'logNumber'
   | 'type'
   | 'blockNumber'
@@ -1451,6 +1719,7 @@ export type Bid_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   created?: InputMaybe<Scalars['String']>;
   created_not?: InputMaybe<Scalars['String']>;
   created_gt?: InputMaybe<Scalars['String']>;
@@ -1471,6 +1740,7 @@ export type Bid_filter = {
   created_ends_with_nocase?: InputMaybe<Scalars['String']>;
   created_not_ends_with?: InputMaybe<Scalars['String']>;
   created_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  created_?: InputMaybe<Event_filter>;
   removed?: InputMaybe<Scalars['String']>;
   removed_not?: InputMaybe<Scalars['String']>;
   removed_gt?: InputMaybe<Scalars['String']>;
@@ -1491,22 +1761,55 @@ export type Bid_filter = {
   removed_ends_with_nocase?: InputMaybe<Scalars['String']>;
   removed_not_ends_with?: InputMaybe<Scalars['String']>;
   removed_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  removed_?: InputMaybe<Event_filter>;
   offerType?: InputMaybe<OfferType>;
   offerType_not?: InputMaybe<OfferType>;
   offerType_in?: InputMaybe<Array<OfferType>>;
   offerType_not_in?: InputMaybe<Array<OfferType>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Bid_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Bid_filter>>>;
 };
 
 export type Bid_orderBy =
   | 'id'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'open'
   | 'amount'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'created'
+  | 'created__id'
+  | 'created__amount'
+  | 'created__type'
+  | 'created__logNumber'
+  | 'created__blockNumber'
+  | 'created__blockHash'
+  | 'created__txHash'
+  | 'created__timestamp'
   | 'removed'
+  | 'removed__id'
+  | 'removed__amount'
+  | 'removed__type'
+  | 'removed__logNumber'
+  | 'removed__blockNumber'
+  | 'removed__blockHash'
+  | 'removed__txHash'
+  | 'removed__timestamp'
   | 'offerType';
 
 export type BlockChangedFilter = {
@@ -1669,12 +1972,20 @@ export type CToken_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -1689,12 +2000,34 @@ export type CToken_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<CToken_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<CToken_filter>>>;
 };
 
 export type CToken_orderBy =
   | 'id'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'owner'
   | 'amount'
   | 'punkId'
@@ -1816,6 +2149,8 @@ export type Contract_filter = {
   imageHash_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Contract_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Contract_filter>>>;
 };
 
 export type Contract_orderBy =
@@ -1851,6 +2186,8 @@ export type EpnsNotificationCounter_filter = {
   totalCount_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<EpnsNotificationCounter_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<EpnsNotificationCounter_filter>>>;
 };
 
 export type EpnsNotificationCounter_orderBy =
@@ -1923,6 +2260,8 @@ export type EpnsPushNotification_filter = {
   notification_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<EpnsPushNotification_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<EpnsPushNotification_filter>>>;
 };
 
 export type EpnsPushNotification_orderBy =
@@ -2060,6 +2399,7 @@ export type Event_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   type?: InputMaybe<EventType>;
   type_not?: InputMaybe<EventType>;
   type_in?: InputMaybe<Array<EventType>>;
@@ -2082,12 +2422,20 @@ export type Event_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -2102,15 +2450,48 @@ export type Event_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Event_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Event_filter>>>;
 };
 
 export type Event_orderBy =
   | 'id'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'amount'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'type'
   | 'logNumber'
   | 'blockNumber'
@@ -2271,6 +2652,8 @@ export type MetaData_filter = {
   traits_?: InputMaybe<Trait_filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<MetaData_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<MetaData_filter>>>;
 };
 
 export type MetaData_orderBy =
@@ -2281,6 +2664,13 @@ export type MetaData_orderBy =
   | 'svg'
   | 'contractURI'
   | 'punk'
+  | 'punk__id'
+  | 'punk__tokenId'
+  | 'punk__wrapped'
+  | 'punk__numberOfTransfers'
+  | 'punk__numberOfSales'
+  | 'punk__totalAmountSpentOnPunk'
+  | 'punk__averageSalePrice'
   | 'traits';
 
 export type NFT = {
@@ -2385,6 +2775,7 @@ export type NFT_filter = {
   owner_not_ends_with?: InputMaybe<Scalars['String']>;
   owner_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
   owner_?: InputMaybe<Account_filter>;
+  events_?: InputMaybe<Event_filter>;
   currentAsk?: InputMaybe<Scalars['String']>;
   currentAsk_not?: InputMaybe<Scalars['String']>;
   currentAsk_gt?: InputMaybe<Scalars['String']>;
@@ -2429,18 +2820,45 @@ export type NFT_filter = {
   currentBid_?: InputMaybe<Bid_filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<NFT_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<NFT_filter>>>;
 };
 
 export type NFT_orderBy =
   | 'id'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'numberOfTransfers'
   | 'numberOfSales'
   | 'tokenId'
   | 'owner'
+  | 'owner__id'
+  | 'owner__numberOfPunksOwned'
+  | 'owner__numberOfPunksAssigned'
+  | 'owner__numberOfTransfers'
+  | 'owner__numberOfSales'
+  | 'owner__numberOfPurchases'
+  | 'owner__totalSpent'
+  | 'owner__totalEarned'
+  | 'owner__averageAmountSpent'
+  | 'owner__accountUrl'
   | 'events'
   | 'currentAsk'
-  | 'currentBid';
+  | 'currentAsk__id'
+  | 'currentAsk__open'
+  | 'currentAsk__amount'
+  | 'currentAsk__offerType'
+  | 'currentBid'
+  | 'currentBid__id'
+  | 'currentBid__open'
+  | 'currentBid__amount'
+  | 'currentBid__offerType';
 
 export type Offer = {
   id: Scalars['ID'];
@@ -2525,6 +2943,7 @@ export type Offer_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   created?: InputMaybe<Scalars['String']>;
   created_not?: InputMaybe<Scalars['String']>;
   created_gt?: InputMaybe<Scalars['String']>;
@@ -2545,6 +2964,7 @@ export type Offer_filter = {
   created_ends_with_nocase?: InputMaybe<Scalars['String']>;
   created_not_ends_with?: InputMaybe<Scalars['String']>;
   created_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  created_?: InputMaybe<Event_filter>;
   removed?: InputMaybe<Scalars['String']>;
   removed_not?: InputMaybe<Scalars['String']>;
   removed_gt?: InputMaybe<Scalars['String']>;
@@ -2565,22 +2985,55 @@ export type Offer_filter = {
   removed_ends_with_nocase?: InputMaybe<Scalars['String']>;
   removed_not_ends_with?: InputMaybe<Scalars['String']>;
   removed_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  removed_?: InputMaybe<Event_filter>;
   offerType?: InputMaybe<OfferType>;
   offerType_not?: InputMaybe<OfferType>;
   offerType_in?: InputMaybe<Array<OfferType>>;
   offerType_not_in?: InputMaybe<Array<OfferType>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Offer_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Offer_filter>>>;
 };
 
 export type Offer_orderBy =
   | 'id'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'open'
   | 'amount'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'created'
+  | 'created__id'
+  | 'created__amount'
+  | 'created__type'
+  | 'created__logNumber'
+  | 'created__blockNumber'
+  | 'created__blockHash'
+  | 'created__txHash'
+  | 'created__timestamp'
   | 'removed'
+  | 'removed__id'
+  | 'removed__amount'
+  | 'removed__type'
+  | 'removed__logNumber'
+  | 'removed__blockNumber'
+  | 'removed__blockHash'
+  | 'removed__txHash'
+  | 'removed__timestamp'
   | 'offerType';
 
 /** Defines the order direction, either ascending or descending */
@@ -2787,6 +3240,7 @@ export type Punk_filter = {
   wrapped_not?: InputMaybe<Scalars['Boolean']>;
   wrapped_in?: InputMaybe<Array<Scalars['Boolean']>>;
   wrapped_not_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  events_?: InputMaybe<Event_filter>;
   currentAsk?: InputMaybe<Scalars['String']>;
   currentAsk_not?: InputMaybe<Scalars['String']>;
   currentAsk_gt?: InputMaybe<Scalars['String']>;
@@ -2947,27 +3401,122 @@ export type Punk_filter = {
   averageSalePrice_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Punk_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Punk_filter>>>;
 };
 
 export type Punk_orderBy =
   | 'id'
   | 'transferedTo'
+  | 'transferedTo__id'
+  | 'transferedTo__numberOfPunksOwned'
+  | 'transferedTo__numberOfPunksAssigned'
+  | 'transferedTo__numberOfTransfers'
+  | 'transferedTo__numberOfSales'
+  | 'transferedTo__numberOfPurchases'
+  | 'transferedTo__totalSpent'
+  | 'transferedTo__totalEarned'
+  | 'transferedTo__averageAmountSpent'
+  | 'transferedTo__accountUrl'
   | 'assignedTo'
+  | 'assignedTo__id'
+  | 'assignedTo__numberOfPunksOwned'
+  | 'assignedTo__numberOfPunksAssigned'
+  | 'assignedTo__numberOfTransfers'
+  | 'assignedTo__numberOfSales'
+  | 'assignedTo__numberOfPurchases'
+  | 'assignedTo__totalSpent'
+  | 'assignedTo__totalEarned'
+  | 'assignedTo__averageAmountSpent'
+  | 'assignedTo__accountUrl'
   | 'purchasedBy'
+  | 'purchasedBy__id'
+  | 'purchasedBy__numberOfPunksOwned'
+  | 'purchasedBy__numberOfPunksAssigned'
+  | 'purchasedBy__numberOfTransfers'
+  | 'purchasedBy__numberOfSales'
+  | 'purchasedBy__numberOfPurchases'
+  | 'purchasedBy__totalSpent'
+  | 'purchasedBy__totalEarned'
+  | 'purchasedBy__averageAmountSpent'
+  | 'purchasedBy__accountUrl'
   | 'metadata'
+  | 'metadata__id'
+  | 'metadata__tokenId'
+  | 'metadata__tokenURI'
+  | 'metadata__image'
+  | 'metadata__svg'
+  | 'metadata__contractURI'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'tokenId'
   | 'owner'
+  | 'owner__id'
+  | 'owner__numberOfPunksOwned'
+  | 'owner__numberOfPunksAssigned'
+  | 'owner__numberOfTransfers'
+  | 'owner__numberOfSales'
+  | 'owner__numberOfPurchases'
+  | 'owner__totalSpent'
+  | 'owner__totalEarned'
+  | 'owner__averageAmountSpent'
+  | 'owner__accountUrl'
   | 'wrapped'
   | 'events'
   | 'currentAsk'
+  | 'currentAsk__id'
+  | 'currentAsk__open'
+  | 'currentAsk__amount'
+  | 'currentAsk__offerType'
   | 'currentBid'
+  | 'currentBid__id'
+  | 'currentBid__open'
+  | 'currentBid__amount'
+  | 'currentBid__offerType'
   | 'currentAskCreated'
+  | 'currentAskCreated__id'
+  | 'currentAskCreated__amount'
+  | 'currentAskCreated__logNumber'
+  | 'currentAskCreated__type'
+  | 'currentAskCreated__blockNumber'
+  | 'currentAskCreated__blockHash'
+  | 'currentAskCreated__txHash'
+  | 'currentAskCreated__timestamp'
   | 'currentBidCreated'
+  | 'currentBidCreated__id'
+  | 'currentBidCreated__amount'
+  | 'currentBidCreated__logNumber'
+  | 'currentBidCreated__type'
+  | 'currentBidCreated__blockNumber'
+  | 'currentBidCreated__blockHash'
+  | 'currentBidCreated__txHash'
+  | 'currentBidCreated__timestamp'
   | 'numberOfTransfers'
   | 'numberOfSales'
   | 'currentAskRemoved'
+  | 'currentAskRemoved__id'
+  | 'currentAskRemoved__amount'
+  | 'currentAskRemoved__logNumber'
+  | 'currentAskRemoved__type'
+  | 'currentAskRemoved__blockNumber'
+  | 'currentAskRemoved__blockHash'
+  | 'currentAskRemoved__txHash'
+  | 'currentAskRemoved__timestamp'
   | 'currentBidRemoved'
+  | 'currentBidRemoved__id'
+  | 'currentBidRemoved__amount'
+  | 'currentBidRemoved__logNumber'
+  | 'currentBidRemoved__type'
+  | 'currentBidRemoved__blockNumber'
+  | 'currentBidRemoved__blockHash'
+  | 'currentBidRemoved__txHash'
+  | 'currentBidRemoved__timestamp'
   | 'totalAmountSpentOnPunk'
   | 'averageSalePrice';
 
@@ -3562,6 +4111,7 @@ export type Sale_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -3584,12 +4134,20 @@ export type Sale_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -3604,15 +4162,48 @@ export type Sale_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Sale_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Sale_filter>>>;
 };
 
 export type Sale_orderBy =
   | 'id'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'amount'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'logNumber'
   | 'type'
   | 'blockNumber'
@@ -4136,6 +4727,8 @@ export type Trait_filter = {
   numberOfNfts_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Trait_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Trait_filter>>>;
 };
 
 export type Trait_orderBy =
@@ -4264,6 +4857,7 @@ export type Transfer_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -4286,12 +4880,20 @@ export type Transfer_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -4306,15 +4908,48 @@ export type Transfer_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Transfer_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Transfer_filter>>>;
 };
 
 export type Transfer_orderBy =
   | 'id'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'amount'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'logNumber'
   | 'type'
   | 'blockNumber'
@@ -4441,6 +5076,7 @@ export type Unwrap_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -4463,12 +5099,20 @@ export type Unwrap_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -4483,15 +5127,48 @@ export type Unwrap_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Unwrap_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Unwrap_filter>>>;
 };
 
 export type Unwrap_orderBy =
   | 'id'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'amount'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'logNumber'
   | 'type'
   | 'blockNumber'
@@ -4551,12 +5228,20 @@ export type UserProxy_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -4571,11 +5256,23 @@ export type UserProxy_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<UserProxy_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<UserProxy_filter>>>;
 };
 
 export type UserProxy_orderBy =
   | 'id'
   | 'user'
+  | 'user__id'
+  | 'user__numberOfPunksOwned'
+  | 'user__numberOfPunksAssigned'
+  | 'user__numberOfTransfers'
+  | 'user__numberOfSales'
+  | 'user__numberOfPurchases'
+  | 'user__totalSpent'
+  | 'user__totalEarned'
+  | 'user__averageAmountSpent'
+  | 'user__accountUrl'
   | 'blockNumber'
   | 'blockHash'
   | 'txHash'
@@ -4700,6 +5397,7 @@ export type Wrap_filter = {
   nft_ends_with_nocase?: InputMaybe<Scalars['String']>;
   nft_not_ends_with?: InputMaybe<Scalars['String']>;
   nft_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  nft_?: InputMaybe<NFT_filter>;
   logNumber?: InputMaybe<Scalars['BigInt']>;
   logNumber_not?: InputMaybe<Scalars['BigInt']>;
   logNumber_gt?: InputMaybe<Scalars['BigInt']>;
@@ -4722,12 +5420,20 @@ export type Wrap_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   blockHash?: InputMaybe<Scalars['Bytes']>;
   blockHash_not?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lt?: InputMaybe<Scalars['Bytes']>;
+  blockHash_gte?: InputMaybe<Scalars['Bytes']>;
+  blockHash_lte?: InputMaybe<Scalars['Bytes']>;
   blockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   blockHash_contains?: InputMaybe<Scalars['Bytes']>;
   blockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
   txHash?: InputMaybe<Scalars['Bytes']>;
   txHash_not?: InputMaybe<Scalars['Bytes']>;
+  txHash_gt?: InputMaybe<Scalars['Bytes']>;
+  txHash_lt?: InputMaybe<Scalars['Bytes']>;
+  txHash_gte?: InputMaybe<Scalars['Bytes']>;
+  txHash_lte?: InputMaybe<Scalars['Bytes']>;
   txHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   txHash_contains?: InputMaybe<Scalars['Bytes']>;
@@ -4742,15 +5448,48 @@ export type Wrap_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Wrap_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Wrap_filter>>>;
 };
 
 export type Wrap_orderBy =
   | 'id'
   | 'from'
+  | 'from__id'
+  | 'from__numberOfPunksOwned'
+  | 'from__numberOfPunksAssigned'
+  | 'from__numberOfTransfers'
+  | 'from__numberOfSales'
+  | 'from__numberOfPurchases'
+  | 'from__totalSpent'
+  | 'from__totalEarned'
+  | 'from__averageAmountSpent'
+  | 'from__accountUrl'
   | 'to'
+  | 'to__id'
+  | 'to__numberOfPunksOwned'
+  | 'to__numberOfPunksAssigned'
+  | 'to__numberOfTransfers'
+  | 'to__numberOfSales'
+  | 'to__numberOfPurchases'
+  | 'to__totalSpent'
+  | 'to__totalEarned'
+  | 'to__averageAmountSpent'
+  | 'to__accountUrl'
   | 'amount'
   | 'contract'
+  | 'contract__id'
+  | 'contract__symbol'
+  | 'contract__name'
+  | 'contract__totalSupply'
+  | 'contract__totalSales'
+  | 'contract__totalAmountTraded'
+  | 'contract__imageHash'
   | 'nft'
+  | 'nft__id'
+  | 'nft__numberOfTransfers'
+  | 'nft__numberOfSales'
+  | 'nft__tokenId'
   | 'logNumber'
   | 'type'
   | 'blockNumber'
@@ -4763,6 +5502,8 @@ export type _Block_ = {
   hash?: Maybe<Scalars['Bytes']>;
   /** The block number */
   number: Scalars['Int'];
+  /** Integer representation of the timestamp stored in blocks for the chain */
+  timestamp?: Maybe<Scalars['Int']>;
 };
 
 /** The type for the top-level _meta field */
