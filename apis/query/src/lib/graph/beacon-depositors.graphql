@@ -1,5 +1,6 @@
-query BeaconDepositors {
-  depositors {
+# https://thegraph.com/explorer/subgraphs/3QQgWcYVRWS7ni5nCftJzSnZELTZMVQV6HTiSZKKmZBZ?view=Playground&chain=mainnet
+query BeaconDepositors($skip: Int) {
+  depositors(skip: $skip) {
     id
   }
 }

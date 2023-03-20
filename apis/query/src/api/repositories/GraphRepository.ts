@@ -69,7 +69,11 @@ export class GraphRepository {
   }
 
   async getBeaconDepositors() {
-    const { data } = await execute(BeaconDepositorsDocument, {})
-    return (data?.depositors ?? []).map((depositor: Depositor) => depositor.id)
+    return this.autoPage(
+      BeaconDepositorsDocument,
+      {},
+      'depositors',
+      (depositor: Depositor) => depositor.id,
+    )
   }
 }
