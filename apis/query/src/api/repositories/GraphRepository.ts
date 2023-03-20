@@ -20,7 +20,7 @@ export class GraphRepository {
       | typeof PunkOwnersDocument
       | typeof VotersPerProposalDocument,
     variables: T,
-    resultFn: (arg0: any)=> U[],
+    resultFn: (arg0: any) => U[],
     idFn: (arg0: U) => string,
   ): Promise<string[]> {
     let current: U[] | undefined
@@ -63,7 +63,7 @@ export class GraphRepository {
     >(
       VotersPerProposalDocument,
       { choice, id },
-      data => data.proposal.votes,
+      (data) => data.proposal.votes,
       (vote) => vote.voter.id,
     )
   }
@@ -72,7 +72,7 @@ export class GraphRepository {
     return this.autoPage<object, Punk>(
       PunkOwnersDocument,
       {},
-      data => data.punks,
+      (data) => data.punks,
       (punk) => punk.owner.id,
     )
   }
@@ -81,7 +81,7 @@ export class GraphRepository {
     return this.autoPage<object, Depositor>(
       BeaconDepositorsDocument,
       {},
-      data => data.depositors,
+      (data) => data.depositors,
       (depositor) => depositor.id,
     )
   }
