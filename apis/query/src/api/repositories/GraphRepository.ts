@@ -20,7 +20,7 @@ export class GraphRepository {
       | typeof PunkOwnersDocument
       | typeof VotersPerProposalDocument,
     variables: T,
-    key: string,
+    resultFn: (arg0: any)=> U[],
     idFn: (arg0: U) => string,
   ): Promise<string[]> {
     let current: U[] | undefined
@@ -29,7 +29,7 @@ export class GraphRepository {
 
     while (current === undefined || current?.length > 0) {
       const { data } = await execute(query, { ...variables, skip })
-      current = data[key]
+      current = resultFn(data)
       if (current !== undefined) {
         for (const item of current) {
           const id = idFn(item).toLowerCase()
@@ -63,7 +63,7 @@ export class GraphRepository {
     >(
       VotersPerProposalDocument,
       { choice, id },
-      'proposal',
+      data => data.proposal.votes,
       (vote) => vote.voter.id,
     )
   }
@@ -72,7 +72,7 @@ export class GraphRepository {
     return this.autoPage<object, Punk>(
       PunkOwnersDocument,
       {},
-      'punks',
+      data => data.punks,
       (punk) => punk.owner.id,
     )
   }
@@ -81,7 +81,7 @@ export class GraphRepository {
     return this.autoPage<object, Depositor>(
       BeaconDepositorsDocument,
       {},
-      'depositors',
+      data => data.depositors,
       (depositor) => depositor.id,
     )
   }
