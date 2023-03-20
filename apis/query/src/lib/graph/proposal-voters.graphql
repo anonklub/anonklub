@@ -3,7 +3,7 @@ query VotersPerProposal($id: ID!, $choice: VoteChoice, $skip: Int) {
     id: $id
   ) {
     state
-    votes(where: {choice: $choice}) {
+    votes(first:1000, skip: $skip, where: {choice: $choice}) {
       voter {
         id
       }

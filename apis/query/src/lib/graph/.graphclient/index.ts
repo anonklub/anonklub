@@ -45,6 +45,16 @@ export type Scalars = {
 };
 
 export type Query = {
+  aggregation?: Maybe<Aggregation>;
+  aggregations: Array<Aggregation>;
+  depositor?: Maybe<Depositor>;
+  depositors: Array<Depositor>;
+  dailyDeposit?: Maybe<DailyDeposit>;
+  dailyDeposits: Array<DailyDeposit>;
+  deposit?: Maybe<Deposit>;
+  deposits: Array<Deposit>;
+  /** Access to subgraph metadata */
+  _meta?: Maybe<_Meta_>;
   delegateChange?: Maybe<DelegateChange>;
   delegateChanges: Array<DelegateChange>;
   delegateVotingPowerChange?: Maybe<DelegateVotingPowerChange>;
@@ -65,16 +75,6 @@ export type Query = {
   tokenDailySnapshots: Array<TokenDailySnapshot>;
   voteDailySnapshot?: Maybe<VoteDailySnapshot>;
   voteDailySnapshots: Array<VoteDailySnapshot>;
-  /** Access to subgraph metadata */
-  _meta?: Maybe<_Meta_>;
-  aggregation?: Maybe<Aggregation>;
-  aggregations: Array<Aggregation>;
-  depositor?: Maybe<Depositor>;
-  depositors: Array<Depositor>;
-  dailyDeposit?: Maybe<DailyDeposit>;
-  dailyDeposits: Array<DailyDeposit>;
-  deposit?: Maybe<Deposit>;
-  deposits: Array<Deposit>;
   account?: Maybe<Account>;
   accounts: Array<Account>;
   punk?: Maybe<Punk>;
@@ -121,6 +121,83 @@ export type Query = {
   events: Array<Event>;
   offer?: Maybe<Offer>;
   offers: Array<Offer>;
+};
+
+
+export type QueryaggregationArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryaggregationsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Aggregation_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Aggregation_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerydepositorArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerydepositorsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Depositor_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Depositor_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerydailyDepositArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerydailyDepositsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<DailyDeposit_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<DailyDeposit_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerydepositArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QuerydepositsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Deposit_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Deposit_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Query_metaArgs = {
+  block?: InputMaybe<Block_height>;
 };
 
 
@@ -299,83 +376,6 @@ export type QueryvoteDailySnapshotsArgs = {
   orderBy?: InputMaybe<VoteDailySnapshot_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   where?: InputMaybe<VoteDailySnapshot_filter>;
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type Query_metaArgs = {
-  block?: InputMaybe<Block_height>;
-};
-
-
-export type QueryaggregationArgs = {
-  id: Scalars['ID'];
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type QueryaggregationsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Aggregation_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<Aggregation_filter>;
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type QuerydepositorArgs = {
-  id: Scalars['ID'];
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type QuerydepositorsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Depositor_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<Depositor_filter>;
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type QuerydailyDepositArgs = {
-  id: Scalars['ID'];
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type QuerydailyDepositsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<DailyDeposit_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<DailyDeposit_filter>;
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type QuerydepositArgs = {
-  id: Scalars['ID'];
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type QuerydepositsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Deposit_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<Deposit_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -795,6 +795,16 @@ export type QueryoffersArgs = {
 };
 
 export type Subscription = {
+  aggregation?: Maybe<Aggregation>;
+  aggregations: Array<Aggregation>;
+  depositor?: Maybe<Depositor>;
+  depositors: Array<Depositor>;
+  dailyDeposit?: Maybe<DailyDeposit>;
+  dailyDeposits: Array<DailyDeposit>;
+  deposit?: Maybe<Deposit>;
+  deposits: Array<Deposit>;
+  /** Access to subgraph metadata */
+  _meta?: Maybe<_Meta_>;
   delegateChange?: Maybe<DelegateChange>;
   delegateChanges: Array<DelegateChange>;
   delegateVotingPowerChange?: Maybe<DelegateVotingPowerChange>;
@@ -815,16 +825,6 @@ export type Subscription = {
   tokenDailySnapshots: Array<TokenDailySnapshot>;
   voteDailySnapshot?: Maybe<VoteDailySnapshot>;
   voteDailySnapshots: Array<VoteDailySnapshot>;
-  /** Access to subgraph metadata */
-  _meta?: Maybe<_Meta_>;
-  aggregation?: Maybe<Aggregation>;
-  aggregations: Array<Aggregation>;
-  depositor?: Maybe<Depositor>;
-  depositors: Array<Depositor>;
-  dailyDeposit?: Maybe<DailyDeposit>;
-  dailyDeposits: Array<DailyDeposit>;
-  deposit?: Maybe<Deposit>;
-  deposits: Array<Deposit>;
   account?: Maybe<Account>;
   accounts: Array<Account>;
   punk?: Maybe<Punk>;
@@ -871,6 +871,83 @@ export type Subscription = {
   events: Array<Event>;
   offer?: Maybe<Offer>;
   offers: Array<Offer>;
+};
+
+
+export type SubscriptionaggregationArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionaggregationsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Aggregation_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Aggregation_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiondepositorArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiondepositorsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Depositor_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Depositor_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiondailyDepositArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiondailyDepositsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<DailyDeposit_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<DailyDeposit_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiondepositArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptiondepositsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Deposit_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Deposit_filter>;
+  block?: InputMaybe<Block_height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type Subscription_metaArgs = {
+  block?: InputMaybe<Block_height>;
 };
 
 
@@ -1049,83 +1126,6 @@ export type SubscriptionvoteDailySnapshotsArgs = {
   orderBy?: InputMaybe<VoteDailySnapshot_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   where?: InputMaybe<VoteDailySnapshot_filter>;
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type Subscription_metaArgs = {
-  block?: InputMaybe<Block_height>;
-};
-
-
-export type SubscriptionaggregationArgs = {
-  id: Scalars['ID'];
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptionaggregationsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Aggregation_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<Aggregation_filter>;
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptiondepositorArgs = {
-  id: Scalars['ID'];
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptiondepositorsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Depositor_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<Depositor_filter>;
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptiondailyDepositArgs = {
-  id: Scalars['ID'];
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptiondailyDepositsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<DailyDeposit_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<DailyDeposit_filter>;
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptiondepositArgs = {
-  id: Scalars['ID'];
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptiondepositsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Deposit_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<Deposit_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -1544,6 +1544,58 @@ export type SubscriptionoffersArgs = {
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
+export type Aggregation = {
+  id: Scalars['ID'];
+  totalDeposits?: Maybe<Scalars['BigInt']>;
+  totalDepositors?: Maybe<Scalars['BigInt']>;
+  totalAmountDeposited?: Maybe<Scalars['BigInt']>;
+};
+
+export type Aggregation_filter = {
+  id?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  totalDeposits?: InputMaybe<Scalars['BigInt']>;
+  totalDeposits_not?: InputMaybe<Scalars['BigInt']>;
+  totalDeposits_gt?: InputMaybe<Scalars['BigInt']>;
+  totalDeposits_lt?: InputMaybe<Scalars['BigInt']>;
+  totalDeposits_gte?: InputMaybe<Scalars['BigInt']>;
+  totalDeposits_lte?: InputMaybe<Scalars['BigInt']>;
+  totalDeposits_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  totalDeposits_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  totalDepositors?: InputMaybe<Scalars['BigInt']>;
+  totalDepositors_not?: InputMaybe<Scalars['BigInt']>;
+  totalDepositors_gt?: InputMaybe<Scalars['BigInt']>;
+  totalDepositors_lt?: InputMaybe<Scalars['BigInt']>;
+  totalDepositors_gte?: InputMaybe<Scalars['BigInt']>;
+  totalDepositors_lte?: InputMaybe<Scalars['BigInt']>;
+  totalDepositors_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  totalDepositors_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  totalAmountDeposited?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_not?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_gt?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_lt?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_gte?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_lte?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  totalAmountDeposited_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Aggregation_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Aggregation_filter>>>;
+};
+
+export type Aggregation_orderBy =
+  | 'id'
+  | 'totalDeposits'
+  | 'totalDepositors'
+  | 'totalAmountDeposited';
+
 export type BlockChangedFilter = {
   number_gte: Scalars['Int'];
 };
@@ -1553,6 +1605,252 @@ export type Block_height = {
   number?: InputMaybe<Scalars['Int']>;
   number_gte?: InputMaybe<Scalars['Int']>;
 };
+
+export type DailyDeposit = {
+  id: Scalars['ID'];
+  dailyAmountDeposited?: Maybe<Scalars['BigInt']>;
+  dailyDepositCount?: Maybe<Scalars['BigInt']>;
+};
+
+export type DailyDeposit_filter = {
+  id?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  dailyAmountDeposited?: InputMaybe<Scalars['BigInt']>;
+  dailyAmountDeposited_not?: InputMaybe<Scalars['BigInt']>;
+  dailyAmountDeposited_gt?: InputMaybe<Scalars['BigInt']>;
+  dailyAmountDeposited_lt?: InputMaybe<Scalars['BigInt']>;
+  dailyAmountDeposited_gte?: InputMaybe<Scalars['BigInt']>;
+  dailyAmountDeposited_lte?: InputMaybe<Scalars['BigInt']>;
+  dailyAmountDeposited_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  dailyAmountDeposited_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  dailyDepositCount?: InputMaybe<Scalars['BigInt']>;
+  dailyDepositCount_not?: InputMaybe<Scalars['BigInt']>;
+  dailyDepositCount_gt?: InputMaybe<Scalars['BigInt']>;
+  dailyDepositCount_lt?: InputMaybe<Scalars['BigInt']>;
+  dailyDepositCount_gte?: InputMaybe<Scalars['BigInt']>;
+  dailyDepositCount_lte?: InputMaybe<Scalars['BigInt']>;
+  dailyDepositCount_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  dailyDepositCount_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<DailyDeposit_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<DailyDeposit_filter>>>;
+};
+
+export type DailyDeposit_orderBy =
+  | 'id'
+  | 'dailyAmountDeposited'
+  | 'dailyDepositCount';
+
+export type Deposit = {
+  id: Scalars['ID'];
+  dayID: Scalars['String'];
+  depositor?: Maybe<Depositor>;
+  pubkey: Scalars['Bytes'];
+  withdrawal_credentials: Scalars['Bytes'];
+  amount: Scalars['BigInt'];
+  timestamp: Scalars['BigInt'];
+};
+
+export type Deposit_filter = {
+  id?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  dayID?: InputMaybe<Scalars['String']>;
+  dayID_not?: InputMaybe<Scalars['String']>;
+  dayID_gt?: InputMaybe<Scalars['String']>;
+  dayID_lt?: InputMaybe<Scalars['String']>;
+  dayID_gte?: InputMaybe<Scalars['String']>;
+  dayID_lte?: InputMaybe<Scalars['String']>;
+  dayID_in?: InputMaybe<Array<Scalars['String']>>;
+  dayID_not_in?: InputMaybe<Array<Scalars['String']>>;
+  dayID_contains?: InputMaybe<Scalars['String']>;
+  dayID_contains_nocase?: InputMaybe<Scalars['String']>;
+  dayID_not_contains?: InputMaybe<Scalars['String']>;
+  dayID_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  dayID_starts_with?: InputMaybe<Scalars['String']>;
+  dayID_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  dayID_not_starts_with?: InputMaybe<Scalars['String']>;
+  dayID_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  dayID_ends_with?: InputMaybe<Scalars['String']>;
+  dayID_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  dayID_not_ends_with?: InputMaybe<Scalars['String']>;
+  dayID_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  depositor?: InputMaybe<Scalars['String']>;
+  depositor_not?: InputMaybe<Scalars['String']>;
+  depositor_gt?: InputMaybe<Scalars['String']>;
+  depositor_lt?: InputMaybe<Scalars['String']>;
+  depositor_gte?: InputMaybe<Scalars['String']>;
+  depositor_lte?: InputMaybe<Scalars['String']>;
+  depositor_in?: InputMaybe<Array<Scalars['String']>>;
+  depositor_not_in?: InputMaybe<Array<Scalars['String']>>;
+  depositor_contains?: InputMaybe<Scalars['String']>;
+  depositor_contains_nocase?: InputMaybe<Scalars['String']>;
+  depositor_not_contains?: InputMaybe<Scalars['String']>;
+  depositor_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  depositor_starts_with?: InputMaybe<Scalars['String']>;
+  depositor_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  depositor_not_starts_with?: InputMaybe<Scalars['String']>;
+  depositor_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  depositor_ends_with?: InputMaybe<Scalars['String']>;
+  depositor_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  depositor_not_ends_with?: InputMaybe<Scalars['String']>;
+  depositor_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  depositor_?: InputMaybe<Depositor_filter>;
+  pubkey?: InputMaybe<Scalars['Bytes']>;
+  pubkey_not?: InputMaybe<Scalars['Bytes']>;
+  pubkey_gt?: InputMaybe<Scalars['Bytes']>;
+  pubkey_lt?: InputMaybe<Scalars['Bytes']>;
+  pubkey_gte?: InputMaybe<Scalars['Bytes']>;
+  pubkey_lte?: InputMaybe<Scalars['Bytes']>;
+  pubkey_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  pubkey_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  pubkey_contains?: InputMaybe<Scalars['Bytes']>;
+  pubkey_not_contains?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_not?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_gt?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_lt?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_gte?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_lte?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  withdrawal_credentials_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  withdrawal_credentials_contains?: InputMaybe<Scalars['Bytes']>;
+  withdrawal_credentials_not_contains?: InputMaybe<Scalars['Bytes']>;
+  amount?: InputMaybe<Scalars['BigInt']>;
+  amount_not?: InputMaybe<Scalars['BigInt']>;
+  amount_gt?: InputMaybe<Scalars['BigInt']>;
+  amount_lt?: InputMaybe<Scalars['BigInt']>;
+  amount_gte?: InputMaybe<Scalars['BigInt']>;
+  amount_lte?: InputMaybe<Scalars['BigInt']>;
+  amount_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  amount_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  timestamp?: InputMaybe<Scalars['BigInt']>;
+  timestamp_not?: InputMaybe<Scalars['BigInt']>;
+  timestamp_gt?: InputMaybe<Scalars['BigInt']>;
+  timestamp_lt?: InputMaybe<Scalars['BigInt']>;
+  timestamp_gte?: InputMaybe<Scalars['BigInt']>;
+  timestamp_lte?: InputMaybe<Scalars['BigInt']>;
+  timestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Deposit_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Deposit_filter>>>;
+};
+
+export type Deposit_orderBy =
+  | 'id'
+  | 'dayID'
+  | 'depositor'
+  | 'depositor__id'
+  | 'depositor__totalAmountDeposited'
+  | 'depositor__depositCount'
+  | 'pubkey'
+  | 'withdrawal_credentials'
+  | 'amount'
+  | 'timestamp';
+
+export type Depositor = {
+  id: Scalars['ID'];
+  totalAmountDeposited?: Maybe<Scalars['BigInt']>;
+  depositCount?: Maybe<Scalars['BigInt']>;
+  deposits?: Maybe<Array<Deposit>>;
+};
+
+
+export type DepositordepositsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Deposit_orderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<Deposit_filter>;
+};
+
+export type Depositor_filter = {
+  id?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  totalAmountDeposited?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_not?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_gt?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_lt?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_gte?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_lte?: InputMaybe<Scalars['BigInt']>;
+  totalAmountDeposited_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  totalAmountDeposited_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  depositCount?: InputMaybe<Scalars['BigInt']>;
+  depositCount_not?: InputMaybe<Scalars['BigInt']>;
+  depositCount_gt?: InputMaybe<Scalars['BigInt']>;
+  depositCount_lt?: InputMaybe<Scalars['BigInt']>;
+  depositCount_gte?: InputMaybe<Scalars['BigInt']>;
+  depositCount_lte?: InputMaybe<Scalars['BigInt']>;
+  depositCount_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  depositCount_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  deposits_?: InputMaybe<Deposit_filter>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Depositor_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Depositor_filter>>>;
+};
+
+export type Depositor_orderBy =
+  | 'id'
+  | 'totalAmountDeposited'
+  | 'depositCount'
+  | 'deposits';
+
+/** Defines the order direction, either ascending or descending */
+export type OrderDirection =
+  | 'asc'
+  | 'desc';
+
+export type _Block_ = {
+  /** The hash of the block */
+  hash?: Maybe<Scalars['Bytes']>;
+  /** The block number */
+  number: Scalars['Int'];
+  /** Integer representation of the timestamp stored in blocks for the chain */
+  timestamp?: Maybe<Scalars['Int']>;
+};
+
+/** The type for the top-level _meta field */
+export type _Meta_ = {
+  /**
+   * Information about a specific subgraph block. The hash of the block
+   * will be null if the _meta field has a block constraint that asks for
+   * a block number. It will be filled if the _meta field has no block constraint
+   * and therefore asks for the latest  block
+   *
+   */
+  block: _Block_;
+  /** The deployment ID */
+  deployment: Scalars['String'];
+  /** If `true`, the subgraph encountered indexing errors at some past block */
+  hasIndexingErrors: Scalars['Boolean'];
+};
+
+export type _SubgraphErrorPolicy_ =
+  /** Data will be returned even if the subgraph has indexing errors */
+  | 'allow'
+  /** If the subgraph has indexing errors, data will be omitted. The default. */
+  | 'deny';
 
 export type Delegate = {
   /** A Delegate is any address that has been delegated with voting tokens by a token holder, id is the blockchain address of said delegate */
@@ -2351,11 +2649,6 @@ export type Governance_orderBy =
   | 'proposalsQueued'
   | 'proposalsExecuted'
   | 'proposalsCanceled';
-
-/** Defines the order direction, either ascending or descending */
-export type OrderDirection =
-  | 'asc'
-  | 'desc';
 
 export type Proposal = {
   /** Internal proposal ID, in this implementation it seems to be a autoincremental id */
@@ -3296,299 +3589,6 @@ export type Vote_orderBy =
   | 'block'
   | 'blockTime'
   | 'txnHash';
-
-export type _Block_ = {
-  /** The hash of the block */
-  hash?: Maybe<Scalars['Bytes']>;
-  /** The block number */
-  number: Scalars['Int'];
-  /** Integer representation of the timestamp stored in blocks for the chain */
-  timestamp?: Maybe<Scalars['Int']>;
-};
-
-/** The type for the top-level _meta field */
-export type _Meta_ = {
-  /**
-   * Information about a specific subgraph block. The hash of the block
-   * will be null if the _meta field has a block constraint that asks for
-   * a block number. It will be filled if the _meta field has no block constraint
-   * and therefore asks for the latest  block
-   *
-   */
-  block: _Block_;
-  /** The deployment ID */
-  deployment: Scalars['String'];
-  /** If `true`, the subgraph encountered indexing errors at some past block */
-  hasIndexingErrors: Scalars['Boolean'];
-};
-
-export type _SubgraphErrorPolicy_ =
-  /** Data will be returned even if the subgraph has indexing errors */
-  | 'allow'
-  /** If the subgraph has indexing errors, data will be omitted. The default. */
-  | 'deny';
-
-export type Aggregation = {
-  id: Scalars['ID'];
-  totalDeposits?: Maybe<Scalars['BigInt']>;
-  totalDepositors?: Maybe<Scalars['BigInt']>;
-  totalAmountDeposited?: Maybe<Scalars['BigInt']>;
-};
-
-export type Aggregation_filter = {
-  id?: InputMaybe<Scalars['ID']>;
-  id_not?: InputMaybe<Scalars['ID']>;
-  id_gt?: InputMaybe<Scalars['ID']>;
-  id_lt?: InputMaybe<Scalars['ID']>;
-  id_gte?: InputMaybe<Scalars['ID']>;
-  id_lte?: InputMaybe<Scalars['ID']>;
-  id_in?: InputMaybe<Array<Scalars['ID']>>;
-  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  totalDeposits?: InputMaybe<Scalars['BigInt']>;
-  totalDeposits_not?: InputMaybe<Scalars['BigInt']>;
-  totalDeposits_gt?: InputMaybe<Scalars['BigInt']>;
-  totalDeposits_lt?: InputMaybe<Scalars['BigInt']>;
-  totalDeposits_gte?: InputMaybe<Scalars['BigInt']>;
-  totalDeposits_lte?: InputMaybe<Scalars['BigInt']>;
-  totalDeposits_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  totalDeposits_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  totalDepositors?: InputMaybe<Scalars['BigInt']>;
-  totalDepositors_not?: InputMaybe<Scalars['BigInt']>;
-  totalDepositors_gt?: InputMaybe<Scalars['BigInt']>;
-  totalDepositors_lt?: InputMaybe<Scalars['BigInt']>;
-  totalDepositors_gte?: InputMaybe<Scalars['BigInt']>;
-  totalDepositors_lte?: InputMaybe<Scalars['BigInt']>;
-  totalDepositors_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  totalDepositors_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  totalAmountDeposited?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_not?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_gt?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_lt?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_gte?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_lte?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  totalAmountDeposited_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  /** Filter for the block changed event. */
-  _change_block?: InputMaybe<BlockChangedFilter>;
-  and?: InputMaybe<Array<InputMaybe<Aggregation_filter>>>;
-  or?: InputMaybe<Array<InputMaybe<Aggregation_filter>>>;
-};
-
-export type Aggregation_orderBy =
-  | 'id'
-  | 'totalDeposits'
-  | 'totalDepositors'
-  | 'totalAmountDeposited';
-
-export type DailyDeposit = {
-  id: Scalars['ID'];
-  dailyAmountDeposited?: Maybe<Scalars['BigInt']>;
-  dailyDepositCount?: Maybe<Scalars['BigInt']>;
-};
-
-export type DailyDeposit_filter = {
-  id?: InputMaybe<Scalars['ID']>;
-  id_not?: InputMaybe<Scalars['ID']>;
-  id_gt?: InputMaybe<Scalars['ID']>;
-  id_lt?: InputMaybe<Scalars['ID']>;
-  id_gte?: InputMaybe<Scalars['ID']>;
-  id_lte?: InputMaybe<Scalars['ID']>;
-  id_in?: InputMaybe<Array<Scalars['ID']>>;
-  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  dailyAmountDeposited?: InputMaybe<Scalars['BigInt']>;
-  dailyAmountDeposited_not?: InputMaybe<Scalars['BigInt']>;
-  dailyAmountDeposited_gt?: InputMaybe<Scalars['BigInt']>;
-  dailyAmountDeposited_lt?: InputMaybe<Scalars['BigInt']>;
-  dailyAmountDeposited_gte?: InputMaybe<Scalars['BigInt']>;
-  dailyAmountDeposited_lte?: InputMaybe<Scalars['BigInt']>;
-  dailyAmountDeposited_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  dailyAmountDeposited_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  dailyDepositCount?: InputMaybe<Scalars['BigInt']>;
-  dailyDepositCount_not?: InputMaybe<Scalars['BigInt']>;
-  dailyDepositCount_gt?: InputMaybe<Scalars['BigInt']>;
-  dailyDepositCount_lt?: InputMaybe<Scalars['BigInt']>;
-  dailyDepositCount_gte?: InputMaybe<Scalars['BigInt']>;
-  dailyDepositCount_lte?: InputMaybe<Scalars['BigInt']>;
-  dailyDepositCount_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  dailyDepositCount_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  /** Filter for the block changed event. */
-  _change_block?: InputMaybe<BlockChangedFilter>;
-  and?: InputMaybe<Array<InputMaybe<DailyDeposit_filter>>>;
-  or?: InputMaybe<Array<InputMaybe<DailyDeposit_filter>>>;
-};
-
-export type DailyDeposit_orderBy =
-  | 'id'
-  | 'dailyAmountDeposited'
-  | 'dailyDepositCount';
-
-export type Deposit = {
-  id: Scalars['ID'];
-  dayID: Scalars['String'];
-  depositor?: Maybe<Depositor>;
-  pubkey: Scalars['Bytes'];
-  withdrawal_credentials: Scalars['Bytes'];
-  amount: Scalars['BigInt'];
-  timestamp: Scalars['BigInt'];
-};
-
-export type Deposit_filter = {
-  id?: InputMaybe<Scalars['ID']>;
-  id_not?: InputMaybe<Scalars['ID']>;
-  id_gt?: InputMaybe<Scalars['ID']>;
-  id_lt?: InputMaybe<Scalars['ID']>;
-  id_gte?: InputMaybe<Scalars['ID']>;
-  id_lte?: InputMaybe<Scalars['ID']>;
-  id_in?: InputMaybe<Array<Scalars['ID']>>;
-  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  dayID?: InputMaybe<Scalars['String']>;
-  dayID_not?: InputMaybe<Scalars['String']>;
-  dayID_gt?: InputMaybe<Scalars['String']>;
-  dayID_lt?: InputMaybe<Scalars['String']>;
-  dayID_gte?: InputMaybe<Scalars['String']>;
-  dayID_lte?: InputMaybe<Scalars['String']>;
-  dayID_in?: InputMaybe<Array<Scalars['String']>>;
-  dayID_not_in?: InputMaybe<Array<Scalars['String']>>;
-  dayID_contains?: InputMaybe<Scalars['String']>;
-  dayID_contains_nocase?: InputMaybe<Scalars['String']>;
-  dayID_not_contains?: InputMaybe<Scalars['String']>;
-  dayID_not_contains_nocase?: InputMaybe<Scalars['String']>;
-  dayID_starts_with?: InputMaybe<Scalars['String']>;
-  dayID_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  dayID_not_starts_with?: InputMaybe<Scalars['String']>;
-  dayID_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  dayID_ends_with?: InputMaybe<Scalars['String']>;
-  dayID_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  dayID_not_ends_with?: InputMaybe<Scalars['String']>;
-  dayID_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  depositor?: InputMaybe<Scalars['String']>;
-  depositor_not?: InputMaybe<Scalars['String']>;
-  depositor_gt?: InputMaybe<Scalars['String']>;
-  depositor_lt?: InputMaybe<Scalars['String']>;
-  depositor_gte?: InputMaybe<Scalars['String']>;
-  depositor_lte?: InputMaybe<Scalars['String']>;
-  depositor_in?: InputMaybe<Array<Scalars['String']>>;
-  depositor_not_in?: InputMaybe<Array<Scalars['String']>>;
-  depositor_contains?: InputMaybe<Scalars['String']>;
-  depositor_contains_nocase?: InputMaybe<Scalars['String']>;
-  depositor_not_contains?: InputMaybe<Scalars['String']>;
-  depositor_not_contains_nocase?: InputMaybe<Scalars['String']>;
-  depositor_starts_with?: InputMaybe<Scalars['String']>;
-  depositor_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  depositor_not_starts_with?: InputMaybe<Scalars['String']>;
-  depositor_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  depositor_ends_with?: InputMaybe<Scalars['String']>;
-  depositor_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  depositor_not_ends_with?: InputMaybe<Scalars['String']>;
-  depositor_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  depositor_?: InputMaybe<Depositor_filter>;
-  pubkey?: InputMaybe<Scalars['Bytes']>;
-  pubkey_not?: InputMaybe<Scalars['Bytes']>;
-  pubkey_gt?: InputMaybe<Scalars['Bytes']>;
-  pubkey_lt?: InputMaybe<Scalars['Bytes']>;
-  pubkey_gte?: InputMaybe<Scalars['Bytes']>;
-  pubkey_lte?: InputMaybe<Scalars['Bytes']>;
-  pubkey_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  pubkey_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  pubkey_contains?: InputMaybe<Scalars['Bytes']>;
-  pubkey_not_contains?: InputMaybe<Scalars['Bytes']>;
-  withdrawal_credentials?: InputMaybe<Scalars['Bytes']>;
-  withdrawal_credentials_not?: InputMaybe<Scalars['Bytes']>;
-  withdrawal_credentials_gt?: InputMaybe<Scalars['Bytes']>;
-  withdrawal_credentials_lt?: InputMaybe<Scalars['Bytes']>;
-  withdrawal_credentials_gte?: InputMaybe<Scalars['Bytes']>;
-  withdrawal_credentials_lte?: InputMaybe<Scalars['Bytes']>;
-  withdrawal_credentials_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  withdrawal_credentials_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  withdrawal_credentials_contains?: InputMaybe<Scalars['Bytes']>;
-  withdrawal_credentials_not_contains?: InputMaybe<Scalars['Bytes']>;
-  amount?: InputMaybe<Scalars['BigInt']>;
-  amount_not?: InputMaybe<Scalars['BigInt']>;
-  amount_gt?: InputMaybe<Scalars['BigInt']>;
-  amount_lt?: InputMaybe<Scalars['BigInt']>;
-  amount_gte?: InputMaybe<Scalars['BigInt']>;
-  amount_lte?: InputMaybe<Scalars['BigInt']>;
-  amount_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  amount_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  timestamp?: InputMaybe<Scalars['BigInt']>;
-  timestamp_not?: InputMaybe<Scalars['BigInt']>;
-  timestamp_gt?: InputMaybe<Scalars['BigInt']>;
-  timestamp_lt?: InputMaybe<Scalars['BigInt']>;
-  timestamp_gte?: InputMaybe<Scalars['BigInt']>;
-  timestamp_lte?: InputMaybe<Scalars['BigInt']>;
-  timestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  /** Filter for the block changed event. */
-  _change_block?: InputMaybe<BlockChangedFilter>;
-  and?: InputMaybe<Array<InputMaybe<Deposit_filter>>>;
-  or?: InputMaybe<Array<InputMaybe<Deposit_filter>>>;
-};
-
-export type Deposit_orderBy =
-  | 'id'
-  | 'dayID'
-  | 'depositor'
-  | 'depositor__id'
-  | 'depositor__totalAmountDeposited'
-  | 'depositor__depositCount'
-  | 'pubkey'
-  | 'withdrawal_credentials'
-  | 'amount'
-  | 'timestamp';
-
-export type Depositor = {
-  id: Scalars['ID'];
-  totalAmountDeposited?: Maybe<Scalars['BigInt']>;
-  depositCount?: Maybe<Scalars['BigInt']>;
-  deposits?: Maybe<Array<Deposit>>;
-};
-
-
-export type DepositordepositsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Deposit_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<Deposit_filter>;
-};
-
-export type Depositor_filter = {
-  id?: InputMaybe<Scalars['ID']>;
-  id_not?: InputMaybe<Scalars['ID']>;
-  id_gt?: InputMaybe<Scalars['ID']>;
-  id_lt?: InputMaybe<Scalars['ID']>;
-  id_gte?: InputMaybe<Scalars['ID']>;
-  id_lte?: InputMaybe<Scalars['ID']>;
-  id_in?: InputMaybe<Array<Scalars['ID']>>;
-  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  totalAmountDeposited?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_not?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_gt?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_lt?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_gte?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_lte?: InputMaybe<Scalars['BigInt']>;
-  totalAmountDeposited_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  totalAmountDeposited_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  depositCount?: InputMaybe<Scalars['BigInt']>;
-  depositCount_not?: InputMaybe<Scalars['BigInt']>;
-  depositCount_gt?: InputMaybe<Scalars['BigInt']>;
-  depositCount_lt?: InputMaybe<Scalars['BigInt']>;
-  depositCount_gte?: InputMaybe<Scalars['BigInt']>;
-  depositCount_lte?: InputMaybe<Scalars['BigInt']>;
-  depositCount_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  depositCount_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  deposits_?: InputMaybe<Deposit_filter>;
-  /** Filter for the block changed event. */
-  _change_block?: InputMaybe<BlockChangedFilter>;
-  and?: InputMaybe<Array<InputMaybe<Depositor_filter>>>;
-  or?: InputMaybe<Array<InputMaybe<Depositor_filter>>>;
-};
-
-export type Depositor_orderBy =
-  | 'id'
-  | 'totalAmountDeposited'
-  | 'depositCount'
-  | 'deposits';
 
 export type Account = {
   /** Ethereum Address */
@@ -8197,12 +8197,32 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
   Subscription: ResolverTypeWrapper<{}>;
+  Aggregation: ResolverTypeWrapper<Aggregation>;
+  Aggregation_filter: Aggregation_filter;
+  Aggregation_orderBy: Aggregation_orderBy;
   BigDecimal: ResolverTypeWrapper<Scalars['BigDecimal']>;
   BigInt: ResolverTypeWrapper<Scalars['BigInt']>;
   BlockChangedFilter: BlockChangedFilter;
   Block_height: Block_height;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Bytes: ResolverTypeWrapper<Scalars['Bytes']>;
+  DailyDeposit: ResolverTypeWrapper<DailyDeposit>;
+  DailyDeposit_filter: DailyDeposit_filter;
+  DailyDeposit_orderBy: DailyDeposit_orderBy;
+  Deposit: ResolverTypeWrapper<Deposit>;
+  Deposit_filter: Deposit_filter;
+  Deposit_orderBy: Deposit_orderBy;
+  Depositor: ResolverTypeWrapper<Depositor>;
+  Depositor_filter: Depositor_filter;
+  Depositor_orderBy: Depositor_orderBy;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  OrderDirection: OrderDirection;
+  String: ResolverTypeWrapper<Scalars['String']>;
+  _Block_: ResolverTypeWrapper<_Block_>;
+  _Meta_: ResolverTypeWrapper<_Meta_>;
+  _SubgraphErrorPolicy_: _SubgraphErrorPolicy_;
   Delegate: ResolverTypeWrapper<Delegate>;
   DelegateChange: ResolverTypeWrapper<DelegateChange>;
   DelegateChange_filter: DelegateChange_filter;
@@ -8212,7 +8232,6 @@ export type ResolversTypes = ResolversObject<{
   DelegateVotingPowerChange_orderBy: DelegateVotingPowerChange_orderBy;
   Delegate_filter: Delegate_filter;
   Delegate_orderBy: Delegate_orderBy;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
   Governance: ResolverTypeWrapper<Governance>;
   GovernanceFramework: ResolverTypeWrapper<GovernanceFramework>;
   GovernanceFrameworkType: GovernanceFrameworkType;
@@ -8220,14 +8239,10 @@ export type ResolversTypes = ResolversObject<{
   GovernanceFramework_orderBy: GovernanceFramework_orderBy;
   Governance_filter: Governance_filter;
   Governance_orderBy: Governance_orderBy;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  OrderDirection: OrderDirection;
   Proposal: ResolverTypeWrapper<Proposal>;
   ProposalState: ProposalState;
   Proposal_filter: Proposal_filter;
   Proposal_orderBy: Proposal_orderBy;
-  String: ResolverTypeWrapper<Scalars['String']>;
   TokenDailySnapshot: ResolverTypeWrapper<TokenDailySnapshot>;
   TokenDailySnapshot_filter: TokenDailySnapshot_filter;
   TokenDailySnapshot_orderBy: TokenDailySnapshot_orderBy;
@@ -8241,21 +8256,6 @@ export type ResolversTypes = ResolversObject<{
   VoteDailySnapshot_orderBy: VoteDailySnapshot_orderBy;
   Vote_filter: Vote_filter;
   Vote_orderBy: Vote_orderBy;
-  _Block_: ResolverTypeWrapper<_Block_>;
-  _Meta_: ResolverTypeWrapper<_Meta_>;
-  _SubgraphErrorPolicy_: _SubgraphErrorPolicy_;
-  Aggregation: ResolverTypeWrapper<Aggregation>;
-  Aggregation_filter: Aggregation_filter;
-  Aggregation_orderBy: Aggregation_orderBy;
-  DailyDeposit: ResolverTypeWrapper<DailyDeposit>;
-  DailyDeposit_filter: DailyDeposit_filter;
-  DailyDeposit_orderBy: DailyDeposit_orderBy;
-  Deposit: ResolverTypeWrapper<Deposit>;
-  Deposit_filter: Deposit_filter;
-  Deposit_orderBy: Deposit_orderBy;
-  Depositor: ResolverTypeWrapper<Depositor>;
-  Depositor_filter: Depositor_filter;
-  Depositor_orderBy: Depositor_orderBy;
   Account: ResolverTypeWrapper<Account>;
   Account_filter: Account_filter;
   Account_orderBy: Account_orderBy;
@@ -8334,28 +8334,38 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   Query: {};
   Subscription: {};
+  Aggregation: Aggregation;
+  Aggregation_filter: Aggregation_filter;
   BigDecimal: Scalars['BigDecimal'];
   BigInt: Scalars['BigInt'];
   BlockChangedFilter: BlockChangedFilter;
   Block_height: Block_height;
   Boolean: Scalars['Boolean'];
   Bytes: Scalars['Bytes'];
+  DailyDeposit: DailyDeposit;
+  DailyDeposit_filter: DailyDeposit_filter;
+  Deposit: Deposit;
+  Deposit_filter: Deposit_filter;
+  Depositor: Depositor;
+  Depositor_filter: Depositor_filter;
+  Float: Scalars['Float'];
+  ID: Scalars['ID'];
+  Int: Scalars['Int'];
+  String: Scalars['String'];
+  _Block_: _Block_;
+  _Meta_: _Meta_;
   Delegate: Delegate;
   DelegateChange: DelegateChange;
   DelegateChange_filter: DelegateChange_filter;
   DelegateVotingPowerChange: DelegateVotingPowerChange;
   DelegateVotingPowerChange_filter: DelegateVotingPowerChange_filter;
   Delegate_filter: Delegate_filter;
-  Float: Scalars['Float'];
   Governance: Governance;
   GovernanceFramework: GovernanceFramework;
   GovernanceFramework_filter: GovernanceFramework_filter;
   Governance_filter: Governance_filter;
-  ID: Scalars['ID'];
-  Int: Scalars['Int'];
   Proposal: Proposal;
   Proposal_filter: Proposal_filter;
-  String: Scalars['String'];
   TokenDailySnapshot: TokenDailySnapshot;
   TokenDailySnapshot_filter: TokenDailySnapshot_filter;
   TokenHolder: TokenHolder;
@@ -8364,16 +8374,6 @@ export type ResolversParentTypes = ResolversObject<{
   VoteDailySnapshot: VoteDailySnapshot;
   VoteDailySnapshot_filter: VoteDailySnapshot_filter;
   Vote_filter: Vote_filter;
-  _Block_: _Block_;
-  _Meta_: _Meta_;
-  Aggregation: Aggregation;
-  Aggregation_filter: Aggregation_filter;
-  DailyDeposit: DailyDeposit;
-  DailyDeposit_filter: DailyDeposit_filter;
-  Deposit: Deposit;
-  Deposit_filter: Deposit_filter;
-  Depositor: Depositor;
-  Depositor_filter: Depositor_filter;
   Account: Account;
   Account_filter: Account_filter;
   Ask: Ask;
@@ -8439,6 +8439,15 @@ export type derivedFromDirectiveArgs = {
 export type derivedFromDirectiveResolver<Result, Parent, ContextType = MeshContext, Args = derivedFromDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type QueryResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  aggregation?: Resolver<Maybe<ResolversTypes['Aggregation']>, ParentType, ContextType, RequireFields<QueryaggregationArgs, 'id' | 'subgraphError'>>;
+  aggregations?: Resolver<Array<ResolversTypes['Aggregation']>, ParentType, ContextType, RequireFields<QueryaggregationsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  depositor?: Resolver<Maybe<ResolversTypes['Depositor']>, ParentType, ContextType, RequireFields<QuerydepositorArgs, 'id' | 'subgraphError'>>;
+  depositors?: Resolver<Array<ResolversTypes['Depositor']>, ParentType, ContextType, RequireFields<QuerydepositorsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  dailyDeposit?: Resolver<Maybe<ResolversTypes['DailyDeposit']>, ParentType, ContextType, RequireFields<QuerydailyDepositArgs, 'id' | 'subgraphError'>>;
+  dailyDeposits?: Resolver<Array<ResolversTypes['DailyDeposit']>, ParentType, ContextType, RequireFields<QuerydailyDepositsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  deposit?: Resolver<Maybe<ResolversTypes['Deposit']>, ParentType, ContextType, RequireFields<QuerydepositArgs, 'id' | 'subgraphError'>>;
+  deposits?: Resolver<Array<ResolversTypes['Deposit']>, ParentType, ContextType, RequireFields<QuerydepositsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  _meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Query_metaArgs>>;
   delegateChange?: Resolver<Maybe<ResolversTypes['DelegateChange']>, ParentType, ContextType, RequireFields<QuerydelegateChangeArgs, 'id' | 'subgraphError'>>;
   delegateChanges?: Resolver<Array<ResolversTypes['DelegateChange']>, ParentType, ContextType, RequireFields<QuerydelegateChangesArgs, 'skip' | 'first' | 'subgraphError'>>;
   delegateVotingPowerChange?: Resolver<Maybe<ResolversTypes['DelegateVotingPowerChange']>, ParentType, ContextType, RequireFields<QuerydelegateVotingPowerChangeArgs, 'id' | 'subgraphError'>>;
@@ -8459,15 +8468,6 @@ export type QueryResolvers<ContextType = MeshContext, ParentType extends Resolve
   tokenDailySnapshots?: Resolver<Array<ResolversTypes['TokenDailySnapshot']>, ParentType, ContextType, RequireFields<QuerytokenDailySnapshotsArgs, 'skip' | 'first' | 'subgraphError'>>;
   voteDailySnapshot?: Resolver<Maybe<ResolversTypes['VoteDailySnapshot']>, ParentType, ContextType, RequireFields<QueryvoteDailySnapshotArgs, 'id' | 'subgraphError'>>;
   voteDailySnapshots?: Resolver<Array<ResolversTypes['VoteDailySnapshot']>, ParentType, ContextType, RequireFields<QueryvoteDailySnapshotsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  _meta?: Resolver<Maybe<ResolversTypes['_Meta_']>, ParentType, ContextType, Partial<Query_metaArgs>>;
-  aggregation?: Resolver<Maybe<ResolversTypes['Aggregation']>, ParentType, ContextType, RequireFields<QueryaggregationArgs, 'id' | 'subgraphError'>>;
-  aggregations?: Resolver<Array<ResolversTypes['Aggregation']>, ParentType, ContextType, RequireFields<QueryaggregationsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  depositor?: Resolver<Maybe<ResolversTypes['Depositor']>, ParentType, ContextType, RequireFields<QuerydepositorArgs, 'id' | 'subgraphError'>>;
-  depositors?: Resolver<Array<ResolversTypes['Depositor']>, ParentType, ContextType, RequireFields<QuerydepositorsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  dailyDeposit?: Resolver<Maybe<ResolversTypes['DailyDeposit']>, ParentType, ContextType, RequireFields<QuerydailyDepositArgs, 'id' | 'subgraphError'>>;
-  dailyDeposits?: Resolver<Array<ResolversTypes['DailyDeposit']>, ParentType, ContextType, RequireFields<QuerydailyDepositsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  deposit?: Resolver<Maybe<ResolversTypes['Deposit']>, ParentType, ContextType, RequireFields<QuerydepositArgs, 'id' | 'subgraphError'>>;
-  deposits?: Resolver<Array<ResolversTypes['Deposit']>, ParentType, ContextType, RequireFields<QuerydepositsArgs, 'skip' | 'first' | 'subgraphError'>>;
   account?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<QueryaccountArgs, 'id' | 'subgraphError'>>;
   accounts?: Resolver<Array<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<QueryaccountsArgs, 'skip' | 'first' | 'subgraphError'>>;
   punk?: Resolver<Maybe<ResolversTypes['Punk']>, ParentType, ContextType, RequireFields<QuerypunkArgs, 'id' | 'subgraphError'>>;
@@ -8517,6 +8517,15 @@ export type QueryResolvers<ContextType = MeshContext, ParentType extends Resolve
 }>;
 
 export type SubscriptionResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
+  aggregation?: SubscriptionResolver<Maybe<ResolversTypes['Aggregation']>, "aggregation", ParentType, ContextType, RequireFields<SubscriptionaggregationArgs, 'id' | 'subgraphError'>>;
+  aggregations?: SubscriptionResolver<Array<ResolversTypes['Aggregation']>, "aggregations", ParentType, ContextType, RequireFields<SubscriptionaggregationsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  depositor?: SubscriptionResolver<Maybe<ResolversTypes['Depositor']>, "depositor", ParentType, ContextType, RequireFields<SubscriptiondepositorArgs, 'id' | 'subgraphError'>>;
+  depositors?: SubscriptionResolver<Array<ResolversTypes['Depositor']>, "depositors", ParentType, ContextType, RequireFields<SubscriptiondepositorsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  dailyDeposit?: SubscriptionResolver<Maybe<ResolversTypes['DailyDeposit']>, "dailyDeposit", ParentType, ContextType, RequireFields<SubscriptiondailyDepositArgs, 'id' | 'subgraphError'>>;
+  dailyDeposits?: SubscriptionResolver<Array<ResolversTypes['DailyDeposit']>, "dailyDeposits", ParentType, ContextType, RequireFields<SubscriptiondailyDepositsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  deposit?: SubscriptionResolver<Maybe<ResolversTypes['Deposit']>, "deposit", ParentType, ContextType, RequireFields<SubscriptiondepositArgs, 'id' | 'subgraphError'>>;
+  deposits?: SubscriptionResolver<Array<ResolversTypes['Deposit']>, "deposits", ParentType, ContextType, RequireFields<SubscriptiondepositsArgs, 'skip' | 'first' | 'subgraphError'>>;
+  _meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<Subscription_metaArgs>>;
   delegateChange?: SubscriptionResolver<Maybe<ResolversTypes['DelegateChange']>, "delegateChange", ParentType, ContextType, RequireFields<SubscriptiondelegateChangeArgs, 'id' | 'subgraphError'>>;
   delegateChanges?: SubscriptionResolver<Array<ResolversTypes['DelegateChange']>, "delegateChanges", ParentType, ContextType, RequireFields<SubscriptiondelegateChangesArgs, 'skip' | 'first' | 'subgraphError'>>;
   delegateVotingPowerChange?: SubscriptionResolver<Maybe<ResolversTypes['DelegateVotingPowerChange']>, "delegateVotingPowerChange", ParentType, ContextType, RequireFields<SubscriptiondelegateVotingPowerChangeArgs, 'id' | 'subgraphError'>>;
@@ -8537,15 +8546,6 @@ export type SubscriptionResolvers<ContextType = MeshContext, ParentType extends 
   tokenDailySnapshots?: SubscriptionResolver<Array<ResolversTypes['TokenDailySnapshot']>, "tokenDailySnapshots", ParentType, ContextType, RequireFields<SubscriptiontokenDailySnapshotsArgs, 'skip' | 'first' | 'subgraphError'>>;
   voteDailySnapshot?: SubscriptionResolver<Maybe<ResolversTypes['VoteDailySnapshot']>, "voteDailySnapshot", ParentType, ContextType, RequireFields<SubscriptionvoteDailySnapshotArgs, 'id' | 'subgraphError'>>;
   voteDailySnapshots?: SubscriptionResolver<Array<ResolversTypes['VoteDailySnapshot']>, "voteDailySnapshots", ParentType, ContextType, RequireFields<SubscriptionvoteDailySnapshotsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  _meta?: SubscriptionResolver<Maybe<ResolversTypes['_Meta_']>, "_meta", ParentType, ContextType, Partial<Subscription_metaArgs>>;
-  aggregation?: SubscriptionResolver<Maybe<ResolversTypes['Aggregation']>, "aggregation", ParentType, ContextType, RequireFields<SubscriptionaggregationArgs, 'id' | 'subgraphError'>>;
-  aggregations?: SubscriptionResolver<Array<ResolversTypes['Aggregation']>, "aggregations", ParentType, ContextType, RequireFields<SubscriptionaggregationsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  depositor?: SubscriptionResolver<Maybe<ResolversTypes['Depositor']>, "depositor", ParentType, ContextType, RequireFields<SubscriptiondepositorArgs, 'id' | 'subgraphError'>>;
-  depositors?: SubscriptionResolver<Array<ResolversTypes['Depositor']>, "depositors", ParentType, ContextType, RequireFields<SubscriptiondepositorsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  dailyDeposit?: SubscriptionResolver<Maybe<ResolversTypes['DailyDeposit']>, "dailyDeposit", ParentType, ContextType, RequireFields<SubscriptiondailyDepositArgs, 'id' | 'subgraphError'>>;
-  dailyDeposits?: SubscriptionResolver<Array<ResolversTypes['DailyDeposit']>, "dailyDeposits", ParentType, ContextType, RequireFields<SubscriptiondailyDepositsArgs, 'skip' | 'first' | 'subgraphError'>>;
-  deposit?: SubscriptionResolver<Maybe<ResolversTypes['Deposit']>, "deposit", ParentType, ContextType, RequireFields<SubscriptiondepositArgs, 'id' | 'subgraphError'>>;
-  deposits?: SubscriptionResolver<Array<ResolversTypes['Deposit']>, "deposits", ParentType, ContextType, RequireFields<SubscriptiondepositsArgs, 'skip' | 'first' | 'subgraphError'>>;
   account?: SubscriptionResolver<Maybe<ResolversTypes['Account']>, "account", ParentType, ContextType, RequireFields<SubscriptionaccountArgs, 'id' | 'subgraphError'>>;
   accounts?: SubscriptionResolver<Array<ResolversTypes['Account']>, "accounts", ParentType, ContextType, RequireFields<SubscriptionaccountsArgs, 'skip' | 'first' | 'subgraphError'>>;
   punk?: SubscriptionResolver<Maybe<ResolversTypes['Punk']>, "punk", ParentType, ContextType, RequireFields<SubscriptionpunkArgs, 'id' | 'subgraphError'>>;
@@ -8594,6 +8594,14 @@ export type SubscriptionResolvers<ContextType = MeshContext, ParentType extends 
   offers?: SubscriptionResolver<Array<ResolversTypes['Offer']>, "offers", ParentType, ContextType, RequireFields<SubscriptionoffersArgs, 'skip' | 'first' | 'subgraphError'>>;
 }>;
 
+export type AggregationResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Aggregation'] = ResolversParentTypes['Aggregation']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  totalDeposits?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  totalDepositors?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  totalAmountDeposited?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface BigDecimalScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigDecimal'], any> {
   name: 'BigDecimal';
 }
@@ -8605,6 +8613,46 @@ export interface BigIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 export interface BytesScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Bytes'], any> {
   name: 'Bytes';
 }
+
+export type DailyDepositResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['DailyDeposit'] = ResolversParentTypes['DailyDeposit']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  dailyAmountDeposited?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  dailyDepositCount?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type DepositResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Deposit'] = ResolversParentTypes['Deposit']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  dayID?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  depositor?: Resolver<Maybe<ResolversTypes['Depositor']>, ParentType, ContextType>;
+  pubkey?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
+  withdrawal_credentials?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
+  amount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type DepositorResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Depositor'] = ResolversParentTypes['Depositor']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  totalAmountDeposited?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  depositCount?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
+  deposits?: Resolver<Maybe<Array<ResolversTypes['Deposit']>>, ParentType, ContextType, RequireFields<DepositordepositsArgs, 'skip' | 'first'>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type _Block_Resolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = ResolversObject<{
+  hash?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
+  number?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  timestamp?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type _Meta_Resolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = ResolversObject<{
+  block?: Resolver<ResolversTypes['_Block_'], ParentType, ContextType>;
+  deployment?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  hasIndexingErrors?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export type DelegateResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Delegate'] = ResolversParentTypes['Delegate']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -8759,54 +8807,6 @@ export type VoteDailySnapshotResolvers<ContextType = MeshContext, ParentType ext
   totalWeightedVotes?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   blockNumber?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type _Block_Resolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['_Block_'] = ResolversParentTypes['_Block_']> = ResolversObject<{
-  hash?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
-  number?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  timestamp?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type _Meta_Resolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['_Meta_'] = ResolversParentTypes['_Meta_']> = ResolversObject<{
-  block?: Resolver<ResolversTypes['_Block_'], ParentType, ContextType>;
-  deployment?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  hasIndexingErrors?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type AggregationResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Aggregation'] = ResolversParentTypes['Aggregation']> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  totalDeposits?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  totalDepositors?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  totalAmountDeposited?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type DailyDepositResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['DailyDeposit'] = ResolversParentTypes['DailyDeposit']> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  dailyAmountDeposited?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  dailyDepositCount?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type DepositResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Deposit'] = ResolversParentTypes['Deposit']> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  dayID?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  depositor?: Resolver<Maybe<ResolversTypes['Depositor']>, ParentType, ContextType>;
-  pubkey?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
-  withdrawal_credentials?: Resolver<ResolversTypes['Bytes'], ParentType, ContextType>;
-  amount?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type DepositorResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Depositor'] = ResolversParentTypes['Depositor']> = ResolversObject<{
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  totalAmountDeposited?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  depositCount?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
-  deposits?: Resolver<Maybe<Array<ResolversTypes['Deposit']>>, ParentType, ContextType, RequireFields<DepositordepositsArgs, 'skip' | 'first'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -9142,9 +9142,15 @@ export type WrapResolvers<ContextType = MeshContext, ParentType extends Resolver
 export type Resolvers<ContextType = MeshContext> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  Aggregation?: AggregationResolvers<ContextType>;
   BigDecimal?: GraphQLScalarType;
   BigInt?: GraphQLScalarType;
   Bytes?: GraphQLScalarType;
+  DailyDeposit?: DailyDepositResolvers<ContextType>;
+  Deposit?: DepositResolvers<ContextType>;
+  Depositor?: DepositorResolvers<ContextType>;
+  _Block_?: _Block_Resolvers<ContextType>;
+  _Meta_?: _Meta_Resolvers<ContextType>;
   Delegate?: DelegateResolvers<ContextType>;
   DelegateChange?: DelegateChangeResolvers<ContextType>;
   DelegateVotingPowerChange?: DelegateVotingPowerChangeResolvers<ContextType>;
@@ -9155,12 +9161,6 @@ export type Resolvers<ContextType = MeshContext> = ResolversObject<{
   TokenHolder?: TokenHolderResolvers<ContextType>;
   Vote?: VoteResolvers<ContextType>;
   VoteDailySnapshot?: VoteDailySnapshotResolvers<ContextType>;
-  _Block_?: _Block_Resolvers<ContextType>;
-  _Meta_?: _Meta_Resolvers<ContextType>;
-  Aggregation?: AggregationResolvers<ContextType>;
-  DailyDeposit?: DailyDepositResolvers<ContextType>;
-  Deposit?: DepositResolvers<ContextType>;
-  Depositor?: DepositorResolvers<ContextType>;
   Account?: AccountResolvers<ContextType>;
   Ask?: AskResolvers<ContextType>;
   AskCreated?: AskCreatedResolvers<ContextType>;
@@ -9192,7 +9192,7 @@ export type DirectiveResolvers<ContextType = MeshContext> = ResolversObject<{
   derivedFrom?: derivedFromDirectiveResolver<any, any, ContextType>;
 }>;
 
-export type MeshContext = EnsGovernanceTypes.Context & BeaconDepositorsTypes.Context & CryptopunksTypes.Context & BaseMeshContext;
+export type MeshContext = BeaconDepositorsTypes.Context & EnsGovernanceTypes.Context & CryptopunksTypes.Context & BaseMeshContext;
 
 
 const baseDir = pathModule.join(typeof __dirname === 'string' ? __dirname : '/', '..');
@@ -9200,11 +9200,11 @@ const baseDir = pathModule.join(typeof __dirname === 'string' ? __dirname : '/',
 const importFn: ImportFn = <T>(moduleId: string) => {
   const relativeModuleId = (pathModule.isAbsolute(moduleId) ? pathModule.relative(baseDir, moduleId) : moduleId).split('\\').join('/').replace(baseDir + '/', '');
   switch(relativeModuleId) {
-    case ".graphclient/sources/ens-governance/introspectionSchema":
-      return import("./sources/ens-governance/introspectionSchema") as T;
-    
     case ".graphclient/sources/beacon-depositors/introspectionSchema":
       return import("./sources/beacon-depositors/introspectionSchema") as T;
+    
+    case ".graphclient/sources/ens-governance/introspectionSchema":
+      return import("./sources/ens-governance/introspectionSchema") as T;
     
     case ".graphclient/sources/cryptopunks/introspectionSchema":
       return import("./sources/cryptopunks/introspectionSchema") as T;
@@ -9393,7 +9393,7 @@ export type PunkOwnersQuery = { punks: Array<{ owner: Pick<Account, 'id'> }> };
 
 export const BeaconDepositorsDocument = gql`
     query BeaconDepositors($skip: Int) {
-  depositors(skip: $skip) {
+  depositors(first: 1000, skip: $skip) {
     id
   }
 }
@@ -9402,7 +9402,7 @@ export const VotersPerProposalDocument = gql`
     query VotersPerProposal($id: ID!, $choice: VoteChoice, $skip: Int) {
   proposal(id: $id) {
     state
-    votes(where: {choice: $choice}) {
+    votes(first: 1000, skip: $skip, where: {choice: $choice}) {
       voter {
         id
       }
