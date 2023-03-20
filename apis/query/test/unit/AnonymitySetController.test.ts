@@ -99,7 +99,7 @@ describe('AnonymitySet Controller', () => {
           { choice: 'FO', id: faker.random.numeric(78) },
           {
             choice: 'FOR',
-            id: faker.random.numeric(77),
+            id: faker.random.numeric(76),
           },
           { choice: 'FOR' },
           { id: faker.random.numeric(78) },
