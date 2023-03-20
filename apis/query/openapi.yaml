@@ -9,9 +9,9 @@ info:
   contact:
     name: Privacy Scaling Explorations
     url: 'https://appliedzkp.org/'
-  externalDocs:
-    description: 'GitHub repository'
-    url: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/tree/main/apis/query'
+externalDocs:
+  description: 'GitHub repository'
+  url: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/tree/main/apis/query'
 servers:
   - url: 'https://anon-set.fly.dev'
     description: 'Production server'
@@ -135,6 +135,22 @@ paths:
       summary: List addresses that participated in an on chain ENS governance decision.
       description: ''
       operationId: getEnsVotersAnonSet
+      parameters:
+        - name: id
+          in: query
+          description: The ID of the ENS Proposal (can be found e.g. on [tally.xyz](https://www.tally.xyz/gov/ens/proposals)).
+          required: true
+          schema:
+            type: number
+        - name: choice
+          in: query
+          description: The choice of the ENS Proposal.
+          required: true
+          schema:
+            enum:
+              - 'FOR'
+              - 'AGAINST'
+              - 'ABSTAIN'
       responses:
         '200':
           description: Successful response
