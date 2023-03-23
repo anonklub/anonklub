@@ -4,7 +4,7 @@ Ethereum is a principled project, popular for being a credibly neutral payment, 
 
 Unfortunately, to achieve neutrality, it has sacrificed privacy because every transaction must be public to be verified. However, recent advances in ZKP (Zero Knowledge Proof) systems have made it practical to achieve privacy while maintaining verifiability. There are new privacy focussed ZK blockchains such as [Mina](https://minaprotocol.com/), [Aleo](https://www.aleo.org/) and [Zcash](https://z.cash/), but L1 development is hard and slow, especially on a large and established protocol like Ethereum. Instead of adding privacy to the underlying system, we as smart contract developers can rewrite the ecosystem to respect privacy, while keeping the L1 simple and transparent. This is the promise of zk-ECDSA.
 
-Broadly speaking, dApps work by verifying ECDSA signatures on transactions then executing smart contract logic. Instead, we can verify ECDSA signatures and execute arbitrary logic inside ZKPs, then verify those proofs onchain, then execute our smart contract logic. Thus, without any change to Ethereum itself, we can support privacy where users want it.
+Broadly speaking, dApps work by verifying [ECDSA signatures](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) on transactions then executing smart contract logic. Instead, we can verify ECDSA signatures and execute arbitrary logic inside ZKPs, then verify those proofs onchain, then execute our smart contract logic. Thus, without any change to Ethereum itself, we can support privacy where users want it.
 
 This blog was written as part of a grant from the Ethereum Foundation's Privacy and Scaling Explorations team. My mandate was to explore zk-ECDSA, build applications with zk-ECDSA, and contribute to ZKPs to make this vision come true.
 
@@ -39,6 +39,10 @@ Uses [nullifiers 🪶](#nullifiers)
 Voting on, for example, a DAO proposal (or indeed on political candidates or legislation!) should generally be done privately to prevent retribution, bribery, and collusion. Instead of collating signatures, we can collate ZKPs, provided they output a deterministic nullifier to prevent double votes.
 
 Uses [nullifiers 🪶](#nullifiers)
+
+### Airdrops
+
+### Relays
 
 ### Private NFTs
 
