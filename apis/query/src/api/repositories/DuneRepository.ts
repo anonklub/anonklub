@@ -47,6 +47,7 @@ export class DuneRepository {
       return this._queryErc20Balance({ min, tokenAddress })
     } catch (err) {
       console.log('DuneRepository.queryErc20Balance() error:', err)
+      // TODO: not sure if this is reliable fix, look into dune-ts instead (cache of cookies/bearer token?)
       this.resetDune()
       return this._queryErc20Balance({ min, tokenAddress })
     }
