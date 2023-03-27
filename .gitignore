@@ -22,8 +22,8 @@ circuits/circom/package-lock.json
 
 .docusaurus
 
+.privatekey
+
 addresses.json
 proof.json
 *.zkey
-
-

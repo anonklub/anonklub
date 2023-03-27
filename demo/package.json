@@ -1,0 +1,21 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsnd --cls --exit-child --ignore-watch node_modules --quiet  --respawn --rs --transpile-only src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@e2e-zk-ecdsa/shared": "workspace:^1.0.0",
+    "@noble/secp256k1": "^1.7.0",
+    "ethers": "^5.7.2",
+    "yargs": "^17.7.1"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^2.0.0"
+  }
+}
