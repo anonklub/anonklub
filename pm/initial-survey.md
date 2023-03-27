@@ -42,7 +42,15 @@ Uses [nullifiers 🪶](#nullifiers)
 
 ### Airdrops
 
+Many projects, such as [Arbitrum](TODO) and [ENS](TODO) have introduced a governance token as they mature. This is generally done to reward early users, and give the community power over the protocol. However, if a token holder wants to vote on a proposal anonymously, they will have to sell their token, use a mixer, buy the token back at another address, and then vote with that unlinked address. Instead, we could offer airdrops anonymously by default. To do this, you simply make a list of all the addresses eligible for the drop, hash them into a merkle tree, and allow people to claim their tokens by proving membership in that list.
+
+Note, airdrop usually offer granular rewards, giving more tokens to earlier users, etc. Unfortunately, high granularity would reduce the anonymity set. The easiest implementation would be if every address recieved the same amount, however you could probably mitigate the loss of privacy while allowing different rewards by letting people claim the airdrop for multiple addresses at a time, and offering multiple rewards per address, though this would introduce additional complexity in the circuit.
+
+Uses [nullifiers 🪶](#nullifiers)
+
 ### Relays
+
+One persistent difficulty in using Ethereum privately is not having enough money for gas fees for a new privately generated address. We can build a relay on top of a [mixer](#mixers) by wrapping the mixer's withdraw method with a method to pay the relayer. That way, a user wouldn't send a transaction to the blockchain to call a function, they would generate a proof that they can withdraw funds from the mixer, and that they are willing to pay the relayer a certain amount of Eth to call a given contract with given parameters. Note, this has issues around TODO(complete)
 
 ### Private NFTs
 
