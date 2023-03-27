@@ -6,7 +6,7 @@ import { BigNumber, utils } from 'ethers'
 import http from 'http'
 import { bigintToUint8Array } from '@e2e-zk-ecdsa/shared'
 
-import { ProofRequest } from '../src/interface'
+import { ProofRequest } from '@e2e-zk-ecdsa/shared/src/ProofRequest'
 
 secp256k1utils.hmacSha256Sync = (key, ...msgs) =>
   hmac(sha256, key, secp256k1utils.concatBytes(...msgs))
@@ -39,13 +39,13 @@ const signature: Uint8Array = signSync(
     der: false,
   },
 )
-const postData = new ProofRequest(
+const postData = new ProofRequest({
   addresses,
   signature,
   msghash,
   addressIndex,
   pubkey,
-).stringify()
+}).stringify()
 
 const options = {
   headers: {

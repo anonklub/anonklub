@@ -5,9 +5,10 @@ import { readFileSync, rmSync, writeFileSync } from 'fs'
 import {
   bigintToArray,
   MerkleTree,
+  stringifyWithBigInts,
   uint8ArrayToBigint,
 } from '@e2e-zk-ecdsa/shared'
-import { ProofRequest, stringifyWithBigInts } from './interface'
+import { ProofRequest } from '@e2e-zk-ecdsa/shared/src/ProofRequest'
 
 const poseidonPromise = buildPoseidon()
 
