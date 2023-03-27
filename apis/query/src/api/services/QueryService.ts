@@ -31,7 +31,7 @@ export class QueryService {
       .queryErc20Balance({ min, tokenAddress })
       .then(({ data }) => {
         this.logger.info('Get ERC20-balance based anonymity set')
-        return data
+        return data.map((row) => row.address)
       })
   }
 
