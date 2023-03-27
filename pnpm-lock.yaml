@@ -186,12 +186,14 @@ importers:
     specifiers:
       '@e2e-zk-ecdsa/shared': workspace:^1.0.0
       '@noble/secp256k1': ^1.7.0
+      delay: ^5.0.0
       ethers: ^5.7.2
       ts-node-dev: ^2.0.0
       yargs: ^17.7.1
     dependencies:
       '@e2e-zk-ecdsa/shared': link:../shared
       '@noble/secp256k1': 1.7.0
+      delay: 5.0.0
       ethers: 5.7.2
       yargs: 17.7.1
     devDependencies:
@@ -10364,6 +10366,11 @@ packages:
       p-map: 4.0.0
       rimraf: 3.0.2
       slash: 3.0.0
+    dev: false
+
+  /delay/5.0.0:
+    resolution: {integrity: sha512-ReEBKkIfe4ya47wlPYf/gu5ib6yUG0/Aez0JQZQz94kiWtRQvZIQbTiehsnwHvLSWJnQdhVeqYue7Id1dKr0qw==}
+    engines: {node: '>=10'}
     dev: false
 
   /delayed-stream/1.0.0:

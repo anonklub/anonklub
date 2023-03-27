@@ -27,3 +27,4 @@ circuits/circom/package-lock.json
 addresses.json
 proof.json
 *.zkey
+

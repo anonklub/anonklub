@@ -13,6 +13,7 @@
   "dependencies": {
     "@e2e-zk-ecdsa/shared": "workspace:^1.0.0",
     "@noble/secp256k1": "^1.7.0",
+    "delay": "^5.0.0",
     "ethers": "^5.7.2",
     "yargs": "^17.7.1"
   },
