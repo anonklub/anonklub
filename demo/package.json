@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsnd --cls --exit-child --ignore-watch node_modules --quiet  --respawn --rs --transpile-only src/index.ts"
+    "dev": "tsnd --cls --exit-child --ignore-watch node_modules --quiet  --respawn --rs --transpile-only src/index.ts",
+    "prove": "tsnd --cls --exit-child --quiet  --transpile-only src/index.ts"
   },
   "keywords": [],
   "author": "",

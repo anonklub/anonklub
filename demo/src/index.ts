@@ -1,12 +1,14 @@
 import { Point } from '@noble/secp256k1'
 import { BigNumber, utils, Wallet } from 'ethers'
+import { existsSync } from 'fs'
+import { writeFile } from 'fs/promises'
 import { hideBin } from 'yargs/helpers'
+
 import yargs from 'yargs/yargs'
 import { ProofRequest } from '@e2e-zk-ecdsa/shared'
-
 import { URLS } from './constants'
 
-const fetchAnonSet = async ({
+const fetchErc20AnonSet = async ({
   min,
   tokenAddress,
 }: {
@@ -18,7 +20,10 @@ const fetchAnonSet = async ({
     tokenAddress,
   })
 
-  return fetch(`${URLS.QUERY_API}/balance/ERC20?${params.toString()}`)
+  const res = await fetch(
+    `${URLS.QUERY_API}/balance/ERC20?${params.toString()}`,
+  )
+  return res.json()
 }
 
 const createProofRequest = async ({
@@ -74,14 +79,26 @@ async function main() {
     privateKey: { alias: 'p', requiresArg: true, type: 'string' },
   }).argv as Args
 
-  const addresses = await fetchAnonSet({
-    min: argv.minBalance,
-    tokenAddress: argv.erc20Address,
-  }).then(async (res) => res.json())
+  let addresses: string[]
+  if (existsSync('addresses.json')) {
+    // @ts-expect-error
+    addresses = await import('./addresses.json')
+  } else {
+    addresses = await fetchErc20AnonSet({
+      min: argv.minBalance,
+      tokenAddress: argv.erc20Address,
+    })
 
-  return fetchProof({ addresses, privateKey: argv?.privateKey }).then(
-    async (res) => res.json(),
-  )
+    console.log(addresses)
+    await writeFile('addresses.json', JSON.stringify(addresses, null, 2))
+  }
+
+  const proof = await fetchProof({
+    addresses,
+    privateKey: argv?.privateKey,
+  }).then(async (res) => res.json())
+  console.log(proof)
+  await writeFile('proof.json', JSON.stringify(proof, null, 2))
 }
 
 main()
