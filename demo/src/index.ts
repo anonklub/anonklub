@@ -1,11 +1,11 @@
 import { Point } from '@noble/secp256k1'
+import delay from 'delay'
 import { BigNumber, utils, Wallet } from 'ethers'
 import { existsSync } from 'fs'
 import { readFile, writeFile } from 'fs/promises'
 import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs/yargs'
 import { ProofRequest } from '@e2e-zk-ecdsa/shared'
-import delay from 'delay'
 
 import { URLS } from './constants'
 

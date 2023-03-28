@@ -186,6 +186,7 @@ importers:
     specifiers:
       '@e2e-zk-ecdsa/shared': workspace:^1.0.0
       '@noble/secp256k1': ^1.7.0
+      '@types/yargs': ^17.0.24
       delay: ^5.0.0
       ethers: ^5.7.2
       ts-node-dev: ^2.0.0
@@ -197,6 +198,7 @@ importers:
       ethers: 5.7.2
       yargs: 17.7.1
     devDependencies:
+      '@types/yargs': 17.0.24
       ts-node-dev: 2.0.0_qxgdw2effbhrskuhsstxkzdqiq
 
   docs:
@@ -4972,7 +4974,7 @@ packages:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
       '@types/node': 18.14.0
-      '@types/yargs': 17.0.19
+      '@types/yargs': 17.0.24
       chalk: 4.1.2
 
   /@jridgewell/gen-mapping/0.1.1:
@@ -7371,8 +7373,8 @@ packages:
     dependencies:
       '@types/yargs-parser': 21.0.0
 
-  /@types/yargs/17.0.19:
-    resolution: {integrity: sha512-cAx3qamwaYX9R0fzOIZAlFpo4A+1uBVCxqpKz9D26uTF4srRXaGTTsikQmaotCtNdbhzyUH7ft6p9ktz9s6UNQ==}
+  /@types/yargs/17.0.24:
+    resolution: {integrity: sha512-6i0aC7jV6QzQB8ne1joVZ0eSFIstHsCrobmOtghM11yGlH0j43FKL2UhWdELkyps0zuf7qVTUVCCR+tgSlyLLw==}
     dependencies:
       '@types/yargs-parser': 21.0.0
 
@@ -8457,7 +8459,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@types/yargs': 17.0.19
+      '@types/yargs': 17.0.24
       signale: 1.4.0
       yargs: 17.7.1
     dev: true
