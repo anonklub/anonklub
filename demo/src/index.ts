@@ -54,7 +54,6 @@ const fetchProof = async ({
   addresses: string[]
   privateKey: string
 }) => {
-  await delay(300)
   console.log('Creating proof request')
   const proofRequest = await createProofRequest({
     addresses,
@@ -62,13 +61,17 @@ const fetchProof = async ({
   })
 
   await delay(300)
-  console.log({ proofRequest })
+  const body = proofRequest.stringify()
+  console.log({ proofRequest: body })
   await delay(300)
   console.log('Sending proof request to proving API')
 
   const response = await fetch(URLS.PROVING_API, {
-    body: proofRequest.stringify(),
-    headers: { 'Content-Type': 'application/json' },
+    body,
+    headers: {
+      'Content-Length': Buffer.byteLength(body).toString(),
+      'Content-Type': 'application/json',
+    },
     method: 'POST',
   })
 
@@ -88,23 +91,12 @@ async function main() {
     privateKey: { alias: 'p', requiresArg: true, type: 'string' },
   }).argv as Args
 
-  let addresses: string[]
-  if (existsSync('./addresses.json')) {
-    console.log('Using on-disk addresses.json')
-    addresses = await readFile('addresses.json', 'utf8').then((res) =>
-      JSON.parse(res),
-    )
-  } else {
-    addresses = await fetchErc20AnonSet({
-      min: argv.minBalance,
-      tokenAddress: argv.erc20Address,
-    })
-
-    await writeFile('addresses.json', JSON.stringify(addresses, null, 2))
-  }
-
+  console.log('Fetching addresses from query API')
   await delay(300)
-  console.log(addresses)
+  const addresses = await fetchErc20AnonSet({
+    min: argv.minBalance,
+    tokenAddress: argv.erc20Address,
+  })
 
   const proof = await fetchProof({
     addresses,
