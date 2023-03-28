@@ -3,4 +3,5 @@ packages:
   - apis/proving
   - circuits/circom
   - shared
+  - demo
   - docs
