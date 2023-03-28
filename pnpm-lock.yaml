@@ -229,7 +229,10 @@ importers:
       typescript: 4.9.4
 
   shared:
-    specifiers: {}
+    specifiers:
+      '@noble/secp256k1': ^1.7.0
+    dependencies:
+      '@noble/secp256k1': 1.7.0
 
 packages:
 

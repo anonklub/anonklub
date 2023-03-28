@@ -37,5 +37,12 @@
   },
   "dependencies": {
     "is-ci-cli": "^2.2.0"
-  }
+  },
+  "workspaces": [
+    "apis/*",
+    "circuits/*",
+    "shared",
+    "demo",
+    "docs"
+  ]
 }
