@@ -98,6 +98,9 @@ async function main() {
     tokenAddress: argv.erc20Address,
   })
 
+  // loading addresses from file
+  // const addresses = JSON.parse(await readFile('addresses.json', 'utf-8'))
+
   const proof = await fetchProof({
     addresses,
     privateKey: argv?.privateKey,
