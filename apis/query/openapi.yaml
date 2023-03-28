@@ -28,11 +28,12 @@ paths:
       parameters:
         - name: min
           in: query
-          description: Minimum ETH amount the addresses must have.
+          description: Minimum ETH amount (in ETH) the addresses must own.
           required: true
           schema:
             type: number
             format: int32
+            default: 100
       responses:
         '200':
           description: Successful response
@@ -64,7 +65,7 @@ paths:
             type: string
         - name: min
           in: query
-          description: Minimum ERC20 amount the addresses must have.
+          description: Minimum ERC20 amount the addresses must own.
           required: true
           schema:
             type: number
