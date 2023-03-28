@@ -41,10 +41,10 @@ const signature: Uint8Array = signSync(
 )
 const postData = new ProofRequest({
   addresses,
-  signature,
-  msghash,
   addressIndex,
+  msghash,
   pubkey,
+  signature,
 }).stringify()
 
 const options = {

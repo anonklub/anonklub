@@ -1,13 +1,13 @@
 import { Point } from '@noble/secp256k1'
 import { BigNumber, utils, Wallet } from 'ethers'
 import { existsSync } from 'fs'
-import { writeFile, readFile } from 'fs/promises'
+import { readFile, writeFile } from 'fs/promises'
 import { hideBin } from 'yargs/helpers'
-
 import yargs from 'yargs/yargs'
 import { ProofRequest } from '@e2e-zk-ecdsa/shared'
-import { URLS } from './constants'
 import delay from 'delay'
+
+import { URLS } from './constants'
 
 const fetchErc20AnonSet = async ({
   min,

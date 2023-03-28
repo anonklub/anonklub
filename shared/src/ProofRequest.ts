@@ -18,10 +18,10 @@ export class ProofRequest {
 
   constructor({
     addresses,
-    signature,
-    msghash,
     addressIndex,
+    msghash,
     pubkey,
+    signature,
   }: ProofRequestArgs) {
     this.addresses = addresses
     this.signature = signature
