@@ -1,13 +1,14 @@
 import { Point } from '@noble/secp256k1'
 import delay from 'delay'
 import { BigNumber, utils, Wallet } from 'ethers'
-import { existsSync } from 'fs'
-import { readFile, writeFile } from 'fs/promises'
+import { writeFile } from 'fs'
+import { readFile } from 'fs/promises'
+import http from 'http'
 import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs/yargs'
-import { ProofRequest } from '@e2e-zk-ecdsa/shared'
 
-import { URLS } from './constants'
+import { ProofRequest } from '@e2e-zk-ecdsa/shared'
+import { PROVING_API_HOST, URLS } from './constants'
 
 const fetchErc20AnonSet = async ({
   min,
@@ -66,16 +67,51 @@ const fetchProof = async ({
   await delay(300)
   console.log('Sending proof request to proving API')
 
-  const response = await fetch(URLS.PROVING_API, {
-    body,
+  const options = {
     headers: {
-      'Content-Length': Buffer.byteLength(body).toString(),
+      'Content-Length': Buffer.byteLength(body),
       'Content-Type': 'application/json',
     },
+    host: PROVING_API_HOST,
     method: 'POST',
+    path: '/',
+    port: 3000,
+  }
+
+  const req = http.request(options, function (res) {
+    let response = ''
+
+    res.setEncoding('utf8')
+    res.on('data', function (chunk: string) {
+      response += chunk
+    })
+    res.on('end', function () {
+      console.log('proof: ' + response)
+      // write response to json file
+      writeFile('proof.json', response, (err) => {
+        if (err !== null) {
+          console.log(err)
+        } else {
+          console.log('proof.json written')
+        }
+      })
+    })
   })
 
-  return response.json()
+  req.write(body)
+  req.end()
+
+  // TODO: this time out, use messaging queue
+  // const response = await fetch(URLS.PROVING_API, {
+  //   body,
+  //   headers: {
+  //     'Content-Length': Buffer.byteLength(body).toString(),
+  //     'Content-Type': 'application/json',
+  //   },
+  //   method: 'POST',
+  // })
+  //
+  // return response.json()
 }
 
 interface Args {
@@ -101,20 +137,13 @@ async function main() {
   // loading addresses from file
   // const addresses = JSON.parse(await readFile('addresses.json', 'utf-8'))
 
-  const proof = await fetchProof({
+  await fetchProof({
     addresses,
     privateKey: argv?.privateKey,
-  }).then(async (res) => res.json())
-  console.log(proof)
-  await writeFile('proof.json', JSON.stringify(proof, null, 2))
+  })
 }
 
-main()
-  .then(() => {
-    console.log('Done')
-    process.exit(0)
-  })
-  .catch((err) => {
-    console.error(err)
-    process.exit(1)
-  })
+main().catch((err) => {
+  console.error(err)
+  process.exit(1)
+})
