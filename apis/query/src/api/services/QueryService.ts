@@ -1,3 +1,4 @@
+import { utils } from 'ethers'
 import { Service } from 'typedi'
 import { getErc20BalanceAnonSetQuery } from '@controllers/requests'
 import { Logger, LoggerInterface } from '@decorators/Logger'
@@ -16,11 +17,13 @@ export class QueryService {
     @Logger() readonly logger: LoggerInterface,
   ) {}
 
-  async getEthBalanceAnonSet(min: number) {
-    return this.bigQueryRepository.queryEthBalance(min).then((addresses) => {
-      this.logger.info('Get ETH-balance based anonymity set')
-      return addresses
-    })
+  async getEthBalanceAnonSet(min: string) {
+    return this.bigQueryRepository
+      .queryEthBalance(utils.parseEther(min).toString())
+      .then((addresses) => {
+        this.logger.info('Get ETH-balance based anonymity set')
+        return addresses
+      })
   }
 
   async getErc20BalanceAnonSet({

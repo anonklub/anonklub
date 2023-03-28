@@ -14,6 +14,9 @@ rules:
   no-useless-constructor: off
 
 overrides:
+  - files: ['apis/query/src/controllers/requests/getEthBalanceAnonSetQuery.ts']
+    rules:
+      '@typescript-eslint/no-inferrable-types': off
   - files: ['apis/proving/generated/*.js']
     rules:
       eqeqeq: off
