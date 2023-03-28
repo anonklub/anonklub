@@ -21,3 +21,7 @@ circuits/circom/node_modules
 circuits/circom/package-lock.json
 
 .docusaurus
+
+addresses.json
+proof.json
+
