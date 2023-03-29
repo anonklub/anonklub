@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Anonnymity Set API
-  description: Anonnymity Set API
+  title: Anonymity Set API
+  description: Anonymity Set API
   version: 1.0.0
   license:
     name: MIT
