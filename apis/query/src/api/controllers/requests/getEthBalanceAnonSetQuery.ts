@@ -2,5 +2,5 @@ import { IsNumberString } from 'class-validator'
 
 export class getEthBalanceAnonSetQuery {
   @IsNumberString()
-  min = '100'
+  min: string = '100'
 }
