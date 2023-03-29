@@ -17,6 +17,7 @@ export class DuneRepository {
   }
 
   private resetDune() {
+    console.log('reset dune')
     this.dune = new Dune({
       password: process.env.DUNE_PASSWORD,
       username: process.env.DUNE_USERNAME,
@@ -44,8 +45,9 @@ export class DuneRepository {
     tokenAddress: string
   }) {
     try {
-      return this._queryErc20Balance({ min, tokenAddress })
+      return await this._queryErc20Balance({ min, tokenAddress })
     } catch (err) {
+      console.log({ exeuctionId: this.dune.executionId })
       console.log('DuneRepository.queryErc20Balance() error:', err)
       // TODO: not sure if this is reliable fix, look into dune-ts instead (cache of cookies/bearer token?)
       this.resetDune()
