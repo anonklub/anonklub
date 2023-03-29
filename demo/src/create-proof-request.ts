@@ -1,5 +1,5 @@
-import { BigNumber, utils, Wallet } from 'ethers'
 import { Point } from '@noble/secp256k1'
+import { BigNumber, utils, Wallet } from 'ethers'
 import { ProofRequest } from '@e2e-zk-ecdsa/shared'
 
 export const createProofRequest = async ({
@@ -17,7 +17,7 @@ export const createProofRequest = async ({
   return new ProofRequest({
     addresses: addresses.map((address) => BigNumber.from(address).toBigInt()),
     addressIndex: addresses.indexOf(address.toLowerCase()),
-    msghash: 1234n,
+    msghash: 1234n, // could be anything
     pubkey: point,
     signature: utils.arrayify(signature),
   })

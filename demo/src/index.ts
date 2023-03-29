@@ -1,9 +1,9 @@
 import delay from 'delay'
+import { readFile, writeFile } from 'fs/promises'
 import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs/yargs'
-import { fetchProof } from './fetch-proof'
 import { fetchErc20AnonSet } from './fetch-anon-set'
-import { readFile, writeFile } from 'fs/promises'
+import { fetchProof } from './fetch-proof'
 
 interface Args {
   erc20Address: string

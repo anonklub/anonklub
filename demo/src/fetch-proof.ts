@@ -1,7 +1,7 @@
 import delay from 'delay'
-import { PROVING_API_HOST } from './constants'
-import http from 'http'
 import { writeFile } from 'fs'
+import http from 'http'
+import { PROVING_API_HOST } from './constants'
 import { createProofRequest } from './create-proof-request'
 
 export const fetchProof = async ({
