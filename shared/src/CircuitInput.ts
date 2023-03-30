@@ -1,13 +1,14 @@
-import { bigintToArray, uint8ArrayToBigint } from './helpers'
+import { utils } from 'ethers'
+import { bigintToArray } from './helpers'
 import { MerkleTree } from './MerkleTree'
 import { ProofRequest } from './ProofRequest'
 
 export class CircuitInput {
   private readonly r: bigint[]
-  private readonly msghash: bigint[]
+  private readonly messageDigest: bigint[]
   private readonly pathElements: bigint[]
   private readonly pathIndices: number[]
-  private readonly pubkey: bigint[][]
+  private readonly publicKey: bigint[][]
   private readonly root: bigint
   private readonly s: bigint[]
 
@@ -16,28 +17,32 @@ export class CircuitInput {
     proofRequest,
   }: {
     poseidon: any
-    proofRequest: any
+    proofRequest: ProofRequest
   }) {
-    const request = ProofRequest.fromReq(proofRequest)
-    const tree = new MerkleTree(request.addresses, 21, poseidon, poseidon.F)
-    const merkleProof = tree.merkleProof(request.addressIndex)
-    this.msghash = bigintToArray(64, 4, request.msghash)
+    const { addresses, messageDigest, publicKey, rawSignature } = proofRequest
+    const address = utils.recoverAddress(
+      messageDigest,
+      proofRequest.rawSignature,
+    )
+    const addressIndex = proofRequest.addresses.indexOf(address)
+    const tree = new MerkleTree(
+      addresses.map((address) => BigInt(address)),
+      21,
+      poseidon,
+      poseidon.F,
+    )
+    const merkleProof = tree.merkleProof(addressIndex)
+
+    this.root = tree.root()
+    this.messageDigest = bigintToArray(64, 4, BigInt(messageDigest))
     this.pathElements = merkleProof.pathElements
     this.pathIndices = merkleProof.pathIndices
-    this.pubkey = [
-      bigintToArray(64, 4, request.pubkey.x),
-      bigintToArray(64, 4, request.pubkey.y),
+    this.publicKey = [
+      bigintToArray(64, 4, BigInt(publicKey.x)),
+      bigintToArray(64, 4, BigInt(publicKey.y)),
     ]
-    this.r = bigintToArray(
-      64,
-      4,
-      uint8ArrayToBigint(request.signature.slice(0, 32)),
-    )
-    this.root = tree.root()
-    this.s = bigintToArray(
-      64,
-      4,
-      uint8ArrayToBigint(request.signature.slice(32, 64)),
-    )
+    const { r, s } = utils.splitSignature(rawSignature)
+    this.r = bigintToArray(64, 4, BigInt(r))
+    this.s = bigintToArray(64, 4, BigInt(s))
   }
 }
