@@ -5,9 +5,10 @@ import { readFileSync, rmSync, writeFileSync } from 'fs'
 import {
   bigintToArray,
   MerkleTree,
+  stringifyWithBigInts,
   uint8ArrayToBigint,
 } from '@e2e-zk-ecdsa/shared'
-import { ProofRequest, stringifyWithBigInts } from './interface'
+import { ProofRequest } from '@e2e-zk-ecdsa/shared/src/ProofRequest'
 
 const poseidonPromise = buildPoseidon()
 
@@ -44,10 +45,10 @@ export const provingRouter = Router().post('/', async (req, res) => {
   execSync(
     'snarkjs groth16 prove ./circuit_0001.zkey ./witness.wtns ./proof.json ./public.json',
   )
-  res.send(
-    readFileSync('./proof.json').toString() +
-      readFileSync('./public.json').toString(),
-  )
+  res.send({
+    proof: readFileSync('./proof.json').toString(),
+    public: readFileSync('./public.json').toString(),
+  })
   rmSync('./witness.wtns')
   rmSync('./input.json')
   rmSync('./proof.json')

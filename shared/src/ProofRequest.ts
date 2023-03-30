@@ -1,4 +1,13 @@
 import { Point } from '@noble/secp256k1'
+import { stringifyWithBigInts } from './helpers'
+
+export interface ProofRequestArgs {
+  addresses: bigint[]
+  signature: Uint8Array
+  msghash: bigint
+  addressIndex: number
+  pubkey: Point
+}
 
 export class ProofRequest {
   addresses: bigint[]
@@ -7,13 +16,13 @@ export class ProofRequest {
   addressIndex: number
   pubkey: Point
 
-  constructor(
-    addresses: bigint[],
-    signature: Uint8Array,
-    msghash: bigint,
-    addressIndex: number,
-    pubkey: Point,
-  ) {
+  constructor({
+    addresses,
+    addressIndex,
+    msghash,
+    pubkey,
+    signature,
+  }: ProofRequestArgs) {
     this.addresses = addresses
     this.signature = signature
     this.msghash = msghash
@@ -34,11 +43,4 @@ export class ProofRequest {
     req.signature = Uint8Array.from(Object.values(req.signature))
     return req
   }
-}
-
-export function stringifyWithBigInts(data) {
-  return JSON.stringify(
-    data,
-    (key, value) => (typeof value === 'bigint' ? value.toString() : value), // return everything else unchanged
-  )
 }

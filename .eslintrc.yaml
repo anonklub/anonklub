@@ -6,6 +6,7 @@ parserOptions:
       'apis/proving/tsconfig.json',
       'apis/query/tsconfig.json',
       'circuits/circom/tsconfig.json',
+      'demo/tsconfig.json',
       'docs/tsconfig.json',
       'shared/tsconfig.json',
     ]
@@ -14,7 +15,8 @@ rules:
   no-useless-constructor: off
 
 overrides:
-  - files: ['apis/query/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts']
+  - files:
+      ['apis/query/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts']
     rules:
       '@typescript-eslint/no-inferrable-types': off
   - files: ['apis/proving/generated/*.js']
@@ -32,7 +34,12 @@ overrides:
   - files: ['apis/proving/src/routes.ts']
     rules:
       '@typescript-eslint/no-misused-promises': off
-  - files: ['apis/*/src/index.ts', 'apis/proving/generated/*.js']
+  - files:
+      [
+        'apis/*/src/index.ts',
+        'apis/proving/generated/*.js',
+        'demo/src/index.ts',
+      ]
     rules:
       no-console: off
   - files: ['apis/query/src/decorators/Logger.ts']
@@ -52,3 +59,6 @@ overrides:
       ]
     rules:
       jest/expect-expect: 'off'
+  - files: ['shared/src/index.ts']
+    rules:
+      'sort/exports': 'off'
