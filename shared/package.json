@@ -13,5 +13,8 @@
     "@noble/secp256k1": "^1.7.0",
     "circomlibjs": "^0.1.7",
     "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0"
   }
 }

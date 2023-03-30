@@ -334,6 +334,10 @@ importers:
       ethers:
         specifier: ^5.7.2
         version: 5.7.2
+    devDependencies:
+      '@faker-js/faker':
+        specifier: ^7.6.0
+        version: 7.6.0
 
 packages:
 
