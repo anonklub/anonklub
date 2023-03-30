@@ -1,20 +1,18 @@
 import { execSync } from 'child_process'
-import { buildPoseidon } from 'circomlibjs'
 import { Router } from 'express'
 import { readFileSync, rmSync, writeFileSync } from 'fs'
 import {
   bigintToArray,
+  memoPoseidon,
   MerkleTree,
+  ProofRequest,
   stringifyWithBigInts,
   uint8ArrayToBigint,
 } from '@e2e-zk-ecdsa/shared'
-import { ProofRequest } from '@e2e-zk-ecdsa/shared/src/ProofRequest'
-
-const poseidonPromise = buildPoseidon()
 
 export const provingRouter = Router().post('/', async (req, res) => {
   const request = ProofRequest.fromReq(req.body)
-  const poseidon = await poseidonPromise
+  const poseidon = await memoPoseidon()
 
   const tree = new MerkleTree(request.addresses, 21, poseidon, poseidon.F)
   const merkleProof = tree.merkleProof(request.addressIndex)

@@ -6,7 +6,8 @@
     "target": "es2020",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "resolveJsonModule": true
   },
-  "include": ["src"]
+  "include": ["src", "test", "jest.config.ts"]
 }
