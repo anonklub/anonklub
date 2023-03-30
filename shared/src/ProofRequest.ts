@@ -3,7 +3,7 @@ import { utils } from 'ethers'
 
 export class ProofRequest {
   readonly addresses: string[]
-  readonly message: string
+  readonly messageDigest: string
   readonly publicKey: { x: string; y: string }
   readonly rawSignature: string
 
@@ -22,6 +22,6 @@ export class ProofRequest {
       utils.recoverPublicKey(utils.hashMessage(message), rawSignature).slice(2),
     )
     this.publicKey = { x: publicKey.x.toString(), y: publicKey.y.toString() }
-    this.message = message
+    this.messageDigest = utils.hashMessage(message)
   }
 }

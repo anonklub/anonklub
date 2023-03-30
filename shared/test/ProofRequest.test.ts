@@ -19,7 +19,7 @@ describe('ProofRequest', () => {
     proofRequest.addresses.forEach((address) => {
       utils.isAddress(address)
     })
-    expect(proofRequest.message).toEqual(message)
+    expect(proofRequest.messageDigest).toEqual(utils.hashMessage(message))
     expect(proofRequest.rawSignature).toEqual(rawSignature)
     expect(proofRequest.publicKey.x).toMatch(/^[0-9]+$/)
     expect(proofRequest.publicKey.y).toMatch(/^[0-9]+$/)
