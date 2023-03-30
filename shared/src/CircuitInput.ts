@@ -1,16 +1,17 @@
 import { utils } from 'ethers'
-import { bigintToArray } from './helpers'
+import { bigintToArray, stringifyWithBigInts } from './helpers'
 import { MerkleTree } from './MerkleTree'
 import { ProofRequest } from './ProofRequest'
+import { Serializable } from './interfaces'
 
-export class CircuitInput {
-  private readonly r: bigint[]
-  private readonly messageDigest: bigint[]
-  private readonly pathElements: bigint[]
-  private readonly pathIndices: number[]
-  private readonly publicKey: bigint[][]
-  private readonly root: bigint
-  private readonly s: bigint[]
+export class CircuitInput implements Serializable {
+  readonly publicKey: bigint[][]
+  readonly messageDigest: bigint[]
+  readonly root: bigint
+  readonly pathIndices: number[]
+  readonly pathElements: bigint[]
+  readonly s: bigint[]
+  readonly r: bigint[]
 
   constructor({
     poseidon,
@@ -44,5 +45,9 @@ export class CircuitInput {
     const { r, s } = utils.splitSignature(rawSignature)
     this.r = bigintToArray(64, 4, BigInt(r))
     this.s = bigintToArray(64, 4, BigInt(s))
+  }
+
+  serialize() {
+    return stringifyWithBigInts(this)
   }
 }

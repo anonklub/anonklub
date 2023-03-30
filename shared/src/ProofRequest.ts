@@ -1,7 +1,8 @@
 import { Point } from '@noble/secp256k1'
 import { utils } from 'ethers'
+import { Serializable } from './interfaces'
 
-export class ProofRequest {
+export class ProofRequest implements Serializable {
   readonly addresses: string[]
   readonly messageDigest: string
   readonly publicKey: { x: string; y: string }
@@ -23,5 +24,9 @@ export class ProofRequest {
     )
     this.publicKey = { x: publicKey.x.toString(), y: publicKey.y.toString() }
     this.messageDigest = utils.hashMessage(message)
+  }
+
+  serialize() {
+    return JSON.stringify(this)
   }
 }
