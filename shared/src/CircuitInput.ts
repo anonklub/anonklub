@@ -1,12 +1,12 @@
 import { utils } from 'ethers'
 import { bigintToArray, stringifyWithBigInts } from './helpers'
+import { Serializable } from './interfaces'
 import { MerkleTree } from './MerkleTree'
 import { ProofRequest } from './ProofRequest'
-import { Serializable } from './interfaces'
 
 export class CircuitInput implements Serializable {
-  readonly publicKey: bigint[][]
-  readonly messageDigest: bigint[]
+  readonly pubkey: bigint[][]
+  readonly msghash: bigint[]
   readonly root: bigint
   readonly pathIndices: number[]
   readonly pathElements: bigint[]
@@ -16,9 +16,11 @@ export class CircuitInput implements Serializable {
   constructor({
     poseidon,
     proofRequest,
+    msghash,
   }: {
     poseidon: any
     proofRequest: ProofRequest
+    msghash?: bigint
   }) {
     const { addresses, messageDigest, publicKey, rawSignature } = proofRequest
     const address = utils.recoverAddress(
@@ -35,10 +37,10 @@ export class CircuitInput implements Serializable {
     const merkleProof = tree.merkleProof(addressIndex)
 
     this.root = tree.root()
-    this.messageDigest = bigintToArray(64, 4, BigInt(messageDigest))
+    this.msghash = bigintToArray(64, 4, msghash ?? BigInt(messageDigest))
     this.pathElements = merkleProof.pathElements
     this.pathIndices = merkleProof.pathIndices
-    this.publicKey = [
+    this.pubkey = [
       bigintToArray(64, 4, BigInt(publicKey.x)),
       bigintToArray(64, 4, BigInt(publicKey.y)),
     ]

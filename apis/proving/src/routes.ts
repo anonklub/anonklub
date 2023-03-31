@@ -2,39 +2,22 @@ import { execSync } from 'child_process'
 import { Router } from 'express'
 import { readFileSync, rmSync, writeFileSync } from 'fs'
 import {
-  bigintToArray,
+  CircuitInput,
   memoPoseidon,
-  MerkleTree,
-  ProofRequest,
   stringifyWithBigInts,
-  uint8ArrayToBigint,
 } from '@e2e-zk-ecdsa/shared'
 
 export const provingRouter = Router().post('/', async (req, res) => {
-  const request = ProofRequest.fromReq(req.body)
+  const proofRequest = req.body
+  console.log('received proof request', proofRequest)
   const poseidon = await memoPoseidon()
+  const circuitInput = new CircuitInput({
+    poseidon,
+    proofRequest,
+  })
+  console.log('circuitInput', circuitInput)
 
-  const tree = new MerkleTree(request.addresses, 21, poseidon, poseidon.F)
-  const merkleProof = tree.merkleProof(request.addressIndex)
-
-  const circuitInput = {
-    msghash: bigintToArray(64, 4, request.msghash),
-    pathElements: merkleProof.pathElements,
-    pathIndices: merkleProof.pathIndices,
-    pubkey: [
-      bigintToArray(64, 4, request.pubkey.x),
-      bigintToArray(64, 4, request.pubkey.y),
-    ],
-    r: bigintToArray(64, 4, uint8ArrayToBigint(request.signature.slice(0, 32))),
-    root: tree.root(),
-    s: bigintToArray(
-      64,
-      4,
-      uint8ArrayToBigint(request.signature.slice(32, 64)),
-    ),
-  }
-
-  writeFileSync('./input.json', stringifyWithBigInts(circuitInput))
+  writeFileSync('./input.json', circuitInput.serialize())
 
   // TODO: probably don't have to call this as a separate command, this is just how the code is generated from circom
   execSync(

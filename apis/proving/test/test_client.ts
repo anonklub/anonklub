@@ -1,58 +1,31 @@
-import { hmac } from '@noble/hashes/hmac'
-import { sha256 } from '@noble/hashes/sha256'
-import { Point, signSync, utils as secp256k1utils } from '@noble/secp256k1'
-import { BigNumber, utils } from 'ethers'
-
 import http from 'http'
-import { bigintToUint8Array } from '@e2e-zk-ecdsa/shared'
-
 import { ProofRequest } from '@e2e-zk-ecdsa/shared/src/ProofRequest'
 
-secp256k1utils.hmacSha256Sync = (key, ...msgs) =>
-  hmac(sha256, key, secp256k1utils.concatBytes(...msgs))
-secp256k1utils.sha256Sync = (...msgs) =>
-  sha256(secp256k1utils.concatBytes(...msgs))
-
-const privkeys: bigint[] = [
-  88549154299169935420064281163296845505587953610183896504176354567359434168161n,
-  37706893564732085918706190942542566344879680306879183356840008504374628845468n,
-  90388020393783788847120091912026443124559466591761394939671630294477859800601n,
-  110977009687373213104962226057480551605828725303063265716157300460694423838923n,
-]
-
-const addresses = privkeys.map((priv) =>
-  BigNumber.from(
-    utils.computeAddress(BigNumber.from(priv).toHexString()),
-  ).toBigInt(),
-)
-
-const addressIndex = 0
-const privkey = privkeys[addressIndex]
-const pubkey: Point = Point.fromPrivateKey(privkey)
-const msghash = 1234n
-const msghashArray: Uint8Array = bigintToUint8Array(msghash)
-const signature: Uint8Array = signSync(
-  msghashArray,
-  bigintToUint8Array(privkey),
-  {
-    canonical: true,
-    der: false,
-  },
-)
-const postData = new ProofRequest({
-  addresses,
-  addressIndex,
-  msghash,
-  pubkey,
-  signature,
-}).stringify()
+const proofRequest = new ProofRequest({
+  addresses: [
+    '0x56F6608C4D012b4e4095403C7f19a2B2FA5cb019',
+    '0x765f698a308Fb5201De91e8f6304dc3e2A61Bc72',
+    '0x312e3FcB7d984Ea8E18cD64cBfaa266CBa9Cd3b3',
+    '0x968C32dDd80716E8CFDCCbe62967CCb86BDD02D5',
+    '0x95351d3536620049f499C17d81B1e1580270b96C',
+    '0x62f9b49aEE1e2f2C114cA8d7f57919C825e4E518',
+    '0xC0A1fD7848aeD745591B87EC0518EA93AB052d1B', // <<<<<<<<<<<<<<<<<<<<<<
+    '0x06D48A1Ee2eb464eAA25b991BDC1f902BF48a819',
+    '0xE9dA6711bC0ae88233B73430271037c477B271Aa',
+    '0x276b024F257ac4AA23b2A40a84d2CEd696F285d4',
+    '0x1E5D40E7A78E0B6FBABBD217906D019a4a52bf49',
+  ],
+  message: 'Hello World',
+  rawSignature:
+    '0x737515055c70100f2326fa93db00c2b22a0eb267267c542fc3838d35bed782c3252e2d926e8dfddb0f622caa2004eb7138a9ec70a59c41f3eb034ec4f91e3fc31c',
+}).serialize()
 
 const options = {
   headers: {
-    'Content-Length': Buffer.byteLength(postData),
+    'Content-Length': Buffer.byteLength(proofRequest),
     'Content-Type': 'application/json',
   },
-  host: '10.35.1.56',
+  host: 'localhost',
   method: 'POST',
   path: '/',
   port: 3000,
@@ -65,5 +38,5 @@ const req = http.request(options, function (res) {
   })
 })
 
-req.write(postData)
+req.write(proofRequest)
 req.end()
