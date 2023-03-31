@@ -4,9 +4,7 @@
   "description": "Shared utilities for @e2e-zk-ecdsa",
   "main": "src/index.ts",
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
-  "contributors": [
-    "r1oga <me@r1oga.io>"
-  ],
+  "contributors": ["r1oga <me@r1oga.io>"],
   "license": "MIT",
   "dependencies": {
     "@noble/hashes": "^1.3.0",

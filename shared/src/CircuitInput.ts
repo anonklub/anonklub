@@ -14,9 +14,9 @@ export class CircuitInput implements Serializable {
   readonly r: bigint[]
 
   constructor({
+    msghash,
     poseidon,
     proofRequest,
-    msghash,
   }: {
     poseidon: any
     proofRequest: ProofRequest

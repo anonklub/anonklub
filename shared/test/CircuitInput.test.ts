@@ -1,7 +1,7 @@
-import { bigintToUint8Array, memoPoseidon, ProofRequest } from '../src'
-import { ADDRESSES, MESSAGE, RAW_SIGNATURE } from './data/constants'
-import { CircuitInput } from '../src/CircuitInput'
 import { BigNumber, utils } from 'ethers'
+import { bigintToUint8Array, memoPoseidon, ProofRequest } from '../src'
+import { CircuitInput } from '../src/CircuitInput'
+import { ADDRESSES, MESSAGE, RAW_SIGNATURE } from './data/constants'
 import circuitInputJson from './data/input.json'
 
 describe('CircuitInput', () => {
@@ -112,9 +112,9 @@ describe('CircuitInput', () => {
       rawSignature,
     })
     const circuitInput = new CircuitInput({
+      msghash: 1234n,
       poseidon,
       proofRequest,
-      msghash: 1234n,
     })
     expect(JSON.parse(circuitInput.serialize())).toEqual(circuitInputJson)
   })
