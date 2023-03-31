@@ -1,5 +1,5 @@
 {
-  "include": ["jest*"],
+  "include": ["**/jest*", "**/src", "**/test"],
   "files": ["node_modules/jest-chain/types/index.d.ts"],
   "compilerOptions": {
     "noEmit": true,

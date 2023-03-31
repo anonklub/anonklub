@@ -1,14 +1,9 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "noEmit": true,
     "lib": ["es2020"],
     "module": "commonjs",
     "target": "es2020",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
-    "resolveJsonModule": true
-  },
-  "include": ["src", "test", "jest.config.ts"],
-  "files": ["node_modules/jest-chain/types/index.d.ts"]
+    "esModuleInterop": true
+  }
 }

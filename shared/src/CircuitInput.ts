@@ -14,13 +14,11 @@ export class CircuitInput implements Serializable {
   readonly r: bigint[]
 
   constructor({
-    msghash,
     poseidon,
     proofRequest,
   }: {
     poseidon: any
     proofRequest: ProofRequest
-    msghash?: bigint
   }) {
     const { addresses, messageDigest, publicKey, rawSignature } = proofRequest
     const address = utils.recoverAddress(
@@ -37,7 +35,7 @@ export class CircuitInput implements Serializable {
     const merkleProof = tree.merkleProof(addressIndex)
 
     this.root = tree.root()
-    this.msghash = bigintToArray(64, 4, msghash ?? BigInt(messageDigest))
+    this.msghash = bigintToArray(64, 4, BigInt(messageDigest))
     this.pathElements = merkleProof.pathElements
     this.pathIndices = merkleProof.pathIndices
     this.pubkey = [

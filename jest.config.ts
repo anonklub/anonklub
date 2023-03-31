@@ -7,6 +7,7 @@ const jestConfig: JestConfigWithTsJest = {
     'jest.prettier.ts',
     'apis/query/jest.config.ts',
     'circuits/circom/jest.config.ts',
+    'shared/test/jest.config.ts',
   ],
   verbose: true,
   watchPlugins: [
