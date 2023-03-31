@@ -1,11 +1,7 @@
 import { execSync } from 'child_process'
 import { Router } from 'express'
 import { readFileSync, rmSync, writeFileSync } from 'fs'
-import {
-  CircuitInput,
-  memoPoseidon,
-  stringifyWithBigInts,
-} from '@e2e-zk-ecdsa/shared'
+import { CircuitInput, memoPoseidon } from '@e2e-zk-ecdsa/shared'
 
 export const provingRouter = Router().post('/', async (req, res) => {
   const proofRequest = req.body
