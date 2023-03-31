@@ -16,15 +16,17 @@ dev.db-journal
 .key.json
 .dune_pwd
 .graph_api_key
+.privatekey
 
 circuits/circom/node_modules
 circuits/circom/package-lock.json
 
 .docusaurus
 
-.privatekey
-
-addresses.json
+# circom artifacts
 proof.json
+input.json
+witness.wtns
 *.zkey
 
+addresses.json
