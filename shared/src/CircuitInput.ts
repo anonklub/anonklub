@@ -33,6 +33,7 @@ export class CircuitInput implements Serializable {
       poseidon.F,
     )
     const merkleProof = tree.merkleProof(addressIndex)
+    const { r, s } = utils.splitSignature(rawSignature)
 
     this.root = tree.root()
     this.msghash = bigintToArray(64, 4, BigInt(messageDigest))
@@ -42,7 +43,6 @@ export class CircuitInput implements Serializable {
       bigintToArray(64, 4, BigInt(publicKey.x)),
       bigintToArray(64, 4, BigInt(publicKey.y)),
     ]
-    const { r, s } = utils.splitSignature(rawSignature)
     this.r = bigintToArray(64, 4, BigInt(r))
     this.s = bigintToArray(64, 4, BigInt(s))
   }

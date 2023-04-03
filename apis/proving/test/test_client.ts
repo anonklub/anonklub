@@ -1,5 +1,5 @@
 import http from 'http'
-import { ProofRequest } from '@e2e-zk-ecdsa/shared/src/ProofRequest'
+import { ProofRequest } from '@e2e-zk-ecdsa/shared'
 
 const proofRequest = new ProofRequest({
   addresses: [

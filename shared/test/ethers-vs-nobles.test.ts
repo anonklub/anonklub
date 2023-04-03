@@ -1,8 +1,8 @@
 import { hmac } from '@noble/hashes/hmac'
 import { sha256 } from '@noble/hashes/sha256'
-import { signSync, utils as secp256k1utils } from '@noble/secp256k1'
+import { Point, signSync, utils as secp256k1utils } from '@noble/secp256k1'
 import { BigNumber, utils } from 'ethers'
-import { bigintToUint8Array } from '../src'
+import { bigintToArray, bigintToUint8Array, uint8ArrayToBigint } from '../src'
 
 secp256k1utils.hmacSha256Sync = (key, ...msgs) =>
   hmac(sha256, key, secp256k1utils.concatBytes(...msgs))
@@ -42,4 +42,32 @@ it('sig generated with ethers SigningKey matches nobles', () => {
     // recovery parameter
     utils.hexlify(signature).concat(n === 1 ? '1c' : '1b'),
   )
+  expect(signature.slice(0, 32)).toEqual(utils.arrayify(ethersSig.r))
+  expect(signature.slice(32, 64)).toEqual(utils.arrayify(ethersSig.s))
+  expect(
+    bigintToArray(64, 4, uint8ArrayToBigint(signature.slice(0, 32))),
+  ).toEqual(bigintToArray(64, 4, BigInt(ethersSig.r)))
+  expect(
+    bigintToArray(64, 4, uint8ArrayToBigint(signature.slice(32, 64))),
+  ).toEqual(bigintToArray(64, 4, BigInt(ethersSig.s)))
+})
+
+it('pub keys match', () => {
+  const signingKey = new utils.SigningKey(
+    BigNumber.from(privateKeysBigInt[0]).toHexString(),
+  )
+  const msgDigest = utils.hexlify(
+    // MUST PAD
+    utils.zeroPad(utils.arrayify(BigNumber.from(msghash)), 32),
+  )
+  const ethersSig = signingKey.signDigest(msgDigest)
+  const point = Point.fromPrivateKey(privateKeysBigInt[0])
+  const [x, y] = [bigintToArray(64, 4, point.x), bigintToArray(64, 4, point.y)]
+
+  const publicKey = Point.fromHex(
+    utils.recoverPublicKey(msgDigest, ethersSig).slice(2),
+  )
+
+  expect(x).toEqual(bigintToArray(64, 4, publicKey.x))
+  expect(y).toEqual(bigintToArray(64, 4, publicKey.y))
 })
