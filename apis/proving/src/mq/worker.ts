@@ -5,6 +5,7 @@ const worker = new Worker(
   QUEUE_NAME,
   async (job: Job) => {
     console.log(job.data)
+    await job.updateProgress(100)
   },
   { connection },
 )
@@ -18,8 +19,7 @@ worker.on('completed', (job) => {
 })
 
 worker.on('failed', (job, err) => {
-  // @ts-expect-error
-  console.error(`Job ${job.id} failed with error ${err.message}`)
+  console.error(`Job ${job?.id ?? ''} failed with error ${err.message}`)
 })
 
 process.on('SIGINT', () => {
