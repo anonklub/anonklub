@@ -4,6 +4,7 @@ import { connection, QUEUE_NAME } from './config'
 const worker = new Worker(
   QUEUE_NAME,
   async (job: Job) => {
+    await new Promise((resolve) => setTimeout(resolve, 20000))
     console.log(job.data)
     await job.updateProgress(100)
   },
