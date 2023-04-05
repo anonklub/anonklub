@@ -59,7 +59,7 @@ const options = {
 const req = http.request(options, function (res) {
   res.setEncoding('utf8')
   res.on('data', function (chunk: string) {
-    console.log('BODY: ' + chunk)
+    console.log(chunk)
   })
 })
 

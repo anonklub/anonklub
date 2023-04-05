@@ -11,8 +11,15 @@ const generateId = (proofRequestBody: any) => {
 
 export const proofHandler = async (req, res) => {
   const proofRequest = req.body
-  const job = await queue.add('prove', proofRequest, {
+  const { id } = await queue.add('prove', proofRequest, {
     jobId: generateId(proofRequest),
   })
-  res.json(job)
+  res.send(
+    `
+    Proof Generation Job ${id as string} added to queue.
+    It might take 5- 10 min to complete.
+    Check your results later at
+    /proofs/${id as string}/(input.json|proof.json|public.json|witness.wtns).
+    `,
+  )
 }
