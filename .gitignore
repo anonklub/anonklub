@@ -28,6 +28,6 @@ addresses.json
 proof.json
 *.zkey
 
-public/proofs
+apis/proving/public/proofs
 
 
