@@ -1,0 +1,8 @@
+{
+  "label": "Short Tutorial",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "10 minutes to generate zk proofs of membership."
+  }
+}
