@@ -2,11 +2,14 @@
   "name": "@e2e-zk-ecdsa/shared",
   "version": "1.0.0",
   "description": "Shared utilities for @e2e-zk-ecdsa",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
   "contributors": ["3pwd <me@3pwd.xyz>"],
   "license": "MIT",
   "dependencies": {
     "@noble/secp256k1": "^1.7.0"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.compile.json"
   }
 }

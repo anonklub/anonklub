@@ -7,13 +7,16 @@
   "contributors": ["3pwd <me@3pwd.xyz>"],
   "license": "MIT",
   "scripts": {
-    "server": "tsnd ./src/index.ts",
-    "client": "tsnd ./test/test_client.ts"
+    "build": "tsc --project tsconfig.compile.json",
+    "server.dev": "tsnd ./src/index.ts",
+    "server.prod": "node ./dist/src/index.js",
+    "client.dev": "tsnd ./test/test_client.ts",
+    "client.prod": "node ./dist/test/test_client.js"
   },
   "dependencies": {
     "@bull-board/api": "^5.0.0",
     "@bull-board/express": "^5.0.0",
-    "@e2e-zk-ecdsa/shared": "workspace:^1.0.0",
+    "@e2e-zk-ecdsa/shared": "workspace:^",
     "@noble/hashes": "^1.3.0",
     "@noble/secp256k1": "^1.7.0",
     "bullmq": "^3.10.3",

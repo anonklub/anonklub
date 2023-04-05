@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { dashboard } from './dashboard'
 import { proofHandler } from './handlers/proof'
 
-const router = Router()
+const router: Router = Router()
 
 router.post('/proof', proofHandler)
 router.use('/dashboard', dashboard.getRouter())

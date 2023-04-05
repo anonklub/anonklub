@@ -4,9 +4,7 @@ import { Point, signSync, utils as secp256k1utils } from '@noble/secp256k1'
 import { BigNumber, utils } from 'ethers'
 
 import http from 'http'
-import { bigintToUint8Array } from '@e2e-zk-ecdsa/shared'
-
-import { ProofRequest } from '@e2e-zk-ecdsa/shared/src/ProofRequest'
+import { bigintToUint8Array, ProofRequest } from '@e2e-zk-ecdsa/shared'
 
 secp256k1utils.hmacSha256Sync = (key, ...msgs) =>
   hmac(sha256, key, secp256k1utils.concatBytes(...msgs))
@@ -54,7 +52,7 @@ const options = {
   },
   host: 'localhost',
   method: 'POST',
-  path: '/',
+  path: '/proof',
   port: 3000,
 }
 

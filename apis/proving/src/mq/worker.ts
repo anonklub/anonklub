@@ -1,15 +1,10 @@
 import { Job, Worker } from 'bullmq'
+import { join } from 'path'
 import { connection, QUEUE_NAME } from './config'
 
-const worker = new Worker(
-  QUEUE_NAME,
-  async (job: Job) => {
-    await new Promise((resolve) => setTimeout(resolve, 20000))
-    console.log(job.data)
-    await job.updateProgress(100)
-  },
-  { connection },
-)
+const processorFile = join(__dirname, 'processor.js')
+console.log(processorFile)
+const worker = new Worker(QUEUE_NAME, processorFile, { connection })
 
 worker.on('active', (job) => {
   console.debug(`Job ${job.id} is active`)
