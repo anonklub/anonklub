@@ -1,6 +1,6 @@
 ---
 description: Generate membership zk proofs
-position: 4
+sidebar_position: 4
 ---
 
 # Generate Proofs
@@ -12,22 +12,8 @@ Once you have a proof request, you can generate a proof either locally or by rel
 | Local  | Trustless                                    | You need to install circom and snarkjs, Slower |
 
 ## Remote
-```javascript
-const jobId = await fetch('https://anonset.xyz/proof', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: proofRequest.serialize(),
-}).then((res) => res.json());
-
-// wait for proof to be generated (5 - 10 minutes)
-const proof = await fetch(`https://anonset.xyz/proofs/${jobId}/proof.json`).then((res) =>
-  res.json()
-)
-const publicSignals = await fetch(`https://anonset.xyz/proofs/${jobId}/public.json`).then(
-  (res) => res.json()
-)
+```typescript
+const jobId = await proofRequest.submit()
 ```
 
 ## Local

@@ -8,7 +8,7 @@ import styles from './index.module.css'
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext()
   return (
-    <Layout title='ZK ECDSA GROUPS' description='Anonymous Proof of Membership'>
+    <Layout>
       <div className={styles.titleContainer}>
         <h1 className='hero__title'>{siteConfig.title}</h1>
         <p className='hero__subtitle'>{siteConfig.tagline}</p>
@@ -17,7 +17,7 @@ export default function Home(): JSX.Element {
             className='button button--secondary button--lg'
             to='/docs/intro'
           >
-            Tutorial - xx min ⏱️
+            Example Tutorial
           </Link>
         </div>
       </div>

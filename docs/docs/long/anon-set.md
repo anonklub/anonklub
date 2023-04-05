@@ -1,6 +1,6 @@
 ---
 description: Fetch list of addresses from public on chain data
-position: 2
+sidebar_position: 2
 ---
 
 # Anonymity Set
@@ -16,5 +16,5 @@ const ANON_SET_API = 'https://anon-set.fly.dev'
 
 const params = new URLSearchParams({ min, tokenAddress })
 
-const { addresses } = await fetch(`${ANON_SET_API}/balance/ERC20?${params.toString()}`).then(res => res.json())
+const addresses = await fetch(`${ANON_SET_API}/balance/ERC20?${params.toString()}`).then(res => res.json())
 ```

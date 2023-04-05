@@ -56,8 +56,12 @@ const config = {
           {
             items: [
               {
+                label: 'Example',
+                to: '/docs/example',
+              },
+              {
                 label: 'Tutorial',
-                to: '/docs/category/short-tutorial',
+                to: '/docs/category/tutorial',
               },
             ],
             title: 'Docs',
@@ -93,16 +97,21 @@ const config = {
       navbar: {
         items: [
           {
-            docId: 'short/intro',
+            docId: 'intro',
             label: 'Introduction',
             position: 'left',
             type: 'doc',
           },
           {
-            docId: 'short/intro',
-            label: 'Tutorial',
+            docId: 'example',
+            label: 'Example',
             position: 'left',
             type: 'doc',
+          },
+          {
+            to: '/docs/category/tutorial',
+            label: 'Tutorial',
+            position: 'left',
           },
           {
             href: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa',

@@ -1,11 +1,12 @@
 ---
 description: Verify membership zk proofs
-position: 5
+sidebar_position: 5
 ---
 
 # Verify Proofs
 
-The verification process is way faster that the proof generation. Therefore, you should do it yourself locally.
+The verification process is way faster than the proof generation.  
+Therefore, you should do it yourself locally.  
 You'll need the [verification_key.json](https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/blob/main/apis/proving/test/verification_key.json) file available in our repository.
 
 ```javascript
