@@ -1,4 +1,4 @@
-import { Job, Worker } from 'bullmq'
+import { Worker } from 'bullmq'
 import { join } from 'path'
 import { connection, QUEUE_NAME } from './config'
 
