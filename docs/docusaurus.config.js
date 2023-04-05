@@ -57,7 +57,7 @@ const config = {
             items: [
               {
                 label: 'Tutorial',
-                to: '/docs/intro',
+                to: '/docs/category/short-tutorial',
               },
             ],
             title: 'Docs',
@@ -93,13 +93,13 @@ const config = {
       navbar: {
         items: [
           {
-            docId: 'intro',
+            docId: 'short/intro',
             label: 'Introduction',
             position: 'left',
             type: 'doc',
           },
           {
-            docId: 'tutorial/intro',
+            docId: 'short/intro',
             label: 'Tutorial',
             position: 'left',
             type: 'doc',
