@@ -6,7 +6,23 @@
 
 ## Getting Started - Develop
 
-TODO
+The BullMQ Job processor needs to be a compiled JS file so that it becomes a sandboxed job running in a separate thread... hence the preliminary build steps and `.prod` scripts.
+
+1. Build `proving` and `shared` packages:
+
+   ```bash
+   lerna run build --scope '{@e2e-zk-ecdsa/proving-api,@e2e-zk-ecdsa/shared}'
+   ```
+
+2. Run the server:
+   ```bash
+   cd apis/proving && pnpm run server.prod
+   ```
+3. Run the client:
+
+   ```bash
+   cd apis/proving && pnpm run client.prod
+   ```
 
 ## Deployment
 
