@@ -11,7 +11,7 @@ import {
 } from '@e2e-zk-ecdsa/shared'
 import { memoPoseidon } from '../poseidon'
 
-const PROOFS_DIR = join('public', 'proofs')
+const PROOFS_DIR = join(__dirname, '..', '..', 'public', 'proofs')
 
 module.exports = async (job: SandboxedJob) => {
   const poseidon = await memoPoseidon()
@@ -38,21 +38,22 @@ module.exports = async (job: SandboxedJob) => {
   }
   console.log('circuitInput', circuitInput)
   execSync(`mkdir -p ${PROOFS_DIR}/${job.id}`)
+
   console.log('created dir')
   writeFileSync(
-    `./${PROOFS_DIR}/${job.id}/input.json`,
+    `${PROOFS_DIR}/${job.id}/input.json`,
     stringifyWithBigInts(circuitInput),
   )
   console.log('wrote input.json')
-  await job.updateProgress(1)
+  await job.updateProgress(2)
 
   // TODO: probably don't have to call this as a separate command, this is just how the code is generated from circom
   execSync(
-    `node ./generated/generate_witness.js ./generated/main.wasm ./${PROOFS_DIR}/${job.id}/input.json ./${PROOFS_DIR}/${job.id}/witness.wtns`,
+    `node ./generated/generate_witness.js ./generated/main.wasm ${PROOFS_DIR}/${job.id}/input.json ${PROOFS_DIR}/${job.id}/witness.wtns`,
   )
   await job.updateProgress(20)
   execSync(
-    `snarkjs groth16 prove ./circuit_0001.zkey ./${PROOFS_DIR}/${job.id}/witness.wtns ./${PROOFS_DIR}/${job.id}/proof.json ./${PROOFS_DIR}/${job.id}/public.json`,
+    `snarkjs groth16 prove ./circuit_0001.zkey ${PROOFS_DIR}/${job.id}/witness.wtns ${PROOFS_DIR}/${job.id}/proof.json ${PROOFS_DIR}/${job.id}/public.json`,
   )
   await job.updateProgress(100)
 }
