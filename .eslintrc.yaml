@@ -15,6 +15,12 @@ rules:
   no-useless-constructor: off
 
 overrides:
+  - files: ['apis/proving/src/mq/queue.ts']
+    rules:
+      '@typescript-eslint/strict-boolean-expressions': off
+  - files: ['apis/proving/src/mq/processor.ts', 'apis/proving/src/mq/worker.ts']
+    rules:
+      '@typescript-eslint/restrict-template-expressions': off
   - files:
       ['apis/query/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts']
     rules:

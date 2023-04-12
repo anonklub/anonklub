@@ -1,5 +1,4 @@
 import delay from 'delay'
-import { writeFile } from 'fs'
 import http from 'http'
 import { PROVING_API_HOST } from './constants'
 import { createProofRequest } from './create-proof-request'
@@ -35,7 +34,7 @@ export const fetchProof = async ({
     },
     host: PROVING_API_HOST,
     method: 'POST',
-    path: '/',
+    path: '/proof',
     port: 3000,
   }
 
@@ -47,15 +46,10 @@ export const fetchProof = async ({
       response += chunk
     })
     res.on('end', function () {
-      console.log('proof: ' + response)
-      // write response to json file
-      writeFile('proof.json', response, (err) => {
-        if (err !== null) {
-          console.log(err)
-        } else {
-          console.log('proof.json written')
-        }
-      })
+      console.log(response)
+    })
+    res.on('error', (err) => {
+      console.log(err)
     })
   })
 

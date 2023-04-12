@@ -13,7 +13,9 @@ const ANON_SET_API = 'https://anon-set.fly.dev'
 
 const params = new URLSearchParams({ min, tokenAddress })
 
-const addresses: string[] = await fetch(`${ANON_SET_API}/balance/ERC20?${params.toString()}`).then(res => res.json())
+const addresses: string[] = await fetch(
+  `${ANON_SET_API}/balance/ERC20?${params.toString()}`,
+).then((res) => res.json())
 
 // create proof request
 const proofRequest = new ProofRequest({ addresses, message, rawSignature })

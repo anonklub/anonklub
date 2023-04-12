@@ -1,8 +1,11 @@
+import './mq/worker'
 import 'express-async-errors'
-import express from 'express'
-import { provingRouter } from './routes'
 
-const app = express()
-app.use(express.json({ limit: '1mb' }), provingRouter)
+import express, { Express } from 'express'
+import { router } from './routes'
+
+const app: Express = express()
+app.use(express.json({ limit: '1mb' }), router)
+app.use(express.static('public'))
 
 export { app }

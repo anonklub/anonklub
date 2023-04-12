@@ -1,11 +1,11 @@
 {
-  "name": "demo",
+  "name": "@e2e-zk-ecdsa/demo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "tsnd --cls --exit-child --ignore-watch node_modules --quiet  --respawn --rs --transpile-only src/index.ts",
-    "prove": "tsnd --cls --exit-child --quiet  --transpile-only src/index.ts"
+    "prove": "tsnd --cls --exit-child --transpile-only src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +15,7 @@
     "@noble/secp256k1": "^1.7.0",
     "delay": "^5.0.0",
     "ethers": "^5.7.2",
-    "yargs": "^17.7.1"
+    "inquirer": "^8"
   },
   "devDependencies": {
     "@types/yargs": "^17.0.24",
