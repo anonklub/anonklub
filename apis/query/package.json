@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Express Server Template",
   "main": "index.js",
-  "author": "r1oga <38692952+r1oga@users.noreply.github.com>",
+  "author": "3pwd <me@3pwd.xyz>",
   "license": "MIT",
   "_moduleAliases": {
     "@controllers": "dist/api/controllers",
