@@ -34,6 +34,9 @@ const jestPrettierConfig: JestConfigWithTsJest = {
     '<rootDir>/apis/query/src/lib/graph/.graphclient',
     '<rootDir>/docs/.docusaurus',
     '<rootDir>/coverage',
+    '/node_modules/',
+    '/dist/',
+    '/build',
   ],
 }
 

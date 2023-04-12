@@ -14,5 +14,3 @@ import { execSync } from 'fs'
 
 execSync('snarkjs groth16 verify verification_key.json public.json proof.json')
 ```
-
-
