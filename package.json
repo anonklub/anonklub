@@ -24,6 +24,7 @@
   "scripts": {
     "barrels": "barrelsby --config .barrelsby.json",
     "clean": "lerna clean && lerna run clean && rm -rf node_modules",
+    "demo": "lerna run demo --scope @e2e-zk-ecdsa/proving-api && lerna run demo --scope @e2e-zk-ecdsa/query-api",
     "fix": "concurrently 'npm run format' 'npm run lint'",
     "format": "prettier -w .",
     "lint": "eslint . --ext .js,.ts --fix",
