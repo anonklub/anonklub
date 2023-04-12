@@ -35,7 +35,7 @@ export const fetchProof = async ({
     },
     host: PROVING_API_HOST,
     method: 'POST',
-    path: '/',
+    path: '/proof',
     port: 3000,
   }
 
