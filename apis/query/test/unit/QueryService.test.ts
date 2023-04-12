@@ -27,7 +27,7 @@ describe('Service', () => {
         .mockResolvedValueOnce([addresses.map((address) => ({ address }))])
 
       await expect(
-        queryService.getEthBalanceAnonSet(10),
+        queryService.getEthBalanceAnonSet('10'),
       ).resolves.toMatchObject(addresses)
     })
 
