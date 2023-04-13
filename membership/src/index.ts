@@ -3,6 +3,6 @@
  */
 
 export * from './ExcludableMerkleTree'
+export * from './helpers'
 export * from './MerkleTree'
 export * from './ProofRequest'
-export * from './helpers'
