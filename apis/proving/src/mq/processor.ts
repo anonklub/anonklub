@@ -13,6 +13,8 @@ import { memoPoseidon } from '../poseidon'
 
 const PROOFS_DIR = join(__dirname, '..', '..', 'public', 'proofs')
 
+// TODO: check somewhere presence and integrity of required zkey file, don't run the heavy computing otherwise
+
 module.exports = async (job: SandboxedJob) => {
   const poseidon = await memoPoseidon()
   const request = ProofRequest.fromReq(job.data)
