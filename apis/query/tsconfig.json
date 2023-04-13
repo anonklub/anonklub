@@ -1,5 +1,5 @@
 {
-  "include": ["src", "test", "jest.config.ts"],
+  "include": ["src", "test", "test/jest.config.ts"],
   "exclude": ["test/coverage"],
   "compilerOptions": {
     "noEmit": true,

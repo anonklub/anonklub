@@ -15,10 +15,18 @@ rules:
   no-useless-constructor: off
 
 overrides:
+  - files: ['membership/test/ProofRequest.test.ts']
+    rules:
+      '@typescript-eslint/dot-notation': off
   - files: ['apis/prove/src/mq/queue.ts']
     rules:
       '@typescript-eslint/strict-boolean-expressions': off
-  - files: ['apis/prove/src/mq/processor.ts', 'apis/prove/src/mq/worker.ts']
+  - files:
+      [
+        'apis/prove/src/mq/processor.ts',
+        'apis/prove/src/mq/worker.ts',
+        'membership/test/ProofRequest.test.ts',
+      ]
     rules:
       '@typescript-eslint/restrict-template-expressions': off
   - files:

@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["test", "jest.config.ts"],
+  "exclude": ["test", "test/jest.config.ts"],
   "compilerOptions": {
     "noEmit": false,
     "outDir": "dist",
