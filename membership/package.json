@@ -1,7 +1,7 @@
 {
-  "name": "@e2e-zk-ecdsa/shared",
+  "name": "@anonset/membership",
   "version": "1.0.0",
-  "description": "Shared utilities for @e2e-zk-ecdsa",
+  "description": "Shared utilities for @anonset",
   "main": "dist/index.js",
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
   "contributors": ["3pwd <me@3pwd.xyz>"],

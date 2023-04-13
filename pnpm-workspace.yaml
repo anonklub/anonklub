@@ -1,7 +1,7 @@
 packages:
   - apis/query
-  - apis/proving
+  - apis/prove
   - circuits/circom
-  - shared
   - demo
   - docs
+  - membership

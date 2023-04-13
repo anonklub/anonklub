@@ -8,7 +8,7 @@ import {
   ProofRequest,
   stringifyWithBigInts,
   uint8ArrayToBigint,
-} from '@e2e-zk-ecdsa/shared'
+} from '@anonset/membership'
 import { memoPoseidon } from '../poseidon'
 
 const PROOFS_DIR = join(__dirname, '..', '..', 'public', 'proofs')
