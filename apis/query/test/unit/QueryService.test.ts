@@ -34,7 +34,10 @@ describe('Service', () => {
     it('have a min ERC20 balance', async () => {
       jest
         .spyOn(DuneRepository.prototype, 'queryErc20Balance')
-        .mockResolvedValueOnce({ columns: [], data: addresses })
+        .mockResolvedValueOnce({
+          columns: [],
+          data: addresses.map((address) => ({ address })),
+        })
       await expect(
         queryService.getErc20BalanceAnonSet({ min, tokenAddress }),
       ).resolves.toMatchObject(addresses)
