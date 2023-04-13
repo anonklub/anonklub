@@ -1,5 +1,5 @@
 {
-  "name": "@e2e-zk-ecdsa/demo",
+  "name": "@anonset/demo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@e2e-zk-ecdsa/shared": "workspace:^1.0.0",
+    "@anonset/membership": "workspace:^1.0.0",
     "@noble/secp256k1": "^1.7.0",
     "delay": "^5.0.0",
     "ethers": "^5.7.2",

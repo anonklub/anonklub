@@ -12,7 +12,7 @@ import {
   MerkleTree,
   minAddress,
   uint8ArrayToBigint,
-} from '@e2e-zk-ecdsa/shared'
+} from '@anonset/membership'
 
 jest.setTimeout(10_000_000) // ~1 hour
 

@@ -1,5 +1,5 @@
 {
-  "name": "@e2e-zk-ecdsa/query-api",
+  "name": "@anonset/query-api",
   "version": "1.0.0",
   "description": "Express Server Template",
   "main": "index.js",

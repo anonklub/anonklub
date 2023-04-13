@@ -4,7 +4,7 @@ import { Point, signSync, utils as secp256k1utils } from '@noble/secp256k1'
 import { BigNumber, utils } from 'ethers'
 
 import http from 'http'
-import { bigintToUint8Array, ProofRequest } from '@e2e-zk-ecdsa/shared'
+import { bigintToUint8Array, ProofRequest } from '@anonset/membership'
 
 secp256k1utils.hmacSha256Sync = (key, ...msgs) =>
   hmac(sha256, key, secp256k1utils.concatBytes(...msgs))

@@ -1,7 +1,5 @@
 node_modules
-package-lock.json
 pnpm-lock.yaml
-yarn.lock
 
 # build dirs
 build
@@ -16,8 +14,6 @@ coverage
 docs/docusaurus.config.js
 .docusaurus
 
-.idea
 
 # Generated code
-
-circuits/circom/prover/generated
+apis/prove/generated

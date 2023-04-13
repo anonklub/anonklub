@@ -1,6 +1,6 @@
 import { Point } from '@noble/secp256k1'
 import { BigNumber, utils, Wallet } from 'ethers'
-import { ProofRequest } from '@e2e-zk-ecdsa/shared'
+import { ProofRequest } from '@anonset/membership'
 
 export const createProofRequest = async ({
   addresses,
