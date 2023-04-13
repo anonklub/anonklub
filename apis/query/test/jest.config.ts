@@ -17,12 +17,13 @@ const jestConfig: JestConfigWithTsJest = {
     },
   },
   displayName: 'query-api',
-  moduleDirectories: ['node_modules', __dirname],
+  moduleDirectories: ['node_modules', '<rootDir>'],
   moduleFileExtensions: ['ts', 'js', 'json'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',
   }),
   preset: 'ts-jest',
+  rootDir: '..',
   setupFilesAfterEnv: ['jest-chain', './test/setup.ts'],
 }
 
