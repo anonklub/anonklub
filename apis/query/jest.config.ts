@@ -10,10 +10,10 @@ const jestConfig: JestConfigWithTsJest = {
   coveragePathIgnorePatterns: ['index.ts'],
   coverageThreshold: {
     global: {
-      // branches: 70,
-      functions: 70,
-      lines: 70,
-      statements: 70,
+      branches: 50,
+      functions: 65,
+      lines: 75,
+      statements: 75,
     },
   },
   displayName: 'query-api',

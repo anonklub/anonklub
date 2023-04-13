@@ -14,7 +14,8 @@ describe('AnonymitySet Controller', () => {
 
   describe('GET /balance/ETH', () => {
     it('validates query params', async () => {
-      await request(app).get('/balance/ETH').query({ min: '1.2' }).expect(400)
+      // expects number string
+      await request(app).get('/balance/ETH').query({ min: '0x11' }).expect(400)
     })
 
     it('returns addresses', async () => {
@@ -29,7 +30,7 @@ describe('AnonymitySet Controller', () => {
           .expect('Content-Type', /json/)
           .expect(200)
           .expect(addresses)
-        expect(spy).toHaveBeenLastCalledWith(Number(query?.min ?? 0))
+        expect(spy).toHaveBeenLastCalledWith(query?.min ?? '100')
       }
 
       spy.mockReset()
