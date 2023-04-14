@@ -35,7 +35,7 @@ describe('ProofRequest', () => {
   })
 
   it('submits a proof request', async () => {
-    fetchMock.once(JSON.stringify({ jobId: '123' }))
+    fetchMock.once(JSON.stringify({ jobId: '123', message: 'success' }))
 
     await proofRequest.submit()
 

@@ -1,4 +1,5 @@
 import {
+  JobResponse,
   ProofRequestArgs,
   ProofRequestInterface,
   ProofRequestJson,
@@ -28,11 +29,15 @@ export class ProofRequest implements ProofRequestInterface {
     return JSON.stringify(this.toJSON())
   }
 
-  async submit(): Promise<void> {
-    this.jobId = await fetch(this.url, {
+  async submit() {
+    const jobResponse = (await fetch(`${this.url}/proof`, {
       body: this.serialize(),
       method: 'POST',
-    }).then(async (res) => res.text())
+    }).then(async (res) => res.json())) as JobResponse
+
+    this.jobId = jobResponse.jobId
+
+    return jobResponse
   }
 
   async getResult(): Promise<ProofResult> {
