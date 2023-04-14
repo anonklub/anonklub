@@ -32,6 +32,7 @@ export class ProofRequest implements ProofRequestInterface {
   async submit() {
     const jobResponse = (await fetch(`${this.url}/proof`, {
       body: this.serialize(),
+      headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     }).then(async (res) => res.json())) as JobResponse
 

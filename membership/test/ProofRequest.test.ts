@@ -42,6 +42,7 @@ describe('ProofRequest', () => {
     expect(proofRequest.jobId).toBeDefined()
     expect(fetchMock).toHaveBeenCalledWith('http://localhost:3000', {
       body: proofRequest['serialize'](),
+      headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
   })
