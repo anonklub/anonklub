@@ -14,6 +14,7 @@ export class ProofRequest implements ProofRequestInterface {
   public readonly url: string
 
   constructor({ addresses, message, rawSignature, url }: ProofRequestArgs) {
+    // TODO: validate params
     this.addresses = addresses
     this.message = message
     this.rawSignature = rawSignature
