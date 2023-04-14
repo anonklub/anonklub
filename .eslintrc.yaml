@@ -50,7 +50,12 @@ overrides:
     rules:
       '@typescript-eslint/no-misused-promises': off
   - files:
-      ['apis/*/src/index.ts', 'apis/prove/generated/*.js', 'demo/src/index.ts']
+      [
+        'apis/*/src/index.ts',
+        'apis/prove/generated/*.js',
+        'apis/prove/src/mq/*.ts',
+        'demo/src/index.ts',
+      ]
     rules:
       no-console: off
   - files: ['apis/query/src/decorators/Logger.ts']
