@@ -16,8 +16,11 @@ export interface ProofResult {
 }
 
 export type ProofRequestJson = Omit<ProofRequestArgs, 'url'>
-
+export interface JobResponse {
+  jobId: string
+  message: string
+}
 export interface ProofRequestInterface {
-  submit: () => Promise<void>
+  submit: () => Promise<JobResponse>
   getResult: () => Promise<ProofResult>
 }

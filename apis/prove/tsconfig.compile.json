@@ -11,5 +11,6 @@
     "declarationDir": "./dist/types",
     "removeComments": true,
     "preserveConstEnums": true
-  }
+  },
+  "include": ["src"]
 }

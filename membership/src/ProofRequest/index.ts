@@ -1,4 +1,5 @@
 import {
+  JobResponse,
   ProofRequestArgs,
   ProofRequestInterface,
   ProofRequestJson,
@@ -13,6 +14,7 @@ export class ProofRequest implements ProofRequestInterface {
   public readonly url: string
 
   constructor({ addresses, message, rawSignature, url }: ProofRequestArgs) {
+    // TODO: validate params
     this.addresses = addresses
     this.message = message
     this.rawSignature = rawSignature
@@ -28,11 +30,16 @@ export class ProofRequest implements ProofRequestInterface {
     return JSON.stringify(this.toJSON())
   }
 
-  async submit(): Promise<void> {
-    this.jobId = await fetch(this.url, {
+  async submit() {
+    const jobResponse = (await fetch(`${this.url}/proof`, {
       body: this.serialize(),
+      headers: { 'Content-Type': 'application/json' },
       method: 'POST',
-    }).then(async (res) => res.text())
+    }).then(async (res) => res.json())) as JobResponse
+
+    this.jobId = jobResponse.jobId
+
+    return jobResponse
   }
 
   async getResult(): Promise<ProofResult> {

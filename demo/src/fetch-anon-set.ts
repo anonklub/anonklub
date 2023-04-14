@@ -1,4 +1,4 @@
-import { URLS } from './constants'
+import { API_URLS } from './constants'
 
 export const fetchErc20AnonSet = async ({
   min,
@@ -10,7 +10,7 @@ export const fetchErc20AnonSet = async ({
   const params = new URLSearchParams({ min, tokenAddress })
 
   const res = await fetch(
-    `${URLS.QUERY_API}/balance/ERC20?${params.toString()}`,
+    `${API_URLS.QUERY}/balance/ERC20?${params.toString()}`,
   )
   return res.json()
 }

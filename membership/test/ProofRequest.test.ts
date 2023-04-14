@@ -35,13 +35,14 @@ describe('ProofRequest', () => {
   })
 
   it('submits a proof request', async () => {
-    fetchMock.once(JSON.stringify({ jobId: '123' }))
+    fetchMock.once(JSON.stringify({ jobId: '123', message: 'success' }))
 
     await proofRequest.submit()
 
     expect(proofRequest.jobId).toBeDefined()
-    expect(fetchMock).toHaveBeenCalledWith('http://localhost:3000', {
+    expect(fetchMock).toHaveBeenCalledWith('http://localhost:3000/proof', {
       body: proofRequest['serialize'](),
+      headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     })
   })
