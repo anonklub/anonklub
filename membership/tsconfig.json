@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "lib": ["es2020"],
+    "lib": ["es2022"],
     "module": "commonjs",
-    "target": "es2020",
+    "target": "es2022",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strictNullChecks": true
   },
-  "include": ["src"]
+  "include": ["src", "test"]
 }

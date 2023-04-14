@@ -1,10 +1,13 @@
 import { Worker } from 'bullmq'
 import { join } from 'path'
+import { ProofRequestJson } from '@anonset/membership'
 import { connection, QUEUE_NAME } from './config'
 
 const processorFile = join(__dirname, 'processor.js')
-console.log(processorFile)
-const worker = new Worker(QUEUE_NAME, processorFile, { connection })
+
+const worker = new Worker<ProofRequestJson>(QUEUE_NAME, processorFile, {
+  connection,
+})
 
 worker.on('active', (job) => {
   console.debug(`Job ${job.id} is active`)

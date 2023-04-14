@@ -7,9 +7,13 @@
   "contributors": ["3pwd <me@3pwd.xyz>"],
   "license": "MIT",
   "dependencies": {
-    "@noble/secp256k1": "^1.7.0"
+    "@noble/secp256k1": "^1.7.0",
+    "circomlibjs": "^0.1.7",
+    "ethers": "^5.7.2",
+    "undici": "^5.21.2"
   },
   "scripts": {
-    "build": "tsc --project tsconfig.compile.json"
+    "build": "tsc --project tsconfig.compile.json",
+    "test": "jest -c jest.config.js"
   }
 }

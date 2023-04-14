@@ -15,10 +15,19 @@ rules:
   no-useless-constructor: off
 
 overrides:
+  - files: ['membership/test/ProofRequest.test.ts']
+    rules:
+      '@typescript-eslint/dot-notation': off
   - files: ['apis/prove/src/mq/queue.ts']
     rules:
       '@typescript-eslint/strict-boolean-expressions': off
-  - files: ['apis/prove/src/mq/processor.ts', 'apis/prove/src/mq/worker.ts']
+  - files:
+      [
+        'apis/prove/src/mq/processor.ts',
+        'apis/prove/src/mq/worker.ts',
+        'membership/src/ProofRequest/index.ts',
+        'membership/test/ProofRequest.test.ts',
+      ]
     rules:
       '@typescript-eslint/restrict-template-expressions': off
   - files:
@@ -41,7 +50,12 @@ overrides:
     rules:
       '@typescript-eslint/no-misused-promises': off
   - files:
-      ['apis/*/src/index.ts', 'apis/prove/generated/*.js', 'demo/src/index.ts']
+      [
+        'apis/*/src/index.ts',
+        'apis/prove/generated/*.js',
+        'apis/prove/src/mq/*.ts',
+        'demo/src/index.ts',
+      ]
     rules:
       no-console: off
   - files: ['apis/query/src/decorators/Logger.ts']

@@ -3,59 +3,58 @@ import { execSync } from 'child_process'
 import { writeFileSync } from 'fs'
 import { join } from 'path'
 import {
-  bigintToArray,
-  MerkleTree,
-  ProofRequest,
-  stringifyWithBigInts,
-  uint8ArrayToBigint,
+  CircuitInput,
+  memoPoseidon,
+  ProofRequestJson,
 } from '@anonset/membership'
-import { memoPoseidon } from '../poseidon'
 
 const PROOFS_DIR = join(__dirname, '..', '..', 'public', 'proofs')
+const GENERATED_DIR = join(__dirname, '..', '..', 'generated')
+
+const createDir = (jobId: string) => {
+  execSync(`mkdir -p ${PROOFS_DIR}/${jobId}`)
+  console.log('created dir')
+}
+
+const writeInput = (jobId: string, circuitInput: CircuitInput) => {
+  writeFileSync(`${PROOFS_DIR}/${jobId}/input.json`, circuitInput.serialize())
+  console.log('wrote input.json')
+}
+
+const generateWitness = (jobId: string) => {
+  // TODO: probably don't have to call this as a separate command, this is just how the code is generated from circom
+  execSync(
+    `node ${GENERATED_DIR}/generate_witness.js ${GENERATED_DIR}/main.wasm ${PROOFS_DIR}/${jobId}/input.json ${PROOFS_DIR}/${jobId}/witness.wtns`,
+  )
+}
+
+const generateProof = (jobId: string) => {
+  execSync(
+    `snarkjs groth16 prove ${GENERATED_DIR}/circuit_0001.zkey ${PROOFS_DIR}/${jobId}/witness.wtns ${PROOFS_DIR}/${jobId}/proof.json ${PROOFS_DIR}/${jobId}/public.json`,
+  )
+}
 
 // TODO: check somewhere presence and integrity of required zkey file, don't run the heavy computing otherwise
 
-module.exports = async (job: SandboxedJob) => {
+// need to use module.exports syntax for bullmq sandboxed jobs to work https://docs.bullmq.io/guide/workers/sandboxed-processors
+module.exports = async (job: SandboxedJob<ProofRequestJson>) => {
   const poseidon = await memoPoseidon()
-  const request = ProofRequest.fromReq(job.data)
-  const tree = new MerkleTree(request.addresses, 21, poseidon, poseidon.F)
+  const circuitInput: CircuitInput = new CircuitInput({
+    field: poseidon.F,
+    hashFunction: poseidon,
+    proofRequest: job.data,
+  })
 
-  const merkleProof = tree.merkleProof(request.addressIndex)
+  createDir(job.id)
+  writeInput(job.id, circuitInput)
 
-  const circuitInput = {
-    msghash: bigintToArray(64, 4, request.msghash),
-    pathElements: merkleProof.pathElements,
-    pathIndices: merkleProof.pathIndices,
-    pubkey: [
-      bigintToArray(64, 4, request.pubkey.x),
-      bigintToArray(64, 4, request.pubkey.y),
-    ],
-    r: bigintToArray(64, 4, uint8ArrayToBigint(request.signature.slice(0, 32))),
-    root: tree.root(),
-    s: bigintToArray(
-      64,
-      4,
-      uint8ArrayToBigint(request.signature.slice(32, 64)),
-    ),
-  }
-  console.log('circuitInput', circuitInput)
-  execSync(`mkdir -p ${PROOFS_DIR}/${job.id}`)
-
-  console.log('created dir')
-  writeFileSync(
-    `${PROOFS_DIR}/${job.id}/input.json`,
-    stringifyWithBigInts(circuitInput),
-  )
-  console.log('wrote input.json')
   await job.updateProgress(2)
 
-  // TODO: probably don't have to call this as a separate command, this is just how the code is generated from circom
-  execSync(
-    `node ./generated/generate_witness.js ./generated/main.wasm ${PROOFS_DIR}/${job.id}/input.json ${PROOFS_DIR}/${job.id}/witness.wtns`,
-  )
+  generateWitness(job.id)
   await job.updateProgress(20)
-  execSync(
-    `snarkjs groth16 prove ./circuit_0001.zkey ${PROOFS_DIR}/${job.id}/witness.wtns ${PROOFS_DIR}/${job.id}/proof.json ${PROOFS_DIR}/${job.id}/public.json`,
-  )
+
+  generateProof(job.id)
   await job.updateProgress(100)
+
+  // TODO: add expiration queue to remove files after a certain amount of time or when they were fetched
 }
