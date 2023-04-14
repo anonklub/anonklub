@@ -16,6 +16,7 @@ dev.db-journal
 .key.json
 .dune_pwd
 .graph_api_key
+.sig
 
 circuits/circom/node_modules
 circuits/circom/package-lock.json
