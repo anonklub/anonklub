@@ -41,7 +41,7 @@ describe('ProofRequest', () => {
     expect(proofRequest.url).toEqual('http://localhost:3000')
     expect(proofRequest.publicKey.x).toEqual(x)
     expect(proofRequest.publicKey.y).toEqual(y)
-    expect(proofRequest['_jobId']).toBeUndefined()
+    expect(proofRequest.jobId).toBeUndefined()
   })
 
   it('should serialize a proof request', () => {
@@ -55,7 +55,7 @@ describe('ProofRequest', () => {
 
     await proofRequest.submit()
 
-    expect(proofRequest['_jobId']).toBeDefined()
+    expect(proofRequest.jobId).toBeDefined()
     expect(fetchMock).toHaveBeenCalledWith('http://localhost:3000', {
       body: proofRequest.serialize(),
       method: 'POST',
@@ -73,15 +73,20 @@ describe('ProofRequest', () => {
     await proofRequest.submit()
     const result = await proofRequest.getResult()
 
-    console.log(fetchMock.mock.calls)
     expect(fetchMock).toHaveBeenNthCalledWith(
       2,
-      `${url}/${proofRequest['_jobId']}/proof.json`,
+      `${url}/${proofRequest.jobId}/proof.json`,
     )
     expect(fetchMock).toHaveBeenNthCalledWith(
       3,
-      `${url}/${proofRequest['_jobId']}/publicSignals.json`,
+      `${url}/${proofRequest.jobId}/publicSignals.json`,
     )
     expect(result).toEqual({ proof, publicSignals })
+  })
+
+  it('should throw if trying to get result before submitting', async () => {
+    await expect(
+      proofRequest.getResult(),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`"Job not submitted yet"`)
   })
 })

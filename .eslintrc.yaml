@@ -25,6 +25,7 @@ overrides:
       [
         'apis/prove/src/mq/processor.ts',
         'apis/prove/src/mq/worker.ts',
+        'membership/src/ProofRequest/index.ts',
         'membership/test/ProofRequest.test.ts',
       ]
     rules:

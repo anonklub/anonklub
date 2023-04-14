@@ -7,7 +7,7 @@ export class ProofRequest implements ProofRequestInterface {
   public readonly messageDigest: string
   public readonly publicKey: { x: string; y: string }
   public readonly rawSignature: string
-  private _jobId: string
+  public jobId: string | undefined
   public readonly url: string
 
   constructor({ addresses, message, rawSignature, url }: ProofRequestArgs) {
@@ -23,16 +23,18 @@ export class ProofRequest implements ProofRequestInterface {
   }
 
   async submit(): Promise<void> {
-    this._jobId = await fetch(this.url, {
+    this.jobId = await fetch(this.url, {
       body: this.serialize(),
       method: 'POST',
     }).then(async (res) => res.text())
   }
 
   async getResult(): Promise<Proof> {
+    if (this.jobId === undefined) throw new Error('Job not submitted yet')
+
     const [proof, publicSignals] = await Promise.all(
       ['proof', 'publicSignals'].map(async (key) =>
-        fetch(`${this.url}/${this._jobId}/${key}.json`).then(async (res) =>
+        fetch(`${this.url}/${this.jobId}/${key}.json`).then(async (res) =>
           res.json(),
         ),
       ),
@@ -41,7 +43,7 @@ export class ProofRequest implements ProofRequestInterface {
   }
 
   serialize(): string {
-    const { _jobId, ...rest } = this
+    const { jobId, ...rest } = this
     return JSON.stringify(rest)
   }
 }
