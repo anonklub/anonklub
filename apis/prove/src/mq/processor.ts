@@ -4,7 +4,7 @@ import { writeFileSync } from 'fs'
 import { join } from 'path'
 import {
   CircuitInput,
-  memoPoseidon,
+  getMemoPoseidon,
   ProofRequestJson,
 } from '@anonset/membership'
 
@@ -26,6 +26,7 @@ const generateWitness = (jobId: string) => {
   execSync(
     `node ${GENERATED_DIR}/generate_witness.js ${GENERATED_DIR}/main.wasm ${PROOFS_DIR}/${jobId}/input.json ${PROOFS_DIR}/${jobId}/witness.wtns`,
   )
+  console.log('generated witness')
 }
 
 const generateProof = (jobId: string) => {
@@ -38,7 +39,7 @@ const generateProof = (jobId: string) => {
 
 // need to use module.exports syntax for bullmq sandboxed jobs to work https://docs.bullmq.io/guide/workers/sandboxed-processors
 module.exports = async (job: SandboxedJob<ProofRequestJson>) => {
-  const poseidon = await memoPoseidon()
+  const poseidon = await getMemoPoseidon()
   const circuitInput: CircuitInput = new CircuitInput({
     field: poseidon.F,
     hashFunction: poseidon,
