@@ -21,10 +21,9 @@ export class CircuitInput implements CircuitInputInterface {
     )
     const publicKey = { x: _publicKey.x.toString(), y: _publicKey.y.toString() }
     const messageDigest = utils.hashMessage(message)
-    const address = utils.recoverAddress(
-      messageDigest,
-      proofRequest.rawSignature,
-    )
+    const address = utils
+      .recoverAddress(messageDigest, proofRequest.rawSignature)
+      .toLowerCase()
     const addressIndex = proofRequest.addresses.indexOf(address)
     const tree = new MerkleTree(
       addresses.map((address) => BigInt(address)),
@@ -33,7 +32,7 @@ export class CircuitInput implements CircuitInputInterface {
       field,
     )
     const merkleProof = tree.merkleProof(addressIndex)
-    const { r, s } = utils.splitSignature(rawSignature)
+    const { r, s } = utils.splitSignature(rawSignature) // v is ignored as we pass the pub key directly to the circuit
 
     this.root = tree.root()
     this.msghash = bigintToArray(64, 4, BigInt(messageDigest))
