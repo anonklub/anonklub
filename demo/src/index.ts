@@ -1,53 +1,27 @@
 import delay from 'delay'
-import { ethers } from 'ethers'
 import { existsSync } from 'fs'
 import { readFile, writeFile } from 'fs/promises'
 import inquirer from 'inquirer'
+import { ProofRequest } from '@anonset/membership'
+import { API_URLS, CLI_QUESTIONS } from './constants'
 import { fetchErc20AnonSet } from './fetch-anon-set'
-import { fetchProof } from './fetch-proof'
 
 interface Args {
   erc20Address: string
   fetchAnonSet: boolean
+  message: string
   minBalance: string
-  privateKey: string
+  rawSignature: string
 }
 
-const QUESTIONS = [
-  {
-    default: '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
-    message: 'ERC20 address you want to query',
-    name: 'erc20Address',
-    suffix: ' [Example: 0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72]',
-    type: 'string',
-    validate: (answer: string) =>
-      ethers.utils.isAddress(answer) || 'Invalid address',
-  },
-  {
-    message:
-      'Minimum balance of ERC20 one must own to be part of the anonymity set',
-    name: 'minBalance',
-    suffix: ' [Example: 10000]',
-    type: 'string',
-    validate: (answer: string) =>
-      answer.match(/^[0-9]+$/)?.length !== undefined || 'Invalid number',
-  },
-  {
-    message:
-      'Private key of the address you want to prove is part of the anonymity set',
-    name: 'privateKey',
-    suffix:
-      ' [Example: 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef]',
-    type: 'string',
-    validate: (answer: string) =>
-      answer.match(/^0x[0-9a-fA-F]{64}$/)?.length !== undefined ||
-      'Invalid private key',
-  },
-]
-
 async function main() {
-  const { erc20Address, fetchAnonSet, minBalance, privateKey }: Args =
-    await inquirer.prompt(QUESTIONS)
+  const {
+    erc20Address,
+    fetchAnonSet,
+    message,
+    minBalance,
+    rawSignature,
+  }: Args = await inquirer.prompt(CLI_QUESTIONS)
 
   let addresses: string[]
 
@@ -67,11 +41,15 @@ async function main() {
   await delay(300)
   console.log(addresses.slice(0, 10))
 
-  // TODO: refactor so that a pre-generated signature is passed in instead of private key
-  await fetchProof({
+  const proofRequest = new ProofRequest({
     addresses,
-    privateKey,
+    message,
+    rawSignature,
+    url: API_URLS.PROVE,
   })
+
+  const jobResponse = await proofRequest.submit()
+  console.log(jobResponse)
 }
 
 main().catch((err) => {
