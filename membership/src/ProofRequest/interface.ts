@@ -10,13 +10,14 @@ export interface ProofRequestArgs {
 }
 
 // TODO: make it more specific
-export interface Proof {
+export interface ProofResult {
   proof: any
   publicSignals: any
 }
 
+export type ProofRequestJson = Omit<ProofRequestArgs, 'url'>
+
 export interface ProofRequestInterface {
   submit: () => Promise<void>
-  getResult: () => Promise<Proof>
-  serialize: () => string
+  getResult: () => Promise<ProofResult>
 }

@@ -1,3 +1,4 @@
+import { Point } from '@noble/secp256k1'
 import { utils } from 'ethers'
 import { bigintToArray } from '../helpers'
 import { MerkleTree } from '../MerkleTree'
@@ -13,7 +14,13 @@ export class CircuitInput implements CircuitInputInterface {
   readonly r: bigint[]
 
   constructor({ field, hashFunction, proofRequest }: CircuitInputArgs) {
-    const { addresses, messageDigest, publicKey, rawSignature } = proofRequest
+    const { addresses, message, rawSignature } = proofRequest
+
+    const _publicKey = Point.fromHex(
+      utils.recoverPublicKey(utils.hashMessage(message), rawSignature).slice(2),
+    )
+    const publicKey = { x: _publicKey.x.toString(), y: _publicKey.y.toString() }
+    const messageDigest = utils.hashMessage(message)
     const address = utils.recoverAddress(
       messageDigest,
       proofRequest.rawSignature,

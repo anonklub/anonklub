@@ -1,7 +1,7 @@
-import { ProofRequest } from '../ProofRequest'
+import { ProofRequestJson } from '../ProofRequest/interface'
 
 export interface CircuitInputArgs {
-  proofRequest: ProofRequest
+  proofRequest: ProofRequestJson
   /**
    *
    * @param Hash Function used by the Merkle Tree underlying the Circuit Input/Proof

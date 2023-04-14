@@ -1,5 +1,5 @@
-import { CircuitInput, getMemoPoseidon, ProofRequest } from '../src'
-import { addresses, message, rawSignature, url } from './data/constants'
+import { CircuitInput, getMemoPoseidon } from '../src'
+import { addresses, message, rawSignature } from './data/constants'
 
 describe('CircuitInput', () => {
   let poseidon: any
@@ -9,16 +9,10 @@ describe('CircuitInput', () => {
 
   let circuitInput: CircuitInput
   beforeEach(() => {
-    const proofRequest = new ProofRequest({
-      addresses,
-      message,
-      rawSignature,
-      url,
-    })
     circuitInput = new CircuitInput({
       field: poseidon.F,
       hashFunction: poseidon,
-      proofRequest,
+      proofRequest: { addresses, message, rawSignature },
     })
   })
 
@@ -57,18 +51,20 @@ describe('CircuitInput', () => {
     const parsed = JSON.parse(serialized)
     expect(
       parsed.pubkey.every((arr: any) =>
-        arr.every((n: any) => typeof n === 'string'),
+        arr.every((n: unknown) => typeof n === 'string'),
       ),
     ).toBeTruthy()
-    expect(parsed.msghash.every((n: any) => typeof n === 'string')).toBeTruthy()
+    expect(
+      parsed.msghash.every((n: unknown) => typeof n === 'string'),
+    ).toBeTruthy()
     expect(typeof parsed.root === 'string').toBeTruthy()
     expect(
-      parsed.pathIndices.every((n: any) => typeof n === 'string'),
+      parsed.pathIndices.every((n: unknown) => typeof n === 'string'),
     ).toBeTruthy()
     expect(
-      parsed.pathElements.every((n: any) => typeof n === 'string'),
+      parsed.pathElements.every((n: unknown) => typeof n === 'string'),
     ).toBeTruthy()
-    expect(parsed.s.every((n: any) => typeof n === 'string')).toBeTruthy()
-    expect(parsed.r.every((n: any) => typeof n === 'string')).toBeTruthy()
+    expect(parsed.s.every((n: unknown) => typeof n === 'string')).toBeTruthy()
+    expect(parsed.r.every((n: unknown) => typeof n === 'string')).toBeTruthy()
   })
 })
