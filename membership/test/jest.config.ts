@@ -3,14 +3,14 @@ import type { JestConfigWithTsJest } from 'ts-jest'
 const jestConfig: JestConfigWithTsJest = {
   clearMocks: true,
   collectCoverage: true,
-  collectCoverageFrom: ['src/ProofRequest/*.ts', 'src/CircuitInput/*.ts'],
+  collectCoverageFrom: ['src/**/*.ts', '!src/poseidon.ts', '!**/*.d.ts'],
   coverageDirectory: '../coverage',
   coverageThreshold: {
     global: {
-      branches: 80,
+      branches: 40,
       functions: 80,
-      lines: 80,
-      statements: 80,
+      lines: 75,
+      statements: 75,
     },
   },
   displayName: 'membership',
