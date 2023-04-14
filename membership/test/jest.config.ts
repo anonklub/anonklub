@@ -3,7 +3,7 @@ import type { JestConfigWithTsJest } from 'ts-jest'
 const jestConfig: JestConfigWithTsJest = {
   clearMocks: true,
   collectCoverage: true,
-  collectCoverageFrom: ['src/ProofRequest/*.ts'],
+  collectCoverageFrom: ['src/ProofRequest/*.ts', 'src/CircuitInput/*.ts'],
   coverageDirectory: '../coverage',
   coverageThreshold: {
     global: {

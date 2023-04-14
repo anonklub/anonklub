@@ -4,10 +4,13 @@
   "description": "Shared utilities for @anonset",
   "main": "dist/index.js",
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
-  "contributors": ["3pwd <me@3pwd.xyz>"],
+  "contributors": [
+    "3pwd <me@3pwd.xyz>"
+  ],
   "license": "MIT",
   "dependencies": {
     "@noble/secp256k1": "^1.7.0",
+    "circomlibjs": "^0.1.7",
     "ethers": "^5.7.2",
     "undici": "^5.21.2"
   },

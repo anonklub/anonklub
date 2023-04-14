@@ -43,7 +43,8 @@ export class CircuitInput implements CircuitInputInterface {
   serialize() {
     return JSON.stringify(
       this,
-      (_, value) => value.toString(), // circom circuits expect all parameters as strings
+      (_, value) =>
+        ['number', 'bigint'].includes(typeof value) ? value.toString() : value, // circom circuits expect all parameters as strings
     )
   }
 }

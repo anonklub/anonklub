@@ -340,6 +340,9 @@ importers:
       '@noble/secp256k1':
         specifier: ^1.7.0
         version: 1.7.0
+      circomlibjs:
+        specifier: ^0.1.7
+        version: 0.1.7
       ethers:
         specifier: ^5.7.2
         version: 5.7.2
