@@ -65,6 +65,9 @@ importers:
       ts-node-dev:
         specifier: ^2.0.0
         version: 2.0.0(@types/node@18.11.18)(typescript@4.9.4)
+      ttab:
+        specifier: ^0.8.0
+        version: 0.8.0
       typescript:
         specifier: ^4.9.4
         version: 4.9.4
@@ -218,14 +221,11 @@ importers:
   circuits/circom:
     dependencies:
       '@anonset/membership':
-        specifier: workspace:^1.0.0
+        specifier: workspace:^
         version: link:../../membership
       '@noble/secp256k1':
         specifier: ^1.7.0
         version: 1.7.0
-      '@types/node':
-        specifier: ^18.13.0
-        version: 18.14.0
       circom-ecdsa:
         specifier: github:0xparc/circom-ecdsa
         version: github.com/0xparc/circom-ecdsa/d87eb7068cb35c951187093abe966275c1839ead
@@ -235,18 +235,6 @@ importers:
       circomlibjs:
         specifier: ^0.1.7
         version: 0.1.7
-      eslint:
-        specifier: ^8.30.0
-        version: 8.31.0
-      express:
-        specifier: ^4.18.2
-        version: 4.18.2
-      express-async-errors:
-        specifier: ^3.1.1
-        version: 3.1.1(express@4.18.2)
-      express-async-handler:
-        specifier: ^1.2.0
-        version: 1.2.0
       ffjavascript:
         specifier: ^0.2.57
         version: 0.2.57
@@ -11664,10 +11652,6 @@ packages:
       express: 4.18.2
     dev: false
 
-  /express-async-handler@1.2.0:
-    resolution: {integrity: sha512-rCSVtPXRmQSW8rmik/AIb2P0op6l7r1fMW538yyvTMltCO4xQEWMmobfrIxN2V1/mVrgxB8Az3reYF6yUZw37w==}
-    dev: false
-
   /express-session@1.17.3:
     resolution: {integrity: sha512-4+otWXlShYlG1Ma+2Jnn+xgKUZTMJ5QD3YvfilX3AcocOAbIkVylSWEklzALe/+Pu4qV6TYBj5GwOBFfdKqLBw==}
     engines: {node: '>= 0.8.0'}
@@ -20840,6 +20824,12 @@ packages:
     dependencies:
       tslib: 1.14.1
       typescript: 4.9.4
+    dev: true
+
+  /ttab@0.8.0:
+    resolution: {integrity: sha512-ZsvrLuAJf52Joqo9aiLg1iygGz2l/hC5dKRrQ7W+k0LI7SN6m9bdF5hbpFm7WxEO4xE/pMMjFizd/5fdpNhoTA==}
+    os: [darwin, linux]
+    hasBin: true
     dev: true
 
   /tweetnacl-util@0.15.1:

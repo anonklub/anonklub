@@ -1,5 +1,5 @@
-`shared` package needs to be built first.
+# Demo
 
-```
-pnpm run prove -p [private key] -a [erc20 token address] -m [min balance]
-```
+In root folder: `npm run demo`.  
+It will start the cli, follow the prompts.  
+In another terminal it will start redis, build and start locally the proving server.

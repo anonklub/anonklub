@@ -11,16 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@anonset/membership": "workspace:^1.0.0",
+    "@anonset/membership": "workspace:^",
     "@noble/secp256k1": "^1.7.0",
-    "@types/node": "^18.13.0",
     "circom-ecdsa": "github:0xparc/circom-ecdsa",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
-    "eslint": "^8.30.0",
-    "express": "^4.18.2",
-    "express-async-errors": "^3.1.1",
-    "express-async-handler": "^1.2.0",
     "ffjavascript": "^0.2.57",
     "play-contracts": "github:ChihChengLiang/poseidon-tornado"
   },
