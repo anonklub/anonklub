@@ -16,7 +16,8 @@
     "delay": "^5.0.0",
     "ethers": "^5.7.2",
     "inquirer": "^8",
-    "inquirer-fuzzy-path": "^2.3.0"
+    "inquirer-fuzzy-path": "^2.3.0",
+    "terminal-link": "2.1.1"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.3",
