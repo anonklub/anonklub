@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@anonset/membership": "workspace:^",
     "@noble/secp256k1": "^1.7.0",
     "circom-ecdsa": "github:0xparc/circom-ecdsa",
     "circomlib": "^2.0.5",

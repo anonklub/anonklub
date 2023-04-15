@@ -220,6 +220,9 @@ importers:
 
   circuits/circom:
     dependencies:
+      '@anonset/membership':
+        specifier: workspace:^
+        version: link:../../membership
       '@noble/secp256k1':
         specifier: ^1.7.0
         version: 1.7.0
