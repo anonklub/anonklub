@@ -24,7 +24,7 @@ export class CircuitInput implements CircuitInputInterface {
     const address = utils
       .recoverAddress(messageDigest, proofRequest.rawSignature)
       .toLowerCase()
-    const addressIndex = proofRequest.addresses.indexOf(address)
+    const addressIndex = addresses.indexOf(address)
     const tree = new MerkleTree(
       addresses.map((address) => BigInt(address)),
       21,
