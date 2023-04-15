@@ -34,8 +34,8 @@ const cli = async () => {
           console.log('file')
       }
 
-      const rawSignature = await askRawSignature()
       const message = await askMessage()
+      const rawSignature = await askRawSignature(message)
 
       console.log('prove', { addresses, message, rawSignature })
       break
