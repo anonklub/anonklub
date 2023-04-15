@@ -3,8 +3,9 @@ import { existsSync } from 'fs'
 import { readFile, writeFile } from 'fs/promises'
 import inquirer from 'inquirer'
 import { ProofRequest } from '@anonset/membership'
-import { API_URLS, CLI_QUESTIONS } from './constants'
+import { API_URLS } from './constants'
 import { fetchErc20AnonSet } from './fetch-anon-set'
+import { CLI_QUESTIONS } from './cli/questions'
 
 interface Args {
   erc20Address: string

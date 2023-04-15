@@ -291,6 +291,9 @@ importers:
         specifier: ^8
         version: 8.2.5
     devDependencies:
+      '@types/inquirer':
+        specifier: ^9.0.3
+        version: 9.0.3
       '@types/yargs':
         specifier: ^17.0.24
         version: 17.0.24
@@ -7285,6 +7288,13 @@ packages:
       '@types/node': 18.14.0
     dev: false
 
+  /@types/inquirer@9.0.3:
+    resolution: {integrity: sha512-CzNkWqQftcmk2jaCWdBTf9Sm7xSw4rkI1zpU/Udw3HX5//adEZUIm9STtoRP1qgWj0CWQtJ9UTvqmO2NNjhMJw==}
+    dependencies:
+      '@types/through': 0.0.30
+      rxjs: 7.8.0
+    dev: true
+
   /@types/istanbul-lib-coverage@2.0.4:
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==}
 
@@ -7497,6 +7507,12 @@ packages:
     dependencies:
       '@types/express': 4.17.17
       '@types/serve-static': 1.15.0
+    dev: true
+
+  /@types/through@0.0.30:
+    resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
+    dependencies:
+      '@types/node': 18.14.0
     dev: true
 
   /@types/unist@2.0.6:
