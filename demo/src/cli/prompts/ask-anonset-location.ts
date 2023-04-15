@@ -8,11 +8,11 @@ export enum AnonSetLocation {
 export const askAnonSetLocation = prompt<AnonSetLocation>({
   choices: [
     {
-      name: 'On chain, query the ethereum blockchain as of latest block for me',
+      name: 'On chain: query the ethereum blockchain as of latest block for me',
       value: AnonSetLocation.ONCHAIN,
     },
     {
-      name: 'Locally, I have a file with the list of addresses',
+      name: 'Locally: I have a json file with the list of addresses',
       value: AnonSetLocation.FILE,
     },
   ],

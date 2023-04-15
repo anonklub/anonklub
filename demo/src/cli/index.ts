@@ -1,16 +1,21 @@
+import { ProofRequest } from '@anonset/membership'
+import { API_URLS } from '../constants'
+import { fetchErc20AnonSet } from '../fetch-anon-set'
 import {
   AnonSetLocation,
   AnonSetType,
   askAnonSetLocation,
   askAnonSetType,
   askErc20AnonsetInputs,
+  // askEthAnonsetInputs,
+  askFile,
   askMessage,
   askProveOrVerify,
+  askRawSignature,
   ProofAction,
 } from './prompts'
-import { askRawSignature } from './prompts/ask-raw-signature'
 
-const cli = async () => {
+export async function cli() {
   const proveOrVerify = await askProveOrVerify()
 
   switch (proveOrVerify) {
@@ -23,31 +28,49 @@ const cli = async () => {
           const anonSetType = await askAnonSetType()
           switch (anonSetType) {
             case AnonSetType.ERC20_BALANCE: {
-              const { erc20Address, minBalance } = await askErc20AnonsetInputs()
-              console.log('fetch anonset', erc20Address, minBalance)
-              addresses = ['0x123', '0x456']
+              const { min, tokenAddress } = await askErc20AnonsetInputs()
+              addresses = await fetchErc20AnonSet({ min, tokenAddress })
+              break
+            }
+            case AnonSetType.ETH_BALANCE: {
+              // const { minBalance } = await askEthAnonsetInputs()
+              console.log('Not Implemented')
+              break
+            }
+            case AnonSetType.CRYPTO_PUNK: {
+              console.log('Not Implemented')
+              break
+            }
+            case AnonSetType.ENS: {
+              console.log('Not Implemented')
             }
           }
           break
         }
-        case AnonSetLocation.FILE:
-          console.log('file')
+        case AnonSetLocation.FILE: {
+          const path = await askFile()
+          const { default: _addresses } = await import(path)
+          addresses = _addresses
+        }
       }
+
+      if (addresses.length === 0) throw new Error('No addresses list found')
 
       const message = await askMessage()
       const rawSignature = await askRawSignature(message)
 
-      console.log('prove', { addresses, message, rawSignature })
+      const proofRequest = new ProofRequest({
+        addresses,
+        message,
+        rawSignature,
+        url: API_URLS.PROVE,
+      })
+
+      const jobResponse = await proofRequest.submit()
+      console.log(jobResponse)
       break
     }
     case ProofAction.VERIFY:
-      console.log('Verify')
+      console.log('Not Implemented')
   }
 }
-
-cli()
-  .then(() => console.log('done'))
-  .catch((err) => {
-    console.error(err)
-    process.exit(1)
-  })
