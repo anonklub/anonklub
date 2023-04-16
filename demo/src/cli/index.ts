@@ -1,24 +1,30 @@
+import { execSync } from 'child_process'
 import { ProofRequest } from '@anonset/membership'
 import { API_URLS } from '../constants'
-import { fetchErc20AnonSet } from '../fetch-anon-set'
+import {
+  fetchEnsVotersAnonSet,
+  fetchErc20AnonSet,
+  fetchEthAnonSet,
+  fetchPunksAnonSet,
+} from '../fetch-anon-set'
 import { logResult } from './log-result'
 import {
   AnonSetLocation,
   AnonSetType,
+  askAddressesFile,
   askAnonSetLocation,
   askAnonSetType,
+  askEnsAnonsetInputs,
   askErc20AnonsetInputs,
-  // askEthAnonsetInputs,
-  askAddressesFile,
-  askProofFile,
-  askPublicSignalsFile,
+  askEthAnonsetInputs,
   askMessage,
+  askProofFile,
   askProveOrVerify,
+  askPublicSignalsFile,
   askRawSignature,
-  ProofAction,
   askVerificationKeyFile,
+  ProofAction,
 } from './prompts'
-import { execSync } from 'child_process'
 
 export const cli = async () => {
   const proveOrVerify = await askProveOrVerify()
@@ -38,16 +44,17 @@ export const cli = async () => {
               break
             }
             case AnonSetType.ETH_BALANCE: {
-              // const { minBalance } = await askEthAnonsetInputs()
-              console.log('Not Implemented')
+              const { minBalance } = await askEthAnonsetInputs()
+              addresses = await fetchEthAnonSet({ minBalance })
               break
             }
             case AnonSetType.CRYPTO_PUNK: {
-              console.log('Not Implemented')
+              addresses = await fetchPunksAnonSet()
               break
             }
             case AnonSetType.ENS: {
-              console.log('Not Implemented')
+              const { choice, id } = await askEnsAnonsetInputs()
+              addresses = await fetchEnsVotersAnonSet({ choice, id })
             }
           }
           break

@@ -281,6 +281,9 @@ importers:
       inquirer-fuzzy-path:
         specifier: ^2.3.0
         version: 2.3.0
+      ora:
+        specifier: ^5
+        version: 5.4.1
       terminal-link:
         specifier: 2.1.1
         version: 2.1.1
