@@ -9,12 +9,16 @@ import {
   askAnonSetType,
   askErc20AnonsetInputs,
   // askEthAnonsetInputs,
-  askFile,
+  askAddressesFile,
+  askProofFile,
+  askPublicSignalsFile,
   askMessage,
   askProveOrVerify,
   askRawSignature,
   ProofAction,
+  askVerificationKeyFile,
 } from './prompts'
+import { execSync } from 'child_process'
 
 export const cli = async () => {
   const proveOrVerify = await askProveOrVerify()
@@ -49,7 +53,7 @@ export const cli = async () => {
           break
         }
         case AnonSetLocation.FILE: {
-          const path = await askFile()
+          const path = await askAddressesFile()
           const { default: _addresses } = await import(path)
           addresses = _addresses
         }
@@ -72,7 +76,15 @@ export const cli = async () => {
 
       break
     }
-    case ProofAction.VERIFY:
-      console.log('Not Implemented')
+    case ProofAction.VERIFY: {
+      const proofPath = await askProofFile()
+      const publicSignalsPath = await askPublicSignalsFile()
+      const verificationKeyPath = await askVerificationKeyFile()
+
+      const result = execSync(
+        `snarkjs groth16 verify ${verificationKeyPath} ${publicSignalsPath} ${proofPath}`,
+      )
+      console.log(result.toString())
+    }
   }
 }
