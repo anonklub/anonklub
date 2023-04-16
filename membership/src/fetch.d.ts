@@ -1,1 +1,1 @@
-declare var fetch: typeof import('undici').fetch
+declare let fetch: typeof import('undici').fetch
