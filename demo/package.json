@@ -17,6 +17,7 @@
     "ethers": "^5.7.2",
     "inquirer": "^8",
     "inquirer-fuzzy-path": "^2.3.0",
+    "ora": "^5",
     "terminal-link": "2.1.1"
   },
   "devDependencies": {
