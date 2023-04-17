@@ -11,7 +11,7 @@ const config = {
   baseUrl: '/e2e-zk-ecdsa/',
   // Usually your repo name.
   deploymentBranch: 'gh-pages',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/anonklub.ico',
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -56,19 +56,6 @@ const config = {
           {
             items: [
               {
-                label: 'Example',
-                to: '/docs/example',
-              },
-              {
-                label: 'Tutorial',
-                to: '/docs/category/tutorial',
-              },
-            ],
-            title: 'Docs',
-          },
-          {
-            items: [
-              {
                 href: 'https://discord.gg/VVudpjfxCWt',
                 label: 'Discord',
               },
@@ -90,10 +77,9 @@ const config = {
           },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Ethereum Foundation.`,
-        style: 'dark',
       },
       // Replace with your project's social card
-      image: 'img/anonymity.jpg',
+      image: 'img/anonklub.jpg',
       navbar: {
         items: [
           {
@@ -114,6 +100,16 @@ const config = {
             position: 'left',
           },
           {
+            to: '/docs/cli-demo',
+            label: 'CLI Demo',
+            position: 'left',
+          },
+          {
+            to: '/docs/apis',
+            label: 'APIs',
+            position: 'left',
+          },
+          {
             href: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa',
             label: 'GitHub',
             position: 'right',
@@ -121,9 +117,9 @@ const config = {
         ],
         logo: {
           alt: 'ECDSA Groups Logo',
-          src: 'img/logo.svg',
+          src: 'img/anonklub.svg',
         },
-        title: 'ECDSA GROUPS',
+        title: 'Anon Klub',
       },
       prism: {
         darkTheme: darkCodeTheme,
@@ -131,7 +127,7 @@ const config = {
       },
     },
 
-  title: 'ECDSA GROUPS',
+  title: 'Anon Klub',
   // Set the production url of your site here
   url: 'https://privacy-scaling-explorations.github.io',
 }

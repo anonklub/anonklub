@@ -7,10 +7,10 @@ sidebar_position: 4
 
 Once you have a proof request, you can generate a proof either locally or by relying on our remote proof server.
 
-| Server | Pros                                         | Cons                                           |
-| ------ | -------------------------------------------- | ---------------------------------------------- |
-| Remote | No need to install circom or snarkjs. Faster | You need to trust our server                   |
-| Local  | Trustless                                    | You need to install circom and snarkjs, Slower |
+| Server | Pros                                         | Cons                                                                                                                                 |
+| ------ | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Remote | No need to install circom or snarkjs. Faster | You need to trust our server                                                                                                         |
+| Local  | Trustless                                    | You need to install circom and snarkjs. Slower. Need to tweak system partitions to allow for more swap memory on "regular" machines. |
 
 ## Remote
 
@@ -20,7 +20,7 @@ const jobId = await proofRequest.submit()
 
 ## Local
 
-You'll need the circom generate files. You can either re-generate them yourself or download them from our [github repo](https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/tree/main/apis/proving/generated).
+You'll need the circom generated files. You can either re-generate them yourself or download them from our [github repo](https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/tree/main/apis/proving/generated).
 
 ```javascript
 import { execSync, readFileSync, writeFileSync } from 'fs'

@@ -28,3 +28,11 @@
   --ifm-color-primary-lightest: #f4a0a8;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+html[data-theme='dark'] footer {
+  background-color: #1b1b1d;
+}
+
+html[data-theme='light'] footer {
+  background-color: #fff;
+}
