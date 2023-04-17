@@ -1,5 +1,6 @@
 {
   "directory": [
+    "apis/prove/src/handlers",
     "apis/query/src/api/controllers/requests",
     "apis/query/src/api/services",
     "apis/query/src/api/repositories",
