@@ -56,19 +56,6 @@ const config = {
           {
             items: [
               {
-                label: 'Example',
-                to: '/docs/example',
-              },
-              {
-                label: 'Tutorial',
-                to: '/docs/category/tutorial',
-              },
-            ],
-            title: 'Docs',
-          },
-          {
-            items: [
-              {
                 href: 'https://discord.gg/VVudpjfxCWt',
                 label: 'Discord',
               },
@@ -110,6 +97,16 @@ const config = {
           {
             to: '/docs/category/tutorial',
             label: 'Tutorial',
+            position: 'left',
+          },
+          {
+            to: '/docs/cli-demo',
+            label: 'CLI Demo',
+            position: 'left',
+          },
+          {
+            to: '/docs/apis',
+            label: 'APIs',
             position: 'left',
           },
           {
