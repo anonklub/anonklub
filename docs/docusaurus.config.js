@@ -90,7 +90,6 @@ const config = {
           },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Ethereum Foundation.`,
-        style: 'dark',
       },
       // Replace with your project's social card
       image: 'img/anonklub.jpg',
