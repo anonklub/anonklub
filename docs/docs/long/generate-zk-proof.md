@@ -8,7 +8,7 @@ sidebar_position: 4
 Once you have a proof request, you can generate a proof either locally or by relying on our remote proof server.
 
 | Server | Pros                                         | Cons                                                                                                                                 |
-| ------ | -------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------------|
+| ------ | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Remote | No need to install circom or snarkjs. Faster | You need to trust our server                                                                                                         |
 | Local  | Trustless                                    | You need to install circom and snarkjs. Slower. Need to tweak system partitions to allow for more swap memory on "regular" machines. |
 
