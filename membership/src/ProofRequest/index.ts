@@ -46,7 +46,7 @@ export class ProofRequest implements ProofRequestInterface {
     if (this.jobId === undefined) throw new Error('Job not submitted yet')
 
     const [proof, publicSignals] = await Promise.all(
-      ['proof', 'publicSignals'].map(async (key) =>
+      ['proof', 'public'].map(async (key) =>
         fetch(`${this.url}/${this.jobId}/${key}.json`).then(async (res) =>
           res.json(),
         ),
