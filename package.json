@@ -26,6 +26,7 @@
   },
   "scripts": {
     "build.docker.prove": "docker build -f apis/prove/Dockerfile . -t prove-api",
+    "build.docker.ui": "docker build -f ui/Dockerfile . -t anonklub-ui",
     "barrels": "barrelsby --config .barrelsby.json",
     "clean": "lerna clean && lerna run clean && rm -rf node_modules",
     "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && lerna run build --scope '{@anonset/membership,@anonset/prove-api}' && pnpm run --filter @anonset/prove-api server.prod",
@@ -45,5 +46,5 @@
   "dependencies": {
     "is-ci-cli": "^2.2.0"
   },
-  "workspaces": ["apis/*", "circuits/*", "membership", "demo", "docs"]
+  "workspaces": ["apis/*", "circuits/*", "membership", "demo", "docs", "ui"]
 }
