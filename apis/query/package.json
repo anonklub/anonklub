@@ -62,8 +62,8 @@
     "start.dev": "NODE_ENV=development tsnd --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
     "start.docker.dev": "docker compose -f docker-compose-dev.yaml up --build query-api",
     "start.docker.prod": "docker compose up --build query-api",
-    "start.prod": "NODE_ENV=production node -r module-alias/register ./dist",
-    "start.watch": "NODE_ENV=development tsnd --respawn --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
+    "start.prod": "node -r module-alias/register ./dist",
+    "start.watch": "tsnd --respawn --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
     "test": "jest -c test/jest.config.ts"
   }
 }
