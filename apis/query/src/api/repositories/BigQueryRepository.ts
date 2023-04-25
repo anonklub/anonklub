@@ -1,5 +1,4 @@
 import { Service } from 'typedi'
-
 import { Db } from '~/bigquery'
 
 @Service()

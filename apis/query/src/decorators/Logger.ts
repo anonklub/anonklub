@@ -1,5 +1,4 @@
 import { Container } from 'typedi'
-
 import { logger } from '~/logger'
 
 export function Logger(): ParameterDecorator {

@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker'
 import { Container } from 'typedi'
 import { DuneRepository, GraphRepository } from '@repositories'
 import { QueryService } from '@services'
-
 import { Db } from '~/bigquery'
 
 describe('Service', () => {

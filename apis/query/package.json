@@ -42,7 +42,7 @@
     "swagger-ui-express": "^4.6.0",
     "typedi": "^0.10.0",
     "winston": "^3.8.2",
-    "yaml": "^2.2.1"
+    "yaml": "^2.2.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",

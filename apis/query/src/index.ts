@@ -1,7 +1,6 @@
 import 'reflect-metadata'
 import { useContainer } from 'routing-controllers-extended'
 import { Container } from 'typedi'
-
 import { app } from './app'
 
 // Setup routing-controllers-extended to use typedi container.
