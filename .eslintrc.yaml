@@ -1,4 +1,4 @@
-extends: ['@r1oga']
+extends: ['@3pwd/eslint-config-with-jest']
 parserOptions:
   project:
     [
