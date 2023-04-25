@@ -25,7 +25,7 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "build.docker.prove": "docker build -t prove-api -f apis/prove/Dockerfile .",
+    "build.docker.prove": "docker build -f apis/prove/Dockerfile . -t prove-api",
     "barrels": "barrelsby --config .barrelsby.json",
     "clean": "lerna clean && lerna run clean && rm -rf node_modules",
     "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && lerna run build --scope '{@anonset/membership,@anonset/prove-api}' && pnpm run --filter @anonset/prove-api server.prod",
