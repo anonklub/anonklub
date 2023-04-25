@@ -1,5 +1,4 @@
 import { IsDefined, IsIn, IsNumberString, Length } from 'class-validator'
-
 import { VoteChoice } from '~/graph'
 
 export class getEnsProposalVotersQuery {

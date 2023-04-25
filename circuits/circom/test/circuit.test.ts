@@ -3,7 +3,6 @@ import { wasm as wasm_tester } from 'circom_tester'
 import { buildPoseidon } from 'circomlibjs'
 import { BigNumber, utils } from 'ethers'
 import { join } from 'path'
-
 import {
   bigintToArray,
   bigintToUint8Array,

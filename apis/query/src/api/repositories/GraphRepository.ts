@@ -1,5 +1,4 @@
 import { Service } from 'typedi'
-
 import {
   BeaconDepositorsDocument,
   Depositor,

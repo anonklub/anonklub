@@ -2,7 +2,6 @@ import { hmac } from '@noble/hashes/hmac'
 import { sha256 } from '@noble/hashes/sha256'
 import { Point, signSync, utils as secp256k1utils } from '@noble/secp256k1'
 import { BigNumber, utils } from 'ethers'
-
 import http from 'http'
 import { bigintToUint8Array, ProofRequest } from '@anonset/membership'
 
