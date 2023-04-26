@@ -9,9 +9,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.compile.json",
     "server.dev": "tsnd ./src/index.ts",
-    "server.prod": "node ./dist/index.js",
-    "client.dev": "tsnd ./test/test_client.ts",
-    "client.prod": "node ./dist/test/test_client.js"
+    "server.prod": "node ./dist/index.js"
   },
   "dependencies": {
     "@anonset/membership": "workspace:^",
