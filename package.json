@@ -46,5 +46,5 @@
   "dependencies": {
     "is-ci-cli": "^2.2.0"
   },
-  "workspaces": ["apis/*", "circuits/*", "membership", "demo", "docs", "ui"]
+  "workspaces": ["apis/*", "circuits/*", "demo", "docs", "infra", "membership", "ui"]
 }

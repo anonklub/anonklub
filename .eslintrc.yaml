@@ -8,6 +8,7 @@ parserOptions:
       'circuits/circom/tsconfig.json',
       'demo/tsconfig.json',
       'docs/tsconfig.json',
+      'infra/tsconfig.json',
       'membership/tsconfig.json',
     ]
 
@@ -83,3 +84,9 @@ overrides:
   - files: ['shared/src/index.ts']
     rules:
       'sort/exports': 'off'
+  - files: ['infra/resources/**/*.ts']
+    rules:
+      '@typescript-eslint/no-unused-vars': off
+  - files: ['infra/index.ts']
+    rules:
+      import/no-duplicates: off

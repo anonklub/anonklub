@@ -2,21 +2,23 @@
 .DS_Store
 
 coverage
+build
 dist
 build
 node_modules
 
 *.log
 
-.env
-
 *.db
 dev.db-journal
 
 # secrets
+.env
 .key.json
 .dune_api_key
+.kubeconfig
 .graph_api_key
+.privatekey
 .sig
 
 circuits/circom/node_modules
@@ -24,12 +26,12 @@ circuits/circom/package-lock.json
 
 .docusaurus
 
-.privatekey
-
 addresses.json
 proof.json
 *.zkey
 
 apis/prove/public/proofs
+
+gke_gcloud_auth_plugin_cache
 
 

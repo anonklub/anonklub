@@ -1,0 +1,5 @@
+config:
+  gcloud-k8s:isMinikube: 'false'
+  gcloud-k8s:nodesPerZone: '1'
+  gcp:project: anonklub-1
+  gcp:region: europe-west3

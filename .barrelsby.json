@@ -4,7 +4,8 @@
     "apis/query/src/api/controllers/requests",
     "apis/query/src/api/services",
     "apis/query/src/api/repositories",
-    "demo/src/cli/prompts"
+    "demo/src/cli/prompts",
+    "infra/resources"
   ],
   "delete": true,
   "noSemicolon": true,
