@@ -8,8 +8,8 @@
     "start": "tsnd --cls --exit-child src/index.ts"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "3pwd <me@3pwd.xyz>",
+  "license": "MIT",
   "dependencies": {
     "@anonset/membership": "workspace:^",
     "@noble/secp256k1": "^1.7.0",

@@ -2,6 +2,8 @@
   "name": "@anonset/ui",
   "version": "0.1.0",
   "private": true,
+  "author": "3pwd <me@3pwd.xyz>",
+  "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
