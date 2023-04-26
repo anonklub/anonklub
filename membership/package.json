@@ -15,5 +15,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.compile.json",
     "test": "jest -c jest.config.js"
-  }
+  },
+  "files": ["dist"],
+  "types": "dist/types/index.d.ts"
 }
