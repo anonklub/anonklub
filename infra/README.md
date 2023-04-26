@@ -14,10 +14,10 @@ Based on following docs:
 - [ ] gcloud setup: need to set project and default application credentials, and enable some apis
 
   ```shell
-  google auth application-default login
-  google config set account <mail address>
-  google project create --name <project name>
-  google config set project <project id>
+  gcloud auth application-default login
+  gcloud config set account <mail address>
+  gcloud project create --name <project name>
+  gcloud config set project <project id>
 
   gcloud services enable container.googleapis.com
   gcloud services enable compute.googleapis.com

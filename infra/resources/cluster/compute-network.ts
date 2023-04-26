@@ -1,6 +1,6 @@
-import * as gcp from '@pulumi/gcp'
+import { compute } from '@pulumi/gcp'
 
-export const gkeNetwork = new gcp.compute.Network('gke-network', {
+export const gkeNetwork = new compute.Network('gke-network', {
   autoCreateSubnetworks: false,
   description: 'A virtual network for your GKE cluster(s)',
 })

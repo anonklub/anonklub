@@ -5,7 +5,8 @@
     "apis/query/src/api/services",
     "apis/query/src/api/repositories",
     "demo/src/cli/prompts",
-    "infra/resources"
+    "infra/resources",
+    "infra/resources/cluster"
   ],
   "delete": true,
   "noSemicolon": true,
