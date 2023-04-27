@@ -1,14 +1,11 @@
 use clap::Parser;
 use halo2_base::{
-    gates::{GateChip, RangeInstructions},
-    gates::{GateInstructions, RangeChip},
-    utils::ScalarField,
-    AssignedValue, Context, QuantumCell,
+    gates::GateChip, gates::GateInstructions, utils::ScalarField, AssignedValue, Context,
+    QuantumCell,
 };
 use halo2_scaffold::scaffold::{cmd::Cli, run};
 use poseidon::PoseidonChip;
 use serde::{Deserialize, Serialize};
-use std::env::var;
 
 const T: usize = 3;
 const RATE: usize = 2;
