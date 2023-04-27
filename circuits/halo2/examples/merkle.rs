@@ -4,7 +4,6 @@ use halo2_base::{
     gates::{GateInstructions, RangeChip},
     utils::ScalarField,
     AssignedValue, Context, QuantumCell,
-    QuantumCell::Witness,
 };
 use halo2_scaffold::scaffold::{cmd::Cli, run};
 use poseidon::PoseidonChip;
@@ -18,30 +17,39 @@ const R_P: usize = 57;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct CircuitInput {
-    pub inputs: [String; 3], // 3 field elements, but as strings for easier deserialization
+    pub leaf: String,
+    pub path: [String; 5],
+    pub switch: [String; 5],
 }
 
-// Hashes two values together either left to right or right to left
-fn hash_two<F: ScalarField>(
+// Verifies a merkle proof
+fn merkle_proof<F: ScalarField>(
     ctx: &mut Context<F>,
     inp: CircuitInput,
     make_public: &mut Vec<AssignedValue<F>>,
 ) {
     // Load variables as private inputs
-    let [a, b, switch] =
-        inp.inputs.map(|vars| ctx.load_witness(F::from_str_vartime(&vars).unwrap()));
+    let leaf = ctx.load_witness(F::from_str_vartime(&inp.leaf).unwrap());
+    let path =
+        inp.path.map(|elem| ctx.load_witness(F::from_str_vartime(&elem).unwrap())).into_iter();
+    let switch =
+        inp.switch.map(|elem| ctx.load_witness(F::from_str_vartime(&elem).unwrap())).into_iter();
     let gate = GateChip::<F>::default();
 
-    gate.assert_bit(ctx, switch);
-    let [a, b] = dual_mux(&gate, ctx, a, b, switch);
+    let mut next_hash = leaf;
+    for (s, p) in switch.zip(path) {
+        gate.assert_bit(ctx, s);
+        let [a, b] = dual_mux(&gate, ctx, next_hash, p, s);
 
-    let mut poseidon = PoseidonChip::<F, T, RATE>::new(ctx, R_F, R_P).unwrap();
-    poseidon.update(&[a, b]);
-    let hash = poseidon.squeeze(ctx, &gate).unwrap();
-    make_public.push(hash);
+        let mut poseidon = PoseidonChip::<F, T, RATE>::new(ctx, R_F, R_P).unwrap();
+        poseidon.update(&[a, b]);
+        next_hash = poseidon.squeeze(ctx, &gate).unwrap();
+        println!("a: {:?}, b: {:?}, poseidon(a,b)): {:?}", a.value(), b.value(), next_hash.value());
+    }
+    make_public.push(next_hash); // make the root public
+    println!("Merkle root: {:?}", next_hash.value());
 
     // TODO: test that the output is the same as circom
-    println!("a: {:?}, b: {:?}, poseidon(a,b)): {:?}", a.value(), b.value(), hash.value());
 }
 
 fn dual_mux<F: ScalarField>(
@@ -67,5 +75,5 @@ fn main() {
     env_logger::init();
 
     let args = Cli::parse();
-    run(hash_two, args);
+    run(merkle_proof, args);
 }
