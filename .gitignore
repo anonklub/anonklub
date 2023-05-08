@@ -15,7 +15,7 @@ dev.db-journal
 
 # secrets
 .key.json
-.dune_pwd
+.dune_api_key
 .graph_api_key
 .sig
 
