@@ -3,7 +3,6 @@ test
 node_modules
 .*
 *.toml
-Dockerfile
 README.md
 
 
