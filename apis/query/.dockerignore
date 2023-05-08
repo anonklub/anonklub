@@ -1,12 +1,9 @@
-# flyctl launch added from .gitignore
-**/.idea
-**/logs
-**/node_modules
-**/*.log
-**/.env
-**/*.db
-**/dev.db-journal
-**/.key.json
-**/.dune_pwd
-**/.graph_api_key
+dist
+test
+node_modules
+.*
+*.toml
+Dockerfile
+README.md
+
 
