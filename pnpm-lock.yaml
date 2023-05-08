@@ -123,6 +123,9 @@ importers:
 
   apis/query:
     dependencies:
+      '@cowprotocol/ts-dune-client':
+        specifier: ^0.0.1
+        version: 0.0.1
       '@google-cloud/bigquery':
         specifier: ^6.0.3
         version: 6.0.3
@@ -168,9 +171,6 @@ importers:
       cors:
         specifier: ^2.8.5
         version: 2.8.5
-      dune-ts:
-        specifier: ^1.1.4
-        version: 1.1.4
       ethers:
         specifier: ^5.7.2
         version: 5.7.2
@@ -2100,6 +2100,15 @@ packages:
   /@colors/colors@1.5.0:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
+    dev: false
+
+  /@cowprotocol/ts-dune-client@0.0.1:
+    resolution: {integrity: sha512-he5atCTdNU/uBF7utgJfqJnI0v0mJL7g0SiSyDySNgLnGMIbI9CvrzxKQXqJVQCbhreCICNMw879YcgwbaQ9uw==}
+    dependencies:
+      cross-fetch: 3.1.5
+      loglevel: 1.8.1
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@cspotcode/source-map-support@0.8.1:
@@ -11971,11 +11980,6 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
-  /dune-ts@1.1.4:
-    resolution: {integrity: sha512-169oUUmCY15unVOClf0UE2ZNo0OykcKd9NvjrfQ3Y5r0S6DquEAI+H/f3OWC7hzTlRO+KoyHZTNJH8jO4NGQ0w==}
-    engines: {node: '>=18'}
-    dev: false
-
   /duplexer3@0.1.5:
     resolution: {integrity: sha512-1A8za6ws41LQgv9HrE/66jyC5yuSjQ3L/KOpFtoBilsAK2iA2wuS5rTt1OCzIvtS2V7nVmedsUU+DGRcjBmOYA==}
     dev: false
@@ -17281,6 +17285,11 @@ packages:
       ansi-fragments: 0.2.1
       dayjs: 1.11.7
       yargs: 15.4.1
+    dev: false
+
+  /loglevel@1.8.1:
+    resolution: {integrity: sha512-tCRIJM51SHjAayKwC+QAg8hT8vg6z7GSgLJKGvzuPb1Wc+hLzqtuVLxp6/HzSPOozuK+8ErAhy7U/sVzw8Dgfg==}
+    engines: {node: '>= 0.6.0'}
     dev: false
 
   /logplease@1.2.15:

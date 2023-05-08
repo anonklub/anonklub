@@ -1,4 +1,4 @@
-import { Dune, ParameterType } from 'dune-ts'
+import { DuneClient as Dune, QueryParameter } from '@cowprotocol/ts-dune-client'
 import { Service } from 'typedi'
 
 export enum Query {
@@ -8,33 +8,10 @@ export enum Query {
 @Service()
 export class DuneRepository {
   dune: Dune
-
   constructor() {
-    this.dune = new Dune({
-      password: process.env.DUNE_PASSWORD,
-      username: process.env.DUNE_USERNAME,
-    })
-  }
-
-  private resetDune() {
-    console.log('reset dune')
-    this.dune = new Dune({
-      password: process.env.DUNE_PASSWORD,
-      username: process.env.DUNE_USERNAME,
-    })
-  }
-
-  private async _queryErc20Balance({
-    min,
-    tokenAddress,
-  }: {
-    min: string
-    tokenAddress: string
-  }) {
-    return this.dune.query(Query.Erc20, [
-      { key: 'tokenAddress', type: ParameterType.Text, value: tokenAddress },
-      { key: 'min', type: ParameterType.Number, value: min },
-    ])
+    const { DUNE_API_KEY } = process.env
+    if (DUNE_API_KEY === undefined) throw new Error('missing dune api key')
+    this.dune = new Dune(DUNE_API_KEY)
   }
 
   public async queryErc20Balance({
@@ -44,14 +21,11 @@ export class DuneRepository {
     min: string
     tokenAddress: string
   }) {
-    try {
-      return await this._queryErc20Balance({ min, tokenAddress })
-    } catch (err) {
-      console.log({ executionId: this.dune.executionId })
-      console.log('DuneRepository.queryErc20Balance() error:', err)
-      // TODO: not sure if this is reliable fix, look into dune-ts instead (cache of cookies/bearer token?)
-      this.resetDune()
-      return this._queryErc20Balance({ min, tokenAddress })
-    }
+    const parameters = [
+      QueryParameter.number('min', min),
+      QueryParameter.text('tokenAddress', `"${tokenAddress}"`),
+    ]
+
+    return this.dune.refresh(Query.Erc20, parameters)
   }
 }

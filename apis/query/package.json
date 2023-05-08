@@ -15,6 +15,7 @@
     "~": "dist/lib"
   },
   "dependencies": {
+    "@cowprotocol/ts-dune-client": "^0.0.1",
     "@google-cloud/bigquery": "^6.0.3",
     "@graphprotocol/client-cli": "^2.2.15",
     "@graphql-mesh/cache-localforage": "^0.7.3",
@@ -30,7 +31,6 @@
     "@whatwg-node/fetch": "^0.5.3",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
-    "dune-ts": "^1.1.4",
     "ethers": "^5.7.2",
     "express": "^4.18.2",
     "graphql": "^16.6.0",

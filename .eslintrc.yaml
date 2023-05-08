@@ -32,7 +32,10 @@ overrides:
     rules:
       '@typescript-eslint/restrict-template-expressions': off
   - files:
-      ['apis/query/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts']
+      [
+        'apis/query/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts',
+        'apis/query/src/api/repositories/DuneRepository.ts',
+      ]
     rules:
       '@typescript-eslint/no-inferrable-types': off
   - files: ['apis/prove/generated/*.js']
