@@ -34,9 +34,12 @@ describe('Service', () => {
       jest
         .spyOn(DuneRepository.prototype, 'queryErc20Balance')
         .mockResolvedValueOnce({
-          columns: [],
-          data: addresses.map((address) => ({ address })),
+          // @ts-expect-error
+          result: {
+            rows: addresses.map((address) => ({ address })),
+          },
         })
+
       await expect(
         queryService.getErc20BalanceAnonSet({ min, tokenAddress }),
       ).resolves.toMatchObject(addresses)
@@ -46,6 +49,7 @@ describe('Service', () => {
       jest
         .spyOn(GraphRepository.prototype, 'getBeaconDepositors')
         .mockResolvedValueOnce(addresses)
+
       await expect(queryService.getBeaconDepositors()).resolves.toMatchObject(
         addresses,
       )
@@ -55,6 +59,7 @@ describe('Service', () => {
       jest
         .spyOn(GraphRepository.prototype, 'getPunkOwners')
         .mockResolvedValueOnce(addresses)
+
       await expect(queryService.getPunkOwners()).resolves.toMatchObject(
         addresses,
       )
@@ -64,6 +69,7 @@ describe('Service', () => {
       jest
         .spyOn(GraphRepository.prototype, 'getEnsProposalVoters')
         .mockResolvedValueOnce(addresses)
+
       await expect(
         queryService.getEnsProposalVoters({
           choice: 'FOR',
