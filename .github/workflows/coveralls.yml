@@ -46,8 +46,7 @@ jobs:
 
       - name: Run tests
         env:
-          DUNE_USERNAME: foo
-          DUNE_PASSWORD: bar
+          DUNE_API_KEY: foo
         run: pnpm t
 
       - name: Coveralls
