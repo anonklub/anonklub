@@ -5,8 +5,6 @@ on:
     branches: [staging]
     paths: ['apis/query/**', '!**/*.md']
 
-env:
-  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
   deployment:
     environment:
@@ -20,5 +18,10 @@ jobs:
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy
-        working-directory: ./apis/query
-        run: flyctl deploy --config fly-staging.toml
+        run: |
+          flyctl deploy \
+            --config apis/query/fly-staging.toml
+            --dockerfile apis/query/Dockerfile
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
