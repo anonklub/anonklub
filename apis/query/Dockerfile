@@ -1,26 +1,24 @@
-FROM node:19-alpine
+FROM node:19-alpine as base
 
-RUN apk update
-RUN apk add bash
-
-RUN npm i -g pnpm
-
+RUN apk update && apk apk add --no-cache bash  && npm i -g pnpm lerna
 WORKDIR app
 
-COPY package.json ./
-RUN echo "auto-install-peers=true" > .npmrc
+FROM base as deps
 
-RUN pnpm i -P --ignore-scripts --reporter=silent
+COPY pnpm-lock.yaml package.json lerna.json pnpm-workspace.yaml .npmrc ./
+COPY apis/query/package.json ./apis/query/
 
-COPY public public
-COPY tsconfig.json .
-COPY openapi.yaml .
-COPY dist dist
+RUN pnpm i
 
+FROM deps as build
+
+COPY apis/query/ ./apis/query
+COPY --from deps /app/node_modules ./node_modules/
+
+RUN lerna run build --scope @anonset/query && pnpm prune --prod
+
+FROM node:19-alpine as prod
+
+COPY --from=build /app/apis/query/dist /app
 EXPOSE 3000
-
-COPY secrets-entrypoint.sh /usr/local/bin/secrets-entrypoint.sh
-RUN chmod +x /usr/local/bin/secrets-entrypoint.sh
-ENTRYPOINT ["secrets-entrypoint.sh"]
-
 CMD ["pnpm", "run" , "start.prod"]
