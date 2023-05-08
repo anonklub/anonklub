@@ -23,7 +23,7 @@ export class DuneRepository {
   }) {
     const parameters = [
       QueryParameter.number('min', min),
-      QueryParameter.text('tokenAddress', tokenAddress),
+      QueryParameter.text('tokenAddress', `"${tokenAddress}"`),
     ]
 
     return this.dune.refresh(Query.Erc20, parameters)
