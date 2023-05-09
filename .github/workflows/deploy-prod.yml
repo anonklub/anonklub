@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['apis/query/**', '!**/*.md', '.github/workflows/deploy-prod.yml']
+    paths: ['apis/query/**', '!**/*.md', '.github/workflows/deploy-prod.yml', 'apis/query/fly-prod.toml']
 
 jobs:
   deployment:
