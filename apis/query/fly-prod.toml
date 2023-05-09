@@ -1,13 +1,7 @@
-# fly-staging.toml file generated for e2e-zkecdsa-query-api on 2022-11-13T17:18:42+01:00
-
-app = "anon-set"
+app = "anonset"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
-
-[env]
-  DUNE_USER = "r1oga"
-  GOOGLE_CLOUD_PROJECT = "ethereum-analytics-366016"
 
 [experimental]
   allowed_public_ports = []

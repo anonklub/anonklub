@@ -13,9 +13,9 @@ externalDocs:
   description: 'GitHub repository'
   url: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/tree/main/apis/query'
 servers:
-  - url: 'https://anon-set.fly.dev'
+  - url: 'https://anonset.fly.dev'
     description: 'Production server'
-  - url: 'https://anon-set-staging.fly.dev'
+  - url: 'https://anonset-staging.fly.dev'
     description: 'Staging server'
 paths:
   /balance/ETH:

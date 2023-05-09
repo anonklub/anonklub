@@ -2,10 +2,26 @@ name: Snyk Security Checks
 on:
   pull_request:
     branches: [main, staging]
-    paths: ['apis/**', 'circuits/**', '!**/*md', '!**/*yaml', '!**/*yml']
+    paths:
+      [
+        'apis/**',
+        'circuits/**',
+        '!**/*md',
+        '!**/*yaml',
+        '!**/*yml',
+        '!**/Dockerfile',
+      ]
   push:
     branches: [main, staging]
-    paths: ['apis/**', 'circuits/**', '!**/*md', '!**/*yaml', '!**/*yml']
+    paths:
+      [
+        'apis/**',
+        'circuits/**',
+        '!**/*md',
+        '!**/*yaml',
+        '!**/*yml',
+        '!**/Dockerfile',
+      ]
 
 jobs:
   security:

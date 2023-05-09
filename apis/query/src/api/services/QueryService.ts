@@ -32,9 +32,9 @@ export class QueryService {
   }: getErc20BalanceAnonSetQuery) {
     return this.duneRepository
       .queryErc20Balance({ min, tokenAddress })
-      .then(({ data }) => {
+      .then(({ result }) => {
         this.logger.info('Get ERC20-balance based anonymity set')
-        return data.map((row) => row.address)
+        return result?.rows?.map((row) => row.address) ?? []
       })
   }
 

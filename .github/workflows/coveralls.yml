@@ -4,10 +4,26 @@ on:
   # pull_request required to get PR comments
   pull_request:
     branches: [main, staging]
-    paths: ['apis/**', 'circuits/**', '!**/*md', '!**/*yaml', '!**/*yml']
+    paths:
+      [
+        'apis/**',
+        'circuits/**',
+        '!**/*md',
+        '!**/*yaml',
+        '!**/*yml',
+        '!**/Dockerfile',
+      ]
   push:
     branches: [main, staging]
-    paths: ['apis/**', 'circuits/**', '!**/*md', '!**/*yaml', '!**/*yml']
+    paths:
+      [
+        'apis/**',
+        'circuits/**',
+        '!**/*md',
+        '!**/*yaml',
+        '!**/*yml',
+        '!**/Dockerfile',
+      ]
 
 jobs:
   coveralls:
@@ -46,8 +62,7 @@ jobs:
 
       - name: Run tests
         env:
-          DUNE_USERNAME: foo
-          DUNE_PASSWORD: bar
+          DUNE_API_KEY: foo
         run: pnpm t
 
       - name: Coveralls
