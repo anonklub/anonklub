@@ -10,7 +10,7 @@ import { execSync } from 'child_process'
 
 const tokenAddress = '0xc18360217d8f7ab5e7c516566761ea12ce7f9d72'
 const min = 3000
-const ANON_SET_API = 'https://anon-set.fly.dev'
+const ANON_SET_API = 'https://anonset.fly.dev'
 
 const params = new URLSearchParams({ min, tokenAddress })
 const addresses: string[] = await fetch(

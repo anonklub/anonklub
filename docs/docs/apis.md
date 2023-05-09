@@ -7,7 +7,7 @@ sidebar_position: 5
 
 ## Query
 
-See online [swagger UI](https://anon-set.fly.dev/)
+See online [swagger UI](https://anonset.fly.dev/)
 
 ## Proofs
 
