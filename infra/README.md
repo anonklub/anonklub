@@ -16,22 +16,21 @@ Based on following docs:
   ```shell
   gcloud auth application-default login
   gcloud config set account <mail address>
-  gcloud project create --name <project name>
+  gcloud projects create --name <project name>
   gcloud config set project <project id>
 
+  # billing must be set for project
   gcloud services enable container.googleapis.com
   gcloud services enable compute.googleapis.com
-  gcloud services enable compute.networks.create
   ```
 
-- [ ] set `project` and `region` pulumi gcp config values
+- [ ] set `project` pulumi gcp config values
   ```shell
   pulumi config set gcp:project $(gcloud config get core/project)
-  pulumi config set gcp:region <region>
   ```
 
 ## Deploy
-
+Takes around 20 minutes to deploy the first time.
 ```shell
 pulumi up
 ```

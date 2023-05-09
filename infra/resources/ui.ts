@@ -6,13 +6,8 @@ import { isMinikube } from './config'
 const APP_NAME = 'ui'
 const labels = { app: APP_NAME }
 
-const image = new docker.Image(APP_NAME, {
-  build: {
-    context: '../',
-    dockerfile: '../ui/Dockerfile',
-  },
-  imageName: APP_NAME,
-  skipPush: true,
+const image = new docker.RemoteImage(APP_NAME, {
+  name: '3pwd/anonset-ui:latest',
 })
 
 const deployment = new apps.v1.Deployment(
@@ -24,7 +19,9 @@ const deployment = new apps.v1.Deployment(
       selector: { matchLabels: labels },
       template: {
         metadata: { labels },
-        spec: { containers: [{ image: image.imageName, name: APP_NAME }] },
+        spec: {
+          containers: [{ image: image.repoDigest, name: APP_NAME }],
+        },
       },
     },
   },
