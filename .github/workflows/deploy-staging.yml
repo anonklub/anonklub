@@ -9,7 +9,7 @@ jobs:
   deployment:
     environment:
       name: staging
-      url: https://anon-set-staging.fly.dev
+      url: https://anonset-staging.fly.dev
     name: Deploy to staging
     runs-on: ubuntu-latest
     steps:
