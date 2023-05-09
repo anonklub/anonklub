@@ -1,6 +1,6 @@
 FROM node:19-alpine as base
 
-RUN apk update && apk add dumb-init
+RUN apk update && apk upgrade && apk add dumb-init
 WORKDIR app
 
 FROM base as deps
@@ -15,7 +15,7 @@ FROM deps as build
 
 COPY apis/query/ ./apis/query
 
-RUN lerna run build --scope @anonset/query-api
+RUN lerna run compile --scope @anonset/query-api
 
 # pnpm prune command doesn't support recursive execution on monorepo
 # need to remove and re install only prod deps manually
@@ -24,19 +24,26 @@ RUN rm -rf node_modules apis/query/node_modules &&\
 
 FROM base as deploy
 
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/apis/query/node_modules ./apis/query/node_modules
-COPY --from=build /app/apis/query/dist ./apis/query/dist
-COPY --from=build /app/apis/query/public ./apis/query/public
-COPY --from=build /app/apis/query/openapi.yaml ./apis/query/openapi.yaml
+# FIX ME: fix mkdir access when running as non root user
+# https://github.com/nodejs/docker-node/issues/740
+#WORKDIR /home/node/app
+ARG DIR=apis/query
 
-ENV NODE_ENV=production
-USER node
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/$DIR/node_modules ./$DIR/node_modules
+COPY --from=build /app/$DIR/dist ./$DIR/dist
+COPY --from=build /app/$DIR/public ./$DIR/public
+COPY --from=build /app/$DIR/openapi.yaml /app/$DIR/package.json ./$DIR/
+
+ENV NODE_ENV production
+#USER node
 EXPOSE 3000
+
+WORKDIR /app/$DIR
 
 # https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/
 # invoke node directly with execfrom notation so that process is not wrapped in a shell
 # this allows signals to be passed to the node process
 # also use dumb-init to avoid node running as PID 1
-
-CMD ["dumb-init", "node", "-r", "module-alias/register", "./apis/query/dist"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["node", "-r", "module-alias/register", "dist"]
