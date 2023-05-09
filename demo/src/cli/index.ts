@@ -6,7 +6,7 @@ import {
   fetchErc20AnonSet,
   fetchEthAnonSet,
   fetchPunksAnonSet,
-} from '../fetch-anon-set'
+} from '../fetch-anonset'
 import { logResult } from './log-result'
 import {
   AnonSetLocation,
