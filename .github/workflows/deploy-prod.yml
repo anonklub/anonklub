@@ -9,7 +9,7 @@ jobs:
   deployment:
     environment:
       name: production
-      url: https://anon-set.fly.dev
+      url: https://anonset.fly.dev
     name: Deploy to production
     runs-on: ubuntu-latest
     steps:
