@@ -25,12 +25,6 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "docker.build.prove": "docker build -f apis/prove/Dockerfile . -t 3pwd/anonset-prove-api",
-    "docker.build.query": "docker build -f apis/query/Dockerfile . -t 3pwd/anonset-query-api",
-    "docker.build.ui": "docker build -f ui/Dockerfile . -t 3pwd/anonset-ui",
-    "docker.build": "concurrently 'npm run build.docker.prove' 'npm run build.docker.query' 'npm run build.docker.ui'",
-    "docker.push": "concurrently 'docker push 3pwd/anonset-prove-api' 'docker push 3pwd/anonset-query-api' 'docker push 3pwd/anonset-ui'",
-    "docker.publish": "pn run docker.build && pn run docker.push",
     "barrels": "barrelsby --config .barrelsby.json",
     "clean": "lerna clean && lerna run clean && rm -rf node_modules",
     "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && lerna run build --scope '{@anonset/membership,@anonset/prove-api}' && pnpm run --filter @anonset/prove-api server.prod",

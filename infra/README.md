@@ -22,6 +22,9 @@ Based on following docs:
   # billing must be set for project
   gcloud services enable container.googleapis.com
   gcloud services enable compute.googleapis.com
+  
+  # configure docker with gcloud
+  gcloud auth configure-docker
   ```
 
 - [ ] set `project` pulumi gcp config values

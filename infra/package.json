@@ -16,6 +16,8 @@
   },
   "scripts": {
     "barrels": "barrelsby --config .barrelsby.json",
+    "deploy": "pulumi up -y -e",
+    "deploy-n-push": "pulumi up -y -e -c queryApi:SKIP_PUSH=false",
     "fix": "concurrently 'prettier -w . --loglevel error' 'eslint . --ext .ts --fix'",
     "validate": "concurrently 'tsc' 'prettier --check .' 'eslint . --ext .ts'"
   }

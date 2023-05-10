@@ -1,9 +1,35 @@
+import { Image } from '@pulumi/docker'
 import { apps, core } from '@pulumi/kubernetes'
+import { interpolate } from '@pulumi/pulumi'
+import { join } from 'path'
 import { namespace, provider } from './cluster'
 import { config } from './config'
+import { registryUrl } from './registry'
 
+// const ROOT_DIR = join(__dirname, '..', '..')
 const APP_NAME = 'query-api'
 const labels = { app: APP_NAME }
+
+const imageName = interpolate`${registryUrl}/${APP_NAME}`
+
+// FIXME: use remoteImage and don't push new Image if no changes compared to remote
+// https://www.pulumi.com/blog/build-images-50x-faster-docker-v4/
+// const image = new Image(APP_NAME, {
+//   build: {
+//     args: {
+//       BUILDKIT_INLINE_CACHE: '1',
+//     },
+//     builderVersion: 'BuilderBuildKit',
+//     cacheFrom: {
+//       images: [imageName],
+//     },
+//     context: ROOT_DIR,
+//     dockerfile: join(ROOT_DIR, 'apis', 'query', 'Dockerfile'),
+//     platform: 'linux/amd64',
+//   },
+//   imageName,
+//   skipPush: config.queryApi.SKIP_PUSH,
+// })
 
 const deployment = new apps.v1.Deployment(
   APP_NAME,
@@ -31,9 +57,9 @@ const deployment = new apps.v1.Deployment(
                   value: config.queryApi.GRAPH_API_KEY,
                 },
               ],
-              image: '3pwd/anonset-query-api',
+              image: imageName,
               name: APP_NAME,
-              ports: [{ containerPort: 3000 }],
+              ports: [{ containerPort: config.queryApi.PORT }],
             },
           ],
         },
@@ -51,7 +77,12 @@ export const queryApi = new core.v1.Service(
       namespace,
     },
     spec: {
-      ports: [{ port: 3000 }],
+      ports: [
+        {
+          port: deployment.spec.template.spec.containers[0].ports[0]
+            .containerPort,
+        },
+      ],
       selector: labels,
       type: config.k8s.isMinikube ? 'ClusterIP' : 'LoadBalancer',
     },

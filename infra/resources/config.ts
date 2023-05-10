@@ -22,5 +22,7 @@ export const config = {
     GOOGLE_CLOUD_PROJECT: gcpCfg.require('project'),
     GRAPH_API_KEY: queryApiCfg.requireSecret('GRAPH_API_KEY'),
     NODE_ENV: queryApiCfg.get('NODE_ENV') ?? 'development',
+    PORT: queryApiCfg.getNumber('PORT') ?? 3000,
+    SKIP_PUSH: queryApiCfg.getBoolean('SKIP_PUSH') ?? true,
   },
 }
