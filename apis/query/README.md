@@ -24,9 +24,9 @@
 3. Start
    - node script
      ```commandline
-     npm i -g pnpm nps
+     npm i -g pnpm
      pnpm i
-     nps start.dev
+     pnpm start.dev
      ```
 
 ## The Graph
@@ -34,7 +34,7 @@
 In case new queries are added or existing ones are updated, re-create the artifacts with:
 
 ```commandline
-nps graph.build
+pnpm build.graph
 ```
 
 ## Deploy
