@@ -33,7 +33,12 @@ export const redis = new core.v1.Service(
       namespace,
     },
     spec: {
-      ports: [{ port: 6379 }],
+      ports: [
+        {
+          port: deployment.spec.template.spec.containers[0].ports[0]
+            .containerPort,
+        },
+      ],
       selector: labels,
       type: config.k8s.isMinikube ? 'ClusterIP' : 'LoadBalancer',
     },
