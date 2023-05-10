@@ -21,6 +21,7 @@ The BullMQ Job processor needs to be a compiled JS file so that it becomes a san
    ```
 
 ### Docker
+
 ```shell
 docker build -t prove-api -f apis/prove/Dockerfile .
 docker run -p 3000:3000 prove-api
