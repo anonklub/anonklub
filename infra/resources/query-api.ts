@@ -52,6 +52,7 @@ const deployment = new apps.v1.Deployment(
                   name: 'GOOGLE_APPLICATION_CREDENTIALS',
                   value: config.queryApi.GOOGLE_APPLICATION_CREDENTIALS,
                 },
+                { name: 'GOOGLE_CLOUD_PROJECT', value: config.gcp.project },
                 {
                   name: 'GRAPH_API_KEY',
                   value: config.queryApi.GRAPH_API_KEY,
