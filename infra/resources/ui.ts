@@ -1,14 +1,9 @@
-import * as docker from '@pulumi/docker'
 import { apps, core } from '@pulumi/kubernetes'
 import { namespace, provider } from './cluster'
-import { isMinikube } from './config'
+import { config } from './config'
 
 const APP_NAME = 'ui'
 const labels = { app: APP_NAME }
-
-const image = new docker.RemoteImage(APP_NAME, {
-  name: '3pwd/anonset-ui:latest',
-})
 
 const deployment = new apps.v1.Deployment(
   APP_NAME,
@@ -20,7 +15,13 @@ const deployment = new apps.v1.Deployment(
       template: {
         metadata: { labels },
         spec: {
-          containers: [{ image: image.repoDigest, name: APP_NAME }],
+          containers: [
+            {
+              image: 'nginx',
+              name: APP_NAME,
+              ports: [{ containerPort: 80 }],
+            },
+          ],
         },
       },
     },
@@ -36,9 +37,9 @@ export const ui = new core.v1.Service(
       namespace,
     },
     spec: {
-      ports: [{ port: 3000, protocol: 'TCP', targetPort: 3000 }],
+      ports: [{ port: 80 }],
       selector: labels,
-      type: isMinikube ? 'ClusterIP' : 'LoadBalancer',
+      type: config.k8s.isMinikube ? 'ClusterIP' : 'LoadBalancer',
     },
   },
   { provider },

@@ -1,6 +1,6 @@
 import { apps, core } from '@pulumi/kubernetes'
 import { namespace, provider } from './cluster'
-import { isMinikube } from './config'
+import { config } from './config'
 
 const APP_NAME = 'redis'
 const labels = { app: APP_NAME }
@@ -35,7 +35,7 @@ export const redis = new core.v1.Service(
     spec: {
       ports: [{ port: 6379 }],
       selector: labels,
-      type: isMinikube ? 'ClusterIP' : 'LoadBalancer',
+      type: config.k8s.isMinikube ? 'ClusterIP' : 'LoadBalancer',
     },
   },
   { provider },

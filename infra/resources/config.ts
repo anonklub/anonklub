@@ -1,11 +1,26 @@
 import * as pulumi from '@pulumi/pulumi'
 
 // Get some provider-namespaced configuration values
-const providerCfg = new pulumi.Config('gcp')
-export const gcpProject = providerCfg.require('project')
-export const gcpRegion = providerCfg.get('region') ?? 'europe-west3'
+const gcpCfg = new pulumi.Config('gcp')
+const cfg = new pulumi.Config()
+const queryApiCfg = new pulumi.Config('query-api')
 
-// Get some other configuration values or use defaults
-export const cfg = new pulumi.Config()
-export const nodesPerZone = cfg.getNumber('nodesPerZone') ?? 1
-export const isMinikube = cfg.getBoolean('isMinikube') ?? false
+export const config = {
+  gcp: {
+    project: gcpCfg.require('project'),
+    region: gcpCfg.get('region') ?? 'europe-west3',
+  },
+  k8s: {
+    isMinikube: cfg.getBoolean('isMinikube') ?? false,
+    nodesPerZone: cfg.getNumber('nodesPerZone') ?? 1,
+  },
+  queryApi: {
+    DUNE_API_KEY: queryApiCfg.require('DUNE_API_KEY'),
+    GOOGLE_APPLICATION_CREDENTIALS: queryApiCfg.require(
+      'GOOGLE_APPLICATION_CREDENTIALS',
+    ),
+    GOOGLE_CLOUD_PROJECT: queryApiCfg.require('GOOGLE_CLOUD_PROJECT'),
+    GRAPH_API_KEY: queryApiCfg.require('GRAPH_API_KEY'),
+    NODE_ENV: queryApiCfg.get('NODE_ENV') ?? 'development',
+  },
+}

@@ -1,12 +1,12 @@
 // FIXME: is there another way than exporting all resources to make sure they are created when they are defined in separated files?
 import './resources'
 import {
+  config,
   gkeCluster,
   gkeNetwork,
-  isMinikube,
   nginx,
   redis,
-  ui,
+  // ui,
 } from './resources'
 
 export { kubeconfig } from './resources'
@@ -16,19 +16,19 @@ export const clusterName = gkeCluster.name
 export const clusterId = gkeCluster.id
 
 // When "done", this will print the public IP.
-export const nginxIp = isMinikube
+export const nginxIp = config.k8s.isMinikube
   ? nginx.spec.clusterIP
   : nginx.status.loadBalancer.apply(
       (lb) => lb.ingress[0].ip ?? lb.ingress[0].hostname,
     )
 
-export const uiIp = isMinikube
-  ? ui.spec.clusterIP
-  : ui.status.loadBalancer.apply(
-      (lb) => lb.ingress[0].ip ?? lb.ingress[0].hostname,
-    )
+// export const uiIp = config.k8s.isMinikube
+//   ? ui.spec.clusterIP
+//   : ui.status.loadBalancer.apply(
+//       (lb) => lb.ingress[0].ip ?? lb.ingress[0].hostname,
+//     )
 
-export const redisIp = isMinikube
+export const redisIp = config.k8s.isMinikube
   ? redis.spec.clusterIP
   : redis.status.loadBalancer.apply(
       (lb) => lb.ingress[0].ip ?? lb.ingress[0].hostname,

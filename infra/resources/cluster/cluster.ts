@@ -1,6 +1,6 @@
 import * as gcp from '@pulumi/gcp'
 import * as pulumi from '@pulumi/pulumi'
-import { gcpProject, gcpRegion } from '../config'
+import { config } from '../config'
 import { gkeNetwork } from './compute-network'
 import { gkeSubnet } from './subnet'
 
@@ -20,7 +20,7 @@ export const gkeCluster = new gcp.container.Cluster('gke-cluster', {
     clusterIpv4CidrBlock: '/14',
     servicesIpv4CidrBlock: '/20',
   },
-  location: gcpRegion,
+  location: config.gcp.region,
   masterAuthorizedNetworksConfig: {
     cidrBlocks: [
       {
@@ -42,7 +42,7 @@ export const gkeCluster = new gcp.container.Cluster('gke-cluster', {
   removeDefaultNodePool: true,
   subnetwork: gkeSubnet.name,
   workloadIdentityConfig: {
-    workloadPool: `${gcpProject}.svc.id.goog`,
+    workloadPool: `${config.gcp.project}.svc.id.goog`,
   },
 })
 

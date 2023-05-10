@@ -30,7 +30,9 @@ Based on following docs:
   ```
 
 ## Deploy
+
 Takes around 20 minutes to deploy the first time.
+
 ```shell
 pulumi up
 ```
