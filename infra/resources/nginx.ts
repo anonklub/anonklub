@@ -14,7 +14,11 @@ const deployment = new apps.v1.Deployment(
       selector: { matchLabels: labels },
       template: {
         metadata: { labels },
-        spec: { containers: [{ image: 'nginx', name: APP_NAME }] },
+        spec: {
+          containers: [
+            { image: 'nginx', name: APP_NAME, ports: [{ containerPort: 80 }] },
+          ],
+        },
       },
     },
   },
@@ -29,7 +33,7 @@ export const nginx = new core.v1.Service(
       namespace,
     },
     spec: {
-      ports: [{ port: 80, protocol: 'TCP', targetPort: 80 }],
+      ports: [{ port: 80 }],
       selector: labels,
       type: isMinikube ? 'ClusterIP' : 'LoadBalancer',
     },

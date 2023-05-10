@@ -14,7 +14,11 @@ const deployment = new apps.v1.Deployment(
       selector: { matchLabels: labels },
       template: {
         metadata: { labels },
-        spec: { containers: [{ image: 'redis', name: 'redis' }] },
+        spec: {
+          containers: [
+            { image: 'redis', name: 'redis', ports: [{ containerPort: 6379 }] },
+          ],
+        },
       },
     },
   },
@@ -29,7 +33,7 @@ export const redis = new core.v1.Service(
       namespace,
     },
     spec: {
-      ports: [{ port: 6379, protocol: 'TCP', targetPort: 6379 }],
+      ports: [{ port: 6379 }],
       selector: labels,
       type: isMinikube ? 'ClusterIP' : 'LoadBalancer',
     },
