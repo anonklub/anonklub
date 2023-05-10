@@ -5,5 +5,6 @@ export * from './cluster'
 
 export * from './config'
 export * from './nginx'
+export * from './query-api'
 export * from './redis'
 // export * from './ui'

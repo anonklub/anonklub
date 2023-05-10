@@ -5,8 +5,9 @@ import {
   gkeCluster,
   gkeNetwork,
   nginx,
-  redis,
   // ui,
+  queryApi,
+  redis,
 } from './resources'
 
 export { kubeconfig } from './resources'
@@ -27,6 +28,12 @@ export const nginxIp = config.k8s.isMinikube
 //   : ui.status.loadBalancer.apply(
 //       (lb) => lb.ingress[0].ip ?? lb.ingress[0].hostname,
 //     )
+
+export const queryApiIp = config.k8s.isMinikube
+  ? queryApi.spec.clusterIP
+  : queryApi.status.loadBalancer.apply(
+      (lb) => lb.ingress[0].ip ?? lb.ingress[0].hostname,
+    )
 
 export const redisIp = config.k8s.isMinikube
   ? redis.spec.clusterIP

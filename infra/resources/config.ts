@@ -15,12 +15,12 @@ export const config = {
     nodesPerZone: cfg.getNumber('nodesPerZone') ?? 1,
   },
   queryApi: {
-    DUNE_API_KEY: queryApiCfg.require('DUNE_API_KEY'),
-    GOOGLE_APPLICATION_CREDENTIALS: queryApiCfg.require(
+    DUNE_API_KEY: queryApiCfg.requireSecret('DUNE_API_KEY'),
+    GOOGLE_APPLICATION_CREDENTIALS: queryApiCfg.requireSecret(
       'GOOGLE_APPLICATION_CREDENTIALS',
     ),
-    GOOGLE_CLOUD_PROJECT: queryApiCfg.require('GOOGLE_CLOUD_PROJECT'),
-    GRAPH_API_KEY: queryApiCfg.require('GRAPH_API_KEY'),
+    GOOGLE_CLOUD_PROJECT: gcpCfg.require('project'),
+    GRAPH_API_KEY: queryApiCfg.requireSecret('GRAPH_API_KEY'),
     NODE_ENV: queryApiCfg.get('NODE_ENV') ?? 'development',
   },
 }
