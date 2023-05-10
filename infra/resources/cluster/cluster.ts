@@ -1,10 +1,10 @@
-import * as gcp from '@pulumi/gcp'
-import * as pulumi from '@pulumi/pulumi'
+import { container } from '@pulumi/gcp'
+import { interpolate } from '@pulumi/pulumi'
 import { config } from '../config'
 import { gkeNetwork } from './compute-network'
 import { gkeSubnet } from './subnet'
 
-export const gkeCluster = new gcp.container.Cluster('gke-cluster', {
+export const gkeCluster = new container.Cluster('gke-cluster', {
   addonsConfig: {
     dnsCacheConfig: {
       enabled: true,
@@ -46,7 +46,7 @@ export const gkeCluster = new gcp.container.Cluster('gke-cluster', {
   },
 })
 
-export const kubeconfig = pulumi.interpolate`apiVersion: v1
+export const kubeconfig = interpolate`apiVersion: v1
 clusters:
 - cluster:
     certificate-authority-data: ${gkeCluster.masterAuth.clusterCaCertificate}
