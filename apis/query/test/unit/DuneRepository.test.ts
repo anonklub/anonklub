@@ -42,4 +42,22 @@ describe('DuneRepository', () => {
     expect(result?.rows.length).toBeGreaterThan(0)
     expect(result?.rows[0].address.startsWith('0x')).toBe(true)
   })
+
+  it('fetch beacon depositors', async () => {
+    const duneRepository = new DuneRepository()
+
+    jest.spyOn(duneRepository.dune, 'refresh').mockResolvedValueOnce({
+      // @ts-expect-error don't bother with the full response
+      result: {
+        rows: [...Array(faker.datatype.number({ max: 10 })).keys()].map(() => ({
+          address: faker.finance.ethereumAddress(),
+        })),
+      },
+    })
+    const { result } = await duneRepository.queryBeaconDepositors()
+
+    expect(result?.rows).toBeDefined()
+    expect(result?.rows.length).toBeGreaterThan(0)
+    expect(result?.rows[0].address.startsWith('0x')).toBe(true)
+  })
 })
