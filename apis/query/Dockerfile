@@ -15,7 +15,7 @@ FROM deps as build
 
 COPY apis/query/ ./apis/query
 
-RUN lerna run compile --scope @anonset/query-api
+RUN lerna run build --scope @anonset/query-api
 
 # pnpm prune command doesn't support recursive execution on monorepo
 # need to remove and re install only prod deps manually
