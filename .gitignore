@@ -14,7 +14,7 @@ dev.db-journal
 
 # secrets
 .env
-.key.json
+.key*
 .dune_api_key
 .kubeconfig
 .graph_api_key

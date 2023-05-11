@@ -17,14 +17,25 @@ Based on following docs:
   gcloud auth application-default login
   gcloud config set account <mail address>
   gcloud projects create --name <project name>
+  # SET BILLING FOR PROJECT
+  # with UI console or
+  # gcloud alpha billing accounts projects link PROJECT_ID (--account-id=ACCOUNT_ID | --billing-account=ACCOUNT_ID)
   gcloud config set project <project id>
-
-  # billing must be set for project
+  
+  gcloud services enable bigquery-json.googleapis.com
   gcloud services enable container.googleapis.com
   gcloud services enable compute.googleapis.com
 
   # configure docker with gcloud
   gcloud auth configure-docker
+  
+  # configure bigquery access
+  # https://codelabs.developers.google.com/codelabs/cloud-bigquery-nodejs#3
+  gcloud iam service-accounts create my-bigquery-sa --display-name "my bigquery service account"
+  gcloud iam service-accounts keys create ~/key.json --iam-account  my-bigquery-sa@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+  gcloud projects add-iam-policy-binding ${GOOGLE_CLOUD_PROJECT} --member "serviceAccount:my-bigquery-sa@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com" --role "roles/bigquery.user"
+  # key.json is used as GOOGLE_APPLICATION_CREDENTIALS secret
+
   ```
 
 - [ ] set `project` pulumi gcp config values
