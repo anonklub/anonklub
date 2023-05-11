@@ -4,6 +4,7 @@ export * from './cluster'
  */
 
 export * from './config'
+export * from './ingress-nginx'
 export * from './nginx'
 export * from './query-api'
 export * from './redis'

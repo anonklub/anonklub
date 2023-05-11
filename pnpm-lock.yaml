@@ -271,7 +271,7 @@ importers:
         version: 2.12.2(ts-node@10.9.1)(typescript@4.9.4)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.1(@types/node@16.0.0)(typescript@4.9.4)
+        version: 10.9.1(@types/node@18.11.15)(typescript@4.9.4)
 
   demo:
     dependencies:
@@ -308,7 +308,7 @@ importers:
         version: 17.0.24
       ts-node-dev:
         specifier: ^2.0.0
-        version: 2.0.0(@types/node@16.0.0)(typescript@4.9.4)
+        version: 2.0.0(@types/node@18.11.15)(typescript@4.9.4)
 
   docs:
     dependencies:
@@ -358,6 +358,9 @@ importers:
       '@pulumi/kubernetes':
         specifier: ^3.25.0
         version: 3.25.0
+      '@pulumi/kubernetes-ingress-nginx':
+        specifier: ^0.0.10
+        version: 0.0.10(@pulumi/pulumi@3.0.0)
       '@pulumi/pulumi':
         specifier: ^3.0.0
         version: 3.0.0
@@ -7394,6 +7397,19 @@ packages:
       '@pulumi/pulumi': 3.0.0
       '@types/express': 4.17.17
       read-package-json: 2.1.2
+    dev: false
+
+  /@pulumi/kubernetes-ingress-nginx@0.0.10(@pulumi/pulumi@3.0.0):
+    resolution: {integrity: sha512-3xfuzueFVlIe/HJSQAbMhKTb3Qz9OhTAunCeCtOH3ZdQGj2pFROxgpZ5eGQT0ENqzDteyTKRea7OKB9/E3f6kw==}
+    requiresBuild: true
+    peerDependencies:
+      '@pulumi/pulumi': latest
+    dependencies:
+      '@pulumi/kubernetes': 3.25.0
+      '@pulumi/pulumi': 3.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /@pulumi/kubernetes@3.25.0:
@@ -14714,7 +14730,7 @@ packages:
       solc: 0.7.3(debug@4.3.4)
       source-map-support: 0.5.21
       stacktrace-parser: 0.1.10
-      ts-node: 10.9.1(@types/node@16.0.0)(typescript@4.9.4)
+      ts-node: 10.9.1(@types/node@18.11.15)(typescript@4.9.4)
       tsort: 0.0.1
       typescript: 4.9.4
       undici: 5.21.2
@@ -23901,34 +23917,6 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  /ts-node-dev@2.0.0(@types/node@16.0.0)(typescript@4.9.4):
-    resolution: {integrity: sha512-ywMrhCfH6M75yftYvrvNarLEY+SUXtUvU8/0Z6llrHQVBx12GiFk5sStF8UdfE/yfzk9IAq7O5EEbTQsxlBI8w==}
-    engines: {node: '>=0.8.0'}
-    hasBin: true
-    peerDependencies:
-      node-notifier: '*'
-      typescript: '*'
-    peerDependenciesMeta:
-      node-notifier:
-        optional: true
-    dependencies:
-      chokidar: 3.5.3
-      dynamic-dedupe: 0.3.0
-      minimist: 1.2.8
-      mkdirp: 1.0.4
-      resolve: 1.22.2
-      rimraf: 2.7.1
-      source-map-support: 0.5.21
-      tree-kill: 1.2.2
-      ts-node: 10.9.1(@types/node@16.0.0)(typescript@4.9.4)
-      tsconfig: 7.0.0
-      typescript: 4.9.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
-    dev: true
-
   /ts-node-dev@2.0.0(@types/node@18.11.15)(typescript@4.9.4):
     resolution: {integrity: sha512-ywMrhCfH6M75yftYvrvNarLEY+SUXtUvU8/0Z6llrHQVBx12GiFk5sStF8UdfE/yfzk9IAq7O5EEbTQsxlBI8w==}
     engines: {node: '>=0.8.0'}
@@ -23955,37 +23943,6 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - '@types/node'
-    dev: true
-
-  /ts-node@10.9.1(@types/node@16.0.0)(typescript@4.9.4):
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 16.0.0
-      acorn: 8.8.2
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.9.4
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
     dev: true
 
   /ts-node@10.9.1(@types/node@18.11.15)(typescript@4.8.4):

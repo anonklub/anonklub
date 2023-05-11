@@ -40,3 +40,6 @@ export const redisIp = config.k8s.isMinikube
   : redis.status.loadBalancer.apply(
       (lb) => lb.ingress[0].ip ?? lb.ingress[0].hostname,
     )
+
+// export const ingressControllerStatus = controller.status
+// export const ingressId = ingress.me

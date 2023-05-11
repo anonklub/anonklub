@@ -12,6 +12,7 @@
     "@pulumi/docker": "^4.2.0",
     "@pulumi/gcp": "6.39.0",
     "@pulumi/kubernetes": "^3.25.0",
+    "@pulumi/kubernetes-ingress-nginx": "^0.0.10",
     "@pulumi/pulumi": "^3.0.0"
   },
   "scripts": {
