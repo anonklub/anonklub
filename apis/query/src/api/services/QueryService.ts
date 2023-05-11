@@ -39,9 +39,9 @@ export class QueryService {
   }
 
   async getBeaconDepositors() {
-    return this.graphRepository.getBeaconDepositors().then((result) => {
+    return this.duneRepository.queryBeaconDepositors().then(({ result }) => {
       this.logger.info('Get Beacon Contract Depositors anonymity set')
-      return result
+      return result?.rows?.map((row) => row.address) ?? []
     })
   }
 

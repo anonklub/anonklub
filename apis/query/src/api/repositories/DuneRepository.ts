@@ -2,6 +2,7 @@ import { DuneClient as Dune, QueryParameter } from '@cowprotocol/ts-dune-client'
 import { Service } from 'typedi'
 
 export enum Query {
+  Beacon = 2461144,
   Erc20 = 1500107,
 }
 
@@ -27,5 +28,9 @@ export class DuneRepository {
     ]
 
     return this.dune.refresh(Query.Erc20, parameters)
+  }
+
+  public async queryBeaconDepositors() {
+    return this.dune.refresh(Query.Beacon)
   }
 }

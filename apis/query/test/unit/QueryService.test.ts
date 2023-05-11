@@ -47,8 +47,13 @@ describe('Service', () => {
 
     it('deposited into the Beacon Contract', async () => {
       jest
-        .spyOn(GraphRepository.prototype, 'getBeaconDepositors')
-        .mockResolvedValueOnce(addresses)
+        .spyOn(DuneRepository.prototype, 'queryBeaconDepositors')
+        .mockResolvedValueOnce({
+          // @ts-expect-error
+          result: {
+            rows: addresses.map((address) => ({ address })),
+          },
+        })
 
       await expect(queryService.getBeaconDepositors()).resolves.toMatchObject(
         addresses,

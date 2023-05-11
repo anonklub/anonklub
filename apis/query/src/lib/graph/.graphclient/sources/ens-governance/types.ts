@@ -233,6 +233,8 @@ export type DelegateChange_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<DelegateChange_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<DelegateChange_filter>>>;
 };
 
 export type DelegateChange_orderBy =
@@ -378,6 +380,8 @@ export type DelegateVotingPowerChange_filter = {
   blockNumber_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<DelegateVotingPowerChange_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<DelegateVotingPowerChange_filter>>>;
 };
 
 export type DelegateVotingPowerChange_orderBy =
@@ -449,6 +453,8 @@ export type Delegate_filter = {
   proposals_?: InputMaybe<Proposal_filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Delegate_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Delegate_filter>>>;
 };
 
 export type Delegate_orderBy =
@@ -697,6 +703,8 @@ export type GovernanceFramework_filter = {
   quorumDenominator_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<GovernanceFramework_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<GovernanceFramework_filter>>>;
 };
 
 export type GovernanceFramework_orderBy =
@@ -813,6 +821,8 @@ export type Governance_filter = {
   proposalsCanceled_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Governance_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Governance_filter>>>;
 };
 
 export type Governance_orderBy =
@@ -1286,6 +1296,8 @@ export type Proposal_filter = {
   calldatas_not_contains_nocase?: InputMaybe<Array<Scalars['Bytes']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Proposal_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Proposal_filter>>>;
 };
 
 export type Proposal_orderBy =
@@ -1293,7 +1305,25 @@ export type Proposal_orderBy =
   | 'txnHash'
   | 'description'
   | 'governanceFramework'
+  | 'governanceFramework__id'
+  | 'governanceFramework__name'
+  | 'governanceFramework__type'
+  | 'governanceFramework__version'
+  | 'governanceFramework__contractAddress'
+  | 'governanceFramework__tokenAddress'
+  | 'governanceFramework__timelockAddress'
+  | 'governanceFramework__votingDelay'
+  | 'governanceFramework__votingPeriod'
+  | 'governanceFramework__proposalThreshold'
+  | 'governanceFramework__quorumVotes'
+  | 'governanceFramework__quorumNumerator'
+  | 'governanceFramework__quorumDenominator'
   | 'proposer'
+  | 'proposer__id'
+  | 'proposer__delegatedVotesRaw'
+  | 'proposer__delegatedVotes'
+  | 'proposer__tokenHoldersRepresentedAmount'
+  | 'proposer__numberVotes'
   | 'state'
   | 'quorumVotes'
   | 'tokenHoldersAtStart'
@@ -1812,6 +1842,8 @@ export type TokenDailySnapshot_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<TokenDailySnapshot_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<TokenDailySnapshot_filter>>>;
 };
 
 export type TokenDailySnapshot_orderBy =
@@ -1913,11 +1945,18 @@ export type TokenHolder_filter = {
   totalTokensHeld_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<TokenHolder_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<TokenHolder_filter>>>;
 };
 
 export type TokenHolder_orderBy =
   | 'id'
   | 'delegate'
+  | 'delegate__id'
+  | 'delegate__delegatedVotesRaw'
+  | 'delegate__delegatedVotes'
+  | 'delegate__tokenHoldersRepresentedAmount'
+  | 'delegate__numberVotes'
   | 'tokenBalanceRaw'
   | 'tokenBalance'
   | 'totalTokensHeldRaw'
@@ -2048,11 +2087,42 @@ export type VoteDailySnapshot_filter = {
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<VoteDailySnapshot_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<VoteDailySnapshot_filter>>>;
 };
 
 export type VoteDailySnapshot_orderBy =
   | 'id'
   | 'proposal'
+  | 'proposal__id'
+  | 'proposal__txnHash'
+  | 'proposal__description'
+  | 'proposal__state'
+  | 'proposal__quorumVotes'
+  | 'proposal__tokenHoldersAtStart'
+  | 'proposal__delegatesAtStart'
+  | 'proposal__againstDelegateVotes'
+  | 'proposal__forDelegateVotes'
+  | 'proposal__abstainDelegateVotes'
+  | 'proposal__totalDelegateVotes'
+  | 'proposal__againstWeightedVotes'
+  | 'proposal__forWeightedVotes'
+  | 'proposal__abstainWeightedVotes'
+  | 'proposal__totalWeightedVotes'
+  | 'proposal__creationBlock'
+  | 'proposal__creationTime'
+  | 'proposal__startBlock'
+  | 'proposal__endBlock'
+  | 'proposal__queueTxnHash'
+  | 'proposal__queueBlock'
+  | 'proposal__queueTime'
+  | 'proposal__executionETA'
+  | 'proposal__executionTxnHash'
+  | 'proposal__executionBlock'
+  | 'proposal__executionTime'
+  | 'proposal__cancellationTxnHash'
+  | 'proposal__cancellationBlock'
+  | 'proposal__cancellationTime'
   | 'forWeightedVotes'
   | 'againstWeightedVotes'
   | 'abstainWeightedVotes'
@@ -2181,6 +2251,8 @@ export type Vote_filter = {
   txnHash_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<Vote_filter>>>;
+  or?: InputMaybe<Array<InputMaybe<Vote_filter>>>;
 };
 
 export type Vote_orderBy =
@@ -2189,7 +2261,41 @@ export type Vote_orderBy =
   | 'weight'
   | 'reason'
   | 'voter'
+  | 'voter__id'
+  | 'voter__delegatedVotesRaw'
+  | 'voter__delegatedVotes'
+  | 'voter__tokenHoldersRepresentedAmount'
+  | 'voter__numberVotes'
   | 'proposal'
+  | 'proposal__id'
+  | 'proposal__txnHash'
+  | 'proposal__description'
+  | 'proposal__state'
+  | 'proposal__quorumVotes'
+  | 'proposal__tokenHoldersAtStart'
+  | 'proposal__delegatesAtStart'
+  | 'proposal__againstDelegateVotes'
+  | 'proposal__forDelegateVotes'
+  | 'proposal__abstainDelegateVotes'
+  | 'proposal__totalDelegateVotes'
+  | 'proposal__againstWeightedVotes'
+  | 'proposal__forWeightedVotes'
+  | 'proposal__abstainWeightedVotes'
+  | 'proposal__totalWeightedVotes'
+  | 'proposal__creationBlock'
+  | 'proposal__creationTime'
+  | 'proposal__startBlock'
+  | 'proposal__endBlock'
+  | 'proposal__queueTxnHash'
+  | 'proposal__queueBlock'
+  | 'proposal__queueTime'
+  | 'proposal__executionETA'
+  | 'proposal__executionTxnHash'
+  | 'proposal__executionBlock'
+  | 'proposal__executionTime'
+  | 'proposal__cancellationTxnHash'
+  | 'proposal__cancellationBlock'
+  | 'proposal__cancellationTime'
   | 'block'
   | 'blockTime'
   | 'txnHash';
