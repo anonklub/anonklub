@@ -21,14 +21,14 @@ Based on following docs:
   # with UI console or
   # gcloud alpha billing accounts projects link PROJECT_ID (--account-id=ACCOUNT_ID | --billing-account=ACCOUNT_ID)
   gcloud config set project <project id>
-  
+
   gcloud services enable bigquery-json.googleapis.com
   gcloud services enable container.googleapis.com
   gcloud services enable compute.googleapis.com
 
   # configure docker with gcloud
   gcloud auth configure-docker
-  
+
   # configure bigquery access
   # https://codelabs.developers.google.com/codelabs/cloud-bigquery-nodejs#3
   gcloud iam service-accounts create my-bigquery-sa --display-name "my bigquery service account"

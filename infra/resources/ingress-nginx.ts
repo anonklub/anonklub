@@ -1,20 +1,7 @@
 import { networking } from '@pulumi/kubernetes'
-import { IngressController } from '@pulumi/kubernetes-ingress-nginx'
 import { namespace, provider } from './cluster'
 import { nginx } from './nginx'
 import { queryApi } from './query-api'
-
-// export const controller = new IngressController(
-//   'ingress-nginx-controller',
-//   {
-//     controller: {
-//       publishService: {
-//         enabled: true,
-//       },
-//     },
-//   },
-//   { provider },
-// )
 
 export const ingress = new networking.v1.Ingress(
   'ingress',
