@@ -1,4 +1,5 @@
 import { core } from '@pulumi/kubernetes'
+import { config } from '../config'
 import { provider } from './provider'
 
 // FIXME
@@ -7,8 +8,12 @@ import { provider } from './provider'
 // https://github.com/kubernetes/kubernetes/issues/60807
 
 const ns = new core.v1.Namespace(
-  'anonklub',
-  {},
+  config.k8s.namespace,
+  {
+    metadata: {
+      name: config.k8s.namespace,
+    },
+  },
   {
     provider,
   },

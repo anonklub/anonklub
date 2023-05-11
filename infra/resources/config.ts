@@ -12,6 +12,7 @@ export const config = {
   },
   k8s: {
     isMinikube: cfg.getBoolean('isMinikube') ?? false,
+    namespace: cfg.get('namespace') ?? 'anonklub',
     nodesPerZone: cfg.getNumber('nodesPerZone') ?? 1,
   },
   queryApi: {
