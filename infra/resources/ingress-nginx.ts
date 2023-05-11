@@ -1,5 +1,5 @@
 import { helm, networking } from '@pulumi/kubernetes'
-import { namespace, provider } from './cluster'
+import { provider } from './cluster'
 import { nginx } from './nginx'
 import { queryApi } from './query-api'
 
@@ -9,7 +9,6 @@ import { queryApi } from './query-api'
 //         * Helm release "anonklub/ingress-controller-175505c5" was created, but failed to initialize completely. Use Helm CLI to investigate.: failed to become available within allocated timeout. Error: Helm Release anonklub/ingress-controller-175505c5: timed out waiting for the condition
 const ingressController = new helm.v3.Release('ingress-controller', {
   chart: 'nginx-ingress',
-  namespace,
   repositoryOpts: { repo: 'https://helm.nginx.com/stable' },
   skipCrds: true,
   values: {
@@ -34,7 +33,6 @@ export const ingress = new networking.v1.Ingress(
         'pulumi.com/skipAwait': 'true',
       },
       name: 'ingress',
-      namespace,
     },
     spec: {
       rules: [
@@ -45,18 +43,6 @@ export const ingress = new networking.v1.Ingress(
               {
                 backend: {
                   service: {
-                    name: nginx.metadata.name,
-                    port: {
-                      number: 80,
-                    },
-                  },
-                },
-                path: '/?(.*)',
-                pathType: 'Prefix',
-              },
-              {
-                backend: {
-                  service: {
                     name: queryApi.metadata.name,
                     port: {
                       number: 80,
@@ -64,6 +50,18 @@ export const ingress = new networking.v1.Ingress(
                   },
                 },
                 path: '/api/query/?(.*)',
+                pathType: 'Prefix',
+              },
+              {
+                backend: {
+                  service: {
+                    name: nginx.metadata.name,
+                    port: {
+                      number: 80,
+                    },
+                  },
+                },
+                path: '/?(.*)',
                 pathType: 'Prefix',
               },
             ],

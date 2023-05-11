@@ -2,7 +2,7 @@ import { Image, RemoteImage } from '@pulumi/docker'
 import { apps, core } from '@pulumi/kubernetes'
 import { interpolate } from '@pulumi/pulumi'
 import { join } from 'path'
-import { namespace, provider } from './cluster'
+import { provider } from './cluster'
 import { config } from './config'
 import { registryUrl } from './registry'
 
@@ -38,7 +38,7 @@ const image = config.queryApi.SKIP_PUSH
 const deployment = new apps.v1.Deployment(
   APP_NAME,
   {
-    metadata: { labels, namespace },
+    metadata: { labels },
     spec: {
       replicas: 1,
       selector: { matchLabels: labels },
@@ -81,7 +81,6 @@ export const queryApi = new core.v1.Service(
   {
     metadata: {
       labels: deployment.spec.template.metadata.labels,
-      namespace,
     },
     spec: {
       ports: [

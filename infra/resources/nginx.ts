@@ -1,5 +1,5 @@
 import { apps, core } from '@pulumi/kubernetes'
-import { namespace, provider } from './cluster'
+import { provider } from './cluster'
 import { config } from './config'
 
 const APP_NAME = 'nginx'
@@ -8,7 +8,7 @@ const labels = { app: APP_NAME }
 const deployment = new apps.v1.Deployment(
   APP_NAME,
   {
-    metadata: { labels, namespace },
+    metadata: { labels },
     spec: {
       replicas: 1,
       selector: { matchLabels: labels },
@@ -30,7 +30,6 @@ export const nginx = new core.v1.Service(
   {
     metadata: {
       labels: deployment.spec.template.metadata.labels,
-      namespace,
     },
     spec: {
       ports: [

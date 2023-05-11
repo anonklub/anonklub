@@ -36,13 +36,15 @@ Based on following docs:
   gcloud projects add-iam-policy-binding ${GOOGLE_CLOUD_PROJECT} --member "serviceAccount:my-bigquery-sa@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com" --role "roles/bigquery.user"
   # key.json is used as GOOGLE_APPLICATION_CREDENTIALS secret
   ```
+
 - [ ] install helm
-   ```shell
+
+  ```shell
   # in google cloud web console
   curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
   chmod 700 get_helm.sh
   ./get_helm.sh
-  
+
   # https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
   helm upgrade --install ingress-nginx ingress-nginx \
   --repo https://kubernetes.github.io/ingress-nginx \
