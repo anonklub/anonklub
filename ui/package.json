@@ -1,0 +1,29 @@
+{
+  "name": "@anonset/ui",
+  "version": "1.0.0",
+  "private": true,
+  "author": "3pwd <me@3pwd.xyz>",
+  "license": "MIT",
+  "dependencies": {
+    "@heroicons/react": "^2.0.18",
+    "@web3modal/ethereum": "^2.4.1",
+    "@web3modal/react": "^2.4.1",
+    "autoprefixer": "^10.4.14",
+    "nes.css": "^2.3.0",
+    "next": "^13.4.2",
+    "postcss": "^8.4.23",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "^3.3.2",
+    "viem": "^0.3.27",
+    "wagmi": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.6"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  }
+}
