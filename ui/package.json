@@ -19,7 +19,8 @@
     "wagmi": "^1.0.5"
   },
   "devDependencies": {
-    "@types/react": "^18.2.6"
+    "@types/react": "^18.2.6",
+    "prettier-plugin-tailwindcss": "^0.3.0"
   },
   "scripts": {
     "dev": "next dev",

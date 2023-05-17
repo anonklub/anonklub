@@ -7,7 +7,7 @@ export default function CustomButton() {
   const { open } = useWeb3Modal()
   const { isConnected } = useAccount()
   const { disconnect } = useDisconnect()
-  const label = isConnected ? 'Disconnect' : 'Connect Custom'
+  const label = isConnected ? 'Disconnect' : 'Connect'
 
   async function onOpen() {
     setLoading(true)
@@ -19,12 +19,17 @@ export default function CustomButton() {
     if (isConnected) {
       disconnect()
     } else {
-      onOpen()
+      onOpen().catch(console.error)
     }
   }
 
   return (
-    <button onClick={onClick} disabled={loading}>
+    <button
+      type='button'
+      className='nes-btn is-primary'
+      onClick={onClick}
+      disabled={loading}
+    >
       {loading ? 'Loading...' : label}
     </button>
   )

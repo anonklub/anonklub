@@ -1,14 +1,19 @@
-import { Web3Button } from '@web3modal/react'
-import CustomButton from '@components/CustomButton'
+import Link from 'next/link'
 
-export default function HomePage() {
-  console.log('env', process.env)
+export default function App() {
   return (
-    <>
-      <Web3Button icon='show' label='Connect Wallet' balance='show' />
-      <br />
-
-      <CustomButton />
-    </>
+    <div className='flex flex-col justify-center'>
+      <div className='nes-balloon from-left w-1/2'>
+        <p>What do you want to do?</p>
+      </div>
+      <div className='flex flex-row justify-center space-x-2'>
+        <Link href='/prove' className='nes-btn'>
+          Prove
+        </Link>
+        <Link href='/verify' className='nes-btn'>
+          Verify
+        </Link>
+      </div>
+    </div>
   )
 }
