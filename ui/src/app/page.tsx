@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function App() {
+export default function Page() {
   return (
     <div className='flex flex-col justify-center'>
       <div className='nes-balloon from-left w-1/2'>
@@ -10,7 +10,7 @@ export default function App() {
         <Link href='/prove' className='nes-btn'>
           Prove
         </Link>
-        <Link href='/verify' className='nes-btn'>
+        <Link href='/ui/src/app/page.tsx' className='nes-btn'>
           Verify
         </Link>
       </div>

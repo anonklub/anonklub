@@ -13,7 +13,7 @@ const APP_NAME = 'My App'
 // need to use full reference to process.env
 // can't destructure or do process.env[name]
 // https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#loading-environment-variables
-const alchemyRpcUrl = process.env.NEXT_PUBLIC_ALCHEMY_API_URL
+const alchemyRpcUrl = process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL
 const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
 
 const config = {
