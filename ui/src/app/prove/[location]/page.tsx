@@ -1,33 +1,19 @@
-import Link from 'next/link'
+import Screen from '@components/Screen'
 
-const TYPES = [
-  { name: 'Cryptopunk', slug: 'cryptopunk' },
-  { name: 'ENS Proposal Voters', slug: 'ens' },
-  {
-    name: 'ETH balance',
-    slug: 'eth-balance',
-  },
-  { name: 'ERC20 balance', slug: 'erc20-balance' },
-]
-export default function AnonSetType({ params: { location } }) {
-  return (
-    <>
-      <h1 className='nes-text is-primary'>Anonymity Set Origin: {location}</h1>
-      <div className='nes-balloon from-left w-4/5'>
-        <p>What type of anonymity set do you want to prove?</p>
-      </div>
-      <div className='flex flex-row justify-center space-x-3'>
-        {TYPES.map(({ name, slug }) => (
-          <Link
-            href={`/prove/${location}/${slug}`}
-            key={name}
-            className='nes-btn'
-          >
-            {name}
-          </Link>
-        ))}
-      </div>
-      <div className='flex flex-col justify-center'></div>
-    </>
-  )
-}
+export default () => (
+  <Screen
+    question='What type of membership do you want to prove?'
+    help={[
+      'Cryptopunk: are you a member of the group of people who own a cryptopunk?',
+      'ENS Proposal Voters: are you a member of the group of people who voted on a specific ENS proposal.',
+      'ETH balance: are you a member of the group of people who own a min amount of ETH?',
+      'ERC20 balance: are you a member of the group of people who own a min amount of a given ERC20 token?',
+    ]}
+    buttons={[
+      { href: '/query/cryptopunk', text: 'Cryptopunk' },
+      { href: '/query/ens', text: 'ENS Proposal Voters' },
+      { href: '/query/eth-balance', text: 'ETH balance' },
+      { href: '/query/erc20-balance', text: 'ERC20 balance' },
+    ]}
+  />
+)
