@@ -9,12 +9,14 @@ export default function Balloon({
   help: string[]
 }) {
   return (
-    <div className='nes-balloon from-left'>
-      <p className='mb-2'>{question}</p>
+    <div className='flex flex-row justify-between'>
+      <div className='nes-balloon from-left'>
+        <p className='mb-2'>{question}</p>
+      </div>
       <section>
         <button
           type='button'
-          className='nes-btn is-primary text-xs'
+          className='nes-btn is-warning'
           onClick={() => {
             // @ts-ignore
             document.getElementById('dialog').showModal()
