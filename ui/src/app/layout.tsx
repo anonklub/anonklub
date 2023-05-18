@@ -1,7 +1,7 @@
 'use client'
+import '../globals.css'
 import 'nes.css/css/nes.min.css'
 import 'tailwindcss/tailwind.css'
-import '../globals.css'
 import { WagmiConfig } from 'wagmi'
 import { wagmiConfig } from '#/wagmi'
 import useReady from '@/hooks/useReady'
