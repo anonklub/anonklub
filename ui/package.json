@@ -20,6 +20,8 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.6",
+    "lokijs": "^1.5.12",
+    "pino-pretty": "^10.0.0",
     "prettier-plugin-tailwindcss": "^0.3.0"
   },
   "scripts": {
@@ -31,5 +33,9 @@
     "fs": false,
     "tls": false,
     "net": false
+  },
+  "peerDependencies": {
+    "lokijs": "^1.5.12",
+    "pino-pretty": "^10.0.0"
   }
 }
