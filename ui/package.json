@@ -26,5 +26,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
+  },
+  "browser": {
+    "fs": false,
+    "tls": false,
+    "net": false
   }
 }

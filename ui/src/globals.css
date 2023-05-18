@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 body {
-    font-family: 'Press Start 2P', cursive;
-    overflow-x: hidden;
-    overflow-y: hidden;
+  font-family: 'Press Start 2P', cursive;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }

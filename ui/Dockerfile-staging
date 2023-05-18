@@ -1,0 +1,13 @@
+FROM node:19-alpine as base
+
+WORKDIR /app
+RUN npm i -g pnpm lerna
+
+COPY pnpm-lock.yaml package.json lerna.json pnpm-workspace.yaml ./
+COPY ui ./ui/
+
+RUN pnpm i --filter @anonset/ui
+
+EXPOSE 3000
+
+CMD ["lerna", "run", "dev", "--scope", "@anonset/ui"]

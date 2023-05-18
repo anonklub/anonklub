@@ -4,7 +4,7 @@ function validateConfig(config: any) {
   Object.keys(config).forEach((key) => {
     const value = config[key]
     if (value === undefined || value === null)
-      throw new Error(`${key} is not set`)
+      console.error(`${key} is not set`)
   })
 
   return config as {
