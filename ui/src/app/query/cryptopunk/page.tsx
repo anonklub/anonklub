@@ -1,0 +1,101 @@
+'use client'
+import Loader from '@components/Loader'
+import { useEffect, useState } from 'react'
+
+export default function () {
+  const [loading, setLoading] = useState(true)
+  const [results, setResults] = useState<string[]>([])
+
+  console.log({ loading, results })
+  useEffect(() => {
+    if (loading) {
+      setTimeout(() => {
+        setLoading(false)
+        setResults([
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+          '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72',
+        ])
+      }, 2000)
+    }
+  }, [])
+  return (
+    <>
+      <h2>Fetch Cryptopunk Anon Set</h2>
+      <div className='flex flex-col space-y-3'>
+        <Loader loading={loading} setLoading={setLoading} />
+        {!loading && results.length > 0 && (
+          <>
+            <h3>Results</h3>
+            <div className='nes-container is-rounded flex max-h-96 flex-row flex-wrap justify-evenly overflow-auto scroll-smooth'>
+              {results.map((result, key) => (
+                <span key={key} className='text-xs'>
+                  {result}
+                </span>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </>
+  )
+}

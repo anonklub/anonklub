@@ -1,8 +1,13 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
-export default function Loader() {
-  const [loading, setLoading] = useState(true)
+export default function Loader({
+  loading = false,
+  setLoading,
+}: {
+  loading?: boolean
+  setLoading: Dispatch<SetStateAction<boolean>>
+}) {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
@@ -29,13 +34,15 @@ export default function Loader() {
           setProgress(0)
         }}
       >
-        {loading ? 'Abort' : 'Fetch'}
+        {loading ? 'Abort' : 'Start'}
       </button>
-      <progress
-        className='nes-progress is-success'
-        value={progress}
-        max='100'
-      ></progress>
+      {loading && (
+        <progress
+          className='nes-progress is-success'
+          value={progress}
+          max='100'
+        ></progress>
+      )}
     </div>
   )
 }
