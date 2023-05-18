@@ -6,6 +6,13 @@ function validateConfig(config: any) {
     if (value === undefined || value === null)
       throw new Error(`${key} is not set`)
   })
+
+  return config as {
+    alchemyRpcUrl: string
+    appName: string
+    chains: any[]
+    walletConnectProjectId: string
+  }
 }
 
 const APP_NAME = 'My App'
@@ -23,6 +30,4 @@ const config = {
   walletConnectProjectId,
 }
 
-validateConfig(config)
-
-export default config
+export default validateConfig(config)
