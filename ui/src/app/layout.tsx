@@ -17,7 +17,7 @@ export default function RootLayout({
 
   return (
     <html lang='en'>
-      <body>
+      <body className='m-3'>
         {ready ? (
           <WagmiConfig config={wagmiConfig}>
             <Layout>{children}</Layout>
