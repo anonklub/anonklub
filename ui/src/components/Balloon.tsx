@@ -2,8 +2,8 @@
 import Text from '@components/Text'
 
 export default function Balloon({
-  question,
   help,
+  question,
 }: {
   question: string
   help: string[]
@@ -18,7 +18,7 @@ export default function Balloon({
           type='button'
           className='nes-btn is-warning'
           onClick={() => {
-            // @ts-ignore
+            // @ts-expect-error dialog el exists
             document.getElementById('dialog').showModal()
           }}
         >

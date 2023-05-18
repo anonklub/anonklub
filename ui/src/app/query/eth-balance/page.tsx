@@ -1,1 +1,3 @@
-export default () => <h1>ETH balance</h1>
+export default function EthBalancePage() {
+  return <h1>ETH balance</h1>
+}

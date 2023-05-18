@@ -1,12 +1,11 @@
 'use client'
-import Loader from '@components/Loader'
 import { useEffect, useState } from 'react'
+import Loader from '@components/Loader'
 
-export default function () {
+export default function CryptoPunkPage() {
   const [loading, setLoading] = useState(true)
   const [results, setResults] = useState<string[]>([])
 
-  console.log({ loading, results })
   useEffect(() => {
     if (loading) {
       setTimeout(() => {
@@ -77,7 +76,7 @@ export default function () {
         ])
       }, 2000)
     }
-  }, [])
+  }, [loading])
   return (
     <>
       <h2>Fetch Cryptopunk Anon Set</h2>
