@@ -1,21 +1,63 @@
-import { Screen } from '@components'
+'use client'
+import Link from 'next/link'
+import { useRef, useState } from 'react'
+import { readJsonFile } from '#/read-json-file'
+import { Help, ScrollableContainer } from '@components'
 
-export default function ChooseAnonSetTypePage() {
+export default function Page() {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [anonSet, setAnonSet] = useState<string[]>([])
+  const onClick = () => {
+    inputRef.current?.click()
+  }
+  const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files !== undefined && event.target.files !== null) {
+      const parsedData = await readJsonFile(event.target.files[0])
+
+      setAnonSet(parsedData)
+    }
+  }
+
+  console.log({ anonSet })
+
   return (
-    <Screen
-      question='What type of membership do you want to prove?'
-      help={[
-        'Cryptopunk: are you a member of the group of people who own a cryptopunk?',
-        'ENS Voters: are you a member of the group of people who voted on a specific ENS proposal.',
-        'ETH balance: are you a member of the group of people who own a min amount of ETH?',
-        'ERC20 balance: are you a member of the group of people who own a min amount of a given ERC20 token?',
-      ]}
-      buttons={[
-        { href: '/query/cryptopunk', text: 'Cryptopunk' },
-        { href: '/query/ens', text: 'ENS Voters' },
-        { href: '/query/eth-balance', text: 'ETH balance' },
-        { href: '/query/erc20-balance', text: 'ERC20 balance' },
-      ]}
-    />
+    <div className='center flex flex-col space-y-10'>
+      <div className='flex flex-col items-end space-y-4'>
+        <Help
+          content={[
+            'Upload a json file that contains an array of ethereum addresses as hex strings that represent your anon set.',
+          ]}
+        />
+        <Link
+          href={{
+            pathname: '/prove/submit-request',
+            query: { anonSet },
+          }}
+        >
+          <button className='nes-btn is-success'>{'=>'} Submit Proof</button>
+        </Link>
+      </div>
+
+      {anonSet.length === 0 ? (
+        <>
+          <input
+            type='file'
+            accept='.json,application/json'
+            onChange={onChange}
+            className='hidden'
+            ref={inputRef}
+          />
+          <button
+            type='button'
+            className='nes-btn is-warning w-1/4 self-center'
+            onClick={onClick}
+          >
+            Upload file
+          </button>
+        </>
+      ) : (
+        <ScrollableContainer data={anonSet} />
+      )}
+    </div>
   )
 }
