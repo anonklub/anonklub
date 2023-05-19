@@ -8,7 +8,7 @@ on:
 jobs:
   deployment:
     environment:
-      name: staging
+      name: ui-staging
       url: https://anonklub-staging.fly.dev/
     name: Deploy to staging
     runs-on: ubuntu-latest
