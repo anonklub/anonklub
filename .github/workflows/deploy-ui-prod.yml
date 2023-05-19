@@ -20,7 +20,7 @@ jobs:
       - name: Deploy
         run: |
           flyctl deploy \
-            --config ui/fly.toml \
+            --config ui/fly-prod.toml \
             --dockerfile ui/Dockerfile \
             --remote-only
         env:
