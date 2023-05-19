@@ -3,7 +3,12 @@ on:
   workflow_dispatch:
   push:
     branches: [staging]
-    paths: ['apis/query/**', '!**/*.md', '.github/workflows/deploy-query-api-staging.yml']
+    paths:
+      [
+        'apis/query/**',
+        '!**/*.md',
+        '.github/workflows/deploy-query-api-staging.yml',
+      ]
 
 jobs:
   deployment:
