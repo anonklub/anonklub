@@ -2,7 +2,7 @@ import { ExternalLink, Links } from '@components'
 
 export function Footer() {
   return (
-    <section className='icon-list flex flex-row justify-center space-x-1'>
+    <section className='icon-list flex flex-row items-center justify-center space-x-2'>
       <ExternalLink href={Links.Twitter}>
         <i className='nes-icon twitter'></i>
       </ExternalLink>

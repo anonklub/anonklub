@@ -76,7 +76,9 @@ export function SubmitProofRequest({ anonSet }) {
 
       <button
         type='button'
-        className={`nes-btn ${canSubmit ? 'is-warning' : 'is-disabled'}`}
+        className={`nes-btn w-1/2 self-center ${
+          canSubmit ? 'is-warning' : 'is-disabled'
+        }`}
       >
         Submit Proof Request
       </button>
