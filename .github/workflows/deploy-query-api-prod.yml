@@ -3,14 +3,19 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['apis/query/**', '!**/*.md', '.github/workflows/deploy-prod.yml']
+    paths:
+      [
+        'apis/query/**',
+        '!**/*.md',
+        '.github/workflows/deploy-query-api-prod.yml',
+      ]
 
 jobs:
   deployment:
     environment:
-      name: production
+      name: query-api-prod
       url: https://anonset.fly.dev
-    name: Deploy to production
+    name: Deploy Query API to production
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

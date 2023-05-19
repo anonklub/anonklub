@@ -3,14 +3,19 @@ on:
   workflow_dispatch:
   push:
     branches: [staging]
-    paths: ['apis/query/**', '!**/*.md', '.github/workflows/deploy-staging.yml']
+    paths:
+      [
+        'apis/query/**',
+        '!**/*.md',
+        '.github/workflows/deploy-query-api-staging.yml',
+      ]
 
 jobs:
   deployment:
     environment:
-      name: staging
+      name: query-api-staging
       url: https://anonset-staging.fly.dev
-    name: Deploy to staging
+    name: Deploy Query API to staging
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

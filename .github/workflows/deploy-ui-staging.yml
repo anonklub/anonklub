@@ -1,0 +1,27 @@
+name: Deployment UI - Staging
+on:
+  workflow_dispatch:
+  push:
+    branches: [staging]
+    paths: ['ui/**', '!**/*.md', '.github/workflows/deploy-ui-staging.yml']
+
+jobs:
+  deployment:
+    environment:
+      name: ui-staging
+      url: https://anonklub-staging.fly.dev/
+    name: Deploy UI to staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy
+        run: |
+          flyctl deploy \
+            --config ui/fly-staging.toml \
+            --dockerfile ui/Dockerfile \
+            --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
