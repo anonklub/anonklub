@@ -39,5 +39,8 @@ jobs:
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
 
+      - name: Build membership to get its types
+        run: pnpm --filter @anonset/membership run build
+
       - name: Validate (Lint, Format, Typecheck)
         run: pnpm run validate
