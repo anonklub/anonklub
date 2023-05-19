@@ -1,4 +1,4 @@
-import { ExternalLink, Links } from '@components/Link'
+import { ExternalLink, Links } from '@components'
 
 export default function Footer() {
   return (
