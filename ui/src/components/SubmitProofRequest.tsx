@@ -3,23 +3,8 @@ import { useEffect, useState } from 'react'
 import { Help, Star } from '@components'
 
 export function SubmitProofRequest({ anonSet }) {
-  const [progress, setProgress] = useState(0)
   const [message, setMessage] = useState('')
   const [signedMessage, setSignedMessage] = useState('')
-
-  useEffect(() => {
-    if (message === '') {
-      setProgress(0)
-    }
-
-    if (message !== '') {
-      setProgress(1)
-    }
-
-    if (signedMessage !== '') {
-      setProgress(2)
-    }
-  }, [message, signedMessage])
 
   return (
     <div className='flex flex-col space-y-4'>
@@ -30,11 +15,6 @@ export function SubmitProofRequest({ anonSet }) {
           ]}
         />
       </div>
-      <progress
-        className='nes-progress is-primary'
-        value={progress}
-        max='2'
-      ></progress>
       <div className='flex flex-row justify-evenly'>
         <Star full={anonSet.length > 0} text='Anonset' />
         <Star full={message !== ''} text='Message' />
@@ -68,7 +48,7 @@ export function SubmitProofRequest({ anonSet }) {
         )}
       </div>
 
-      {progress === 2 && (
+      {signedMessage !== '' && anonSet.length > 0 && (
         <button type='button' className='nes-btn is-warning'>
           Submit Proof Request
         </button>
