@@ -39,5 +39,5 @@ jobs:
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
 
-      - name: Validate (Lint & Format)
+      - name: Validate (Lint, Format, Typecheck)
         run: pnpm run validate
