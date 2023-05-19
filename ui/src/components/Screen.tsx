@@ -13,7 +13,7 @@ export default function Screen({
   return (
     <div className='flex flex-col justify-center'>
       <Balloon question={question} help={help} />
-      <div className='flex flex-row justify-center space-x-2'>
+      <div className='mt-28 flex flex-row justify-evenly'>
         {buttons.map(({ href, text }) => (
           <Link key={href} href={href} className='nes-btn'>
             {text}
