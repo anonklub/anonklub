@@ -1,0 +1,7 @@
+node_modules
+build
+README.md
+fly-staging.toml
+.prettierrc.js
+.eslintrc.yaml
+.next

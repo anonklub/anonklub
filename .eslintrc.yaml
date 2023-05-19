@@ -9,6 +9,7 @@ parserOptions:
       'demo/tsconfig.json',
       'docs/tsconfig.json',
       'membership/tsconfig.json',
+      'ui/tsconfig.json',
     ]
 
 rules:
