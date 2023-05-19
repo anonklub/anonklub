@@ -2,6 +2,7 @@
 // import { getData } from '#/get-data'
 import Link from 'next/link'
 import { RESULTS as anonSet } from '@/app/query/cryptopunk/_results'
+import { ScrollableContainer } from '@components'
 
 export default async function Page() {
   // const results = await getData<string[]>(`${config.urls.queryApi}/punks`)
@@ -23,13 +24,7 @@ export default async function Page() {
           <button className='nes-btn is-success'>Next: Prove</button>
         </Link>
       </div>
-      <div className='nes-container is-rounded flex max-h-96 flex-row flex-wrap justify-evenly overflow-auto scroll-smooth'>
-        {anonSet.map((result, key) => (
-          <span key={key} className='text-xs'>
-            {result}
-          </span>
-        ))}
-      </div>
+      <ScrollableContainer data={anonSet} />
     </>
   )
 }

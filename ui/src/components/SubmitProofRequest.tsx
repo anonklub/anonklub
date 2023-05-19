@@ -1,12 +1,12 @@
 'use client'
 import { useState } from 'react'
-import { Help, Star } from '@components'
+import { Help, ScrollableContainer, Star } from '@components'
 
 export function SubmitProofRequest({ anonSet }) {
   const [message, setMessage] = useState('')
   const [signedMessage, setSignedMessage] = useState('')
   const canSign = message !== '' && signedMessage === ''
-  const canSubmit = signedMessage !== '' && anonSet.length > 0
+  const canSubmit = signedMessage !== '' && anonSet?.length > 0
   return (
     <div className='flex flex-col space-y-10'>
       <div className='self-end'>
@@ -17,7 +17,34 @@ export function SubmitProofRequest({ anonSet }) {
         />
       </div>
       <div className='flex flex-row justify-evenly'>
-        <Star full={anonSet.length > 0} text='Anonset' />
+        {anonSet?.length > 0 ? (
+          <a
+            onClick={() => {
+              // @ts-expect-error anonset el exists
+              document.getElementById('anonset').showModal()
+            }}
+          >
+            <Star full={anonSet?.length > 0} text='Anonset' />
+            <dialog className='nes-dialog' id='anonset'>
+              <form method='dialog'>
+                <ScrollableContainer data={anonSet} />
+                <menu className='dialog-menu flex flex-row justify-center'>
+                  <button
+                    className='nes-btn mt-4'
+                    onClick={() => {
+                      // @ts-expect-error anonset el exists
+                      document.getElementById('anonset').close()
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </menu>
+              </form>
+            </dialog>
+          </a>
+        ) : (
+          <Star full={false} text='Anonset' />
+        )}
         <Star full={message !== ''} text='Message' />
         <Star full={signedMessage !== ''} text='Signed' />
       </div>
