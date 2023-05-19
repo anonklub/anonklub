@@ -1,21 +1,16 @@
-name: Deployment Query API - Staging
+name: Deployment UI - Prod
 on:
   workflow_dispatch:
   push:
     branches: [staging]
-    paths:
-      [
-        'apis/query/**',
-        '!**/*.md',
-        '.github/workflows/deploy-query-api-staging.yml',
-      ]
+    paths: ['ui/**', '!**/*.md', '.github/workflows/deploy-ui.yml']
 
 jobs:
   deployment:
     environment:
-      name: query-api-staging
-      url: https://anonset-staging.fly.dev
-    name: Deploy Query API to staging
+      name: ui-prod
+      url: https://anonklub.fly.dev/
+    name: Deploy UI to production
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,8 +20,8 @@ jobs:
       - name: Deploy
         run: |
           flyctl deploy \
-            --config apis/query/fly-staging.toml \
-            --dockerfile apis/query/Dockerfile \
+            --config ui/fly.toml \
+            --dockerfile ui/Dockerfile \
             --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

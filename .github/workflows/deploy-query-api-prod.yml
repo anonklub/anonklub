@@ -15,7 +15,7 @@ jobs:
     environment:
       name: query-api-prod
       url: https://anonset.fly.dev
-    name: Deploy to production
+    name: Deploy Query API to production
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

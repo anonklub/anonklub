@@ -10,7 +10,7 @@ jobs:
     environment:
       name: ui-staging
       url: https://anonklub-staging.fly.dev/
-    name: Deploy to staging
+    name: Deploy UI to staging
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
