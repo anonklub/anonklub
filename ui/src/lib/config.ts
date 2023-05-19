@@ -33,7 +33,7 @@ const config = {
   chains: [sepolia],
   urls: {
     alchemy: alchemyRpcUrl,
-    queryApi: 'https://anonset-staging.fly.dev/',
+    queryApi: 'https://anonset-staging.fly.dev',
   },
   walletConnectProjectId,
 }

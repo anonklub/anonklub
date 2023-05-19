@@ -1,12 +1,8 @@
-import { RESULTS } from '@/app/query/cryptopunk/_results'
-
-async function getData() {
-  await new Promise((resolve) => setTimeout(resolve, 3000))
-  return RESULTS
-}
+import config from '#/config'
+import { getData } from '#/get-data'
 
 export default async function Page() {
-  const results = await getData()
+  const results = await getData<string[]>(`${config.urls.queryApi}/punks`)
 
   return (
     <>
