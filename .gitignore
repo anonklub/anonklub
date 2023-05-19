@@ -8,13 +8,13 @@ node_modules
 
 *.log
 
-.env
+.env*
 
 *.db
 dev.db-journal
 
 # secrets
-.key.json
+.key*.json
 .dune_api_key
 .graph_api_key
 .sig
@@ -31,5 +31,6 @@ proof.json
 *.zkey
 
 apis/prove/public/proofs
+
 
 

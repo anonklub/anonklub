@@ -4,6 +4,8 @@ pnpm-lock.yaml
 # build dirs
 build
 dist
+.next
+.graphclient
 
 # Jest
 coverage
@@ -17,3 +19,8 @@ docs/docusaurus.config.js
 
 # Generated code
 apis/prove/generated
+
+next-env.d.ts
+next.config.js
+
+public
