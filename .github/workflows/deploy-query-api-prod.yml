@@ -1,16 +1,16 @@
-name: Deployment Query API - Staging
+name: Deployment Query API - Production
 on:
   workflow_dispatch:
   push:
-    branches: [staging]
-    paths: ['apis/query/**', '!**/*.md', '.github/workflows/deploy-staging.yml']
+    branches: [main]
+    paths: ['apis/query/**', '!**/*.md', '.github/workflows/deploy-query-api-prod.yml']
 
 jobs:
   deployment:
     environment:
-      name: staging
-      url: https://anonset-staging.fly.dev
-    name: Deploy to staging
+      name: production
+      url: https://anonset.fly.dev
+    name: Deploy to production
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,7 +20,7 @@ jobs:
       - name: Deploy
         run: |
           flyctl deploy \
-            --config apis/query/fly-staging.toml \
+            --config apis/query/fly-prod.toml \
             --dockerfile apis/query/Dockerfile \
             --remote-only
         env:
