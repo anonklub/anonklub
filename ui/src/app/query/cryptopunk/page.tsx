@@ -17,11 +17,11 @@ export default async function Page() {
         </div>
         <Link
           href={{
-            pathname: '/prove/from-on-chain/cryptopunk',
+            pathname: '/prove/submit-request',
             query: { anonSet },
           }}
         >
-          <button className='nes-btn is-success'>Next: Prove</button>
+          <button className='nes-btn is-success'>{'=>'} Submit Proof</button>
         </Link>
       </div>
       <ScrollableContainer data={anonSet} />
