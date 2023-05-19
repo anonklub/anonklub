@@ -1,7 +1,6 @@
-import Footer from '@components/Footer'
-import Header from '@components/Header'
+import { Footer, Header } from '@components'
 
-export default function Layout({ children }) {
+export function Layout({ children }) {
   return (
     <div>
       <Header />

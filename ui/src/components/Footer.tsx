@@ -1,6 +1,6 @@
 import { ExternalLink, Links } from '@components'
 
-export default function Footer() {
+export function Footer() {
   return (
     <section className='icon-list flex flex-row justify-center space-x-1'>
       <ExternalLink href={Links.Twitter}>

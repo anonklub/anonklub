@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 
-export default function Loader() {
+export function Loader() {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {

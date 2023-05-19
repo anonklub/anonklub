@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import Balloon from '@components/Balloon'
+import { Balloon } from '@components'
 
-export default function Screen({
+export function Screen({
   buttons,
   help,
   question,

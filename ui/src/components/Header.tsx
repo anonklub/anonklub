@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import CustomButton from '@components/CustomButton'
+import { CustomButton } from '@components'
 
-export default function Header() {
+export function Header() {
   return (
     <div className='mb-5 flex flex-row justify-between'>
       <Link href='/'>

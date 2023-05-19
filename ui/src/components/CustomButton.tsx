@@ -2,7 +2,7 @@ import { useWeb3Modal } from '@web3modal/react'
 import { useState } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
 
-export default function CustomButton() {
+export function CustomButton() {
   const [loading, setLoading] = useState(false)
   const { open } = useWeb3Modal()
   const { isConnected } = useAccount()

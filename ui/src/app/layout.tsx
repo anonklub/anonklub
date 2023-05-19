@@ -6,7 +6,7 @@ import { WagmiConfig } from 'wagmi'
 import { wagmiConfig } from '#/wagmi'
 import useReady from '@/hooks/useReady'
 import Web3Modal from '@/modals/Web3Modal'
-import Layout from '@components/Layout'
+import { Layout } from '@components'
 
 export default function RootLayout({
   children,
