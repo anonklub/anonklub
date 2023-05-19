@@ -1,3 +1,4 @@
+'use client'
 import { useWeb3Modal } from '@web3modal/react'
 import { useState } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
