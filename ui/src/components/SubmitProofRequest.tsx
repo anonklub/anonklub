@@ -5,7 +5,8 @@ import { Help, Star } from '@components'
 export function SubmitProofRequest({ anonSet }) {
   const [message, setMessage] = useState('')
   const [signedMessage, setSignedMessage] = useState('')
-
+  const canSign = message !== '' && signedMessage === ''
+  const canSubmit = signedMessage !== '' && anonSet.length > 0
   return (
     <div className='flex flex-col space-y-4'>
       <div className='self-end'>
@@ -20,7 +21,7 @@ export function SubmitProofRequest({ anonSet }) {
         <Star full={message !== ''} text='Message' />
         <Star full={signedMessage !== ''} text='Signed' />
       </div>
-      <div className='flex flex-row items-end justify-between'>
+      <div className='flex flex-row items-end justify-evenly'>
         <div className='nes-field'>
           <label htmlFor='name_field'>Message</label>
           <input
@@ -28,31 +29,30 @@ export function SubmitProofRequest({ anonSet }) {
             id='name_field'
             className='nes-input'
             value={message}
-            onChange={() => {
+            onChange={({ target }) => {
               setSignedMessage('')
-              // @ts-expect-error
-              setMessage(event.target.value)
+              setMessage(target.value)
             }}
           />
         </div>
-        {message !== '' && signedMessage === '' && (
-          <button
-            type='button'
-            className='nes-btn is-warning'
-            onClick={() => {
-              setSignedMessage('0x1234')
-            }}
-          >
-            Sign
-          </button>
-        )}
+
+        <button
+          type='button'
+          className={`nes-btn ${canSign ? 'is-warning' : 'is-disabled'}`}
+          onClick={() => {
+            setSignedMessage('0x1234')
+          }}
+        >
+          Sign
+        </button>
       </div>
 
-      {signedMessage !== '' && anonSet.length > 0 && (
-        <button type='button' className='nes-btn is-warning'>
-          Submit Proof Request
-        </button>
-      )}
+      <button
+        type='button'
+        className={`nes-btn ${canSubmit ? 'is-warning' : 'is-disabled'}`}
+      >
+        Submit Proof Request
+      </button>
     </div>
   )
 }
