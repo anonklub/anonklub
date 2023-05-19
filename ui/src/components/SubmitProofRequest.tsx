@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Help, Star } from '@components'
 
 export function SubmitProofRequest({ anonSet }) {
@@ -8,7 +8,7 @@ export function SubmitProofRequest({ anonSet }) {
   const canSign = message !== '' && signedMessage === ''
   const canSubmit = signedMessage !== '' && anonSet.length > 0
   return (
-    <div className='flex flex-col space-y-4'>
+    <div className='flex flex-col space-y-10'>
       <div className='self-end'>
         <Help
           content={[
