@@ -2,8 +2,8 @@ name: Deployment UI - Prod
 on:
   workflow_dispatch:
   push:
-    branches: [staging]
-    paths: ['ui/**', '!**/*.md', '.github/workflows/deploy-ui.yml']
+    branches: [main]
+    paths: ['ui/**', '!**/*.md', '.github/workflows/deploy-ui-prod.yml']
 
 jobs:
   deployment:
