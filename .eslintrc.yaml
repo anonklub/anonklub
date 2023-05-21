@@ -1,4 +1,4 @@
-extends: ['@3pwd/eslint-config-with-jest']
+extends: [ '@3pwd/eslint-config-with-jest' ]
 parserOptions:
   project:
     [
@@ -16,10 +16,10 @@ rules:
   no-useless-constructor: off
 
 overrides:
-  - files: ['membership/test/ProofRequest.test.ts']
+  - files: [ 'membership/test/ProofRequest.test.ts' ]
     rules:
       '@typescript-eslint/dot-notation': off
-  - files: ['apis/prove/src/mq/queue.ts']
+  - files: [ 'apis/prove/src/mq/queue.ts' ]
     rules:
       '@typescript-eslint/strict-boolean-expressions': off
   - files:
@@ -39,19 +39,22 @@ overrides:
       ]
     rules:
       '@typescript-eslint/no-inferrable-types': off
-  - files: ['apis/prove/generated/*.js']
+  - files: [ 'apis/prove/generated/*.js' ]
     rules:
       eqeqeq: off
-  - files: ['apis/prove/generated/witness_calculator.js']
+  - files: [ 'apis/prove/generated/witness_calculator.js' ]
     env:
       browser: true
     rules:
       prefer-const: off
       camelcase: off
-  - files: ['apis/prove/generated/generate_witness.js']
+  - files: [ 'apis/prove/generated/generate_witness.js' ]
     rules:
       '@typescript-eslint/no-var-requires': off
-  - files: ['apis/prove/src/routes.ts']
+  - files: [ '*.tsx' ]
+    rules:
+      '@typescript-eslint/no-misused-promises': [ error, { checksVoidReturn: { attributes: false } } ]
+  - files: [ 'apis/prove/src/routes.ts' ]
     rules:
       '@typescript-eslint/no-misused-promises': off
   - files:
@@ -64,7 +67,7 @@ overrides:
       ]
     rules:
       no-console: off
-  - files: ['apis/query/src/decorators/Logger.ts']
+  - files: [ 'apis/query/src/decorators/Logger.ts' ]
     rules:
       '@typescript-eslint/no-explicit-any': 'off'
   - files:
@@ -81,6 +84,6 @@ overrides:
       ]
     rules:
       jest/expect-expect: 'off'
-  - files: ['shared/src/index.ts']
+  - files: [ 'shared/src/index.ts' ]
     rules:
       'sort/exports': 'off'

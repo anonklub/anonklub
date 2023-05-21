@@ -20,6 +20,7 @@
       "@/*": ["src/*"],
       "@components": ["src/components"],
       "@components/*": ["src/components/*"],
+      "@context/*": ["src/context/*"],
       "@images/*": ["public/images/*"],
       "#/*": ["src/lib/*"]
     },

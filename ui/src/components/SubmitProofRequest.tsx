@@ -1,12 +1,16 @@
 'use client'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Help, ScrollableContainer, Star } from '@components'
+import { useAnonSet } from '@context/anonset'
 
-export function SubmitProofRequest({ anonSet }) {
+export function SubmitProofRequest() {
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const { anonSet } = useAnonSet()
   const [message, setMessage] = useState('')
   const [signedMessage, setSignedMessage] = useState('')
   const canSign = message !== '' && signedMessage === ''
   const canSubmit = signedMessage !== '' && anonSet?.length > 0
+
   return (
     <div className='flex flex-col space-y-10'>
       <div className='self-end'>
@@ -20,12 +24,11 @@ export function SubmitProofRequest({ anonSet }) {
         {anonSet?.length > 0 ? (
           <a
             onClick={() => {
-              // @ts-expect-error anonset el exists
-              document.getElementById('anonset').showModal()
+              dialogRef.current?.showModal()
             }}
           >
             <Star full={anonSet?.length > 0} text='Anonset' />
-            <dialog className='nes-dialog' id='anonset'>
+            <dialog className='nes-dialog' id='anonset' ref={dialogRef}>
               <form method='dialog'>
                 <ScrollableContainer data={anonSet} />
                 <menu className='dialog-menu flex flex-row justify-center'>

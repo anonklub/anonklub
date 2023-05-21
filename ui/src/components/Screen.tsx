@@ -8,7 +8,7 @@ export function Screen({
 }: {
   question: string
   help: string[]
-  buttons: Array<{ href: string; text: string }>
+  buttons: Array<{ href: string; text: string; onClick?: () => void }>
 }) {
   return (
     <div className='flex flex-col justify-center'>

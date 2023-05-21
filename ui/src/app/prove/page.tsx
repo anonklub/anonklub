@@ -1,6 +1,9 @@
+'use client'
 import { Screen } from '@components'
+import { useAnonSet } from '@context/anonset'
 
 export default function ProvePage() {
+  const { resetAnonSet: onClick } = useAnonSet()
   return (
     <Screen
       question='Where is your anonset?'
@@ -11,7 +14,7 @@ export default function ProvePage() {
       ]}
       buttons={[
         { href: '/prove/from-on-chain', text: 'On chain' },
-        { href: '/prove/from-file', text: 'On a file' },
+        { href: '/prove/from-file', onClick, text: 'On a file' },
       ]}
     />
   )

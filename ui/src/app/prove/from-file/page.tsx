@@ -1,24 +1,11 @@
 'use client'
 import Link from 'next/link'
-import { useRef, useState } from 'react'
-import { readJsonFile } from '#/read-json-file'
-import { Help, ScrollableContainer } from '@components'
+import { Help } from '@components'
+import { AnonSetFileInput } from '@components/AnonSetFileInput'
+import { useAnonSet } from '@context/anonset'
 
 export default function Page() {
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [anonSet, setAnonSet] = useState<string[]>([])
-  const onClick = () => {
-    inputRef.current?.click()
-  }
-  const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files !== undefined && event.target.files !== null) {
-      const parsedData = await readJsonFile(event.target.files[0])
-
-      setAnonSet(parsedData)
-    }
-  }
-
-  console.log({ anonSet })
+  const { anonSet } = useAnonSet()
 
   return (
     <div className='center flex flex-col space-y-10'>
@@ -28,36 +15,19 @@ export default function Page() {
             'Upload a json file that contains an array of ethereum addresses as hex strings that represent your anon set.',
           ]}
         />
-        <Link
-          href={{
-            pathname: '/prove/submit-request',
-            query: { anonSet },
-          }}
-        >
-          <button className='nes-btn is-success'>{'=>'} Submit Proof</button>
-        </Link>
+        {anonSet.length > 0 && (
+          <Link
+            href={{
+              pathname: '/prove/submit-request',
+              query: { anonSet },
+            }}
+          >
+            <button className='nes-btn is-success'>{'=>'} Submit Proof</button>
+          </Link>
+        )}
       </div>
 
-      {anonSet.length === 0 ? (
-        <>
-          <input
-            type='file'
-            accept='.json,application/json'
-            onChange={onChange}
-            className='hidden'
-            ref={inputRef}
-          />
-          <button
-            type='button'
-            className='nes-btn is-warning w-1/4 self-center'
-            onClick={onClick}
-          >
-            Upload file
-          </button>
-        </>
-      ) : (
-        <ScrollableContainer data={anonSet} />
-      )}
+      <AnonSetFileInput />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { SubmitProofRequest } from '@components'
 
-export default function Page({ searchParams: { anonSet } }) {
-  return <SubmitProofRequest anonSet={anonSet} />
+export default function Page() {
+  return <SubmitProofRequest />
 }
