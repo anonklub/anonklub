@@ -59,6 +59,7 @@ export const cli = async () => {
           }
           break
         }
+
         case AnonSetLocation.FILE: {
           const path = await askAddressesFile()
           const { default: _addresses } = await import(path)
