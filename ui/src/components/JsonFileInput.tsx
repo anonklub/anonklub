@@ -40,7 +40,7 @@ export function JsonFileInput({
   }
 
   return (
-    <div className='flex flex-col items-center space-y-5'>
+    <div className='flex w-full flex-col items-center space-y-5'>
       {data !== null ? (
         <a onClick={open}>
           <Modal ref={modalRef}>

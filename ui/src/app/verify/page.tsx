@@ -17,14 +17,14 @@ export default function Page() {
         />
       </div>
 
-      <div className='flex flex-row  justify-evenly'>
+      <div className='flex flex-row'>
         <JsonFileInput setData={setProof} title='Proof' />
         <JsonFileInput setData={setPublicSignals} title='Public Signals' />
       </div>
 
       <button
         type='button'
-        className={`nes-btn w-1/2 self-center ${
+        className={`nes-btn self-center text-lg ${
           canVerify ? 'is-warning' : 'is-disabled'
         }`}
         onClick={() => {
