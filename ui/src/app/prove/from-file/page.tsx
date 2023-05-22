@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Help } from '@components'
+import { PopUpButton } from '@components'
 import { AnonSetFileInput } from '@components/AnonSetFileInput'
 import { useAnonSet } from '@context/anonset'
 
@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <div className='center flex flex-col space-y-4'>
       <div className='flex flex-col items-end space-y-4'>
-        <Help
+        <PopUpButton
           content={[
             'Upload a json file that contains an array of ethereum addresses as hex strings that represent your anon set.',
           ]}

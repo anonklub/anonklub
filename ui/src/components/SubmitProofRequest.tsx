@@ -1,6 +1,6 @@
 'use client'
 import { useRef, useState } from 'react'
-import { Help, ScrollableContainer, Star } from '@components'
+import { PopUpButton, ScrollableJsonContainer, Star } from '@components'
 import { useAnonSet } from '@context/anonset'
 
 export function SubmitProofRequest() {
@@ -14,7 +14,7 @@ export function SubmitProofRequest() {
   return (
     <div className='flex flex-col space-y-10'>
       <div className='self-end'>
-        <Help
+        <PopUpButton
           content={[
             'You need to choose a message and sign it with the address you want to prove is part on the anonset. This signature and the anonset are required to build your zk proof.',
           ]}
@@ -30,7 +30,7 @@ export function SubmitProofRequest() {
             <Star full={anonSet?.length > 0} text='Anonset' />
             <dialog className='nes-dialog' id='anonset' ref={dialogRef}>
               <form method='dialog'>
-                <ScrollableContainer data={anonSet} />
+                <ScrollableJsonContainer data={anonSet} />
                 <menu className='dialog-menu flex flex-row justify-center'>
                   <button
                     className='nes-btn mt-4'
