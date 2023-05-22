@@ -4,5 +4,5 @@ import { useAnonSet } from '@context/anonset'
 
 export function AnonSetFileInput() {
   const { setAnonSet } = useAnonSet()
-  return <JsonFileInput setData={setAnonSet} title='Upload Anonset' />
+  return <JsonFileInput setData={setAnonSet} title='Anonset' />
 }
