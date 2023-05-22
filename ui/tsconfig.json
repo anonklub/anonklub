@@ -21,6 +21,7 @@
       "@components": ["src/components"],
       "@components/*": ["src/components/*"],
       "@context/*": ["src/context/*"],
+      "@hooks": ["src/hooks"],
       "@images/*": ["public/images/*"],
       "#/*": ["src/lib/*"]
     },

@@ -2,17 +2,13 @@
 import '../globals.css'
 import 'nes.css/css/nes.min.css'
 import 'tailwindcss/tailwind.css'
+import { ReactNode } from 'react'
 import { WagmiConfig } from 'wagmi'
 import { wagmiConfig } from '#/wagmi'
-import Web3Modal from '@/modals/Web3Modal'
-import { Layout } from '@components'
+import { Layout, Web3Modal } from '@components'
 import { AnonSetProvider } from '@context/anonset'
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='en'>
       <body className='m-3'>

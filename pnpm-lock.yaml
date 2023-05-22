@@ -265,10 +265,10 @@ importers:
         version: 5.7.2
       hardhat:
         specifier: ^2.12.2
-        version: 2.12.2(ts-node@10.9.1)(typescript@5.0.4)
+        version: 2.12.2(ts-node@10.9.1)(typescript@4.9.4)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.1(@types/node@20.2.3)(typescript@5.0.4)
+        version: 10.9.1(@types/node@18.16.14)(typescript@4.9.4)
 
   demo:
     dependencies:
@@ -305,7 +305,7 @@ importers:
         version: 17.0.24
       ts-node-dev:
         specifier: ^2.0.0
-        version: 2.0.0(@types/node@20.2.3)(typescript@5.0.4)
+        version: 2.0.0(@types/node@18.16.14)(typescript@4.9.4)
 
   docs:
     dependencies:
@@ -361,6 +361,9 @@ importers:
 
   ui:
     dependencies:
+      '@anonset/membership':
+        specifier: workspace:^
+        version: link:../membership
       '@heroicons/react':
         specifier: ^2.0.18
         version: 2.0.18(react@18.2.0)
@@ -7946,11 +7949,6 @@ packages:
 
   /@types/node@18.16.14:
     resolution: {integrity: sha512-+ImzUB3mw2c5ISJUq0punjDilUQ5GnUim0ZRvchHIWJmOC0G+p0kzhXBqj6cDjK0QdPFwzrHWgrJp3RPvCG5qg==}
-    dev: false
-
-  /@types/node@20.2.3:
-    resolution: {integrity: sha512-pg9d0yC4rVNWQzX8U7xb4olIOFuuVL9za3bzMT2pu2SU0SNEi66i2qrvhE2qt0HvkhuCaWJu7pLNOt/Pj8BIrw==}
-    dev: true
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -13981,7 +13979,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.5
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
@@ -14292,7 +14290,7 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /hardhat@2.12.2(ts-node@10.9.1)(typescript@5.0.4):
+  /hardhat@2.12.2(ts-node@10.9.1)(typescript@4.9.4):
     resolution: {integrity: sha512-f3ZhzXy1uyQv0UXnAQ8GCBOWjzv++WJNb7bnm10SsyC3dB7vlPpsMWBNhq7aoRxKrNhX9tCev81KFV3i5BTeMQ==}
     engines: {node: ^14.0.0 || ^16.0.0 || ^18.0.0}
     hasBin: true
@@ -14351,9 +14349,9 @@ packages:
       solc: 0.7.3(debug@4.3.4)
       source-map-support: 0.5.21
       stacktrace-parser: 0.1.10
-      ts-node: 10.9.1(@types/node@20.2.3)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.16.14)(typescript@4.9.4)
       tsort: 0.0.1
-      typescript: 5.0.4
+      typescript: 4.9.4
       undici: 5.21.2
       uuid: 8.3.2
       ws: 7.5.9
@@ -22536,7 +22534,7 @@ packages:
       - '@types/node'
     dev: true
 
-  /ts-node-dev@2.0.0(@types/node@20.2.3)(typescript@5.0.4):
+  /ts-node-dev@2.0.0(@types/node@18.16.14)(typescript@4.9.4):
     resolution: {integrity: sha512-ywMrhCfH6M75yftYvrvNarLEY+SUXtUvU8/0Z6llrHQVBx12GiFk5sStF8UdfE/yfzk9IAq7O5EEbTQsxlBI8w==}
     engines: {node: '>=0.8.0'}
     hasBin: true
@@ -22555,9 +22553,9 @@ packages:
       rimraf: 2.7.1
       source-map-support: 0.5.21
       tree-kill: 1.2.2
-      ts-node: 10.9.1(@types/node@20.2.3)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.16.14)(typescript@4.9.4)
       tsconfig: 7.0.0
-      typescript: 5.0.4
+      typescript: 4.9.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -22626,7 +22624,7 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node@10.9.1(@types/node@20.2.3)(typescript@5.0.4):
+  /ts-node@10.9.1(@types/node@18.16.14)(typescript@4.9.4):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -22645,14 +22643,14 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 20.2.3
+      '@types/node': 18.16.14
       acorn: 8.8.2
       acorn-walk: 8.2.0
       arg: 4.1.3
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 5.0.4
+      typescript: 4.9.4
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: true
@@ -22840,6 +22838,7 @@ packages:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
+    dev: false
 
   /ua-parser-js@0.7.35:
     resolution: {integrity: sha512-veRf7dawaj9xaWEu9HoTVn5Pggtc/qj+kqTOFvNiN1l0YdxwC1kvel57UCjThjGa3BHBihE8/UJAHI+uQHmd/g==}
