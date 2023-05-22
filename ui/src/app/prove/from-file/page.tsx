@@ -8,7 +8,7 @@ export default function Page() {
   const { anonSet } = useAnonSet()
 
   return (
-    <div className='center flex flex-col space-y-10'>
+    <div className='center flex flex-col space-y-4'>
       <div className='flex flex-col items-end space-y-4'>
         <Help
           content={[
@@ -26,7 +26,6 @@ export default function Page() {
           </Link>
         )}
       </div>
-
       <AnonSetFileInput />
     </div>
   )

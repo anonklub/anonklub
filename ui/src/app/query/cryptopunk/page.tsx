@@ -10,7 +10,7 @@ export default async function Page() {
 
   return (
     <>
-      <div className='mb-3 flex flex-row justify-between'>
+      <div className='mb-5 flex flex-row justify-between'>
         <div>
           <h2>Cryptopunk Anon Set</h2>
           <h3 className='nes-text is-success'>Results</h3>
