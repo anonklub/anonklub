@@ -1,20 +1,26 @@
 'use client'
-import { useRef, useState } from 'react'
-import { PopUpButton, ScrollableJsonContainer, Star } from '@components'
+import { useRef } from 'react'
+import { useProofRequest } from '@/hooks/useProofRequest'
+import { HelpModal, ScrollableJsonContainer, Star } from '@components'
 import { useAnonSet } from '@context/anonset'
 
 export function SubmitProofRequest() {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const { anonSet } = useAnonSet()
-  const [message, setMessage] = useState('')
-  const [signedMessage, setSignedMessage] = useState('')
-  const canSign = message !== '' && signedMessage === ''
-  const canSubmit = signedMessage !== '' && anonSet?.length > 0
+  const {
+    canSign,
+    canSubmit,
+    message,
+    proofRequest,
+    rawSignature,
+    setMessage,
+    setRawSignature,
+  } = useProofRequest()
 
   return (
     <div className='flex flex-col space-y-10'>
       <div className='self-end'>
-        <PopUpButton
+        <HelpModal
           content={[
             'You need to choose a message and sign it with the address you want to prove is part on the anonset. This signature and the anonset are required to build your zk proof.',
           ]}
@@ -35,8 +41,7 @@ export function SubmitProofRequest() {
                   <button
                     className='nes-btn mt-4'
                     onClick={() => {
-                      // @ts-expect-error anonset el exists
-                      document.getElementById('anonset').close()
+                      dialogRef.current?.close()
                     }}
                   >
                     Cancel
@@ -49,7 +54,7 @@ export function SubmitProofRequest() {
           <Star full={false} text='Anonset' />
         )}
         <Star full={message !== ''} text='Message' />
-        <Star full={signedMessage !== ''} text='Signed' />
+        <Star full={rawSignature !== ''} text='Signed' />
       </div>
       <div className='flex flex-row items-end justify-evenly'>
         <div className='nes-field'>
@@ -60,7 +65,7 @@ export function SubmitProofRequest() {
             className='nes-input'
             value={message}
             onChange={({ target }) => {
-              setSignedMessage('')
+              setRawSignature('')
               setMessage(target.value)
             }}
           />
@@ -70,7 +75,7 @@ export function SubmitProofRequest() {
           type='button'
           className={`nes-btn ${canSign ? 'is-warning' : 'is-disabled'}`}
           onClick={() => {
-            setSignedMessage('0x1234')
+            setRawSignature('0x1234')
           }}
         >
           Sign
@@ -82,6 +87,9 @@ export function SubmitProofRequest() {
         className={`nes-btn w-1/2 self-center ${
           canSubmit ? 'is-warning' : 'is-disabled'
         }`}
+        onClick={() => {
+          console.log({ proofRequest })
+        }}
       >
         Submit Proof Request
       </button>

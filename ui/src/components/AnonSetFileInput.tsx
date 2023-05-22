@@ -1,3 +1,4 @@
+'use client'
 import { JsonFileInput } from '@components/JsonFileInput'
 import { useAnonSet } from '@context/anonset'
 
