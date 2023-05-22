@@ -1,17 +1,19 @@
 'use client'
-import { forwardRef, RefObject } from 'react'
-import { Text } from '@components'
+import { forwardRef, ReactNode, RefObject } from 'react'
 import { useModal } from '@hooks'
 
 const Modal = forwardRef(
-  ({ content }: { content: string[] }, ref: RefObject<HTMLDialogElement>) => {
+  (
+    { children }: { children: ReactNode },
+    ref: RefObject<HTMLDialogElement>,
+  ) => {
     const { close } = useModal(ref)
 
     return (
       <section>
         <dialog className='nes-dialog' ref={ref}>
           <form method='dialog'>
-            <Text lines={content} />
+            {children}
             <menu className='dialog-menu flex flex-row justify-center'>
               <button className='nes-btn' onClick={close}>
                 Cancel

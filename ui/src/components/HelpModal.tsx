@@ -1,6 +1,6 @@
 'use client'
 import { useRef } from 'react'
-import { Modal } from '@components'
+import { Modal, Text } from '@components'
 import { useModal } from '@hooks'
 
 export const HelpModal = ({
@@ -18,7 +18,9 @@ export const HelpModal = ({
       <button type='button' className={className} onClick={open}>
         ?
       </button>
-      <Modal content={content} ref={ref} />
+      <Modal ref={ref}>
+        <Text lines={content} />
+      </Modal>
     </div>
   )
 }
