@@ -51,6 +51,10 @@ overrides:
   - files: ['apis/prove/generated/generate_witness.js']
     rules:
       '@typescript-eslint/no-var-requires': off
+  - files: ['*.tsx']
+    rules:
+      '@typescript-eslint/no-misused-promises':
+        [error, { checksVoidReturn: { attributes: false } }]
   - files: ['apis/prove/src/routes.ts']
     rules:
       '@typescript-eslint/no-misused-promises': off

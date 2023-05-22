@@ -2,27 +2,21 @@
 import '../globals.css'
 import 'nes.css/css/nes.min.css'
 import 'tailwindcss/tailwind.css'
+import { ReactNode } from 'react'
 import { WagmiConfig } from 'wagmi'
 import { wagmiConfig } from '#/wagmi'
-import useReady from '@/hooks/useReady'
-import Web3Modal from '@/modals/Web3Modal'
-import { Layout } from '@components'
+import { Layout, Web3Modal } from '@components'
+import { AnonSetProvider } from '@context/anonset'
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const ready = useReady()
-
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='en'>
       <body className='m-3'>
-        {ready ? (
-          <WagmiConfig config={wagmiConfig}>
+        <WagmiConfig config={wagmiConfig}>
+          <AnonSetProvider>
             <Layout>{children}</Layout>
-          </WagmiConfig>
-        ) : null}
+          </AnonSetProvider>
+        </WagmiConfig>
         <Web3Modal />
       </body>
     </html>

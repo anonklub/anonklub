@@ -1,5 +1,4 @@
-'use client'
-import { Help } from '@components'
+import { HelpModal } from '@components'
 
 export function Balloon({
   help,
@@ -13,7 +12,7 @@ export function Balloon({
       <div className='nes-balloon from-left'>
         <p className='mb-2'>{question}</p>
       </div>
-      {help !== undefined && <Help content={help} />}
+      {help !== undefined && <HelpModal content={help} />}
     </div>
   )
 }
