@@ -1,7 +1,8 @@
 node_modules
-build
 README.md
 fly-staging.toml
+fly-prod.toml
 .prettierrc.js
 .eslintrc.yaml
+.gitignore
 .next

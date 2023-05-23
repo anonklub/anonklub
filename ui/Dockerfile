@@ -1,33 +1,34 @@
 FROM node:19-alpine as base
 
 RUN apk update && apk upgrade && apk add dumb-init
-WORKDIR /app
+WORKDIR app
 
 FROM base as deps
 
-COPY pnpm-lock.yaml package.json lerna.json pnpm-workspace.yaml ./
+COPY lerna.json package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY ui/package.json ./ui/
+COPY membership/package.json ./membership/
 
-RUN  npm i -g pnpm lerna && pnpm i --filter @anonset/ui
+RUN  npm i -g pnpm lerna && pnpm i --filter @anonset/ui...
 
 FROM deps as build
 
 COPY ui/ ./ui
-COPY --from=deps /app/node_modules ./node_modules
+COPY membership/ ./membership
 
-RUN lerna run build --scope @anonset/ui
-
-# pnpm prune command doesn't support recursive execution on monorepo
-# need to remove and re install only prod deps manually
-RUN rm -rf node_modules node_modules ui/node_modules &&\
-    pnpm i --filter @anonset/ui --prod &&\
-    # remove all non prod deps from store/ reduce cache size
-    pnpm store prune
+RUN lerna run build --scope '{@anonset/membership,@anonset/ui}' &&\
+    rm -rf {./,membership,ui}/node_modules &&\
+    pnpm i --filter @anonset/ui... --prod
 
 FROM base as deploy
 
 COPY --from=build /app/node_modules ./node_modules
+
+COPY --from=build /app/membership/node_modules ./membership/node_modules
+COPY --from=build /app/membership/dist ./membership/dist
+
 COPY --from=build /app/ui/node_modules ./ui/node_modules
+COPY ui/public ./ui/public
 COPY --from=build /app/ui/.next ./ui/.next
 
 ENV NODE_ENV production
