@@ -2,11 +2,11 @@ import { RefObject } from 'react'
 
 export const useModal = (ref: RefObject<HTMLDialogElement>) => {
   const open = () => {
-    ref.current?.showModal()
+    if (ref.current?.open === false) ref.current.showModal()
   }
 
   const close = () => {
-    ref.current?.close()
+    if (ref.current?.open === true) ref.current?.close()
   }
 
   return {
