@@ -1,11 +1,13 @@
 'use client'
 import { useRef } from 'react'
 import { useProofRequest } from '@/hooks/useProofRequest'
-import { HelpModal, ScrollableJsonContainer, Star } from '@components'
+import { HelpModal, Modal, ScrollableJsonContainer, Star } from '@components'
 import { useAnonSet } from '@context/anonset'
+import { useModal } from '@hooks'
 
 export function SubmitProofRequest() {
-  const dialogRef = useRef<HTMLDialogElement>(null)
+  const ref = useRef<HTMLDialogElement>(null)
+  const { open } = useModal(ref)
   const { anonSet } = useAnonSet()
   const {
     canSign,
@@ -28,27 +30,11 @@ export function SubmitProofRequest() {
       </div>
       <div className='flex flex-row justify-evenly'>
         {anonSet?.length > 0 ? (
-          <a
-            onClick={() => {
-              dialogRef.current?.showModal()
-            }}
-          >
+          <a onClick={open}>
             <Star full={anonSet?.length > 0} text='Anonset' />
-            <dialog className='nes-dialog' id='anonset' ref={dialogRef}>
-              <form method='dialog'>
-                <ScrollableJsonContainer data={anonSet} />
-                <menu className='dialog-menu flex flex-row justify-center'>
-                  <button
-                    className='nes-btn mt-4'
-                    onClick={() => {
-                      dialogRef.current?.close()
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </menu>
-              </form>
-            </dialog>
+            <Modal ref={ref}>
+              <ScrollableJsonContainer data={anonSet} />
+            </Modal>
           </a>
         ) : (
           <Star full={false} text='Anonset' />
@@ -84,7 +70,7 @@ export function SubmitProofRequest() {
 
       <button
         type='button'
-        className={`nes-btn w-1/2 self-center ${
+        className={`nes-btn self-center text-lg ${
           canSubmit ? 'is-warning' : 'is-disabled'
         }`}
         onClick={() => {

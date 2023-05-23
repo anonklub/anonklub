@@ -12,10 +12,10 @@ const Modal = forwardRef(
     return (
       <section>
         <dialog className='nes-dialog' ref={ref}>
-          <form method='dialog'>
+          <form method='dialog' className='space-y-5'>
             {children}
             <menu className='dialog-menu flex flex-row justify-center'>
-              <button className='nes-btn mt-4' onClick={close}>
+              <button className='nes-btn' onClick={close}>
                 Cancel
               </button>
             </menu>
