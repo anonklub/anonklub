@@ -16,9 +16,9 @@ FROM deps as build
 # Fly will override these with secrets when starting the container so that they are valid at runtime
 # TODO: improve with https://fly.io/docs/reference/build-secrets/ ?
 ENV NEXT_PUBLIC_QUERY_API_URL 'https://anonset.fly.dev'
-ENV NEXT_PUBLIC_PROVE_API_URL 'https://update'
+ENV NEXT_PUBLIC_PROVE_API_URL 'https://fake'
 ENV NEXT_PUBLIC_ALCHEMY_RPC_URL 'https://fake'
-ENV NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID 'https://fake'
+ENV NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID '1234'
 
 COPY ui/ ./ui
 COPY membership/ ./membership
