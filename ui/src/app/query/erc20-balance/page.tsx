@@ -34,13 +34,13 @@ export default function Page() {
           ]}
         />
       </div>
-      <div className='nes-field'>
+      <div className='nes-field w-[550px]'>
         <label>
           ERC20 Token Address
           <input
-            placeholder={'0x123...'}
+            placeholder='0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'
             type='text'
-            className='nes-input w-[550px] text-xs'
+            className='nes-input text-xs'
             value={tokenAddress}
             onChange={({ target }) => {
               setTokenAddress(target.value)
@@ -48,7 +48,7 @@ export default function Page() {
           />
         </label>
       </div>
-      <div className='nes-field'>
+      <div className='nes-field w-[550px]'>
         <label>
           Min
           <input
