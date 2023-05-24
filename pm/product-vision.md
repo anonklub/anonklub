@@ -26,32 +26,31 @@ Perfect! Let's perform ECDSA computations in a SNARK...
 Unfortunately it is not so easy.
 Current zk-SNARK proving systems rely on elliptic curves that only allow operations on "finite fields" (group of numbers represented as residues modulo a specific prime). It restricts the maximum value that can be used: zk-SNARK proofs can only be 254 bits big. But ECDSA involves (elliptic curve) arithmetic on 256-bit numbers. 256 > 254...meaning overflowing issues.  
 That's why the ECDSA curve is said to be not "SNARK friendly" and to involve "non-native" arithmetic which is challenging.  
-This challenge is precisely what the ZK-ECDSA intends to address.
+This challenge is precisely what the zk-ECDSA intends to address.
 
 ## Challenges
 
-Performing ECDSA computation in a SNARK is the main challenge we will try to address.  
-Doing will address other challenges that stemmed out of working around that challenge in the first place.  
-Indeed, there already exist privacy tools and applications that leverage snarks to sucessfully preserve the anonymity of users. However they work around the ECDSA challenge by computing something else than the honest computation of an ECDSA signature itself.
+Performing ECDSA computation in a SNARK is the main challenge we will try to address.
+This will solve many issues of existing privacy tools that use workarounds rather than zk-ECDSA. These tools leverage snarks to sucessfully preserve the anonymity of users, but have security and privacy tradeoffs.
 
-For instance Tornado Cash relies on the proof of a ownwership of a note that belong to a set of unspent notes managed by a merkle tree smart contract. Some drawbacks of this solution are:
+For instance Tornado Cash relies on the proof of ownwership of a note that belongs to a set of unspent notes managed by a merkle tree smart contract. Some drawbacks of this solution are:
 
-- **users having to manage a new secret**: the safe management of ones' private keys is enough of personal responsiblity already
+- **users having to manage a new secret**: the safe management of one's private keys is enough of personal responsibility already
 - **managing the anonymity set[^first] with a smart contract**: this smart contract is a potential [censorship](https://home.treasury.gov/news/press-releases/jy0916) target.
   Some organizations can publicly observe who interacted which a given contract, then enforce restriction at applications levels, to effectively prevent these users from performing future transactions.
   ![tornado-cash-diagram](https://i.imgur.com/M60Tm71.png)
 
 [^first]: Set of addresses that meet a given criteria at a given time.
 
-Another example is [Semaphore](http://semaphore.appliedzkp.org/). Semaphore allows to make anonymous blockchain identity claims. It goes around the ECDSA-in-a-SNARK computation challenge by [creating a new identity](http://semaphore.appliedzkp.org/docs/guides/identities) whose verification process will be more SNARK friendly. So a drawback here is again **requiring the user to manage an extra secret piece.**
+Another example is [Semaphore](http://semaphore.appliedzkp.org/). Semaphore allows users to make anonymous blockchain identity claims. It avoids the ECDSA-in-a-SNARK computation challenge by [creating a new identity](http://semaphore.appliedzkp.org/docs/guides/identities) whose verification process will be more SNARK friendly. So a drawback here is again **requiring the user to manage an extra secret.**
 ![sempahore-diagram](https://i.imgur.com/P4L8StW.png)
 
-Instead the goal is to verify more directly the honest computation of ECDSA in a SNARK. By doing so we would address the 2 main drawbacks mentionned above. It would require neither a smart contract to manage an anonymity set nor the management of new secret(s) beyond one's own private key.
+Instead the goal is to verify more directly the honest computation of ECDSA in a SNARK. By doing so we would address the 2 main drawbacks mentioned above. It would require neither a smart contract to manage an anonymity set nor the management of new secret(s) beyond one's own private key.
 ![goal-diagram](https://i.imgur.com/lLEY7c9.png)
 
 ### Possible applications
 
-- **Proof of membership**: proof of owernship of the private key corresponding to an address belonging to a given group
+- **Proof of membership**: proof of ownership of the private key corresponding to an address belonging to a given group
   Ex: [Proof of Dark Forest Winner](https://github.com/jefflau/zk-identity)
 - Private airdrop
 - Private NFT vault
@@ -60,11 +59,12 @@ Instead the goal is to verify more directly the honest computation of ECDSA in a
 
 ### Similar Work - Resources
 
-https://0xparc.org/blog/zk-ecdsa-1
+[0xparc's blog explaining their initial implementation of zk-ECDSA](https://0xparc.org/blog/zk-ecdsa-1)
+[PSE's e2e-zk-ecdsa's review of the zk-ECDSA landscape](https://mirror.xyz/privacy-scaling-explorations.eth/djxf2g9VzUcss1e-gWIL2DSRD4stWggtTOcgsv1RlxY)
 
 ## Product Vision: "Zkfy ECDSA signatures"
 
-For users, that want to anonymously prove membership of a group on the Ethereum network, a web application would allow proving and verifying membership on a on chain group on the fly.
+For users, that want to anonymously prove membership of a group on the Ethereum network, a web application would allow proving and verifying membership in a on chain group on the fly.
 Unlike Mixers, it wouldn't require smart contracts to manage an anonymity set, therefore it offers greater resistance to censorship risks (see address blacklisting risk).  
 Unlike [Semaphore](http://semaphore.appliedzkp.org/) or [Interep](https://interep.link/), it wouldn't require the creation of a new identiy and the management of corresponding secret, therefore offering a better UX.
 
