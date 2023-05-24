@@ -2,6 +2,7 @@ import { Chain } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
 
 interface Config {
+  appTitle: string
   chains: Chain[]
   urls: {
     alchemy: string
@@ -28,6 +29,7 @@ const queryApiUrl = process.env.NEXT_PUBLIC_QUERY_API_URL
 if (queryApiUrl === undefined) throw new Error('QUERY_API_URL is not set')
 
 const config: Config = {
+  appTitle: 'Anonklub',
   chains: [sepolia],
   urls: {
     alchemy: alchemyRpcUrl,
