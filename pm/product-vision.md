@@ -13,18 +13,18 @@ The Ethereum blockchain especially relies on the ECDSA to produce and verify the
 
 ![default-sigram](https://i.imgur.com/YjyBDA3.png)
 
-### ZkSNARK
+### zk-SNARK
 
-These transactions are publicly observable, which is a privacy concern. To address it, ZkSNARK proving systems have been developed. ZkSNARKs allow to prove claims about the execution of arbitrary computation. Combined with relays, ZkSNARK enable the performing of on chain transactions that preserve the anonymity of the users.
+These transactions are publicly observable, which is a privacy concern. To address it, zk-SNARK proving systems have been developed. zk-SNARKs allow to prove claims about the execution of arbitrary computation. Combined with relays, zk-SNARK enable the performing of on chain transactions that preserve the anonymity of the users.
 
 ### ECDSA in a SNARK?
 
 So on one side we know that transactions requires the computation of ECDSA signatures.  
-On the other side we know we can perform zero knowledge proofs of arbitrary computation in a ZkSNARK to preserve users' privacy.  
+On the other side we know we can perform zero knowledge proofs of arbitrary computation in a zk-SNARK to preserve users' privacy.  
 Perfect! Let's perform ECDSA computations in a SNARK...
 
 Unfortunately it is not so easy.
-Current zkSNARK proving systems rely on elliptic curves that only allow operations on "finite fields" (group of numbers represented as residues modulo a specific prime). It restricts the maximum value that can be used: zkSNARK proofs can only be 254 bits big. But ECDSA involves (elliptic curve) arithmetic on 256-bit numbers. 256 > 254...meaning overflowing issues.  
+Current zk-SNARK proving systems rely on elliptic curves that only allow operations on "finite fields" (group of numbers represented as residues modulo a specific prime). It restricts the maximum value that can be used: zk-SNARK proofs can only be 254 bits big. But ECDSA involves (elliptic curve) arithmetic on 256-bit numbers. 256 > 254...meaning overflowing issues.  
 That's why the ECDSA curve is said to be not "SNARK friendly" and to involve "non-native" arithmetic which is challenging.  
 This challenge is precisely what the ZK-ECDSA intends to address.
 
