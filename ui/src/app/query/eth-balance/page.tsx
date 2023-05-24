@@ -19,7 +19,7 @@ export default function Page() {
   if (isLoading) return <Loader />
   if (error instanceof Error) return <span>Error: {error.message}</span>
   if (anonSet.length > 0)
-    return <AnonSetResults anonSet={anonSet} title='ERC20 Balance' />
+    return <AnonSetResults anonSet={anonSet} title='ETH Balance' />
 
   return (
     <div className='flex flex-col items-center space-y-10'>
