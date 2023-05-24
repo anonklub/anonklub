@@ -9,7 +9,7 @@ Once you have a proof request, you can generate a proof either locally or by rel
 
 | Server | Pros                                         | Cons                                                                                                                                 |
 | ------ | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Remote | No need to install circom or snarkjs. Faster | You need to trust our server                                                                                                         |
+| Remote | No need to install circom or snarkjs. Faster | You need to trust our server with your privacy                                                                                                        |
 | Local  | Trustless                                    | You need to install circom and snarkjs. Slower. Need to tweak system partitions to allow for more swap memory on "regular" machines. |
 
 ## Remote
