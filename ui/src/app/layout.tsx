@@ -7,7 +7,8 @@ import { WagmiConfig } from 'wagmi'
 import config from '#/config'
 import { wagmiConfig } from '#/wagmi'
 import { Layout, Web3Modal } from '@components'
-import { AnonSetProvider } from '@context/anonset'
+import { StoreProvider } from 'easy-peasy'
+import { store } from '@/store'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -17,9 +18,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className='m-3'>
         <WagmiConfig config={wagmiConfig}>
-          <AnonSetProvider>
+          <StoreProvider store={store}>
             <Layout>{children}</Layout>
-          </AnonSetProvider>
+          </StoreProvider>
         </WagmiConfig>
         <Web3Modal />
       </body>
