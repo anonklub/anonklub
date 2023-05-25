@@ -1,19 +1,19 @@
 'use client'
 import Link from 'next/link'
 import { useEffect } from 'react'
-import { ScrollableJsonContainer } from '@components'
-import { useAnonSet } from '@context/anonset'
+import { JSONValue, ScrollableJsonContainer } from '@components'
+import { useStore } from '@hooks'
 
 export function AnonSetResults({
   anonSet,
   title,
 }: {
-  anonSet: string[]
+  anonSet: JSONValue
   title: string
 }) {
-  const { setAnonSet } = useAnonSet()
+  const { setAnonSet } = useStore()
   useEffect(() => {
-    setAnonSet(anonSet)
+    setAnonSet(anonSet as string[])
   }, [setAnonSet, anonSet])
 
   return (

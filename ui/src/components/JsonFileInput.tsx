@@ -19,7 +19,7 @@ export function JsonFileInput({
   key: keyof StoreModel
   title: string
 }) {
-  const [data] = useStore(key)
+  const { [key]: data } = useStore()
   const { handleChange } = useJsonFile(key)
   const modalRef = useRef<HTMLDialogElement>(null)
   const { open } = useModal(modalRef)

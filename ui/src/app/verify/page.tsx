@@ -1,10 +1,9 @@
 'use client'
-import { useState } from 'react'
-import { HelpModal, JsonFileInput, JSONValue } from '@components'
+import { HelpModal, JsonFileInput } from '@components'
+import { useStore } from '@hooks'
 
 export default function Page() {
-  const [proof, setProof] = useState<JSONValue | null>(null)
-  const [publicSignals, setPublicSignals] = useState<JSONValue | null>(null)
+  const { proof, publicSignals } = useStore()
   const canVerify = proof !== null && publicSignals !== null
 
   return (
@@ -18,8 +17,8 @@ export default function Page() {
       </div>
 
       <div className='flex flex-row'>
-        <JsonFileInput setData={setProof} title='Proof' />
-        <JsonFileInput setData={setPublicSignals} title='Public Signals' />
+        <JsonFileInput key='proof' title='Proof' />
+        <JsonFileInput key='publicSignals' title='Public Signals' />
       </div>
 
       <button

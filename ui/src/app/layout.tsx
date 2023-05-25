@@ -2,13 +2,13 @@
 import '../globals.css'
 import 'nes.css/css/nes.min.css'
 import 'tailwindcss/tailwind.css'
+import { StoreProvider } from 'easy-peasy'
 import { ReactNode } from 'react'
 import { WagmiConfig } from 'wagmi'
 import config from '#/config'
 import { wagmiConfig } from '#/wagmi'
-import { Layout, Web3Modal } from '@components'
-import { StoreProvider } from 'easy-peasy'
 import { store } from '@/store'
+import { Layout, Web3Modal } from '@components'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

@@ -1,9 +1,10 @@
 'use client'
 import { Screen } from '@components'
-import { useAnonSet } from '@context/anonset'
+import { useStore } from '@hooks'
 
 export default function ProvePage() {
-  const { resetAnonSet: onClick } = useAnonSet()
+  const { resetAnonSet: onClick } = useStore()
+
   return (
     <Screen
       question='Where is your anonset?'

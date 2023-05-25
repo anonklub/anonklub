@@ -1,15 +1,17 @@
-import { ActionCreator, createTypedHooks } from 'easy-peasy'
+import { createTypedHooks } from 'easy-peasy'
 import { StoreModel } from '@/store'
-import { JSONValue } from '@components'
 
 const typedHooks = createTypedHooks<StoreModel>()
 
-export const useStoreState = typedHooks.useStoreState
-const useStoreActions = typedHooks.useStoreActions
+const useStoreState = typedHooks.useStoreState
+export const useStoreActions = typedHooks.useStoreActions
 
-export const useStore = (
-  key: keyof StoreModel,
-): [JSONValue | string[] | null, ActionCreator<string[] | JSONValue>] => [
-  useStoreState((state) => state[key].data),
-  useStoreActions((actions) => actions[key].set),
-]
+export const useStore = () => ({
+  anonSet: useStoreState((state) => state.anonSet.data),
+  proof: useStoreState((state) => state.proof.data),
+  publicSignals: useStoreState((state) => state.publicSignals.data),
+  resetAnonSet: useStoreActions((actions) => actions.anonSet.reset),
+  setAnonSet: useStoreActions((actions) => actions.anonSet.set),
+  setProof: useStoreActions((actions) => actions.proof.set),
+  setPublicSignals: useStoreActions((actions) => actions.publicSignals.set),
+})

@@ -2,13 +2,12 @@
 import { useRef } from 'react'
 import { useProofRequest } from '@/hooks/useProofRequest'
 import { HelpModal, Modal, ScrollableJsonContainer, Star } from '@components'
-import { useAnonSet } from '@context/anonset'
-import { useModal } from '@hooks'
+import { useModal, useStore } from '@hooks'
 
 export function SubmitProofRequest() {
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = useModal(ref)
-  const { anonSet } = useAnonSet()
+  const { anonSet } = useStore()
   const {
     canSign,
     canSubmit,
@@ -29,7 +28,7 @@ export function SubmitProofRequest() {
         />
       </div>
       <div className='flex flex-row justify-evenly'>
-        {anonSet?.length > 0 ? (
+        {anonSet !== null ? (
           <a onClick={open}>
             <Star full={anonSet?.length > 0} text='Anonset' />
             <Modal ref={ref}>
