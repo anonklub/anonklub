@@ -11,11 +11,11 @@ export function SubmitProofRequest() {
   const {
     canSign,
     canSubmit,
+    isSuccess,
     message,
     proofRequest,
-    rawSignature,
     setMessage,
-    setRawSignature,
+    signMessage,
   } = useProofRequest()
 
   return (
@@ -39,7 +39,7 @@ export function SubmitProofRequest() {
           <Star full={false} text='Anonset' />
         )}
         <Star full={message !== ''} text='Message' />
-        <Star full={rawSignature !== ''} text='Signed' />
+        <Star full={isSuccess} text='Signed' />
       </div>
       <div className='flex flex-row items-end justify-evenly'>
         <div className='nes-field'>
@@ -50,7 +50,7 @@ export function SubmitProofRequest() {
             className='nes-input'
             value={message}
             onChange={({ target }) => {
-              setRawSignature('')
+              // setRawSignature('') // covered in useSignMessage side effects? to check
               setMessage(target.value)
             }}
           />
@@ -59,9 +59,7 @@ export function SubmitProofRequest() {
         <button
           type='button'
           className={`nes-btn ${canSign ? 'is-warning' : 'is-disabled'}`}
-          onClick={() => {
-            setRawSignature('0x1234')
-          }}
+          onClick={() => signMessage()}
         >
           Sign
         </button>
