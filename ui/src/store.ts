@@ -4,39 +4,39 @@ import { JSONValue } from '@components'
 export interface StoreModel {
   anonSet: {
     data: string[] | null
-    set: Action<StoreModel, string[]>
-    reset: Action<StoreModel, string[]>
+    set: Action<{ data: string[] | null }, string[]>
+    reset: Action<{ data: string[] | null }, string[]>
   }
   proof: {
     data: JSONValue | null
-    set: Action<StoreModel, JSONValue>
+    set: Action<{ data: JSONValue | null }, JSONValue>
   }
   publicSignals: {
     data: JSONValue | null
-    set: Action<StoreModel, JSONValue>
+    set: Action<{ data: JSONValue | null }, JSONValue>
   }
 }
 
 export const store = createStore<StoreModel>({
   anonSet: {
-    data: null,
+    data: [],
     reset: action((state) => {
-      state.anonSet.data = []
+      state.data = null
     }),
     set: action((state, payload) => {
-      state.anonSet.data = payload
+      state.data = payload
     }),
   },
   proof: {
     data: null,
     set: action((state, payload) => {
-      state.proof.data = payload
+      state.data = payload
     }),
   },
   publicSignals: {
     data: null,
     set: action((state, payload) => {
-      state.publicSignals.data = payload
+      state.data = payload
     }),
   },
 })
