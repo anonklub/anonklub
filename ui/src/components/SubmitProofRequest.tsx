@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import { useRef } from 'react'
 import { modal } from '#'
 import { HelpModal, Modal, ScrollableJsonContainer, Star } from '@components'
@@ -21,16 +22,29 @@ export function SubmitProofRequest() {
   return (
     <div className='flex flex-col space-y-10'>
       <div className='self-end'>
-        <HelpModal
-          content={[
-            'You need to choose a message and sign it with the address you want to prove is part on the anonset. This signature and the anonset are required to build your zk proof.',
-          ]}
-        />
+        {canSubmit ? (
+          <Link href='/prove/submit-request'>
+            <button
+              className='nes-btn is-success'
+              onClick={() => {
+                console.log('proofRequest', proofRequest)
+              }}
+            >
+              {'=>'} Submit Proof Request
+            </button>
+          </Link>
+        ) : (
+          <HelpModal
+            content={[
+              'You need to choose a message and sign it with the address you want to prove is part on the anonset. This signature and the anonset are required to build your zk proof.',
+            ]}
+          />
+        )}
       </div>
       <div className='flex flex-row justify-evenly'>
         {anonSet !== null ? (
           <a onClick={open}>
-            <Star full={anonSet?.length > 0} text='Anonset' />
+            <Star full text='Anonset' />
             <Modal ref={ref}>
               <ScrollableJsonContainer data={anonSet} />
             </Modal>
@@ -64,18 +78,6 @@ export function SubmitProofRequest() {
           Sign
         </button>
       </div>
-
-      <button
-        type='button'
-        className={`nes-btn self-center text-lg ${
-          canSubmit ? 'is-warning' : 'is-disabled'
-        }`}
-        onClick={() => {
-          console.log({ proofRequest })
-        }}
-      >
-        Submit Proof Request
-      </button>
     </div>
   )
 }
