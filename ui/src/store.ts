@@ -1,26 +1,25 @@
-import { action, Action, createStore, StoreProvider } from 'easy-peasy'
-import { FC, ReactNode } from 'react'
+import { action, Action, createStore } from 'easy-peasy'
 import { JSONValue } from '@components'
 
-interface DataModel {
+export interface StoreModel {
   anonSet: {
-    data: string[]
-    set: Action<DataModel, string[]>
-    reset: Action<DataModel, string[]>
+    data: string[] | null
+    set: Action<StoreModel, string[]>
+    reset: Action<StoreModel, string[]>
   }
   proof: {
     data: JSONValue | null
-    set: Action<DataModel, JSONValue>
+    set: Action<StoreModel, JSONValue>
   }
   publicSignals: {
     data: JSONValue | null
-    set: Action<DataModel, JSONValue>
+    set: Action<StoreModel, JSONValue>
   }
 }
 
-export const store = createStore<DataModel>({
+export const store = createStore<StoreModel>({
   anonSet: {
-    data: [],
+    data: null,
     reset: action((state) => {
       state.anonSet.data = []
     }),

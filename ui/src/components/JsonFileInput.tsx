@@ -1,10 +1,9 @@
 'use client'
 import { ArrowUpOnSquareIcon } from '@heroicons/react/20/solid'
-import { ChangeEvent, useRef, useState } from 'react'
-import { readJsonFile } from '#/read-json-file'
-import { Modal, Star } from '@components'
-import { ScrollableJsonContainer } from '@components/ScrollableJsonContainer'
-import { useModal } from '@hooks'
+import { useRef } from 'react'
+import { StoreModel } from '@/store'
+import { Modal, ScrollableJsonContainer, Star } from '@components'
+import { useJsonFile, useModal, useStore } from '@hooks'
 
 export type JSONValue =
   | string
@@ -14,29 +13,20 @@ export type JSONValue =
   | JSONValue[]
 
 export function JsonFileInput({
-  setData,
+  key,
   title,
 }: {
-  setData: (data: JSONValue) => void
+  key: keyof StoreModel
   title: string
 }) {
+  const [data] = useStore(key)
+  const { handleChange } = useJsonFile(key)
   const modalRef = useRef<HTMLDialogElement>(null)
   const { open } = useModal(modalRef)
 
-  const [data, _setData] = useState<JSONValue | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-
   const onClick = () => {
     inputRef.current?.click()
-  }
-
-  const onChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files !== undefined && event.target.files !== null) {
-      const parsedData = await readJsonFile(event.target.files[0])
-
-      _setData(parsedData)
-      setData(parsedData)
-    }
   }
 
   return (
@@ -54,7 +44,7 @@ export function JsonFileInput({
           <input
             type='file'
             accept='.json,application/json'
-            onChange={onChange}
+            onChange={handleChange}
             className='hidden'
             ref={inputRef}
           />
