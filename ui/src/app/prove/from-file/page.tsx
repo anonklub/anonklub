@@ -1,11 +1,10 @@
 'use client'
 import Link from 'next/link'
-import { HelpModal } from '@components'
-import { AnonSetFileInput } from '@components/AnonSetFileInput'
-import { useAnonSet } from '@context/anonset'
+import { HelpModal, JsonFileInput } from '@components'
+import { useStore } from '@hooks'
 
 export default function Page() {
-  const { anonSet } = useAnonSet()
+  const { anonSet } = useStore()
 
   return (
     <div className='center flex flex-col space-y-4'>
@@ -15,13 +14,13 @@ export default function Page() {
             'Upload a json file that contains an array of ethereum addresses as hex strings that represent your anon set.',
           ]}
         />
-        {anonSet.length > 0 && (
+        {anonSet !== null && (
           <Link href='/prove/submit-request'>
             <button className='nes-btn is-success'>{'=>'} Submit Proof</button>
           </Link>
         )}
       </div>
-      <AnonSetFileInput />
+      <JsonFileInput dataKey='anonSet' title='Anonset' />
     </div>
   )
 }

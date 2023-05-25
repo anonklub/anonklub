@@ -2,14 +2,13 @@
 import { useState } from 'react'
 import config from '#/config'
 import { getData } from '#/get-data'
-import { useAsync } from '@/hooks'
 import { AnonSetResults, HelpModal, Loader } from '@components'
-import { useAnonSet } from '@context/anonset'
+import { useAsync, useStore } from '@hooks'
 
 export default function Page() {
   const [min, setMin] = useState<number>(0)
   const [tokenAddress, setTokenAddress] = useState<string>('')
-  const { anonSet, setAnonSet } = useAnonSet()
+  const { anonSet, setAnonSet } = useStore()
   const { error, execute, isLoading } = useAsync(async () => {
     if (tokenAddress !== '' && min > 0) {
       const data = await getData<string[]>(
@@ -22,7 +21,7 @@ export default function Page() {
 
   if (isLoading) return <Loader />
   if (error instanceof Error) return <span>Error: {error.message}</span>
-  if (anonSet.length > 0)
+  if (anonSet !== null)
     return <AnonSetResults anonSet={anonSet} title='ERC20 Balance' />
 
   return (

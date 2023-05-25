@@ -1,9 +1,9 @@
 'use client'
 import { Screen } from '@components'
-import { useAnonSet } from '@context/anonset'
+import { useStore } from '@hooks'
 
 export default function ChooseAnonSetTypePage() {
-  const { resetAnonSet } = useAnonSet()
+  const { resetAnonSet: onClick } = useStore()
 
   return (
     <Screen
@@ -17,18 +17,18 @@ export default function ChooseAnonSetTypePage() {
       buttons={[
         {
           href: '/query/cryptopunk',
-          onClick: resetAnonSet,
+          onClick,
           text: 'Cryptopunk',
         },
-        { href: '/query/ens', onClick: resetAnonSet, text: 'ENS Voters' },
+        { href: '/query/ens', onClick, text: 'ENS Voters' },
         {
           href: '/query/eth-balance',
-          onClick: resetAnonSet,
+          onClick,
           text: 'ETH balance',
         },
         {
           href: '/query/erc20-balance',
-          onClick: resetAnonSet,
+          onClick,
           text: 'ERC20 balance',
         },
       ]}

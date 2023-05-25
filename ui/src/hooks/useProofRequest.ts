@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react'
 import config from '#/config'
 import { ProofRequest } from '@anonset/membership'
-import { useAnonSet } from '@context/anonset'
+import { useStore } from './useStore'
 
 export const useProofRequest = () => {
-  const { anonSet } = useAnonSet()
+  const { anonSet } = useStore()
   const [message, setMessage] = useState('')
   const [rawSignature, setRawSignature] = useState('')
   const [proofRequest, setProofRequest] = useState<ProofRequest | null>(null)
 
   const canSign = message !== '' && rawSignature === ''
-  const canSubmit = rawSignature !== '' && anonSet?.length > 0
+  const canSubmit = rawSignature !== '' && anonSet !== null
 
   useEffect(() => {
     if (message === '' || rawSignature === '' || anonSet?.length === 0) return
 
     setProofRequest(
       new ProofRequest({
-        addresses: anonSet,
+        addresses: anonSet as string[],
         message,
         rawSignature,
         url: config.urls.proveApi,
