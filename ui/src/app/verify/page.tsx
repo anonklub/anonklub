@@ -17,8 +17,8 @@ export default function Page() {
       </div>
 
       <div className='flex flex-row'>
-        <JsonFileInput key='proof' title='Proof' />
-        <JsonFileInput key='publicSignals' title='Public Signals' />
+        <JsonFileInput dataKey='proof' title='Proof' />
+        <JsonFileInput dataKey='publicSignals' title='Public Signals' />
       </div>
 
       <button

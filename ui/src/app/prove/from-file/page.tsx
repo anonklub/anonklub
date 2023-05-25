@@ -20,7 +20,7 @@ export default function Page() {
           </Link>
         )}
       </div>
-      <JsonFileInput key='anonSet' title='Anonset' />
+      <JsonFileInput dataKey='anonSet' title='Anonset' />
     </div>
   )
 }

@@ -13,14 +13,14 @@ export type JSONValue =
   | JSONValue[]
 
 export function JsonFileInput({
-  key,
+  dataKey,
   title,
 }: {
-  key: keyof StoreModel
+  dataKey: keyof StoreModel
   title: string
 }) {
-  const { [key]: data } = useStore()
-  const { handleChange } = useJsonFile(key)
+  const { [dataKey]: data } = useStore()
+  const { handleChange } = useJsonFile(dataKey)
   const modalRef = useRef<HTMLDialogElement>(null)
   const { open } = useModal(modalRef)
 
