@@ -3,7 +3,8 @@ import { ArrowUpOnSquareIcon } from '@heroicons/react/20/solid'
 import { useRef } from 'react'
 import { StoreModel } from '@/store'
 import { Modal, ScrollableJsonContainer, Star } from '@components'
-import { useJsonFile, useModal, useStore } from '@hooks'
+import { useJsonFile, useStore } from '@hooks'
+import { modal } from '#/modal'
 
 export type JSONValue =
   | string
@@ -22,7 +23,7 @@ export function JsonFileInput({
   const { [dataKey]: data } = useStore()
   const { handleChange } = useJsonFile(dataKey)
   const modalRef = useRef<HTMLDialogElement>(null)
-  const { open } = useModal(modalRef)
+  const { open } = modal(modalRef)
 
   const inputRef = useRef<HTMLInputElement>(null)
   const onClick = () => {

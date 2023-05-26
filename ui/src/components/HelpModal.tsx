@@ -1,7 +1,7 @@
 'use client'
 import { useRef } from 'react'
+import { modal } from '#/modal'
 import { Modal, Text } from '@components'
-import { useModal } from '@hooks'
 
 export const HelpModal = ({
   className = 'nes-btn is-warning',
@@ -11,7 +11,7 @@ export const HelpModal = ({
   content: string[]
 }) => {
   const ref = useRef<HTMLDialogElement>(null)
-  const { open } = useModal(ref)
+  const { open } = modal(ref)
 
   return (
     <div>
