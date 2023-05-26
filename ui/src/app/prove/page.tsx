@@ -1,10 +1,7 @@
 'use client'
 import { Screen } from '@components'
-import { useStore } from '@hooks'
 
-export default function ProvePage() {
-  const { resetAnonSet: onClick } = useStore()
-
+export default function Page() {
   return (
     <Screen
       question='Where is your anonset?'
@@ -15,7 +12,7 @@ export default function ProvePage() {
       ]}
       buttons={[
         { href: '/prove/from-on-chain', text: 'On chain' },
-        { href: '/prove/from-file', onClick, text: 'On a file' },
+        { href: '/prove/from-file', text: 'On a file' },
       ]}
     />
   )

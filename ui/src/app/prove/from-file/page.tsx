@@ -1,11 +1,13 @@
 'use client'
 import Link from 'next/link'
 import { HelpModal, JsonFileInput } from '@components'
-import { useStore } from '@hooks'
+import { useResetAnonSet, useStore } from '@hooks'
 
 export default function Page() {
+  useResetAnonSet()
   const { anonSet } = useStore()
 
+  // TODO hide help button when anonSet is not null
   return (
     <div className='center flex flex-col space-y-4'>
       <div className='flex flex-col items-end space-y-4'>
