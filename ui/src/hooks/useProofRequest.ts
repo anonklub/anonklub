@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useSignMessage } from 'wagmi'
+import { useAccount, useSignMessage } from 'wagmi'
 import { config } from '#'
 import { ProofRequest } from '@anonset/membership'
 import { useStore } from './useStore'
 
 export const useProofRequest = () => {
+  const { isConnected } = useAccount()
   const { anonSet } = useStore()
   const [message, setMessage] = useState('')
   const {
@@ -17,19 +18,17 @@ export const useProofRequest = () => {
   } = useSignMessage({
     message,
   })
+  const [proofRequest, setProofRequest] = useState<ProofRequest | null>(null)
 
   useEffect(() => {
     reset()
   }, [message, reset])
 
-  const [proofRequest, setProofRequest] = useState<ProofRequest | null>(null)
-
-  const canSign = message !== '' && rawSignature === undefined
+  const canSign = message !== '' && rawSignature === undefined && isConnected
   const canSubmit = isSuccess && anonSet !== null
 
   useEffect(() => {
-    if (message === '' || rawSignature === undefined || anonSet === null)
-      return
+    if (message === '' || rawSignature === undefined || anonSet === null) return
 
     setProofRequest(
       new ProofRequest({

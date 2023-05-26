@@ -64,7 +64,6 @@ export function SubmitProofRequest() {
             className='nes-input'
             value={message}
             onChange={({ target }) => {
-              // setRawSignature('') // covered in useSignMessage side effects? to check
               setMessage(target.value)
             }}
           />
