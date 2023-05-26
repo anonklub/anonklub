@@ -5,5 +5,6 @@
 export * from './useAsync'
 export * from './useJsonFile'
 export * from './useProofRequest'
+export * from './useProofResult'
 export * from './useResetAnonSet'
 export * from './useStore'

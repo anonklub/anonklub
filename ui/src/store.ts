@@ -1,5 +1,6 @@
 import { action, Action, createStore } from 'easy-peasy'
 import { JSONValue } from '@components'
+import { ProofRequest } from '@anonset/membership'
 
 export interface StoreModel {
   anonSet: {
@@ -10,6 +11,10 @@ export interface StoreModel {
   proof: {
     data: JSONValue | null
     set: Action<{ data: JSONValue | null }, JSONValue>
+  }
+  proofRequest: {
+    data: ProofRequest | null
+    set: Action<{ data: ProofRequest | null }, ProofRequest>
   }
   publicSignals: {
     data: JSONValue | null
@@ -28,6 +33,12 @@ export const store = createStore<StoreModel>({
     }),
   },
   proof: {
+    data: null,
+    set: action((state, payload) => {
+      state.data = payload
+    }),
+  },
+  proofRequest: {
     data: null,
     set: action((state, payload) => {
       state.data = payload

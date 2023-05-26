@@ -6,7 +6,7 @@ import { useStore } from './useStore'
 
 export const useProofRequest = () => {
   const { isConnected } = useAccount()
-  const { anonSet } = useStore()
+  const { anonSet, proofRequest, setProofRequest } = useStore()
   const [message, setMessage] = useState('')
   const {
     data: rawSignature,
@@ -18,14 +18,13 @@ export const useProofRequest = () => {
   } = useSignMessage({
     message,
   })
-  const [proofRequest, setProofRequest] = useState<ProofRequest | null>(null)
 
   useEffect(() => {
     reset()
   }, [message, reset])
 
   const canSign = message !== '' && rawSignature === undefined && isConnected
-  const canSubmit = isSuccess && anonSet !== null
+  const canSubmit = isSuccess && anonSet !== null && proofRequest !== null
 
   useEffect(() => {
     if (message === '' || rawSignature === undefined || anonSet === null) return
@@ -47,7 +46,6 @@ export const useProofRequest = () => {
     isLoading,
     isSuccess,
     message,
-    proofRequest,
     rawSignature,
     setMessage,
     signMessage,
