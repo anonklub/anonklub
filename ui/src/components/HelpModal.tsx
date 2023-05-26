@@ -1,6 +1,6 @@
 'use client'
 import { useRef } from 'react'
-import { modal } from '#/modal'
+import { modal } from '#'
 import { Modal, Text } from '@components'
 
 export const HelpModal = ({

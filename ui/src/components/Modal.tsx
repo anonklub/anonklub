@@ -1,6 +1,6 @@
 'use client'
 import { forwardRef, ReactNode, RefObject } from 'react'
-import { modal } from '#/modal'
+import { modal } from '#'
 
 const Modal = forwardRef(
   (

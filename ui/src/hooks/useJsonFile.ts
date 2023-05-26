@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react'
-import { readJsonFile } from '#/read-json-file'
+import { readJsonFile } from '#'
 import { StoreModel } from '@/store'
 import { useStoreActions } from '@hooks'
 

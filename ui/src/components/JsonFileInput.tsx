@@ -1,10 +1,10 @@
 'use client'
 import { ArrowUpOnSquareIcon } from '@heroicons/react/20/solid'
 import { useRef } from 'react'
+import { modal } from '#'
 import { StoreModel } from '@/store'
 import { Modal, ScrollableJsonContainer, Star } from '@components'
 import { useJsonFile, useStore } from '@hooks'
-import { modal } from '#/modal'
 
 export type JSONValue =
   | string
