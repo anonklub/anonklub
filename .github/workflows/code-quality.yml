@@ -42,6 +42,7 @@ jobs:
       - name: Build # built @anonset/membership is always required to get its types
         env:
           GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }}
+          NEXT_PUBLIC_NODE_ENV: test
         run: lerna run build
 
       - name: Validate (Lint, Format, Typecheck)
