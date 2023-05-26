@@ -5,7 +5,7 @@ export interface StoreModel {
   anonSet: {
     data: string[] | null
     set: Action<{ data: string[] | null }, string[]>
-    reset: Action<{ data: string[] | null }, string[]>
+    reset: Action<{ data: string[] | null }>
   }
   proof: {
     data: JSONValue | null
@@ -19,7 +19,7 @@ export interface StoreModel {
 
 export const store = createStore<StoreModel>({
   anonSet: {
-    data: [],
+    data: null,
     reset: action((state) => {
       state.data = null
     }),
