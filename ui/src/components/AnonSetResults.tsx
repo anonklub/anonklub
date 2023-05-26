@@ -24,7 +24,7 @@ export function AnonSetResults({
           <h2>{title} Anonset</h2>
           <h3 className='nes-text is-success'>Results</h3>
         </div>
-        <Link href='/prove/submit-request'>
+        <Link href='/prove/submit'>
           <button className='nes-btn is-success'>
             {NAVIGATION.PREPARE_PROOF_REQUEST}
           </button>

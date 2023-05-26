@@ -11,8 +11,8 @@ export default function ProvePage() {
         "On a file: you'll need to upload a json file containing a list of addresses you collected yourself beforehand.",
       ]}
       buttons={[
-        { href: '/prove/from-on-chain', text: 'On chain' },
-        { href: '/prove/from-file', text: 'On a file' },
+        { href: '/prove/prepare/from-on-chain', text: 'On chain' },
+        { href: '/prove/prepare/from-file', text: 'On a file' },
       ]}
     />
   )
