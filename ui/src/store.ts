@@ -5,7 +5,7 @@ export interface StoreModel {
   anonSet: {
     data: string[] | null
     set: Action<{ data: string[] | null }, string[]>
-    reset: Action<{ data: string[] | null }, string[]>
+    reset: Action<{ data: string[] | null }>
   }
   proof: {
     data: JSONValue | null

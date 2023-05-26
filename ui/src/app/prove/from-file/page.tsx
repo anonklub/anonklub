@@ -1,9 +1,10 @@
 'use client'
 import Link from 'next/link'
 import { HelpModal, JsonFileInput } from '@components'
-import { useStore } from '@hooks'
+import { useResetAnonSet, useStore } from '@hooks'
 
 export default function Page() {
+  useResetAnonSet()
   const { anonSet } = useStore()
 
   return (
