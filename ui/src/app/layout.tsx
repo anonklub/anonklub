@@ -2,12 +2,12 @@
 import '../globals.css'
 import 'nes.css/css/nes.min.css'
 import 'tailwindcss/tailwind.css'
+import { StoreProvider } from 'easy-peasy'
 import { ReactNode } from 'react'
 import { WagmiConfig } from 'wagmi'
-import config from '#/config'
-import { wagmiConfig } from '#/wagmi'
+import { config, wagmiConfig } from '#'
+import { store } from '@/store'
 import { Layout, Web3Modal } from '@components'
-import { AnonSetProvider } from '@context/anonset'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -17,9 +17,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className='m-3'>
         <WagmiConfig config={wagmiConfig}>
-          <AnonSetProvider>
+          <StoreProvider store={store}>
             <Layout>{children}</Layout>
-          </AnonSetProvider>
+          </StoreProvider>
         </WagmiConfig>
         <Web3Modal />
       </body>

@@ -28,7 +28,7 @@ if (proveApiUrl === undefined) throw new Error('PROVE_API_URL is not set')
 const queryApiUrl = process.env.NEXT_PUBLIC_QUERY_API_URL
 if (queryApiUrl === undefined) throw new Error('QUERY_API_URL is not set')
 
-const config: Config = {
+export const config: Config = {
   appTitle: 'Anonklub',
   chains: [sepolia],
   urls: {
@@ -38,5 +38,3 @@ const config: Config = {
   },
   walletConnectProjectId,
 }
-
-export default config
