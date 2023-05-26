@@ -7,19 +7,19 @@ export default function Page() {
   useResetAnonSet()
   const { anonSet } = useStore()
 
-  // TODO hide help button when anonSet is not null
   return (
     <div className='center flex flex-col space-y-4'>
       <div className='flex flex-col items-end space-y-4'>
-        <HelpModal
-          content={[
-            'Upload a json file that contains an array of ethereum addresses as hex strings that represent your anon set.',
-          ]}
-        />
-        {anonSet !== null && (
+        {anonSet !== null ? (
           <Link href='/prove/submit-request'>
             <button className='nes-btn is-success'>{'=>'} Submit Proof</button>
           </Link>
+        ) : (
+          <HelpModal
+            content={[
+              'Upload a json file that contains an array of ethereum addresses as hex strings that represent your anon set.',
+            ]}
+          />
         )}
       </div>
       <JsonFileInput dataKey='anonSet' title='Anonset' />
