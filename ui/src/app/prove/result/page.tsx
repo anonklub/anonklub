@@ -1,11 +1,11 @@
 'use client'
+import Link from 'next/link'
 import { Loader } from '@components'
 import { useProofResult } from '@hooks'
-import Link from 'next/link'
 
 export default function Page() {
   const { jobId, loading } = useProofResult()
-  return (loading as boolean) && jobId !== null ? (
+  return loading && jobId !== null ? (
     <Loader />
   ) : (
     <div className='justify center flex flex-col space-y-10'>
@@ -19,16 +19,16 @@ export default function Page() {
           <span>
             Check your results later at
             <div className='nes-text is-success flex flex-col'>
-              <Link href={`/proofs/${jobId as string}/input.json`}>
+              <Link href={`/proofs/${jobId}/input.json`}>
                 /proofs/{jobId}/input.json
               </Link>
-              <Link href={`/proofs/${jobId as string}/proof.json`}>
+              <Link href={`/proofs/${jobId}/proof.json`}>
                 /proofs/{jobId}/proof.json
               </Link>
-              <Link href={`/proofs/${jobId as string}/public.json`}>
+              <Link href={`/proofs/${jobId}/public.json`}>
                 /proofs/{jobId}/public.json
               </Link>
-              <Link href={`/proofs/${jobId as string}/witness.wtns`}>
+              <Link href={`/proofs/${jobId}/witness.wtns`}>
                 /proofs/{jobId}/witness.wtns
               </Link>
             </div>

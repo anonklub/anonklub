@@ -1,6 +1,6 @@
 import { action, Action, createStore } from 'easy-peasy'
-import { JSONValue } from '@components'
 import { ProofRequest } from '@anonset/membership'
+import { JSONValue } from '@components'
 
 export interface StoreModel {
   anonSet: {
