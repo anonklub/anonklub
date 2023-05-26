@@ -1,12 +1,13 @@
 'use client'
 import { useRef } from 'react'
+import { modal } from '#'
 import { useProofRequest } from '@/hooks/useProofRequest'
 import { HelpModal, Modal, ScrollableJsonContainer, Star } from '@components'
-import { useModal, useStore } from '@hooks'
+import { useStore } from '@hooks'
 
 export function SubmitProofRequest() {
   const ref = useRef<HTMLDialogElement>(null)
-  const { open } = useModal(ref)
+  const { open } = modal(ref)
   const { anonSet } = useStore()
   const {
     canSign,
