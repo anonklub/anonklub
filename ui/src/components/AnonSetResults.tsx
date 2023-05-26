@@ -1,19 +1,20 @@
 'use client'
 import Link from 'next/link'
 import { useEffect } from 'react'
-import { ScrollableJsonContainer } from '@components'
-import { useAnonSet } from '@context/anonset'
+import { NAVIGATION } from '#'
+import { JSONValue, ScrollableJsonContainer } from '@components'
+import { useStore } from '@hooks'
 
 export function AnonSetResults({
   anonSet,
   title,
 }: {
-  anonSet: string[]
+  anonSet: JSONValue
   title: string
 }) {
-  const { setAnonSet } = useAnonSet()
+  const { setAnonSet } = useStore()
   useEffect(() => {
-    setAnonSet(anonSet)
+    setAnonSet(anonSet as string[])
   }, [setAnonSet, anonSet])
 
   return (
@@ -24,7 +25,9 @@ export function AnonSetResults({
           <h3 className='nes-text is-success'>Results</h3>
         </div>
         <Link href='/prove/submit-request'>
-          <button className='nes-btn is-success'>{'=>'} Submit Proof</button>
+          <button className='nes-btn is-success'>
+            {NAVIGATION.PREPARE_PROOF_REQUEST}
+          </button>
         </Link>
       </div>
       <ScrollableJsonContainer data={anonSet} />

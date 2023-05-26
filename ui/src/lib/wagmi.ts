@@ -1,6 +1,6 @@
 import { w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { configureChains, createConfig } from 'wagmi'
-import config from '#/config'
+import { config } from './config'
 
 const { chains, walletConnectProjectId: projectId } = config
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])

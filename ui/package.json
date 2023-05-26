@@ -10,6 +10,7 @@
     "@web3modal/ethereum": "^2.4.1",
     "@web3modal/react": "^2.4.1",
     "autoprefixer": "^10.4.14",
+    "easy-peasy": "^6.0.0",
     "nes.css": "^2.3.0",
     "next": "^13.4.3",
     "postcss": "^8.4.23",

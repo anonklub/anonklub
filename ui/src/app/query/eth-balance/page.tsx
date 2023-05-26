@@ -1,14 +1,12 @@
 'use client'
 import { useState } from 'react'
-import config from '#/config'
-import { getData } from '#/get-data'
-import { useAsync } from '@/hooks'
+import { config, getData } from '#'
 import { AnonSetResults, HelpModal, Loader } from '@components'
-import { useAnonSet } from '@context/anonset'
+import { useAsync, useStore } from '@hooks'
 
 export default function Page() {
   const [min, setMin] = useState<number>(100)
-  const { anonSet, setAnonSet } = useAnonSet()
+  const { anonSet, setAnonSet } = useStore()
   const { error, execute, isLoading } = useAsync(async () => {
     const data = await getData<string[]>(
       `${config.urls.queryApi}/balance/ETH?min=${min}`,
@@ -18,7 +16,7 @@ export default function Page() {
 
   if (isLoading) return <Loader />
   if (error instanceof Error) return <span>Error: {error.message}</span>
-  if (anonSet.length > 0)
+  if (anonSet !== null)
     return <AnonSetResults anonSet={anonSet} title='ETH Balance' />
 
   return (

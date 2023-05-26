@@ -1,13 +1,13 @@
 'use client'
 import { forwardRef, ReactNode, RefObject } from 'react'
-import { useModal } from '@hooks'
+import { modal } from '#'
 
 const Modal = forwardRef(
   (
     { children }: { children: ReactNode },
     ref: RefObject<HTMLDialogElement>,
   ) => {
-    const { close } = useModal(ref)
+    const { close } = modal(ref)
 
     return (
       <section>
