@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useEffect } from 'react'
+import { NAVIGATION } from '#'
 import { JSONValue, ScrollableJsonContainer } from '@components'
 import { useStore } from '@hooks'
 
@@ -24,7 +25,9 @@ export function AnonSetResults({
           <h3 className='nes-text is-success'>Results</h3>
         </div>
         <Link href='/prove/submit-request'>
-          <button className='nes-btn is-success'>{'=>'} Submit Proof</button>
+          <button className='nes-btn is-success'>
+            {NAVIGATION.PREPARE_PROOF_REQUEST}
+          </button>
         </Link>
       </div>
       <ScrollableJsonContainer data={anonSet} />

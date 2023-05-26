@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import { NAVIGATION } from '#'
 import { HelpModal, JsonFileInput } from '@components'
 import { useResetAnonSet, useStore } from '@hooks'
 
@@ -12,7 +13,9 @@ export default function Page() {
       <div className='flex flex-col items-end space-y-4'>
         {anonSet !== null ? (
           <Link href='/prove/submit-request'>
-            <button className='nes-btn is-success'>{'=>'} Submit Proof</button>
+            <button className='nes-btn is-success'>
+              {NAVIGATION.PREPARE_PROOF_REQUEST}
+            </button>
           </Link>
         ) : (
           <HelpModal
