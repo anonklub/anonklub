@@ -3,6 +3,10 @@ import { readJsonFile } from '#/read-json-file'
 import { StoreModel } from '@/store'
 import { useStoreActions } from '@hooks'
 
+/**
+ * Hook to read a JSON file and set the data in the store.
+ * @param key from 'anonSet', 'proof', 'publicSignals'
+ */
 export const useJsonFile = (key: keyof StoreModel) => {
   const setData = useStoreActions((actions) => actions[key].set)
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {

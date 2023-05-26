@@ -6,6 +6,9 @@ const typedHooks = createTypedHooks<StoreModel>()
 const useStoreState = typedHooks.useStoreState
 export const useStoreActions = typedHooks.useStoreActions
 
+/**
+ * Typed hooks for the global store.
+ */
 export const useStore = () => ({
   anonSet: useStoreState((state) => state.anonSet.data),
   proof: useStoreState((state) => state.proof.data),
