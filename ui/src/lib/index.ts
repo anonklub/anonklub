@@ -3,6 +3,7 @@
  */
 
 export * from './config'
+export * from './constants'
 export * from './ethereum-client'
 export * from './get-data'
 export * from './modal'
