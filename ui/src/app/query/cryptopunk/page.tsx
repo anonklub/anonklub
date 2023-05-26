@@ -1,5 +1,4 @@
-import config from '#/config'
-import { getData } from '#/get-data'
+import { config, getData } from '#'
 import { AnonSetResults } from '@components/AnonSetResults'
 
 export default async function Page() {

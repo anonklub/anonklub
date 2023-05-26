@@ -39,4 +39,4 @@ const config: Config = {
   walletConnectProjectId,
 }
 
-export default config
+export { config }

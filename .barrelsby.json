@@ -6,7 +6,8 @@
     "apis/query/src/api/repositories",
     "demo/src/cli/prompts",
     "ui/src/components",
-    "ui/src/hooks"
+    "ui/src/hooks",
+    "ui/src/lib"
   ],
   "delete": true,
   "noSemicolon": true,

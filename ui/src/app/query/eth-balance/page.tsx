@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
-import config from '#/config'
-import { getData } from '#/get-data'
+import { config, getData } from '#'
 import { AnonSetResults, HelpModal, Loader } from '@components'
 import { useAsync, useStore } from '@hooks'
 
