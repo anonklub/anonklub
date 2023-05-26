@@ -4,13 +4,13 @@ import { Loader } from '@components'
 import { useProofResult } from '@hooks'
 
 export default function Page() {
-  const { jobId, loading } = useProofResult()
-  return loading && jobId !== null ? (
+  const { isLoading, jobId } = useProofResult()
+  return isLoading && jobId !== null ? (
     <Loader />
   ) : (
     <div className='justify center flex flex-col space-y-10'>
       <h2 className='self-start'>Proof Results</h2>
-      {jobId !== null && (
+      {jobId !== null && typeof jobId === 'string' && (
         <>
           <span>
             Proof Generation Job <strong>{jobId}</strong> added to queue. It
