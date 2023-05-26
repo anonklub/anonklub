@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useRef } from 'react'
-import { modal } from '#'
+import { modal, NAVIGATION } from '#'
 import { HelpModal, Modal, ScrollableJsonContainer, Star } from '@components'
 import { useProofRequest, useStore } from '@hooks'
 
@@ -9,28 +9,16 @@ export function SubmitProofRequest() {
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = modal(ref)
   const { anonSet } = useStore()
-  const {
-    canSign,
-    canSubmit,
-    isSuccess,
-    message,
-    proofRequest,
-    setMessage,
-    signMessage,
-  } = useProofRequest()
+  const { canSign, canSubmit, isSuccess, message, setMessage, signMessage } =
+    useProofRequest()
 
   return (
     <div className='flex flex-col space-y-10'>
       <div className='self-end'>
         {canSubmit ? (
-          <Link href='/prove/submit-request'>
-            <button
-              className='nes-btn is-success'
-              onClick={() => {
-                console.log('proofRequest', proofRequest)
-              }}
-            >
-              {'=>'} Submit Proof Request
+          <Link href='/prove/result'>
+            <button className='nes-btn is-success'>
+              {NAVIGATION.SUBMIT_PROOF}
             </button>
           </Link>
         ) : (
