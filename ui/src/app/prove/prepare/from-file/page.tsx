@@ -12,7 +12,7 @@ export default function Page() {
     <div className='center flex flex-col space-y-4'>
       <div className='flex flex-col items-end space-y-4'>
         {anonSet !== null ? (
-          <Link href='/prove/submit-request'>
+          <Link href='/prove/submit'>
             <button className='nes-btn is-success'>
               {NAVIGATION.PREPARE_PROOF_REQUEST}
             </button>

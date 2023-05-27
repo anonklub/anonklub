@@ -1,6 +1,7 @@
 'use client'
+import Link from 'next/link'
 import { useRef } from 'react'
-import { modal } from '#'
+import { modal, NAVIGATION } from '#'
 import { HelpModal, Modal, ScrollableJsonContainer, Star } from '@components'
 import { useProofRequest, useStore } from '@hooks'
 
@@ -8,29 +9,30 @@ export function SubmitProofRequest() {
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = modal(ref)
   const { anonSet } = useStore()
-  const {
-    canSign,
-    canSubmit,
-    message,
-    proofRequest,
-    rawSignature,
-    setMessage,
-    setRawSignature,
-  } = useProofRequest()
+  const { canSign, canSubmit, isSuccess, message, setMessage, signMessage } =
+    useProofRequest()
 
   return (
     <div className='flex flex-col space-y-10'>
       <div className='self-end'>
-        <HelpModal
-          content={[
-            'You need to choose a message and sign it with the address you want to prove is part on the anonset. This signature and the anonset are required to build your zk proof.',
-          ]}
-        />
+        {canSubmit ? (
+          <Link href='/prove/result'>
+            <button className='nes-btn is-success'>
+              {NAVIGATION.SUBMIT_PROOF}
+            </button>
+          </Link>
+        ) : (
+          <HelpModal
+            content={[
+              'You need to choose a message and sign it with the address you want to prove is part on the anonset. This signature and the anonset are required to build your zk proof.',
+            ]}
+          />
+        )}
       </div>
       <div className='flex flex-row justify-evenly'>
         {anonSet !== null ? (
           <a onClick={open}>
-            <Star full={anonSet?.length > 0} text='Anonset' />
+            <Star full text='Anonset' />
             <Modal ref={ref}>
               <ScrollableJsonContainer data={anonSet} />
             </Modal>
@@ -39,7 +41,7 @@ export function SubmitProofRequest() {
           <Star full={false} text='Anonset' />
         )}
         <Star full={message !== ''} text='Message' />
-        <Star full={rawSignature !== ''} text='Signed' />
+        <Star full={isSuccess} text='Signed' />
       </div>
       <div className='flex flex-row items-end justify-evenly'>
         <div className='nes-field'>
@@ -50,7 +52,6 @@ export function SubmitProofRequest() {
             className='nes-input'
             value={message}
             onChange={({ target }) => {
-              setRawSignature('')
               setMessage(target.value)
             }}
           />
@@ -59,25 +60,11 @@ export function SubmitProofRequest() {
         <button
           type='button'
           className={`nes-btn ${canSign ? 'is-warning' : 'is-disabled'}`}
-          onClick={() => {
-            setRawSignature('0x1234')
-          }}
+          onClick={() => signMessage()}
         >
           Sign
         </button>
       </div>
-
-      <button
-        type='button'
-        className={`nes-btn self-center text-lg ${
-          canSubmit ? 'is-warning' : 'is-disabled'
-        }`}
-        onClick={() => {
-          console.log({ proofRequest })
-        }}
-      >
-        Submit Proof Request
-      </button>
     </div>
   )
 }

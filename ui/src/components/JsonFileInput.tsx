@@ -2,7 +2,6 @@
 import { ArrowUpOnSquareIcon } from '@heroicons/react/20/solid'
 import { useRef } from 'react'
 import { modal } from '#'
-import { StoreModel } from '@/store'
 import { Modal, ScrollableJsonContainer, Star } from '@components'
 import { useJsonFile, useStore } from '@hooks'
 
@@ -17,7 +16,7 @@ export function JsonFileInput({
   dataKey,
   title,
 }: {
-  dataKey: keyof StoreModel
+  dataKey: 'proof' | 'anonSet' | 'publicSignals'
   title: string
 }) {
   const { [dataKey]: data } = useStore()
