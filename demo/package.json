@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "dev": "tsnd --cls --exit-child --ignore-watch node_modules --quiet  --respawn --rs --transpile-only src/index.ts",
-    "start": "tsnd --cls --exit-child src/index.ts"
+    "lint.check": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
+    "format.check": "prettier --ignore-path $(find-up .prettierignore) -c .",
+    "start": "tsnd --cls --exit-child src/index.ts",
+    "validate": "concurrently 'tsc' 'eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)' 'prettier --ignore-path $(find-up .prettierignore) -c .'"
   },
   "keywords": [],
   "author": "3pwd <me@3pwd.xyz>",

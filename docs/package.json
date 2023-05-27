@@ -6,13 +6,16 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
+    "lint.check": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
+    "format.check": "prettier --ignore-path $(find-up .prettierignore) -c .",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "validate": "concurrently 'pnpm run build' 'eslint . --ext .js,.ts,.tsx --ignore-path $(find-up .eslintignore)' 'prettier --ignore-path $(find-up .prettierignore) -c .'"
   },
   "dependencies": {
     "@docusaurus/core": "2.3.1",

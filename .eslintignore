@@ -13,7 +13,7 @@ coverage
 # JetBrains IDE
 .idea
 
-docs/docusaurus.config.js
+docusaurus.config.js
 .docusaurus
 
 
