@@ -14,8 +14,8 @@
     "next": "^13.4.3",
     "postcss": "^8.4.23",
     "react": "18.2.0",
-    "shared": "workspace:^",
     "react-dom": "18.2.0",
+    "shared": "workspace:^",
     "swr": "^2.1.5",
     "tailwindcss": "^3.3.2",
     "viem": "0.3.27",
@@ -41,6 +41,7 @@
     "net": false
   },
   "peerDependencies": {
+    "@wagmi/core": "1.0.5",
     "lokijs": "^1.5.12",
     "pino-pretty": "^10.0.0"
   }
