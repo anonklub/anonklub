@@ -1,0 +1,24 @@
+name: Static Analysis prove-api
+on:
+  pull_request:
+    paths:
+      [
+        'apis/prove/**',
+        '!apis/prove/Dockerfile',
+        '!apis/prove/docker-compose.yml',
+        '!apis/prove/.dockerignore',
+      ]
+  push:
+    paths:
+      [
+        'apis/prove/**',
+        '!apis/prove/Dockerfile',
+        '!apis/prove/docker-compose.yml',
+        '!apis/prove/.dockerignore',
+      ]
+jobs:
+  validate:
+    uses: ./.github/workflows/static-analysis.yml
+    with:
+      packages: 'prove-api'
+    secrets: inherit

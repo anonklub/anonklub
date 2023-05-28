@@ -8,7 +8,7 @@ parserOptions:
       'circuits/circom/tsconfig.json',
       'demo/tsconfig.json',
       'docs/tsconfig.json',
-      'membership/tsconfig.json',
+      'shared/tsconfig.json',
       'ui/tsconfig.json',
     ]
 
@@ -16,7 +16,7 @@ rules:
   no-useless-constructor: off
 
 overrides:
-  - files: ['membership/test/ProofRequest.test.ts']
+  - files: ['shared/test/ProofRequest.test.ts']
     rules:
       '@typescript-eslint/dot-notation': off
   - files: ['apis/prove/src/mq/queue.ts']
@@ -27,8 +27,8 @@ overrides:
         'demo/src/cli/index.ts',
         'apis/prove/src/mq/processor.ts',
         'apis/prove/src/mq/worker.ts',
-        'membership/src/ProofRequest/index.ts',
-        'membership/test/ProofRequest.test.ts',
+        'shared/src/ProofRequest/index.ts',
+        'shared/test/ProofRequest.test.ts',
       ]
     rules:
       '@typescript-eslint/restrict-template-expressions': off

@@ -11,7 +11,7 @@ import {
   MerkleTree,
   minAddress,
   uint8ArrayToBigint,
-} from '@anonset/membership'
+} from 'shared'
 
 jest.setTimeout(10_000_000) // ~1 hour
 

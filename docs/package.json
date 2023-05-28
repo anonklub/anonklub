@@ -6,6 +6,8 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
+    "lint.check": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
+    "format.check": "prettier --ignore-path $(find-up .prettierignore) -c .",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",

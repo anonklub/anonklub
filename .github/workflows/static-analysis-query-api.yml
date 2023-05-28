@@ -1,0 +1,26 @@
+name: Static Analysis query-api
+on:
+  pull_request:
+    paths:
+      [
+        'apis/query/**',
+        '!apis/query/Dockerfile',
+        '!apis/query/.dockerignore',
+        '!apis/query/*.toml',
+        '!apis/query/public/**',
+      ]
+  push:
+    paths:
+      [
+        'apis/query/**',
+        '!apis/query/Dockerfile',
+        '!apis/query/.dockerignore',
+        '!apis/query/*.toml',
+        '!apis/query/public/**',
+      ]
+jobs:
+  validate:
+    uses: ./.github/workflows/static-analysis.yml
+    with:
+      packages: 'query-api'
+    secrets: inherit

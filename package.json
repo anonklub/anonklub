@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "anonklub",
   "private": true,
   "devDependencies": {
     "@3pwd/eslint-config-with-jest": "^1.0.0",
@@ -8,8 +8,8 @@
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.15",
     "barrelsby": "^2.5.1",
-    "concurrently": "^7.6.0",
     "eslint-config-next": "^13.4.2",
+    "find-up-cli": "^5.0.0",
     "jest": "^29.2.2",
     "jest-chain": "^1.1.6",
     "jest-fetch-mock": "^3.0.3",
@@ -17,7 +17,7 @@
     "jest-silent-reporter": "^0.5.0",
     "jest-watch-select-projects": "^2.0.0",
     "jest-watch-typeahead": "^2.2.1",
-    "lerna": "^6.1.0",
+    "lerna": "^6.6.2",
     "ts-jest": "^29.0.3",
     "ts-node-dev": "^2.0.0",
     "ttab": "^0.8.0",
@@ -28,10 +28,10 @@
     "build.docker.ui": "docker build -f ui/Dockerfile . -t anonklub-ui",
     "barrels": "barrelsby --config .barrelsby.json",
     "clean": "lerna clean && lerna run clean && rm -rf node_modules",
-    "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && lerna run build --scope '{@anonset/membership,@anonset/prove-api}' && pnpm run --filter @anonset/prove-api server.prod",
+    "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && lerna run build --scope '{membership,prove-api}' && pnpm run --filter prove-api server.prod",
     "pre.demo": "ttab -w 'pnpm run start.prove-api'",
-    "demo": "pnpm run pre.demo && sleep 5 && pnpm run --filter @anonset/demo start",
-    "fix": "concurrently 'npm run format.fix' 'npm run lint.fix'",
+    "demo": "pnpm run pre.demo && sleep 5 && pnpm run --filter demo start",
+    "fix": "pnpm run lint.fix && pnpm run format.fix",
     "format.check": "prettier -c .",
     "format.fix": "prettier -w .",
     "lint.check": "eslint . --ext .js,.ts,.tsx",
@@ -39,11 +39,11 @@
     "test.watch": "jest --watch",
     "test": "is-ci-cli test.ci test.local",
     "test.local": "lerna run test",
-    "test.ci": "lerna run test --scope @anonset/query-api",
-    "validate": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'tsc -p apis/prove/tsconfig.json' 'tsc -p circuits/circom/tsconfig.json' 'tsc -p membership/tsconfig.json' 'tsc -p demo/tsconfig.json' 'tsc -p ui/tsconfig.json' 'npm run format.check' 'npm run lint.check'"
+    "test.ci": "lerna run test --scope query-api",
+    "validate": "lerna run build,lint.check,format.check"
   },
   "dependencies": {
     "is-ci-cli": "^2.2.0"
   },
-  "workspaces": ["apis/*", "circuits/*", "membership", "demo", "docs", "ui"]
+  "workspaces": ["apis/*", "circuits/*", "demo", "docs", "shared", "ui"]
 }

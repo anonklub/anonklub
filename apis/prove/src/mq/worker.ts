@@ -1,6 +1,6 @@
 import { Worker } from 'bullmq'
 import { join } from 'path'
-import { ProofRequestJson } from '@anonset/membership'
+import { ProofRequestJson } from 'shared'
 import { connection, QUEUE_NAME } from './config'
 
 const processorFile = join(__dirname, 'processor.js')

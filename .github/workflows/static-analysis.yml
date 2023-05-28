@@ -1,11 +1,15 @@
-name: Code Quality
+name: Static Analysis
 on:
-  pull_request:
-    branches: [main, staging]
-    paths-ignore: ['**/Dockerfile']
+  workflow_call:
+    inputs:
+      packages:
+        description: 'Package(s) to run static analysis on'
+        required: true
+        default: '' # all packages
+        type: string
 
 jobs:
-  lint-format:
+  validate:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,11 +43,8 @@ jobs:
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
 
-      - name: Build # built @anonset/membership is always required to get its types
+      - name: Validate
         env:
           GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }}
           NEXT_PUBLIC_NODE_ENV: test
-        run: lerna run build
-
-      - name: Validate (Lint, Format, Typecheck)
-        run: pnpm run validate
+        run: lerna run build,format.check,lint.check --scope ${{ inputs.packages }}
