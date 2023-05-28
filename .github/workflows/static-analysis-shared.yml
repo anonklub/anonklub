@@ -1,0 +1,12 @@
+name: Static Analysis Prove API
+on:
+  pull_request:
+    paths: ['shared/**']
+  push:
+    paths: ['shared/**']
+jobs:
+  validate:
+    uses: ./.github/workflows/static-analysis.yml
+    with:
+      packages: 'shared'
+    secrets: inherit

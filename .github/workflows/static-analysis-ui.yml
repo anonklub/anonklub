@@ -1,0 +1,26 @@
+name: Static Analysis Prove API
+on:
+  pull_request:
+    paths:
+      [
+        'ui/**',
+        '!ui/public/**',
+        '!ui/Dockerfile',
+        '!ui/.dockerignore',
+        '!ui/*.toml',
+      ]
+  push:
+    paths:
+      [
+        'ui/**',
+        '!ui/public/**',
+        '!ui/Dockerfile',
+        '!ui/.dockerignore',
+        '!ui/*.toml',
+      ]
+jobs:
+  validate:
+    uses: ./.github/workflows/static-analysis.yml
+    with:
+      packages: 'ui'
+    secrets: inherit

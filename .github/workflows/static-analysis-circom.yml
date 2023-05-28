@@ -1,0 +1,16 @@
+name: Static Analysis Prove API
+on:
+  pull_request:
+    paths: [
+        'circom/**',
+        '!**.circom', # eslint and prettier can't handle circom files
+        '!**.sh',
+      ]
+  push:
+    paths: ['circom/**', '!**.circom', '!**.sh']
+jobs:
+  validate:
+    uses: ./.github/workflows/static-analysis.yml
+    with:
+      packages: 'circom'
+    secrets: inherit
