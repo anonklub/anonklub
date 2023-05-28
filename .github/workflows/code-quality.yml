@@ -39,11 +39,8 @@ jobs:
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
 
-      - name: Build # a built membership pkg is required to get its types
+      - name: Validate (Build, Lint, Format)
         env:
           GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }}
           NEXT_PUBLIC_NODE_ENV: test
-        run: lerna run build
-
-      - name: Validate (Lint, Format, Typecheck)
         run: pnpm run validate
