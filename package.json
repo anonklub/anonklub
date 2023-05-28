@@ -8,7 +8,6 @@
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.15",
     "barrelsby": "^2.5.1",
-    "concurrently": "^7.6.0",
     "eslint-config-next": "^13.4.2",
     "find-up-cli": "^5.0.0",
     "jest": "^29.2.2",
@@ -32,7 +31,7 @@
     "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && lerna run build --scope '{membership,prove-api}' && pnpm run --filter prove-api server.prod",
     "pre.demo": "ttab -w 'pnpm run start.prove-api'",
     "demo": "pnpm run pre.demo && sleep 5 && pnpm run --filter demo start",
-    "fix": "concurrently 'npm run format.fix' 'npm run lint.fix'",
+    "fix": "pnpm run lint.fix && pnpm run format.fix",
     "format.check": "prettier -c .",
     "format.fix": "prettier -w .",
     "lint.check": "eslint . --ext .js,.ts,.tsx",
@@ -41,7 +40,7 @@
     "test": "is-ci-cli test.ci test.local",
     "test.local": "lerna run test",
     "test.ci": "lerna run test --scope query-api",
-    "validate": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'tsc -p apis/prove/tsconfig.json' 'tsc -p circuits/circom/tsconfig.json' 'tsc -p shared/tsconfig.json' 'tsc -p demo/tsconfig.json' 'tsc -p ui/tsconfig.json' 'npm run format.check' 'npm run lint.check'"
+    "validate": "lerna run build,lint.check,format.check"
   },
   "dependencies": {
     "is-ci-cli": "^2.2.0"

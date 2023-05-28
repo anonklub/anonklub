@@ -32,8 +32,7 @@
     "build": "next build",
     "lint.check": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
     "format.check": "prettier --ignore-path $(find-up .prettierignore) -c .",
-    "start": "next start",
-    "validate": "concurrently 'tsc' 'eslint . --ext .js,.ts,.tsx --ignore-path $(find-up .eslintignore)' 'prettier --ignore-path $(find-up .prettierignore) -c .'"
+    "start": "next start"
   },
   "browser": {
     "fs": false,

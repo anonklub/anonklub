@@ -15,8 +15,7 @@
     "build": "tsc --project tsconfig.compile.json",
     "lint.check": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
     "format.check": "prettier --ignore-path $(find-up .prettierignore) -c .",
-    "test": "jest -c jest.config.js",
-    "validate": "concurrently 'tsc' 'eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)' 'prettier --ignore-path $(find-up .prettierignore) -c .'"
+    "test": "jest -c jest.config.js"
   },
   "files": ["dist"],
   "types": "dist/types/index.d.ts"
