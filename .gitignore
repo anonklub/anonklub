@@ -35,6 +35,11 @@ apis/prove/public/proofs
 
 .next
 
+# circom/snarkjs artifacts
+*.r1cs
+*.sym
+*.ptau
+
 
 
 

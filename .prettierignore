@@ -17,3 +17,6 @@ coverage
 
 .docusaurus
 
+apis/prove/public/proofs
+
+
