@@ -1,6 +1,7 @@
 name: Static Analysis query-api
 on:
   pull_request:
+    branches: [main, staging]
     paths:
       [
         'apis/query/**',

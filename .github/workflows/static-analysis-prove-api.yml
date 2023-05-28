@@ -1,6 +1,7 @@
 name: Static Analysis prove-api
 on:
   pull_request:
+    branches: [main, staging]
     paths:
       [
         'apis/prove/**',

@@ -1,6 +1,7 @@
 name: Static Analysis docs
 on:
   pull_request:
+    branches: [main, staging]
     paths: ['docs/**', '!docs/static/**']
   push:
     paths: ['docs/**', '!docs/static/**']

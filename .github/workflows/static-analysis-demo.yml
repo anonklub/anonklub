@@ -1,6 +1,7 @@
 name: Static Analysis demo
 on:
   pull_request:
+    branches: [main, staging]
     paths: ['demo/**']
   push:
     paths: ['demo/**']

@@ -1,6 +1,7 @@
 name: Static Analysis shared
 on:
   pull_request:
+    branches: [main, staging]
     paths: ['shared/**']
   push:
     paths: ['shared/**']
