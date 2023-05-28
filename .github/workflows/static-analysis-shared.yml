@@ -1,4 +1,4 @@
-name: Static Analysis Prove API
+name: Static Analysis shared
 on:
   pull_request:
     paths: ['shared/**']

@@ -1,4 +1,4 @@
-name: Static Analysis Prove API
+name: Static Analysis docs
 on:
   pull_request:
     paths: ['docs/**', '!docs/static/**']

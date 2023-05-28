@@ -1,4 +1,4 @@
-name: Static Analysis Prove API
+name: Static Analysis demo
 on:
   pull_request:
     paths: ['demo/**']
