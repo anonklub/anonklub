@@ -7,7 +7,7 @@ FROM base as deps
 
 COPY lerna.json package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY ui/package.json ./ui/
-COPY membership/package.json ./membership/
+COPY shared/package.json ./shared/
 
 RUN  npm i -g pnpm lerna && pnpm i --filter ui...
 
@@ -21,18 +21,18 @@ ENV NEXT_PUBLIC_ALCHEMY_RPC_URL 'https://fake'
 ENV NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID '1234'
 
 COPY ui/ ./ui
-COPY membership/ ./membership
+COPY shared/ ./shared
 
-RUN lerna run build --scope '{membership,ui}' &&\
-    rm -rf {./,membership,ui}/node_modules &&\
+RUN lerna run build --scope '{shared,ui}' &&\
+    rm -rf {./,shared,ui}/node_modules &&\
     pnpm i --filter ui... --prod
 
 FROM base as deploy
 
 COPY --from=build /app/node_modules ./node_modules
 
-COPY --from=build /app/membership/node_modules ./membership/node_modules
-COPY --from=build /app/membership/dist ./membership/dist
+COPY --from=build /app/shared/node_modules ./shared/node_modules
+COPY --from=build /app/shared/dist ./shared/dist
 
 COPY --from=build /app/ui/node_modules ./ui/node_modules
 COPY ui/public ./ui/public

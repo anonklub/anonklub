@@ -11,7 +11,7 @@ The BullMQ Job processor needs to be a compiled JS file so that it becomes a san
 1. Build `proving` and `shared` packages:
 
    ```bash
-   lerna run build --scope '{proving-api,membership}'
+   lerna run build --scope '{proving-api,shared}'
    ```
 
 2. Start redis: `docker compose up -d`

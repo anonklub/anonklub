@@ -28,7 +28,7 @@
     "build.docker.ui": "docker build -f ui/Dockerfile . -t anonklub-ui",
     "barrels": "barrelsby --config .barrelsby.json",
     "clean": "lerna clean && lerna run clean && rm -rf node_modules",
-    "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && lerna run build --scope '{membership,prove-api}' && pnpm run --filter prove-api server.prod",
+    "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && lerna run build --scope '{shared,prove-api}' && pnpm run --filter prove-api server.prod",
     "pre.demo": "ttab -w 'pnpm run start.prove-api'",
     "demo": "pnpm run pre.demo && sleep 5 && pnpm run --filter demo start",
     "fix": "pnpm run lint.fix && pnpm run format.fix",
