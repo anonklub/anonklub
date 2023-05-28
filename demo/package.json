@@ -1,7 +1,6 @@
 {
-  "name": "@anonset/demo",
+  "name": "demo",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -15,13 +14,13 @@
   "author": "3pwd <me@3pwd.xyz>",
   "license": "MIT",
   "dependencies": {
-    "@anonset/membership": "workspace:^",
     "@noble/secp256k1": "^1.7.0",
     "delay": "^5.0.0",
     "ethers": "^5.7.2",
     "inquirer": "^8",
     "inquirer-fuzzy-path": "^2.3.0",
     "ora": "^5",
+    "shared": "workspace:^",
     "terminal-link": "2.1.1"
   },
   "devDependencies": {

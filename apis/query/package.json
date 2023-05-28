@@ -1,7 +1,7 @@
 {
-  "name": "@anonset/query-api",
+  "name": "query-api",
   "version": "1.0.0",
-  "description": "Express Server Template",
+  "description": "Anonymity Sets Query API",
   "main": "index.js",
   "author": "3pwd <me@3pwd.xyz>",
   "license": "MIT",

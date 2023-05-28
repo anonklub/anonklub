@@ -1,5 +1,5 @@
 import { createHash } from 'crypto'
-import { ProofRequestJson } from '@anonset/membership'
+import { ProofRequestJson } from 'shared'
 import { queue } from '../mq/queue'
 
 const sha256 = createHash('sha256')

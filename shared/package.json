@@ -1,7 +1,6 @@
 {
-  "name": "@anonset/membership",
+  "name": "shared",
   "version": "1.0.0",
-  "description": "Shared utilities for @anonset",
   "main": "dist/index.js",
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
   "contributors": ["3pwd <me@3pwd.xyz>"],

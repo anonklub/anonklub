@@ -2,11 +2,7 @@ import { SandboxedJob } from 'bullmq'
 import { execSync } from 'child_process'
 import { writeFileSync } from 'fs'
 import { join } from 'path'
-import {
-  CircuitInput,
-  getMemoPoseidon,
-  ProofRequestJson,
-} from '@anonset/membership'
+import { CircuitInput, getMemoPoseidon, ProofRequestJson } from 'shared'
 
 const PROOFS_DIR = join(__dirname, '..', '..', 'public', 'proofs')
 const GENERATED_DIR = join(__dirname, '..', '..', 'generated')

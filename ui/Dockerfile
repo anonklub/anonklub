@@ -9,7 +9,7 @@ COPY lerna.json package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY ui/package.json ./ui/
 COPY membership/package.json ./membership/
 
-RUN  npm i -g pnpm lerna && pnpm i --filter @anonset/ui...
+RUN  npm i -g pnpm lerna && pnpm i --filter ui...
 
 FROM deps as build
 # This is just to get the build to pass
@@ -23,9 +23,9 @@ ENV NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID '1234'
 COPY ui/ ./ui
 COPY membership/ ./membership
 
-RUN lerna run build --scope '{@anonset/membership,@anonset/ui}' &&\
+RUN lerna run build --scope '{membership,ui}' &&\
     rm -rf {./,membership,ui}/node_modules &&\
-    pnpm i --filter @anonset/ui... --prod
+    pnpm i --filter ui... --prod
 
 FROM base as deploy
 
