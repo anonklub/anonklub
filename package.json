@@ -42,7 +42,7 @@
     "pre.test": "turbo run build --filter @anonset/membership",
     "test": "pnpm run pre.test && turbo run test --filter !@anonset/circom",
     "typecheck": "turbo run typecheck",
-    "validate": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'tsc -p apis/prove/tsconfig.json' 'tsc -p circuits/circom/tsconfig.json' 'tsc -p membership/tsconfig.json' 'tsc -p demo/tsconfig.json' 'tsc -p ui/tsconfig.json' 'npm run format.check' 'npm run lint.check'"
+    "validate": "turbo run format lint build"
   },
   "dependencies": {
     "is-ci-cli": "^2.2.0"
