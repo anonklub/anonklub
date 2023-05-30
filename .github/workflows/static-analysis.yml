@@ -39,6 +39,14 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-store-
 
+      - name: Setup turbo cache
+        id: turbo-cache
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: turbo-${{ github.job }}-${{ github.ref_name }}-
+
       - name: Install
         run: pnpm i --ignore-scripts
 
@@ -47,4 +55,3 @@ jobs:
           GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }}
           NEXT_PUBLIC_NODE_ENV: test
         run: pnpm validate
-#  build:
