@@ -25,6 +25,7 @@
     "dev": "tsnd --cls --exit-child --ignore-watch node_modules --quiet  --respawn --rs --transpile-only src/index.ts",
     "lint": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
     "format": "prettier --ignore-path $(find-up .prettierignore) -c .",
-    "start": "tsnd --cls --exit-child src/index.ts"
+    "start": "tsnd --cls --exit-child src/index.ts",
+    "typecheck": "tsc"
   }
 }

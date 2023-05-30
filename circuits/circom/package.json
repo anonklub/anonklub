@@ -27,6 +27,7 @@
     "lint": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
     "format": "prettier --ignore-path $(find-up .prettierignore) -c .",
     "server": "ts-node ./prover/index.ts",
-    "test": "bash maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest -c test/jest.config.ts"
+    "test": "bash maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest -c test/jest.config.ts",
+    "typecheck": "tsc"
   }
 }
