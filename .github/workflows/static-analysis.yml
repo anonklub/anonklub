@@ -24,7 +24,7 @@ jobs:
         uses: pnpm/action-setup@v2.2.4
         id: pnpm-install
         with:
-          version: 7
+          version: 8.6.0
           run_install: false
 
       - name: Get pnpm store directory
@@ -40,7 +40,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pnpm-store-
 
       - name: Install
-        run: pnpm i --ignore-scripts --no-frozen-lockfile
+        run: pnpm i --ignore-scripts
 
       - name: Lint || Format || Build
         env:
