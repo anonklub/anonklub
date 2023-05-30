@@ -14,7 +14,6 @@
       "outputs": ["src/lib/graph/.graphclient/**"]
     },
     "test": {
-      "dependsOn": ["build"],
       "inputs": ["{src,test}/**/*.{j,t}s?(x)"]
     },
     "deploy": {

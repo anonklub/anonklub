@@ -39,9 +39,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint.fix": "eslint . --ext .js,.ts,.tsx --fix",
     "test.watch": "jest --watch",
-    "test": "is-ci-cli test.ci test.local",
-    "test.local": "lerna run test",
-    "test.ci": "lerna run test --scope @anonset/query-api",
+    "pre.test": "turbo run build --filter @anonset/membership",
+    "test": "pnpm run pre.test && turbo run test --filter !@anonset/circom",
     "typecheck": "turbo run typecheck",
     "validate": "concurrently tsc 'tsc -p apis/query/tsconfig.json' 'tsc -p apis/prove/tsconfig.json' 'tsc -p circuits/circom/tsconfig.json' 'tsc -p membership/tsconfig.json' 'tsc -p demo/tsconfig.json' 'tsc -p ui/tsconfig.json' 'npm run format.check' 'npm run lint.check'"
   },
