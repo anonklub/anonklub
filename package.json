@@ -25,6 +25,7 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
+    "build": "turbo run build",
     "build.docker.prove": "docker build -f apis/prove/Dockerfile . -t prove-api",
     "build.docker.ui": "docker build -f ui/Dockerfile . -t anonklub-ui",
     "barrels": "barrelsby --config .barrelsby.json",

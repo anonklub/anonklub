@@ -7,8 +7,11 @@
       "inputs": ["{src,test}/**/*.{j,t}s?(x)"]
     },
     "build": {
-      "dependsOn": ["typecheck", "^build"],
+      "dependsOn": ["^build", "build.graph"],
       "outputs": ["{build,dist,.next}/**", "!.next/cache"]
+    },
+    "build.graph": {
+      "outputs": ["src/lib/graph/.graphclient/**"]
     },
     "test": {
       "dependsOn": ["format", "lint", "build"],
