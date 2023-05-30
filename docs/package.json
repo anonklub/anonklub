@@ -33,8 +33,6 @@
     "clear": "docusaurus clear",
     "deploy": "docusaurus deploy",
     "docusaurus": "docusaurus",
-    "lint": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
-    "format": "prettier --ignore-path $(find-up .prettierignore) -c .",
     "serve": "docusaurus serve",
     "start": "docusaurus start",
     "swizzle": "docusaurus swizzle",

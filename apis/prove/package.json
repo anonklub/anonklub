@@ -27,8 +27,6 @@
   },
   "scripts": {
     "build": "tsc --project tsconfig.compile.json",
-    "lint": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
-    "format": "prettier --ignore-path $(find-up .prettierignore) -c .",
     "server.dev": "tsnd ./src/index.ts",
     "server.prod": "node ./dist/index.js",
     "typecheck": "tsc"

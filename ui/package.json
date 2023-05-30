@@ -38,8 +38,6 @@
   "license": "MIT",
   "scripts": {
     "build": "next build",
-    "lint": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
-    "format": "prettier --ignore-path $(find-up .prettierignore) -c .",
     "dev": "next dev",
     "start": "next start",
     "typecheck": "tsc"
