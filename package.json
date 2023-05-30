@@ -42,7 +42,7 @@
     "pre.test": "turbo run build --filter @anonset/membership",
     "test": "pnpm run pre.test && turbo run test --filter !@anonset/circom",
     "typecheck": "turbo run typecheck",
-    "validate": "turbo run format lint build"
+    "validate": "turbo run format lint build --cache-dir=.turbo"
   },
   "dependencies": {
     "is-ci-cli": "^2.2.0"
