@@ -58,6 +58,8 @@
     "build.graph": "graphclient build  --dir src/lib/graph",
     "build.js": "tsc -p tsconfig.compile.json",
     "clean": "rm -rf dist",
+    "lint": "eslint . --ext .js,.ts --ignore-path $(find-up .eslintignore)",
+    "format": "prettier --ignore-path $(find-up .prettierignore) -c .",
     "start": "pnpm run build && npm run start.prod",
     "start.dev": "NODE_ENV=development tsnd --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
     "start.prod": "node -r module-alias/register ./dist",

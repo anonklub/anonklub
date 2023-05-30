@@ -10,6 +10,7 @@
     "barrelsby": "^2.5.1",
     "concurrently": "^7.6.0",
     "eslint-config-next": "^13.4.2",
+    "find-up-cli": "^5.0.0",
     "jest": "^29.2.2",
     "jest-chain": "^1.1.6",
     "jest-fetch-mock": "^3.0.3",
@@ -32,9 +33,9 @@
     "pre.demo": "ttab -w 'pnpm run start.prove-api'",
     "demo": "pnpm run pre.demo && sleep 5 && pnpm run --filter @anonset/demo start",
     "fix": "concurrently 'npm run format.fix' 'npm run lint.fix'",
-    "format.check": "prettier -c .",
+    "format": "turbo run format",
     "format.fix": "prettier -w .",
-    "lint.check": "eslint . --ext .js,.ts,.tsx",
+    "lint": "turbo run lint",
     "lint.fix": "eslint . --ext .js,.ts,.tsx --fix",
     "test.watch": "jest --watch",
     "test": "is-ci-cli test.ci test.local",
@@ -45,12 +46,5 @@
   "dependencies": {
     "is-ci-cli": "^2.2.0"
   },
-  "workspaces": [
-    "apis/*",
-    "circuits/*",
-    "membership",
-    "demo",
-    "docs",
-    "ui"
-  ]
+  "workspaces": ["apis/*", "circuits/*", "membership", "demo", "docs", "ui"]
 }
