@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # TODO: skip tasks if unaffected https://turbo.build/repo/docs/core-concepts/monorepos/skipping-tasks
       - name: Checkout
         uses: actions/checkout@v3
 
