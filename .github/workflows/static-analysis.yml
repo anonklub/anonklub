@@ -1,11 +1,14 @@
-name: Code Quality
+name: Static Analysis
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
+    paths-ignore: ['**/Dockerfile', 'apis/prove/generated/**', '**/public/**']
+  push:
     branches: [main, staging]
-    paths-ignore: ['**/Dockerfile']
+    paths-ignore: ['**/Dockerfile', 'apis/prove/generated/**', '**/public/**']
 
 jobs:
-  lint-format:
+  validate:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,8 +20,8 @@ jobs:
         with:
           node-version: 19
 
-      - uses: pnpm/action-setup@v2.2.4
-        name: Install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.4
         id: pnpm-install
         with:
           version: 7
@@ -29,8 +32,8 @@ jobs:
         shell: bash
         run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -39,11 +42,9 @@ jobs:
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
 
-      - name: Build # built @anonset/membership is always required to get its types
+      - name: Lint || Format || Build
         env:
           GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }}
           NEXT_PUBLIC_NODE_ENV: test
-        run: lerna run build
-
-      - name: Validate (Lint, Format, Typecheck)
-        run: pnpm run validate
+        run: turbo run format lint build
+#  build:
