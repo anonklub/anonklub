@@ -1,7 +1,5 @@
 node_modules
-package-lock.json
 pnpm-lock.yaml
-yarn.lock
 
 # TS build dir
 build
@@ -18,5 +16,6 @@ coverage
 .graphclient
 
 .docusaurus
-.next
+
+.turbo
 

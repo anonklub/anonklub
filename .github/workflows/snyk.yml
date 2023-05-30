@@ -2,26 +2,11 @@ name: Snyk Security Checks
 on:
   pull_request:
     branches: [main, staging]
-    paths:
-      [
-        'apis/**',
-        'circuits/**',
-        '!**/*md',
-        '!**/*yaml',
-        '!**/*yml',
-        '!**/Dockerfile',
-      ]
+    types: [opened, synchronize, reopened]
+    paths: ['pnpm-lock.yaml']
   push:
     branches: [main, staging]
-    paths:
-      [
-        'apis/**',
-        'circuits/**',
-        '!**/*md',
-        '!**/*yaml',
-        '!**/*yml',
-        '!**/Dockerfile',
-      ]
+    paths: ['pnpm-lock.yaml']
 
 jobs:
   security:
@@ -38,7 +23,7 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 7
+          version: 8.6.0
           run_install: false
 
       - name: Get pnpm store directory

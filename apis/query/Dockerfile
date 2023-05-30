@@ -5,10 +5,10 @@ WORKDIR app
 
 FROM base as deps
 
-COPY pnpm-lock.yaml package.json lerna.json pnpm-workspace.yaml .npmrc ./
+COPY pnpm-lock.yaml package.json turbo.json pnpm-workspace.yaml .npmrc ./
 COPY apis/query/package.json ./apis/query/
 
-RUN npm i -g lerna pnpm && pnpm i --filter @anonset/query-api
+RUN npm i -g turbo pnpm && pnpm i --filter @anonset/query-api
 
 
 FROM deps as build
@@ -17,11 +17,11 @@ COPY apis/query/ ./apis/query
 
 # TODO: include build.graph step?
 # would need to manage GRAPH_API_KEY as a secret in docker build
-RUN lerna run build.js --scope @anonset/query-api
 
 # pnpm prune command doesn't support recursive execution on monorepo
 # need to remove and re install only prod deps manually
-RUN rm -rf node_modules apis/query/node_modules &&\
+RUN turbo run build --only --scope @anonset/query-api &&\
+    rm -rf node_modules apis/query/node_modules &&\
     pnpm i --filter @anonset/query-api --prod
 
 FROM base as deploy

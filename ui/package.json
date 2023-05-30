@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "author": "3pwd <me@3pwd.xyz>",
-  "license": "MIT",
+  "browser": {
+    "fs": false,
+    "tls": false,
+    "net": false
+  },
   "dependencies": {
     "@anonset/membership": "workspace:^",
     "@heroicons/react": "^2.0.18",
-    "@web3modal/ethereum": "^2.4.1",
-    "@web3modal/react": "^2.4.1",
+    "@web3modal/ethereum": "2.4.1",
+    "@web3modal/react": "2.4.1",
     "autoprefixer": "^10.4.14",
     "easy-peasy": "^6.0.0",
     "nes.css": "^2.3.0",
@@ -18,27 +22,26 @@
     "react-dom": "18.2.0",
     "swr": "^2.1.5",
     "tailwindcss": "^3.3.2",
-    "viem": "^0.3.27",
-    "wagmi": "^1.0.5"
+    "viem": "0.3.27",
+    "wagmi": "1.0.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.6",
+    "@wagmi/core": "1.0.5",
     "lokijs": "^1.5.12",
     "pino-pretty": "^10.0.0",
     "prettier-plugin-tailwindcss": "^0.3.0"
   },
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "browser": {
-    "fs": false,
-    "tls": false,
-    "net": false
-  },
   "peerDependencies": {
+    "@wagmi/core": "1.0.5",
     "lokijs": "^1.5.12",
     "pino-pretty": "^10.0.0"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "typecheck": "tsc"
   }
 }

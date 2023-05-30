@@ -2,7 +2,7 @@ import { join } from 'path'
 import { prompt } from './prompt'
 
 const excludeRegex =
-  /(coverage|dist|Library|node_modules|lerna|package|tsconfig|\/\.\w+)/
+  /(coverage|dist|Library|node_modules|turbo|package|tsconfig|\/\.\w+)/
 
 const askFile = (fileName: string) =>
   prompt<string>({

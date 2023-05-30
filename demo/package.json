@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "dev": "tsnd --cls --exit-child --ignore-watch node_modules --quiet  --respawn --rs --transpile-only src/index.ts",
-    "start": "tsnd --cls --exit-child src/index.ts"
-  },
   "keywords": [],
   "author": "3pwd <me@3pwd.xyz>",
   "license": "MIT",
@@ -24,5 +20,10 @@
     "@types/inquirer": "^9.0.3",
     "@types/yargs": "^17.0.24",
     "ts-node-dev": "^2.0.0"
+  },
+  "scripts": {
+    "dev": "tsnd --cls --exit-child --ignore-watch node_modules --quiet  --respawn --rs --transpile-only src/index.ts",
+    "start": "tsnd --cls --exit-child src/index.ts",
+    "typecheck": "tsc"
   }
 }

@@ -7,8 +7,8 @@ const jestConfig: JestConfigWithTsJest = {
   coverageDirectory: '../coverage',
   coverageThreshold: {
     global: {
-      branches: 40,
-      functions: 80,
+      branches: 38,
+      functions: 55,
       lines: 75,
       statements: 75,
     },

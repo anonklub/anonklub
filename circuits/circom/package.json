@@ -2,11 +2,6 @@
   "name": "@anonset/circom",
   "version": "1.0.0",
   "description": "Prove membership in a poseidon merkle tree by proving an ECDSA signature",
-  "scripts": {
-    "test": "bash maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest -c test/jest.config.ts",
-    "server": "ts-node ./prover/index.ts",
-    "client": "ts-node ./prover/test_client.ts"
-  },
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
   "contributors": ["3pwd <me@3pwd.xyz>"],
   "license": "MIT",
@@ -26,5 +21,11 @@
     "ethers": "^5.7.2",
     "hardhat": "^2.12.2",
     "ts-node": "^10.9.1"
+  },
+  "scripts": {
+    "client": "ts-node ./prover/test_client.ts",
+    "server": "ts-node ./prover/index.ts",
+    "test": "bash maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest -c test/jest.config.ts",
+    "typecheck": "tsc"
   }
 }

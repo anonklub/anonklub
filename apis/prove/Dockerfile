@@ -9,14 +9,14 @@ COPY *.json *.yaml ./
 COPY apis/prove/package.json ./apis/prove/
 COPY membership/*.json ./membership/
 
-RUN npm i -g pnpm lerna && pnpm i --filter @anonset/prove-api...
+RUN npm i -g pnpm turbo && pnpm i --filter @anonset/prove-api...
 
 FROM deps as build
 
 COPY apis/prove/ ./apis/prove
 COPY membership/ ./membership
 
-RUN lerna run build --scope '{@anonset/membership,@anonset/prove-api}' &&\
+RUN turbo run build --scope '{@anonset/membership,@anonset/prove-api}' &&\
     rm -rf node_modules apis/prove/node_modules membership/node_modules &&\
     pnpm i --filter @anonset/prove-api... --prod
 

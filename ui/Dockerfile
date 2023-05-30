@@ -5,11 +5,11 @@ WORKDIR app
 
 FROM base as deps
 
-COPY lerna.json package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY turbo.json package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY ui/package.json ./ui/
 COPY membership/package.json ./membership/
 
-RUN  npm i -g pnpm lerna && pnpm i --filter @anonset/ui...
+RUN  npm i -g pnpm turbo && pnpm i --filter @anonset/ui...
 
 FROM deps as build
 # This is just to get the build to pass
@@ -23,7 +23,7 @@ ENV NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID '1234'
 COPY ui/ ./ui
 COPY membership/ ./membership
 
-RUN lerna run build --scope '{@anonset/membership,@anonset/ui}' &&\
+RUN turbo run build --scope '{@anonset/membership,@anonset/ui}' &&\
     rm -rf {./,membership,ui}/node_modules &&\
     pnpm i --filter @anonset/ui... --prod
 

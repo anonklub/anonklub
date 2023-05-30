@@ -64,7 +64,7 @@ describe('ProofRequest', () => {
     )
     expect(fetchMock).toHaveBeenNthCalledWith(
       3,
-      `${url}/${proofRequest.jobId}/publicSignals.json`,
+      `${url}/${proofRequest.jobId}/public.json`,
     )
     expect(result).toEqual({ proof, publicSignals })
   })

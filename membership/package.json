@@ -12,10 +12,11 @@
     "ethers": "^5.7.2",
     "undici": "^5.21.2"
   },
+  "files": ["dist"],
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "tsc --project tsconfig.compile.json",
-    "test": "jest -c jest.config.js"
-  },
-  "files": ["dist"],
-  "types": "dist/types/index.d.ts"
+    "test": "jest -c test/jest.config.ts",
+    "typecheck": "tsc"
+  }
 }

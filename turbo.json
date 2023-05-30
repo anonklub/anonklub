@@ -1,0 +1,23 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "//#format": {},
+    "//#lint": {},
+    "typecheck": {
+      "inputs": ["{src,test}/**/*.{j,t}s?(x)"]
+    },
+    "build": {
+      "dependsOn": ["^build", "build.graph"],
+      "outputs": ["{build,dist,.next}/**", "!.next/cache"]
+    },
+    "build.graph": {
+      "outputs": ["src/lib/graph/.graphclient/**"]
+    },
+    "test": {
+      "inputs": ["{src,test}/**/*.{j,t}s?(x)"]
+    },
+    "deploy": {
+      "dependsOn": ["test"]
+    }
+  }
+}
