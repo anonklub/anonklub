@@ -5,11 +5,11 @@ WORKDIR app
 
 FROM base as deps
 
-COPY turbo.json package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY ui/package.json ./ui/
 COPY membership/package.json ./membership/
 
-RUN  npm i -g pnpm turbo && pnpm i --filter @anonset/ui...
+RUN  npm i -g pnpm && pnpm i --filter @anonset/ui...
 
 FROM deps as build
 # This is just to get the build to pass
@@ -23,9 +23,10 @@ ENV NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID '1234'
 COPY ui/ ./ui
 COPY membership/ ./membership
 
-RUN turbo run build --scope '{@anonset/membership,@anonset/ui}' &&\
+RUN pnpm --filter @anonset/membership run build  &&\
+    pnpm --filter @anonset/ui run build  &&\
     rm -rf {./,membership,ui}/node_modules &&\
-    pnpm i --filter @anonset/ui... --prod
+    pnpm --filter @anonset/ui... i --prod
 
 FROM base as deploy
 
@@ -35,8 +36,8 @@ COPY --from=build /app/membership/node_modules ./membership/node_modules
 COPY --from=build /app/membership/dist ./membership/dist
 
 COPY --from=build /app/ui/node_modules ./ui/node_modules
-COPY ui/public ./ui/public
 COPY --from=build /app/ui/.next ./ui/.next
+COPY --from=build /app/ui/public ./ui/public
 
 ENV NODE_ENV production
 
