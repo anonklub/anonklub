@@ -22,7 +22,8 @@
       "@hooks": ["src/hooks"],
       "@images/*": ["public/images/*"],
       "#": ["src/lib"],
-      "#/*": ["src/lib/*"]
+      "#/*": ["src/lib/*"],
+      "$/*": ["public/generated/*"]
     },
     "plugins": [
       {
