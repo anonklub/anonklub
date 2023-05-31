@@ -21,7 +21,7 @@ export default function Page() {
           <Link href='/verify/result'>
             <button
               type='button'
-              className={'nes-btn is-warning self-center text-lg'}
+              className={'nes-btn is-success self-center text-lg'}
             >
               {NAVIGATION.VERIFY_PROOF}
             </button>
