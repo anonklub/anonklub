@@ -1,12 +1,18 @@
 'use client'
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { NAVIGATION } from '#'
 import { HelpModal, JsonFileInput } from '@components'
 import { useStore } from '@hooks'
 
 export default function Page() {
-  const { proof, publicSignals } = useStore()
+  const { proof, publicSignals, setProof, setPublicSignals } = useStore()
   const canVerify = proof !== null && publicSignals !== null
+
+  useEffect(() => {
+    setProof(null)
+    setPublicSignals(null)
+  }, [setProof, setPublicSignals])
 
   return (
     <div className='flex flex-col space-y-10'>

@@ -10,7 +10,7 @@ export interface StoreModel {
   }
   proof: {
     data: JSONValue | null
-    set: Action<{ data: JSONValue | null }, JSONValue>
+    set: Action<{ data: JSONValue | null }, JSONValue | null>
   }
   proofRequest: {
     data: ProofRequest | null
@@ -18,7 +18,7 @@ export interface StoreModel {
   }
   publicSignals: {
     data: JSONValue | null
-    set: Action<{ data: JSONValue | null }, JSONValue>
+    set: Action<{ data: JSONValue | null }, JSONValue | null>
   }
 }
 
