@@ -2,7 +2,7 @@ import { useState } from 'react'
 import useSWR, { Fetcher } from 'swr'
 import { useBlockNumber } from 'wagmi'
 
-export const useAsync = (fetcher: Fetcher, key?: string) => {
+export const useAsync = <T>(fetcher: Fetcher<T>, key?: string) => {
   // use block number as a key to invalidate cache
   const block = useBlockNumber()
   const [shouldFetch, setShouldFetch] = useState(false)
