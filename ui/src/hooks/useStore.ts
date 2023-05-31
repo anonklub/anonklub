@@ -19,4 +19,6 @@ export const useStore = () => ({
   setProof: useStoreActions((actions) => actions.proof.set),
   setProofRequest: useStoreActions((actions) => actions.proofRequest.set),
   setPublicSignals: useStoreActions((actions) => actions.publicSignals.set),
+  setWarningWasRead: useStoreActions((actions) => actions.warning.setWasRead),
+  warningWasRead: useStoreState((state) => state.warning.wasRead),
 })

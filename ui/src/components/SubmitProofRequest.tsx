@@ -1,26 +1,49 @@
 'use client'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { modal, NAVIGATION } from '#'
-import { HelpModal, Modal, ScrollableJsonContainer, Star } from '@components'
+import {
+  HelpModal,
+  Modal,
+  ScrollableJsonContainer,
+  Star,
+  WarningModal,
+} from '@components'
 import { useProofRequest, useStore } from '@hooks'
 
 export function SubmitProofRequest() {
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = modal(ref)
-  const { anonSet } = useStore()
+  const { anonSet, setWarningWasRead, warningWasRead } = useStore()
   const { canSign, canSubmit, isSuccess, message, setMessage, signMessage } =
     useProofRequest()
 
+  useEffect(() => {
+    setWarningWasRead(false)
+  }, [setWarningWasRead])
+
   return (
     <div className='flex flex-col space-y-10'>
-      <div className='self-end'>
+      <div className='flex flex-row space-x-4 self-end'>
         {canSubmit ? (
-          <Link href='/prove/result'>
-            <button className='nes-btn is-success'>
-              {NAVIGATION.SUBMIT_PROOF}
-            </button>
-          </Link>
+          <>
+            <WarningModal
+              content={[
+                "You are about to submit your proof request to our server. This server is meant to be used for demonstration and development purposes. We haven't run a trusted setup ceremony. This is both a privacy and security issue. Don't use the generated proof results in production or for any sensitive purposes.",
+              ]}
+            />
+            {warningWasRead ? (
+              <Link href='/prove/result'>
+                <button className='nes-btn is-success'>
+                  {NAVIGATION.SUBMIT_PROOF}
+                </button>
+              </Link>
+            ) : (
+              <button className='nes-btn is-disabled'>
+                {NAVIGATION.SUBMIT_PROOF}
+              </button>
+            )}
+          </>
         ) : (
           <HelpModal
             content={[

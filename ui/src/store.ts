@@ -20,6 +20,10 @@ export interface StoreModel {
     data: JSONValue | null
     set: Action<{ data: JSONValue | null }, JSONValue | null>
   }
+  warning: {
+    wasRead: boolean
+    setWasRead: Action<{ wasRead: boolean }, boolean>
+  }
 }
 
 export const store = createStore<StoreModel>({
@@ -32,6 +36,7 @@ export const store = createStore<StoreModel>({
       state.data = payload
     }),
   },
+
   proof: {
     data: null,
     set: action((state, payload) => {
@@ -49,5 +54,11 @@ export const store = createStore<StoreModel>({
     set: action((state, payload) => {
       state.data = payload
     }),
+  },
+  warning: {
+    setWasRead: action((state, payload) => {
+      state.wasRead = payload
+    }),
+    wasRead: false,
   },
 })
