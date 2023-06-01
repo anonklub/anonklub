@@ -4,5 +4,5 @@
 
 export * from './ami'
 export * from './config'
+export * from './ec2-instance'
 export * from './ssh-key'
-export * from './ec2-instance/index'

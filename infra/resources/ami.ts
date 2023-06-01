@@ -11,5 +11,6 @@ export const ami = ec2.getAmi({
       values: ['hvm'],
     },
   ],
+  mostRecent: true,
   owners: ['amazon'],
 })
