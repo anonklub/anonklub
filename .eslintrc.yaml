@@ -8,6 +8,7 @@ parserOptions:
       'circuits/circom/tsconfig.json',
       'demo/tsconfig.json',
       'docs/tsconfig.json',
+      'infra/tsconfig.json',
       'membership/tsconfig.json',
       'ui/tsconfig.json',
     ]

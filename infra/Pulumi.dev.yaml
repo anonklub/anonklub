@@ -1,0 +1,4 @@
+config:
+  anonklub-aws:sshPubKeyPath: ~/.ssh/pse_aws_devops.pub
+  aws:profile: pse
+  aws:region: eu-central-1
