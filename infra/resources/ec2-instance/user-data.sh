@@ -4,8 +4,13 @@ set -e
 
 function install_node() {
   curl https://get.volta.sh | bash
-  "$HOME"/.volta/bin/volta install node@19
-  npm install -g pnpm
+  ln -s /.volta/bin/volta /usr/bin/volta
+  volta install node@19
+
+  ln -s /.volta/bin/node /usr/bin/node
+  ln -s /.volta/bin/npm /usr/bin/npm
+  npm i -g pnpm
+  ln -s /.volta/bin/pnpm /usr/bin/pnpm
 }
 
 function install_redis() {
@@ -16,6 +21,7 @@ function install_redis() {
 }
 
 function build() {
+  cd /home/ubuntu
   git clone https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa
   cd e2e-zk-ecdsa
   pnpm --filter @anonset/prove-api... i
@@ -26,11 +32,13 @@ function build() {
 }
 
 function start() {
-  cd apis/proving
+  cd /home/ubuntu/apis/proving
   nohup node dist >>log.txt 2>&1
 }
 
 function main() {
+  # declare constant
+
   install_node
   install_redis
   build
