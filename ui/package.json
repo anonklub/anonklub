@@ -28,14 +28,10 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.6",
-    "@wagmi/core": "1.0.5",
-    "lokijs": "^1.5.12",
-    "pino-pretty": "^10.0.0",
     "prettier-plugin-tailwindcss": "^0.3.0"
   },
   "peerDependencies": {
     "@wagmi/core": "1.0.5",
-    "lokijs": "^1.5.12",
     "pino-pretty": "^10.0.0"
   },
   "license": "MIT",
