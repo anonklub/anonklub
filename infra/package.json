@@ -10,7 +10,11 @@
     "@pulumi/awsx": "^1.0.0"
   },
   "scripts": {
+    "debug.init": "pnpm ssh 'cat /var/log/cloud-init.log'",
+    "debug.init.output": "pnpm ssh 'cat /var/log/cloud-init-output.log'",
+    "debug.log": "pnpm ssh 'cat /home/ubuntu/e2e-zk-ecdsa/apis/prove/log.txt'",
     "deploy": "pulumi up",
-    "ssh": "ssh -i $(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp)"
+    "ssh": "ssh -i ~/.ssh/$(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp)",
+    "start.manual": "pnpm ssh 'cd /home/ubuntu/e2e-zk-ecdsa/apis/prove && nohup node dist >> log.txt 2>&1'"
   }
 }
