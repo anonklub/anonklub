@@ -1,10 +1,11 @@
 'use client'
 import Link from 'next/link'
 import { useEffect } from 'react'
-import { groth16 } from 'snarkjs'
 import verificationKey from '$/verification_key.json'
 import { Loader } from '@components'
 import { useAsync, useStore } from '@hooks'
+
+const { groth16 } = require('snarkjs')
 
 export default function Page() {
   const { proof, publicSignals } = useStore()
