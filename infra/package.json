@@ -8,5 +8,9 @@
     "@pulumi/pulumi": "^3.0.0",
     "@pulumi/aws": "^5.0.0",
     "@pulumi/awsx": "^1.0.0"
+  },
+  "scripts": {
+    "deploy": "pulumi up",
+    "ssh": "ssh -i $(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp)"
   }
 }
