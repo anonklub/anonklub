@@ -1,9 +1,10 @@
 'use client'
+import Link from 'next/link'
 import { useEffect } from 'react'
+import { groth16 } from 'snarkjs'
 import verificationKey from '$/verification_key.json'
 import { Loader } from '@components'
 import { useAsync, useStore } from '@hooks'
-import Link from 'next/link'
 
 export default function Page() {
   const { proof, publicSignals } = useStore()
@@ -12,10 +13,10 @@ export default function Page() {
     error,
     execute,
     isLoading,
-  } = useAsync<boolean>(() => {
-    // @ts-expect-error added as head script
-    return snarkjs.groth16.verify(verificationKey, publicSignals, proof)
-  }, 'zkp-verification-result')
+  } = useAsync<boolean>(
+    () => groth16.verify(verificationKey, publicSignals, proof),
+    'zkp-verification-result',
+  )
 
   useEffect(() => {
     execute()

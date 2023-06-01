@@ -14,9 +14,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang='en'>
       <head>
         <title>{config.appTitle}</title>
-        {/*  TODO find out to use snarkjs lib as import instead */}
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script src='/vendor/snarkjs.min.js'></script>
       </head>
       <body className='m-3'>
         <WagmiConfig config={wagmiConfig}>
