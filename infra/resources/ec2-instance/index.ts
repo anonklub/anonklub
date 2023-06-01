@@ -1,10 +1,11 @@
 import { ec2 } from '@pulumi/aws'
 import { readFileSync } from 'fs'
+import { join } from 'path'
 import { ami } from '../ami'
 import { sshKey } from '../ssh-key'
 
 const Name = 'anonklub-prove-api'
-const userData = readFileSync('./user-data.sh', 'utf8')
+const userData = readFileSync(join(__dirname, 'user-data.sh'), 'utf8')
 
 export const web = new ec2.Instance(Name, {
   ami: ami.then((ami) => ami.id),

@@ -3,7 +3,7 @@ import { readFileSync } from 'fs'
 
 const config = new Config()
 
-const sshPubKeyPath = config.require('sshPubKeyPath')
+const sshPubKeyName = config.require('sshPubKeyName')
+const sshPubKeyPath = `${process.env.HOME}/.ssh/${sshPubKeyName}.pub`
 
-export const publicKey = readFileSync(sshPubKeyPath, 'utf8')
-console.log({ publicKey, sshPubKeyPath })
+export const publicKey = readFileSync(sshPubKeyPath, 'utf8').trim()
