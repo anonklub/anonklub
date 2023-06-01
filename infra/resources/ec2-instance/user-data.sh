@@ -20,7 +20,7 @@ function build() {
   cd e2e-zk-ecdsa
   pnpm --filter @anonset/prove-api... i
 
-  pnpm --scope @anonset/prove-api... run build
+  pnpm --filter @anonset/prove-api... build
   rm -rf {./,apis/prove,membership}/node_modules
   pnpm --filter @anonset/prove-api... i --prod
 }
