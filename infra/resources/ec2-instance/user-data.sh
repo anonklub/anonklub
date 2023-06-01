@@ -8,6 +8,13 @@ function install_node() {
   npm install -g pnpm
 }
 
+function install_redis() {
+  sudo apt update
+  sudo apt install redis-server
+  sudo systemctl enable redis-server.service
+  sudo systemctl start redis-server.service
+}
+
 function build() {
   git clone https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa
   cd e2e-zk-ecdsa
@@ -25,6 +32,7 @@ function start() {
 
 function main() {
   install_node
+  install_redis
   build
   start
 }
