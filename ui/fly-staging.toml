@@ -10,7 +10,7 @@ processes = []
 [build.args]
   NEXT_PUBLIC_QUERY_API_URL = 'https://anonset-staging.fly.dev'
   NEXT_PUBLIC_PROVE_API_URL = 'http://anonklub.xyz:3000'
-  NEXT_PUBLIC_WALLET_CONNECT_PROJET_ID = '15d4c21cb519a86d0a3cdf1114cc56ec'
+  NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID = '15d4c21cb519a86d0a3cdf1114cc56ec'
 
 [[services]]
   http_checks = []
