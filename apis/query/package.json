@@ -18,7 +18,7 @@
     "@cowprotocol/ts-dune-client": "^0.0.1",
     "@google-cloud/bigquery": "^6.0.3",
     "@graphql-mesh/cache-localforage": "^0.7.3",
-    "@graphql-mesh/cross-helpers": "^0.3.0",
+    "@graphql-mesh/cross-helpers": "^0.3.4",
     "@graphql-mesh/graphql": "^0.33.4",
     "@graphql-mesh/http": "^0.3.19",
     "@graphql-mesh/merger-stitching": "^0.18.4",

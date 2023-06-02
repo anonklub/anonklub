@@ -28,11 +28,16 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.6",
+    "encoding": "^0.1.13",
+    "lokijs": "^1.5.12",
     "prettier-plugin-tailwindcss": "^0.3.0"
   },
   "peerDependencies": {
     "@wagmi/core": "1.0.5",
-    "pino-pretty": "^10.0.0"
+    "encoding": "^0.1.13",
+    "lokijs": "^1.5.12",
+    "pino-pretty": "^10.0.0",
+    "pinojs": "^1.0.0"
   },
   "license": "MIT",
   "scripts": {
