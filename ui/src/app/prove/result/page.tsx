@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import { config } from '#'
 import { Loader } from '@components'
 import { useProofResult } from '@hooks'
 
@@ -19,16 +20,20 @@ export default function Page() {
           <span>
             Check your results later at
             <div className='nes-text is-success flex flex-col'>
-              <Link href={`/proofs/${jobId}/input.json`}>
+              <Link href={`${config.urls.proveApi}/proofs/${jobId}/input.json`}>
                 /proofs/{jobId}/input.json
               </Link>
-              <Link href={`/proofs/${jobId}/proof.json`}>
+              <Link href={`${config.urls.proveApi}/proofs/${jobId}/proof.json`}>
                 /proofs/{jobId}/proof.json
               </Link>
-              <Link href={`/proofs/${jobId}/public.json`}>
+              <Link
+                href={`${config.urls.proveApi}/proofs/${jobId}/public.json`}
+              >
                 /proofs/{jobId}/public.json
               </Link>
-              <Link href={`/proofs/${jobId}/witness.wtns`}>
+              <Link
+                href={`${config.urls.proveApi}/proofs/${jobId}/witness.wtns`}
+              >
                 /proofs/{jobId}/witness.wtns
               </Link>
             </div>
