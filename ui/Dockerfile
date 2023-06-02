@@ -20,8 +20,7 @@ ARG NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
 COPY ui/ ./ui
 COPY membership/ ./membership
 
-RUN pnpm --filter @anonset/membership run build  &&\
-    pnpm --filter @anonset/ui run build  &&\
+RUN pnpm --filter @anonset/ui... build  &&\
     rm -rf {./,membership,ui}/node_modules &&\
     pnpm --filter @anonset/ui... i --prod
 
