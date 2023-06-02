@@ -1,4 +1,4 @@
 import * as resources from './resources'
 
-export const publicIp = resources.web.publicIp
-export const instanceId = resources.web.id
+export const publicIp = resources.elasticIp.publicIp
+export const instanceId = resources.ec2Instance.id
