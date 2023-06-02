@@ -1,6 +1,6 @@
+import { ec2 } from '@pulumi/aws'
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import { ec2 } from '@pulumi/aws'
 import { ami } from '../ami'
 import { sshKey } from '../ssh-key'
 
