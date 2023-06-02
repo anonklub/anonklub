@@ -12,12 +12,10 @@ COPY membership/package.json ./membership/
 RUN  npm i -g pnpm && pnpm i --filter @anonset/ui...
 
 FROM deps as build
-# This is just to get the build to pass
-# Fly will override these with secrets when starting the container so that they are valid at runtime
-# TODO: improve with https://fly.io/docs/reference/build-secrets/ ?
-ENV NEXT_PUBLIC_PROVE_API_URL 'https://fake'
-ENV NEXT_PUBLIC_ALCHEMY_RPC_URL 'https://fake'
-ENV NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID '1234'
+
+ARG NEXT_PUBLIC_PROVE_API_URL
+ARG NEXT_PUBLIC_QUERY_API_URL
+ARG NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
 
 COPY ui/ ./ui
 COPY membership/ ./membership
