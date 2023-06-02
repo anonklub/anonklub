@@ -69,5 +69,8 @@ jobs:
       - name: Lint || Format || Build
         env:
           GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }}
-          NEXT_PUBLIC_NODE_ENV: test
+          # just to allow next build to pass
+          NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: foo
+          NEXT_PUBLIC_QUERY_API_URL: bar
+          NEXT_PUBLIC_PROVE_API_URL: baz
         run: pnpm validate
