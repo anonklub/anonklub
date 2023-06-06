@@ -1,37 +1,54 @@
 import { SandboxedJob } from 'bullmq'
-import { execSync } from 'child_process'
-import { writeFileSync } from 'fs'
+import { mkdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
+import { groth16 } from 'snarkjs'
 import {
   CircuitInput,
   getMemoPoseidon,
   ProofRequestJson,
 } from '@anonset/membership'
 
-const PROOFS_DIR = join(__dirname, '..', '..', 'public', 'proofs')
-const GENERATED_DIR = join(__dirname, '..', '..', 'generated')
+const ROOT_DIR = join(__dirname, '..', '..')
+const PROOFS_DIR = join(ROOT_DIR, 'public', 'proofs')
+const GENERATED_DIR = join(ROOT_DIR, 'generated')
 
-const createDir = (jobId: string) => {
-  execSync(`mkdir -p ${PROOFS_DIR}/${jobId}`)
+const createDir = async (job: SandboxedJob<ProofRequestJson>) => {
+  mkdirSync(join(PROOFS_DIR, job.id), { recursive: true })
+  await job.updateProgress(1)
   console.log('created dir')
 }
 
-const writeInput = (jobId: string, circuitInput: CircuitInput) => {
-  writeFileSync(`${PROOFS_DIR}/${jobId}/input.json`, circuitInput.serialize())
+const writeInput = async (
+  job: SandboxedJob<ProofRequestJson>,
+  circuitInput: CircuitInput,
+) => {
+  writeFileSync(
+    join(PROOFS_DIR, job.id, 'input.json'),
+    circuitInput.serialize(),
+  )
+  await job.updateProgress(2)
   console.log('wrote input.json')
 }
 
-const generateWitness = (jobId: string) => {
-  // TODO: probably don't have to call this as a separate command, this is just how the code is generated from circom
-  execSync(
-    `node ${GENERATED_DIR}/generate_witness.js ${GENERATED_DIR}/main.wasm ${PROOFS_DIR}/${jobId}/input.json ${PROOFS_DIR}/${jobId}/witness.wtns`,
+const generateProof = async ({
+  circuitInput,
+  job,
+}: {
+  circuitInput: CircuitInput
+  job: SandboxedJob<ProofRequestJson>
+}) => {
+  console.log('generating proof')
+  const { proof, publicSignals } = await groth16.fullProve(
+    circuitInput,
+    join(GENERATED_DIR, 'main.wasm'),
+    join(GENERATED_DIR, 'circuit.zkey'),
   )
-  console.log('generated witness')
-}
 
-const generateProof = (jobId: string) => {
-  execSync(
-    `snarkjs groth16 prove ${GENERATED_DIR}/circuit_0001.zkey ${PROOFS_DIR}/${jobId}/witness.wtns ${PROOFS_DIR}/${jobId}/proof.json ${PROOFS_DIR}/${jobId}/public.json`,
+  await job.updateProgress(100)
+  writeFileSync(join(PROOFS_DIR, job.id, 'proof.json'), JSON.stringify(proof))
+  writeFileSync(
+    join(PROOFS_DIR, job.id, 'public.json'),
+    JSON.stringify(publicSignals),
   )
 }
 
@@ -46,16 +63,9 @@ module.exports = async (job: SandboxedJob<ProofRequestJson>) => {
     proofRequest: job.data,
   })
 
-  createDir(job.id)
-  writeInput(job.id, circuitInput)
-
-  await job.updateProgress(2)
-
-  generateWitness(job.id)
-  await job.updateProgress(20)
-
-  generateProof(job.id)
-  await job.updateProgress(100)
+  await createDir(job)
+  await writeInput(job, circuitInput)
+  await generateProof({ circuitInput, job })
 
   // TODO: add expiration queue to remove files after a certain amount of time or when they were fetched
 }
