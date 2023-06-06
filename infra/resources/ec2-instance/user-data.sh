@@ -43,6 +43,7 @@ function main() {
   install_redis
   install_node
   build
+  chown -R ubuntu:ubuntu $install_dir # needed to be able to copy over zkey with ubuntu user
   start > $install_dir/install.log 2>&1
 }
 
