@@ -28,8 +28,8 @@
   },
   "scripts": {
     "build": "tsc --project tsconfig.compile.json",
-    "server.dev": "tsnd ./src/index.ts",
-    "server.prod": "node ./dist/index.js",
+    "server.dev": "tsnd src",
+    "server.prod": "node dist",
     "typecheck": "tsc"
   }
 }

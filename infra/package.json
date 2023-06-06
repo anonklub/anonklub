@@ -1,0 +1,25 @@
+{
+  "name": "anonklub-aws",
+  "main": "index.ts",
+  "devDependencies": {
+    "@types/node": "^16"
+  },
+  "dependencies": {
+    "@pulumi/pulumi": "^3.0.0",
+    "@pulumi/aws": "^5.0.0",
+    "@pulumi/awsx": "^1.0.0"
+  },
+  "scripts": {
+    "copyzkey": "rsync -Pv -e \"ssh -i $HOME/.ssh/$(pulumi config get sshPubKeyName)\" ../apis/prove/generated/circuit_0001.zkey ubuntu@$(pulumi stack output publicIp):/home/ubuntu/e2e-zk-ecdsa/apis/prove/generated/",
+    "debug.init": "pnpm ssh 'cat /var/log/cloud-init.log'",
+    "debug.init.output": "pnpm ssh 'cat /var/log/cloud-init-output.log'",
+    "debug.install": "pnpm ssh 'cat /home/ubunru/install.log'",
+    "debug.log": "pnpm ssh 'cat /home/ubuntu/e2e-zk-ecdsa/apis/prove/log.txt'",
+    "deploy": "pulumi up -y && pnpm removeknownhost && pnpm copyzkey",
+    "open": "open http://$(pulumi stack output publicIp):3000",
+    "removeknownhost": "ssh-keygen -f $HOME/.ssh/known_hosts -R $(pulumi stack output publicIp)",
+    "ssh.reset": "pnpm removeknownhost && ssh -i ~/.ssh/$(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp)",
+    "ssh": "ssh -i ~/.ssh/$(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp)",
+    "start.manual": "pnpm ssh 'cd /home/ubuntu/e2e-zk-ecdsa/apis/prove && nohup node dist >> log.txt 2>&1'"
+  }
+}

@@ -8,6 +8,7 @@ parserOptions:
       'circuits/circom/tsconfig.json',
       'demo/tsconfig.json',
       'docs/tsconfig.json',
+      'infra/tsconfig.json',
       'membership/tsconfig.json',
       'ui/tsconfig.json',
     ]
@@ -27,6 +28,7 @@ overrides:
         'demo/src/cli/index.ts',
         'apis/prove/src/mq/processor.ts',
         'apis/prove/src/mq/worker.ts',
+        'infra/resources/config.ts',
         'membership/src/ProofRequest/index.ts',
         'membership/test/ProofRequest.test.ts',
       ]
