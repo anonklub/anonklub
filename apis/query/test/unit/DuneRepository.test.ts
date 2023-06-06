@@ -28,9 +28,11 @@ describe('DuneRepository', () => {
     jest.spyOn(duneRepository.dune, 'refresh').mockResolvedValueOnce({
       // @ts-expect-error don't bother with the full response
       result: {
-        rows: [...Array(faker.datatype.number({ max: 10 })).keys()].map(() => ({
-          address: faker.finance.ethereumAddress(),
-        })),
+        rows: [...Array(faker.datatype.number({ max: 10, min: 1 })).keys()].map(
+          () => ({
+            address: faker.finance.ethereumAddress(),
+          }),
+        ),
       },
     })
     const { result } = await duneRepository.queryErc20Balance({
@@ -49,9 +51,11 @@ describe('DuneRepository', () => {
     jest.spyOn(duneRepository.dune, 'refresh').mockResolvedValueOnce({
       // @ts-expect-error don't bother with the full response
       result: {
-        rows: [...Array(faker.datatype.number({ max: 10 })).keys()].map(() => ({
-          address: faker.finance.ethereumAddress(),
-        })),
+        rows: [...Array(faker.datatype.number({ max: 10, min: 1 })).keys()].map(
+          () => ({
+            address: faker.finance.ethereumAddress(),
+          }),
+        ),
       },
     })
     const { result } = await duneRepository.queryBeaconDepositors()
