@@ -1,6 +1,5 @@
 import { SandboxedJob } from 'bullmq'
-import { execSync } from 'child_process'
-import { writeFileSync } from 'fs'
+import { mkdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import { groth16 } from 'snarkjs'
 import {
@@ -13,32 +12,42 @@ const ROOT_DIR = join(__dirname, '..', '..')
 const PROOFS_DIR = join(ROOT_DIR, 'public', 'proofs')
 const GENERATED_DIR = join(ROOT_DIR, 'generated')
 
-const createDir = (jobId: string) => {
-  execSync(`mkdir -p ${PROOFS_DIR}/${jobId}`)
+const createDir = async (job: SandboxedJob<ProofRequestJson>) => {
+  mkdirSync(join(PROOFS_DIR, job.id), { recursive: true })
+  await job.updateProgress(1)
   console.log('created dir')
 }
 
-const writeInput = (jobId: string, circuitInput: CircuitInput) => {
-  writeFileSync(`${PROOFS_DIR}/${jobId}/input.json`, circuitInput.serialize())
+const writeInput = async (
+  job: SandboxedJob<ProofRequestJson>,
+  circuitInput: CircuitInput,
+) => {
+  writeFileSync(
+    join(PROOFS_DIR, job.id, 'input.json'),
+    circuitInput.serialize(),
+  )
+  await job.updateProgress(2)
   console.log('wrote input.json')
 }
 
 const generateProof = async ({
   circuitInput,
-  jobId,
+  job,
 }: {
   circuitInput: CircuitInput
-  jobId: string
+  job: SandboxedJob<ProofRequestJson>
 }) => {
+  console.log('generating proof')
   const { proof, publicSignals } = await groth16.fullProve(
     circuitInput,
     join(GENERATED_DIR, 'main.wasm'),
     join(GENERATED_DIR, 'circuit.zkey'),
   )
 
-  writeFileSync(join(PROOFS_DIR, jobId, 'proof.json'), JSON.stringify(proof))
+  await job.updateProgress(100)
+  writeFileSync(join(PROOFS_DIR, job.id, 'proof.json'), JSON.stringify(proof))
   writeFileSync(
-    join(PROOFS_DIR, jobId, 'public.json'),
+    join(PROOFS_DIR, job.id, 'public.json'),
     JSON.stringify(publicSignals),
   )
 }
@@ -54,14 +63,9 @@ module.exports = async (job: SandboxedJob<ProofRequestJson>) => {
     proofRequest: job.data,
   })
 
-  createDir(job.id)
-  await job.updateProgress(1)
-
-  writeInput(job.id, circuitInput)
-  await job.updateProgress(2)
-
-  await generateProof({ circuitInput, jobId: job.id })
-  await job.updateProgress(100)
+  await createDir(job)
+  await writeInput(job, circuitInput)
+  await generateProof({ circuitInput, job })
 
   // TODO: add expiration queue to remove files after a certain amount of time or when they were fetched
 }
