@@ -9,7 +9,7 @@ export default function Page() {
   const { anonSet } = useStore()
 
   return (
-    <div className='center flex flex-col space-y-4'>
+    <div className='center flex flex-col space-y-10'>
       <div className='flex flex-col items-end space-y-4'>
         {anonSet !== null ? (
           <Link href='/prove/submit'>

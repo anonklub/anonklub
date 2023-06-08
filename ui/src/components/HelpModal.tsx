@@ -3,19 +3,13 @@ import { useRef } from 'react'
 import { modal } from '#'
 import { Modal, Text } from '@components'
 
-export const HelpModal = ({
-  className = 'nes-btn is-warning',
-  content,
-}: {
-  className?: string
-  content: string[]
-}) => {
+export const HelpModal = ({ content }: { content: string[] }) => {
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = modal(ref)
 
   return (
     <div>
-      <button type='button' className={className} onClick={open}>
+      <button type='button' className='nes-btn is-warning' onClick={open}>
         ?
       </button>
       <Modal ref={ref}>
