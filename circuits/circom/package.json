@@ -18,6 +18,7 @@
     "snarkjs": "^0.7.0"
   },
   "scripts": {
+    "deploy.sepolia": "forge create --rpc-url $SEPOLIA_RPC_URL --private-key $VERIFIER_DEPLOYER_PRIVATEKEY --etherscan-api-key $ETHERSCAN_API_KEY --verify generated/Groth16Verifier.sol:Groth16Verifier",
     "test": "bash maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest -c test/jest.config.ts",
     "typecheck": "tsc"
   }

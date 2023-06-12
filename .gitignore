@@ -5,9 +5,11 @@ coverage
 dist
 build
 node_modules
+out
 
 *.log
 tsconfig.tsbuildinfo
+solidity-files-cache.json
 
 .env*
 

@@ -1,0 +1,3 @@
+[submodule "circuits/circom/lib/forge-std"]
+	path = circuits/circom/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
