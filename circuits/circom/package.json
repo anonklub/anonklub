@@ -3,28 +3,23 @@
   "version": "1.0.0",
   "description": "Prove membership in a poseidon merkle tree by proving an ECDSA signature",
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
-  "contributors": ["3pwd <me@3pwd.xyz>"],
+  "contributors": [
+    "3pwd <me@3pwd.xyz>"
+  ],
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "@anonset/membership": "workspace:^",
     "@noble/secp256k1": "^1.7.0",
     "circom-ecdsa": "github:0xparc/circom-ecdsa",
+    "circom_tester": "^0.0.19",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
-    "ffjavascript": "^0.2.57",
-    "play-contracts": "github:ChihChengLiang/poseidon-tornado"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.17",
-    "@types/node-fetch": "^2.6.2",
-    "circom_tester": "^0.0.19",
     "ethers": "^5.7.2",
-    "hardhat": "^2.12.2",
-    "ts-node": "^10.9.1"
+    "ffjavascript": "^0.2.57",
+    "play-contracts": "github:ChihChengLiang/poseidon-tornado",
+    "snarkjs": "^0.7.0"
   },
   "scripts": {
-    "client": "ts-node ./prover/test_client.ts",
-    "server": "ts-node ./prover/index.ts",
     "test": "bash maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest -c test/jest.config.ts",
     "typecheck": "tsc"
   }
