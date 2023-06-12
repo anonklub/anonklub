@@ -1,20 +1,55 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "//#format": {},
-    "//#lint": {},
+    "//#format": {
+      "inputs": [
+        "*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
+        "{.github,apis,circuits,demo,docs,infra,membership,ui}/**/*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
+        "!{apis,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+      ]
+    },
+    "//#format.fix": {
+      "inputs": [
+        "*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
+        "{.github,apis,circuits,demo,docs,infra,membership,ui}/**/*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
+        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+      ]
+    },
+    "//#lint": {
+      "inputs": [
+        "*.c?{j,t}s?(x)",
+        "{apis,circuits,demo,docs,infra,membership,ui}/**/*.c?{j,t}s?(x)",
+        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+      ]
+    },
+    "//#lint.fix": {
+      "inputs": [
+        "*.c?{j,t}s?(x)",
+        "{apis,circuits,demo,docs,infra,membership,ui}/**/*.c?{j,t}s?(x)",
+        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+      ]
+    },
     "typecheck": {
-      "inputs": ["{src,test}/**/*.{j,t}s?(x)"]
+      "inputs": [
+        "*.{j,t}s?(x)",
+        "{apis,circuits,demo,docs,infra,membership,ui}/**/{src,test}/**/*.{j,t}s?(x)",
+        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+      ]
     },
     "build": {
       "dependsOn": ["^build", "build.graph"],
-      "outputs": ["{build,dist,.next}/**", "!.next/cache"]
+      "outputs": [
+        "{apis,demo,docs,membership,ui}/**/{build,dist,.next,.docusaurus}/**",
+        "!{apis,demo,docs,membership,ui}/**/node_modules/**"
+      ]
     },
     "build.graph": {
       "outputs": ["src/lib/graph/.graphclient/**"]
     },
     "test": {
-      "inputs": ["{src,test}/**/*.{j,t}s?(x)"]
+      "inputs": [
+        "{apis/{prove,query},membership,circuits/circom}/{src,test}/**/*.{j,t}s?(x)"
+      ]
     },
     "deploy": {
       "dependsOn": ["test"]

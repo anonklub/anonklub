@@ -19,6 +19,7 @@ docusaurus.config.js
 
 # Generated code
 apis/prove/generated
+circuits/circom/generated
 
 next-env.d.ts
 next.config.js

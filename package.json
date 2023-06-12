@@ -1,6 +1,9 @@
 {
   "name": "root",
   "private": true,
+  "dependencies": {
+    "is-ci-cli": "^2.2.0"
+  },
   "devDependencies": {
     "@3pwd/eslint-config-with-jest": "^1.0.0",
     "@3pwd/prettier-config": "^1.0.1",
@@ -8,7 +11,6 @@
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.15",
     "barrelsby": "^2.5.1",
-    "concurrently": "^7.6.0",
     "eslint-config-next": "^13.4.2",
     "find-up-cli": "^5.0.0",
     "jest": "^29.2.2",
@@ -19,9 +21,10 @@
     "jest-watch-select-projects": "^2.0.0",
     "jest-watch-typeahead": "^2.2.1",
     "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "ttab": "^0.8.0",
-    "turbo": "^1.10.1",
+    "turbo": "^1.10.3",
     "typescript": "^4.9.4"
   },
   "scripts": {
@@ -34,7 +37,7 @@
     "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && turbo --filter @anonset/prove-api... build && pnpm --filter @anonset/prove-api server.prod",
     "pre.demo": "ttab -w 'pnpm run start.prove-api'",
     "demo": "pnpm run pre.demo && sleep 5 && pnpm run --filter @anonset/demo start",
-    "fix": "concurrently 'npm run format.fix' 'npm run lint.fix'",
+    "fix": "turbo format.fix lint.fix",
     "format": "prettier -c .",
     "format.fix": "prettier -w .",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
@@ -44,9 +47,6 @@
     "test": "pnpm run pre.test && turbo run test --filter !@anonset/circom",
     "typecheck": "turbo run typecheck",
     "validate": "turbo run format lint build --cache-dir=.turbo"
-  },
-  "dependencies": {
-    "is-ci-cli": "^2.2.0"
   },
   "workspaces": [
     "apis/*",
