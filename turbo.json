@@ -3,6 +3,8 @@
   "pipeline": {
     "//#format": {},
     "//#lint": {},
+    "//#format.fix": {},
+    "//#lint.fix": {},
     "typecheck": {
       "inputs": ["{src,test}/**/*.{j,t}s?(x)"]
     },
