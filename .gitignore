@@ -9,7 +9,7 @@ out
 
 *.log
 tsconfig.tsbuildinfo
-solidity-files-cache.json
+circuits/circom/cache
 
 .env*
 

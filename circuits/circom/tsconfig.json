@@ -8,5 +8,5 @@
     "skipLibCheck": true,
     "strictNullChecks": true
   },
-  "include": ["test", "test/jest.config.ts"]
+  "include": ["scripts", "test", "test/jest.config.ts"]
 }
