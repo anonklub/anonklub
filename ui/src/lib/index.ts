@@ -3,6 +3,7 @@
  */
 
 export * from './abi'
+export * from './bigintify'
 export * from './config'
 export * from './constants'
 export * from './ethereum-client'

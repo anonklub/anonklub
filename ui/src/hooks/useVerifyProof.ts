@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { GetFunctionArgs } from 'viem'
 import { useContractRead } from 'wagmi'
-import { abi, config } from '#'
-import { useAsync } from '@/hooks/useAsync'
-import { useStore } from '@/hooks/useStore'
+import { abi, bigintify, config } from '#'
+import { useAsync, useStore } from '@/hooks'
 
 const { groth16 } = require('snarkjs')
 
@@ -20,11 +19,7 @@ export const useVerifyProof = () => {
     'verify-proof-calldata',
   )
   const args: GetFunctionArgs<typeof abi, 'verifyProof'>['args'] =
-    data !== undefined
-      ? JSON.parse(`[${data}]`).map((argArr) =>
-          argArr.map((arg) => BigInt(arg)),
-        )
-      : undefined
+    data !== undefined ? bigintify(JSON.parse(`[${data}]`)) : undefined
 
   useEffect(() => {
     execute()
