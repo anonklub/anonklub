@@ -62,11 +62,12 @@ overrides:
       '@typescript-eslint/no-misused-promises': off
   - files:
       [
-        'demo/src/cli/index.ts',
         'apis/*/src/index.ts',
         'apis/prove/generated/*.js',
         'apis/prove/src/mq/*.ts',
+        'circuits/circom/scripts/*.ts',
         'demo/src/index.ts',
+        'demo/src/cli/index.ts',
       ]
     rules:
       no-console: off

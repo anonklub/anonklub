@@ -1,9 +1,11 @@
 import { groth16 } from 'snarkjs'
 import terminalLink from 'terminal-link'
-import { askProofFile, askPublicSignalsFile } from './ask-file'
+import { askProofFile, askPublicSignalsFile } from './_prompt'
+import { wrapExec } from './_wrap'
 
 const stringify = (input: string[]) =>
   `${JSON.stringify(input).replace(/"/g, '')}`
+
 const main = async () => {
   const proof = await askProofFile()
   const publicSignals = await askPublicSignalsFile()
@@ -29,11 +31,4 @@ const main = async () => {
   console.log(`publicSignals: ${stringify(callData[3])}`)
 }
 
-main()
-  .then(() => {
-    process.exit(0)
-  })
-  .catch((reason) => {
-    console.error(reason)
-    process.exit(1)
-  })
+wrapExec(main)

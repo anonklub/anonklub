@@ -3,6 +3,7 @@
     "noEmit": true,
     "lib": ["es2020"],
     "module": "commonjs",
+    "resolveJsonModule": true,
     "target": "es2020",
     "esModuleInterop": true,
     "skipLibCheck": true,
