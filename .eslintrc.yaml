@@ -68,6 +68,7 @@ overrides:
         'circuits/circom/scripts/*.ts',
         'demo/src/index.ts',
         'demo/src/cli/index.ts',
+        'ui/src/lib/config.ts',
       ]
     rules:
       no-console: off

@@ -42,7 +42,7 @@ jobs:
         run: pnpm i --ignore-scripts --reporter=silent
 
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+        uses: snyk/actions/node@0.4.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
