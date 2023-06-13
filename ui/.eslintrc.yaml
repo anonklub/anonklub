@@ -6,3 +6,6 @@ overrides:
   - files: ['src/app/verify/result/page.tsx']
     rules:
       '@typescript-eslint/no-var-requires': off
+  - files: ['src/hooks/useVerifyProof.ts']
+    rules:
+      '@typescript-eslint/no-var-requires': off

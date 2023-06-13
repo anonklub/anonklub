@@ -31,6 +31,12 @@
       }
     ]
   },
-  "include": ["src", "next-env.d.ts", "src", ".next/types/**/*.ts"],
+  "include": [
+    "src",
+    "next-env.d.ts",
+    "src",
+    ".next/types/**/*.ts",
+    "wagmi.config.ts"
+  ],
   "exclude": ["node_modules"]
 }
