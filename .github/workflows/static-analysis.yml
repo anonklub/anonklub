@@ -73,4 +73,9 @@ jobs:
           NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: foo
           NEXT_PUBLIC_QUERY_API_URL: bar
           NEXT_PUBLIC_PROVE_API_URL: baz
-        run: pnpm validate
+          NEXT_PUBLIC_VERIFIER_ADDRESS: '0x123'
+          NEXT_PUBLIC_VERIFIER_CHAIN_ID: 123
+        # force building membership package instead of hitting cache (as it is a dep of other local packages)
+        run: |
+          pnpm --filter @anonset/membership build
+          pnpm validate
