@@ -75,4 +75,7 @@ jobs:
           NEXT_PUBLIC_PROVE_API_URL: baz
           NEXT_PUBLIC_VERIFIER_ADDRESS: '0x123'
           NEXT_PUBLIC_VERIFIER_CHAIN_ID: 123
-        run: pnpm validate
+        # force building membership package instead of hitting cache (as it is a dep of other local packages)
+        run: |
+          pnpm --filter @anonset/membership build
+          pnpm validate
