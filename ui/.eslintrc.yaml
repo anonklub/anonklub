@@ -3,9 +3,6 @@ rules:
   '@next/next/no-html-link-for-pages': off # using app router, so no pages dir to check
 
 overrides:
-  - files: ['src/app/verify/result/page.tsx']
-    rules:
-      '@typescript-eslint/no-var-requires': off
-  - files: ['src/hooks/useVerifyProof.ts']
+  - files: ['src/app/verify/result/page.tsx', 'src/hooks/useVerifyProof.ts']
     rules:
       '@typescript-eslint/no-var-requires': off
