@@ -17,7 +17,8 @@
 | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Sepolia | [`0x893f293e3918a179bf87fb772206e9927db61b0c`](https://sepolia.etherscan.io/address/0x893f293e3918a179bf87fb772206e9927db61b0c#code) |
 
-## Verification
+## Verification scripts
 
-1. Generate read call inputs: `pnpm generate-call`
-2. Paste input to [etherscan](https://sepolia.etherscan.io/address/0x893f293e3918a179bf87fb772206e9927db61b0c#readContract) (verifyProof read call)
+- `pnpm verify.local`
+- `pnpm verify.onchain`
+- `pnpm generate-calldata`
