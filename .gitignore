@@ -5,9 +5,11 @@ coverage
 dist
 build
 node_modules
+out
 
 *.log
 tsconfig.tsbuildinfo
+circuits/circom/cache
 
 .env*
 

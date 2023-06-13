@@ -8,17 +8,27 @@
   "devDependencies": {
     "@anonset/membership": "workspace:^",
     "@noble/secp256k1": "^1.7.0",
+    "@types/inquirer": "^9.0.3",
     "circom-ecdsa": "github:0xparc/circom-ecdsa",
     "circom_tester": "^0.0.19",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
     "ethers": "^5.7.2",
     "ffjavascript": "^0.2.57",
+    "inquirer": "^8",
+    "inquirer-fuzzy-path": "^2.3.0",
     "play-contracts": "github:ChihChengLiang/poseidon-tornado",
-    "snarkjs": "^0.7.0"
+    "snarkjs": "^0.7.0",
+    "terminal-link": "2.1.1",
+    "viem": "0.3.27"
   },
   "scripts": {
-    "test": "bash maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest -c test/jest.config.ts",
-    "typecheck": "tsc"
+    "generate-calldata": "tsnd scripts/generate-calldata",
+    "deploy.sepolia": "forge create --rpc-url $SEPOLIA_RPC_URL --private-key $VERIFIER_DEPLOYER_PRIVATEKEY --etherscan-api-key $ETHERSCAN_API_KEY --verify generated/Groth16Verifier.sol:Groth16Verifier",
+    "generatecall": "bash generatecall.sh",
+    "test": "bash scripts/maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest -c test/jest.config.ts",
+    "typecheck": "tsc",
+    "verify.local": "tsnd scripts/verify-local",
+    "verify.onchain": "tsnd scripts/verify-onchain"
   }
 }

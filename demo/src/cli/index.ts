@@ -89,8 +89,9 @@ export const cli = async () => {
       const publicSignalsPath = await askPublicSignalsFile()
       const verificationKeyPath = await askVerificationKeyFile()
 
+      // TODO: use groth16 module from snarkjs directly instead
       const result = execSync(
-        `snarkjs groth16 verify ${verificationKeyPath} ${publicSignalsPath} ${proofPath}`,
+        `node_modules/.bin/snarkjs groth16 verify ${verificationKeyPath} ${publicSignalsPath} ${proofPath}`,
       )
       console.log(result.toString())
     }
