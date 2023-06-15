@@ -110,6 +110,11 @@ const config = {
             position: 'left',
           },
           {
+            to: '/docs/circuit-design',
+            label: 'Circuit Design',
+            position: 'left',
+          },
+          {
             href: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa',
             label: 'GitHub',
             position: 'right',
