@@ -20,6 +20,6 @@
     "removeknownhost": "ssh-keygen -f $HOME/.ssh/known_hosts -R $(pulumi stack output publicIp)",
     "ssh.reset": "pnpm removeknownhost && ssh -i ~/.ssh/$(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp)",
     "ssh": "ssh -i ~/.ssh/$(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp)",
-    "start.manual": "pnpm ssh 'cd /home/ubuntu/e2e-zk-ecdsa/apis/prove && nohup node dist >> log.txt 2>&1'"
+    "start.manual": "ssh -i ~/.ssh/$(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp) 'cd /home/ubuntu/e2e-zk-ecdsa/apis/prove && nohup /home/ubuntu/.volta/bin/node dist >> stdout.log 2>> stderr.log'"
   }
 }
