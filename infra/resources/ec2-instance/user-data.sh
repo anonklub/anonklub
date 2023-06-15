@@ -33,7 +33,7 @@ function build() {
 
 function start() {
   cd "$install_dir"/e2e-zk-ecdsa/apis/prove
-  nohup node dist >> log.txt 2>&1
+  nohup node dist >> stdout.log 2>> stderr.log
 }
 
 function main() {
