@@ -110,8 +110,8 @@ const config = {
             position: 'left',
           },
           {
-            to: '/docs/roadmap',
-            label: 'Roadmap',
+            to: '/docs/circuit-design',
+            label: 'Circuit Design',
             position: 'left',
           },
           {

@@ -2,14 +2,14 @@
 sidebar_position: 5
 ---
 
-# Roadmap
+# Circuit Design
 
 The current version of Anon Klub is a proof of concept and has major drawbacks in due to its implementation details. **The ZKPs it generates should not be used for production systems.** However, new systems are being built that will make Anon Klub far more efficient and secure.
 
 In particular, the current version uses:
 
 - groth16 proofs over the bn128 curve
-- **An unsafe CRS**
+- **An unsafe Common Reference String**
 - Standard secp256k1 ECDSA signature verification
 - Merkle trees for set membership
 
@@ -19,11 +19,11 @@ Groth16 proofs can be cheaply verified onchain, but proving is inefficient. Our 
 
 Standard secp256k1 signature verification has two problems: it's non-deterministic, and it's not the most efficient. Non-determinism is imporant for systems that require nullifiers, and is fixed with PLUME which is [discussed below](#plume). Spartan-ecdsa (also [discussed below](#spartan-ecdsa)) uses a more efficient verifier but is also non-deterministic.
 
-Merkle trees are a simple and useful accumulator, but other accumulators have better properties. For example, Caulk has cheaper insertions making which saves significant gas costs for mixers.
+Merkle trees are a simple and useful accumulator, but other accumulators have better properties. For example, [Caulk](https://eprint.iacr.org/2022/621) has cheaper insertions making which saves significant gas costs for mixers.
 
 ## Future Plans
 
-In the future, Anon Klub will support two types of signatures: nullifiers, and plain signaures. Nullifiers are needed for many kinds of financial applications such as mixers, and plain signatures are more efficient if nullifiers aren't needed.
+In the future, Anon Klub will support two types of signatures: nullifiers, and plain signatures. Nullifiers are needed for many kinds of financial applications such as mixers, and plain signatures are more efficient if nullifiers aren't needed.
 
 ### PLUME
 
