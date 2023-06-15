@@ -7,10 +7,11 @@ sidebar_position: 5
 The current version of Anon Klub is a proof of concept and has major drawbacks in due to its implementation details. **The ZKPs it generates should not be used for production systems.** However, new systems are being built that will make Anon Klub far more efficient and secure.
 
 In particular, the current version uses:
- - groth16 proofs over the bn128 curve
- - **An unsafe CRS**
- - Standard secp256k1 ECDSA signature verification
- - Merkle trees for set membership
+
+- groth16 proofs over the bn128 curve
+- **An unsafe CRS**
+- Standard secp256k1 ECDSA signature verification
+- Merkle trees for set membership
 
 The most serious issue is that we're using groth16, and haven't done a ceremony for the trusted setup. By using this system you're trusting that [blakemscurr](https://github.com/blakemscurr) deleted the toxic waste correctly. Note that an untrusted setup is not just a privacy issue, but also a soundness issue - he may be able to generate false proofs that the verifier will accept, and potentially steal from your system!
 
