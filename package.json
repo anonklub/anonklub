@@ -50,7 +50,7 @@
     "pre.test": "turbo run build --filter @anonset/membership",
     "test": "pnpm run pre.test && turbo run test --filter !@anonset/circom",
     "typecheck": "turbo run typecheck",
-    "validate": "turbo run format lint build --cache-dir=.turbo"
+    "validate": "turbo run _format _lint build --cache-dir=.turbo"
   },
   "workspaces": [
     "apis/*",
