@@ -2,7 +2,7 @@
 /*
     Copyright 2021 0KIMS association.
 
-    This file is generated with [snarkJS](https://github.com/iden3/snarkjs).
+    Most of this file is generated with [snarkJS](https://github.com/iden3/snarkjs). (Only function modifiers were modified to allow overrides.)
 
     snarkJS is a free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -71,7 +71,16 @@ contract Groth16Verifier {
         uint256[2][2] calldata _pB,
         uint256[2] calldata _pC,
         uint256[5] calldata _pubSignals
-    ) public view returns (bool) {
+    ) external view returns (bool) {
+        return _verifyProof(_pA, _pB, _pC, _pubSignals);
+    }
+
+    function _verifyProof(
+        uint256[2] calldata _pA,
+        uint256[2][2] calldata _pB,
+        uint256[2] calldata _pC,
+        uint256[5] calldata _pubSignals
+    ) internal view virtual returns (bool) {
         assembly {
             function checkField(v) {
                 if iszero(lt(v, q)) {
