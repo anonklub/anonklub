@@ -1,0 +1,7 @@
+{
+  "extends": "solhint:recommended",
+  "rules": {
+    "compiler-version": ["error", ">=0.7.0 <0.9.0"],
+    "no-global-import": "warn"
+  }
+}

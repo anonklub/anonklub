@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "_format": "forge fmt --check --root ..",
-    "_format.fix": "forge fmt --root .."
+    "_format.fix": "forge fmt --root ..",
+    "_lint": "solhint '**/*.sol'",
+    "_lint.fix": "solhint --fix '**/*.sol'"
   }
 }

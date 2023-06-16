@@ -23,14 +23,22 @@
         "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
       ]
     },
-    "//#lint": {
+    "_lint": {
+      "cache": false,
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "//#_lint": {
       "inputs": [
         "*.c?{j,t}s?(x)",
         "{apis,circuits,demo,docs,infra,membership,ui}/**/*.c?{j,t}s?(x)",
         "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
       ]
     },
-    "//#lint.fix": {
+    "_lint.fix": {
+      "cache": false,
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "//#_lint.fix": {
       "inputs": [
         "*.c?{j,t}s?(x)",
         "{apis,circuits,demo,docs,infra,membership,ui}/**/*.c?{j,t}s?(x)",
