@@ -36,7 +36,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/privacy-scaling-explorations/tree/main/docs/docs',
+            'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/edit/main/docs',
           sidebarPath: require.resolve('./sidebars.js'),
         },
         theme: {
