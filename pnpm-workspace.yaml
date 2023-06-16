@@ -2,6 +2,7 @@ packages:
   - apis/query
   - apis/prove
   - circuits/circom
+  - contracts
   - demo
   - docs
   - infra

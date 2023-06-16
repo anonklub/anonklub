@@ -1,0 +1,8 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "scripts": {
+    "_format": "forge fmt --check --root ..",
+    "_format.fix": "forge fmt --root .."
+  }
+}
