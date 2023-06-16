@@ -1,4 +1,4 @@
-name: Coverage Report
+name: Test
 on:
   # push trigger required to get coveralls monitoring of default branch
   # pull_request required to get PR comments
@@ -6,32 +6,29 @@ on:
     branches: [main, staging]
     paths:
       [
-        'apis/**',
-        'circuits/**',
-        '!**/*md',
-        '!**/*yaml',
-        '!**/*yml',
-        '!**/Dockerfile',
+        '{apis,contracts,circuits,membership}/**/*.{?(c){j,t}s?(x),graphql,sol}',
+        '!contracts/lib/forge-std/**',
       ]
   push:
     branches: [main, staging]
     paths:
       [
-        'apis/**',
-        'circuits/**',
-        '!**/*md',
-        '!**/*yaml',
-        '!**/*yml',
-        '!**/Dockerfile',
+        '{apis,contracts,circuits,membership}/**/*.{?(c){j,t}s?(x),graphql,sol}',
+        '!contracts/lib/forge-std/**',
       ]
 
 jobs:
-  coveralls:
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -63,7 +60,7 @@ jobs:
       - name: Run tests
         env:
           DUNE_API_KEY: foo
-        run: pnpm t
+        run: pnpm test
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

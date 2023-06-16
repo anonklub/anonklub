@@ -63,6 +63,7 @@
       "outputs": ["src/lib/graph/.graphclient/**"]
     },
     "test": {
+      "dependsOn": ["build"],
       "inputs": [
         "{apis/{prove,query},membership,circuits/circom}/{src,test}/**/*.{j,t}s?(x)"
       ]
