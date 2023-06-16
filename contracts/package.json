@@ -8,5 +8,8 @@
     "_lint": "solhint '**/*.sol'",
     "_lint.fix": "solhint --fix '**/*.sol'",
     "test": "forge test"
+  },
+  "devDependencies": {
+    "solhint": "^3.4.1"
   }
 }
