@@ -38,7 +38,7 @@ jobs:
 
       - name: Install - Build
         working-directory: ./docs
-        run: pnpm i && pnpm run build
+        run: pnpm --filter docs i && pnpm --filter docs build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
