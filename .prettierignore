@@ -19,4 +19,8 @@ coverage
 public
 
 .turbo
+contracts/lib/forge-std
+contracts/out
+
+
 

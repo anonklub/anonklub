@@ -1,0 +1,3 @@
+node_modules
+lib/forge-std
+src/Groth16Verifier.sol

@@ -1,28 +1,44 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "//#format": {
+    "//#_format": {
       "inputs": [
         "*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
         "{.github,apis,circuits,demo,docs,infra,membership,ui}/**/*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
         "!{apis,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
       ]
     },
-    "//#format.fix": {
+    "_format": {
+      "cache": false,
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "_format.fix": {
+      "cache": false,
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "//#_format.fix": {
       "inputs": [
         "*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
         "{.github,apis,circuits,demo,docs,infra,membership,ui}/**/*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
         "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
       ]
     },
-    "//#lint": {
+    "_lint": {
+      "cache": false,
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "//#_lint": {
       "inputs": [
         "*.c?{j,t}s?(x)",
         "{apis,circuits,demo,docs,infra,membership,ui}/**/*.c?{j,t}s?(x)",
         "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
       ]
     },
-    "//#lint.fix": {
+    "_lint.fix": {
+      "cache": false,
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "//#_lint.fix": {
       "inputs": [
         "*.c?{j,t}s?(x)",
         "{apis,circuits,demo,docs,infra,membership,ui}/**/*.c?{j,t}s?(x)",
@@ -47,6 +63,7 @@
       "outputs": ["src/lib/graph/.graphclient/**"]
     },
     "test": {
+      "dependsOn": ["build"],
       "inputs": [
         "{apis/{prove,query},membership,circuits/circom}/{src,test}/**/*.{j,t}s?(x)"
       ]

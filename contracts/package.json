@@ -1,0 +1,15 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "forge build",
+    "_format": "forge fmt --check --root ..",
+    "_format.fix": "forge fmt --root ..",
+    "_lint": "solhint '**/*.sol'",
+    "_lint.fix": "solhint --fix '**/*.sol'",
+    "test": "forge test"
+  },
+  "devDependencies": {
+    "solhint": "^3.4.1"
+  }
+}
