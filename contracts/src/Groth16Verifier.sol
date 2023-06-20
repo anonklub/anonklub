@@ -80,7 +80,7 @@ contract Groth16Verifier {
         uint256[2][2] calldata _pB,
         uint256[2] calldata _pC,
         uint256[5] calldata _pubSignals
-    ) internal view virtual returns (bool) {
+    ) public view returns (bool) {
         assembly {
             function checkField(v) {
                 if iszero(lt(v, q)) {
