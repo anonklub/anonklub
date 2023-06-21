@@ -1,4 +1,5 @@
 import { groth16 } from 'snarkjs'
+// FIXME: abis outputs are now in contracts/
 import { abi } from '../out/Groth16Verifier.sol/Groth16Verifier.json'
 import { publicClient } from './_client'
 import { askProofFile, askPublicSignalsFile } from './_prompt'
@@ -24,6 +25,7 @@ const main = async () => {
     functionName: 'verifyProof',
   })
 
+  // FIXME
   console.log(`${(valid as boolean) ? '✅ valid proof' : '❌ invalid proof'}`)
 }
 
