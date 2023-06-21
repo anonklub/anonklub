@@ -12,13 +12,13 @@ contract VerifierTest is Test {
         anonMinter = new AnonMinter(0x2c3c5ea21599db4ed6e474fbb4c440c8b8062947748ddb3f4bea808282742aa4);
     }
 
-    function test_init() public {
+    function testInit() public {
         assertEq(anonMinter.merkleRoot(), 0x2c3c5ea21599db4ed6e474fbb4c440c8b8062947748ddb3f4bea808282742aa4);
         assertEq(anonMinter.name(), "AnonMinter");
         assertEq(anonMinter.symbol(), "ANON");
     }
 
-    function test_verifyProof_true() public {
+    function testVerifyProofTrue() public {
         assertTrue(
             anonMinter.verifyProof(
                 [
@@ -50,7 +50,7 @@ contract VerifierTest is Test {
         );
     }
 
-    function test_verifyProof_false() public {
+    function testVerifyProofFalse() public {
         assertFalse(
             anonMinter.verifyProof(
                 [
@@ -82,7 +82,7 @@ contract VerifierTest is Test {
         );
     }
 
-    function test_failIf_InvalidMerkleRoot() public {
+    function testRevertIfInvalidMerkleRoot() public {
         vm.expectRevert("Merkle root does not match");
         anonMinter.mint(
             receiver,
@@ -115,7 +115,7 @@ contract VerifierTest is Test {
         );
     }
 
-    function test_FailIf_InvalidProof() public {
+    function testRevertIfInvalidProof() public {
         vm.expectRevert("Invalid proof");
         anonMinter.mint(
             receiver,
@@ -148,7 +148,7 @@ contract VerifierTest is Test {
         );
     }
 
-    function test_mint() public {
+    function testMint() public {
         anonMinter.mint(
             receiver,
             123,

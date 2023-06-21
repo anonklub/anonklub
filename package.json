@@ -37,7 +37,7 @@
     "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && turbo --filter @anonset/prove-api... build && pnpm --filter @anonset/prove-api server.prod",
     "pre.demo": "ttab -w 'pnpm run start.prove-api'",
     "demo": "pnpm run pre.demo && sleep 5 && pnpm run --filter @anonset/demo start",
-    "fix": "turbo format.fix lint.fix",
+    "fix": "turbo _format.fix _lint.fix",
     "_format": "prettier -c .",
     "format": "turbo run _format",
     "_format.fix": "prettier -w .",
