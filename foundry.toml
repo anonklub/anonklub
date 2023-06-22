@@ -5,5 +5,5 @@
     test = "contracts/test"
 
 [fmt]
-    ignore = ["lib/forge-std"]
+    ignore = ["lib/forge-std","lib/openzeppelin-contracts"]
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config

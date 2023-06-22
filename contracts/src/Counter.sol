@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 contract Counter {
+    // test
     uint256 public number;
 
     function setNumber(uint256 newNumber) public {
