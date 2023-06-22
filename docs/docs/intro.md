@@ -23,11 +23,11 @@ On one side, we know that transactions require the computation of ECDSA signatur
 
 In the context of decentralized applications (dApps), this approach adds an extra layer of logic to our smart contracts. Instead of directly verifying signatures, we can verify ECDSA signatures and execute arbitrary logic inside ZKPs, then verify those proofs on-chain, and finally execute our smart contract logic. This method allows us to support privacy on-chain with existing ECDSA keys for Ethereum addresses, without any change to Ethereum itself. This offers a promising avenue for supporting privacy where users want it, leveraging the millions of ECDSA keys ready to be utilized.
 
-
 ## Challenges
+
 Current zk-SNARK proving systems are based on elliptic curves that only allow operations on "finite fields". A finite field, in mathematical terms, is a set or group of numbers where addition, subtraction, multiplication, and division (excluding division by zero) are defined and yield results that remain within the set. In the context of zk-SNARKs, these finite fields are represented as residues modulo a specific prime number.
 
-This characteristic of finite fields restricts the maximum value that can be used in zk-SNARK proofs to 254 bits. However, ECDSA involves arithmetic on 256-bit numbers when working with elliptic curves. 256 > 254 ... meaning overflowing issues.  
+This characteristic of finite fields restricts the maximum value that can be used in zk-SNARK proofs to 254 bits. However, ECDSA involves arithmetic on 256-bit numbers when working with elliptic curves. 256 > 254 ... meaning overflowing issues.
 
 This is why the ECDSA curve is said to be not "SNARK friendly" and to involve "non-native" arithmetic. This challenge is precisely what the zk-ECDSA intends to address.
 
