@@ -5,11 +5,11 @@ on:
   pull_request:
     branches: [main, staging]
     paths:
-      ['{apis,contracts,circuits,membership}/**/*.{?(c){j,t}s?(x),graphql,sol}', 'contracts/**/*.sol']
+      ['{apis,circuits,membership}/**/*.{js,ts,tsx,graphql}', 'contracts/**/*.sol']
   push:
     branches: [main, staging]
     paths:
-      ['{apis,contracts,circuits,membership}/**/*.{?(c){j,t}s?(x),graphql,sol}', 'contracts/**/*.sol']
+      ['{apis,circuits,membership}/**/*.{js,ts,tsx,graphql}', 'contracts/**/*.sol']
 
 jobs:
   test:
