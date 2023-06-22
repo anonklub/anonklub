@@ -54,6 +54,7 @@ jobs:
       - name: Run tests
         env:
           DUNE_API_KEY: foo
+          GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }} # required for build step on which test depends on
         run: pnpm test
 
       - name: Coveralls
