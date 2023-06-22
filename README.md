@@ -15,4 +15,8 @@
 | [queries/the_graph](queries/the_graph)             | [The Graph](https://thegraph.com/en/) queries examples                                                                                                     |                                                                                                      :heavy_check_mark:                                                                                                       |                                                              |
 | ui                                                 | User Interface (fetch anonymity sets, generate or verify membership proofs)                                                                                |                                                                                                      :heavy_check_mark:                                                                                                       | https://anonklub.fly.dev/                                    |
 
+## Environment
+
+Environment variables you may need: see [`.env.example`](.env.example)
+
 ## [Contribute](https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/contribute)
