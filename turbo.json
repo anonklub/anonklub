@@ -63,9 +63,10 @@
       "outputs": ["src/lib/graph/.graphclient/**"]
     },
     "test": {
-      "dependsOn": ["build"],
+      "dependsOn": ["^build"],
       "inputs": [
-        "{apis/{prove,query},membership,circuits/circom}/{src,test}/**/*.{j,t}s?(x)"
+        "{apis/{prove,query},membership,circuits/circom}/{src,test}/**/*.{j,t}s?(x)",
+        "contracts/src/**/*.sol"
       ]
     },
     "deploy": {

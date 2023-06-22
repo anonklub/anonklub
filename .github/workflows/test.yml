@@ -6,15 +6,15 @@ on:
     branches: [main, staging]
     paths:
       [
-        '{apis,contracts,circuits,membership}/**/*.{?(c){j,t}s?(x),graphql,sol}',
-        '!contracts/lib/forge-std/**',
+        '{apis,circuits,membership}/**/*.{js,ts,tsx,graphql}',
+        'contracts/**/*.sol',
       ]
   push:
     branches: [main, staging]
     paths:
       [
-        '{apis,contracts,circuits,membership}/**/*.{?(c){j,t}s?(x),graphql,sol}',
-        '!contracts/lib/forge-std/**',
+        '{apis,circuits,membership}/**/*.{js,ts,tsx,graphql}',
+        'contracts/**/*.sol',
       ]
 
 jobs:
@@ -60,6 +60,7 @@ jobs:
       - name: Run tests
         env:
           DUNE_API_KEY: foo
+          GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }} # required for build step on which test depends on
         run: pnpm test
 
       - name: Coveralls
