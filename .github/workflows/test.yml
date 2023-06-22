@@ -5,17 +5,11 @@ on:
   pull_request:
     branches: [main, staging]
     paths:
-      [
-        '{apis,contracts,circuits,membership}/**/*.{?(c){j,t}s?(x),graphql,sol}',
-        '!contracts/lib/forge-std/**',
-      ]
+      ['{apis,contracts,circuits,membership}/**/*.{?(c){j,t}s?(x),graphql,sol}', 'contracts/**/*.sol']
   push:
     branches: [main, staging]
     paths:
-      [
-        '{apis,contracts,circuits,membership}/**/*.{?(c){j,t}s?(x),graphql,sol}',
-        '!contracts/lib/forge-std/**',
-      ]
+      ['{apis,contracts,circuits,membership}/**/*.{?(c){j,t}s?(x),graphql,sol}', 'contracts/**/*.sol']
 
 jobs:
   test:
