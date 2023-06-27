@@ -1,14 +1,14 @@
 # Contracts
 
 ## Environment
+
 Environment variables used in this directory:
 
 | Variable              |
-|-----------------------|
+| --------------------- |
 | `DEPLOYER_PRIVATEKEY` |
 | `SEPOLIA_RPC_URL`     |
 | `ETHERSCAN_API_KEY`   |
-
 
 ### Deploy
 
@@ -22,7 +22,8 @@ The merkle root use as constructor argument to deploy this contract corresponds 
 
 ### Verify
 
-[//]: # (TODO: fix passing of merkle root constructor argument, probably needs to be converted into base 10 integer string)
+[//]: # 'TODO: fix passing of merkle root constructor argument, probably needs to be converted into base 10 integer string'
+
 Somehow verification at deployment with `forge create --verify` or even `forge verify-contract` failed.  
 So instead use `--show-standard-json-input` to get json input and upload that file manually to etherscan.  
 See `pn --filter contracts verify.sepolia`
