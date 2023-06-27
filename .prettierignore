@@ -19,6 +19,8 @@ coverage
 public
 
 .turbo
+
+cache
 contracts/lib/forge-std
 contracts/lib/openzeppelin-contracts
 contracts/out
