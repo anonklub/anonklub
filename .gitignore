@@ -8,6 +8,7 @@ node_modules
 out
 
 *.log
+!benchmark.log
 tsconfig.tsbuildinfo
 circuits/circom/cache
 

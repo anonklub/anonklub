@@ -22,3 +22,5 @@
 - `pnpm verify.local`
 - `pnpm verify.onchain`
 - `pnpm generate-calldata`
+
+## [Benchmark](./benchmark)
