@@ -2,7 +2,6 @@ node_modules
 pnpm-lock.yaml
 
 # build dirs
-build
 dist
 .next
 .graphclient
@@ -12,10 +11,6 @@ coverage
 
 # JetBrains IDE
 .idea
-
-docusaurus.config.js
-.docusaurus
-
 
 # Generated code
 apis/prove/generated

@@ -4,7 +4,6 @@ packages:
   - circuits/circom
   - contracts
   - demo
-  - docs
   - infra
   - membership
   - ui

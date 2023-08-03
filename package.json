@@ -52,13 +52,5 @@
     "typecheck": "turbo run typecheck",
     "validate": "turbo run _format _lint build --cache-dir=.turbo"
   },
-  "workspaces": [
-    "apis/*",
-    "circuits/*",
-    "membership",
-    "demo",
-    "docs",
-    "infra",
-    "ui"
-  ]
+  "workspaces": ["apis/*", "circuits/*", "membership", "demo", "infra", "ui"]
 }

@@ -1,8 +1,7 @@
 node_modules
 pnpm-lock.yaml
 
-# TS build dir
-build
+# build dirs
 dist
 .next
 
@@ -15,7 +14,6 @@ coverage
 *.graphql
 .graphclient
 
-.docusaurus
 public
 
 .turbo
