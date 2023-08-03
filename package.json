@@ -5,9 +5,9 @@
     "is-ci-cli": "^2.2.0"
   },
   "devDependencies": {
-    "@3pwd/eslint-config-with-jest": "^1.0.0",
-    "@3pwd/prettier-config": "^1.0.1",
     "@faker-js/faker": "^7.6.0",
+    "@sripwoud/eslint-config-with-jest": "^1.0.1",
+    "@sripwoud/prettier-config": "^1.0.2",
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.15",
     "barrelsby": "^2.5.1",
