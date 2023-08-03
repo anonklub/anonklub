@@ -22,7 +22,7 @@ function install_redis() {
 
 function build() {
   cd "$install_dir"
-  git clone https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa
+  git clone https://github.com/anonklub/anonklub
   cd e2e-zk-ecdsa
 
   pnpm --filter @anonset/prove-api... i

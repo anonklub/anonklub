@@ -5,13 +5,13 @@ info:
   version: 1.0.0
   license:
     name: MIT
-    url: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/blob/main/LICENSE'
+    url: 'https://github.com/anonklub/anonklub/blob/main/LICENSE'
   contact:
     name: Privacy Scaling Explorations
-    url: 'https://appliedzkp.org/'
+    url: 'https://pse.dev/'
 externalDocs:
   description: 'GitHub repository'
-  url: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/tree/main/apis/prove'
+  url: 'https://github.com/anonklub/anonklub/tree/main/apis/prove'
 servers:
   - url: 'http://10.35.1.56:3000'
   - url: 'http://localhost:3000'

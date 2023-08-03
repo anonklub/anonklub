@@ -3,8 +3,8 @@ import { ReactNode } from 'react'
 
 export enum Links {
   Twitter = 'https://twitter.com/PrivacyScaling',
-  Github = 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa',
-  Docs = 'https://privacy-scaling-explorations.github.io/e2e-zk-ecdsa/',
+  Github = 'https://github.com/anonklub/anonklub',
+  Docs = 'https://anonklub.github.io',
 }
 
 export const ExternalLink = ({
