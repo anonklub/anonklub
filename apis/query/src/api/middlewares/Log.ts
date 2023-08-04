@@ -5,7 +5,6 @@ import {
   Middleware,
 } from 'routing-controllers-extended'
 import { Service } from 'typedi'
-
 import { logger } from '~/logger'
 
 @Service()

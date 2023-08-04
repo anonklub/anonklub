@@ -1,13 +1,14 @@
 name: Deploy Docusaurus
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
-    paths: ['docs']
+    paths: ['docs/**', '.github/workflows/deploy-docusaurus.yml']
 
 jobs:
-  test-deploy:
-    name: Test deployment
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,7 +21,7 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 7
+          version: 8.6.2
           run_install: false
 
       - name: Get pnpm store directory
@@ -36,8 +37,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pnpm-store-
 
       - name: Install - Build
-        working-directory: ./docs
-        run: pnpm i && pnpm run build
+        run: pnpm --filter docs i && pnpm --filter docs build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

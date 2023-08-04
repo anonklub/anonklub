@@ -2,10 +2,11 @@ name: Snyk Security Checks
 on:
   pull_request:
     branches: [main, staging]
-    paths: ['apis/**', 'circuits/**', '!**/*md', '!**/*yaml', '!**/*yml']
+    types: [opened, synchronize, reopened]
+    paths: ['pnpm-lock.yaml']
   push:
     branches: [main, staging]
-    paths: ['apis/**', 'circuits/**', '!**/*md', '!**/*yaml', '!**/*yml']
+    paths: ['pnpm-lock.yaml']
 
 jobs:
   security:
@@ -22,7 +23,7 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 7
+          version: 8.6.2
           run_install: false
 
       - name: Get pnpm store directory
@@ -41,8 +42,8 @@ jobs:
         run: pnpm i --ignore-scripts --reporter=silent
 
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+        uses: snyk/actions/node@0.4.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --all-projects
+          args: --all-projects --exclude=queries

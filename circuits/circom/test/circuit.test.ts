@@ -3,7 +3,6 @@ import { wasm as wasm_tester } from 'circom_tester'
 import { buildPoseidon } from 'circomlibjs'
 import { BigNumber, utils } from 'ethers'
 import { join } from 'path'
-
 import {
   bigintToArray,
   bigintToUint8Array,
@@ -12,7 +11,7 @@ import {
   MerkleTree,
   minAddress,
   uint8ArrayToBigint,
-} from '@e2e-zk-ecdsa/shared'
+} from '@anonset/membership'
 
 jest.setTimeout(10_000_000) // ~1 hour
 

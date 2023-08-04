@@ -1,12 +1,11 @@
 import { Service } from 'typedi'
-
 import { Db } from '~/bigquery'
 
 @Service()
 export class BigQueryRepository {
   constructor(public db: Db) {}
 
-  async queryEthBalance(balance: number): Promise<string[]> {
+  async queryEthBalance(balance: string): Promise<string[]> {
     return this.db
       .query({
         params: { balance },

@@ -1,9 +1,14 @@
 {
   "directory": [
-    "shared/src",
+    "apis/prove/src/handlers",
     "apis/query/src/api/controllers/requests",
     "apis/query/src/api/services",
-    "apis/query/src/api/repositories"
+    "apis/query/src/api/repositories",
+    "demo/src/cli/prompts",
+    "infra/resources",
+    "ui/src/components",
+    "ui/src/hooks",
+    "ui/src/lib"
   ],
   "delete": true,
   "noSemicolon": true,

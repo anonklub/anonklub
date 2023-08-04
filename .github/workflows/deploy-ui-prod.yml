@@ -1,0 +1,27 @@
+name: Deployment UI - Prod
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['ui/**', '!**/*.md', '.github/workflows/deploy-ui-prod.yml']
+
+jobs:
+  deployment:
+    environment:
+      name: ui-prod
+      url: https://anonklub.fly.dev/
+    name: Deploy UI to production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy
+        run: |
+          flyctl deploy \
+            --config ui/fly-prod.toml \
+            --dockerfile ui/Dockerfile \
+            --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

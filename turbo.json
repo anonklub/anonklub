@@ -1,0 +1,76 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "//#_format": {
+      "inputs": [
+        "*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
+        "{.github,apis,circuits,demo,docs,infra,membership,ui}/**/*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
+        "!{apis,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+      ]
+    },
+    "_format": {
+      "cache": false,
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "_format.fix": {
+      "cache": false,
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "//#_format.fix": {
+      "inputs": [
+        "*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
+        "{.github,apis,circuits,demo,docs,infra,membership,ui}/**/*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
+        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+      ]
+    },
+    "_lint": {
+      "cache": false,
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "//#_lint": {
+      "inputs": [
+        "*.c?{j,t}s?(x)",
+        "{apis,circuits,demo,docs,infra,membership,ui}/**/*.c?{j,t}s?(x)",
+        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+      ]
+    },
+    "_lint.fix": {
+      "cache": false,
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "//#_lint.fix": {
+      "inputs": [
+        "*.c?{j,t}s?(x)",
+        "{apis,circuits,demo,docs,infra,membership,ui}/**/*.c?{j,t}s?(x)",
+        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+      ]
+    },
+    "typecheck": {
+      "inputs": [
+        "*.{j,t}s?(x)",
+        "{apis,circuits,demo,docs,infra,membership,ui}/**/{src,test}/**/*.{j,t}s?(x)",
+        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+      ]
+    },
+    "build": {
+      "dependsOn": ["^build", "build.graph"],
+      "outputs": [
+        "{apis,demo,docs,membership,ui}/**/{build,dist,.next,.docusaurus}/**",
+        "!{apis,demo,docs,membership,ui}/**/node_modules/**"
+      ]
+    },
+    "build.graph": {
+      "outputs": ["src/lib/graph/.graphclient/**"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "{apis/{prove,query},membership,circuits/circom}/{src,test}/**/*.{j,t}s?(x)",
+        "contracts/src/**/*.sol"
+      ]
+    },
+    "deploy": {
+      "dependsOn": ["test"]
+    }
+  }
+}

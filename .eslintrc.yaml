@@ -1,35 +1,74 @@
-extends: ['@r1oga']
+extends: ['@sripwoud/eslint-config-with-jest']
 parserOptions:
   project:
     [
       'tsconfig.json',
-      'apis/proving/tsconfig.json',
+      'apis/prove/tsconfig.json',
       'apis/query/tsconfig.json',
       'circuits/circom/tsconfig.json',
-      'docs/tsconfig.json',
-      'shared/tsconfig.json',
+      'demo/tsconfig.json',
+      'infra/tsconfig.json',
+      'membership/tsconfig.json',
+      'ui/tsconfig.json',
     ]
 
 rules:
   no-useless-constructor: off
 
 overrides:
-  - files: ['apis/proving/generated/*.js']
+  - files: ['membership/test/ProofRequest.test.ts']
+    rules:
+      '@typescript-eslint/dot-notation': off
+  - files: ['apis/prove/src/mq/queue.ts']
+    rules:
+      '@typescript-eslint/strict-boolean-expressions': off
+  - files:
+      [
+        'demo/src/cli/index.ts',
+        'apis/prove/src/mq/processor.ts',
+        'apis/prove/src/mq/worker.ts',
+        'infra/resources/config.ts',
+        'membership/src/ProofRequest/index.ts',
+        'membership/test/ProofRequest.test.ts',
+      ]
+    rules:
+      '@typescript-eslint/restrict-template-expressions': off
+  - files:
+      [
+        'apis/query/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts',
+        'apis/query/src/api/repositories/DuneRepository.ts',
+      ]
+    rules:
+      '@typescript-eslint/no-inferrable-types': off
+  - files: ['apis/prove/generated/*.js']
     rules:
       eqeqeq: off
-  - files: ['apis/proving/generated/witness_calculator.js']
+  - files: ['apis/prove/generated/witness_calculator.js']
     env:
       browser: true
     rules:
       prefer-const: off
       camelcase: off
-  - files: ['apis/proving/generated/generate_witness.js']
+  - files: ['apis/prove/generated/generate_witness.js']
     rules:
       '@typescript-eslint/no-var-requires': off
-  - files: ['apis/proving/src/routes.ts']
+  - files: ['*.tsx']
+    rules:
+      '@typescript-eslint/no-misused-promises':
+        [error, { checksVoidReturn: { attributes: false } }]
+  - files: ['apis/prove/src/routes.ts']
     rules:
       '@typescript-eslint/no-misused-promises': off
-  - files: ['apis/*/src/index.ts', 'apis/proving/generated/*.js']
+  - files:
+      [
+        'apis/*/src/index.ts',
+        'apis/prove/generated/*.js',
+        'apis/prove/src/mq/*.ts',
+        'circuits/circom/scripts/*.ts',
+        'demo/src/index.ts',
+        'demo/src/cli/index.ts',
+        'ui/src/lib/config.ts',
+      ]
     rules:
       no-console: off
   - files: ['apis/query/src/decorators/Logger.ts']
@@ -49,3 +88,6 @@ overrides:
       ]
     rules:
       jest/expect-expect: 'off'
+  - files: ['shared/src/index.ts']
+    rules:
+      'sort/exports': 'off'

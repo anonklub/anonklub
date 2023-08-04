@@ -1,0 +1,32 @@
+name: Deployment Query API - Production
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      [
+        'apis/query/**',
+        '!**/*.md',
+        '.github/workflows/deploy-query-api-prod.yml',
+      ]
+
+jobs:
+  deployment:
+    environment:
+      name: query-api-prod
+      url: https://anonset.fly.dev
+    name: Deploy Query API to production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy
+        run: |
+          flyctl deploy \
+            --config apis/query/fly-prod.toml \
+            --dockerfile apis/query/Dockerfile \
+            --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

@@ -1,0 +1,29 @@
+{
+  "name": "@anonset/demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "3pwd <me@3pwd.xyz>",
+  "license": "MIT",
+  "dependencies": {
+    "@anonset/membership": "workspace:^",
+    "@noble/secp256k1": "^1.7.0",
+    "delay": "^5.0.0",
+    "ethers": "^5.7.2",
+    "inquirer": "^8",
+    "inquirer-fuzzy-path": "^2.3.0",
+    "ora": "^5",
+    "terminal-link": "2.1.1"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3",
+    "@types/yargs": "^17.0.24",
+    "snarkjs": "^0.7.0"
+  },
+  "scripts": {
+    "dev": "tsnd --cls --exit-child --ignore-watch node_modules --quiet  --respawn --rs --transpile-only src/index.ts",
+    "start": "tsnd --cls --exit-child src/index.ts",
+    "typecheck": "tsc"
+  }
+}

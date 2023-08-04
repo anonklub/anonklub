@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker'
 import { Container } from 'typedi'
 import { DuneRepository, GraphRepository } from '@repositories'
 import { QueryService } from '@services'
-
 import { Db } from '~/bigquery'
 
 describe('Service', () => {
@@ -27,14 +26,20 @@ describe('Service', () => {
         .mockResolvedValueOnce([addresses.map((address) => ({ address }))])
 
       await expect(
-        queryService.getEthBalanceAnonSet(10),
+        queryService.getEthBalanceAnonSet('10'),
       ).resolves.toMatchObject(addresses)
     })
 
     it('have a min ERC20 balance', async () => {
       jest
         .spyOn(DuneRepository.prototype, 'queryErc20Balance')
-        .mockResolvedValueOnce({ columns: [], data: addresses })
+        .mockResolvedValueOnce({
+          // @ts-expect-error
+          result: {
+            rows: addresses.map((address) => ({ address })),
+          },
+        })
+
       await expect(
         queryService.getErc20BalanceAnonSet({ min, tokenAddress }),
       ).resolves.toMatchObject(addresses)
@@ -42,8 +47,14 @@ describe('Service', () => {
 
     it('deposited into the Beacon Contract', async () => {
       jest
-        .spyOn(GraphRepository.prototype, 'getBeaconDepositors')
-        .mockResolvedValueOnce(addresses)
+        .spyOn(DuneRepository.prototype, 'queryBeaconDepositors')
+        .mockResolvedValueOnce({
+          // @ts-expect-error
+          result: {
+            rows: addresses.map((address) => ({ address })),
+          },
+        })
+
       await expect(queryService.getBeaconDepositors()).resolves.toMatchObject(
         addresses,
       )
@@ -53,6 +64,7 @@ describe('Service', () => {
       jest
         .spyOn(GraphRepository.prototype, 'getPunkOwners')
         .mockResolvedValueOnce(addresses)
+
       await expect(queryService.getPunkOwners()).resolves.toMatchObject(
         addresses,
       )
@@ -62,6 +74,7 @@ describe('Service', () => {
       jest
         .spyOn(GraphRepository.prototype, 'getEnsProposalVoters')
         .mockResolvedValueOnce(addresses)
+
       await expect(
         queryService.getEnsProposalVoters({
           choice: 'FOR',

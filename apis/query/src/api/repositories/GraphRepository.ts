@@ -1,8 +1,5 @@
 import { Service } from 'typedi'
-
 import {
-  BeaconDepositorsDocument,
-  Depositor,
   execute,
   Punk,
   PunkOwnersDocument,
@@ -15,10 +12,7 @@ import {
 @Service()
 export class GraphRepository {
   async autoPage<T, U>(
-    query:
-      | typeof BeaconDepositorsDocument
-      | typeof PunkOwnersDocument
-      | typeof VotersPerProposalDocument,
+    query: typeof PunkOwnersDocument | typeof VotersPerProposalDocument,
     variables: T,
     resultFn: (arg0: any) => U[],
     idFn: (arg0: U) => string,
@@ -74,15 +68,6 @@ export class GraphRepository {
       {},
       (data) => data.punks,
       (punk) => punk.owner.id,
-    )
-  }
-
-  async getBeaconDepositors() {
-    return this.autoPage<object, Depositor>(
-      BeaconDepositorsDocument,
-      {},
-      (data) => data.depositors,
-      (depositor) => depositor.id,
     )
   }
 }

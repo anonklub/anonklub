@@ -1,11 +1,10 @@
 node_modules
-package-lock.json
 pnpm-lock.yaml
-yarn.lock
 
 # build dirs
-build
 dist
+.next
+.graphclient
 
 # Jest
 coverage
@@ -13,11 +12,11 @@ coverage
 # JetBrains IDE
 .idea
 
-docs/docusaurus.config.js
-.docusaurus
-
-.idea
-
 # Generated code
+apis/prove/generated
+circuits/circom/generated
 
-circuits/circom/prover/generated
+next-env.d.ts
+next.config.js
+
+public

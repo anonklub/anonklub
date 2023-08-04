@@ -1,11 +1,9 @@
 node_modules
-package-lock.json
 pnpm-lock.yaml
-yarn.lock
 
-# TS build dir
-build
+# build dirs
 dist
+.next
 
 # Jest
 coverage
@@ -16,7 +14,14 @@ coverage
 *.graphql
 .graphclient
 
-.docusaurus
-docs/docs
+public
 
-.idea
+.turbo
+
+cache
+contracts/lib/forge-std
+contracts/lib/openzeppelin-contracts
+contracts/out
+
+
+

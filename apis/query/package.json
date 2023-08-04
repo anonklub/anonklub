@@ -1,9 +1,9 @@
 {
-  "name": "@e2e-zk-ecdsa/query-api",
+  "name": "@anonset/query-api",
   "version": "1.0.0",
   "description": "Express Server Template",
   "main": "index.js",
-  "author": "r1oga <38692952+r1oga@users.noreply.github.com>",
+  "author": "3pwd <me@3pwd.xyz>",
   "license": "MIT",
   "_moduleAliases": {
     "@controllers": "dist/api/controllers",
@@ -15,36 +15,37 @@
     "~": "dist/lib"
   },
   "dependencies": {
+    "@cowprotocol/ts-dune-client": "^0.0.1",
     "@google-cloud/bigquery": "^6.0.3",
-    "@graphprotocol/client-cli": "^2.2.15",
     "@graphql-mesh/cache-localforage": "^0.7.3",
-    "@graphql-mesh/cross-helpers": "^0.3.0",
+    "@graphql-mesh/cross-helpers": "^0.3.4",
     "@graphql-mesh/graphql": "^0.33.4",
     "@graphql-mesh/http": "^0.3.19",
     "@graphql-mesh/merger-stitching": "^0.18.4",
     "@graphql-mesh/runtime": "^0.46.2",
-    "@graphql-mesh/store": "^0.9.3",
-    "@graphql-mesh/types": "^0.89.2",
-    "@graphql-mesh/utils": "^0.43.3",
+    "@graphql-mesh/store": "^0.93.1",
+    "@graphql-mesh/types": "^0.93.1",
+    "@graphql-mesh/utils": "^0.93.1",
     "@graphql-typed-document-node/core": "^3.1.1",
     "@whatwg-node/fetch": "^0.5.3",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
-    "dune-ts": "^1.1.4",
+    "ethers": "^5.7.2",
     "express": "^4.18.2",
     "graphql": "^16.6.0",
     "helmet": "^6.0.0",
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0",
     "reflect-metadata": "^0.1.13",
-    "routing-controllers-extended": "^1.0.4",
+    "routing-controllers-extended": "^1.0.8",
     "swagger-ui-express": "^4.6.0",
     "typedi": "^0.10.0",
     "winston": "^3.8.2",
-    "yaml": "^2.2.1"
+    "yaml": "^2.2.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "@graphprotocol/client-cli": "^2.2.22",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.14",
     "@types/morgan": "^1.9.3",
@@ -53,16 +54,14 @@
     "supertest": "^6.3.1"
   },
   "scripts": {
-    "build": "npm run clean && npm run compile",
+    "build": "tsc -p tsconfig.compile.json",
+    "build.graph": "graphclient build  --dir src/lib/graph",
     "clean": "rm -rf dist",
-    "compile": "tsc -p tsconfig.compile.json",
-    "graph": "graphclient build  --dir src/lib/graph",
-    "start": "npm run build && npm run start.prod",
+    "start": "pnpm run build && npm run start.prod",
     "start.dev": "NODE_ENV=development tsnd --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
-    "start.docker.dev": "docker compose -f docker-compose-dev.yaml up --build query-api",
-    "start.docker.prod": "docker compose up --build query-api",
-    "start.prod": "NODE_ENV=production node -r module-alias/register ./dist",
-    "start.watch": "NODE_ENV=development tsnd --respawn --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
-    "test": "jest"
+    "start.prod": "node -r module-alias/register ./dist",
+    "start.watch": "tsnd --respawn --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
+    "test": "jest -c test/jest.config.ts",
+    "typecheck": "tsc"
   }
 }

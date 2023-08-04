@@ -1,35 +1,32 @@
 {
-  "name": "poseidon-ecdsa-membership",
+  "name": "@anonset/circom",
   "version": "1.0.0",
   "description": "Prove membership in a poseidon merkle tree by proving an ECDSA signature",
-  "main": "",
-  "scripts": {
-    "test": "bash maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest",
-    "server": "ts-node ./prover/index.ts",
-    "client": "ts-node ./prover/test_client.ts"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@e2e-zk-ecdsa/shared": "workspace:^1.0.0",
+  "author": "BlakeMScurr <blakemscurr@gmail.com>",
+  "contributors": ["3pwd <me@3pwd.xyz>"],
+  "license": "MIT",
+  "devDependencies": {
+    "@anonset/membership": "workspace:^",
     "@noble/secp256k1": "^1.7.0",
-    "@types/node": "^18.13.0",
+    "@types/inquirer": "^9.0.3",
     "circom-ecdsa": "github:0xparc/circom-ecdsa",
+    "circom_tester": "^0.0.19",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
-    "eslint": "^8.30.0",
-    "express": "^4.18.2",
-    "express-async-errors": "^3.1.1",
-    "express-async-handler": "^1.2.0",
-    "ffjavascript": "^0.2.57",
-    "play-contracts": "github:ChihChengLiang/poseidon-tornado"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.17",
-    "@types/node-fetch": "^2.6.2",
-    "circom_tester": "^0.0.19",
     "ethers": "^5.7.2",
-    "hardhat": "^2.12.2",
-    "ts-node": "^10.9.1"
+    "ffjavascript": "^0.2.57",
+    "inquirer": "^8",
+    "inquirer-fuzzy-path": "^2.3.0",
+    "play-contracts": "github:ChihChengLiang/poseidon-tornado",
+    "snarkjs": "^0.7.0",
+    "terminal-link": "2.1.1",
+    "viem": "0.3.27"
+  },
+  "scripts": {
+    "generate-calldata": "tsnd scripts/generate-calldata",
+    "test": "bash scripts/maybe-fix-circom-imports.sh && NODE_OPTIONS=--max_old_space_size=8192 jest -c test/jest.config.ts",
+    "typecheck": "tsc",
+    "verify.local": "tsnd scripts/verify-local",
+    "verify.onchain": "tsnd scripts/verify-onchain"
   }
 }

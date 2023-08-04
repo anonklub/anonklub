@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Anonnymity Set API
-  description: Anonnymity Set API
+  title: Anonymity Set API
+  description: Anonymity Set API
   version: 1.0.0
   license:
     name: MIT
@@ -13,9 +13,9 @@ externalDocs:
   description: 'GitHub repository'
   url: 'https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/tree/main/apis/query'
 servers:
-  - url: 'https://anon-set.fly.dev'
+  - url: 'https://anonset.fly.dev'
     description: 'Production server'
-  - url: 'https://anon-set-staging.fly.dev'
+  - url: 'https://anonset-staging.fly.dev'
     description: 'Staging server'
 paths:
   /balance/ETH:
@@ -28,11 +28,12 @@ paths:
       parameters:
         - name: min
           in: query
-          description: Minimum ETH amount the addresses must have.
+          description: Minimum ETH amount (in ETH) the addresses must own.
           required: true
           schema:
             type: number
             format: int32
+            default: 100
       responses:
         '200':
           description: Successful response
@@ -64,7 +65,7 @@ paths:
             type: string
         - name: min
           in: query
-          description: Minimum ERC20 amount the addresses must have.
+          description: Minimum ERC20 amount the addresses must own.
           required: true
           schema:
             type: number

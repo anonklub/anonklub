@@ -1,0 +1,9 @@
+[profile.default]
+    src = "contracts/src"
+    out = "contracts/out"
+    libs = ["contracts/lib"]
+    test = "contracts/test"
+
+[fmt]
+    ignore = ["lib/forge-std"]
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config

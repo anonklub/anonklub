@@ -1,0 +1,41 @@
+app = "anonklub"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[build.args]
+  NEXT_PUBLIC_QUERY_API_URL = 'https://anonset.fly.dev'
+  NEXT_PUBLIC_PROVE_API_URL = 'http://anonklub.xyz:3000'
+  NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID = '15d4c21cb519a86d0a3cdf1114cc56ec'
+  NEXT_PUBLIC_VERIFIER_ADDRESS = '0x893f293e3918a179bf87fb772206e9927db61b0c'
+  NEXT_PUBLIC_VERIFIER_CHAIN_ID = '11155111' # sepolia
+
+[[services]]
+  http_checks = []
+  internal_port = 3000
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"

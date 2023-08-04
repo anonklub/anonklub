@@ -1,19 +1,18 @@
-import { Dune, ParameterType } from 'dune-ts'
+import { DuneClient as Dune, QueryParameter } from '@cowprotocol/ts-dune-client'
 import { Service } from 'typedi'
 
 export enum Query {
+  Beacon = 2461144,
   Erc20 = 1500107,
 }
 
 @Service()
 export class DuneRepository {
   dune: Dune
-
   constructor() {
-    this.dune = new Dune({
-      password: process.env.DUNE_PASSWORD,
-      username: process.env.DUNE_USERNAME,
-    })
+    const { DUNE_API_KEY } = process.env
+    if (DUNE_API_KEY === undefined) throw new Error('missing dune api key')
+    this.dune = new Dune(DUNE_API_KEY)
   }
 
   public async queryErc20Balance({
@@ -23,9 +22,15 @@ export class DuneRepository {
     min: string
     tokenAddress: string
   }) {
-    return this.dune.query(Query.Erc20, [
-      { key: 'tokenAddress', type: ParameterType.Text, value: tokenAddress },
-      { key: 'min', type: ParameterType.Number, value: min },
-    ])
+    const parameters = [
+      QueryParameter.number('min', min),
+      QueryParameter.text('tokenAddress', `"${tokenAddress}"`),
+    ]
+
+    return this.dune.refresh(Query.Erc20, parameters)
+  }
+
+  public async queryBeaconDepositors() {
+    return this.dune.refresh(Query.Beacon)
   }
 }

@@ -209,6 +209,8 @@ input DelegateChange_filter {
   blockNumber_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [DelegateChange_filter]
+  or: [DelegateChange_filter]
 }
 
 enum DelegateChange_orderBy {
@@ -355,6 +357,8 @@ input DelegateVotingPowerChange_filter {
   blockNumber_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [DelegateVotingPowerChange_filter]
+  or: [DelegateVotingPowerChange_filter]
 }
 
 enum DelegateVotingPowerChange_orderBy {
@@ -427,6 +431,8 @@ input Delegate_filter {
   proposals_: Proposal_filter
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Delegate_filter]
+  or: [Delegate_filter]
 }
 
 enum Delegate_orderBy {
@@ -689,6 +695,8 @@ input GovernanceFramework_filter {
   quorumDenominator_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [GovernanceFramework_filter]
+  or: [GovernanceFramework_filter]
 }
 
 enum GovernanceFramework_orderBy {
@@ -806,6 +814,8 @@ input Governance_filter {
   proposalsCanceled_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Governance_filter]
+  or: [Governance_filter]
 }
 
 enum Governance_orderBy {
@@ -1277,6 +1287,8 @@ input Proposal_filter {
   calldatas_not_contains_nocase: [Bytes!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Proposal_filter]
+  or: [Proposal_filter]
 }
 
 enum Proposal_orderBy {
@@ -1284,7 +1296,25 @@ enum Proposal_orderBy {
   txnHash
   description
   governanceFramework
+  governanceFramework__id
+  governanceFramework__name
+  governanceFramework__type
+  governanceFramework__version
+  governanceFramework__contractAddress
+  governanceFramework__tokenAddress
+  governanceFramework__timelockAddress
+  governanceFramework__votingDelay
+  governanceFramework__votingPeriod
+  governanceFramework__proposalThreshold
+  governanceFramework__quorumVotes
+  governanceFramework__quorumNumerator
+  governanceFramework__quorumDenominator
   proposer
+  proposer__id
+  proposer__delegatedVotesRaw
+  proposer__delegatedVotes
+  proposer__tokenHoldersRepresentedAmount
+  proposer__numberVotes
   state
   quorumVotes
   tokenHoldersAtStart
@@ -1914,6 +1944,8 @@ input TokenDailySnapshot_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [TokenDailySnapshot_filter]
+  or: [TokenDailySnapshot_filter]
 }
 
 enum TokenDailySnapshot_orderBy {
@@ -2028,11 +2060,18 @@ input TokenHolder_filter {
   totalTokensHeld_not_in: [BigDecimal!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [TokenHolder_filter]
+  or: [TokenHolder_filter]
 }
 
 enum TokenHolder_orderBy {
   id
   delegate
+  delegate__id
+  delegate__delegatedVotesRaw
+  delegate__delegatedVotes
+  delegate__tokenHoldersRepresentedAmount
+  delegate__numberVotes
   tokenBalanceRaw
   tokenBalance
   totalTokensHeldRaw
@@ -2165,11 +2204,42 @@ input VoteDailySnapshot_filter {
   timestamp_not_in: [BigInt!]
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [VoteDailySnapshot_filter]
+  or: [VoteDailySnapshot_filter]
 }
 
 enum VoteDailySnapshot_orderBy {
   id
   proposal
+  proposal__id
+  proposal__txnHash
+  proposal__description
+  proposal__state
+  proposal__quorumVotes
+  proposal__tokenHoldersAtStart
+  proposal__delegatesAtStart
+  proposal__againstDelegateVotes
+  proposal__forDelegateVotes
+  proposal__abstainDelegateVotes
+  proposal__totalDelegateVotes
+  proposal__againstWeightedVotes
+  proposal__forWeightedVotes
+  proposal__abstainWeightedVotes
+  proposal__totalWeightedVotes
+  proposal__creationBlock
+  proposal__creationTime
+  proposal__startBlock
+  proposal__endBlock
+  proposal__queueTxnHash
+  proposal__queueBlock
+  proposal__queueTime
+  proposal__executionETA
+  proposal__executionTxnHash
+  proposal__executionBlock
+  proposal__executionTime
+  proposal__cancellationTxnHash
+  proposal__cancellationBlock
+  proposal__cancellationTime
   forWeightedVotes
   againstWeightedVotes
   abstainWeightedVotes
@@ -2299,6 +2369,8 @@ input Vote_filter {
   txnHash_not_ends_with_nocase: String
   """Filter for the block changed event."""
   _change_block: BlockChangedFilter
+  and: [Vote_filter]
+  or: [Vote_filter]
 }
 
 enum Vote_orderBy {
@@ -2307,7 +2379,41 @@ enum Vote_orderBy {
   weight
   reason
   voter
+  voter__id
+  voter__delegatedVotesRaw
+  voter__delegatedVotes
+  voter__tokenHoldersRepresentedAmount
+  voter__numberVotes
   proposal
+  proposal__id
+  proposal__txnHash
+  proposal__description
+  proposal__state
+  proposal__quorumVotes
+  proposal__tokenHoldersAtStart
+  proposal__delegatesAtStart
+  proposal__againstDelegateVotes
+  proposal__forDelegateVotes
+  proposal__abstainDelegateVotes
+  proposal__totalDelegateVotes
+  proposal__againstWeightedVotes
+  proposal__forWeightedVotes
+  proposal__abstainWeightedVotes
+  proposal__totalWeightedVotes
+  proposal__creationBlock
+  proposal__creationTime
+  proposal__startBlock
+  proposal__endBlock
+  proposal__queueTxnHash
+  proposal__queueBlock
+  proposal__queueTime
+  proposal__executionETA
+  proposal__executionTxnHash
+  proposal__executionBlock
+  proposal__executionTime
+  proposal__cancellationTxnHash
+  proposal__cancellationBlock
+  proposal__cancellationTime
   block
   blockTime
   txnHash

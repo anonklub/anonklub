@@ -1,6 +1,0 @@
-# https://thegraph.com/explorer/subgraphs/3QQgWcYVRWS7ni5nCftJzSnZELTZMVQV6HTiSZKKmZBZ?view=Playground&chain=mainnet
-query BeaconDepositors($skip: Int) {
-  depositors(first: 1000, skip: $skip) {
-    id
-  }
-}
