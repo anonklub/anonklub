@@ -299,12 +299,11 @@ describe('Ordering', function () {
       addresses: [1, 2, 3, 4],
     })
     await orderingCircuit.checkConstraints(witness)
-    await orderingCircuit.assertOut(witness, { out: 1n })
 
-    witness = await orderingCircuit.calculateWitness({
-      addresses: [1, 2, 4, 3],
-    })
-    await orderingCircuit.checkConstraints(witness)
-    await orderingCircuit.assertOut(witness, { out: 0n })
+    witness = await expect(async () => {
+      await orderingCircuit.calculateWitness({
+        addresses: [1, 2, 4, 3],
+      })
+    }).rejects.toThrow('Assert Failed')
   })
 })
