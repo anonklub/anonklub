@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["test"],
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist",
+    "moduleResolution": "Node",
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "./dist/types",
+    "removeComments": true,
+    "preserveConstEnums": true
+  }
+}
