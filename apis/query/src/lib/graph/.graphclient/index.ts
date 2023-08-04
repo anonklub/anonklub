@@ -20,8 +20,8 @@ import { getMesh, ExecuteMeshFn, SubscribeMeshFn, MeshContext as BaseMeshContext
 import { MeshStore, FsStoreStorageAdapter } from '@graphql-mesh/store';
 import { path as pathModule } from '@graphql-mesh/cross-helpers';
 import { ImportFn } from '@graphql-mesh/types';
-import type { CryptopunksTypes } from './sources/cryptopunks/types';
 import type { EnsGovernanceTypes } from './sources/ens-governance/types';
+import type { CryptopunksTypes } from './sources/cryptopunks/types';
 import * as importedModule$0 from "./sources/ens-governance/introspectionSchema";
 import * as importedModule$1 from "./sources/cryptopunks/introspectionSchema";
 export type Maybe<T> = T | null;
