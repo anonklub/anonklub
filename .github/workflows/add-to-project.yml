@@ -11,5 +11,5 @@ jobs:
     steps:
       - uses: actions/add-to-project@v0.3.0
         with:
-          project-url: https://github.com/orgs/privacy-scaling-explorations/projects/12 # https://github.com/<orgs|users>/<orgName|userName>/projects/<projectNumber>
+          project-url: https://github.com/orgs/anonklub/projects/1 # https://github.com/<orgs|users>/<orgName|userName>/projects/<projectNumber>
           github-token: ${{ secrets.GHPAT_FOR_PROJECT_ACTION }} # specific access token different from GITHUB_TOKEN required (see https://github.com/marketplace/actions/add-to-github-projects#creating-a-pat-and-adding-it-to-your-repository)
