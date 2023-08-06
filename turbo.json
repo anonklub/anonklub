@@ -3,9 +3,9 @@
   "pipeline": {
     "//#_format": {
       "inputs": [
-        "*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
-        "{.github,apis,circuits,demo,docs,infra,membership,ui}/**/*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
-        "!{apis,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+        "*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
+        "{.github,apis,circuits,demo,infra,membership,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
+        "!{apis,demo,infra,membership,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "_format": {
@@ -18,9 +18,9 @@
     },
     "//#_format.fix": {
       "inputs": [
-        "*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
-        "{.github,apis,circuits,demo,docs,infra,membership,ui}/**/*.{?(c){j,t}s?(x),y?(a)ml,json,md,mdx,css,html,graphql}",
-        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+        "*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
+        "{.github,apis,circuits,demo,infra,membership,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
+        "!{apis,circuits,demo,infra,membership,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "_lint": {
@@ -30,8 +30,8 @@
     "//#_lint": {
       "inputs": [
         "*.c?{j,t}s?(x)",
-        "{apis,circuits,demo,docs,infra,membership,ui}/**/*.c?{j,t}s?(x)",
-        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+        "{apis,circuits,demo,infra,membership,ui}/**/*.c?{j,t}s?(x)",
+        "!{apis,circuits,demo,infra,membership,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "_lint.fix": {
@@ -41,22 +41,22 @@
     "//#_lint.fix": {
       "inputs": [
         "*.c?{j,t}s?(x)",
-        "{apis,circuits,demo,docs,infra,membership,ui}/**/*.c?{j,t}s?(x)",
-        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+        "{apis,circuits,demo,infra,membership,ui}/**/*.c?{j,t}s?(x)",
+        "!{apis,circuits,demo,infra,membership,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "typecheck": {
       "inputs": [
         "*.{j,t}s?(x)",
-        "{apis,circuits,demo,docs,infra,membership,ui}/**/{src,test}/**/*.{j,t}s?(x)",
-        "!{apis,circuits,demo,docs,infra,membership,ui}/**/{build,dist,node_modules,.next,.docusaurus}/**"
+        "{apis,circuits,demo,infra,membership,ui}/**/{src,test}/**/*.{j,t}s?(x)",
+        "!{apis,circuits,demo,infra,membership,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "build": {
       "dependsOn": ["^build", "build.graph"],
       "outputs": [
-        "{apis,demo,docs,membership,ui}/**/{build,dist,.next,.docusaurus}/**",
-        "!{apis,demo,docs,membership,ui}/**/node_modules/**"
+        "{apis,demo,membership,ui}/**/{build,dist,.next}/**",
+        "!{apis,demo,membership,ui}/**/node_modules/**"
       ]
     },
     "build.graph": {
