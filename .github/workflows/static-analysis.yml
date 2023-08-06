@@ -69,7 +69,7 @@ jobs:
           restore-keys: turbo-${{ github.job }}-${{ github.ref_name }}-
 
       - name: Install
-        run: pnpm i --ignore-scripts
+        run: pnpm i --ignore-scripts --no-frozen-lockfile
 
       - name: Lint || Format || Build
         env:
