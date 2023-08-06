@@ -39,7 +39,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 19
+          node-version: 19.1.0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
