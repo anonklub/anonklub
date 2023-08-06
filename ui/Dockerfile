@@ -1,6 +1,6 @@
 FROM node:19-alpine as base
 
-RUN apk update && apk upgrade && apk add dumb-init
+RUN apk update && apk upgrade && apk add dumb-init && apk add --no-cache bash
 WORKDIR app
 
 FROM base as deps
