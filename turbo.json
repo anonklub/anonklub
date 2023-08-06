@@ -29,8 +29,8 @@
     },
     "//#_lint": {
       "inputs": [
-        "*.c?{j,t}s?(x)",
-        "{apis,circuits,demo,infra,membership,ui}/**/*.c?{j,t}s?(x)",
+        "*.{cjs,js,jsx,ts,tsx}",
+        "{apis,circuits,demo,infra,membership,ui}/**/*.{cjs,js,jsx,ts,tsx}",
         "!{apis,circuits,demo,infra,membership,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
@@ -40,8 +40,8 @@
     },
     "//#_lint.fix": {
       "inputs": [
-        "*.c?{j,t}s?(x)",
-        "{apis,circuits,demo,infra,membership,ui}/**/*.c?{j,t}s?(x)",
+        "*.{cjs,js,jsx,ts,tsx}",
+        "{apis,circuits,demo,infra,membership,ui}/**/*.{cjs,js,jsx,ts,tsx}",
         "!{apis,circuits,demo,infra,membership,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
