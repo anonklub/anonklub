@@ -6,8 +6,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
-    "@sripwoud/eslint-config-with-jest": "^1.0.1",
-    "@sripwoud/prettier-config": "^1.0.2",
+    "@sripwoud/eslint-config-with-jest": "^1.0.2",
+    "@sripwoud/prettier-config": "^1.0.3",
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.15",
     "barrelsby": "^2.5.1",
