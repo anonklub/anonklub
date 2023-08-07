@@ -1,4 +1,4 @@
-name: Deployment Query API - Production
+name: Deployment Query API - Prod
 on:
   workflow_dispatch:
   push:
