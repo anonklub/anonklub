@@ -31,6 +31,7 @@
   },
   "scripts": {
     "build": "turbo run barrels build",
+    "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
     "build.docker.prove": "docker build -f apis/prove/Dockerfile . -t prove-api",
     "build.docker.query": "docker build -f apis/query/Dockerfile . -t query-api",
     "build.docker.ui": "docker build -f ui/Dockerfile . -t anonklub-ui",

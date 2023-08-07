@@ -11,6 +11,8 @@
 
 ## Set Up
 
+1. Create Bot in [Discord Developer Portal](https://discord.com/developers/applications)
+
 ### Bot Permissions for OAuth2 URL
 
 | Section | Permission                  | Reason                                                                               |
@@ -20,7 +22,9 @@
 | Text    | Send Messages               | Give feedback to user                                                                |
 | Text    | Use Slash Commands          | Handle `/` commands                                                                  |
 
+(Permissions integer: `2415922176`)
+
 ## Develop
 
-0. Set environment variables (see [.env-sample](../.env-example)
-1. Install deps: `pnpm --filter discord-bot start.dev`
+1. Set environment variables (see [.env-sample](../.env-example)
+2. Install deps: `pnpm --filter discord-bot start.dev`

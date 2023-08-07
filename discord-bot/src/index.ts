@@ -1,7 +1,10 @@
-import './init'
+import 'init'
 import { Container } from 'typedi'
 import { info } from '~'
-import { Client } from './Client'
+import { Client } from 'Client'
+import { healthProbe } from 'healthprobe'
+
+healthProbe.listen(3000)
 
 const client = Container.get(Client)
 // console.log(client)
