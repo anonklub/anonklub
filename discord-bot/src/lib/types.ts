@@ -1,4 +1,4 @@
-export enum Curve {
+enum Curve {
   BN128 = 'bn128',
 }
 

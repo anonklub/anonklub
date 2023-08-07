@@ -5,6 +5,8 @@
     "apis/query/src/api/services",
     "apis/query/src/api/repositories",
     "demo/src/cli/prompts",
+    "discord-bot/src/lib",
+    "discord-bot/src/lib/decorators",
     "infra/resources",
     "ui/src/components",
     "ui/src/hooks",
