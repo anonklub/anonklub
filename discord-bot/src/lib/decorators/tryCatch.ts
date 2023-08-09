@@ -4,8 +4,8 @@ type ErrorHandler = (err: Error, ...args: any[]) => void | Promise<void>
 
 export function tryCatch(onError?: ErrorHandler): MethodDecorator {
   return function (
-    target: any,
-    propertyKey: string | symbol,
+    _target: any,
+    _propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
   ) {
     const originalMethod = descriptor.value

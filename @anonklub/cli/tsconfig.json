@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "node",
+    "target": "es2020"
+  },
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../proof"
+    }
+  ]
+}

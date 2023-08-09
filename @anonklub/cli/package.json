@@ -1,13 +1,13 @@
 {
-  "name": "@anonset/demo",
+  "name": "@anonklub/cli",
   "version": "1.0.0",
-  "description": "",
+  "description": "CLI to build zk proofs of ethereum address ownership.",
   "main": "index.js",
   "keywords": [],
-  "author": "3pwd <me@3pwd.xyz>",
+  "author": "sripwoud <me@sripwoud.xyz>",
   "license": "MIT",
   "dependencies": {
-    "@anonset/membership": "workspace:^",
+    "@anonklub/proof": "workspace:^",
     "@noble/secp256k1": "^1.7.0",
     "delay": "^5.0.0",
     "ethers": "^5.7.2",

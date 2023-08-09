@@ -6,7 +6,7 @@ import {
   CircuitInput,
   getMemoPoseidon,
   ProofRequestJson,
-} from '@anonset/membership'
+} from '@anonklub/proof'
 
 const ROOT_DIR = join(__dirname, '..', '..')
 const PROOFS_DIR = join(ROOT_DIR, 'public', 'proofs')

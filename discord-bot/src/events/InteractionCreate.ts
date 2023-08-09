@@ -5,7 +5,7 @@ import { HandledEvent } from './interface'
 
 export class InteractionCreate extends _Event {
   public name = Events.InteractionCreate as HandledEvent
-  bind = true
+  override bind = true
 
   async handleFn(interaction: Interaction) {
     if (!interaction.isCommand()) return

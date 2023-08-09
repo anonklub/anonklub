@@ -3,10 +3,7 @@ import { pathsToModuleNameMapper } from 'ts-jest'
 import { compilerOptions } from '../tsconfig.json'
 
 const jestConfig: JestConfigWithTsJest = {
-  collectCoverage: true,
-  collectCoverageFrom: ['src/**', '!src/lib/**', '!src/lib/graph/**'],
-  coverageDirectory: '../../coverage',
-  coveragePathIgnorePatterns: ['index.ts'],
+  coveragePathIgnorePatterns: ['.graphclient', 'lib'],
   coverageThreshold: {
     global: {
       branches: 50,
@@ -16,14 +13,11 @@ const jestConfig: JestConfigWithTsJest = {
     },
   },
   displayName: 'query-api',
-  moduleDirectories: ['node_modules', '<rootDir>'],
-  moduleFileExtensions: ['ts', 'js', 'json'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',
   }),
-  preset: 'ts-jest',
+  preset: '@anonklub/test',
   rootDir: '..',
-  setupFilesAfterEnv: ['jest-chain', './test/setup.ts'],
 }
 
 export default jestConfig

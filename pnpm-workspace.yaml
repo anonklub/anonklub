@@ -1,10 +1,9 @@
 packages:
-  - apis/query
-  - apis/prove
+  - '@anonklub/*'
+  - apis/**
   - circuits/circom
   - contracts
-  - demo
   - discord-bot
   - infra
-  - membership
+  - test
   - ui

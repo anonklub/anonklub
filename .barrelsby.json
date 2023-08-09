@@ -4,13 +4,15 @@
     "apis/query/src/api/controllers/requests",
     "apis/query/src/api/services",
     "apis/query/src/api/repositories",
-    "demo/src/cli/prompts",
+    "@anonklub/cli/src/cli/prompts",
+    "@anonklub/query/src/requests",
     "discord-bot/src/lib",
     "discord-bot/src/lib/decorators",
     "infra/resources",
     "ui/src/components",
     "ui/src/hooks",
-    "ui/src/lib"
+    "ui/src/lib",
+    "test/src"
   ],
   "delete": true,
   "noSemicolon": true,

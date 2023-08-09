@@ -2,8 +2,8 @@ import { CommandInteraction, TextChannel } from 'discord.js'
 import { config } from '../config'
 
 export function inVerificationChannel(
-  target: any,
-  propertyKey: string | symbol,
+  _target: any,
+  _propertyKey: string | symbol,
   descriptor: PropertyDescriptor,
 ) {
   const originalMethod = descriptor.value

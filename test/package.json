@@ -1,0 +1,9 @@
+{
+  "name": "@anonklub/test",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "files": ["jest-preset.config.js", "setup.ts", "src"],
+  "scripts": {
+    "typecheck": "tsc"
+  }
+}

@@ -13,8 +13,7 @@ coverage
 .idea
 
 # Generated code
-apis/prove/generated
-circuits/circom/generated
+generated
 
 next-env.d.ts
 next.config.js

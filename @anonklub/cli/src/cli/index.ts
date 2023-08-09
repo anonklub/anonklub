@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { ProofRequest } from '@anonset/membership'
+import { ProofRequest } from '@anonklub/proof'
 import { API_URLS } from '../constants'
 import {
   fetchEnsVotersAnonSet,

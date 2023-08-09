@@ -5,8 +5,8 @@ import { _Event } from './_Event'
 import { HandledEvent, ListeningMethod } from './interface'
 
 export class ClientReady extends _Event {
-  bind = true
-  listeningMethod = ListeningMethod.Once
+  override bind = true
+  override listeningMethod = ListeningMethod.Once
   name = Events.ClientReady as HandledEvent
 
   handleFn(): void {

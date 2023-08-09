@@ -12,8 +12,8 @@ const colors = {
   warn: 'yellow',
 }
 
-const level = process.env.NODE_ENV === 'development' ? 'debug' : 'warn'
-const silent = process.env.NODE_ENV === 'test'
+const level = process.env['NODE_ENV'] === 'development' ? 'debug' : 'warn'
+const silent = process.env['NODE_ENV'] === 'test'
 
 addColors(colors)
 
@@ -39,7 +39,7 @@ const logger = createLogger({
           if (
             typeof stack === 'string' &&
             stack !== '' &&
-            process.env.NODE_ENV !== 'production'
+            process.env['NODE_ENV'] !== 'production'
           )
             print = `${print} ${stack}`
 

@@ -1,16 +1,12 @@
 {
+  "extends": "../tsconfig.json",
+
   "compilerOptions": {
-    "strict": true,
     "outDir": "bin",
     "target": "es2016",
-    "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "experimentalDecorators": true,
-    "pretty": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "forceConsistentCasingInFileNames": true
+    "pretty": true
   },
   "include": ["index.ts", "resources"]
 }

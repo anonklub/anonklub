@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker'
 import request from 'supertest'
 import { QueryService } from '@services'
-import { app } from 'src/app'
+// FIXME: fix module resolution
+import { app } from '../../src/app'
 
 describe('AnonymitySet Controller', () => {
   let addresses: string[]

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
 import { config } from '#'
-import { ProofRequest } from '@anonset/membership'
+import { ProofRequest } from '@anonklub/proof'
 import { useStore } from './useStore'
 
 export const useProofRequest = () => {

@@ -1,13 +1,12 @@
 {
+  "extends": "../../tsconfig.json",
   "include": ["src", "test", "test/jest.config.ts"],
   "exclude": ["test/coverage"],
   "compilerOptions": {
-    "noEmit": true,
-    "target": "ES2022",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "module": "commonjs",
     "baseUrl": ".",
+    "noUncheckedIndexedAccess": false,
     "paths": {
       "@controllers": ["src/api/controllers"],
       "@controllers/*": ["src/api/controllers/*"],
@@ -20,17 +19,6 @@
       "@services": ["src/api/services"],
       "~/*": ["src/lib/*"]
     },
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "checkJs": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "strictPropertyInitialization": false,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true
+    "strictPropertyInitialization": false
   }
 }

@@ -5,6 +5,7 @@
     "noEmit": false,
     "outDir": "dist",
     "moduleResolution": "Node",
+    "sourceRoot": "src",
     "inlineSourceMap": true,
     "inlineSources": true,
     "declaration": true,

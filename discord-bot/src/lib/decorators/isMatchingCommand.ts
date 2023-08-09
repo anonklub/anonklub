@@ -2,8 +2,8 @@ import { CommandInteraction } from 'discord.js'
 import { _Command } from 'commands/_Command'
 
 export function isMatchingCommand(
-  target: any,
-  propertyKey: string | symbol,
+  _target: any,
+  _propertyKey: string | symbol,
   descriptor: PropertyDescriptor,
 ) {
   const originalMethod = descriptor.value

@@ -5,14 +5,16 @@ WORKDIR app
 
 FROM base as deps
 
-COPY pnpm-lock.yaml package.json pnpm-workspace.yaml .npmrc ./
+COPY *.json *.yaml .npmrc global.d.ts ./
+COPY test/package.json ./test/
 COPY apis/query/package.json ./apis/query/
 
-RUN npm i -g pnpm && pnpm i --filter @anonset/query-api
+RUN npm i -g pnpm && pnpm i --filter @anonklub/query-api
 
 
 FROM deps as build
 
+COPY tsconfig.json ./
 COPY apis/query/ ./apis/query
 
 # TODO: include build.graph step?
@@ -20,9 +22,9 @@ COPY apis/query/ ./apis/query
 
 # pnpm prune command doesn't support recursive execution on monorepo
 # need to remove and re install only prod deps manually
-RUN pnpm --filter @anonset/query-api run build  &&\
+RUN pnpm --filter @anonklub/query-api run build  &&\
     rm -rf node_modules apis/query/node_modules &&\
-    pnpm --filter @anonset/query-api i --prod
+    pnpm --filter @anonklub/query-api i --prod
 
 FROM base as deploy
 

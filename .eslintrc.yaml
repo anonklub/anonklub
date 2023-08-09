@@ -2,14 +2,15 @@ extends: ['@sripwoud/eslint-config-with-jest']
 parserOptions:
   project:
     [
-      'tsconfig.json',
+      '@anonklub/proof/tsconfig.json',
+      '@anonklub/cli/tsconfig.json',
+      '@anonklub/query/tsconfig.json',
       'apis/prove/tsconfig.json',
       'apis/query/tsconfig.json',
       'circuits/circom/tsconfig.json',
-      'demo/tsconfig.json',
       'discord-bot/tsconfig.json',
       'infra/tsconfig.json',
-      'membership/tsconfig.json',
+      'test/tsconfig.json',
       'ui/tsconfig.json',
     ]
 
@@ -17,7 +18,16 @@ rules:
   no-useless-constructor: off
 
 overrides:
-  - files: ['membership/test/ProofRequest.test.ts']
+  - files: ['apis/query/test/unit/DuneRepository.test.ts']
+    rules:
+      '@typescript-eslint/no-dynamic-delete': warn
+  - files: ['*.ts']
+    rules:
+      '@typescript-eslint/dot-notation': off # because using noPropertyAccessFromIndexSignature tsc option
+  - files: ['test/jest-preset.js']
+    rules:
+      '@typescript-eslint/no-var-requires': off
+  - files: ['@anonklub/proof/test/ProofRequest.test.ts']
     rules:
       '@typescript-eslint/dot-notation': off
   - files: ['apis/prove/src/mq/queue.ts']
@@ -25,12 +35,12 @@ overrides:
       '@typescript-eslint/strict-boolean-expressions': off
   - files:
       [
-        'demo/src/cli/index.ts',
+        '@anonklub/cli/src/cli/index.ts',
         'apis/prove/src/mq/processor.ts',
         'apis/prove/src/mq/worker.ts',
         'infra/resources/config.ts',
-        'membership/src/ProofRequest/index.ts',
-        'membership/test/ProofRequest.test.ts',
+        '@anonklub/proof/src/ProofRequest/index.ts',
+        '@anonklub/proof/test/ProofRequest.test.ts',
       ]
     rules:
       '@typescript-eslint/restrict-template-expressions': off
@@ -66,8 +76,8 @@ overrides:
         'apis/prove/generated/*.js',
         'apis/prove/src/mq/*.ts',
         'circuits/circom/scripts/*.ts',
-        'demo/src/index.ts',
-        'demo/src/cli/index.ts',
+        '@anonklub/cli/src/index.ts',
+        '@anonklub/cli/src/cli/index.ts',
         'ui/src/lib/config.ts',
       ]
     rules:

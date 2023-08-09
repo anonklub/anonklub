@@ -6,14 +6,14 @@ on:
     branches: [main, staging]
     paths:
       [
-        '{apis,circuits,membership}/**/*.{js,ts,tsx,graphql}',
+        '{apis,circuits,@anonklub}/**/*.{js,ts,tsx,graphql}',
         'contracts/**/*.sol',
       ]
   push:
     branches: [main, staging]
     paths:
       [
-        '{apis,circuits,membership}/**/*.{js,ts,tsx,graphql}',
+        '{apis,circuits,@anonklub}/**/*.{js,ts,tsx,graphql}',
         'contracts/**/*.sol',
       ]
 

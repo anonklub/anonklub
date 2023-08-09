@@ -10,7 +10,7 @@ import { _Event } from './_Event'
 import { HandledEvent } from './interface'
 
 export class MessageCreate extends _Event {
-  bind = true
+  override bind = true
   name = Events.MessageCreate as HandledEvent
 
   async handleFn(message: Message) {

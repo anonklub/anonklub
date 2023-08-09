@@ -5,27 +5,28 @@ RUN apk update && apk add dumb-init
 
 FROM base as deps
 
-COPY *.json *.yaml ./
+COPY *.json *.yaml .npmrc global.d.ts ./
+COPY test/package.json ./test/
 COPY apis/prove/package.json ./apis/prove/
-COPY membership/*.json ./membership/
+COPY @anonklub/proof/*.json ./@anonklub/proof/
 
-RUN npm i -g pnpm turbo && pnpm i --filter @anonset/prove-api...
+RUN npm i -g pnpm turbo && pnpm i --filter @anonklub/prove-api...
 
 FROM deps as build
 
 COPY apis/prove/ ./apis/prove
-COPY membership/ ./membership
+COPY @anonklub/proof/ ./@anonklub/proof
 
-RUN turbo run build --scope '{@anonset/membership,@anonset/prove-api}' &&\
-    rm -rf node_modules apis/prove/node_modules membership/node_modules &&\
-    pnpm i --filter @anonset/prove-api... --prod
+RUN turbo run build --scope '{@anonklub/proof,@anonklub/prove-api}' &&\
+    rm -rf node_modules apis/prove/node_modules @anonklub/proof/node_modules &&\
+    pnpm i --filter @anonklub/prove-api... --prod
 
 FROM base as deploy
 
 COPY --from=build /app/node_modules ./node_modules
 
-COPY --from=build /app/membership/node_modules ./membership/node_modules
-COPY --from=build /app/membership/dist ./membership/dist
+COPY --from=build /app/@anonklub/proof/node_modules ./@anonklub/proof/node_modules
+COPY --from=build /app/@anonklub/proof/dist ./@anonklub/proof/dist
 
 COPY --from=build /app/apis/prove/node_modules ./apis/prove/node_modules
 COPY --from=build /app/apis/prove/dist ./apis/prove/dist

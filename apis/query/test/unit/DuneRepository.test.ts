@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import assert from 'assert'
 import { DuneRepository } from '@repositories'
 
 jest.setTimeout(30_000)
@@ -15,7 +16,7 @@ describe('DuneRepository', () => {
   })
 
   it('needs DUNE_API_KEY', () => {
-    delete process.env.DUNE_API_KEY
+    delete process.env['DUNE_API_KEY']
 
     expect(() => new DuneRepository()).toThrow('missing dune api key')
   })
@@ -42,7 +43,8 @@ describe('DuneRepository', () => {
 
     expect(result?.rows).toBeDefined()
     expect(result?.rows.length).toBeGreaterThan(0)
-    expect(result?.rows[0].address.startsWith('0x')).toBe(true)
+    expect(result?.rows[0]?.['address']).toBeDefined()
+    expect(result?.rows[0]?.['address'].startsWith('0x')).toBe(true)
   })
 
   it('fetch beacon depositors', async () => {
@@ -62,6 +64,8 @@ describe('DuneRepository', () => {
 
     expect(result?.rows).toBeDefined()
     expect(result?.rows.length).toBeGreaterThan(0)
-    expect(result?.rows[0].address.startsWith('0x')).toBe(true)
+    expect(result?.rows[0]?.['address']).toBeDefined()
+    assert(typeof result?.rows[0]?.['address'] === 'string')
+    expect(result.rows[0]?.['address'].startsWith('0x')).toBe(true)
   })
 })

@@ -1,6 +1,5 @@
 // TODO: make a package of https://github.com/privacy-scaling-explorations/e2e-zk-ecdsa/blob/main/circuits/circom/scripts/verify-onchain.ts
 
-// @ts-expect-error
 import { groth16 } from 'snarkjs'
 import { config } from '~'
 import { groth16VerifierAbi as abi } from './abis/groth16Verifier'

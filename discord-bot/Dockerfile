@@ -5,7 +5,8 @@ WORKDIR app
 
 FROM base as deps
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY *.json *.yaml .npmrc global.d.ts ./
+COPY test/package.json ./test/
 COPY discord-bot/package.json ./discord-bot/
 
 # FIXME: using different versions of typescript at root level and in discord-bot

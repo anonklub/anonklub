@@ -25,10 +25,10 @@ function build() {
   git clone https://github.com/anonklub/anonklub
   cd e2e-zk-ecdsa
 
-  pnpm --filter @anonset/prove-api... i
-  pnpm --filter @anonset/prove-api... build
-  rm -rf {./,apis/prove,membership}/node_modules
-  pnpm --filter @anonset/prove-api... i --prod
+  pnpm --filter @anonklub/prove-api... i
+  pnpm --filter @anonklub/prove-api... build
+  rm -rf {./,apis/prove,@anonklub/proof}/node_modules
+  pnpm --filter @anonklub/prove-api... i --prod
 }
 
 function start() {
