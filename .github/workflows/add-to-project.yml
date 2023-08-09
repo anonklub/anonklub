@@ -2,7 +2,7 @@ name: Add Opened Issue to Project
 
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
 
 jobs:
   add-to-project:
