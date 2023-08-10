@@ -20,7 +20,7 @@ rules:
 overrides:
   - files: ['apis/query/test/unit/DuneRepository.test.ts']
     rules:
-      '@typescript-eslint/no-dynamic-delete': warn
+      '@typescript-eslint/no-dynamic-delete': off
   - files: ['*.ts']
     rules:
       '@typescript-eslint/dot-notation': off # because using noPropertyAccessFromIndexSignature tsc option
@@ -77,7 +77,7 @@ overrides:
         'apis/prove/src/mq/*.ts',
         'circuits/circom/scripts/*.ts',
         '@anonklub/cli/src/index.ts',
-        '@anonklub/cli/src/cli/index.ts',
+        '@anonklub/cli/src/Cli/index.ts',
         'ui/src/lib/config.ts',
       ]
     rules:
@@ -102,3 +102,6 @@ overrides:
   - files: ['shared/src/index.ts']
     rules:
       'sort/exports': 'off'
+  - files: ['@anonklub/cli/src/Prompt/index.ts']
+    rules:
+      '@typescript-eslint/naming-convention': off
