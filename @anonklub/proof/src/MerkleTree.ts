@@ -1,4 +1,4 @@
-import { hashLevel, maxAddress, minAddress } from 'helpers'
+import { hashLevel, maxAddress, minAddress } from './helpers'
 
 // Merkle tree of a specified depth padded with zeroes.
 // One zero is added per layer at most, so we can create very deep trees with few elements,
