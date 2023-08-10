@@ -4,8 +4,13 @@
     "baseUrl": "src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "noUncheckedIndexedAccess": false,
     "strictPropertyInitialization": false
   },
-  "include": ["src", "test"]
+  "include": [
+    "src",
+    "test"
+  ]
 }

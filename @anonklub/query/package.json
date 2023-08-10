@@ -2,17 +2,27 @@
   "name": "@anonklub/query",
   "version": "1.0.0",
   "description": "Query Anonymity sets of Ethereum addresses",
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.js",
-  "files": ["dist"],
+  "type": "module",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "tsc --project tsconfig.compile.json",
+    "build": "pnpm run clean && tsc --project tsconfig.compile.json",
+    "clean": "rm -rf dist",
+    "prepack": "npm run build",
     "test": "jest -c test/jest.config.ts",
     "typecheck": "tsc"
   },
-  "keywords": ["ethereum", "query", "sets", "anonymity", "addresses"],
+  "keywords": [
+    "ethereum",
+    "query",
+    "sets",
+    "anonymity",
+    "addresses"
+  ],
   "author": "sripwoud <me@sripwoud.xyz>",
-  "license": "ISC",
   "dependencies": {
     "class-validator": "^0.14.0"
   }

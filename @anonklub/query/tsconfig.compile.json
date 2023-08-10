@@ -1,16 +1,19 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["test", "test/jest.config.ts"],
+  "exclude": [
+    "test",
+    "test/jest.config.ts"
+  ],
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "declarationMap": true,
+    "inlineSources": true,
+    "inlineSourceMap": true,
     "noEmit": false,
     "outDir": "dist",
-    "moduleResolution": "Node",
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "declaration": true,
-    "declarationMap": true,
-    "declarationDir": "./dist/types",
+    "preserveConstEnums": true,
     "removeComments": true,
-    "preserveConstEnums": true
+    "target": "ES6"
   }
 }
