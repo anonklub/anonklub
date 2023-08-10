@@ -80,9 +80,12 @@ class Cli implements CliI {
   async verify() {
     const proofPath = await this.prompt.askProofFile()
     const publicSignalsPath = await this.prompt.askPublicSignalsFile()
+    // TODO: no need to ask for this file, include it in the pkg
     const verificationKeyPath = await this.prompt.askVerificationKeyFile()
 
-    // TODO: use groth16 module from snarkjs directly instead
+    console.log({ proofPath, publicSignalsPath, verificationKeyPath })
+
+    // FIXME: use groth16 module from snarkjs directly instead, otherwise we need to install snarkjs globally for this exact command to work
     const result = execSync(
       `snarkjs groth16 verify ${verificationKeyPath} ${publicSignalsPath} ${proofPath}`,
     )
