@@ -1,7 +1,7 @@
 import { Point } from '@noble/secp256k1'
 import { utils } from 'ethers'
-import { bigintToArray } from '../helpers'
-import { MerkleTree } from '../MerkleTree'
+import { bigintToArray } from 'helpers'
+import { MerkleTree } from 'MerkleTree'
 import { CircuitInputArgs, CircuitInputInterface } from './interface'
 
 export class CircuitInput implements CircuitInputInterface {

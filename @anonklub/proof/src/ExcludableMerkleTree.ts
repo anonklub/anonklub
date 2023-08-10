@@ -1,5 +1,5 @@
-import { maxAddress, minAddress } from './helpers'
-import { MerkleTree } from './MerkleTree'
+import { maxAddress, minAddress } from 'helpers'
+import { MerkleTree } from 'MerkleTree'
 
 export class ExcludableMerkleTree extends MerkleTree {
   constructor(

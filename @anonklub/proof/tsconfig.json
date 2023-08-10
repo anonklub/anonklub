@@ -1,7 +1,11 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src", "test"],
   "compilerOptions": {
-    "noUncheckedIndexedAccess": false
-  }
+    "baseUrl": "src",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "noUncheckedIndexedAccess": false,
+    "strictPropertyInitialization": false
+  },
+  "include": ["src", "test"]
 }

@@ -1,21 +1,24 @@
 {
   "name": "@anonklub/proof",
   "version": "1.0.0",
-  "description": "Shared utilities for @anonklub",
-  "main": "dist/index.js",
+  "description": "Build Anonymous Proofs (Requests) of Ethereum Address Ownership",
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
   "contributors": ["sripwoud <me@sripwoud.xyz>"],
   "license": "MIT",
+  "files": ["dist"],
+  "main": "dist/index.js",
+  "type": "module",
+  "types": "dist/types/index.d.ts",
   "dependencies": {
     "@noble/secp256k1": "^1.7.0",
     "circomlibjs": "^0.1.7",
     "ethers": "^5.7.2",
     "undici": "^5.21.2"
   },
-  "files": ["dist"],
-  "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "tsc --project tsconfig.compile.json",
+    "build": "pnpm run clean && tsc --project tsconfig.compile.json",
+    "clean": "rm -rf dist",
+    "prepack": "npm run build",
     "test": "jest -c test/jest.config.ts",
     "typecheck": "tsc"
   }
