@@ -1,5 +1,5 @@
 import { IsDefined, IsIn, IsNumberString, Length } from 'class-validator'
-import { Choice } from 'types'
+import { Choice } from '../types'
 
 export class EnsProposalVotersRequest {
   @IsDefined()
