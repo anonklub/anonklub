@@ -7,7 +7,6 @@
   "license": "MIT",
   "files": ["dist"],
   "main": "dist/index.js",
-  "type": "module",
   "types": "dist/types/index.d.ts",
   "dependencies": {
     "@noble/secp256k1": "^1.7.0",

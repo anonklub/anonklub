@@ -431,6 +431,12 @@ importers:
 
   test: {}
 
+  test-cli:
+    dependencies:
+      '@anonklub/cli':
+        specifier: workspace:^
+        version: link:../@anonklub/cli
+
   ui:
     dependencies:
       '@anonklub/proof':
