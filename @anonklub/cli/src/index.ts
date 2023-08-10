@@ -1,6 +1,8 @@
-import { cli } from './cli'
+#!/usr/bin/env node
 
-cli().catch((err) => {
+import { cli } from './Cli/index.js'
+
+cli.run().catch((err) => {
   console.error(err)
   process.exit(1)
 })
