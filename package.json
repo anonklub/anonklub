@@ -54,6 +54,7 @@
     "lint": "turbo run _lint",
     "_lint.fix": "eslint . --ext .js,.ts,.tsx --fix",
     "lint.fix": "turbo run _lint.fix",
+    "publish-packages": "turbo  --filter='./@anonklub/*' build && changeset version && changeset publish",
     "test.watch": "jest --watch",
     "_test": "jest",
     "test": "turbo run _test",
