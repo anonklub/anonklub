@@ -1,7 +1,7 @@
 name: test
 on:
   # push trigger required to get coveralls monitoring of default branch
-  # pull_request required to get PR comments
+  # pull_request trigger required to get PR comments
   workflow_dispatch:
   pull_request:
     branches: [main, staging]
