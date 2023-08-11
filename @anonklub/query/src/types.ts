@@ -2,7 +2,7 @@ import {
   EnsProposalVotersRequest,
   Erc20BalanceAnonSetRequest,
   EthBalanceAnonSetRequest,
-} from 'requests'
+} from './requests'
 
 export enum Environment {
   PRODUCTION = 'production',

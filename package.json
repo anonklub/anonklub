@@ -33,7 +33,7 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "build": "turbo run barrels && turbo run build",
+    "build": "turbo run build",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
     "build.docker.prove": "docker build -f apis/prove/Dockerfile . -t prove-api",
     "build.docker.query": "docker build -f apis/query/Dockerfile . -t query-api",
@@ -54,8 +54,8 @@
     "_lint.fix": "eslint . --ext .js,.ts,.tsx --fix",
     "lint.fix": "turbo run _lint.fix",
     "test.watch": "jest --watch",
-    "pre.test": "turbo run build --filter @anonklub/proof",
-    "test": "pnpm run pre.test && turbo run test --filter !@anonklub/circom",
+    "_test": "jest",
+    "test": "turbo run _test",
     "typecheck": "turbo run typecheck",
     "validate": "turbo run _format _lint build --cache-dir=.turbo"
   },

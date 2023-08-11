@@ -1,8 +1,5 @@
 {
   "name": "@anonklub/ui",
-  "version": "1.0.0",
-  "private": true,
-  "author": "sripwoud <me@sripwoud.xyz>",
   "browser": {
     "fs": false,
     "tls": false,
@@ -40,7 +37,6 @@
     "pinojs": "^1.0.0",
     "prettier": "2.8.8"
   },
-  "license": "MIT",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
