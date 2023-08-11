@@ -1,5 +1,5 @@
 const tsJestPreset = require('ts-jest/jest-preset')
-const { resolve } = require('path')
+const { join } = require('path')
 
 /**
  * @type {import('ts-jest').JestConfigWithTsJest}
@@ -9,7 +9,7 @@ module.exports = {
   clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.ts', '!**/*.d.ts'],
-  coverageDirectory: resolve('../coverage'),
+  coverageDirectory: join(__dirname, '..', 'coverage'),
   coverageThreshold: {
     global: {
       branches: 87,

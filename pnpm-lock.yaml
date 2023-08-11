@@ -94,10 +94,10 @@ importers:
   '@anonklub/cli':
     dependencies:
       '@anonklub/proof':
-        specifier: workspace:^
+        specifier: 1.0.0
         version: link:../proof
       '@anonklub/query':
-        specifier: workspace:^
+        specifier: 1.0.0
         version: link:../query
       '@noble/secp256k1':
         specifier: ^1.7.0
@@ -151,14 +151,11 @@ importers:
       class-validator:
         specifier: ^0.14.0
         version: 0.14.0
-      module-alias:
-        specifier: ^2.2.2
-        version: 2.2.2
 
   apis/prove:
     dependencies:
       '@anonklub/proof':
-        specifier: workspace:^
+        specifier: 1.0.0
         version: link:../../@anonklub/proof
       '@bull-board/api':
         specifier: ^5.0.0
@@ -430,12 +427,6 @@ importers:
         version: 16.0.0
 
   test: {}
-
-  test-cli:
-    dependencies:
-      '@anonklub/cli':
-        specifier: workspace:^
-        version: link:../@anonklub/cli
 
   ui:
     dependencies:
