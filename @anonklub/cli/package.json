@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/cli",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "CLI to build zk proofs of ethereum address ownership.",
   "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/cli",
   "homepage": "https://github.com/anonklub/anonklub",
@@ -25,8 +25,8 @@
   "author": "sripwoud <me@sripwoud.xyz>",
   "license": "MIT",
   "dependencies": {
-    "@anonklub/proof": "0.0.0",
-    "@anonklub/query": "0.0.0",
+    "@anonklub/proof": "1.0.0",
+    "@anonklub/query": "1.0.0",
     "@noble/secp256k1": "^1.7.0",
     "delay": "^5.0.0",
     "ethers": "^5.7.2",
