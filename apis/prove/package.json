@@ -25,5 +25,6 @@
     "server.dev": "tsnd src",
     "server.prod": "node dist",
     "typecheck": "tsc"
-  }
+  },
+  "private": true
 }

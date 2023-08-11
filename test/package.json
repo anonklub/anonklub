@@ -5,5 +5,6 @@
   "files": ["jest-preset.config.js", "setup.ts", "src"],
   "scripts": {
     "typecheck": "tsc"
-  }
+  },
+  "private": true
 }

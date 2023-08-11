@@ -57,5 +57,6 @@
     "start.prod": "node -r module-alias/register ./dist",
     "start.watch": "tsnd --respawn --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
     "typecheck": "tsc"
-  }
+  },
+  "private": true
 }

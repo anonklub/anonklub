@@ -23,5 +23,6 @@
     "typecheck": "tsc",
     "verify.local": "tsnd scripts/verify-local",
     "verify.onchain": "tsnd scripts/verify-onchain"
-  }
+  },
+  "private": true
 }
