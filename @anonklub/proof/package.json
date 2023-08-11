@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/proof",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Build Anonymous Proofs (Requests) of Ethereum Address Ownership",
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
   "contributors": ["sripwoud <me@sripwoud.xyz>"],

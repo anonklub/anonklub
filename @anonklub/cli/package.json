@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/cli",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "CLI to build zk proofs of ethereum address ownership.",
   "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/cli",
   "homepage": "https://github.com/anonklub/anonklub",
