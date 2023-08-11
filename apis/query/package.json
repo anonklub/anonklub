@@ -1,10 +1,5 @@
 {
   "name": "@anonklub/query-api",
-  "version": "1.0.0",
-  "description": "Express Server Template",
-  "main": "index.js",
-  "author": "sripwoud <me@sripwoud.xyz>",
-  "license": "MIT",
   "_moduleAliases": {
     "@controllers": "dist/api/controllers",
     "@decorators": "dist/decorators",

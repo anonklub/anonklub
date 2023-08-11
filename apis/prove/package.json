@@ -1,13 +1,7 @@
 {
   "name": "@anonklub/prove-api",
-  "version": "1.0.0",
-  "description": "ZK Proofs generation API",
-  "main": "index.js",
-  "author": "BlakeMScurr <blakemscurr@gmail.com>",
-  "contributors": ["sripwoud <me@sripwoud.xyz>"],
-  "license": "MIT",
   "dependencies": {
-    "@anonklub/proof": "workspace:^",
+    "@anonklub/proof": "1.0.0",
     "@bull-board/api": "^5.0.0",
     "@bull-board/express": "^5.0.0",
     "@noble/hashes": "^1.3.0",

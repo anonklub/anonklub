@@ -1,5 +1,5 @@
 {
-  "name": "contracts",
+  "name": "@anonklub/contracts",
   "version": "1.0.0",
   "scripts": {
     "build": "forge build",
