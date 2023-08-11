@@ -12,6 +12,7 @@ parserOptions:
       'infra/tsconfig.json',
       'test/tsconfig.json',
       'ui/tsconfig.json',
+      'tsconfig.json',
     ]
 
 rules:

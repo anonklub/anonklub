@@ -54,8 +54,8 @@
     "_lint.fix": "eslint . --ext .js,.ts,.tsx --fix",
     "lint.fix": "turbo run _lint.fix",
     "test.watch": "jest --watch",
-    "pre.test": "turbo run build --filter @anonklub/proof",
-    "test": "pnpm run pre.test && turbo run test --filter !@anonklub/circom",
+    "_test": "jest",
+    "test": "turbo run _test",
     "typecheck": "turbo run typecheck",
     "validate": "turbo run _format _lint build --cache-dir=.turbo"
   },

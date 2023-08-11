@@ -12,7 +12,6 @@
     "build": "pnpm run clean && tsc --project tsconfig.compile.json",
     "clean": "rm -rf dist",
     "prepack": "npm run build",
-    "test": "jest -c test/jest.config.ts",
     "typecheck": "tsc"
   },
   "keywords": ["ethereum", "query", "sets", "anonymity", "address"],

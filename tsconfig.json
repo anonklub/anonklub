@@ -26,5 +26,6 @@
     "strict": true,
     "target": "ES2022"
   },
-  "files": ["global.d.ts"]
+  "files": ["global.d.ts"],
+  "include": ["jest.config.ts"]
 }
