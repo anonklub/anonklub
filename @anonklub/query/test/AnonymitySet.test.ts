@@ -1,7 +1,6 @@
 import { createEthAddresses } from '@anonklub/test'
 import { faker } from '@faker-js/faker'
-import { Endpoint } from 'types'
-import { AnonymitySet, Choice, Environment, URLS } from '../src'
+import { AnonymitySet, Choice, Endpoint, Environment, URLS } from '../src'
 
 describe('AnonymitySet', () => {
   let anonymitySet: AnonymitySet

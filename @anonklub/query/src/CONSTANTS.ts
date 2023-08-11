@@ -1,4 +1,4 @@
-import { Environment } from 'types'
+import { Environment } from './types'
 
 export const URLS = {
   [Environment.PRODUCTION]: 'https://anonset.fly.dev',

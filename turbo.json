@@ -77,12 +77,15 @@
     "build.graph": {
       "outputs": ["src/lib/graph/.graphclient/**"]
     },
-    "test": {
+    "//#_test": {
       "dependsOn": ["^build"],
       "inputs": [
-        "{apis/{prove,query},@anonklub,circuits/circom}/{src,test}/**/*.{js,jsx,ts,tsx}",
-        "contracts/src/**/*.sol"
+        "{apis/{prove,query},@anonklub,circuits/circom}/{src,test}/**/*.{js,jsx,ts,tsx}"
       ]
+    },
+    "_test": {
+      "cache": false,
+      "inputs": ["contracts/src/**/*.sol"]
     },
     "deploy": {
       "dependsOn": ["test"]

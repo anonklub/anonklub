@@ -1,5 +1,5 @@
 {
-  "name": "anonklub-aws",
+  "name": "@anonklub/infra",
   "main": "index.ts",
   "devDependencies": {
     "@types/node": "^16"

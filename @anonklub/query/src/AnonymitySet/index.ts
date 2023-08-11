@@ -1,11 +1,11 @@
-import { URLS } from 'CONSTANTS'
-import { fetchJson } from 'fetch-json'
+import { URLS } from '../CONSTANTS'
+import { fetchJson } from '../fetch-json'
 import {
   EnsProposalVotersRequest,
   Erc20BalanceAnonSetRequest,
   EthBalanceAnonSetRequest,
-} from 'requests'
-import { Endpoint, Environment, Request, RequestClass } from 'types'
+} from '../requests'
+import { Endpoint, Environment, Request, RequestClass } from '../types'
 import { AnonymitySetI } from './interface'
 
 export class AnonymitySet implements AnonymitySetI {

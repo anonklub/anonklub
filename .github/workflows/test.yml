@@ -1,25 +1,29 @@
-name: Test
+name: test
 on:
   # push trigger required to get coveralls monitoring of default branch
-  # pull_request required to get PR comments
+  # pull_request trigger required to get PR comments
   workflow_dispatch:
   pull_request:
     branches: [main, staging]
     paths:
       [
-        '{apis,circuits,@anonklub}/**/*.{js,json,ts,tsx,graphql}',
+        '@anonklub/**/*.ts',
+        'apis/**/*.{js,json,ts,graphql}',
+        'test/**/*.{js,ts}',
         'contracts/**/*.sol',
       ]
   push:
     branches: [main, staging]
     paths:
       [
-        '{apis,circuits,@anonklub}/**/*.{js,json,ts,tsx,graphql}',
+        '@anonklub/**/*.ts',
+        'apis/**/*.{js,json,ts,graphql}',
+        'test/**/*.{js,ts}',
         'contracts/**/*.sol',
       ]
-
 jobs:
   test:
+    name: test
     runs-on: ubuntu-latest
 
     steps:

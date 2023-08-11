@@ -1,4 +1,4 @@
-import { AnonSetResponse } from 'types'
+import { AnonSetResponse } from './types'
 
 export const fetchJson = async (
   url: string,

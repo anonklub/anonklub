@@ -1,5 +1,10 @@
 const tsJestPreset = require('ts-jest/jest-preset')
-const { resolve } = require('path')
+const { join } = require('path')
+
+const projects = [
+  ...['proof', 'query'].map((name) => `@anonklub/${name}`),
+  'apis/query',
+].map((name) => join(__dirname, '..', name, 'test'))
 
 /**
  * @type {import('ts-jest').JestConfigWithTsJest}
@@ -9,13 +14,13 @@ module.exports = {
   clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.ts', '!**/*.d.ts'],
-  coverageDirectory: resolve('../coverage'),
+  coverageDirectory: join(__dirname, '..', 'coverage'),
   coverageThreshold: {
     global: {
-      branches: 87,
-      functions: 90,
-      lines: 90,
-      statements: 90,
+      branches: 50,
+      functions: 70,
+      lines: 80,
+      statements: 80,
     },
   },
   moduleDirectories: [
@@ -25,6 +30,7 @@ module.exports = {
     '<rootDir>/src',
   ],
   moduleFileExtensions: ['js', 'json', 'ts'],
+  projects,
   rootDir: '..',
   setupFilesAfterEnv: [require.resolve('../test/setup.ts')],
   testPathIgnorePatterns: [

@@ -1,5 +1,5 @@
 {
-  "name": "contracts",
+  "name": "@anonklub/contracts",
   "version": "1.0.0",
   "scripts": {
     "build": "forge build",
@@ -9,7 +9,7 @@
     "_format.fix": "forge fmt --root ..",
     "_lint": "solhint '**/*.sol'",
     "_lint.fix": "solhint --fix '**/*.sol'",
-    "test": "forge test"
+    "_test": "forge test"
   },
   "devDependencies": {
     "solhint": "^3.4.1"

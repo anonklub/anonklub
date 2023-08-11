@@ -1,22 +1,37 @@
 {
   "name": "@anonklub/proof",
   "version": "1.0.0",
-  "description": "Shared utilities for @anonklub",
-  "main": "dist/index.js",
+  "description": "Build Anonymous Proofs (Requests) of Ethereum Address Ownership",
   "author": "BlakeMScurr <blakemscurr@gmail.com>",
   "contributors": ["sripwoud <me@sripwoud.xyz>"],
+  "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/proof",
+  "homepage": "https://github.com/anonklub/anonklub",
+  "bugs": "https://github.com/anonklub/anonklub/issues",
+  "keywords": [
+    "zk",
+    "ethereum",
+    "proof",
+    "zk-snark",
+    "address",
+    "ownership",
+    "snarkjs",
+    "circom",
+    "privacy"
+  ],
   "license": "MIT",
+  "files": ["dist"],
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
   "dependencies": {
     "@noble/secp256k1": "^1.7.0",
     "circomlibjs": "^0.1.7",
     "ethers": "^5.7.2",
     "undici": "^5.21.2"
   },
-  "files": ["dist"],
-  "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "tsc --project tsconfig.compile.json",
-    "test": "jest -c test/jest.config.ts",
+    "build": "pnpm run clean && tsc --project tsconfig.compile.json",
+    "clean": "rm -rf dist",
+    "prepack": "npm run build",
     "typecheck": "tsc"
   }
 }

@@ -6,6 +6,8 @@ import {
   ProofResult,
 } from './interface'
 
+export { ProofRequestJson }
+
 export class ProofRequest implements ProofRequestInterface {
   public readonly addresses: string[]
   public readonly message: string

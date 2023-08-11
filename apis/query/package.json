@@ -1,10 +1,5 @@
 {
   "name": "@anonklub/query-api",
-  "version": "1.0.0",
-  "description": "Express Server Template",
-  "main": "index.js",
-  "author": "sripwoud <me@sripwoud.xyz>",
-  "license": "MIT",
   "_moduleAliases": {
     "@controllers": "dist/api/controllers",
     "@decorators": "dist/decorators",
@@ -61,7 +56,6 @@
     "start.dev": "NODE_ENV=development tsnd --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
     "start.prod": "node -r module-alias/register ./dist",
     "start.watch": "tsnd --respawn --rs --exit-child --clear --quiet --files -r tsconfig-paths/register ./src",
-    "test": "jest -c test/jest.config.ts",
     "typecheck": "tsc"
   }
 }
