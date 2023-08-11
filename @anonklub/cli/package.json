@@ -44,7 +44,6 @@
     "build": "pnpm run clean && tsc --project tsconfig.compile.json",
     "clean": "rm -rf dist",
     "dev": "tsnd --cls --exit-child --ignore-watch node_modules --quiet  --respawn --rs --transpile-only src/index.ts",
-    "prepack": "npm run build",
     "start": "node dist/index.js",
     "typecheck": "tsc"
   }

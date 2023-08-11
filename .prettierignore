@@ -23,4 +23,7 @@ contracts/lib/forge-std
 contracts/lib/openzeppelin-contracts
 contracts/out
 
+# after editing by the release/changeset workflow, these won't match the formatting rules
+package.json
+
 
