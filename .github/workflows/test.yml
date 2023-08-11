@@ -7,19 +7,23 @@ on:
     branches: [main, staging]
     paths:
       [
-        '{apis,circuits,@anonklub}/**/*.{js,json,ts,tsx,graphql}',
+        '@anonklub/**/*.ts',
+        'apis/**/*.{js,json,ts,graphql}',
+        'test/**/*.{js,ts}',
         'contracts/**/*.sol',
       ]
   push:
     branches: [main, staging]
     paths:
       [
-        '{apis,circuits,@anonklub}/**/*.{js,json,ts,tsx,graphql}',
+        '@anonklub/**/*.ts',
+        'apis/**/*.{js,json,ts,graphql}',
+        'test/**/*.{js,ts}',
         'contracts/**/*.sol',
       ]
-
 jobs:
   test:
+    name: test
     runs-on: ubuntu-latest
 
     steps:
