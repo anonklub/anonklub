@@ -11,7 +11,7 @@ on:
         'apis/**/*.{js,json,ts,graphql}',
         'test/**/*.{js,ts}',
         'contracts/**/*.sol',
-        'pnpm-lock.yaml'
+        'pnpm-lock.yaml',
       ]
   push:
     branches: [main, staging]
@@ -21,7 +21,7 @@ on:
         'apis/**/*.{js,json,ts,graphql}',
         'test/**/*.{js,ts}',
         'contracts/**/*.sol',
-        'pnpm-lock.yaml'
+        'pnpm-lock.yaml',
       ]
 jobs:
   test:

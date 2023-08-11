@@ -5,9 +5,7 @@
   "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/query",
   "homepage": "https://github.com/anonklub/anonklub",
   "bugs": "https://github.com/anonklub/anonklub/issues",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
@@ -16,13 +14,7 @@
     "prepack": "npm run build",
     "typecheck": "tsc"
   },
-  "keywords": [
-    "ethereum",
-    "query",
-    "sets",
-    "anonymity",
-    "address"
-  ],
+  "keywords": ["ethereum", "query", "sets", "anonymity", "address"],
   "author": "sripwoud <me@sripwoud.xyz>",
   "dependencies": {
     "class-validator": "^0.14.0"
