@@ -7,19 +7,21 @@ on:
     branches: [main, staging]
     paths:
       [
-        '@anonklub/**/*.ts',
+        '@anonklub/**/*.{json,ts}',
         'apis/**/*.{js,json,ts,graphql}',
         'test/**/*.{js,ts}',
         'contracts/**/*.sol',
+        'pnpm-lock.yaml'
       ]
   push:
     branches: [main, staging]
     paths:
       [
-        '@anonklub/**/*.ts',
+        '@anonklub/**/*.{json,ts}',
         'apis/**/*.{js,json,ts,graphql}',
         'test/**/*.{js,ts}',
         'contracts/**/*.sol',
+        'pnpm-lock.yaml'
       ]
 jobs:
   test:
