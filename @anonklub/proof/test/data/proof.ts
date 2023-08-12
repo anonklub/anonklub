@@ -1,6 +1,7 @@
 import { ProofData } from '../../src/Proof/interface'
 
-export default {
+const proof: ProofData = {
+  curve: 'bn128',
   pi_a: [
     '19515258816388790982291484519913981695367160727622304305292372178958703901720',
     '11513652409597999658488730667299557398080028048135636543759772542666071950660',
@@ -23,5 +24,6 @@ export default {
     '1',
   ],
   protocol: 'groth16',
-  curve: 'bn128',
-} as ProofData
+}
+
+export default proof

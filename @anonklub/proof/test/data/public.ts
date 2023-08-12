@@ -1,9 +1,11 @@
 import { PublicSignalsData } from '../../src/Proof/interface'
 
-export default [
+const publicSignals: PublicSignalsData = [
   '3792982599372312208',
   '17957770712143069946',
   '4424616730282982738',
   '13457673720707570915',
   '20008429295493233628272938194324127276377686829436670671740703028818776173220',
-] as PublicSignalsData
+]
+
+export default publicSignals

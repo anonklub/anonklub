@@ -1,9 +1,10 @@
+import { Proof } from '../Proof'
+import { ProofData, PublicSignalsData } from '../Proof/interface'
 import {
   JobResponse,
   ProofRequestArgs,
   ProofRequestInterface,
   ProofRequestJson,
-  ProofResult,
 } from './interface'
 
 export { ProofRequestJson }
@@ -44,16 +45,16 @@ export class ProofRequest implements ProofRequestInterface {
     return jobResponse
   }
 
-  async getResult(): Promise<ProofResult> {
+  async getResult(): Promise<Proof> {
     if (this.jobId === undefined) throw new Error('Job not submitted yet')
 
-    const [proof, publicSignals] = await Promise.all(
+    const [proof, publicSignals] = (await Promise.all(
       ['proof', 'public'].map(async (key) =>
         fetch(`${this.url}/${this.jobId}/${key}.json`).then(async (res) =>
           res.json(),
         ),
       ),
-    )
-    return { proof, publicSignals }
+    )) as [ProofData, PublicSignalsData]
+    return new Proof({ proof, publicSignals })
   }
 }

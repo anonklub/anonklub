@@ -1,3 +1,5 @@
+import { Proof } from '../Proof'
+
 export interface ProofRequestArgs {
   addresses: string[]
   message: string
@@ -22,5 +24,5 @@ export interface JobResponse {
 }
 export interface ProofRequestInterface {
   submit: () => Promise<JobResponse>
-  getResult: () => Promise<ProofResult>
+  getResult: () => Promise<Proof>
 }
