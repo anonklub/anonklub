@@ -18,8 +18,13 @@ describe('Proof', () => {
     expect(proof.publicSignals).toEqual(publicSignalsData)
   })
 
-  it('verifies the proof', async () => {
+  it('verifies the proof oof chain', async () => {
     const result = await proof.verify('offchain')
+    expect(result).toBeTruthy()
+  })
+
+  it('verifies the proof on chain', async () => {
+    const result = await proof.verify('onchain')
     expect(result).toBeTruthy()
   })
 })

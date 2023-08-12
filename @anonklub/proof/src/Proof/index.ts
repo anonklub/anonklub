@@ -1,5 +1,7 @@
 import { groth16 } from 'snarkjs'
+import { Groth16VerifierAbi } from '@anonklub/contracts'
 import verificationKey from '../../generated/verification_key.json'
+import { publicClient } from '../public-client'
 import { ProofData, ProofI, PublicSignalsData } from './interface'
 
 export class Proof implements ProofI {
@@ -28,6 +30,24 @@ export class Proof implements ProofI {
   }
 
   private async _verifyOnChain() {
-    return 'Implement me!'
+    const args = await groth16.exportSolidityCallData(
+      this.proof,
+      this.publicSignals,
+    )
+
+    console.log({
+      args,
+      publicClient,
+      Groth16VerifierAbi,
+    })
+    const valid = await publicClient.readContract({
+      abi: Groth16VerifierAbi,
+      address: '0x893f293e3918a179bf87fb772206e9927db61b0c',
+      args,
+      functionName: 'verifyProof',
+    })
+
+    console.log(`${valid ? '✅ valid proof' : '❌ invalid proof'}`)
+    return valid
   }
 }
