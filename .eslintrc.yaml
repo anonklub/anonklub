@@ -4,6 +4,7 @@ parserOptions:
     [
       '@anonklub/proof/tsconfig.json',
       '@anonklub/cli/tsconfig.json',
+      '@anonklub/contracts/tsconfig.json',
       '@anonklub/query/tsconfig.json',
       'apis/prove/tsconfig.json',
       'apis/query/tsconfig.json',

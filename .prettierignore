@@ -19,9 +19,9 @@ public
 .turbo
 
 cache
-contracts/lib/forge-std
-contracts/lib/openzeppelin-contracts
-contracts/out
+@anonklub/contracts/lib/forge-std
+@anonklub/contracts/lib/openzeppelin-contracts
+@anonklub/contracts/out
 
 # after editing by the release/changeset workflow, these won't match the formatting rules
 package.json

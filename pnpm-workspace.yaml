@@ -2,7 +2,6 @@ packages:
   - '@anonklub/*'
   - apis/**
   - circuits/circom
-  - contracts
   - discord-bot
   - infra
   - test

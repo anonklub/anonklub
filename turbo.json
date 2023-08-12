@@ -17,11 +17,11 @@
     },
     "_format": {
       "cache": false,
-      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+      "inputs": ["@anonklub/contracts/{script,src,test}/**/*.sol"]
     },
     "_format.fix": {
       "cache": false,
-      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+      "inputs": ["@anonklub/contracts/{script,src,test}/**/*.sol"]
     },
     "//#_format.fix": {
       "inputs": [
@@ -40,7 +40,7 @@
     },
     "_lint": {
       "cache": false,
-      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+      "inputs": ["@anonklub/contracts/{script,src,test}/**/*.sol"]
     },
     "//#_lint": {
       "inputs": [
@@ -51,7 +51,7 @@
     },
     "_lint.fix": {
       "cache": false,
-      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+      "inputs": ["@anonklub/contracts/{script,src,test}/**/*.sol"]
     },
     "//#_lint.fix": {
       "inputs": [
@@ -85,7 +85,7 @@
     },
     "_test": {
       "cache": false,
-      "inputs": ["contracts/src/**/*.sol"]
+      "inputs": ["@anonklub/contracts/src/**/*.sol"]
     },
     "deploy": {
       "dependsOn": ["test"]
