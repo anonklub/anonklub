@@ -1,4 +1,4 @@
-import snarkjs from 'snarkjs'
+import { groth16 } from 'snarkjs'
 import verificationKey from '../../generated/verification_key.json'
 import { ProofData, ProofI, PublicSignalsData } from './interface'
 
@@ -24,11 +24,7 @@ export class Proof implements ProofI {
   }
 
   private async _verifyOffChain() {
-    return await snarkjs.groth16.verify(
-      verificationKey,
-      this.publicSignals,
-      this.proof,
-    )
+    return await groth16.verify(verificationKey, this.publicSignals, this.proof)
   }
 
   private async _verifyOnChain() {
