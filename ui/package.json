@@ -6,7 +6,7 @@
     "net": false
   },
   "dependencies": {
-    "@anonklub/proof": "workspace:^",
+    "@anonklub/proof": "1.0.0",
     "@heroicons/react": "^2.0.18",
     "@web3modal/ethereum": "2.4.1",
     "@web3modal/react": "2.4.1",

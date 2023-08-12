@@ -145,6 +145,9 @@ importers:
       ethers:
         specifier: ^5.7.2
         version: 5.7.2
+      snarkjs:
+        specifier: ^0.7.0
+        version: 0.7.0
       undici:
         specifier: ^5.21.2
         version: 5.21.2
@@ -434,7 +437,7 @@ importers:
   ui:
     dependencies:
       '@anonklub/proof':
-        specifier: workspace:^
+        specifier: 1.0.0
         version: link:../@anonklub/proof
       '@heroicons/react':
         specifier: ^2.0.18
