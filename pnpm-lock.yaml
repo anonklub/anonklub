@@ -27,6 +27,9 @@ importers:
       '@sripwoud/prettier-config':
         specifier: ^1.0.3
         version: 1.0.3(prettier@2.8.8)
+      '@types/cors':
+        specifier: ^2.8.13
+        version: 2.8.13
       '@types/jest':
         specifier: ^29.5.3
         version: 29.5.3
