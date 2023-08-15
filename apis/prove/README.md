@@ -21,13 +21,17 @@ The BullMQ Job processor needs to be a compiled JS file so that it becomes a san
    ```
 
 ### Docker
+
 #### Build
+
 From the monorepo root folder: [`pnpm build.docker.prove`](https://github.com/anonklub/anonklub/blob/90b66da7f8f383f352605670549c929f31b508fd/package.json#L39) will build the image:
+
 ```shell
 docker build -t prove-api -f apis/prove/Dockerfile .
 ```
 
 #### Start
+
 ```shell
 docker run -p 3000:3000 prove-api
 ```
