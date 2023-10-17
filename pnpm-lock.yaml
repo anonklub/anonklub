@@ -27,9 +27,6 @@ importers:
       '@sripwoud/prettier-config':
         specifier: ^1.0.3
         version: 1.0.3(prettier@2.8.8)
-      '@types/cors':
-        specifier: ^2.8.13
-        version: 2.8.13
       '@types/jest':
         specifier: ^29.5.3
         version: 29.5.3
@@ -101,10 +98,10 @@ importers:
     dependencies:
       '@anonklub/proof':
         specifier: 1.0.0
-        version: link:../proof
+        version: 1.0.0
       '@anonklub/query':
         specifier: 1.0.0
-        version: link:../query
+        version: 1.0.0
       '@noble/secp256k1':
         specifier: ^1.7.0
         version: 1.7.0
@@ -162,7 +159,7 @@ importers:
     dependencies:
       '@anonklub/proof':
         specifier: 1.0.0
-        version: link:../../@anonklub/proof
+        version: 1.0.0
       '@bull-board/api':
         specifier: ^5.0.0
         version: 5.0.0
@@ -297,9 +294,6 @@ importers:
         specifier: ^2.2.2
         version: 2.2.2
     devDependencies:
-      '@faker-js/faker':
-        specifier: ^7.6.0
-        version: 7.6.0
       '@graphprotocol/client-cli':
         specifier: ^2.2.22
         version: 2.2.22(@babel/core@7.22.10)(@envelop/core@3.0.6)(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/store@0.93.1)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/delegate@9.0.35)(@graphql-tools/merge@8.4.2)(@graphql-tools/utils@9.2.1)(@graphql-tools/wrap@9.4.2)(@types/node@18.11.15)(graphql-tag@2.12.6)(graphql@16.6.0)(react-native@0.72.3)
@@ -533,6 +527,24 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.19
+
+  /@anonklub/proof@1.0.0:
+    resolution: {integrity: sha512-FNX+p9tdVsKg7q5qk9amyszbdsqLAGCAGa+9eysX1cRrxyBDT1iXwu8BOOoGk3NEKwZ/wUfhQGPTEyFx1YAp7g==}
+    dependencies:
+      '@noble/secp256k1': 1.7.0
+      circomlibjs: 0.1.7
+      ethers: 5.7.2
+      undici: 5.23.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
+  /@anonklub/query@1.0.0:
+    resolution: {integrity: sha512-cbUDw/l5hii1sNY01yyrl1ul2vFS9rs/0DYsmrx4nI9/bNSwZU9ILwxEOe3p1CwGN7xVKQFVF6V95YFoTrXp+g==}
+    dependencies:
+      class-validator: 0.14.0
+    dev: false
 
   /@ardatan/fast-json-stringify@0.0.6(ajv-formats@2.1.1)(ajv@8.12.0):
     resolution: {integrity: sha512-//BefMIP6U1ptNeBf44Le4vqThejTwZndtYLtAuFBwA/DmbVbbYTCLNIMhZ96WZnhI92EvTXneT5tKJrgINE9A==}
