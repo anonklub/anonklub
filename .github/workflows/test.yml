@@ -62,7 +62,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pnpm-store-
 
       - name: Install node deps
-        run: pnpm i --ignore-scripts --reporter=silent
+        run: pnpm i --ignore-scripts
 
       - name: Run tests
         env:
