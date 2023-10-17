@@ -25,6 +25,8 @@
     "build": "tsc --project tsconfig.compile.json",
     "server.dev": "tsnd src",
     "server.prod": "node dist",
+    "start.redis": "docker compose up -d",
+    "stop.redis": "docker compose down",
     "typecheck": "tsc"
   },
   "private": true
