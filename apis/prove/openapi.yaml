@@ -13,7 +13,7 @@ externalDocs:
   description: 'GitHub repository'
   url: 'https://github.com/anonklub/anonklub/tree/main/apis/prove'
 servers:
-  - url: 'http://10.35.1.56:3000'
+  - url: 'http://anonklub.xyz:3000'
   - url: 'http://localhost:3000'
 
 paths:

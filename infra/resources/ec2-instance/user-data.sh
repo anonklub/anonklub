@@ -2,6 +2,8 @@
 
 set -e
 
+INSTALL_DIR=/home/ubuntu
+
 function install_node() {
   curl https://get.volta.sh | bash
 
@@ -21,9 +23,9 @@ function install_redis() {
 }
 
 function build() {
-  cd "$install_dir"
+  cd "$INSTALL_DIR"
   git clone https://github.com/anonklub/anonklub
-  cd e2e-zk-ecdsa
+  cd anonklub
 
   pnpm --filter @anonklub/prove-api... i
   pnpm --filter @anonklub/prove-api... build
@@ -32,19 +34,17 @@ function build() {
 }
 
 function start() {
-  cd "$install_dir"/e2e-zk-ecdsa/apis/prove
+  cd "$INSTALL_DIR"/anonklub/apis/prove
   nohup node dist >> stdout.log 2>> stderr.log
 }
 
 function main() {
-  local install_dir=/home/ubuntu
-  mkdir -p $install_dir
-
+  mkdir -p $INSTALL_DIR
   install_redis
   install_node
   build
-  chown -R ubuntu:ubuntu $install_dir # needed to be able to copy over zkey with ubuntu user
-  start > $install_dir/install.log 2>&1
+  chown -R ubuntu:ubuntu $INSTALL_DIR # needed to be able to copy over zkey with ubuntu user
+  start > $INSTALL_DIR/install.log 2>&1
 }
 
 main "$@"
