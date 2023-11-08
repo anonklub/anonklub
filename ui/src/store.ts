@@ -1,5 +1,5 @@
-import { action, Action, createStore } from 'easy-peasy'
 import { ProofRequest } from '@anonklub/proof'
+import { action, Action, createStore } from 'easy-peasy'
 import { JSONValue } from '@components'
 
 export interface StoreModel {

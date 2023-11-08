@@ -1,10 +1,10 @@
-import { DistinctQuestion, QuestionCollection } from 'inquirer'
 import {
   EnsProposalVotersRequest,
   Erc20BalanceAnonSetRequest,
   EthBalanceAnonSetRequest,
   Request,
 } from '@anonklub/query'
+import { DistinctQuestion, QuestionCollection } from 'inquirer'
 import { AnonSetLocation, AnonSetType, ProofAction } from '../types'
 
 export interface PromptI {

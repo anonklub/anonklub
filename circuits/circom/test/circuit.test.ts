@@ -1,8 +1,3 @@
-import { Point, sign } from '@noble/secp256k1'
-import { wasm as wasm_tester } from 'circom_tester'
-import { buildPoseidon } from 'circomlibjs'
-import { BigNumber, utils } from 'ethers'
-import { join } from 'path'
 import {
   bigintToArray,
   bigintToUint8Array,
@@ -12,6 +7,11 @@ import {
   minAddress,
   uint8ArrayToBigint,
 } from '@anonklub/proof'
+import { Point, sign } from '@noble/secp256k1'
+import { wasm as wasm_tester } from 'circom_tester'
+import { buildPoseidon } from 'circomlibjs'
+import { BigNumber, utils } from 'ethers'
+import { join } from 'path'
 
 jest.setTimeout(10_000_000) // ~1 hour
 

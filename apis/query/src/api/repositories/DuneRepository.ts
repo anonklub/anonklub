@@ -1,5 +1,5 @@
-import { DuneClient as Dune, QueryParameter } from '@cowprotocol/ts-dune-client'
 import { Service } from 'typedi'
+import { DuneClient as Dune, QueryParameter } from '@cowprotocol/ts-dune-client'
 
 export enum Query {
   Beacon = 2461144,

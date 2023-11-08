@@ -1,5 +1,5 @@
-import { createHash } from 'crypto'
 import { ProofRequestJson } from '@anonklub/proof'
+import { createHash } from 'crypto'
 import { queue } from '../mq/queue'
 
 // TODO: use a real secret salt

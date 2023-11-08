@@ -1,12 +1,12 @@
-import { SandboxedJob } from 'bullmq'
-import { mkdirSync, writeFileSync } from 'fs'
-import { join } from 'path'
-import { groth16 } from 'snarkjs'
 import {
   CircuitInput,
   getMemoPoseidon,
   ProofRequestJson,
 } from '@anonklub/proof'
+import { SandboxedJob } from 'bullmq'
+import { mkdirSync, writeFileSync } from 'fs'
+import { join } from 'path'
+import { groth16 } from 'snarkjs'
 
 const ROOT_DIR = join(__dirname, '..', '..')
 const PROOFS_DIR = join(ROOT_DIR, 'public', 'proofs')

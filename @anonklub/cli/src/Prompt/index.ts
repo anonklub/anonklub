@@ -1,12 +1,12 @@
-import { ethers } from 'ethers'
-import inquirer, { DistinctQuestion, QuestionCollection } from 'inquirer'
-import { join } from 'path'
 import {
   EnsProposalVotersRequest,
   Erc20BalanceAnonSetRequest,
   EthBalanceAnonSetRequest,
   Request,
 } from '@anonklub/query'
+import { ethers } from 'ethers'
+import inquirer, { DistinctQuestion, QuestionCollection } from 'inquirer'
+import { join } from 'path'
 import { AnonSetLocation, AnonSetType, ProofAction } from '../types.js'
 import { PromptI } from './interface'
 
