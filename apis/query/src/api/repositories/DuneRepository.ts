@@ -20,4 +20,8 @@ export class DuneRepository {
   public async queryBeaconDepositors() {
     return this.getAnonSet(Query.Beacon)
   }
+
+  public async queryNftOwners(tokenAddress: string) {
+    return this.getAnonSet(Query.Nft, { tokenAddress })
+  }
 }
