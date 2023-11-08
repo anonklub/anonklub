@@ -102,7 +102,10 @@ export class DuneClient implements DuneClientI {
     queryId: Query,
     params?: U,
   ) {
-    const { execution_id: executionId } = await this.executeQuery(queryId, params)
+    const { execution_id: executionId } = await this.executeQuery(
+      queryId,
+      params,
+    )
     if (executionId === undefined)
       throw new Error('Query failed to execute: executionId = `undefined`')
 
