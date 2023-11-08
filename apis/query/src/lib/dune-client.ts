@@ -5,6 +5,7 @@ import { Headers, RequestInit } from 'undici'
 export enum Query {
   Beacon = 2461144,
   Erc20 = 3183375,
+  Nft = 3184511
 }
 
 enum QueryState {

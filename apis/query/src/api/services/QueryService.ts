@@ -48,10 +48,19 @@ export class QueryService {
   async getEnsProposalVoters(
     ...args: Parameters<typeof this.graphRepository.getEnsProposalVoters>
   ) {
+    this.logger.info('Get ENS Proposal Voters anonymity set')
     return this.graphRepository.getEnsProposalVoters(...args)
   }
 
   async getPunkOwners() {
+    this.logger.info('Get CryptoPunk Owners anonymity set')
     return this.graphRepository.getPunkOwners()
+  }
+
+  async getNftOwners(tokenAddress: string) {
+    return this.duneRepository.queryNftOwners(tokenAddress).then(({ result }) => {
+      this.logger.info('Get NFT Owners anonymity set')
+      return result.rows.map((row) => row.address) ?? []
+    })
   }
 }
