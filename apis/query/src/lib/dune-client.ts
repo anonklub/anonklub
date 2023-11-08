@@ -30,7 +30,7 @@ interface GetQueryStatusOk {
   state: QueryState
 }
 
-interface GetQueryResultsOk<T extends string[]> {
+export interface GetQueryResultsOk<T extends string[]> {
   execution_id: string
   query_id: number
   state: QueryState
