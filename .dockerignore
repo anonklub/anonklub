@@ -1,2 +1,3 @@
 .prettierrc.yaml
 .eslintrc.yaml
+node_modules
