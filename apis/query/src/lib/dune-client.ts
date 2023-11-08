@@ -1,6 +1,6 @@
 import ms from 'ms'
-import { Headers, RequestInit } from 'undici'
 import { Service } from 'typedi'
+import { Headers, RequestInit } from 'undici'
 
 export enum Query {
   Beacon = 2461144,
