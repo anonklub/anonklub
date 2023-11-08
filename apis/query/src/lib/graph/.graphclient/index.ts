@@ -43,6 +43,7 @@ export type Scalars = {
   BigDecimal: any;
   BigInt: any;
   Bytes: any;
+  Int8: any;
 };
 
 export type Query = {
@@ -7933,6 +7934,7 @@ export type ResolversTypes = ResolversObject<{
   Float: ResolverTypeWrapper<Scalars['Float']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  Int8: ResolverTypeWrapper<Scalars['Int8']>;
   MetaData: ResolverTypeWrapper<MetaData>;
   MetaData_filter: MetaData_filter;
   MetaData_orderBy: MetaData_orderBy;
@@ -8044,6 +8046,7 @@ export type ResolversParentTypes = ResolversObject<{
   Float: Scalars['Float'];
   ID: Scalars['ID'];
   Int: Scalars['Int'];
+  Int8: Scalars['Int8'];
   MetaData: MetaData;
   MetaData_filter: MetaData_filter;
   NFT: ResolversParentTypes['Punk'];
@@ -8443,6 +8446,10 @@ export type EventResolvers<ContextType = MeshContext, ParentType extends Resolve
   timestamp?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
 }>;
 
+export interface Int8ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Int8'], any> {
+  name: 'Int8';
+}
+
 export type MetaDataResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['MetaData'] = ResolversParentTypes['MetaData']> = ResolversObject<{
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   tokenId?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
@@ -8775,6 +8782,7 @@ export type Resolvers<ContextType = MeshContext> = ResolversObject<{
   EpnsNotificationCounter?: EpnsNotificationCounterResolvers<ContextType>;
   EpnsPushNotification?: EpnsPushNotificationResolvers<ContextType>;
   Event?: EventResolvers<ContextType>;
+  Int8?: GraphQLScalarType;
   MetaData?: MetaDataResolvers<ContextType>;
   NFT?: NFTResolvers<ContextType>;
   Offer?: OfferResolvers<ContextType>;

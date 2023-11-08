@@ -18,7 +18,9 @@ describe('DuneRepository', () => {
   it('needs DUNE_API_KEY', () => {
     delete process.env['DUNE_API_KEY']
 
-    expect(() => new DuneRepository(new DuneClient())).toThrowErrorMatchingInlineSnapshot(
+    expect(
+      () => new DuneRepository(new DuneClient()),
+    ).toThrowErrorMatchingInlineSnapshot(
       `"Missing DUNE_API_KEY environment variable"`,
     )
   })

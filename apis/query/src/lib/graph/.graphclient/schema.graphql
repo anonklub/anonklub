@@ -4164,6 +4164,12 @@ enum Event_orderBy {
   timestamp
 }
 
+"""
+8 bytes signed integer
+
+"""
+scalar Int8
+
 type MetaData {
   id: ID!
   tokenId: BigInt!
