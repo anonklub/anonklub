@@ -17,6 +17,8 @@ servers:
     description: 'Production server'
   - url: 'https://anonset-staging.fly.dev'
     description: 'Staging server'
+  - url: 'http://localhost:3000'
+    description: 'Local server'
 paths:
   /balance/ETH:
     get:
