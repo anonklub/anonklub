@@ -4,10 +4,7 @@ import { DuneClient, Query } from '~/dune-client'
 
 @Service()
 export class DuneRepository {
-  dune: DuneClient
-  constructor() {
-    this.dune = new DuneClient()
-  }
+  constructor(readonly dune: DuneClient) {}
 
   private async getAnonSet<T = Record<string, unknown>>(
     queryId: Query,

@@ -1,5 +1,6 @@
 import ms from 'ms'
 import { Headers, RequestInit } from 'undici'
+import { Service } from 'typedi'
 
 export enum Query {
   Beacon = 2461144,
@@ -49,6 +50,7 @@ interface DuneClientI {
 
 const POLL_INTERVAL = '2s'
 
+@Service()
 export class DuneClient implements DuneClientI {
   private readonly apiKey: string
   private readonly baseUrl = 'https://api.dune.com/api/v1'
