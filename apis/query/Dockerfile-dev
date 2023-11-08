@@ -1,0 +1,12 @@
+FROM node:19-alpine as base
+WORKDIR /app
+COPY *.json *.yaml .npmrc global.d.ts ./
+COPY test/package.json ./test/
+COPY apis/query/ ./apis/query/
+
+RUN npm i -g pnpm && pnpm i --filter @anonklub/query-api
+
+EXPOSE 3000
+
+# FIXME: bloated image, but prod build doesn't work anymore (routing controllers issue??)
+CMD ["pnpm", "start.query-api.dev"]
