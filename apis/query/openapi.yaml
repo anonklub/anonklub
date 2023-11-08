@@ -25,8 +25,6 @@ paths:
       tags:
         - balance
       summary: List addresses that have a minimum balance of ETH.
-      description: ''
-      operationId: getEthBalanceAnonSet
       parameters:
         - name: min
           in: query
@@ -56,8 +54,6 @@ paths:
       tags:
         - balance
       summary: List addresses that have a minimum balance of some ERC20.
-      description: ''
-      operationId: getErc20BalanceAnonSet
       parameters:
         - name: tokenAddress
           in: query
@@ -92,8 +88,6 @@ paths:
       tags:
         - beacon
       summary: List addresses that have deposited into the beacon contract.
-      description: ''
-      operationId: getBeaconAnonSet
       responses:
         '200':
           description: Successful response
@@ -113,9 +107,35 @@ paths:
     get:
       tags:
         - nft
-      summary: List addresses that have deposited into the beacon contract.
-      description: ''
-      operationId: getPunksAnonSet
+      summary: List addresses that own a cryptopunk.
+      description: https://www.larvalabs.com/cryptopunks
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: ethereum addresses part of the anonymity set
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+  /nft:
+    get:
+      tags:
+        - nft
+      summary: List addresses that own an NFT of a given collection (other than PUNK).
+      parameters:
+        - name: tokenAddress
+          in: query
+          description: The address of the NFT collection.
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Successful response
@@ -136,8 +156,6 @@ paths:
       tags:
         - dao
       summary: List addresses that participated in an on chain ENS governance decision.
-      description: ''
-      operationId: getEnsVotersAnonSet
       parameters:
         - name: id
           in: query
