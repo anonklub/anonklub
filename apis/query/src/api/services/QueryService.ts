@@ -34,14 +34,14 @@ export class QueryService {
       .queryErc20Balance({ min, tokenAddress })
       .then(({ result }) => {
         this.logger.info('Get ERC20-balance based anonymity set')
-        return result?.rows?.map((row) => row['address']) ?? []
+        return result.rows.map((row) => row.address) ?? []
       })
   }
 
   async getBeaconDepositors() {
     return this.duneRepository.queryBeaconDepositors().then(({ result }) => {
       this.logger.info('Get Beacon Contract Depositors anonymity set')
-      return result?.rows?.map((row) => row['address']) ?? []
+      return result.rows.map((row) => row.address) ?? []
     })
   }
 

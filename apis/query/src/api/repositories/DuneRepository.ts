@@ -1,36 +1,26 @@
 import { Service } from 'typedi'
-import { DuneClient as Dune, QueryParameter } from '@cowprotocol/ts-dune-client'
-
-export enum Query {
-  Beacon = 2461144,
-  Erc20 = 1500107,
-}
+import { getErc20BalanceAnonSetQuery } from '@controllers/requests'
+import { DuneClient, Query } from '~/dune-client'
 
 @Service()
 export class DuneRepository {
-  dune: Dune
+  dune: DuneClient
   constructor() {
-    const { DUNE_API_KEY } = process.env
-    if (DUNE_API_KEY === undefined) throw new Error('missing dune api key')
-    this.dune = new Dune(DUNE_API_KEY)
+    this.dune = new DuneClient()
   }
 
-  public async queryErc20Balance({
-    min,
-    tokenAddress,
-  }: {
-    min: string
-    tokenAddress: string
-  }) {
-    const parameters = [
-      QueryParameter.number('min', min),
-      QueryParameter.text('tokenAddress', `"${tokenAddress}"`),
-    ]
+  private async getAnonSet<T = Record<string, unknown>>(
+    queryId: Query,
+    params?: T,
+  ) {
+    return await this.dune.query<['address'], T>(queryId, params)
+  }
 
-    return this.dune.refresh(Query.Erc20, parameters)
+  public async queryErc20Balance(params: getErc20BalanceAnonSetQuery) {
+    return this.getAnonSet<getErc20BalanceAnonSetQuery>(Query.Erc20, params)
   }
 
   public async queryBeaconDepositors() {
-    return this.dune.refresh(Query.Beacon)
+    return this.getAnonSet(Query.Beacon)
   }
 }
