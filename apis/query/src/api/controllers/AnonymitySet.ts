@@ -5,8 +5,8 @@ import {
   getErc20BalanceAnonSetQuery,
   getEthBalanceAnonSetQuery,
 } from '@controllers/requests'
-import { QueryService } from '@services'
 import { getNftOwnersAnonSetQuery } from '@controllers/requests/getNftOwnersAnonSetQuery'
+import { QueryService } from '@services'
 
 @Service()
 @JsonController()
@@ -46,7 +46,9 @@ export class AnonymitySet {
   }
 
   @Get('/nft')
-  async getNftOwners(@QueryParams() { tokenAddress }: getNftOwnersAnonSetQuery) {
+  async getNftOwners(
+    @QueryParams() { tokenAddress }: getNftOwnersAnonSetQuery,
+  ) {
     return this.service.getNftOwners(tokenAddress.toLowerCase())
   }
 }

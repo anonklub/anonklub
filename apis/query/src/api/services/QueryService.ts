@@ -58,9 +58,11 @@ export class QueryService {
   }
 
   async getNftOwners(tokenAddress: string) {
-    return this.duneRepository.queryNftOwners(tokenAddress).then(({ result }) => {
-      this.logger.info('Get NFT Owners anonymity set')
-      return result.rows.map((row) => row.address) ?? []
-    })
+    return this.duneRepository
+      .queryNftOwners(tokenAddress)
+      .then(({ result }) => {
+        this.logger.info('Get NFT Owners anonymity set')
+        return result.rows.map((row) => row.address) ?? []
+      })
   }
 }

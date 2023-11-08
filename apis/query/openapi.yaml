@@ -135,7 +135,7 @@ paths:
           description: The address of the NFT collection.
           required: true
           schema:
-              type: string
+            type: string
       responses:
         '200':
           description: Successful response
