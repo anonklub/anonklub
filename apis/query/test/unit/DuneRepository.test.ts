@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker'
-import assert from 'assert'
 import { DuneRepository } from '@repositories'
 
 jest.setTimeout(30_000)
@@ -18,7 +17,9 @@ describe('DuneRepository', () => {
   it('needs DUNE_API_KEY', () => {
     delete process.env['DUNE_API_KEY']
 
-    expect(() => new DuneRepository()).toThrow('missing dune api key')
+    expect(() => new DuneRepository()).toThrowErrorMatchingInlineSnapshot(
+      `"Missing DUNE_API_KEY environment variable"`,
+    )
   })
 
   it('fetch query results', async () => {
@@ -26,7 +27,7 @@ describe('DuneRepository', () => {
     const min = '3000'
     const tokenAddress = '0xc18360217d8f7ab5e7c516566761ea12ce7f9d72'
 
-    jest.spyOn(duneRepository.dune, 'refresh').mockResolvedValueOnce({
+    jest.spyOn(duneRepository.dune, 'query').mockResolvedValueOnce({
       // @ts-expect-error don't bother with the full response
       result: {
         rows: [...Array(faker.datatype.number({ max: 10, min: 1 })).keys()].map(
@@ -45,27 +46,5 @@ describe('DuneRepository', () => {
     expect(result?.rows.length).toBeGreaterThan(0)
     expect(result?.rows[0]?.['address']).toBeDefined()
     expect(result?.rows[0]?.['address'].startsWith('0x')).toBe(true)
-  })
-
-  it('fetch beacon depositors', async () => {
-    const duneRepository = new DuneRepository()
-
-    jest.spyOn(duneRepository.dune, 'refresh').mockResolvedValueOnce({
-      // @ts-expect-error don't bother with the full response
-      result: {
-        rows: [...Array(faker.datatype.number({ max: 10, min: 1 })).keys()].map(
-          () => ({
-            address: faker.finance.ethereumAddress(),
-          }),
-        ),
-      },
-    })
-    const { result } = await duneRepository.queryBeaconDepositors()
-
-    expect(result?.rows).toBeDefined()
-    expect(result?.rows.length).toBeGreaterThan(0)
-    expect(result?.rows[0]?.['address']).toBeDefined()
-    assert(typeof result?.rows[0]?.['address'] === 'string')
-    expect(result.rows[0]?.['address'].startsWith('0x')).toBe(true)
   })
 })
