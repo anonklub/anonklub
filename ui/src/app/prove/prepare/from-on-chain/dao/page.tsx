@@ -11,9 +11,7 @@ export default function ChooseAnonSetDaoPage() {
       help={[
         'ENS: are you a member of the group of people who voted on a specific ENS proposal.',
       ]}
-      buttons={[
-        { href: '/query/ens', text: 'ENS' },
-      ]}
+      buttons={[{ href: '/query/ens', text: 'ENS' }]}
     />
   )
 }

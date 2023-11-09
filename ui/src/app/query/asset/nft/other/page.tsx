@@ -25,11 +25,7 @@ export default function Page() {
   return (
     <div className='flex flex-col items-center space-y-10'>
       <div className='self-end'>
-        <HelpModal
-          content={[
-            'Provide the NFT contract address.',
-          ]}
-        />
+        <HelpModal content={['Provide the NFT contract address.']} />
       </div>
       <div className='nes-field w-[550px]'>
         <label>

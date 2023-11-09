@@ -3,7 +3,7 @@ import { Screen } from '@components'
 import { useResetAnonSet } from '@hooks'
 
 export default function ChooseAnonSetTypePage() {
-    useResetAnonSet()
+  useResetAnonSet()
 
   return (
     <Screen
