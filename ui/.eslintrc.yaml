@@ -1,4 +1,7 @@
 extends: ['../.eslintrc.yaml', 'next']
+parserOptions:
+  project: ['tsconfig.json']
+
 rules:
   '@next/next/no-html-link-for-pages': off # using app router, so no pages dir to check
 
