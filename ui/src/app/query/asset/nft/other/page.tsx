@@ -20,22 +20,22 @@ export default function Page() {
   if (isLoading) return <Loader />
   if (error instanceof Error) return <span>Error: {error.message}</span>
   if (anonSet !== null)
-    return <AnonSetResults anonSet={anonSet} title='ERC20 Balance' />
+    return <AnonSetResults anonSet={anonSet} title='NFT Owners' />
 
   return (
     <div className='flex flex-col items-center space-y-10'>
       <div className='self-end'>
         <HelpModal
           content={[
-            'Provide the ERC20 token address and the minimum amount of tokens one should own to be part of the anonset.',
+            'Provide the NFT contract address.',
           ]}
         />
       </div>
       <div className='nes-field w-[550px]'>
         <label>
-          ERC20 Token Address
+          NFT Contract Address
           <input
-            placeholder='0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'
+            placeholder='0x99a9b7c1116f9ceeb1652de04d5969cce509b069'
             type='text'
             className='nes-input text-xs'
             value={tokenAddress}
