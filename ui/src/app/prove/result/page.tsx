@@ -31,11 +31,6 @@ export default function Page() {
               >
                 /proofs/{jobId}/public.json
               </Link>
-              <Link
-                href={`${config.urls.proveApi}/proofs/${jobId}/witness.wtns`}
-              >
-                /proofs/{jobId}/witness.wtns
-              </Link>
             </div>
           </span>
         </>

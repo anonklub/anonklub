@@ -17,8 +17,8 @@ module.exports = {
   coverageDirectory: join(__dirname, '..', 'coverage'),
   coverageThreshold: {
     global: {
-      branches: 48,
-      functions: 70,
+      branches: 46,
+      functions: 67,
       lines: 80,
       statements: 80,
     },

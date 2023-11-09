@@ -9,16 +9,12 @@ export default function ChooseAnonSetTypePage() {
     <Screen
       question='What type of membership do you want to prove?'
       help={[
-        'Cryptopunk: are you a member of the group of people who own a cryptopunk?',
-        'ENS Voters: are you a member of the group of people who voted on a specific ENS proposal.',
-        'ETH balance: are you a member of the group of people who own a min amount of ETH?',
-        'ERC20 balance: are you a member of the group of people who own a min amount of a given ERC20 token?',
+        'Asset: are you a member of the group of people who own some ETH, ERC20, NFTs...?',
+        'DAO: are you a member of the group of people involved in a DAO governance?',
       ]}
       buttons={[
-        { href: '/query/cryptopunk', text: 'Cryptopunk' },
-        { href: '/query/ens', text: 'ENS Voters' },
-        { href: '/query/eth-balance', text: 'ETH balance' },
-        { href: '/query/erc20-balance', text: 'ERC20 balance' },
+        { href: '/prove/prepare/from-on-chain/asset', text: 'Asset' },
+        { href: '/prove/prepare/from-on-chain/dao', text: 'DAO' },
       ]}
     />
   )
