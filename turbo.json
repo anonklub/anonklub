@@ -70,12 +70,12 @@
     "build": {
       "dependsOn": ["^build", "build.graph"],
       "outputs": [
-        "{apis,@anonklub,ui}/**/{build,dist,.next}/**",
+        "{apis,@anonklub,ui}/**/{build,dist}/**",
         "!{apis,@anonklub,ui}/**/node_modules/**"
       ]
     },
     "build.graph": {
-      "outputs": ["src/lib/graph/.graphclient/**"]
+      "outputs": ["src/repositories/graph-client/.graphclient/**"]
     },
     "//#_test": {
       "dependsOn": ["^build"],
