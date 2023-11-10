@@ -62,7 +62,7 @@ export class GraphRepository {
     )
   }
 
-  async getPunkOwners(): Promise<string[]> {
+  async getCryptopunkOwners(): Promise<string[]> {
     return this.autoPage<object, Punk>(
       PunkOwnersDocument,
       {},

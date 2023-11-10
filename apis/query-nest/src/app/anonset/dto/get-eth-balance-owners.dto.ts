@@ -1,12 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Type } from 'class-transformer'
-import { IsInt, IsOptional, Min } from 'class-validator'
+import { IsNumberString, IsOptional } from 'class-validator'
 
 export class GetEthBalanceOwnersDto {
   @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
+  @IsNumberString()
   @ApiProperty({ description: 'Minimum ETH amount the addresses must own.' })
-  min? = 10
+  min? = '10'
 }

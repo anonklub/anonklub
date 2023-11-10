@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common'
+import { parseEther } from 'viem'
+
 import {
   GetEnsProposalVotersDto,
   GetErc20BalanceOwnersDto,
@@ -19,31 +21,42 @@ export class AnonsetService {
     private readonly graphRepository: GraphRepository,
   ) {}
 
-  async getEthBalanceOwners({ min = 10 }: GetEthBalanceOwnersDto) {
-    console.log(min)
-    return Promise.resolve('ethBalanceAnonset')
+  async getEthBalanceOwners({ min = '10' }: GetEthBalanceOwnersDto) {
+    return this.bigqueryRepository
+      .queryEthBalance(parseEther(min).toString())
+      .then((addresses) => {
+        return addresses
+      })
   }
 
   async getErc20BalanceOwners({
     min = '0',
     tokenAddress,
   }: GetErc20BalanceOwnersDto) {
-    return Promise.resolve('erc20BalanceAnonSet')
+    return this.duneRepository
+      .getErc20BalanceOwners({ min, tokenAddress })
+      .then(({ result }) => {
+        return result.rows.map((row) => row.address) ?? []
+      })
   }
 
   async getBeaconDepositors() {
-    return Promise.resolve('beaconDepositors')
+    return this.duneRepository.getBeaconDepositors().then(({ result }) => {
+      return result.rows.map((row) => row.address) ?? []
+    })
   }
 
-  async getEnsProposalVoters({ id, choice }: GetEnsProposalVotersDto) {
-    return Promise.resolve('ensProposalVoters')
+  async getEnsProposalVoters(dto: GetEnsProposalVotersDto) {
+    return this.graphRepository.getEnsProposalVoters(dto)
   }
 
   async getCryptopunkOwners() {
-    return Promise.resolve('punkOwners')
+    return this.graphRepository.getCryptopunkOwners()
   }
 
-  async getNftOwners(tokenAddress: GetNftOwnersDto) {
-    return Promise.resolve('nftOwners')
+  async getNftOwners({ tokenAddress }: GetNftOwnersDto) {
+    return this.duneRepository.getNftOwners(tokenAddress).then(({ result }) => {
+      return result.rows.map((row) => row.address) ?? []
+    })
   }
 }
