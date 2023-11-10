@@ -1,8 +1,8 @@
 import { BigQuery } from '@google-cloud/bigquery'
-import { Service } from 'typedi'
+import { Injectable } from '@nestjs/common'
 
-@Service()
-export class Db extends BigQuery {
+@Injectable()
+export class BigqueryClient extends BigQuery {
   constructor() {
     const {
       GOOGLE_APPLICATION_CREDENTIALS,

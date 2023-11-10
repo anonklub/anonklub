@@ -1,4 +1,4 @@
-import { Service } from 'typedi'
+import { Injectable } from '@nestjs/common'
 import {
   execute,
   Punk,
@@ -7,9 +7,9 @@ import {
   Vote,
   VoteChoice,
   VotersPerProposalDocument,
-} from '~/graph'
+} from './graph-client'
 
-@Service()
+@Injectable()
 export class GraphRepository {
   async autoPage<T, U>(
     query: typeof PunkOwnersDocument | typeof VotersPerProposalDocument,
@@ -62,7 +62,7 @@ export class GraphRepository {
     )
   }
 
-  async getPunkOwners(): Promise<string[]> {
+  async getCryptopunkOwners(): Promise<string[]> {
     return this.autoPage<object, Punk>(
       PunkOwnersDocument,
       {},

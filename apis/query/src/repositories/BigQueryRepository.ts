@@ -1,12 +1,12 @@
-import { Service } from 'typedi'
-import { Db } from '~/bigquery'
+import { Injectable } from '@nestjs/common'
+import { BigqueryClient } from './bigquery-client'
 
-@Service()
+@Injectable()
 export class BigQueryRepository {
-  constructor(public db: Db) {}
+  constructor(private readonly bigquery: BigqueryClient) {}
 
   async queryEthBalance(balance: string): Promise<string[]> {
-    return this.db
+    return this.bigquery
       .query({
         params: { balance },
         query: `select distinct address
