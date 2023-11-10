@@ -17,8 +17,5 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "~/*": ["src/lib/*"]
-    }
   }
 }

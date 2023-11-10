@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import {
   execute,
   Punk,
@@ -6,8 +7,7 @@ import {
   Vote,
   VoteChoice,
   VotersPerProposalDocument,
-} from '~/graph'
-import { Injectable } from '@nestjs/common'
+} from './graph-client'
 
 @Injectable()
 export class GraphRepository {

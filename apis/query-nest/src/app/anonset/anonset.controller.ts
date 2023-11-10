@@ -1,4 +1,4 @@
-import { Controller, Get, ParseIntPipe, Query } from '@nestjs/common'
+import { Controller, Get, Query } from '@nestjs/common'
 import { AnonsetService } from './anonset.service'
 import {
   GetEnsProposalVotersDto,

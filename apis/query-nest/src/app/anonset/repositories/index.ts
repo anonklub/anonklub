@@ -5,3 +5,6 @@
 export * from './BigQueryRepository'
 export * from './DuneRepository'
 export * from './GraphRepository'
+export * from './bigquery-client'
+export * from './dune-client/index'
+export * from './graph-client/index'

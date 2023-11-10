@@ -5,9 +5,20 @@ import {
   GetEthBalanceOwnersDto,
   GetNftOwnersDto,
 } from './dto'
+import {
+  BigQueryRepository,
+  DuneRepository,
+  GraphRepository,
+} from './repositories'
 
 @Injectable()
 export class AnonsetService {
+  constructor(
+    private readonly bigqueryRepository: BigQueryRepository,
+    private readonly duneRepository: DuneRepository,
+    private readonly graphRepository: GraphRepository,
+  ) {}
+
   async getEthBalanceOwners({ min = 10 }: GetEthBalanceOwnersDto) {
     console.log(min)
     return Promise.resolve('ethBalanceAnonset')
@@ -17,7 +28,6 @@ export class AnonsetService {
     min = '0',
     tokenAddress,
   }: GetErc20BalanceOwnersDto) {
-    console.log(min, tokenAddress)
     return Promise.resolve('erc20BalanceAnonSet')
   }
 
