@@ -13,6 +13,12 @@ export class VerifyCommand extends _Command {
     .setName(CommandName.Verify)
     .setDescription('Verify yourself')
 
+  /**
+   * This function handles the verification process. The steps are as follows:
+   * 1. Visit [anonklub.fly.dev](https://anonklub.fly.dev) to generate a proof. Upon successful proof generation, you'll be able to download two files: `proof.json` and `public.json`.
+   * 2. Upload both `proof.json` and `public.json` files here in this private thread (plus sign >> upload a file).
+   * 3. Upon successful verification of your proof, you'll be granted the `verified` role. 10 seconds later, this private channel and your first message in #verification will be deleted.
+   */
   async handleFn(interaction: CommandInteraction): Promise<void> {
     const { username } = interaction.user
     const privateChannel = await this._createPrivateChannel(interaction)
