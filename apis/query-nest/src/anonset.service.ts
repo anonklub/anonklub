@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { parseEther } from 'viem'
-
 import {
   GetEnsProposalVotersDto,
   GetErc20BalanceOwnersDto,

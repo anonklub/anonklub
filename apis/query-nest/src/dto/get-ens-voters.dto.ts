@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsDefined, IsIn, IsNumberString, Length } from 'class-validator'
-import { VoteChoice } from '../repositories/graph-client'
+import { VoteChoice } from '../repositories'
 
 export class GetEnsProposalVotersDto {
   @IsDefined()
@@ -15,10 +15,16 @@ export class GetEnsProposalVotersDto {
   @ApiProperty({
     description:
       'The ID of the ENS Proposal (can be found e.g. on [tally.xyz](https://www.tally.xyz/gov/ens/proposals)).',
+    example:
+      '15706104363492914432572227540113855373051896881975394006732444538096386655538',
   })
   id: string
 
   @IsDefined()
   @IsIn(['FOR', 'AGAINST', 'ABSTAIN'])
+  @ApiProperty({
+    description: 'The vote choice.',
+    enum: ['FOR', 'AGAINST', 'ABSTAIN'],
+  })
   choice: VoteChoice
 }
