@@ -16,7 +16,19 @@ export class VerifyCommand extends _Command {
 
   async handleFn(interaction: CommandInteraction): Promise<void> {
     const { username } = interaction.user
-    const privateChannel = await this._maybeCreatePrivateChannel(interaction)
+    const existingChannel = interaction.guild?.channels.cache.find(
+      (channel) =>
+        channel.name === `private-verify-${interaction.user.username}` &&
+        channel instanceof TextChannel,
+    ) as TextChannel | undefined
+    if (existingChannel !== undefined) {
+      await existingChannel.send({
+        content: `Hello \`${username}\`, please upload your proof files as explained in the first message in that thread.`,
+      })
+      return
+    }
+
+    const privateChannel = await this._createPrivateChannel(interaction)
 
     await privateChannel.send({
       content: `
@@ -33,14 +45,7 @@ This is a private channel only visible to you, the bot and the server admins.
     })
   }
 
-  private async _maybeCreatePrivateChannel(interaction: CommandInteraction) {
-    const existingChannel = interaction.guild?.channels.cache.find(
-      (channel) =>
-        channel.name === `private-verify-${interaction.user.username}` &&
-        channel instanceof TextChannel,
-    ) as TextChannel | undefined
-    if (existingChannel !== undefined) return existingChannel
-
+  private async _createPrivateChannel(interaction: CommandInteraction) {
     const privateChannel = await interaction.guild?.channels.create({
       name: `private-verify-${interaction.user.username}`,
       permissionOverwrites: [
