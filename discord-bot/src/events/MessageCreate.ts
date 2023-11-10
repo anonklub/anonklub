@@ -40,8 +40,6 @@ export class MessageCreate extends _Event {
 
       setTimeout(() => {
         ;(async () => {
-          await message.channel.delete()
-
           const verificationChannel = message.guild?.channels.cache.get(
             config.VERIFICATION_CHANNEL_ID,
           ) as TextChannel
@@ -54,6 +52,8 @@ export class MessageCreate extends _Event {
               ),
           )
           if (botMessage !== undefined) await botMessage.delete()
+
+          await message.channel.delete()
         })().catch((err) => {
           console.error(err)
         })
