@@ -12,7 +12,7 @@ export class ProveCommand extends _Command {
     const { username } = user
 
     await interaction.reply(
-      `Hello, ${username}! I am handling the /prove command!`,
+      `Hello, ${username}, go to [anonklub.fly.dev](https://anonklub.fly.dev) to generate a proof!`,
     )
   }
 }
