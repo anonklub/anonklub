@@ -49,6 +49,7 @@ overrides:
       [
         'apis/query/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts',
         'apis/query/src/api/repositories/DuneRepository.ts',
+        'apis/query-nest/src/app/anonset/dto/get-eth-balance-anonset.dto.ts',
       ]
     rules:
       '@typescript-eslint/no-inferrable-types': off
