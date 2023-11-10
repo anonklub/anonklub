@@ -30,7 +30,6 @@ export function SubmitProofRequest() {
             <WarningModal
               content={[
                 "You are about to submit your proof request to our server. This server is meant to be used for demonstration and development purposes. We haven't run a trusted setup ceremony. This is both a privacy and security issue. Don't use the generated proof results in production or for any sensitive purposes.",
-                "Also you MUST ALLOW INSECURE CONTENT in your browser settings to be able to submit the proof request (because we haven't a TLS certificate for the proving server yet 💩).",
               ]}
             />
             {warningWasRead ? (
