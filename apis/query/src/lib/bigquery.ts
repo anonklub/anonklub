@@ -10,6 +10,8 @@ export class Db extends BigQuery {
       NODE_ENV,
     } = process.env
 
+    console.log(process.env)
+
     if (NODE_ENV === 'test') {
       super({
         credentials: {},

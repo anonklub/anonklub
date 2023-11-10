@@ -7,6 +7,7 @@ parserOptions:
       '@anonklub/query/tsconfig.json',
       'apis/prove/tsconfig.json',
       'apis/query/tsconfig.json',
+      'apis/query-nest/tsconfig.json',
       'circuits/circom/tsconfig.json',
       'discord-bot/tsconfig.json',
       'infra/tsconfig.json',
