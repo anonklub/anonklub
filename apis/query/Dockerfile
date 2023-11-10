@@ -6,7 +6,6 @@ WORKDIR app
 FROM base as deps
 
 COPY *.json *.yaml .npmrc global.d.ts ./
-COPY test/package.json ./test/
 COPY apis/query/package.json ./apis/query/
 
 RUN npm i -g pnpm && pnpm i --filter @anonklub/query-api
@@ -37,7 +36,6 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/$DIR/node_modules ./$DIR/node_modules
 COPY --from=build /app/$DIR/dist ./$DIR/dist
 COPY --from=build /app/$DIR/public ./$DIR/public
-COPY --from=build /app/$DIR/openapi.yaml /app/$DIR/package.json ./$DIR/
 
 ENV NODE_ENV production
 #USER node
@@ -50,4 +48,4 @@ WORKDIR /app/$DIR
 # this allows signals to be passed to the node process
 # also use dumb-init to avoid node running as PID 1
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["node", "-r", "module-alias/register", "dist"]
+CMD ["node", "dist"]

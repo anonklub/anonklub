@@ -1,24 +1,22 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src", "test", "test/jest.config.ts"],
-  "exclude": ["test/coverage"],
   "compilerOptions": {
-    "experimentalDecorators": true,
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
     "emitDecoratorMetadata": true,
-    "baseUrl": ".",
-    "noUncheckedIndexedAccess": false,
-    "paths": {
-      "@controllers": ["src/api/controllers"],
-      "@controllers/*": ["src/api/controllers/*"],
-      "@decorators/*": ["src/decorators/*"],
-      "@middlewares": ["src/api/middlewares"],
-      "@models": ["src/api/models"],
-      "@models/*": ["src/api/models/*"],
-      "@repositories": ["src/api/repositories"],
-      "@repositories/*": ["src/api/repositories/*"],
-      "@services": ["src/api/services"],
-      "~/*": ["src/lib/*"]
-    },
-    "strictPropertyInitialization": false
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true
   }
 }
