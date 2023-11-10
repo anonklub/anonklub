@@ -25,7 +25,7 @@ This is a private channel only visible to you, the bot and the server admins.
 
 1. Visit [anonklub.fly.dev](https://anonklub.fly.dev) to generate a proof. Upon successful proof generation you'll be able to download two files: \`proof.json\` and \`public.json\`
 2. Upload both \`proof.json\` and \`public.json\` files here in this private thread (plus sign >> upload a file). 
-3. Upon successful verification of your proof you'll be granted the \`verified\` role. 10s later, this private channel and your first message in #verification will be deleted.`,
+3. Upon successful verification of your proof you'll be granted the \`verified\` role. 10s later, this private channel and your first message in <#${config.VERIFICATION_CHANNEL_ID}> will be deleted.`,
     })
     await interaction.reply({
       content: `Hello \`${username}\`, please check <#${privateChannel.id}> for further instructions.`,
