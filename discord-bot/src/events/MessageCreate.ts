@@ -50,7 +50,7 @@ export class MessageCreate extends _Event {
             (pastMessage: Message) =>
               pastMessage.author.id === config.CLIENT_ID &&
               pastMessage.content.includes(
-                `Hello \`${message.author.username}\`, please check #private-verify-${message.author.username} for further instructions.`,
+                `Hello \`${message.author.username}\`, please check <#${message.channel.id}> for further instructions.`,
               ),
           )
           if (botMessage !== undefined) await botMessage.delete()
