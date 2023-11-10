@@ -26,5 +26,5 @@
 
 ## Develop
 
-1. Set environment variables (see [.env-sample](../.env-example)
+1. Set environment variables (see [.env-sample](../.env-example))
 2. Install deps: `pnpm --filter discord-bot start.dev`
