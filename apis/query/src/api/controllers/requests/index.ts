@@ -5,3 +5,4 @@
 export * from './getEnsProposalVotersQuery'
 export * from './getErc20BalanceAnonSetQuery'
 export * from './getEthBalanceAnonSetQuery'
+export * from './getNftOwnersAnonSetQuery'
