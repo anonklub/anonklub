@@ -1,42 +1,43 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, ParseIntPipe, Query } from '@nestjs/common'
 import { AnonsetService } from './anonset.service'
+import {
+  GetEnsProposalVotersDto,
+  GetErc20BalanceOwnersDto,
+  GetEthBalanceOwnersDto,
+  GetNftOwnersDto,
+} from './dto'
 
 @Controller()
 export class AnonsetController {
   constructor(private readonly service: AnonsetService) {}
 
-  @Get()
-  getHello(): string {
-    return this.service.getHello()
-  }
-
   @Get('/asset/ETH')
-  getEthBalanceAnonSet(): string {
-    return this.service.getEthBalanceAnonSet()
+  async getEthBalanceOwners(@Query() dto: GetEthBalanceOwnersDto) {
+    return this.service.getEthBalanceOwners(dto)
   }
 
   @Get('/asset/ERC20')
-  getErc20BalanceAnonSet(): string {
-    return 'balance erc20'
+  async getErc20BalanceOwners(@Query() dto: GetErc20BalanceOwnersDto) {
+    return this.service.getErc20BalanceOwners(dto)
   }
 
   @Get('/asset/nft')
-  getNftOwnersAnonSet(): string {
-    return 'nft owners'
+  async getNftOwners(@Query() dto: GetNftOwnersDto) {
+    return this.service.getNftOwners(dto)
   }
 
   @Get('/asset/cryptopunk')
-  getCryptopunkOwnersAnonSet(): string {
-    return 'cyrptopunk owners'
+  async getCryptopunkOwners() {
+    return this.service.getCryptopunkOwners()
   }
 
   @Get('/beacon')
-  getBeaconDepositors(): string {
-    return 'beacon depositors'
+  async getBeaconDepositors() {
+    return this.service.getBeaconDepositors()
   }
 
   @Get('/dao/ens')
-  getEnsProposalVoters(): string {
-    return 'ens proposal voters'
+  async getEnsProposalVoters(@Query() dto: GetEnsProposalVotersDto) {
+    return this.service.getEnsProposalVoters(dto)
   }
 }
