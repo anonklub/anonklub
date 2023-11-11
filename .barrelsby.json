@@ -1,11 +1,6 @@
 {
   "directory": [
     "apis/prove/src/handlers",
-    "apis/query/src/api/controllers/requests",
-    "apis/query/src/api/services",
-    "apis/query/src/api/repositories",
-    "apis/query-nest/src/app/anonset/dto",
-    "apis/query-nest/src/app/anonset/repositories",
     "@anonklub/query/src/requests",
     "discord-bot/src/lib",
     "discord-bot/src/lib/decorators",

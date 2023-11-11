@@ -6,6 +6,7 @@ export interface ClientI {
   commands: typeof commands
   discord: DiscordClient
   events: typeof Events
+
   init: () => Promise<ClientI>
   login: () => void
   stop: () => void

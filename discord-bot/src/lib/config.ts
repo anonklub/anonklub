@@ -8,6 +8,7 @@ interface Config {
   }
   BOT_TOKEN: string
   CLIENT_ID: string
+  DISCORD_REDIS_URL: string
   eventHandlerOn: Record<HandledEvent, boolean>
   GUILD_ID: string
   intents: GatewayIntentBits[]
@@ -18,10 +19,11 @@ interface Config {
   VERIFIED_ROLE_ID: string
 }
 
-const { BOT_TOKEN, CLIENT_ID, GUILD_ID } = process.env
+const { BOT_TOKEN, CLIENT_ID, DISCORD_REDIS_URL, GUILD_ID } = process.env
 if (BOT_TOKEN === undefined) throw new Error('No bot token provided')
 if (CLIENT_ID === undefined) throw new Error('No client id provided')
 if (GUILD_ID === undefined) throw new Error('No guild id provided')
+if (DISCORD_REDIS_URL === undefined) throw new Error('No redis url provided')
 
 export const config: Config = {
   addresses: {
@@ -29,6 +31,7 @@ export const config: Config = {
   },
   BOT_TOKEN,
   CLIENT_ID,
+  DISCORD_REDIS_URL,
   eventHandlerOn: {
     [Events.ClientReady]: true,
     [Events.Debug]: false,

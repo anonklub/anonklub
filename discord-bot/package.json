@@ -19,6 +19,8 @@
     "module-alias": "^2.2.2",
     "pino": "^8.14.1",
     "pino-pretty": "^10.2.0",
+    "redis": "^4.6.10",
+    "redis-om": "^0.4.3",
     "reflect-metadata": "^0.1.13",
     "snarkjs": "^0.7.0",
     "tslib": "^2.6.1",

@@ -1,5 +1,5 @@
 import { Service } from 'typedi'
-import { config, error, info } from '~'
+import { config, error, info, redis, usersRepository } from '~'
 import { commands } from 'commands'
 import { DiscordClient } from 'DiscordClient'
 import { Events } from '../events'
@@ -10,7 +10,10 @@ export class Client implements ClientI {
   public events = Events
   public commands = commands
 
-  constructor(public discord: DiscordClient) {}
+  constructor(
+    public discord: DiscordClient,
+    private readonly users: typeof usersRepository,
+  ) {}
 
   async init() {
     info('Setting up event handlers...')
@@ -30,7 +33,8 @@ export class Client implements ClientI {
   }
 
   async login() {
-    return this.discord.login(config.BOT_TOKEN)
+    await this.discord.login(config.BOT_TOKEN)
+    await redis.connect()
   }
 
   stop() {

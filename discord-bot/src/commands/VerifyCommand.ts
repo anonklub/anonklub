@@ -15,7 +15,22 @@ export class VerifyCommand extends _Command {
     .setDescription('Verify yourself')
 
   async handleFn(interaction: CommandInteraction): Promise<void> {
-    const { username } = interaction.user
+    const { username, id: userId } = interaction.user
+    const existingUser = await this.users.fetch(userId)
+    if (existingUser !== null) {
+      const existingChannel = interaction.guild?.channels.cache.find(
+        (channel) =>
+          channel.id === existingUser.privateChannelId &&
+          channel instanceof TextChannel,
+      ) as TextChannel | undefined
+      if (existingChannel !== undefined) {
+        await existingChannel.send({
+          content: `Hello \`${username}\`, please upload your proof files as explained in the first message in that thread.`,
+        })
+        return
+      }
+    }
+
     const existingChannel = interaction.guild?.channels.cache.find(
       (channel) =>
         channel.name === `private-verify-${interaction.user.username}` &&
