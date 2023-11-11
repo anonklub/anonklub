@@ -1,4 +1,3 @@
-import { Client } from 'discord.js'
 import { createClient } from 'redis'
 import { Repository, Schema } from 'redis-om'
 import { Service } from 'typedi'
@@ -14,7 +13,6 @@ export class UsersRepository extends Repository {
       console.error('Redis error:', err)
     })
     const schema = new Schema('user', {
-      id: { type: 'string' },
       messagesInVerifChannel: { type: 'string[]' },
       privateChannelId: { type: 'string' },
     })

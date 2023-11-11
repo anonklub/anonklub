@@ -8,6 +8,8 @@ import {
 import { config } from '~'
 import { _Command } from './_Command'
 import { CommandName } from './interface'
+import { Container } from 'typedi'
+import { UsersRepository } from '../UsersRepository'
 
 export class VerifyCommand extends _Command {
   public commandBuilder = new SlashCommandBuilder()
@@ -15,36 +17,22 @@ export class VerifyCommand extends _Command {
     .setDescription('Verify yourself')
 
   async handleFn(interaction: CommandInteraction): Promise<void> {
-    const { username, id: userId } = interaction.user
-    const existingUser = await this.users.fetch(userId)
-    if (existingUser !== null) {
-      const existingChannel = interaction.guild?.channels.cache.find(
-        (channel) =>
-          channel.id === existingUser.privateChannelId &&
-          channel instanceof TextChannel,
-      ) as TextChannel | undefined
-      if (existingChannel !== undefined) {
-        await existingChannel.send({
-          content: `Hello \`${username}\`, please upload your proof files as explained in the first message in that thread.`,
-        })
-        return
-      }
-    }
+    const { id: userId, username } = interaction.user
+    const existingUser = await Container.get(UsersRepository).fetch(userId)
 
-    const existingChannel = interaction.guild?.channels.cache.find(
-      (channel) =>
-        channel.name === `private-verify-${interaction.user.username}` &&
-        channel instanceof TextChannel,
-    ) as TextChannel | undefined
-    if (existingChannel !== undefined) {
-      await existingChannel.send({
+    if (existingUser !== null) {
+      const privateChannel = interaction.guild?.channels.cache.find(
+        (channel) =>
+          channel.id === existingUser['privateChannelId'] &&
+          channel instanceof TextChannel,
+      ) as TextChannel
+      await privateChannel.send({
         content: `Hello \`${username}\`, please upload your proof files as explained in the first message in that thread.`,
       })
       return
     }
 
     const privateChannel = await this._createPrivateChannel(interaction)
-
     await privateChannel.send({
       content: `
 Hello \`${username}\`,

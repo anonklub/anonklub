@@ -1,10 +1,4 @@
-import {
-  Attachment,
-  Collection,
-  Events,
-  Message,
-  TextChannel,
-} from 'discord.js'
+import { Attachment, Collection, Events, Message } from 'discord.js'
 import { config, verifyOnChain } from '~'
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
@@ -40,19 +34,7 @@ export class MessageCreate extends _Event {
 
       setTimeout(() => {
         ;(async () => {
-          const verificationChannel = message.guild?.channels.cache.get(
-            config.VERIFICATION_CHANNEL_ID,
-          ) as TextChannel
-          const pastMessages = await verificationChannel.messages.fetch()
-          const botMessage = pastMessages.find(
-            (pastMessage: Message) =>
-              pastMessage.author.id === config.CLIENT_ID &&
-              pastMessage.content.includes(
-                `Hello \`${message.author.username}\`, please check <#${message.channel.id}> for further instructions.`,
-              ),
-          )
-          if (botMessage !== undefined) await botMessage.delete()
-
+          await this.deletePastMessages(message.author.id)
           await message.channel.delete()
         })().catch((err) => {
           console.error(err)
@@ -63,6 +45,19 @@ export class MessageCreate extends _Event {
         content: `Sorry \`${message.author.username}\`, your proof is invalid ❌. You have not been granted the verified role.`,
       })
     }
+  }
+
+  private async deletePastMessages(userId: string) {
+    const { messagesInVerifChannel } = await this.client.users.fetch(userId)
+    if (messagesInVerifChannel === null) return
+    await Promise.all(
+      (messagesInVerifChannel as string[]).map(async (messageId) => {
+        const pastMessage =
+          await this.client.verificationChannel.messages.fetch(messageId)
+        if (pastMessage === undefined) return
+        await pastMessage.delete()
+      }),
+    )
   }
 
   private async _handleAttachments(

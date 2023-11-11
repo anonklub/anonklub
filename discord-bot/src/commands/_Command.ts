@@ -1,6 +1,5 @@
-import { Client, CommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { CommandInteraction, SlashCommandBuilder } from 'discord.js'
 import { inVerificationChannel, isMatchingCommand, tryCatchReply } from '~'
-import { UsersRepository } from '../UsersRepository'
 import { _CommandI } from './interface'
 
 export abstract class _Command implements _CommandI {
@@ -8,8 +7,6 @@ export abstract class _Command implements _CommandI {
     SlashCommandBuilder,
     'addSubcommand' | 'addSubcommandGroup'
   >
-
-  constructor(public users: UsersRepository) {}
 
   @isMatchingCommand
   @inVerificationChannel
