@@ -9,7 +9,7 @@ export default function Page() {
   const { anonSet, setAnonSet } = useStore()
   const { error, execute, isLoading } = useAsync(async () => {
     const data = await getData<string[]>(
-      `${config.urls.queryApi}/balance/ETH?min=${min}`,
+      `${config.urls.queryApi}/asset/ETH?min=${min}`,
     )
     setAnonSet(data)
   })
