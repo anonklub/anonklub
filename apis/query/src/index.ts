@@ -6,7 +6,10 @@ import { join } from 'path'
 import { AnonsetModule } from './anonset.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AnonsetModule)
+  // TODO: set more restrictive CORS policy
+  const app = await NestFactory.create<NestExpressApplication>(AnonsetModule, {
+    cors: true,
+  })
   app.useGlobalPipes(new ValidationPipe())
   app.useStaticAssets(join(__dirname, '..', 'public'))
 
