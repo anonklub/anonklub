@@ -10,7 +10,7 @@ export default function Page() {
   const { error, execute, isLoading } = useAsync(async () => {
     if (tokenAddress !== '') {
       const data = await getData<string[]>(
-        `${config.urls.queryApi}/nft?tokenAddress=${tokenAddress}`,
+        `${config.urls.queryApi}/asset/nft?tokenAddress=${tokenAddress}`,
       )
       setAnonSet(data)
     }

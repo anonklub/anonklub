@@ -19,7 +19,7 @@ export default function Page() {
   const { error, execute, isLoading } = useAsync(async () => {
     if (id !== '') {
       const data = await getData<string[]>(
-        `${config.urls.queryApi}/ens-proposal-voters?id=${id}&choice=${choice}`,
+        `${config.urls.queryApi}/dao/ens?id=${id}&choice=${choice}`,
       )
       setAnonSet(data)
     }

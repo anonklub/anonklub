@@ -11,7 +11,7 @@ export default function Page() {
   const { error, execute, isLoading } = useAsync(async () => {
     if (tokenAddress !== '' && min > 0) {
       const data = await getData<string[]>(
-        `${config.urls.queryApi}/balance/ERC20?min=${min}&tokenAddress=${tokenAddress}`,
+        `${config.urls.queryApi}/asset/ERC20?min=${min}&tokenAddress=${tokenAddress}`,
       )
       setAnonSet(data)
     }
