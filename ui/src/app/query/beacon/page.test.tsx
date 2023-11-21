@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import Page from './page';
 import { getData } from '#/get-data';
 import { AnonSetResults } from '@components';
+import { config } from '#/config';
 
 jest.mock('#/get-data');
 jest.mock('@components/AnonSetResults', () => jest.fn(() => null));
