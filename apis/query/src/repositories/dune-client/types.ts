@@ -1,5 +1,5 @@
 export enum Query {
-  Beacon = 2461144,
+  Beacon = 3216566,
   Erc20 = 3183375,
   Nft = 3184511,
 }
