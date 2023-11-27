@@ -1,4 +1,9 @@
 import {
+  MembershipProver, MerkleProof, defaultPubkeyMembershipPConfig
+} from "@personaelabs/spartan-ecdsa";
+import { hashPersonalMessage } from "@ethereumjs/util";
+
+import {
   JobResponse,
   ProofRequestArgs,
   ProofRequestInterface,
@@ -10,15 +15,17 @@ export { ProofRequestJson }
 
 export class ProofRequest implements ProofRequestInterface {
   public readonly addresses: string[]
+  public readonly merkleProof: MerkleProof;
   public readonly message: string
   public readonly rawSignature: string
   public jobId: string | undefined
   public readonly url: string
 
-  constructor({ addresses, message, rawSignature, url }: ProofRequestArgs) {
+  constructor({ addresses, merkleProof, message, rawSignature, url }: ProofRequestArgs) {
     // TODO: validate params
     this.addresses = addresses
     this.message = message
+    this.merkleProof = merkleProof;
     this.rawSignature = rawSignature
     this.url = url
   }
@@ -42,6 +49,17 @@ export class ProofRequest implements ProofRequestInterface {
     this.jobId = jobResponse.jobId
 
     return jobResponse
+  }
+
+  async submitSpartenECDSA() {
+    const prover = new MembershipProver(defaultPubkeyMembershipPConfig);
+    await prover.initWasm();
+
+    const msgHash = Buffer.from(hashPersonalMessage(Buffer.from(this.message)));
+
+    const fullProof = await prover.prove(this.rawSignature, msgHash, this.merkleProof);
+
+    return fullProof
   }
 
   async getResult(): Promise<ProofResult> {

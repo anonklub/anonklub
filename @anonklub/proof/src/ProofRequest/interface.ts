@@ -1,5 +1,8 @@
+import { type MerkleProof, type NIZK } from "@personaelabs/spartan-ecdsa";
+
 export interface ProofRequestArgs {
   addresses: string[]
+  merkleProof: MerkleProof;
   message: string
   rawSignature: string
   /**
@@ -22,5 +25,6 @@ export interface JobResponse {
 }
 export interface ProofRequestInterface {
   submit: () => Promise<JobResponse>
+  submitSpartenECDSA: () => Promise<NIZK>
   getResult: () => Promise<ProofResult>
 }

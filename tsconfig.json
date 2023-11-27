@@ -24,7 +24,15 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2022"
+    "composite": true,
+    "target": "ES2022",
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "noEmit": false
+    },
+    "esm": true,
+    "swc": true
   },
   "files": ["global.d.ts"],
   "include": ["jest.config.ts"]
