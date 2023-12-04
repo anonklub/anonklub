@@ -1,16 +1,17 @@
+use crate::{Curve, MembershipProof};
 use ark_ec::{AffineRepr, CurveGroup};
 use ark_ff::{BigInteger, Field, PrimeField};
 use ark_secp256k1::Affine;
 use ark_secp256k1::Fq;
 use ark_secp256k1::Fr;
 use num_bigint::BigUint;
+use sapir::{wasm::prelude::*};
 
 // Recover the point from the x coordinate and the parity bit
 // following the SEC 1 spec https://www.secg.org/sec1-v2.pdf
 pub fn from_x(x: Fq, is_y_odd: bool) -> Affine {
     let y_squared = x * x * x + Fq::from(7u32);
     let y = y_squared.sqrt().unwrap();
-
     if y.into_bigint().to_bits_le()[0] == !is_y_odd {
         Affine::new(x, y)
     } else {
@@ -18,6 +19,7 @@ pub fn from_x(x: Fq, is_y_odd: bool) -> Affine {
     }
 }
 
+// Compute `T` and `U` for efficient ECDSA verification
 pub fn efficient_ecdsa(msg_hash: BigUint, r: Fq, is_y_odd: bool) -> (Affine, Affine) {
     let g = Affine::generator();
 
@@ -29,7 +31,7 @@ pub fn efficient_ecdsa(msg_hash: BigUint, r: Fq, is_y_odd: bool) -> (Affine, Aff
 
     let r_inv_mod_n = Fr::from(BigUint::from(r.into_bigint())).inverse().unwrap();
 
-    // W = r^-1 * msg
+    // w = r^-1 * msg
     let w = -Fr::from(BigUint::from(msg_hash).modpow(&one, &modulus)) * r_inv_mod_n;
     // u = -(w * G) = -(r^-1 * msg * G)
     let u = (g * w).into_affine();
@@ -50,7 +52,34 @@ pub fn verify_efficient_ecdsa(
 ) -> bool {
     let (expected_u, expected_t) = efficient_ecdsa(msg_hash, r, is_y_odd);
 
-    u == expected_u && t == expected_t
+    t == expected_t && u == expected_u
+}
+
+// ####################################
+// Helper functions
+// ####################################
+
+// Get the Merkle root from the proof's public input
+#[wasm_bindgen]
+pub fn get_roots(anonklub_proof: &[u8]) -> Vec<u8> {
+    let anonklub_proof = MembershipProof::deserialize_compressed(anonklub_proof).unwrap();
+    let spartan_proof =
+        SpartanProof::<Curve>::deserialize_compressed(anonklub_proof.proof.as_slice()).unwrap();
+    let pub_iputs = spartan_proof.pub_input.clone();
+    // The first 4 elements of the public input are the efficient ECDSA input
+    let roots = &pub_iputs[4..];
+
+    roots
+        .iter()
+        .flat_map(|x| x.into_bigint().to_bytes_be())
+        .collect()
+}
+
+// Get hte message hash from the proof's public input
+#[wasm_bindgen]
+pub fn get_msg_hash(anonklub_proof: &[u8]) -> Vec<u8> {
+    let anonklub_proof = MembershipProof::deserialize_compressed(anonklub_proof).unwrap();
+    anonklub_proof.msg_hash.to_bytes_be()
 }
 
 #[cfg(test)]
@@ -78,7 +107,7 @@ pub mod test_utils {
         let pub_key = (g * Fr::from(priv_key)).into_affine();
         let address = secret_key_to_address(&signing_key);
 
-        let message = b"hello Anonklub";
+        let message = b"harry AnonKlub";
         let msg_hash = hash_message(message);
         let msg_hash_bigint = BigUint::from_bytes_be(&msg_hash.to_fixed_bytes());
         let wallet = Wallet::from(signing_key);
@@ -112,10 +141,11 @@ pub mod test_utils {
     }
 }
 
+#[cfg(test)]
 mod tests {
-    use super::*;
-    
     use crate::utils::test_utils::mock_eff_ecdsa_input;
+
+    use super::*;
 
     #[test]
     fn test_eff_ecdsa() {

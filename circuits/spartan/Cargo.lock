@@ -3033,6 +3033,7 @@ dependencies = [
  "ark-ff",
  "ark-secp256k1",
  "ark-secq256k1",
+ "ark-serialize",
  "ethers",
  "num-bigint",
  "sapir",

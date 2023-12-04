@@ -1,0 +1,22 @@
+{
+    "name": "@anonklub/spartan-circuits",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+      "build": "node wasmBytes.js",
+      "compile-circuit": "sh ./scripts/compile-web.sh"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "pako": "^2.1.0",
+      "spartan-ecdsa-circuits": "^1.0.0"
+    },
+    "devDependencies": {
+      "ts-node": "^10.9.1",
+      "typescript": "5.2.2"
+    }
+  }
