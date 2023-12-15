@@ -3038,6 +3038,7 @@ dependencies = [
  "num-bigint",
  "sapir",
  "wasm-bindgen",
+ "web-sys",
 ]
 
 [[package]]

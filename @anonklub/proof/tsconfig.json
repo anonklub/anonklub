@@ -4,7 +4,10 @@
     "module": "CommonJS",
     "moduleResolution": "Node",
     "noUncheckedIndexedAccess": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@anonklub/spartan-circuit": ["../../circuits/spartan/circuit-web"]
+    }
   },
   "include": ["src", "test"]
 }

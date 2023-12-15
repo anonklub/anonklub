@@ -29,13 +29,14 @@ export class DuneClient implements DuneClientI {
     endpoint: string,
     options?: RequestInit,
   ): Promise<T> {
+    console.log("API key", this.apiKey);
     return await fetch(`${this.baseUrl}/${endpoint}`, {
       ...options,
       headers: new Headers({
         'x-dune-api-key': this.apiKey,
         ...options?.headers,
       }),
-    }).then((res) => res.json() as T)
+    }).then((res) => res.json() as T).catch((e) => { throw new Error(e) })
   }
 
   private async executeQuery<U>(queryId: DuneQuery, params?: U) {

@@ -1,6 +1,6 @@
 import { useAsync, useStore } from '@hooks'
 
-export const useSpartenProofResult = () => {
+export const useSpartanProofResult = () => {
   const { proofRequest } = useStore()
 
   const {
@@ -11,7 +11,7 @@ export const useSpartenProofResult = () => {
   } = useAsync(async () => {
     if (proofRequest === null) return
     console.log("Before");
-    const fullProof = await proofRequest.submitSpartenECDSA();
+    const fullProof = await proofRequest.submitSpartanECDSA();
     console.log("After", fullProof.proof);
     return fullProof
   }, 'submit-proof-request')

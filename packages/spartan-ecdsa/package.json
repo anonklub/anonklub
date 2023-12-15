@@ -1,0 +1,45 @@
+{
+  "name": "@anonklub/spartan-ecdsa",
+  "version": "2.3.1",
+  "description": "Spartan-ecdsa (which to our knowledge) is the fastest open-source method to verify ECDSA (secp256k1) signatures in zero-knowledge.",
+  "keywords": [
+    "spartan",
+    "spartan-ecdsa",
+    "zk",
+    "efficient-ecdsa"
+  ],
+  "author": "Personae Labs",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/personaelabs/spartan-ecdsa/issues/new"
+  },
+  "homepage": "https://github.com/personaelabs/spartan-ecdsa",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "rm -rf ./dist && yarn embedWasmBytes && tsc",
+    "prepublishOnly": "yarn build",
+    "prepare": "yarn embedWasmBytes",
+    "embedWasmBytes": "ts-node ./src/embedWasmBytes.ts",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.5",
+    "@zk-kit/incremental-merkle-tree": "^1.0.0",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@ethereumjs/util": "^8.0.3",
+    "@zk-kit/incremental-merkle-tree": "^1.0.0",
+    "elliptic": "^6.5.4",
+    "snarkjs": "^0.7.1"
+  }
+}

@@ -9,7 +9,7 @@ use sapir::{
 };
 
 pub const TREE_DEPTH: usize = 15;
-pub const NUM_MERKLE_PROOFS: usize = 4;
+pub const NUM_MERKLE_PROOFS: usize = 1;
 
 pub struct AssignedMerkleProof<F: PrimeField> {
     pub siblings: Vec<Wire<F>>,

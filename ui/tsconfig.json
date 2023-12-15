@@ -23,7 +23,8 @@
       "@images/*": ["public/images/*"],
       "#": ["src/lib"],
       "#/*": ["src/lib/*"],
-      "$/*": ["public/generated/*"]
+      "$/*": ["public/generated/*"],
+      "@anonklub/spartan-circuit": ["../circuits/spartan/circuit-web"],
     },
     "plugins": [
       {

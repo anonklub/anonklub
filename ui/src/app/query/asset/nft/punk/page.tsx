@@ -8,5 +8,7 @@ export default async function Page() {
     `${config.urls.queryApi}/asset/cryptopunk`,
   )
 
+  console.log("anonSet", anonSet);
+
   return <AnonSetResults anonSet={anonSet} title='Cryptopunk' />
 }

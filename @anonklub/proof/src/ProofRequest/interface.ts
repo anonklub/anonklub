@@ -1,4 +1,5 @@
 import { type MerkleProof, type NIZK } from "@personaelabs/spartan-ecdsa";
+import { Hex } from 'viem';
 
 export interface ProofRequestArgs {
   addresses: string[]
@@ -24,7 +25,13 @@ export interface JobResponse {
   message: string
 }
 export interface ProofRequestInterface {
-  submit: () => Promise<JobResponse>
-  submitSpartenECDSA: () => Promise<NIZK>
+  submit: () => Promise<JobResponse | NIZK | Hex>
+  submitSpartanECDSA: () => Promise<NIZK | Hex>
   getResult: () => Promise<ProofResult>
+}
+
+export enum ProofRequestType {
+  Server,
+  ClientCircuit,
+  ClientWasmWorker,
 }
