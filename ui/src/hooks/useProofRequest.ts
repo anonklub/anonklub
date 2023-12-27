@@ -26,25 +26,25 @@ export const useProofRequest = () => {
     reset()
   }, [message, reset])
 
-  console.log(`address`, address?.toLocaleLowerCase);
-  console.log(`rawSignature`, rawSignature);
-  console.log(`message`, message);
-  console.log(`isConnected`, isConnected);
+  // console.log(`address`, address?.toLocaleLowerCase);
+  // console.log(`rawSignature`, rawSignature);
+  // console.log(`message`, message);
+  // console.log(`isConnected`, isConnected);
 
   const canSign = message !== '' && rawSignature === undefined && isConnected
   const canSubmit = isSuccess && anonSet !== null && proofRequest !== null
 
   function serializeWithBigInt(obj) {
     return JSON.stringify(obj, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
+      typeof value === 'bigint' ? value.toString() : value
     );
-}
+  }
 
   const generateMerkleProof = async (): Promise<MerkleProof> => {
     const poseidon = new Poseidon();
     await poseidon.initWasm();
 
-    const treeDepth = 15;
+    const treeDepth = 20;
     const tree = new Tree(treeDepth, poseidon);
 
     if (!anonSet) throw new Error("AnonSet is empty");
@@ -52,46 +52,33 @@ export const useProofRequest = () => {
     if (!address) throw new Error("Address is not set");
 
     const proverAddress = BigInt(address.toLowerCase());
-    //const proverPubkeyHash = poseidon.hashPubKey(proverPubKey);
+    console.log("==> AnonSet members total number is ", anonSet.length);
+    console.log("==> Prover Address", address.toLowerCase());
 
     const serializedProof = localStorage.getItem("merkleProof");
 
     if (serializedProof) {
-      console.log("Found data!");
+      console.log("==> Merkle Proof data is found in the local storage!");
       const merkleProof = JSON.parse(serializedProof);
-      console.log(merkleProof);
       return merkleProof;
     } else {
-      console.log("No Found data!");
+      console.log("==> Merkle Proof data is not found in the local storage!");
       tree.insert(proverAddress);
 
       // Insert other members into the tree, skipping addresses[0]
       for (let i = 1; i < anonSet.length; i++) {
-        if (i === 32767) break;
+        // if (i === 32767) break;
         const member = anonSet[i];
 
-        if (member == address.toLowerCase()) {
-          console.log("Same address");
-          continue;
-        };
+        const wrongAddressConversion = "0x" + Buffer.from("".padStart(16, member), "utf16le").toString("hex");
 
-        // tree.insert(
-        //   poseidon.hashPubKey(Buffer.from(member))
-        // );
+        tree.insert(BigInt(member));
 
-        tree.insert(
-          BigInt(
-            "0x" + Buffer.from("".padStart(16, member), "utf16le").toString("hex")
-          )
-        );
-
-        console.log(`Tree member ${i}/${anonSet.length} ${member} is inserted`);
+        console.log(`==> Tree member ${i}/${anonSet.length} ${member} is inserted`);
       }
 
       const index = tree.indexOf(proverAddress);
       const merkleProof = tree.createProof(index);
-
-      console.log("Merkle Proof", );
 
       // Serialize and store the tree and proof
       try {
@@ -111,7 +98,7 @@ export const useProofRequest = () => {
 
       const merkleProof = await generateMerkleProof();
 
-      console.log("MerkleProof", merkleProof);
+      console.log("==> Merkle Proof for the AnonSet tree is", merkleProof);
 
       setProofRequest(
         new ProofRequest({

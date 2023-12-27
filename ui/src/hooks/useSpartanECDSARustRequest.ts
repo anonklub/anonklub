@@ -1,10 +1,10 @@
 import { useAsync, useStore } from '@hooks'
-import { useCircuit } from './useCircuit';
+import { useSpartanECDSARust } from './useSpartanECDSARust';
 import { Hex } from 'viem';
 
-export const useProofWorker = () => {
+export const useSpartanECDSARustRequest = () => {
     const { proofRequest } = useStore();
-    const { prove, proving } = useCircuit();
+    const { prove } = useSpartanECDSARust();
 
     const {
         data: fullProof,

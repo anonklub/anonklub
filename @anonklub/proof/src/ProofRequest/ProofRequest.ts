@@ -1,5 +1,5 @@
 import {
-    MembershipProver, MerkleProof, defaultPubkeyMembershipPConfig
+    MembershipProver, MembershipVerifier, MerkleProof, defaultAddressMembershipPConfig, defaultAddressMembershipVConfig, defaultPubkeyMembershipPConfig
 } from "@anonklub/spartan-ecdsa";
 import { hashPersonalMessage } from "@ethereumjs/util";
 
@@ -51,18 +51,51 @@ export class ProofRequest implements ProofRequestInterface {
     }
 
     async submitSpartanECDSA() {
-        const prover = new MembershipProver(defaultPubkeyMembershipPConfig);
+        const prover = new MembershipProver(defaultAddressMembershipPConfig);
         await prover.initWasm();
+
+        console.log("==> Spartan ECDSA Prover is initialized");
 
         const msgHash = Buffer.from(hashPersonalMessage(Buffer.from(this.message)));
 
         const proveInput = {
-            sig: this.rawSignature, 
-            msgHash, 
+            sig: this.rawSignature,
+            msgHash,
             merkleProof: this.merkleProof
         };
 
+        console.log("==> The prove inputs");
+        console.log(proveInput);
+
+        const startProverTime = Date.now();
+
+        console.log("==> Start generating the proof");
         const fullProof = await prover.prove(proveInput);
+
+        const endProverTime = Date.now();
+        const proverDuration = (endProverTime - startProverTime) / 1000;
+
+        console.log("==> Generating the proof is done successfully");
+        console.log("==> - The generated proof:", fullProof.proof);
+        console.log("==> - The proof public input:", fullProof.publicInput);
+        console.log(`==> - Time taken to generate the proof: ${proverDuration} seconds`);
+
+        const verifier = new MembershipVerifier(defaultAddressMembershipVConfig);
+        await verifier.initWasm();
+
+        console.log("==> Spartan ECDSA Verifier is initialized");
+
+        const startVerifierTime = Date.now();
+
+        console.log("==> Start verifying the proof");
+        const isVerified = await verifier.verify({ proof: fullProof.proof, publicInputSer: fullProof.publicInput.serialize() });
+
+        const endVerifierTime = Date.now();
+        const verifierDuration = (endVerifierTime - startVerifierTime) / 1000;
+
+        console.log("==> Verifying the proof is done successfully");
+        console.log("==> - The proof verification is:", isVerified);
+        console.log(`==> - Time taken to verify the proof: ${verifierDuration} seconds`);
 
         return fullProof
     }
@@ -85,8 +118,8 @@ export class ProofRequest implements ProofRequestInterface {
             const msgHash = Buffer.from(hashPersonalMessage(Buffer.from(this.message)));
 
             const fullProof = await prover.prove({
-                sig: this.rawSignature, 
-                msgHash, 
+                sig: this.rawSignature,
+                msgHash,
                 merkleProof: this.merkleProof
             });
 

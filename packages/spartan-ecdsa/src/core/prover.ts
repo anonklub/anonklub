@@ -53,9 +53,9 @@ export class MembershipProver extends Profiler implements IProver {
   }
 
   async prove({ sig, msgHash, merkleProof }: ProveArgs): Promise<NIZK> {
-    console.log("Sig", sig);
-    console.log("msgHash", msgHash);
-    console.log("merkleProof", merkleProof);
+    // console.log("Sig", sig);
+    // console.log("msgHash", msgHash);
+    // console.log("merkleProof", merkleProof);
 
     const { r, s, v } = fromSig(sig);
 

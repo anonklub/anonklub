@@ -66,7 +66,7 @@ const bigIntToBytes = (x: bigint): Uint8Array => {
 };
 
 
-export const useCircuit = () => {
+export const useSpartanECDSARust = () => {
     const [proving, setProving] = useState<boolean>(false);
 
     useEffect(() => {

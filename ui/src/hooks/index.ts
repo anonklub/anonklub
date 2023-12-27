@@ -9,4 +9,5 @@ export * from './useProofResult'
 export * from './useResetAnonSet'
 export * from './useStore'
 export * from './useVerifyProof'
-export * from "./useSpartanProofResult";
+export * from "./useSpartanECDSACircomRequest";
+export * from "./useSpartanECDSARustRequest";
