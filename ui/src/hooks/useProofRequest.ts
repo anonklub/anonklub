@@ -26,11 +26,6 @@ export const useProofRequest = () => {
     reset()
   }, [message, reset])
 
-  // console.log(`address`, address?.toLocaleLowerCase);
-  // console.log(`rawSignature`, rawSignature);
-  // console.log(`message`, message);
-  // console.log(`isConnected`, isConnected);
-
   const canSign = message !== '' && rawSignature === undefined && isConnected
   const canSubmit = isSuccess && anonSet !== null && proofRequest !== null
 
@@ -44,7 +39,7 @@ export const useProofRequest = () => {
     const poseidon = new Poseidon();
     await poseidon.initWasm();
 
-    const treeDepth = 20;
+    const treeDepth = 15;
     const tree = new Tree(treeDepth, poseidon);
 
     if (!anonSet) throw new Error("AnonSet is empty");
@@ -55,7 +50,7 @@ export const useProofRequest = () => {
     console.log("==> AnonSet members total number is ", anonSet.length);
     console.log("==> Prover Address", address.toLowerCase());
 
-    const serializedProof = localStorage.getItem("merkleProof");
+    const serializedProof = localStorage.getItem("merkleProof_15");
 
     if (serializedProof) {
       console.log("==> Merkle Proof data is found in the local storage!");
@@ -67,7 +62,7 @@ export const useProofRequest = () => {
 
       // Insert other members into the tree, skipping addresses[0]
       for (let i = 1; i < anonSet.length; i++) {
-        // if (i === 32767) break;
+        if (i === 32767) break;
         const member = anonSet[i];
 
         const wrongAddressConversion = "0x" + Buffer.from("".padStart(16, member), "utf16le").toString("hex");
@@ -83,7 +78,7 @@ export const useProofRequest = () => {
       // Serialize and store the tree and proof
       try {
         const serializedProof = serializeWithBigInt(merkleProof); // Adjust if necessary
-        localStorage.setItem('merkleProof', serializedProof);
+        localStorage.setItem('merkleProof_15', serializedProof);
       } catch (error) {
         console.error('Error serializing with bigint the Merkle tree or proof:', error);
       }
