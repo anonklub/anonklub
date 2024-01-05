@@ -8,6 +8,7 @@
   "dependencies": {
     "@anonklub/proof": "workspace:^",
     "@anonklub/spartan-circuit": "./circuits/spartan/circuit-web",
+    "@anonklub/merkle-tree-wasm": "./packages/merkle-tree-wasm/wasm",
     "@heroicons/react": "^2.0.18",
     "@personaelabs/spartan-ecdsa": "^2.3.1",
     "@web3modal/ethereum": "2.4.1",

@@ -477,6 +477,8 @@ importers:
         specifier: ^16
         version: 16.0.0
 
+  packages/merkle-tree-wasm: {}
+
   packages/spartan-ecdsa:
     dependencies:
       '@ethereumjs/util':
@@ -509,6 +511,9 @@ importers:
 
   ui:
     dependencies:
+      '@anonklub/merkle-tree-wasm':
+        specifier: ./packages/merkle-tree-wasm/wasm
+        version: link:packages/merkle-tree-wasm/wasm
       '@anonklub/proof':
         specifier: workspace:^
         version: link:../@anonklub/proof

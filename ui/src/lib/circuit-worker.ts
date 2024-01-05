@@ -69,24 +69,18 @@ export const circuitWorker = {
             roots
         );
 
+        
+
         return proof;
+    },
+
+    async verify(proof: Uint8Array) {
+        const proofVerified = await circuit.verify_membership(proof);
+
+        console.log("proofVerified", proofVerified);
+
+        return proofVerified;
     }
-
-    // const verifyMerkleProof = ({
-    //     proofHash,
-    //     proof,
-    //     publicInput,
-    //     merkleRoot,
-    //     message
-    // }: MembershipProof) => {
-    //     const proofBytes = hexToBytes(proof as Hex);
-    //     const rootsInProof: Hex[] = [bytesToHex(circuit.get_root(proofBytes))];
-
-    //     const claimedRoots = (merkleRoot as Hex).split(',');
-    //     const unprovenRoots = claimedRoots.filter((claimedRoots) => {
-    //         return !rootsInProof.includes(claim)
-    //     })
-    // }
 }
 
 Comlink.expose(circuitWorker);

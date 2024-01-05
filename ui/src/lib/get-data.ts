@@ -5,7 +5,10 @@ export async function getData<T>(url: string): Promise<T> {
   let res = await fetch(url, { cache: 'no-store' })
 
   if (!res.ok) {
-    console.warn("Failed to fetch data");
+    //console.warn("Failed to fetch data");
+
+
+    console.log("ERC20_ADDRESS_LIST", ERC20_ADDRESS_LIST);
 
     // Just for testing purposes I am using a fetched list already.
     return ERC20_ADDRESS_LIST as any;

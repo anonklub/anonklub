@@ -25,6 +25,7 @@
       "#/*": ["src/lib/*"],
       "$/*": ["public/generated/*"],
       "@anonklub/spartan-circuit": ["../circuits/spartan/circuit-web"],
+      "@anonklub/merkle-tree-wasm": ["../packages/merkle-tree-wasm/wasm"]
     },
     "plugins": [
       {

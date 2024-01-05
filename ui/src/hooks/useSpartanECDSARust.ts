@@ -94,61 +94,67 @@ export const useSpartanECDSARust = () => {
         });
         const isYOdd = calculateSigRecovery(v);
         const msgHash = hashMessage(message, 'bytes');
-        const siblings: Uint8Array[] = [];
+        // const siblings: Uint8Array[] = [];
 
-        for (let i = 0; i < merkleProofs.length; i++) {
-            const merkleProof = merkleProofs[i];
-            const merkleProofSiblings = merkleProof.siblings.map((sibling) => {
-                try {
-                    return bigIntToBytes(sibling[0]);
-                } catch (error) {
-                    console.error('Error in bigIntToBytes:', error);
-                    throw new Error(error);
-                }
-            }).filter((sibling): sibling is Uint8Array => sibling !== undefined);
+        // for (let i = 0; i < merkleProofs.length; i++) {
+        //     const merkleProof = merkleProofs[i];
+        //     const merkleProofSiblings = merkleProof.siblings.map((sibling) => {
+        //         try {
+        //             return bigIntToBytes(sibling[0]);
+        //         } catch (error) {
+        //             console.error('Error in bigIntToBytes:', error);
+        //             throw new Error(error);
+        //         }
+        //     }).filter((sibling): sibling is Uint8Array => sibling !== undefined);
 
-            const siblings_i = concatUint8Arrays(merkleProofSiblings);
-            siblings.push(siblings_i);
-        }
+        //     const siblings_i = concatUint8Arrays(merkleProofSiblings);
+        //     siblings.push(siblings_i);
+        // }
 
-        const indices: Uint8Array[] = [];
-        for (let i = 0; i < merkleProofs.length; i++) {
-            const merkleProof = merkleProofs[i];
-            const pathIndices_i = concatUint8Arrays(
-                merkleProof.pathIndices.map((index) => {
-                    if (index === 1) {
-                        let bytes = new Uint8Array(32);
-                        bytes[31] = 1;
-                        return bytes;
-                    }
-                    return new Uint8Array(32);
-                }),
-            );
+        // const indices: Uint8Array[] = [];
+        // for (let i = 0; i < merkleProofs.length; i++) {
+        //     const merkleProof = merkleProofs[i];
+        //     const pathIndices_i = concatUint8Arrays(
+        //         merkleProof.pathIndices.map((index) => {
+        //             if (index === 1) {
+        //                 let bytes = new Uint8Array(32);
+        //                 bytes[31] = 1;
+        //                 return bytes;
+        //             }
+        //             return new Uint8Array(32);
+        //         }),
+        //     );
 
-            indices.push(pathIndices_i);
-        }
+        //     indices.push(pathIndices_i);
+        // }
 
-        const roots: Uint8Array[] = [];
-        for (let i = 0; i < merkleProofs.length; i++) {
-            const merkleProof = merkleProofs[i];
-            const root_i = bigIntToBytes(merkleProof.root);
-            roots.push(root_i);
-        }
+        // const roots: Uint8Array[] = [];
+        // for (let i = 0; i < merkleProofs.length; i++) {
+        //     const merkleProof = merkleProofs[i];
+        //     const root_i = bigIntToBytes(merkleProof.root);
+        //     roots.push(root_i);
+        // }
 
-        console.time('prove');
+        console.time('==>prove');
 
         const input: WitnessInput = {
             s: sBytes,
             r: rBytes,
             isYOdd,
             msgHash,
-            siblings: concatUint8Arrays(siblings),
-            indices: concatUint8Arrays(indices),
-            roots: concatUint8Arrays(roots),
+            siblings: merkleProofs[0].siblings as any,
+            indices: merkleProofs[0].pathIndices as any,
+            roots: merkleProofs[0].root as any,
         };
 
         const proof = await circuit.prove(input);
-        console.timeEnd('prove');
+        console.timeEnd('==>prove');
+
+
+        console.time('==>verify');
+        const proofVerified = await circuit.verify(proof);
+        console.log("proofVerified", proofVerified);
+        console.timeEnd('==>verify');
 
         setProving(false);
 
