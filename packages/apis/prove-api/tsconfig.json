@@ -1,0 +1,13 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["es2020"],
+    "target": "es2020"
+  },
+  "include": ["src", "test", "generated"],
+  "references": [
+    {
+      "path": "../../proof"
+    }
+  ]
+}

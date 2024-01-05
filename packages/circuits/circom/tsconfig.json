@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig.json",
+
+  "compilerOptions": {
+    "lib": ["es2020"],
+    "target": "es2020",
+    "noUncheckedIndexedAccess": false
+  },
+  "include": ["scripts", "test", "test/jest.config.ts"],
+  "references": [
+    {
+      "path": "../../proof"
+    }
+  ]
+}
