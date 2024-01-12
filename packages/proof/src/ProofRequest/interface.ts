@@ -1,5 +1,8 @@
+import type { MerkleProof } from "@personaelabs/spartan-ecdsa"
+
 export interface ProofRequestArgs {
   addresses: string[]
+  merkleProof: MerkleProof;
   message: string
   rawSignature: string
   /**

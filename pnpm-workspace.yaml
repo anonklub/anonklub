@@ -1,10 +1,4 @@
 packages:
-  - '@anonklub/*'
-  - apis/**
-  - circuits/circom
-  - contracts
-  - discord-bot
-  - infra
-  - test
-  - ui
   - "packages/*"
+  - "packages/merkle-tree/*"
+  - "packages/workers/*"

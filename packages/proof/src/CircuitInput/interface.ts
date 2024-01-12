@@ -1,4 +1,4 @@
-import { ProofRequestJson } from '../ProofRequest'
+import { ProofRequestJson } from '../ProofRequest/ProofRequest'
 
 export interface CircuitInputArgs {
   proofRequest: ProofRequestJson
