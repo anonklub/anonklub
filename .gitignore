@@ -38,3 +38,7 @@ addresses.json
 .turbo
 cache
 
+# Rust
+target
+/Cargo.lock
+
