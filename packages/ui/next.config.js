@@ -11,14 +11,6 @@ const nextConfig = {
     }
     config.experiments = { asyncWebAssembly: true, layers: true, };
 
-    config.module.rules.push({
-      test: /\.wasm$/,
-      type: "javascript/auto",
-      use: {
-        loader: 'wasm-loader',
-      },
-    });
-    
     return config
   },
 }

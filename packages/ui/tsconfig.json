@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "dom.iterable", "esnext", "WebWorker"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -32,13 +32,5 @@
     ]
   },
   "include": ["src", "next-env.d.ts", "src", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"],
-  // "references": [
-  //   {
-  //     "path": "../proof"
-  //   }, 
-  //   {
-  //     "path": "../workers/merkle-tree-worker"
-  //   }
-  // ]
+  "exclude": ["node_modules"]
 }

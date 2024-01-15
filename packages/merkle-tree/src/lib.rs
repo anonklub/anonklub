@@ -30,7 +30,7 @@ fn internal_generate_merkle_proof<F: PrimeField>(
     // Insert all the leaves into the tree
     for leaf in &padded_leaves {
         // Converting String to F
-        let leaf_hex = hex::decode(leaf.replace("0x", "to")).unwrap();
+        let leaf_hex = hex::decode(leaf.replace("0x", "")).unwrap();
         let leaf_bytes = F::from(BigUint::from_bytes_be(&leaf_hex));
         tree.insert(leaf_bytes);
     }

@@ -2,3 +2,4 @@ packages:
   - "packages/*"
   - "packages/merkle-tree/*"
   - "packages/workers/*"
+  - "packages/apis/*"

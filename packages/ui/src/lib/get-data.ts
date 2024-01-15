@@ -3,11 +3,7 @@ export async function getData<T>(url: string): Promise<T> {
   const res = await fetch(url, { cache: 'no-store' })
 
   if (!res.ok) {
-    const data = await fetch("sample-erc20.json", { cache: 'no-store' });
-
-    if (!data.ok) {
-      throw new Error("Failed to get data");
-    }
+    throw new Error("Failed to get data");
   }
 
   return res.json()
