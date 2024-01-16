@@ -8,3 +8,4 @@ packages:
   - test
   - ui
   - merkle-tree-wasm
+  - workers/*
