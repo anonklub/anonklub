@@ -1,4 +1,5 @@
 [workspace]
 members = [
-    "merkle_tree_wasm"
+    "merkle_tree_wasm",
+    "circuits/spartan"
 ]
