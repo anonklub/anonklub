@@ -1,0 +1,12 @@
+{
+  "name": "@anonklub/merkle-tree",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "source ./scripts/compile-web.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
