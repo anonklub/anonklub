@@ -1,0 +1,4 @@
+[workspace]
+members = [
+    "merkle_tree_wasm"
+]
