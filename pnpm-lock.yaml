@@ -441,6 +441,8 @@ importers:
         specifier: ^16
         version: 16.0.0
 
+  merkle_tree_wasm/wasm-pkg: {}
+
   test: {}
 
   ui:
@@ -518,6 +520,15 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: 0.3.0
         version: 0.3.0(prettier@2.8.8)
+
+  workers/merkle-tree-worker:
+    dependencies:
+      '@anonklub/merkle-tree-wasm':
+        specifier: workspace:^
+        version: link:../../merkle_tree_wasm/wasm-pkg
+      comlink:
+        specifier: ^4.4.1
+        version: 4.4.1
 
 packages:
 
@@ -9016,6 +9027,10 @@ packages:
     dependencies:
       delayed-stream: 1.0.0
     dev: true
+
+  /comlink@4.4.1:
+    resolution: {integrity: sha512-+1dlx0aY5Jo1vHy/tSsIGpSkN4tS9rZSW8FIhG0JH/crs9wwweswIo/POr451r7bZww3hFbPAKnTpimzL/mm4Q==}
+    dev: false
 
   /command-exists@1.2.9:
     resolution: {integrity: sha512-LTQ/SGc+s0Xc0Fu5WaKnR0YiygZkm9eKFvyS+fRsU7/ZWFF8ykFM6Pc9aCVf1+xasOOZpO3BAVgVrKvsqKHV7w==}
