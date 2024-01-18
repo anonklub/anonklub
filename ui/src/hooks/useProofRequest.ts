@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
 import { config } from '#'
 import { useStore } from './useStore'
+import { useMerkleTreeWasmWorker } from './useMerkleTreeWorker'
 
 export const useProofRequest = () => {
-  const { isConnected } = useAccount()
+  const { isConnected, address } = useAccount()
   const { anonSet, proofRequest, setProofRequest } = useStore()
   const [message, setMessage] = useState('')
   const {
@@ -18,6 +19,7 @@ export const useProofRequest = () => {
   } = useSignMessage({
     message,
   })
+  const { generateMerkleProof } = useMerkleTreeWasmWorker();
 
   useEffect(() => {
     reset()
@@ -27,16 +29,25 @@ export const useProofRequest = () => {
   const canSubmit = isSuccess && anonSet !== null && proofRequest !== null
 
   useEffect(() => {
-    if (message === '' || rawSignature === undefined || anonSet === null) return
+    (async () => {
+      if (message === '' || rawSignature === undefined || anonSet === null || !address) return
 
-    setProofRequest(
-      new ProofRequest({
-        addresses: anonSet,
-        message,
-        rawSignature,
-        url: config.urls.proveApi,
-      }),
-    )
+      const merkleProofBytes = await generateMerkleProof(
+        anonSet,
+        address.toLowerCase(),
+        15
+      );
+
+      setProofRequest(
+        new ProofRequest({
+          addresses: anonSet,
+          message,
+          merkleProof: merkleProofBytes,
+          rawSignature,
+          url: config.urls.proveApi,
+        }),
+      )
+    })()
   }, [canSign, canSubmit, message, rawSignature, anonSet])
 
   return {

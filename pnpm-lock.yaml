@@ -465,9 +465,15 @@ importers:
 
   ui:
     dependencies:
+      '@anonklub/merkle-tree-worker':
+        specifier: workspace:^
+        version: link:../workers/merkle-tree-worker
       '@anonklub/proof':
         specifier: workspace:^
         version: link:../@anonklub/proof
+      '@anonklub/spartan-ecdsa-worker':
+        specifier: workspace:^
+        version: link:../workers/spartan-ecdsa-worker
       '@heroicons/react':
         specifier: ^2.0.18
         version: 2.0.18(react@18.2.0)

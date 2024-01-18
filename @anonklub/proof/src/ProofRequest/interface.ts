@@ -1,5 +1,6 @@
 export interface ProofRequestArgs {
   addresses: string[]
+  merkleProof: Uint8Array
   message: string
   rawSignature: string
   /**

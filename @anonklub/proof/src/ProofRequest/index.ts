@@ -11,14 +11,16 @@ export { ProofRequestJson }
 export class ProofRequest implements ProofRequestInterface {
   public readonly addresses: string[]
   public readonly message: string
+  public readonly merkleProof: Uint8Array
   public readonly rawSignature: string
   public jobId: string | undefined
   public readonly url: string
 
-  constructor({ addresses, message, rawSignature, url }: ProofRequestArgs) {
+  constructor({ addresses, merkleProof, message, rawSignature, url }: ProofRequestArgs) {
     // TODO: validate params
     this.addresses = addresses
     this.message = message
+    this.merkleProof = merkleProof
     this.rawSignature = rawSignature
     this.url = url
   }
