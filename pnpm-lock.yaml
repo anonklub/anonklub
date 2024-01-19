@@ -441,7 +441,7 @@ importers:
         specifier: ^16
         version: 16.0.0
 
-  merkle_tree_wasm/wasm-pkg: {}
+  merkle-tree-wasm/wasm-pkg: {}
 
   test: {}
 
@@ -525,7 +525,7 @@ importers:
     dependencies:
       '@anonklub/merkle-tree-wasm':
         specifier: workspace:^
-        version: link:../../merkle_tree_wasm/wasm-pkg
+        version: link:../../merkle-tree-wasm/wasm-pkg
       comlink:
         specifier: ^4.4.1
         version: 4.4.1
