@@ -17,6 +17,7 @@ parserOptions:
 
 rules:
   no-useless-constructor: off
+  '@typescript-eslint/await-thenable': error
 
 overrides:
   - files: ['apis/query/test/unit/DuneRepository.test.ts']
