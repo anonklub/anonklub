@@ -61,9 +61,7 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
     fn hash(poseidon: &mut Poseidon<F, WIDTH>, nodes: &[F]) -> F {
         assert_eq!(nodes.len(), poseidon.state.len() - 1);
 
-        for i in 0..nodes.len() {
-            poseidon.state[i + 1] = nodes[i];
-        }
+        poseidon.state[1..(nodes.len() + 1)].copy_from_slice(nodes);
 
         poseidon.permute();
         let out = poseidon.state[1];
@@ -186,6 +184,7 @@ mod tests {
 
     type F = ark_secp256k1::Fq;
 
+    #[test]
     fn test_tree() {
         const ARITY: usize = 2;
         const WIDTH: usize = ARITY + 1;

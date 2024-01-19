@@ -43,33 +43,30 @@ fn internal_generate_merkle_proof<F: PrimeField>(
     let proof = tree.create_proof(leaf_prime_field);
 
     // Encode the Merkle Proof output with BigEndian
-    let mut merkle_siblings = Vec::with_capacity(1 * depth);
-    let mut merkle_indices = Vec::with_capacity(1 * depth);
+    let mut merkle_siblings = Vec::with_capacity(depth);
+    let mut merkle_indices = Vec::with_capacity(depth);
     let siblings_bytes = proof
         .siblings
         .iter()
         .flat_map(|sibling| sibling.into_bigint().to_bytes_be())
         .collect::<Vec<u8>>();
 
-    let indicies_bytes = proof
+    let indices_bytes = proof
         .path_indices
         .iter()
-        .map(|i| F::from(*i as u32).into_bigint().to_bytes_be())
-        .flatten()
+        .flat_map(|i| F::from(*i as u32).into_bigint().to_bytes_be())
         .collect::<Vec<u8>>();
 
     merkle_siblings.extend_from_slice(&siblings_bytes);
-    merkle_indices.extend_from_slice(&indicies_bytes);
+    merkle_indices.extend_from_slice(&indices_bytes);
 
     let root_bytes = tree.root.unwrap().into_bigint().to_bytes_be();
 
-    let proof = MerkleProofBytes {
+    MerkleProofBytes {
         siblings: siblings_bytes,
-        path_indices: indicies_bytes,
+        path_indices: indices_bytes,
         root: root_bytes,
-    };
-
-    proof
+    }
 }
 
 #[wasm_bindgen]

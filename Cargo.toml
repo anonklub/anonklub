@@ -1,4 +1,7 @@
 [workspace]
+
+resolver = "2"
+
 members = [
-    "merkle_tree_wasm"
+    "merkle-tree-wasm"
 ]

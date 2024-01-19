@@ -1,5 +1,5 @@
 [package]
-name = "merkle_tree_wasm"
+name = "merkle-tree-wasm"
 version = "0.1.0"
 edition = "2021"
 
