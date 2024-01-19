@@ -293,6 +293,13 @@ describe('ECDSACheckPubKey', function () {
     testCases.push([pubkey.x, pubkey.y])
   }
 
+  // Add a valid public key not derived from the private keys set
+  testCases.push([999999n, 999999n])
+
+  // Test cases for boundary conditions of the public key
+  testCases.push([0n, 0n]) // Components are zero
+  testCases.push([F.p.add(1n), F.p.add(1n)]) // Components exceed field size
+
   let circuit: any
   beforeAll(async function () {
     circuit = await wasm_tester(
