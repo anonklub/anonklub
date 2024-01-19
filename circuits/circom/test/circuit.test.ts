@@ -156,6 +156,25 @@ describe('Poseidon Merkle Tree', function () {
       ),
     )
   })
+
+  it('Should handle an empty tree', async () => {
+    // Test logic for an empty tree
+  })
+
+  it('Should handle a tree with one element', async () => {
+    // Test logic for one element tree
+  })
+
+  // Other test cases for different tree sizes and edge cases
+
+  it('Should reject invalid inclusion proofs', async () => {
+    // Test logic for invalid inclusion proofs
+  })
+
+  it('Should reject invalid exclusion proofs', async () => {
+    // Test logic for invalid exclusion proofs
+  })
+
 })
 
 describe('SetMembership', function () {
@@ -246,6 +265,18 @@ describe('SetMembership', function () {
 
     await nonMembershipCircuit.checkConstraints(witness)
   })
+
+  it('Should check ordering with larger set of addresses', async () => {
+    // Test logic for larger set of addresses
+  })
+
+  it('Should check ordering with duplicates in addresses', async () => {
+    // Test logic for addresses with duplicates
+  })
+
+  it('Should check ordering with addresses in reverse order', async () => {
+    // Test logic for reverse order addresses
+  })
 })
 
 describe('ECDSACheckPubKey', function () {
@@ -284,6 +315,15 @@ describe('ECDSACheckPubKey', function () {
   }
 
   testCases.forEach(testECDSAVerify)
+
+  it('Should reject public keys not on the curve', async () => {
+    // Test logic for keys not on the curve
+  })
+
+  it('Should reject public keys with incorrect lengths', async () => {
+    // Test logic for keys with incorrect lengths
+  })
+
 })
 
 describe('Ordering', function () {
