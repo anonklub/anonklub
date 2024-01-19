@@ -1924,27 +1924,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "merkle_tree_wasm"
-version = "0.1.0"
-dependencies = [
- "ark-ff",
- "ark-secp256k1",
- "ark-secq256k1",
- "ark-serialize",
- "ark-std",
- "console_error_panic_hook",
- "csv",
- "hex",
- "num-bigint",
- "poseidon",
- "rayon",
- "serde",
- "serde_json",
- "wasm-bindgen",
- "web-sys",
-]
-
-[[package]]
 name = "merlin"
 version = "3.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3058,7 +3037,7 @@ dependencies = [
  "ark-secq256k1",
  "ark-serialize",
  "ethers",
- "merkle_tree_wasm",
+ "merkle-tree-wasm",
  "num-bigint",
  "sapir",
  "wasm-bindgen",

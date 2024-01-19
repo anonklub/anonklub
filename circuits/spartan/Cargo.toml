@@ -20,7 +20,7 @@ sapir = { git = "https://github.com/personaelabs/sapir.git", features = [
 ], branch = "main" }
 wasm-bindgen = "0.2.89"
 web-sys = "0.3.66"
-merkle_tree_wasm = { path = "../../merkle_tree_wasm" }
+merkle-tree-wasm = { path = "../../merkle-tree-wasm" }
 
 [profile.release]
 lto = true
