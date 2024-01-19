@@ -7,3 +7,4 @@ packages:
   - infra
   - test
   - ui
+  - merkle-tree-wasm
