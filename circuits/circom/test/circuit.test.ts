@@ -353,4 +353,20 @@ describe('Ordering', function () {
       })
     }).rejects.toThrow('Assert Failed')
   })
+
+  it('Should reject non-integer inputs', async () => {
+    await expect(async () => {
+      await orderingCircuit.calculateWitness({
+        addresses: [1.5, 2, 'three', true],
+      })
+    }).rejects.toThrow('Invalid input; expected integer')
+  })
+
+  it('Should reject negative numbers and very large numbers that may cause overflow', async () => {
+    await expect(async () => {
+      await orderingCircuit.calculateWitness({
+        addresses: [-1, 2 ** 256, 3, 4],
+      })
+    }).rejects.toThrow('Invalid input; expected positive 256-bit integer')
+  })
 })
