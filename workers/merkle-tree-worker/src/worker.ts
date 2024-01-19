@@ -1,5 +1,5 @@
 import { expose } from "comlink";
-import { IMerkleTreeWasm, IMerkleTreeWorker } from "./interface";
+import { IMerkleTreeWasm, IMerkleTreeWorker } from "@anonklub/merkle-tree-wasm";
 
 let merkleTreeWasm: IMerkleTreeWasm;
 
