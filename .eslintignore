@@ -5,6 +5,7 @@ pnpm-lock.yaml
 dist
 .next
 .graphclient
+wasm-pkg
 
 # Jest
 coverage

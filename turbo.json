@@ -30,7 +30,7 @@
         "!{@anonklub,apis,circuits,discord-bot,infra,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
-    "//#_knip": { 
+    "//#_knip": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx}",
         "package.json",
@@ -91,12 +91,8 @@
       "dependsOn": ["test"]
     },
     "compile": {
-      "inputs": [
-        "merkle-tree-wasm"
-      ],
-      "outputs": [
-        "merkle-tree-wasm"
-      ]
+      "inputs": ["merkle-tree-wasm"],
+      "outputs": ["merkle-tree-wasm"]
     }
   }
 }
