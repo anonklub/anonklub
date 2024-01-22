@@ -1,3 +1,3 @@
 # `@anonklub/merkle-tree-worker`
 
-A WebWorker client-side library that is wrapping the wasm package in a web-worker to be integrated with the client-side.
+A library that is wrapping the [`@anonklub/merkle-tree`](https://github.com/anonklub/anonklub/tree/main/merkle-tree-wasm) wasm package in a web-worker for integration into the browser client.
