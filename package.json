@@ -69,6 +69,8 @@
     "circuits/*",
     "discord-bot",
     "infra",
+    "merkle-tree-wasm",
+    "merkle-tree-wasm/wasm-pkg",
     "test",
     "ui"
   ]
