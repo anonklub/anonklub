@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "ES2022",
+    "moduleResolution": "Node",
+    "noUncheckedIndexedAccess": false,
+    "strictPropertyInitialization": false,
+    "lib": ["webWorker", "DOM"],
+    "paths": {
+      "@anonklub/merkle-tree-wasm": ["../../merkle_tree_wasm/wasm-pkg"]
+    }
+  },
+  "include": ["src"]
+}

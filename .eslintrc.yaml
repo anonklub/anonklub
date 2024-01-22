@@ -13,6 +13,7 @@ parserOptions:
       'test/tsconfig.json',
       'ui/tsconfig.json',
       'tsconfig.json',
+      'workers/merkle-tree-worker/tsconfig.json',
     ]
 
 rules:
