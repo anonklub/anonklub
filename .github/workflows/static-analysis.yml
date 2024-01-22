@@ -36,6 +36,11 @@ jobs:
         with:
           version: nightly
 
+      - name: Install wasm-pack
+        uses: jetli/wasm-pack-action@v0.4.0
+        with:
+          version: 'latest'
+
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
@@ -67,6 +72,10 @@ jobs:
           path: .turbo
           key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: turbo-${{ github.job }}-${{ github.ref_name }}-
+
+      # it is a local dep, as long as not published, need to build it before installing the rest or `pnpm i` will fail
+      - name: Build merkle-tree-wasm deps
+        run: pnpm --filter @anonklub/merkle-tree compile
 
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
