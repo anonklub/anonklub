@@ -34,7 +34,7 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "compile-wasm": "turbo run compile",
+    "compile-wasm": "pnpm --filter @anonklub/merkle-tree compile",
     "build": "pnpm run compile-wasm && turbo run build",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
     "build.docker.prove": "docker build -f apis/prove/Dockerfile . -t prove-api",
