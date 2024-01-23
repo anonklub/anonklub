@@ -475,6 +475,8 @@ importers:
         specifier: ^16
         version: 16.0.0
 
+  merkle-tree-wasm: {}
+
   merkle-tree-wasm/wasm-pkg: {}
 
   test: {}

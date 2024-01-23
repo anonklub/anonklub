@@ -8,5 +8,6 @@ packages:
   - infra
   - test
   - ui
-  - merkle-tree-wasm/*
+  - merkle-tree-wasm
+  - merkle-tree-wasm/wasm-pkg
   - workers/*
