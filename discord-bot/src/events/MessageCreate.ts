@@ -25,7 +25,8 @@ export class MessageCreate extends _Event {
       message.attachments,
     )
 
-    const valid = await verifyOnChain({
+    // FIXME: isn't viem supposed to give the typings automagically from the JSON ABIs?
+    const valid: boolean = await verifyOnChain({
       proof,
       publicSignals,
     })
@@ -91,6 +92,8 @@ export class MessageCreate extends _Event {
     if (attachment === undefined)
       throw new Error(`No ${name} attachment in message`)
 
+    // FIXME
+    // @ts-expect-error
     return fetch(attachment.url).then(async (res) => res.json())
   }
 }

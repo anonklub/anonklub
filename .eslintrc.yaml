@@ -18,9 +18,11 @@ parserOptions:
 
 rules:
   no-useless-constructor: off
-  '@typescript-eslint/await-thenable': error
 
 overrides:
+  - files: ['*.ts', '*.tsx']
+    rules:
+      '@typescript-eslint/await-thenable': error
   - files: ['apis/query/test/unit/DuneRepository.test.ts']
     rules:
       '@typescript-eslint/no-dynamic-delete': off

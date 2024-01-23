@@ -2,7 +2,9 @@ import pino from 'pino'
 
 const logger = pino({
   transport: {
-    colorize: true,
+    options: {
+      colorize: true,
+    },
     target: 'pino-pretty',
   },
 })
