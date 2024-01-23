@@ -25,8 +25,6 @@ export const verifyOnChain = async ({
     [bigint, bigint, bigint, bigint, bigint],
   ] = JSON.parse(`[${callDataStr}]`)
 
-  // FIXME
-  // @ts-expect-error
   return web3Client.readContract({
     abi,
     address: config.addresses.groth16Verifier,
