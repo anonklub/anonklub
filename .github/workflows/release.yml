@@ -42,7 +42,7 @@ jobs:
       - name: Install
         run: pnpm --filter="./@anonklub/**" i --ignore-scripts
 
-      - name: Create Release PR Or Release
+      - name: Release
         uses: changesets/action@v1
         with:
           publish: pnpm publish-packages
