@@ -12,7 +12,7 @@ use sapir::wasm::prelude::*;
 pub fn from_x(x: Fq, is_y_odd: bool) -> Affine {
     let y_squared = x * x * x + Fq::from(7u32);
     let y = y_squared.sqrt().unwrap();
-    if y.into_bigint().to_bits_le()[0] == !is_y_odd {
+    if y.into_bigint().to_bits_le()[0] != is_y_odd {
         Affine::new(x, y)
     } else {
         Affine::new(x, -y)
@@ -32,7 +32,7 @@ pub fn efficient_ecdsa(msg_hash: BigUint, r: Fq, is_y_odd: bool) -> (Affine, Aff
     let r_inv_mod_n = Fr::from(BigUint::from(r.into_bigint())).inverse().unwrap();
 
     // w = r^-1 * msg
-    let w = -Fr::from(BigUint::from(msg_hash).modpow(&one, &modulus)) * r_inv_mod_n;
+    let w = -Fr::from(msg_hash.modpow(&one, &modulus)) * r_inv_mod_n;
     // u = -(w * G) = -(r^-1 * msg * G)
     let u = (g * w).into_affine();
 

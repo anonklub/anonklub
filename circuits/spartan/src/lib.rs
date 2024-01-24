@@ -41,11 +41,12 @@ pub fn prove_membership(
     r: &[u8],
     is_y_odd: bool,
     msg_hash: &[u8],
-    merkle_proof_bytes_serialized: &[u8]
+    merkle_proof_bytes_serialized: &[u8],
 ) -> Vec<u8> {
     console::log_1(&"Starting prove_membership".into());
 
-    let merkle_proof = MerkleProofBytes::deserialize_compressed(&*merkle_proof_bytes_serialized).unwrap();
+    let merkle_proof =
+        MerkleProofBytes::deserialize_compressed(merkle_proof_bytes_serialized).unwrap();
 
     assert!(merkle_proof.siblings.len() == NUM_MERKLE_PROOFS * TREE_DEPTH * 32);
     assert!(merkle_proof.path_indices.len() == NUM_MERKLE_PROOFS * TREE_DEPTH * 32);
@@ -57,27 +58,28 @@ pub fn prove_membership(
     let r = Fq::from(BigUint::from_bytes_be(r));
     let msg_hash = BigUint::from_bytes_be(msg_hash);
 
-    let merkle_siblings = merkle_proof.siblings
+    let merkle_siblings = merkle_proof
+        .siblings
         .to_vec()
         .chunks(32)
         .map(|sibling| {
-            let array: [u8; 32] = sibling.try_into()
-            .expect("Chunk is not 32 bytes");
+            let array: [u8; 32] = sibling.try_into().expect("Chunk is not 32 bytes");
             F::from(BigUint::from_bytes_be(&array))
         })
         .collect::<Vec<F>>();
 
-    let merkle_indices = merkle_proof.path_indices
+    let merkle_indices = merkle_proof
+        .path_indices
         .to_vec()
         .chunks(32)
         .map(|path_index| {
-            let array: [u8; 32] = path_index.try_into()
-            .expect("Chunk is not 32 bytes");
+            let array: [u8; 32] = path_index.try_into().expect("Chunk is not 32 bytes");
             F::from(BigUint::from_bytes_be(&array))
         })
         .collect::<Vec<F>>();
 
-    let merkle_roots = merkle_proof.root
+    let merkle_roots = merkle_proof
+        .root
         .to_vec()
         .chunks(32)
         .map(|root| F::from(BigUint::from_bytes_be(root)))
@@ -134,7 +136,7 @@ pub fn prove_membership(
         .flat_map(|x| x.into_bigint().to_bytes_be())
         .collect::<Vec<u8>>();
 
-    console::log_1(&"Starting generating the proof".into());  
+    console::log_1(&"Starting generating the proof".into());
     // Generate the proof
     let proof = prove(&pub_input, &priv_input);
 
@@ -145,7 +147,7 @@ pub fn prove_membership(
         msg_hash,
     };
 
-    console::log_1(&"Starting serializing the full proof".into());  
+    console::log_1(&"Starting serializing the full proof".into());
     // Serialize the full proof
     let mut membership_proof_bytes = Vec::new();
     membership_proof

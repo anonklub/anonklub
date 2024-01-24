@@ -71,14 +71,14 @@ pub fn eth_membership<F: PrimeField>(cs: &mut ConstraintSystem<F>) {
         .chunks(8)
         .map(|byte| byte.to_vec())
         .rev()
-        .flat_map(|x| x)
+        .flatten()
         .collect::<Vec<Wire<F>>>();
 
     let pub_key_y_bits_be = pub_key_y_bits
         .chunks(8)
         .map(|byte| byte.to_vec())
         .rev()
-        .flat_map(|x| x)
+        .flatten()
         .collect::<Vec<Wire<F>>>();
 
     let pub_key_bits = [pub_key_x_bits_be, pub_key_y_bits_be].concat();

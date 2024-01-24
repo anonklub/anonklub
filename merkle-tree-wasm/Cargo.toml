@@ -29,7 +29,3 @@ ark-std = "0.4.0"
 
 [features]
 default = ["ark-std/print-trace"]
-
-[profile.release]
-lto = true
-opt-level = 3
