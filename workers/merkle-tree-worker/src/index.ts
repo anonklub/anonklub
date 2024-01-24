@@ -9,5 +9,5 @@ if (typeof window !== 'undefined') {
   )
 }
 
-export { MerkleTreeWorker }
 export { type GenerateMerkleProofFn } from './interface'
+export { MerkleTreeWorker }

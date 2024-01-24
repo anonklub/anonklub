@@ -65,8 +65,8 @@ pub fn eth_membership<F: PrimeField>(cs: &mut ConstraintSystem<F>) {
     let pub_key_x_bits = to_le_bits(pub_key.x);
     let pub_key_y_bits = to_le_bits(pub_key.y);
 
-    // We need this transformation because the bits should be in little endian
-    // and the bytes should be in big endian.
+    // This transformation is necessary to align with encoding standards: 
+    // it ensures that the BIT order is little endian while the BYTE order remains big endian.
     let pub_key_x_bits_be = pub_key_x_bits
         .chunks(8)
         .map(|byte| byte.to_vec())

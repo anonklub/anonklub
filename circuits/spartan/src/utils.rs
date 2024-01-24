@@ -55,10 +55,6 @@ pub fn verify_efficient_ecdsa(
     t == expected_t && u == expected_u
 }
 
-// ####################################
-// Helper functions
-// ####################################
-
 // Get the Merkle root from the proof's public input
 #[wasm_bindgen]
 pub fn get_roots(anonklub_proof: &[u8]) -> Vec<u8> {
