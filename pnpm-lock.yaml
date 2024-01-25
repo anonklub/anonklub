@@ -459,8 +459,6 @@ importers:
 
   merkle-tree-wasm: {}
 
-  merkle-tree-wasm/wasm-pkg: {}
-
   test: {}
 
   ui:
@@ -542,8 +540,8 @@ importers:
   workers/merkle-tree-worker:
     dependencies:
       '@anonklub/merkle-tree-wasm':
-        specifier: workspace:^
-        version: link:../../merkle-tree-wasm/wasm-pkg
+        specifier: file:../../merkle-tree-wasm/wasm-pkg
+        version: file:merkle-tree-wasm/wasm-pkg
       comlink:
         specifier: ^4.4.1
         version: 4.4.1
@@ -19206,6 +19204,11 @@ packages:
       '@types/react': 18.2.6
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
+  file:merkle-tree-wasm/wasm-pkg:
+    resolution: {directory: merkle-tree-wasm/wasm-pkg, type: directory}
+    name: '@anonklub/merkle-tree-wasm'
     dev: false
 
   github.com/0xparc/circom-ecdsa/d87eb7068cb35c951187093abe966275c1839ead:
