@@ -27,7 +27,7 @@ const main = async () => {
 
   // FIXME
   console.log(
-    `${(valid as unknown as boolean) ? '✅ valid proof' : '❌ invalid proof'}`,
+    `${(valid as boolean) ? '✅ valid proof' : '❌ invalid proof'}`,
   )
 }
 
