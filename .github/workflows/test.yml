@@ -67,7 +67,7 @@ jobs:
           version: 'latest'
 
       - name: Build Rust wasm deps
-        run: pnpm --filter @anonklub/merkle-tree compile && pnpm --filter @anonklub/spartan-ecdsa compile
+        run: pnpm compile.wasm
 
       - name: Install node deps
         run: pnpm --filter=!@anonklub/infra i --ignore-scripts

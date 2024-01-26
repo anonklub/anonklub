@@ -34,7 +34,8 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "pnpm:devPreinstall": "pnpm --filter @anonklub/merkle-tree --filter @anonklub/spartan-ecdsa --parallel compile",
+    "pnpm:devPreinstall": "pnpm compile.wasm",
+    "compile.wasm": "pnpm --filter @anonklub/merkle-tree --filter @anonklub/spartan-ecdsa --parallel compile",
     "compile": "turbo run compile",
     "build": "pnpm run compile && turbo run build",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",

@@ -74,7 +74,7 @@ jobs:
           restore-keys: turbo-${{ github.job }}-${{ github.ref_name }}-
 
       - name: Build Rust wasm deps
-        run: pnpm --filter @anonklub/merkle-tree compile && pnpm --filter @anonklub/spartan-ecdsa compile
+        run: pnpm compile.wasm
 
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
