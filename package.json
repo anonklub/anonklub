@@ -35,7 +35,7 @@
   },
   "scripts": {
     "pnpm:devPreinstall": "pnpm compile.wasm",
-    "compile.wasm": "pnpm --filter @anonklub/merkle-tree --filter @anonklub/spartan-ecdsa --parallel compile",
+    "compile.wasm": "pnpm --filter @anonklub/merkle-tree compile && pnpm --filter @anonklub/spartan-ecdsa compile",
     "compile": "turbo run compile",
     "build": "pnpm run compile && turbo run build",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
