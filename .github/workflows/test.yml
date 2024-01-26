@@ -65,8 +65,8 @@ jobs:
         uses: jetli/wasm-pack-action@v0.4.0
         with:
           version: 'latest'
-          
-      - name: Build wasm deps
+
+      - name: Build Rust wasm deps
         run: pnpm --filter @anonklub/merkle-tree compile && pnpm --filter @anonklub/spartan-ecdsa compile
 
       - name: Install node deps

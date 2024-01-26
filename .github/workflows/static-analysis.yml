@@ -73,9 +73,8 @@ jobs:
           key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: turbo-${{ github.job }}-${{ github.ref_name }}-
 
-      # it is a local dep, as long as not published, need to build it before installing the rest or `pnpm i` will fail
-      - name: Build merkle-tree-wasm deps
-        run: pnpm --filter @anonklub/merkle-tree compile
+      - name: Build Rust wasm deps
+        run: pnpm --filter @anonklub/merkle-tree compile && pnpm --filter @anonklub/spartan-ecdsa compile
 
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
