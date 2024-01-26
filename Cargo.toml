@@ -3,5 +3,10 @@
 resolver = "2"
 
 members = [
-    "merkle-tree-wasm"
+    "merkle-tree-wasm",
+    "circuits/spartan"
 ]
+
+[profile.release]
+lto = true
+opt-level = 3
