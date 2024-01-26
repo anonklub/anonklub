@@ -71,7 +71,6 @@ jobs:
           key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: turbo-${{ github.job }}-${{ github.ref_name }}-
 
-      # trigger GH
       - name: Build Rust wasm deps
         run: pnpm compile.wasm
 
