@@ -26,9 +26,7 @@ const main = async () => {
   })
 
   // FIXME
-  console.log(
-    `${(valid as boolean) ? '✅ valid proof' : '❌ invalid proof'}`,
-  )
+  console.log(`${(valid as boolean) ? '✅ valid proof' : '❌ invalid proof'}`)
 }
 
 wrapExec(main)
