@@ -9,7 +9,7 @@ import type {
 export interface MerkleProof {
   root: bigint
   pathIndices: number[]
-  siblings: [bigint][]
+  siblings: Array<[bigint]>
 }
 
 export interface ProveInputs {
@@ -20,8 +20,8 @@ export interface ProveInputs {
 
 export type ProveMembershipFn = (
   proveInputs: ProveInputs,
-) => Promise<Uint8Array>
-export type VerifyMembershipFn = (anonklubProof: Uint8Array) => Promise<boolean>
+) => Uint8Array
+export type VerifyMembershipFn = (anonklubProof: Uint8Array) => boolean
 
 export interface ISpartanEcdsaWorker {
   prepare: () => void

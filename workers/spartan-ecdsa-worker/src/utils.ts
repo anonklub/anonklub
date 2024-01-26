@@ -4,7 +4,7 @@ import { Hex, hexToBytes } from 'viem'
 // Returns if y is odd or not
 export function calculateSigRecovery(v: bigint, chainId?: bigint): boolean {
   if (v === BigInt(0) || v === BigInt(1)) {
-    return v === BigInt(1) ? false : true
+    return v !== BigInt(1)
   }
 
   if (chainId === undefined) {
@@ -25,16 +25,16 @@ export function calculateSigRecovery(v: bigint, chainId?: bigint): boolean {
 export function concatUint8Arrays(arrays: Uint8Array[]) {
   // Calculate combined length
   let totalLength = 0
-  for (let array of arrays) {
+  for (const array of arrays) {
     totalLength += array.length
   }
 
   // Create a new array with the total length
-  let result = new Uint8Array(totalLength)
+  const result = new Uint8Array(totalLength)
 
   // Copy each array into the result array
   let offset = 0
-  for (let array of arrays) {
+  for (const array of arrays) {
     result.set(array, offset)
     offset += array.length
   }
@@ -43,7 +43,7 @@ export function concatUint8Arrays(arrays: Uint8Array[]) {
 }
 
 // Append the "0x" prefix to the string if it doesn't have it
-const toPrefixedHex = (str: String): Hex => {
+const toPrefixedHex = (str: string): Hex => {
   return (str.includes('0x') ? str : '0x' + str) as Hex
 }
 
@@ -51,7 +51,6 @@ export const bigIntToBytes = (x: bigint): Uint8Array => {
   let hex = x.toString(16)
   // Truncate hex to 32 bytes if necessary
   if (hex.length > 64) {
-    console.log
     hex = hex.substring(0, 64)
   } else {
     // Pad hex to be 32 bytes

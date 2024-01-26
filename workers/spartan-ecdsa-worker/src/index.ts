@@ -1,4 +1,4 @@
-import { wrap, Remote } from 'comlink'
+import { Remote, wrap } from 'comlink'
 import { ISpartanEcdsaWorker } from './interface'
 
 let SpartanEcdsaWorker: Remote<ISpartanEcdsaWorker>
@@ -9,5 +9,5 @@ if (typeof window !== 'undefined') {
   )
 }
 
-export { SpartanEcdsaWorker }
 export { type ProveMembershipFn, type VerifyMembershipFn } from './interface'
+export { SpartanEcdsaWorker }

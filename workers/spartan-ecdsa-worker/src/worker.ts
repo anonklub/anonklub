@@ -1,12 +1,13 @@
 import { expose } from 'comlink'
+import { hashMessage, hexToBytes, hexToSignature } from 'viem'
 import { ISpartanEcdsaWasm, ISpartanEcdsaWorker } from './interface'
-import { hexToSignature, hexToBytes, hashMessage } from 'viem'
 import { calculateSigRecovery } from './utils'
 
 let spartanEcdsaWasm: ISpartanEcdsaWasm
 let initialized = false
 
 export const spartanEcdsaWorker: ISpartanEcdsaWorker = {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async prepare() {
     spartanEcdsaWasm = await import('@anonklub/spartan-ecdsa-wasm')
     spartanEcdsaWasm.init_panic_hook()
@@ -17,11 +18,11 @@ export const spartanEcdsaWorker: ISpartanEcdsaWorker = {
     }
   },
 
-  async proveMembership({
-    sig,
-    message,
+  proveMembership({
     merkleProofBytesSerialized,
-  }): Promise<Uint8Array> {
+    message,
+    sig,
+  }): Uint8Array {
     const { r, s, v } = hexToSignature(sig)
 
     const sBytes = hexToBytes(s, {
@@ -33,21 +34,17 @@ export const spartanEcdsaWorker: ISpartanEcdsaWorker = {
     const isYOdd = calculateSigRecovery(v)
     const msgHash = hashMessage(message, 'bytes')
 
-    const proof = await spartanEcdsaWasm.prove_membership(
+    return spartanEcdsaWasm.prove_membership(
       sBytes,
       rBytes,
       isYOdd,
       msgHash,
       merkleProofBytesSerialized,
-    )
-
-    return proof
+    );
   },
 
-  async verifyMembership(anonklubProof: Uint8Array): Promise<boolean> {
-    const isVerified = await spartanEcdsaWasm.verify_membership(anonklubProof)
-
-    return isVerified
+  verifyMembership(anonklubProof: Uint8Array): boolean {
+    return spartanEcdsaWasm.verify_membership(anonklubProof)
   },
 }
 
