@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@anonklub/merkle-tree"]
+  "ignore": ["@anonklub/merkle-tree", "@anonklub/spartan-ecdsa"]
 }
