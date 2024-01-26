@@ -37,9 +37,7 @@ jobs:
           version: nightly
 
       - name: Install wasm-pack
-        uses: jetli/wasm-pack-action@v0.4.0
-        with:
-          version: 'latest'
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -74,7 +72,7 @@ jobs:
           restore-keys: turbo-${{ github.job }}-${{ github.ref_name }}-
 
       - name: Build Rust wasm deps
-        run: pnpm --filter @anonklub/merkle-tree compile && pnpm --filter @anonklub/spartan-ecdsa compile
+        run: pnpm compile.wasm
 
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
