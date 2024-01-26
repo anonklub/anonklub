@@ -18,11 +18,7 @@ export const spartanEcdsaWorker: ISpartanEcdsaWorker = {
     }
   },
 
-  proveMembership({
-    merkleProofBytesSerialized,
-    message,
-    sig,
-  }): Uint8Array {
+  proveMembership({ merkleProofBytesSerialized, message, sig }): Uint8Array {
     const { r, s, v } = hexToSignature(sig)
 
     const sBytes = hexToBytes(s, {
@@ -40,7 +36,7 @@ export const spartanEcdsaWorker: ISpartanEcdsaWorker = {
       isYOdd,
       msgHash,
       merkleProofBytesSerialized,
-    );
+    )
   },
 
   verifyMembership(anonklubProof: Uint8Array): boolean {
