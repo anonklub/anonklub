@@ -14,6 +14,7 @@ parserOptions:
       'ui/tsconfig.json',
       'tsconfig.json',
       'workers/merkle-tree-worker/tsconfig.json',
+      'workers/spartan-ecdsa-worker/tsconfig.json',
     ]
 
 rules:
