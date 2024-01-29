@@ -1,10 +1,10 @@
-import { Hex } from 'viem'
 import type {
   init_panic_hook,
   prepare,
   prove_membership,
   verify_membership,
 } from '@anonklub/spartan-ecdsa-wasm'
+import { Hex } from 'viem'
 
 export interface MerkleProof {
   root: bigint
