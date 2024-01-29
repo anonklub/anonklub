@@ -9,9 +9,8 @@ export const fetchJson = async (
       params === undefined
         ? url
         : `${url}?${new URLSearchParams(params).toString()}`
-    // @ts-expect-error FIXME global.d.ts ?
     const res = await fetch(_url)
-    return res.json()
+    return (await res.json()) as Promise<AnonSetResponse>
   } catch (err) {
     return {
       error: err as Error,
