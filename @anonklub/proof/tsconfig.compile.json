@@ -7,7 +7,6 @@
     "declarationMap": true,
     "inlineSources": true,
     "inlineSourceMap": true,
-    "noEmit": false,
     "outDir": "dist",
     "preserveConstEnums": true,
     "removeComments": true,
