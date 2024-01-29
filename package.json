@@ -39,7 +39,6 @@
     "compile": "turbo run compile",
     "build": "pnpm run compile && turbo run build",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
-    "build.docker.prove": "docker build -f apis/prove/Dockerfile . -t prove-api",
     "build.docker.query": "docker build -f query-api/Dockerfile . -t query-api",
     "build.docker.ui": "docker build -f ui/Dockerfile . -t anonklub-ui",
     "compile-wasm": "pnpm run compile-merkle-wasm && pnpm run compile-spartan-wasm",
@@ -69,13 +68,12 @@
   },
   "workspaces": [
     "@anonklub/*",
-    "apis/*",
     "contracts",
     "circuits/*",
     "discord-bot",
-    "infra",
     "merkle-tree-wasm",
     "merkle-tree-wasm/wasm-pkg",
+    "query-api",
     "test",
     "ui"
   ]

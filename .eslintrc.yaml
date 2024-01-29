@@ -5,11 +5,9 @@ parserOptions:
       '@anonklub/proof/tsconfig.json',
       '@anonklub/cli/tsconfig.json',
       '@anonklub/query/tsconfig.json',
-      'apis/prove/tsconfig.json',
       'query-api/tsconfig.json',
       'circuits/circom/tsconfig.json',
       'discord-bot/tsconfig.json',
-      'infra/tsconfig.json',
       'test/tsconfig.json',
       'ui/tsconfig.json',
       'tsconfig.json',
@@ -36,15 +34,9 @@ overrides:
   - files: ['@anonklub/proof/test/ProofRequest.test.ts']
     rules:
       '@typescript-eslint/dot-notation': off
-  - files: ['apis/prove/src/mq/queue.ts']
-    rules:
-      '@typescript-eslint/strict-boolean-expressions': off
   - files:
       [
         '@anonklub/cli/src/cli/index.ts',
-        'apis/prove/src/mq/processor.ts',
-        'apis/prove/src/mq/worker.ts',
-        'infra/resources/config.ts',
         '@anonklub/proof/src/ProofRequest/index.ts',
         '@anonklub/proof/test/ProofRequest.test.ts',
       ]
@@ -58,30 +50,13 @@ overrides:
       ]
     rules:
       '@typescript-eslint/no-inferrable-types': off
-  - files: ['apis/prove/generated/*.js']
-    rules:
-      eqeqeq: off
-  - files: ['apis/prove/generated/witness_calculator.js']
-    env:
-      browser: true
-    rules:
-      prefer-const: off
-      camelcase: off
-  - files: ['apis/prove/generated/generate_witness.js']
-    rules:
-      '@typescript-eslint/no-var-requires': off
   - files: ['*.tsx']
     rules:
       '@typescript-eslint/no-misused-promises':
         [error, { checksVoidReturn: { attributes: false } }]
-  - files: ['apis/prove/src/routes.ts']
-    rules:
-      '@typescript-eslint/no-misused-promises': off
   - files:
       [
         'apis/*/src/index.ts',
-        'apis/prove/generated/*.js',
-        'apis/prove/src/mq/*.ts',
         'circuits/circom/scripts/*.ts',
         '@anonklub/cli/src/index.ts',
         '@anonklub/cli/src/Cli/index.ts',

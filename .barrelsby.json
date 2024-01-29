@@ -8,7 +8,6 @@
     "@anonklub/query/src/requests",
     "discord-bot/src/lib",
     "discord-bot/src/lib/decorators",
-    "infra/resources",
     "ui/src/components",
     "ui/src/hooks",
     "ui/src/lib",
