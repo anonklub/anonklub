@@ -5,7 +5,7 @@ on:
     branches: [staging]
     paths:
       [
-        'apis/query/**',
+        'query-api/**',
         '!**/*.md',
         '.github/workflows/deploy-query-api-staging.yml',
       ]
@@ -25,8 +25,8 @@ jobs:
       - name: Deploy
         run: |
           flyctl deploy \
-            --config apis/query/fly-staging.toml \
-            --dockerfile apis/query/Dockerfile \
+            --config query-api/fly-staging.toml \
+            --dockerfile query-api/Dockerfile \
             --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

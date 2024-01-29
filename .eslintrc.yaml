@@ -6,7 +6,7 @@ parserOptions:
       '@anonklub/cli/tsconfig.json',
       '@anonklub/query/tsconfig.json',
       'apis/prove/tsconfig.json',
-      'apis/query/tsconfig.json',
+      'query-api/tsconfig.json',
       'circuits/circom/tsconfig.json',
       'discord-bot/tsconfig.json',
       'infra/tsconfig.json',
@@ -24,7 +24,7 @@ overrides:
   - files: ['*.ts', '*.tsx']
     rules:
       '@typescript-eslint/await-thenable': error
-  - files: ['apis/query/test/unit/DuneRepository.test.ts']
+  - files: ['query-api/test/unit/DuneRepository.test.ts']
     rules:
       '@typescript-eslint/no-dynamic-delete': off
   - files: ['*.ts']
@@ -52,9 +52,9 @@ overrides:
       '@typescript-eslint/restrict-template-expressions': off
   - files:
       [
-        'apis/query/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts',
-        'apis/query/src/api/repositories/DuneRepository.ts',
-        'apis/query-nest/src/app/anonset/dto/get-eth-balance-anonset.dto.ts',
+        'query-api/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts',
+        'query-api/src/api/repositories/DuneRepository.ts',
+        'query-api-nest/src/app/anonset/dto/get-eth-balance-anonset.dto.ts',
       ]
     rules:
       '@typescript-eslint/no-inferrable-types': off
@@ -89,19 +89,19 @@ overrides:
       ]
     rules:
       no-console: off
-  - files: ['apis/query/src/decorators/Logger.ts']
+  - files: ['query-api/src/decorators/Logger.ts']
     rules:
       '@typescript-eslint/no-explicit-any': 'off'
   - files:
       [
-        'apis/query/test/unit/QueryService.test.ts',
-        'apis/query/src/decorators/Logger.ts',
+        'query-api/test/unit/QueryService.test.ts',
+        'query-api/src/decorators/Logger.ts',
       ]
     rules:
       '@typescript-eslint/ban-ts-comment': 'off'
   - files:
       [
-        'apis/query/test/unit/*Controller.test.ts',
+        'query-api/test/unit/*Controller.test.ts',
         'circuits/circom/test/circuit.test.ts',
       ]
     rules:

@@ -6,7 +6,7 @@ WORKDIR app
 FROM base as deps
 
 COPY *.json *.yaml .npmrc global.d.ts ./
-COPY apis/query/package.json ./apis/query/
+COPY query-api/package.json ./query-api/
 
 RUN npm i -g pnpm && pnpm i --filter @anonklub/query-api
 
@@ -14,7 +14,7 @@ RUN npm i -g pnpm && pnpm i --filter @anonklub/query-api
 FROM deps as build
 
 COPY tsconfig.json ./
-COPY apis/query/ ./apis/query
+COPY query-api/ ./query-api
 
 # TODO: include build.graph step?
 # would need to manage GRAPH_API_KEY as a secret in docker build
@@ -22,7 +22,7 @@ COPY apis/query/ ./apis/query
 # pnpm prune command doesn't support recursive execution on monorepo
 # need to remove and re install only prod deps manually
 RUN pnpm --filter @anonklub/query-api run build  &&\
-    rm -rf node_modules apis/query/node_modules &&\
+    rm -rf node_modules query-api/node_modules &&\
     pnpm --filter @anonklub/query-api i --prod
 
 FROM base as deploy
@@ -30,7 +30,7 @@ FROM base as deploy
 # FIX ME: fix mkdir access when running as non root user
 # https://github.com/nodejs/docker-node/issues/740
 #WORKDIR /home/node/app
-ARG DIR=apis/query
+ARG DIR=query-api
 
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/$DIR/node_modules ./$DIR/node_modules
