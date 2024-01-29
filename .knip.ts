@@ -2,7 +2,6 @@ import type { KnipConfig } from 'knip'
 
 const config: KnipConfig = {
   ignore: [
-    'apis/prove/src/mq/processor.ts',
     'query-api/src/api/controllers/AnonymitySet.ts',
     'query-api/src/api/controllers/requests/**',
     'query-api/src/api/middlewares/**',
