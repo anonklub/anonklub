@@ -1,7 +1,6 @@
 import { ProofRequest } from '@anonklub/proof'
 import { useEffect, useState } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
-import { config } from '#'
 import { useMerkleTreeWasmWorker } from './useMerkleTreeWorker'
 import { useStore } from './useStore'
 
@@ -51,7 +50,6 @@ export const useProofRequest = () => {
           merkleProof: merkleProofBytes,
           message,
           rawSignature,
-          url: config.urls.proveApi,
         }),
       )
     })()

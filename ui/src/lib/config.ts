@@ -5,7 +5,6 @@ interface Config {
   appTitle: string
   chains: Chain[]
   urls: {
-    proveApi: string
     queryApi: string
   }
   verifier: {
@@ -19,14 +18,12 @@ interface Config {
 // https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#loading-environment-variables
 const walletConnectProjectId =
   process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ''
-const proveApiUrl = process.env.NEXT_PUBLIC_PROVE_API_URL ?? ''
 const queryApiUrl = process.env.NEXT_PUBLIC_QUERY_API_URL ?? ''
 const verifierAddress = process.env.NEXT_PUBLIC_VERIFIER_ADDRESS ?? ''
 const verifierChainId = process.env.NEXT_PUBLIC_VERIFIER_CHAIN_ID ?? ''
 
 ;[
   [walletConnectProjectId, 'NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID'],
-  [proveApiUrl, 'NEXT_PUBLIC_PROVE_API_URL'],
   [queryApiUrl, 'NEXT_PUBLIC_QUERY_API_URL'],
 ].forEach(([value, name]) => {
   if (value === '') {
@@ -53,7 +50,6 @@ export const config: Config = {
   appTitle: 'Anonklub',
   chains: [sepolia],
   urls: {
-    proveApi: proveApiUrl,
     queryApi: queryApiUrl,
   },
   verifier: {

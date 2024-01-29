@@ -5,7 +5,7 @@ import {
   Message,
   TextChannel,
 } from 'discord.js'
-import { config, verifyOnChain } from '~'
+import { config, Proof, PublicSignals, verifyOnChain } from '~'
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
 
@@ -25,7 +25,6 @@ export class MessageCreate extends _Event {
       message.attachments,
     )
 
-    // FIXME: isn't viem supposed to give the typings automagically from the JSON ABIs?
     const valid: boolean = await verifyOnChain({
       proof,
       publicSignals,
@@ -75,9 +74,20 @@ export class MessageCreate extends _Event {
       ),
     )
 
+    if (
+      proof === undefined ||
+      proof === null ||
+      publicSignals === undefined ||
+      publicSignals === null ||
+      typeof proof !== 'object' ||
+      typeof publicSignals !== 'object'
+    )
+      throw new Error('Proof or public signals are missing or invalid')
+
+    // TODO: improve this with a real schema validation
     return {
-      proof,
-      publicSignals,
+      proof: proof as Proof,
+      publicSignals: publicSignals as PublicSignals,
     }
   }
 
@@ -92,8 +102,13 @@ export class MessageCreate extends _Event {
     if (attachment === undefined)
       throw new Error(`No ${name} attachment in message`)
 
-    // FIXME
-    // @ts-expect-error
-    return fetch(attachment.url).then(async (res) => res.json())
+    const data = await fetch(attachment.url).then(async (res) => res.json())
+    if (name === 'proof.json') {
+      return data as Proof
+    } else if (name === 'public.json') {
+      return data as PublicSignals
+    } else {
+      throw new Error(`Unknown attachment name: ${name}`)
+    }
   }
 }
