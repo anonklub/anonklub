@@ -29,7 +29,7 @@ export function SubmitProofRequest() {
           <>
             <WarningModal
               content={[
-                "You are about to submit your proof request to our server. This server is meant to be used for demonstration and development purposes. We haven't run a trusted setup ceremony. This is both a privacy and security issue. Don't use the generated proof results in production or for any sensitive purposes.",
+                "You are about to generate a zk proof in your browser. This is development and un audited application. Don't use the generated proof result in production or for any sensitive purposes.",
               ]}
             />
             {warningWasRead ? (
