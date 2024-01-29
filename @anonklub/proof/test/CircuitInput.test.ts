@@ -12,6 +12,8 @@ describe('CircuitInput', () => {
     circuitInput = new CircuitInput({
       field: poseidon.F,
       hashFunction: poseidon,
+      // FIXME
+      // @ts-expect-error
       proofRequest: { addresses, message, rawSignature },
     })
   })
