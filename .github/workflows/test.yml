@@ -12,6 +12,7 @@ on:
         'test/**/*.{js,ts}',
         'contracts/**/*.sol',
         'pnpm-lock.yaml',
+        '!**/*.md',
       ]
   push:
     branches: [main, staging]
@@ -22,6 +23,7 @@ on:
         'test/**/*.{js,ts}',
         'contracts/**/*.sol',
         'pnpm-lock.yaml',
+        '!**/*.md',
       ]
 jobs:
   test:

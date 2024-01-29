@@ -2,8 +2,15 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
+    branches: ['main']
+    paths:
+      [
+        '@anonklub/**',
+        'circuits/spartan/**',
+        'merkle-tree-wasm/**',
+        '!**/*.md',
+        '!test/**/*.{js,ts}',
+      ]
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
