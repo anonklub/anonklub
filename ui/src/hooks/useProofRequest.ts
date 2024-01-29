@@ -51,7 +51,6 @@ export const useProofRequest = () => {
           merkleProof: merkleProofBytes,
           message,
           rawSignature,
-          url: config.urls.proveApi,
         }),
       )
     })()
