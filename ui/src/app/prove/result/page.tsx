@@ -1,40 +1,55 @@
 'use client'
-import Link from 'next/link'
-import { config } from '#'
+import { useState } from 'react'
 import { Loader } from '@components'
 import { useProofResult } from '@hooks'
 
+const ellipsify = (text: string, start = 6): string => {
+  if (text.length <= start) {
+    return text
+  }
+
+  return `${text.slice(0, start)}... +${text.length - start}`
+}
+
 export default function Page() {
-  const { isLoading, jobId } = useProofResult()
-  return isLoading && jobId !== null ? (
-    <Loader />
-  ) : (
+  const { fullProof } = useProofResult()
+  const [copySuccess, setCopySuccess] = useState('')
+
+  if (fullProof == null) {
+    return <Loader />
+  }
+
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(fullProof.toString())
+      .then(() => setCopySuccess('Copied!'))
+      .catch(() => setCopySuccess('Failed to copy'))
+  }
+
+  const downloadTextFile = () => {
+    const element = document.createElement('a')
+    const file = new Blob([fullProof.toString()], { type: 'text/plain' })
+    element.href = URL.createObjectURL(file)
+    element.download = 'fullProof.txt'
+    document.body.appendChild(element) // Required for this to work in FireFox
+    element.click()
+  }
+
+  return (
     <div className='justify center flex flex-col space-y-10'>
       <h2 className='self-start'>Proof Results</h2>
-      {jobId !== null && typeof jobId === 'string' && (
-        <>
-          <span>
-            Proof Generation Job <strong>{jobId}</strong> added to queue. It
-            might take 5- 10 min to complete.
-          </span>
-          <span>
-            Check your results later at
-            <div className='nes-text is-success flex flex-col'>
-              <Link href={`${config.urls.proveApi}/proofs/${jobId}/input.json`}>
-                /proofs/{jobId}/input.json
-              </Link>
-              <Link href={`${config.urls.proveApi}/proofs/${jobId}/proof.json`}>
-                /proofs/{jobId}/proof.json
-              </Link>
-              <Link
-                href={`${config.urls.proveApi}/proofs/${jobId}/public.json`}
-              >
-                /proofs/{jobId}/public.json
-              </Link>
-            </div>
-          </span>
-        </>
-      )}
+      <div>
+        <div className='nes-text is-success flex flex-col'>
+          {ellipsify(fullProof.toString(), 100)}
+        </div>
+        {copySuccess}
+        <button onClick={copyToClipboard} className='nes-btn is-primary'>
+          Copy to Clipboard
+        </button>
+        <button onClick={downloadTextFile} className='nes-btn is-primary'>
+          Download as Text File
+        </button>
+      </div>
     </div>
   )
 }

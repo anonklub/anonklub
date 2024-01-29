@@ -2,10 +2,11 @@ import { ProofRequest } from '@anonklub/proof'
 import { useEffect, useState } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
 import { config } from '#'
+import { useMerkleTreeWasmWorker } from './useMerkleTreeWorker'
 import { useStore } from './useStore'
 
 export const useProofRequest = () => {
-  const { isConnected } = useAccount()
+  const { address, isConnected } = useAccount()
   const { anonSet, proofRequest, setProofRequest } = useStore()
   const [message, setMessage] = useState('')
   const {
@@ -18,6 +19,7 @@ export const useProofRequest = () => {
   } = useSignMessage({
     message,
   })
+  const { generateMerkleProof } = useMerkleTreeWasmWorker()
 
   useEffect(() => {
     reset()
@@ -27,16 +29,32 @@ export const useProofRequest = () => {
   const canSubmit = isSuccess && anonSet !== null && proofRequest !== null
 
   useEffect(() => {
-    if (message === '' || rawSignature === undefined || anonSet === null) return
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    ;(async () => {
+      if (
+        message === '' ||
+        typeof rawSignature === 'undefined' ||
+        anonSet === null ||
+        typeof address === 'undefined'
+      )
+        return
 
-    setProofRequest(
-      new ProofRequest({
-        addresses: anonSet,
-        message,
-        rawSignature,
-        url: config.urls.proveApi,
-      }),
-    )
+      const merkleProofBytes = await generateMerkleProof(
+        anonSet,
+        address.toLowerCase(),
+        15,
+      )
+
+      setProofRequest(
+        new ProofRequest({
+          addresses: anonSet,
+          merkleProof: merkleProofBytes,
+          message,
+          rawSignature,
+          url: config.urls.proveApi,
+        }),
+      )
+    })()
   }, [canSign, canSubmit, message, rawSignature, anonSet])
 
   return {

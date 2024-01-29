@@ -1,0 +1,46 @@
+import { useEffect } from 'react'
+import {
+  ProveMembershipFn,
+  SpartanEcdsaWorker,
+  VerifyMembershipFn,
+} from '@anonklub/spartan-ecdsa-worker'
+
+export const useSpartanEcdsaWorker = () => {
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    ;(async () => {
+      await SpartanEcdsaWorker.prepare()
+    })()
+  }, [])
+
+  const proveMembership: ProveMembershipFn = async ({
+    merkleProofBytesSerialized,
+    message,
+    sig,
+  }): Promise<Uint8Array> => {
+    console.time('==> Prove')
+    const proof = await SpartanEcdsaWorker.proveMembership({
+      merkleProofBytesSerialized,
+      message,
+      sig,
+    })
+    console.timeEnd('==> Prove')
+
+    return proof
+  }
+
+  const verifyMembership: VerifyMembershipFn = async (
+    anonklubProof: Uint8Array,
+  ): Promise<boolean> => {
+    console.time('==> Verify')
+    const isVerified = await SpartanEcdsaWorker.verifyMembership(anonklubProof)
+    console.timeEnd('==> Verify')
+
+    return isVerified
+  }
+
+  return {
+    proveMembership,
+    verifyMembership,
+  }
+}

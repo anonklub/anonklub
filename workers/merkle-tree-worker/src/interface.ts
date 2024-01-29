@@ -4,11 +4,15 @@ export type GenerateMerkleProofFn = (
   leaves: string[],
   leaf: string,
   depth: number,
-) => Uint8Array
+) => Promise<Uint8Array>
 
 export interface IMerkleTreeWorker {
   prepare: () => Promise<void>
-  generateMerkleProof: GenerateMerkleProofFn
+  generateMerkleProof: (
+    leaves: string[],
+    leaf: string,
+    depth: number,
+  ) => Uint8Array
 }
 
 export interface IMerkleTreeWasm {

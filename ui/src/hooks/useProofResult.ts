@@ -1,18 +1,20 @@
+import { Hex } from 'viem'
 import { useAsync, useStore } from '@hooks'
+import { useSpartanEcdsaWorker } from './useSpartanEcdsaWorker'
 
 export const useProofResult = () => {
   const { proofRequest } = useStore()
+  const { proveMembership } = useSpartanEcdsaWorker()
 
-  const {
-    data: jobId,
-    error,
-    execute,
-    isLoading,
-  } = useAsync(async () => {
+  const { data: fullProof, error } = useAsync(async () => {
     if (proofRequest === null) return
-    const { jobId } = await proofRequest.submit()
-    return jobId
+
+    return await proveMembership({
+      merkleProofBytesSerialized: proofRequest.merkleProof,
+      message: proofRequest.message,
+      sig: proofRequest.rawSignature as Hex,
+    })
   }, 'submit-proof-request')
 
-  return { error, execute, isLoading, jobId }
+  return { error, fullProof }
 }
