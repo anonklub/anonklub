@@ -18,13 +18,15 @@ export interface ProveInputs {
   merkleProofBytesSerialized: Uint8Array
 }
 
-export type ProveMembershipFn = (proveInputs: ProveInputs) => Uint8Array
-export type VerifyMembershipFn = (anonklubProof: Uint8Array) => boolean
+export type ProveMembershipFn = (
+  proveInputs: ProveInputs,
+) => Promise<Uint8Array>
+export type VerifyMembershipFn = (anonklubProof: Uint8Array) => Promise<boolean>
 
 export interface ISpartanEcdsaWorker {
   prepare: () => void
-  proveMembership: ProveMembershipFn
-  verifyMembership: VerifyMembershipFn
+  proveMembership: (proveInputs: ProveInputs) => Uint8Array
+  verifyMembership: (anonklubProof: Uint8Array) => boolean
 }
 
 export interface ISpartanEcdsaWasm {

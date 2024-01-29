@@ -32,10 +32,5 @@
     ]
   },
   "include": ["src", "next-env.d.ts", "src", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"],
-  "references": [
-    {
-      "path": "../@anonklub/proof"
-    }
-  ]
+  "exclude": ["node_modules"]
 }
