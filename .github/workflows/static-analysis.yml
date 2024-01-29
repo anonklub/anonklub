@@ -3,22 +3,10 @@ on:
   workflow_dispatch:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths-ignore:
-      [
-        '**/Dockerfile',
-        '**/public/**',
-        '**/.*ignore',
-        '**/*.toml',
-      ]
+    paths-ignore: ['**/Dockerfile', '**/public/**', '**/.*ignore', '**/*.toml']
   push:
     branches: [main, staging]
-    paths-ignore:
-      [
-        '**/Dockerfile',
-        '**/public/**',
-        '**/.*ignore',
-        '**/*.toml',
-      ]
+    paths-ignore: ['**/Dockerfile', '**/public/**', '**/.*ignore', '**/*.toml']
 
 jobs:
   validate:
