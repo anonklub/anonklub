@@ -1,19 +1,19 @@
 {
-    "name": "@anonklub/spartan-ecdsa-worker",
-    "version": "0.0.0",
-    "description": "A Web-Worker package for generating spartan ECDSA proves in the browser using wasm.",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "scripts": {
-      "build": "pnpm run clean && tsc --project tsconfig.compile.json",
-      "clean": "rm -rf dist"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-      "@anonklub/spartan": "1.0.0",
-      "comlink": "^4.4.1",
-      "viem": "^2.0.10"
-    }
+  "name": "@anonklub/spartan-ecdsa-worker",
+  "version": "1.0.0",
+  "description": "A Web-Worker package for generating spartan ECDSA proves in the browser using wasm.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "pnpm run clean && tsc --project tsconfig.compile.json",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anonklub/spartan": "1.0.0",
+    "comlink": "^4.4.1",
+    "viem": "^2.0.10"
   }
+}
