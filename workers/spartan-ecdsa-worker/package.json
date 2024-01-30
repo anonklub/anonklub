@@ -1,5 +1,6 @@
 {
     "name": "@anonklub/spartan-ecdsa-worker",
+    "version": "0.0.0",
     "description": "A Web-Worker package for generating spartan ECDSA proves in the browser using wasm.",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
