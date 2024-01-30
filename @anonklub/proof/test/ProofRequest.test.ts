@@ -4,6 +4,8 @@ import { addresses, merkleProof, message, rawSignature } from './data/constants'
 describe('ProofRequest', () => {
   let proofRequest: ProofRequest
   beforeEach(() => {
+    // FIXME
+    /* @ts-expect-error */
     proofRequest = new ProofRequest({
       addresses,
       merkleProof,
