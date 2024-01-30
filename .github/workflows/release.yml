@@ -47,7 +47,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pnpm-store-
 
       - name: Install
-        run: pnpm --filter="./@anonklub/**" i --ignore-scripts
+        run: pnpm i --ignore-scripts
 
       - name: Release
         uses: changesets/action@v1

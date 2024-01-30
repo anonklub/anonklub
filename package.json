@@ -46,7 +46,7 @@
     "compile-merkle-wasm": "pnpm --filter @anonklub/merkle-tree compile",
     "compile-spartan-wasm": "pnpm --filter @anonklub/spartan-ecdsa compile",
     "barrels": "barrelsby --config .barrelsby.json",
-    "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
+    "clean": "find . \\( -name 'node_modules' -o -name 'dist' -o -name 'wasm-pkg' -o -name 'next' \\) -type d -prune -exec rm -rf '{}' +",
     "start.prove-api": "docker compose -f apis/prove/docker-compose.yaml up -d && turbo --filter @anonklub/prove-api... build && pnpm --filter @anonklub/prove-api server.prod",
     "pre.demo": "ttab -w 'pnpm run start.prove-api'",
     "demo": "pnpm run pre.demo && sleep 5 && pnpm run --filter @anonklub/demo start",
