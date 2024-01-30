@@ -392,6 +392,8 @@ importers:
         specifier: 5.2.2
         version: 5.2.2
 
+  circuits/spartan/wasm-pkg: {}
+
   contracts:
     devDependencies:
       solhint:
