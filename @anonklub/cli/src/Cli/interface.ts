@@ -6,7 +6,6 @@ export interface CliI {
   prompt: Prompt
   anonSetResponse: AnonSetResponse | undefined
 
-  logProofRequestResult: (jobId: string) => void
   run: () => Promise<void>
   prove: () => Promise<void>
   verify: () => Promise<void>
