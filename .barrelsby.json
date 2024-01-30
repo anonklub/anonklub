@@ -1,19 +1,16 @@
 {
   "directory": [
-    "apis/prove/src/handlers",
-    "apis/query/src/api/controllers/requests",
-    "apis/query/src/api/services",
-    "apis/query/src/api/repositories",
-    "apis/query-nest/src/app/anonset/dto",
-    "apis/query-nest/src/app/anonset/repositories",
     "@anonklub/query/src/requests",
     "discord-bot/src/lib",
     "discord-bot/src/lib/decorators",
-    "infra/resources",
+    "query-api/src/api/controllers/requests",
+    "query-api/src/api/services",
+    "query-api/src/api/repositories",
+    "query-api-nest/src/app/anonset/dto",
+    "test/src",
     "ui/src/components",
     "ui/src/hooks",
-    "ui/src/lib",
-    "test/src"
+    "ui/src/lib"
   ],
   "delete": true,
   "noSemicolon": true,

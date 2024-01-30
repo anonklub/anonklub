@@ -6,10 +6,5 @@
     "target": "es2020",
     "noUncheckedIndexedAccess": false
   },
-  "include": ["scripts", "test", "test/jest.config.ts"],
-  "references": [
-    {
-      "path": "../../@anonklub/proof"
-    }
-  ]
+  "include": ["scripts", "test", "test/jest.config.ts"]
 }

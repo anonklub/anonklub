@@ -8,9 +8,9 @@ on:
     paths:
       [
         '@anonklub/**/*.{json,ts}',
-        'apis/**/*.{js,json,ts,graphql}',
-        'test/**/*.{js,ts}',
         'contracts/**/*.sol',
+        'query-api/**/*.{js,json,ts,graphql}',
+        'test/**/*.{js,ts}',
         'pnpm-lock.yaml',
         '!**/*.md',
       ]
@@ -19,9 +19,9 @@ on:
     paths:
       [
         '@anonklub/**/*.{json,ts}',
-        'apis/**/*.{js,json,ts,graphql}',
-        'test/**/*.{js,ts}',
         'contracts/**/*.sol',
+        'test/**/*.{js,ts}',
+        'query-api/**/*.{js,json,ts,graphql}',
         'pnpm-lock.yaml',
         '!**/*.md',
       ]
