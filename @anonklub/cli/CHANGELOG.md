@@ -1,5 +1,16 @@
 # @anonklub/cli
 
+## 1.1.0
+
+### Minor Changes
+
+- a67a5d1: Indicate that prove cli command is TODO (need to reimplement with spartan)
+
+### Patch Changes
+
+- Updated dependencies [a67a5d1]
+  - @anonklub/query@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes
