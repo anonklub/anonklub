@@ -4,7 +4,6 @@ packages:
   - circuits/spartan/*
   - contracts
   - discord-bot
-  - infra
   - test
   - ui
   - merkle-tree-wasm

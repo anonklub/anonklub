@@ -4,15 +4,15 @@
     "//#barrels": {
       "inputs": [
         "*.{js,jsx,ts,tsx}",
-        "{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/{src,test}/**/*.{js,jsx,ts,tsx}",
-        "!{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/{build,dist,node_modules,.next}/**"
+        "{@anonklub,circuits,discord-bot,query-api,ui}/**/{src,test}/**/*.{js,jsx,ts,tsx}",
+        "!{@anonklub,circuits,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "//#_format": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
-        "{.github,@anonklub,circuits,discord-bot,infra,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
-        "!{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/{build,dist,node_modules,.next}/**"
+        "{.github,@anonklub,circuits,discord-bot,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
+        "!{@anonklub,circuits,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "_format": {
@@ -26,16 +26,16 @@
     "//#_format.fix": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
-        "{.github,@anonklub,circuits,discord-bot,infra,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
-        "!{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/{build,dist,node_modules,.next}/**"
+        "{.github,@anonklub,circuits,discord-bot,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
+        "!{@anonklub,circuits,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "//#_knip": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx}",
         "package.json",
-        "{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/{package.json,*.{cjs,js,jsx,ts,tsx}}",
-        "!{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/{build,dist,node_modules,.next}/**"
+        "{@anonklub,circuits,discord-bot,query-api,ui}/**/{package.json,*.{cjs,js,jsx,ts,tsx}}",
+        "!{@anonklub,circuits,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "_lint": {
@@ -45,8 +45,8 @@
     "//#_lint": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx}",
-        "{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx}",
-        "!{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/{build,dist,node_modules,.next}/**"
+        "{@anonklub,circuits,discord-bot,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx}",
+        "!{@anonklub,circuits,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "_lint.fix": {
@@ -56,15 +56,15 @@
     "//#_lint.fix": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx}",
-        "{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx}",
-        "!{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/{build,dist,node_modules,.next}/**"
+        "{@anonklub,circuits,discord-bot,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx}",
+        "!{@anonklub,circuits,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "typecheck": {
       "inputs": [
         "*.{js,jsx,ts,tsx}",
-        "{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/{src,test}/**/*.{js,jsx,ts,tsx}",
-        "!{@anonklub,circuits,discord-bot,infra,query-api,ui}/**/{build,dist,node_modules,.next}/**"
+        "{@anonklub,circuits,discord-bot,query-api,ui}/**/{src,test}/**/*.{js,jsx,ts,tsx}",
+        "!{@anonklub,circuits,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "build": {

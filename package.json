@@ -71,7 +71,6 @@
     "contracts",
     "circuits/*",
     "discord-bot",
-    "infra",
     "merkle-tree-wasm",
     "merkle-tree-wasm/wasm-pkg",
     "query-api",
