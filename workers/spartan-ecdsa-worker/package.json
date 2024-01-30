@@ -11,7 +11,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-      "@anonklub/spartan-ecdsa-wasm": "file:../../circuits/spartan/wasm-pkg",
+      "@anonklub/spartan": "1.0.0",
       "comlink": "^4.4.1",
       "viem": "^2.0.10"
     }

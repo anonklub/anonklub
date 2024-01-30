@@ -14,6 +14,6 @@
   "license": "ISC",
   "dependencies": {
     "comlink": "^4.4.1",
-    "@anonklub/merkle-tree-wasm": "file:../../merkle-tree-wasm/wasm-pkg"
+    "@anonklub/merkle-tree-wasm": "1.0.0"
   }
 }
