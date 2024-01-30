@@ -1,7 +1,5 @@
 import { ProofRequest } from '@anonklub/proof'
 import { AnonSetResponse, AnonymitySet } from '@anonklub/query'
-import { execSync } from 'child_process'
-import terminalLink from 'terminal-link'
 import { Prompt } from '../Prompt/index.js'
 import { AnonSetLocation, AnonSetType, ProofAction } from '../types.js'
 import { CliI } from './interface'
@@ -66,53 +64,22 @@ class Cli implements CliI {
     const message = await this.prompt.askMessage()
     const rawSignature = await this.prompt.askRawSignature(message)
 
+    // FIXME
+    /* @ts-expect-error */
     const proofRequest = new ProofRequest({
       addresses: this.anonSetResponse.data,
       message,
       rawSignature,
-      url: 'http://anonklub.xyz:3000', // TODO: make this configurable
     })
 
-    const { jobId } = await proofRequest.submit()
-    this.logProofRequestResult(jobId)
+    console.log('TODO')
+    console.log({ proofRequest })
   }
 
   async verify() {
     const proofPath = await this.prompt.askProofFile()
-    const publicSignalsPath = await this.prompt.askPublicSignalsFile()
-    // TODO: no need to ask for this file, include it in the pkg
-    const verificationKeyPath = await this.prompt.askVerificationKeyFile()
-
-    console.log({ proofPath, publicSignalsPath, verificationKeyPath })
-
-    // FIXME: use groth16 module from snarkjs directly instead, otherwise we need to install snarkjs globally for this exact command to work
-    const result = execSync(
-      `snarkjs groth16 verify ${verificationKeyPath} ${publicSignalsPath} ${proofPath}`,
-    )
-    console.log(result.toString())
-  }
-
-  logProofRequestResult(jobId: string) {
-    console.log('Proof Request submitted successfully and being now processed.')
-    console.log(
-      `Your job id is ${jobId}. Do not share this id. You'll need it to access your proof file.`,
-    )
-    console.log(
-      `Your proof input is already available at ${terminalLink(
-        'input.json',
-        `/proofs/${jobId}/input.json`, // TODO: prepend Proof API URL
-      )}`,
-    )
-    console.log('Wait 5-10 min and your results will be available at:')
-    console.log(
-      terminalLink('proof.json', `/proofs/${jobId}/proof.json`), // // TODO: prepend Proof API URL
-    )
-    console.log(
-      terminalLink(
-        'publicSignals.json',
-        `/proofs/${jobId}/publicSignals.json`, // TODO: prepend Proof API URL
-      ),
-    )
+    console.log('TODO')
+    console.log({ proofPath })
   }
 }
 

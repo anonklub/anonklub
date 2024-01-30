@@ -19,8 +19,6 @@ export interface PromptI {
   askAddressesFile: () => Promise<string>
   askProofFile: () => Promise<string>
   askProveOrVerify: () => Promise<ProofAction>
-  askPublicSignalsFile: () => Promise<string>
-  askVerificationKeyFile: () => Promise<string>
   prompt: <T>(
     questions: QuestionCollection | DistinctQuestion,
   ) => () => Promise<T>

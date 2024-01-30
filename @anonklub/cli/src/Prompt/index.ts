@@ -44,9 +44,6 @@ export class Prompt implements PromptI {
 
   askProofFile = this.askFile('proof')
 
-  askPublicSignalsFile = this.askFile('public signals')
-
-  askVerificationKeyFile = this.askFile('verification key')
   askProveOrVerify = this.prompt<ProofAction>({
     choices: [
       {
