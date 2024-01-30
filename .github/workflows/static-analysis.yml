@@ -71,7 +71,4 @@ jobs:
           NEXT_PUBLIC_QUERY_API_URL: 'https://anonset-staging.fly.dev'
           NEXT_PUBLIC_VERIFIER_ADDRESS: '0x123'
           NEXT_PUBLIC_VERIFIER_CHAIN_ID: 123
-        # force building @anonklub/proof package instead of hitting cache (as it is a dep of other local packages)
-        run: |
-          pnpm --filter @anonklub/proof build
-          pnpm validate
+        run: pnpm validate
