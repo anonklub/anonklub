@@ -1,5 +1,6 @@
 {
   "name": "@anonklub/merkle-tree-worker",
+  "version": "0.0.0",
   "description": "A Web-Worker package for managing creating merkle tree in the browser by using wasm",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,6 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "comlink": "^4.4.1",
-    "@anonklub/merkle-tree-wasm": "file:../../merkle-tree-wasm/wasm-pkg"
+    "@anonklub/merkle-tree-wasm": "1.0.0"
   }
 }

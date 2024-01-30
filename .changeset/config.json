@@ -8,8 +8,6 @@
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "@anonklub/merkle-tree-worker",
-    "@anonklub/spartan-ecdsa-worker",
     "@anonklub/query-api",
     "@anonklub/ui"
   ]
