@@ -3,6 +3,7 @@
   "exclude": ["test", "test/jest.config.ts"],
   "compilerOptions": {
     "declaration": true,
+    "declarationDir": "dist/types",
     "declarationMap": true,
     "inlineSources": true,
     "inlineSourceMap": true,

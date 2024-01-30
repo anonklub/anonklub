@@ -1,0 +1,237 @@
+openapi: 3.0.3
+info:
+  title: Proofs API
+  description: Proofs API
+  version: 1.0.0
+  license:
+    name: MIT
+    url: 'https://github.com/anonklub/anonklub/blob/main/LICENSE'
+  contact:
+    name: Privacy Scaling Explorations
+    url: 'https://pse.dev/'
+externalDocs:
+  description: 'GitHub repository'
+  url: 'https://github.com/anonklub/anonklub/tree/main/apis/prove'
+servers:
+  - url: 'http://anonklub.xyz:3000'
+  - url: 'http://localhost:3000'
+
+paths:
+  /proof:
+    post:
+      tags:
+        - Proof Request
+      summary: Submit a Membership Proof Request.
+      description: ''
+      operationId: prove
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                addresses:
+                  type: array
+                  items:
+                    type: string
+                    description: ethereum addresses part of the anonymity set
+                message:
+                  type: string
+                  description: message signed
+                rawSignature:
+                  type: string
+                  description: Raw signature (0x-prefixed) of the message signed by the private key of the address you want to prove is part of the list of addresses
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    description: secret id of the job processing your request. This id is required to access your proof result
+                  message:
+                    type: string
+                    description: more detailed information explaining your proof request has been submitted
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+  /proofs/{jobId}/proof.json:
+    get:
+      tags:
+        - Result
+      summary: Get your proof result.
+      description: ''
+      operationId: getProofResult
+      parameters:
+        - name: jobId
+          in: path
+          description: The id of the job that processes(d) your proof request.
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pi_a:
+                    type: array
+                    items:
+                      type: string
+                  pi_b:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: string
+                  pi_c:
+                    type: array
+                    items:
+                      type: string
+                  protocol:
+                    type: string
+                    enum:
+                      - groth16
+                  curve:
+                    type: string
+                    enum:
+                      - bn128
+
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+  /proofs/{jobId}/public.json:
+    get:
+      tags:
+        - Result
+      summary: Get your public signals result.
+      description: ''
+      operationId: getPublicSignalsResult
+      parameters:
+        - name: jobId
+          in: path
+          description: The id of the job that processes(d) your proof request.
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+  /proofs/{jobId}/witness.wtns:
+    get:
+      tags:
+        - Result
+      summary: Get your witness file.
+      description: ''
+      operationId: getWitness
+      parameters:
+        - name: jobId
+          in: path
+          description: The id of the job that processes(d) your proof request.
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/octet-stream: {}
+
+  /proofs/{jobId}/input.json:
+    get:
+      tags:
+        - Result
+      summary: Get your (circom) proof input.
+      description: ''
+      operationId: getInput
+      parameters:
+        - name: jobId
+          in: path
+          description: The id of the job that processes(d) your proof request.
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pubkey:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: string
+                  msghash:
+                    type: array
+                    items:
+                      type: string
+                  root:
+                    type: string
+                  pathIndices:
+                    type: array
+                    items:
+                      items:
+                        type: string
+                  pathElements:
+                    type: array
+                    items:
+                      type: string
+                  r:
+                    type: array
+                    items:
+                      type: string
+                  s:
+                    type: array
+                    items:
+                      type: string
+
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+  /dashboard:
+    get:
+      tags:
+        - Dashboard
+      summary: Get the Queue dashboard.
+      description: ''
+      operationId: getDashboard
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/html:
+              schema:
+                type: string

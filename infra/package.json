@@ -1,0 +1,26 @@
+{
+  "name": "@anonklub/infra",
+  "main": "index.ts",
+  "devDependencies": {
+    "@types/node": "^16"
+  },
+  "dependencies": {
+    "@pulumi/pulumi": "^3.76.1",
+    "@pulumi/aws": "^5.42.0",
+    "@pulumi/awsx": "^1.0.3"
+  },
+  "scripts": {
+    "copyzkey": "rsync -Pv -e \"ssh -i $HOME/.ssh/$(pulumi config get sshPubKeyName)\" ../apis/prove/generated/circuit.zkey ubuntu@$(pulumi stack output publicIp):/home/ubuntu/anonklub/apis/prove/generated/",
+    "debug.init": "pnpm ssh 'cat /var/log/cloud-init.log'",
+    "debug.init.output": "pnpm ssh 'cat /var/log/cloud-init-output.log'",
+    "debug.install": "pnpm ssh 'cat /home/ubunru/install.log'",
+    "debug.log": "pnpm ssh 'cat /home/ubuntu/anonklub/apis/prove/log.txt'",
+    "deploy": "pulumi up -y && pnpm removeknownhost && pnpm copyzkey",
+    "open": "open http://$(pulumi stack output publicIp):3000",
+    "removeknownhost": "ssh-keygen -f $HOME/.ssh/known_hosts -R $(pulumi stack output publicIp)",
+    "ssh.reset": "pnpm removeknownhost && ssh -i ~/.ssh/$(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp)",
+    "ssh": "ssh -i ~/.ssh/$(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp)",
+    "start.manual": "ssh -i ~/.ssh/$(pulumi config get sshPubKeyName) ubuntu@$(pulumi stack output publicIp) 'cd /home/ubuntu/anonklub/apis/prove && nohup /home/ubuntu/.volta/bin/node dist >> stdout.log 2>> stderr.log'"
+  },
+  "private": true
+}

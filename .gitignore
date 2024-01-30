@@ -29,6 +29,7 @@ circuits/circom/package-lock.json
 
 .privatekey
 
+apis/prove/public/proofs
 addresses.json
 *.zkey
 

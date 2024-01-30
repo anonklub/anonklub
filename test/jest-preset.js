@@ -3,7 +3,7 @@ const { join } = require('path')
 
 const projects = [
   ...['proof', 'query'].map((name) => `@anonklub/${name}`),
-  'query-api',
+  'apis/query',
 ].map((name) => join(__dirname, '..', name, 'test'))
 
 /**

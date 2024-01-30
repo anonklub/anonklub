@@ -3,10 +3,24 @@ on:
   workflow_dispatch:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths-ignore: ['**/Dockerfile', '**/public/**', '**/.*ignore', '**/*.toml']
+    paths-ignore:
+      [
+        '**/Dockerfile',
+        'apis/prove/generated/**',
+        '**/public/**',
+        '**/.*ignore',
+        '**/*.toml',
+      ]
   push:
     branches: [main, staging]
-    paths-ignore: ['**/Dockerfile', '**/public/**', '**/.*ignore', '**/*.toml']
+    paths-ignore:
+      [
+        '**/Dockerfile',
+        'apis/prove/generated/**',
+        '**/public/**',
+        '**/.*ignore',
+        '**/*.toml',
+      ]
 
 jobs:
   validate:
@@ -68,7 +82,8 @@ jobs:
           GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }}
           # just to allow next build to pass
           NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: foo
-          NEXT_PUBLIC_QUERY_API_URL: 'http://localhost:3000'
+          NEXT_PUBLIC_QUERY_API_URL: bar
+          NEXT_PUBLIC_PROVE_API_URL: baz
           NEXT_PUBLIC_VERIFIER_ADDRESS: '0x123'
           NEXT_PUBLIC_VERIFIER_CHAIN_ID: 123
         # force building @anonklub/proof package instead of hitting cache (as it is a dep of other local packages)

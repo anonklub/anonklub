@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+
+  "compilerOptions": {
+    "outDir": "bin",
+    "target": "es2016",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "pretty": true
+  },
+  "include": ["index.ts", "resources"]
+}
