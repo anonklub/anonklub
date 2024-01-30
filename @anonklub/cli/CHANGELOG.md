@@ -1,5 +1,12 @@
 # @anonklub/cli
 
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [1c5855a]
+  - @anonklub/proof@2.0.0
+
 ## 1.0.0
 
 ### Major Changes
