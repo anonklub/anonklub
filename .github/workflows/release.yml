@@ -53,7 +53,7 @@ jobs:
         run: pnpm compile.wasm
 
       - name: Install
-        run: pnpm i --ignore-scripts
+        run: pnpm i --ignore-scripts --no-frozen-lockfile
 
       - name: Release
         uses: changesets/action@v1
