@@ -7,5 +7,10 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@anonklub/merkle-tree", "@anonklub/spartan-ecdsa"]
+  "ignore": [
+    "@anonklub/merkle-tree-wasm",
+    "@anonklub/merkle-tree-worker",
+    "@anonklub/spartan",
+    "@anonklub/spartan-ecdsa-worker"
+  ]
 }
