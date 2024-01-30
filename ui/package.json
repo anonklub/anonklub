@@ -45,5 +45,6 @@
     "start": "next start",
     "typecheck": "tsc"
   },
-  "private": true
+  "private": true,
+  "version": null
 }
