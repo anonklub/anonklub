@@ -7,9 +7,8 @@ FROM base as deps
 
 COPY *.json *.yaml global.d.ts .npmrc ./
 COPY ui/package.json ./ui/
-COPY @anonklub/proof/package.json ./@anonklub/proof/
 
-RUN  npm i -g pnpm && pnpm i --filter @anonklub/ui...
+RUN  npm i -g pnpm && pnpm i --filter @anonklub/ui
 
 FROM deps as build
 
@@ -19,18 +18,14 @@ ARG NEXT_PUBLIC_VERIFIER_ADDRESS
 ARG NEXT_PUBLIC_VERIFIER_CHAIN_ID
 
 COPY ui/ ./ui
-COPY @anonklub/proof/ ./@anonklub/proof
 
-RUN pnpm --filter @anonklub/ui... build  &&\
-    rm -rf {./,@anonklub/proof,ui}/node_modules &&\
-    pnpm --filter @anonklub/ui... i --prod
+RUN pnpm --filter @anonklub/ui build  &&\
+    rm -rf {./,ui}/node_modules &&\
+    pnpm --filter @anonklub/ui i --prod
 
 FROM base as deploy
 
 COPY --from=build /app/node_modules ./node_modules
-
-COPY --from=build /app/@anonklub/proof/node_modules ./@anonklub/proof/node_modules
-COPY --from=build /app/@anonklub/proof/dist ./@anonklub/proof/dist
 
 COPY --from=build /app/ui/node_modules ./ui/node_modules
 COPY --from=build /app/ui/.next ./ui/.next
