@@ -1,14 +1,9 @@
 {
   "name": "@anonklub/merkle-tree",
-  "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "check-wasm-pack": "command -v wasm-pack >/dev/null 2>&1 || echo \"wasm-pack is not installed\"\n",
     "compile": "pnpm run check-wasm-pack && wasm-pack build . --target bundler --out-dir wasm-pkg --out-name index --scope anonklub"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "private": true
 }

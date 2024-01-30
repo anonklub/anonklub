@@ -1,6 +1,5 @@
 {
   "name": "@anonklub/contracts",
-  "version": "1.0.0",
   "scripts": {
     "build": "forge build",
     "deploy.sepolia": "forge create --root .. --rpc-url $SEPOLIA_RPC_URL --private-key $DEPLOYER_PRIVATEKEY --etherscan-api-key $ETHERSCAN_API_KEY --verify contracts/src/AnonMinter.sol:AnonMinter --constructor-args $MERKLE_ROOT",

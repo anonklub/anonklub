@@ -1,7 +1,6 @@
 packages:
   - '@anonklub/*'
-  - circuits/*
-  - circuits/spartan/*
+  - circuits/**
   - contracts
   - discord-bot
   - test
