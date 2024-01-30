@@ -6,8 +6,8 @@
     "net": false
   },
   "dependencies": {
-    "@anonklub/merkle-tree-worker": "workspace:^",
-    "@anonklub/spartan-ecdsa-worker": "workspace:^",
+    "@anonklub/merkle-tree-worker": "1.0.0",
+    "@anonklub/spartan-ecdsa-worker": "1.0.0",
     "@anonklub/proof": "2.0.0",
     "@heroicons/react": "^2.0.18",
     "@web3modal/ethereum": "2.4.1",
