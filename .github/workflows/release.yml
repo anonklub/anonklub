@@ -22,6 +22,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
@@ -46,8 +49,11 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-store-
 
+      - name: Build Rust wasm deps
+        run: pnpm compile.wasm
+
       - name: Install
-        run: pnpm --filter="./@anonklub/**" i --ignore-scripts
+        run: pnpm i --ignore-scripts
 
       - name: Release
         uses: changesets/action@v1

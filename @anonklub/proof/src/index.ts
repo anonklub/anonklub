@@ -1,4 +1,3 @@
-export * from './CircuitInput'
 export { ExcludableMerkleTree } from './ExcludableMerkleTree'
 export {
   bigintToArray,
@@ -9,4 +8,4 @@ export {
 } from './helpers'
 export { MerkleTree } from './MerkleTree'
 export * from './poseidon'
-export * from './ProofRequest'
+export { default as ProofRequest } from './ProofRequest'
