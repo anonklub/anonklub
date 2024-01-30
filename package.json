@@ -69,12 +69,13 @@
   "workspaces": [
     "@anonklub/*",
     "contracts",
-    "circuits/*",
+    "circuits/**",
     "discord-bot",
     "merkle-tree-wasm",
     "merkle-tree-wasm/wasm-pkg",
     "query-api",
     "test",
-    "ui"
+    "ui",
+    "workers/*"
   ]
 }
