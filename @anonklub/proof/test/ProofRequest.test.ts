@@ -5,7 +5,6 @@ describe('ProofRequest', () => {
   let proofRequest: ProofRequest
   beforeEach(() => {
     // FIXME
-    /* @ts-expect-error */
     proofRequest = new ProofRequest({
       addresses,
       merkleProof,
