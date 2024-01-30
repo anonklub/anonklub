@@ -1,13 +1,12 @@
 packages:
   - '@anonklub/*'
-  - apis/**
   - circuits/*
   - circuits/spartan/*
   - contracts
   - discord-bot
-  - infra
   - test
   - ui
   - merkle-tree-wasm
   - merkle-tree-wasm/wasm-pkg
+  - query-api
   - workers/*

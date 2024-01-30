@@ -1,8 +1,0 @@
-dist
-test
-node_modules
-.*
-*.toml
-README.md
-
-
