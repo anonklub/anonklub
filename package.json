@@ -34,7 +34,7 @@
     "typescript": "^5.0.4"
   },
   "scripts": {
-    "pnpm:devPreinstall": "pnpm compile.wasm",
+    "pnpm:devPreinstall": "bash -c '[[ ! -f merkle-tree-wasm/wasm-pkg/package.json && ! -f circuits/spartan/wasm-pkg/package.json ]]' && pnpm compile.wasm || return 0",
     "compile.wasm": "pnpm --filter @anonklub/merkle-tree compile && pnpm --filter @anonklub/spartan-ecdsa compile",
     "compile": "turbo run compile",
     "build": "pnpm run compile && turbo run build",
