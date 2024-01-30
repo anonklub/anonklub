@@ -5,12 +5,11 @@ parserOptions:
       '@anonklub/proof/tsconfig.json',
       '@anonklub/cli/tsconfig.json',
       '@anonklub/query/tsconfig.json',
-      'apis/prove/tsconfig.json',
-      'apis/query/tsconfig.json',
       'circuits/circom/tsconfig.json',
       'discord-bot/tsconfig.json',
       'infra/tsconfig.json',
       'test/tsconfig.json',
+      'query-api/tsconfig.json',
       'ui/tsconfig.json',
       'tsconfig.json',
       'workers/merkle-tree-worker/tsconfig.json',
@@ -24,7 +23,7 @@ overrides:
   - files: ['*.ts', '*.tsx']
     rules:
       '@typescript-eslint/await-thenable': error
-  - files: ['apis/query/test/unit/DuneRepository.test.ts']
+  - files: ['query-api/test/unit/DuneRepository.test.ts']
     rules:
       '@typescript-eslint/no-dynamic-delete': off
   - files: ['*.ts']
@@ -36,14 +35,9 @@ overrides:
   - files: ['@anonklub/proof/test/ProofRequest.test.ts']
     rules:
       '@typescript-eslint/dot-notation': off
-  - files: ['apis/prove/src/mq/queue.ts']
-    rules:
-      '@typescript-eslint/strict-boolean-expressions': off
   - files:
       [
         '@anonklub/cli/src/cli/index.ts',
-        'apis/prove/src/mq/processor.ts',
-        'apis/prove/src/mq/worker.ts',
         'infra/resources/config.ts',
         '@anonklub/proof/src/ProofRequest/index.ts',
         '@anonklub/proof/test/ProofRequest.test.ts',
@@ -52,24 +46,11 @@ overrides:
       '@typescript-eslint/restrict-template-expressions': off
   - files:
       [
-        'apis/query/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts',
-        'apis/query/src/api/repositories/DuneRepository.ts',
-        'apis/query-nest/src/app/anonset/dto/get-eth-balance-anonset.dto.ts',
+        'query-api/src/api/controllers/requests/getEthBalanceAnonSetQuery.ts',
+        'query-api/src/api/repositories/DuneRepository.ts',
       ]
     rules:
       '@typescript-eslint/no-inferrable-types': off
-  - files: ['apis/prove/generated/*.js']
-    rules:
-      eqeqeq: off
-  - files: ['apis/prove/generated/witness_calculator.js']
-    env:
-      browser: true
-    rules:
-      prefer-const: off
-      camelcase: off
-  - files: ['apis/prove/generated/generate_witness.js']
-    rules:
-      '@typescript-eslint/no-var-requires': off
   - files: ['*.tsx']
     rules:
       '@typescript-eslint/no-misused-promises':
@@ -79,29 +60,27 @@ overrides:
       '@typescript-eslint/no-misused-promises': off
   - files:
       [
-        'apis/*/src/index.ts',
-        'apis/prove/generated/*.js',
-        'apis/prove/src/mq/*.ts',
         'circuits/circom/scripts/*.ts',
         '@anonklub/cli/src/index.ts',
         '@anonklub/cli/src/Cli/index.ts',
+        'query- api/src/index.ts',
         'ui/src/lib/config.ts',
       ]
     rules:
       no-console: off
-  - files: ['apis/query/src/decorators/Logger.ts']
+  - files: ['query-api/src/decorators/Logger.ts']
     rules:
       '@typescript-eslint/no-explicit-any': 'off'
   - files:
       [
-        'apis/query/test/unit/QueryService.test.ts',
-        'apis/query/src/decorators/Logger.ts',
+        'query-api/test/unit/QueryService.test.ts',
+        'query-api/src/decorators/Logger.ts',
       ]
     rules:
       '@typescript-eslint/ban-ts-comment': 'off'
   - files:
       [
-        'apis/query/test/unit/*Controller.test.ts',
+        'query-api/test/unit/*Controller.test.ts',
         'circuits/circom/test/circuit.test.ts',
       ]
     rules:

@@ -1,6 +1,5 @@
 packages:
   - '@anonklub/*'
-  - apis/**
   - circuits/*
   - circuits/spartan/*
   - contracts
@@ -10,4 +9,5 @@ packages:
   - ui
   - merkle-tree-wasm
   - merkle-tree-wasm/wasm-pkg
+  - query-api
   - workers/*
