@@ -2,7 +2,7 @@ const tsJestPreset = require('ts-jest/jest-preset')
 const { join } = require('path')
 
 const projects = [
-  ...['proof', 'query'].map((name) => `@anonklub/${name}`),
+  ...['proof', 'query'].map((name) => `pkgs/${name}`),
   'query-api',
 ].map((name) => join(__dirname, '..', name, 'test'))
 

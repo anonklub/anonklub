@@ -31,24 +31,22 @@
     "tsconfig-paths": "^4.2.0",
     "ttab": "^0.8.0",
     "turbo": "^1.10.16",
-    "typescript": "^5.0.4"
+    "typescript": "5.1.6"
   },
   "scripts": {
-    "pnpm:devPreinstall": "bash -c '[[ ! -f merkle-tree-wasm/wasm-pkg/package.json && ! -f circuits/spartan/wasm-pkg/package.json ]]' && pnpm compile.wasm || return 0",
-    "compile.wasm": "pnpm --filter @anonklub/merkle-tree compile && pnpm --filter @anonklub/spartan-ecdsa compile",
+    "pnpm:devPreinstall": "bash -c '[[ ! -f pkgs/merkle-tree-wasm/dist/package.json && ! -f pkgs/spartan-ecdsa-wasm/dist/package.json ]]' && pnpm compile.wasm || return 0",
+    "compile.wasm": "pnpm --filter merkle-tree-wasm compile && pnpm --filter spartan-ecdsa-wasm compile",
     "compile": "turbo run compile",
     "build": "pnpm run compile && turbo run build",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
     "build.docker.query": "docker build -f query-api/Dockerfile . -t query-api",
     "build.docker.ui": "docker build -f ui/Dockerfile . -t anonklub-ui",
     "compile-wasm": "pnpm run compile-merkle-wasm && pnpm run compile-spartan-wasm",
-    "compile-merkle-wasm": "pnpm --filter @anonklub/merkle-tree compile",
-    "compile-spartan-wasm": "pnpm --filter @anonklub/spartan-ecdsa compile",
+    "compile-merkle-wasm": "pnpm --filter pkgs/merkle-tree compile",
+    "compile-spartan-wasm": "pnpm --filter pkgs/spartan-ecdsa compile",
     "barrels": "barrelsby --config .barrelsby.json",
-    "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
+    "clean": "find . \\( -name 'node_modules' -o -name 'dist' -o -name 'next' \\) -type d -prune -exec rm -rf '{}' +",
     "start.query-api": "pnpm --filter query-api start.dev",
-    "pre.demo": "ttab -w 'pnpm run start.prove-api'",
-    "demo": "pnpm run pre.demo && sleep 5 && pnpm run --filter @anonklub/demo start",
     "fix": "turbo _format.fix _lint.fix",
     "_format": "prettier -c .",
     "format": "turbo run _format",
@@ -59,7 +57,7 @@
     "lint": "turbo run _lint",
     "_lint.fix": "eslint . --ext .js,.ts,.tsx --fix",
     "lint.fix": "turbo run _lint.fix",
-    "publish-packages": "turbo  --filter='./@anonklub/*' build && changeset version && changeset publish",
+    "publish-packages": "turbo  --filter='./pkgs/*' build && changeset version && changeset publish",
     "test.watch": "jest --watch",
     "_test": "jest",
     "test": "turbo run _test",
@@ -67,15 +65,12 @@
     "validate": "turbo run _format _lint build --cache-dir=.turbo"
   },
   "workspaces": [
-    "@anonklub/*",
     "contracts",
-    "circuits/**",
+    "circom",
     "discord-bot",
-    "merkle-tree-wasm",
-    "merkle-tree-wasm/wasm-pkg",
+    "pkgs/*",
     "query-api",
     "test",
-    "ui",
-    "workers/*"
+    "ui"
   ]
 }

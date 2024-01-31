@@ -1,5 +1,5 @@
 [package]
-name = "spartan"
+name = "spartan-ecdsa-wasm"
 version = "1.0.0"
 edition = "2021"
 
@@ -20,4 +20,4 @@ sapir = { git = "https://github.com/personaelabs/sapir.git", features = [
 ], branch = "main" }
 wasm-bindgen = "0.2.89"
 web-sys = "0.3.66"
-merkle-tree-wasm = { path = "../../merkle-tree-wasm" }
+merkle-tree-wasm = { path = "../merkle-tree-wasm" }

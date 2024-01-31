@@ -20,3 +20,9 @@ next-env.d.ts
 next.config.js
 
 public
+
+.turbo
+cache
+queries
+target
+

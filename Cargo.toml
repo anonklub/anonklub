@@ -3,8 +3,8 @@
 resolver = "2"
 
 members = [
-    "merkle-tree-wasm",
-    "circuits/spartan"
+    "pkgs/merkle-tree-wasm",
+    "pkgs/spartan-ecdsa-wasm"
 ]
 
 [profile.release]

@@ -1,8 +1,8 @@
 {
   "directory": [
-    "@anonklub/query/src/requests",
     "discord-bot/src/lib",
     "discord-bot/src/lib/decorators",
+    "pkgs/query/src/requests",
     "query-api/src/api/controllers/requests",
     "query-api/src/api/services",
     "query-api/src/api/repositories",

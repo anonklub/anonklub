@@ -7,7 +7,7 @@
     "strictPropertyInitialization": false,
     "lib": ["webWorker", "DOM"],
     "paths": {
-      "@anonklub/merkle-tree-wasm": ["../../merkle_tree_wasm/wasm-pkg"]
+      "@anonklub/merkle-tree-wasm": ["../merkle_tree_wasm/dist"]
     }
   },
   "include": ["src"]

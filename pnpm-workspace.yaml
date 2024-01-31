@@ -1,11 +1,8 @@
 packages:
-  - '@anonklub/*'
-  - circuits/**
+  - circom
   - contracts
   - discord-bot
+  - 'pkgs/*'
   - test
   - ui
-  - merkle-tree-wasm
-  - merkle-tree-wasm/wasm-pkg
   - query-api
-  - workers/*
