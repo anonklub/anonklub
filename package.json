@@ -31,7 +31,7 @@
     "tsconfig-paths": "^4.2.0",
     "ttab": "^0.8.0",
     "turbo": "^1.10.16",
-    "typescript": "^5.0.4"
+    "typescript": "5.1.6"
   },
   "scripts": {
     "pnpm:devPreinstall": "bash -c '[[ ! -f pkgs/merkle-tree-wasm/dist/package.json && ! -f pkgs/spartan-ecdsa-wasm/dist/package.json ]]' && pnpm compile.wasm || return 0",
