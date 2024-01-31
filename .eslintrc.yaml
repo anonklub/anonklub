@@ -2,15 +2,15 @@ extends: ['@sripwoud/eslint-config-with-jest']
 parserOptions:
   project:
     [
+      'circom/tsconfig.json',
+      'discord-bot/tsconfig.json',
       'pkgs/cli/tsconfig.json',
       'pkgs/merkle-tree-worker/tsconfig.json',
       'pkgs/proof/tsconfig.json',
       'pkgs/query/tsconfig.json',
       'pkgs/spartan-ecdsa-worker/tsconfig.json',
-      'circom/tsconfig.json',
-      'discord-bot/tsconfig.json',
-      'test/tsconfig.json',
       'query-api/tsconfig.json',
+      'test/tsconfig.json',
       'ui/tsconfig.json',
       'tsconfig.json',
     ]
