@@ -2,17 +2,17 @@ extends: ['@sripwoud/eslint-config-with-jest']
 parserOptions:
   project:
     [
-      '@anonklub/proof/tsconfig.json',
-      '@anonklub/cli/tsconfig.json',
-      '@anonklub/query/tsconfig.json',
-      'circuits/circom/tsconfig.json',
+      'pkgs/cli/tsconfig.json',
+      'pkgs/merkle-tree-worker/tsconfig.json',
+      'pkgs/proof/tsconfig.json',
+      'pkgs/query/tsconfig.json',
+      'pkgs/spartan-ecdsa-worker/tsconfig.json',
+      'circom/tsconfig.json',
       'discord-bot/tsconfig.json',
       'test/tsconfig.json',
       'query-api/tsconfig.json',
       'ui/tsconfig.json',
       'tsconfig.json',
-      'workers/merkle-tree-worker/tsconfig.json',
-      'workers/spartan-ecdsa-worker/tsconfig.json',
     ]
 
 rules:
@@ -31,14 +31,14 @@ overrides:
   - files: ['test/jest-preset.js']
     rules:
       '@typescript-eslint/no-var-requires': off
-  - files: ['@anonklub/proof/test/ProofRequest.test.ts']
+  - files: ['pkgs/proof/test/ProofRequest.test.ts']
     rules:
       '@typescript-eslint/dot-notation': off
   - files:
       [
-        '@anonklub/cli/src/cli/index.ts',
-        '@anonklub/proof/src/ProofRequest/index.ts',
-        '@anonklub/proof/test/ProofRequest.test.ts',
+        'pkgs/cli/src/cli/index.ts',
+        'pkgs/proof/src/ProofRequest/index.ts',
+        'pkgs/proof/test/ProofRequest.test.ts',
       ]
     rules:
       '@typescript-eslint/restrict-template-expressions': off
@@ -55,9 +55,9 @@ overrides:
         [error, { checksVoidReturn: { attributes: false } }]
   - files:
       [
-        'circuits/circom/scripts/*.ts',
-        '@anonklub/cli/src/index.ts',
-        '@anonklub/cli/src/Cli/index.ts',
+        'pkgs/cli/src/index.ts',
+        'pkgs/cli/src/Cli/index.ts',
+        'circom/scripts/*.ts',
         'query- api/src/index.ts',
         'ui/src/lib/config.ts',
       ]
@@ -74,15 +74,9 @@ overrides:
     rules:
       '@typescript-eslint/ban-ts-comment': 'off'
   - files:
-      [
-        'query-api/test/unit/*Controller.test.ts',
-        'circuits/circom/test/circuit.test.ts',
-      ]
+      ['circom/test/circuit.test.ts', 'query-api/test/unit/*Controller.test.ts']
     rules:
       jest/expect-expect: 'off'
-  - files: ['shared/src/index.ts']
-    rules:
-      'sort/exports': 'off'
-  - files: ['@anonklub/cli/src/Prompt/index.ts']
+  - files: ['pkgs/cli/src/Prompt/index.ts']
     rules:
       '@typescript-eslint/naming-convention': off

@@ -2,7 +2,7 @@ import type { KnipConfig } from 'knip'
 
 const config: KnipConfig = {
   ignore: [
-    'circuits/circom/generated/**',
+    'circom/generated/**',
     'contracts/lib/openzeppelin-contracts/**',
     'discord-bot/src/lib/logger.ts',
     'query-api/src/api/controllers/AnonymitySet.ts',

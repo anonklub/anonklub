@@ -5,7 +5,7 @@ on:
     branches: ['main']
     paths:
       [
-        '@anonklub/**',
+        'pkgs/**',
         'circuits/spartan/**',
         'merkle-tree-wasm/**',
         '!**/*.md',

@@ -1904,7 +1904,7 @@ dependencies = [
 
 [[package]]
 name = "merkle-tree-wasm"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "ark-ff",
  "ark-secp256k1",
@@ -3028,8 +3028,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "spartan"
-version = "0.1.0"
+name = "spartan-ecdsa-wasm"
+version = "1.0.0"
 dependencies = [
  "ark-ec",
  "ark-ff",

@@ -7,7 +7,7 @@ on:
     branches: [main, staging]
     paths:
       [
-        '@anonklub/**/*.{json,ts}',
+        'pkgs/**/*.{json,ts}',
         'contracts/**/*.sol',
         'query-api/**/*.{js,json,ts,graphql}',
         'test/**/*.{js,ts}',
@@ -18,7 +18,7 @@ on:
     branches: [main, staging]
     paths:
       [
-        '@anonklub/**/*.{json,ts}',
+        'pkgs/**/*.{json,ts}',
         'contracts/**/*.sol',
         'test/**/*.{js,ts}',
         'query-api/**/*.{js,json,ts,graphql}',
@@ -70,7 +70,7 @@ jobs:
         run: pnpm compile.wasm
 
       - name: Install node deps
-        run: pnpm --filter=!@anonklub/infra i --ignore-scripts
+        run: pnpm i --ignore-scripts
 
       - name: Run tests
         env:
