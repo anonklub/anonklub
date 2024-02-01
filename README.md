@@ -24,14 +24,14 @@
 <a href="https://www.npmjs.com/package/@anonklub/query">
 <img alt="@anonklub/query npm badge" src="https://img.shields.io/npm/v/%40anonklub/query?logo=npm&label=%40anonklub%2Fquery">
 </a>
-<a href="https://www.npmjs.com/package/@anonklub/spartan">
-<img alt="@anonklub/spartan npm badge" src="https://img.shields.io/npm/v/%40anonklub/spartan?logo=npm&label=%40anonklub%2Fspartan">
-</a>
 <a href="https://www.npmjs.com/package/@anonklub/merkle-tree-wasm">
 <img alt="@anonklub/merkle-tree-wasm npm badge" src="https://img.shields.io/npm/v/%40anonklub/merkle-tree-wasm?logo=npm&label=%40anonklub%2Fmerkle-tree-wasm">
 </a>
 <a href="https://www.npmjs.com/package/@anonklub/merkle-tree-worker">
 <img alt="@anonklub/merkle-tree-worker npm badge" src="https://img.shields.io/npm/v/%40anonklub/merkle-tree-worker?logo=npm&label=%40anonklub%2Fmerkle-tree-worker">
+</a>
+<a href="https://www.npmjs.com/package/@anonklub/spartan-ecdsa-wasm">
+<img alt="@anonklub/spartan-ecdsa-wasm npm badge" src="https://img.shields.io/npm/v/%40anonklub/spartan-ecdsa-wasm?logo=npm&label=%40anonklub%2Fspartan-ecdsa-wasm">
 </a>
 <a href="https://www.npmjs.com/package/@anonklub/spartan-ecdsa-worker">
 <img alt="@anonklub/spartan-ecdsa-worker npm badge" src="https://img.shields.io/npm/v/%40anonklub/spartan-ecdsa-worker?logo=npm&label=%40anonklub%2Fspartan-ecdsa-worker">
