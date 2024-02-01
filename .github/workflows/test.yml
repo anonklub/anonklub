@@ -67,7 +67,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pnpm-store-
 
       - name: Install node deps
-        run: pnpm i --ignore-scripts
+        run: pnpm i --ignore-scripts --no-frozen-lockfile
 
       - name: Run tests
         env:

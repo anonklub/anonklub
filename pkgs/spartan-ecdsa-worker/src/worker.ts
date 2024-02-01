@@ -9,7 +9,7 @@ let initialized = false
 export const spartanEcdsaWorker: ISpartanEcdsaWorker = {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async prepare() {
-    spartanEcdsaWasm = await import('@anonklub/spartan')
+    spartanEcdsaWasm = await import('@anonklub/spartan-ecdsa-wasm')
     spartanEcdsaWasm.init_panic_hook()
 
     if (!initialized) {
