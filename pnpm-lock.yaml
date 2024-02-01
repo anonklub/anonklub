@@ -97,8 +97,8 @@ importers:
   circom:
     devDependencies:
       '@anonklub/proof':
-        specifier: 2.1.0
-        version: 2.1.0
+        specifier: 2.1.1
+        version: 2.1.1
       '@noble/secp256k1':
         specifier: ^1.7.0
         version: 1.7.1
@@ -194,11 +194,11 @@ importers:
   pkgs/cli:
     dependencies:
       '@anonklub/proof':
-        specifier: 2.1.0
-        version: 2.1.0
+        specifier: 2.1.1
+        version: 2.1.1
       '@anonklub/query':
-        specifier: 1.2.0
-        version: 1.2.0
+        specifier: 1.2.1
+        version: 1.2.1
       '@noble/secp256k1':
         specifier: ^1.7.0
         version: 1.7.1
@@ -236,8 +236,8 @@ importers:
   pkgs/merkle-tree-worker:
     dependencies:
       '@anonklub/merkle-tree-wasm':
-        specifier: 1.1.0
-        version: 1.1.0
+        specifier: ~1.1.1
+        version: 1.1.1
       comlink:
         specifier: ^4.4.1
         version: 4.4.1
@@ -281,9 +281,9 @@ importers:
 
   pkgs/spartan-ecdsa-worker:
     dependencies:
-      '@anonklub/spartan':
-        specifier: 1.0.0
-        version: 1.0.0
+      '@anonklub/spartan-ecdsa-wasm':
+        specifier: ~1.0.1
+        version: 1.0.1
       comlink:
         specifier: ^4.4.1
         version: 4.4.1
@@ -414,13 +414,13 @@ importers:
   ui:
     dependencies:
       '@anonklub/merkle-tree-worker':
-        specifier: 1.1.0
-        version: 1.1.0
+        specifier: ^1.1.1
+        version: 1.1.1
       '@anonklub/proof':
-        specifier: 2.1.0
-        version: 2.1.0
+        specifier: 2.1.1
+        version: 2.1.1
       '@anonklub/spartan-ecdsa-worker':
-        specifier: 1.1.0
+        specifier: ^1.1.0
         version: 1.1.0(typescript@5.2.2)(zod@3.22.4)
       '@heroicons/react':
         specifier: ^2.0.18
@@ -565,19 +565,19 @@ packages:
       - chokidar
     dev: true
 
-  /@anonklub/merkle-tree-wasm@1.1.0:
-    resolution: {integrity: sha512-sYIT3CAm5jTLe3IS3BDXtvYYv72BEC47fZ6ddiMq9j9yveKs9AfbjNoJSDxlAt3EHLJ5gNegjkqRcNQWD7YLhw==}
+  /@anonklub/merkle-tree-wasm@1.1.1:
+    resolution: {integrity: sha512-c6B0dVlDVY8t1f4BpIYpylqAzNpE9+Ox5wNHKJg4UBbU8Enf94CS3w2Lpqhn2mDwW55RIC5NXjexeuGYVURqsw==}
     dev: false
 
-  /@anonklub/merkle-tree-worker@1.1.0:
-    resolution: {integrity: sha512-wXMxkiP+L6FYuoIBCK7EUX5hYok6bboPWlfiKtrLz/cUZOOwPIIhvVYWsUL4+jDv4w4FFmjpDwBKfhcWJs4/pg==}
+  /@anonklub/merkle-tree-worker@1.1.1:
+    resolution: {integrity: sha512-dQ5PsN5HQwNrw9m7y3jKCvZoIUyNA+Bu95pqawO2MIYxHE4Pzugev6WptoLsUKsolbyZ5pYNLwuZYIT2emYwJA==}
     dependencies:
-      '@anonklub/merkle-tree-wasm': 1.1.0
+      '@anonklub/merkle-tree-wasm': 1.1.1
       comlink: 4.4.1
     dev: false
 
-  /@anonklub/proof@2.1.0:
-    resolution: {integrity: sha512-k2Dgu7uW8C7gQEo/fSMUdjVkNdfzk21qil/LWoqHGLf8lvKaV9mzB+zNd3UOTJwt7rClKZIQPbbZQsdVS+vlJw==}
+  /@anonklub/proof@2.1.1:
+    resolution: {integrity: sha512-AlXf9Yw4iR4SQoWN+ZS2qkn+fvYUxBZiN2Gf7g5HZQsLCvu7Xgnh4ubh1vngWjcXOt6ppyfTx2/AdJtJgrq9Jw==}
     dependencies:
       '@noble/secp256k1': 1.7.1
       circomlibjs: 0.1.7
@@ -587,10 +587,20 @@ packages:
       - bufferutil
       - utf-8-validate
 
-  /@anonklub/query@1.2.0:
-    resolution: {integrity: sha512-WC8qZnPDviTtkPHREsQHmK3miXd1VkXJsqn4Pt783CGvwDXL70A/F7Ep2aoZl3xII2JtJfGyZ+k+JLWei/bT+A==}
+  /@anonklub/query@1.2.1:
+    resolution: {integrity: sha512-uEtS47feY/6j3xIgV2ej1OsNaKBjJKnqY7M/B8hiwWPCr27bTrOPJGJAyySPXfi41o++4fppq6ilqkOB/GWZ8Q==}
     dependencies:
       class-validator: 0.14.1
+    dev: false
+
+  /@anonklub/spartan-ecdsa-wasm@1.0.1:
+    resolution: {integrity: sha512-8yZqAkAUUywjU7QR/JzncEM3pFl0Qcen8ftC+H0DGM22vCwQI8FhGFu825cd3IziaFJPRGizpDoFqI5AF/VYag==}
+    dependencies:
+      pako: 2.1.0
+      spartan-ecdsa-circuits: 1.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
     dev: false
 
   /@anonklub/spartan-ecdsa-worker@1.1.0(typescript@5.2.2)(zod@3.22.4):
