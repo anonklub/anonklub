@@ -27,7 +27,7 @@ export function CustomButton() {
   return (
     <button
       type='button'
-      className='nes-btn is-primary'
+      className='nes-btn bg-blue text-grey'
       onClick={onClick}
       disabled={loading}
     >

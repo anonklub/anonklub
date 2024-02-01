@@ -9,7 +9,7 @@ export function Balloon({
 }) {
   return (
     <div className='flex flex-row justify-between'>
-      <div className='nes-balloon from-left'>
+      <div className='nes-balloon from-left bg-red'>
         <p className='mb-2'>{question}</p>
       </div>
       {help !== undefined && <HelpModal content={help} />}

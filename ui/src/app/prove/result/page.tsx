@@ -39,14 +39,14 @@ export default function Page() {
     <div className='justify center flex flex-col space-y-10'>
       <h2 className='self-start'>Proof Results</h2>
       <div>
-        <div className='nes-text is-success flex flex-col'>
+        <div className='nes-text flex flex-col text-red'>
           {ellipsify(fullProof.toString(), 100)}
         </div>
         {copySuccess}
-        <button onClick={copyToClipboard} className='nes-btn is-primary'>
+        <button onClick={copyToClipboard} className='nes-btn bg-grey text-red'>
           Copy to Clipboard
         </button>
-        <button onClick={downloadTextFile} className='nes-btn is-primary'>
+        <button onClick={downloadTextFile} className='nes-btn bg-grey text-red'>
           Download as Text File
         </button>
       </div>

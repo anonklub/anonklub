@@ -1,11 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('public/technor.css');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: 'Press Start 2P', cursive;
+  background-image: url('./anonklub-banner.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: 'Technor-Variable', cursive;
   overflow-x: hidden;
   overflow-y: hidden;
 }

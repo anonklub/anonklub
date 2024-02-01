@@ -50,7 +50,7 @@ export function JsonFileInput({
           />
           <button
             type='button'
-            className='nes-btn is-warning self-center'
+            className='nes-btn self-center bg-grey text-red'
             onClick={onClick}
           >
             <div className='flex flex-row items-center'>

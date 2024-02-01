@@ -1,0 +1,119 @@
+/**
+ * @license
+ *
+ * Font Family: Technor
+ * Designed by: Jean-Baptiste Morizot
+ * URL: https://www.fontshare.com/fonts/technor
+ * © 2023 Indian Type Foundry
+ *
+ * Font Styles:
+ * Technor Variable(Variable font)
+ * Technor Extralight
+ * Technor Light
+ * Technor Regular
+ * Technor Medium
+ * Technor Semibold
+ * Technor Bold
+ * Technor Black
+ *
+*/
+
+
+/**
+* This is a variable font
+* You can controll variable axes as shown below:
+* font-variation-settings: 'wght' 900.0;
+*
+* available axes:
+
+* 'wght' (range from 200.0 to 900.0)
+
+*/
+
+@font-face {
+  font-family: 'Technor-Variable';
+  src: url('fonts/Technor-Variable.woff2') format('woff2'),
+       url('fonts/Technor-Variable.woff') format('woff'),
+       url('fonts/Technor-Variable.ttf') format('truetype');
+       font-weight: 200 900;
+       font-display: swap;
+       font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Technor-Extralight';
+  src: url('fonts/Technor-Extralight.woff2') format('woff2'),
+       url('fonts/Technor-Extralight.woff') format('woff'),
+       url('fonts/Technor-Extralight.ttf') format('truetype');
+       font-weight: 200;
+       font-display: swap;
+       font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Technor-Light';
+  src: url('fonts/Technor-Light.woff2') format('woff2'),
+       url('fonts/Technor-Light.woff') format('woff'),
+       url('fonts/Technor-Light.ttf') format('truetype');
+       font-weight: 300;
+       font-display: swap;
+       font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Technor-Regular';
+  src: url('fonts/Technor-Regular.woff2') format('woff2'),
+       url('fonts/Technor-Regular.woff') format('woff'),
+       url('fonts/Technor-Regular.ttf') format('truetype');
+       font-weight: 400;
+       font-display: swap;
+       font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Technor-Medium';
+  src: url('fonts/Technor-Medium.woff2') format('woff2'),
+       url('fonts/Technor-Medium.woff') format('woff'),
+       url('fonts/Technor-Medium.ttf') format('truetype');
+       font-weight: 500;
+       font-display: swap;
+       font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Technor-Semibold';
+  src: url('fonts/Technor-Semibold.woff2') format('woff2'),
+       url('fonts/Technor-Semibold.woff') format('woff'),
+       url('fonts/Technor-Semibold.ttf') format('truetype');
+       font-weight: 600;
+       font-display: swap;
+       font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Technor-Bold';
+  src: url('fonts/Technor-Bold.woff2') format('woff2'),
+       url('fonts/Technor-Bold.woff') format('woff'),
+       url('fonts/Technor-Bold.ttf') format('truetype');
+       font-weight: 700;
+       font-display: swap;
+       font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Technor-Black';
+  src: url('fonts/Technor-Black.woff2') format('woff2'),
+       url('fonts/Technor-Black.woff') format('woff'),
+       url('fonts/Technor-Black.ttf') format('truetype');
+       font-weight: 900;
+       font-display: swap;
+       font-style: normal;
+}
+

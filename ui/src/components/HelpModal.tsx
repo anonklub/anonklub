@@ -9,7 +9,7 @@ export const HelpModal = ({ content }: { content: string[] }) => {
 
   return (
     <div>
-      <button type='button' className='nes-btn is-warning' onClick={open}>
+      <button type='button' className='nes-btn bg-grey text-red' onClick={open}>
         ?
       </button>
       <Modal ref={ref}>

@@ -6,7 +6,7 @@ export function Header() {
     <div className='mb-7 flex flex-row justify-between'>
       <Link href='/' legacyBehavior>
         <a href='#' className='nes-badge'>
-          <span className='is-primary text-lg'>AnonKlub</span>
+          <span className='bg-blue p-2.5 text-lg text-grey'>AnonKlub</span>
         </a>
       </Link>
       <CustomButton />
