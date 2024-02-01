@@ -1,5 +1,14 @@
 # @anonklub/cli
 
+## 1.1.2
+
+### Patch Changes
+
+- ec158e0: Fix `files` entry of `package.json`
+- Updated dependencies [ec158e0]
+  - @anonklub/proof@2.1.1
+  - @anonklub/query@1.2.1
+
 ## 1.1.1
 
 ### Patch Changes

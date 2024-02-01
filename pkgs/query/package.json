@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/query",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "sripwoud <me@sripwoud.xyz>",
   "description": "Query Anonymity sets of Ethereum addresses",
   "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/query",

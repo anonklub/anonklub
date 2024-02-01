@@ -1,5 +1,11 @@
 # @anonklub/query
 
+## 1.2.1
+
+### Patch Changes
+
+- ec158e0: Fix `files` entry of `package.json`
+
 ## 1.2.0
 
 ### Minor Changes

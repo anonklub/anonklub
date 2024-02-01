@@ -1,5 +1,12 @@
 # @anonklub/merkle-tree-worker
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [ec158e0]
+  - @anonklub/merkle-tree-wasm@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes
