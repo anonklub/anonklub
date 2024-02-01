@@ -3,7 +3,7 @@ import type {
   prepare,
   prove_membership,
   verify_membership,
-} from '@anonklub/spartan'
+} from '@anonklub/spartan-ecdsa-wasm'
 import { Hex } from 'viem'
 
 export interface MerkleProof {
