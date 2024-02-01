@@ -32,7 +32,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@anonklub/spartan-ecdsa-wasm": "~1.0.2",
+    "@anonklub/spartan-ecdsa-wasm": "~1.0.1",
     "comlink": "^4.4.1",
     "viem": "^2.0.10"
   }

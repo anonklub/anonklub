@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "comlink": "^4.4.1",
-    "@anonklub/merkle-tree-wasm": "~1.1.2"
+    "@anonklub/merkle-tree-wasm": "~1.1.1"
   }
 }
