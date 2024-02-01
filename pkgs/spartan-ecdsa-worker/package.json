@@ -5,8 +5,10 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "pnpm run clean && tsc --project tsconfig.compile.json",
-    "clean": "rm -rf dist"
+    "build": "pnpm clean && tsc --project tsconfig.compile.json",
+    "clean": "rm -rf dist",
+    "prepack": "pnpm build",
+    "typecheck": "tsc"
   },
   "keywords": [],
   "author": "",

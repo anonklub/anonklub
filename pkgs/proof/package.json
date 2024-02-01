@@ -30,9 +30,9 @@
     "undici": "^5.21.2"
   },
   "scripts": {
-    "build": "pnpm run clean && tsc --project tsconfig.compile.json",
+    "build": "pnpm clean && tsc --project tsconfig.compile.json",
     "clean": "rm -rf dist",
-    "prepack": "npm run build",
+    "prepack": "pnpm build",
     "typecheck": "tsc"
   }
 }

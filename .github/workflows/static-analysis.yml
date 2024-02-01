@@ -57,9 +57,6 @@ jobs:
           key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: turbo-${{ github.job }}-${{ github.ref_name }}-
 
-      - name: Build Rust wasm deps
-        run: pnpm compile.wasm
-
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
 
