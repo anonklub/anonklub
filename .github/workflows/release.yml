@@ -11,7 +11,7 @@ on:
         '!**/*.md',
         '!test/**/*.{js,ts}',
       ]
-
+  workflow_dispatch:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
