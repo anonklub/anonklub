@@ -1,5 +1,11 @@
 # @anonklub/merkle-tree-wasm
 
+## 1.1.2
+
+### Patch Changes
+
+- a25442f: Add format and lint scripts
+
 ## 1.1.1
 
 ### Patch Changes

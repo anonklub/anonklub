@@ -1,6 +1,6 @@
 {
     "name": "@anonklub/spartan-ecdsa-wasm",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": "0xisk <0xisk@proton.me>",
     "keywords": [
         "wasm",
