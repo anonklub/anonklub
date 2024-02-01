@@ -50,7 +50,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pnpm-store-
 
       - name: Install
-        run: pnpm i --ignore-scripts --no-frozen-lockfile
+        run: pnpm --filter "./pkgs/**" --ignore-scripts --no-frozen-lockfile i
 
       - name: Release
         uses: changesets/action@v1
