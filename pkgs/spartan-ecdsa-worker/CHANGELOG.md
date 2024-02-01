@@ -1,5 +1,11 @@
 # @anonklub/spartan-ecdsa-worker
 
+## 1.1.1
+
+### Patch Changes
+
+- 346b4c5: Fix semantic versioning
+
 ## 1.1.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @anonklub/merkle-tree-worker
 
+## 1.1.2
+
+### Patch Changes
+
+- 346b4c5: Fix semantic versioning
+
 ## 1.1.1
 
 ### Patch Changes
