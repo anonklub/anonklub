@@ -1,11 +1,11 @@
 {
-  "name": "merkle-tree-wasm",
+  "name": "@anonklub/merkle-tree-wasm",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "build": "pnpm check-wasm-pack && pnpm clean && wasm-pack build . --target bundler --out-dir dist --out-name index --scope anonklub",
     "clean": "rm -rf dist",
     "check-wasm-pack": "command -v wasm-pack >/dev/null 2>&1 || echo \"wasm-pack is not installed\"\n",
     "prepack": "pnpm build"
-  },
-  "private": true
+  }
 }
