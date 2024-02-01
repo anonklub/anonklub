@@ -1,5 +1,11 @@
 # @anonklub/query
 
+## 1.2.0
+
+### Minor Changes
+
+- cb5432c: Update scripts
+
 ## 1.1.0
 
 ### Minor Changes

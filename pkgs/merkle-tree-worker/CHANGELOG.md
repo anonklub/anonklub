@@ -1,5 +1,16 @@
 # @anonklub/merkle-tree-worker
 
+## 1.1.0
+
+### Minor Changes
+
+- cb5432c: Update scripts
+
+### Patch Changes
+
+- Updated dependencies [cb5432c]
+  - @anonklub/merkle-tree-wasm@1.1.0
+
 ## 1.0.0
 
 ### Major Changes

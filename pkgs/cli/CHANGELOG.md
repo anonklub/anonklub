@@ -1,5 +1,13 @@
 # @anonklub/cli
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [cb5432c]
+  - @anonklub/proof@2.1.0
+  - @anonklub/query@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes
