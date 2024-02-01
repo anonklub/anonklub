@@ -25,7 +25,7 @@ export function AnonSetResults({
           <h3 className='nes-text is-success'>Results</h3>
         </div>
         <Link href='/prove/submit'>
-          <button className='nes-btn is-success'>
+          <button className='nes-btn bg-blue text-grey'>
             {NAVIGATION.PREPARE_PROOF_REQUEST}
           </button>
         </Link>

@@ -1,6 +1,6 @@
 'use client'
-import '../globals.css'
 import 'nes.css/css/nes.min.css'
+import '../globals.css'
 import 'tailwindcss/tailwind.css'
 import { StoreProvider } from 'easy-peasy'
 import { ReactNode } from 'react'
@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <title>{config.appTitle}</title>
       </head>
-      <body className='m-3'>
+      <body className='m-3 bg-black text-grey'>
         <WagmiConfig config={wagmiConfig}>
           <StoreProvider store={store}>
             <Layout>{children}</Layout>

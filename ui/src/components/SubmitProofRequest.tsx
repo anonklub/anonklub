@@ -34,7 +34,7 @@ export function SubmitProofRequest() {
             />
             {warningWasRead ? (
               <Link href='/prove/result'>
-                <button className='nes-btn is-success'>
+                <button className='nes-btn bg-blue text-grey'>
                   {NAVIGATION.SUBMIT_PROOF}
                 </button>
               </Link>
@@ -72,7 +72,7 @@ export function SubmitProofRequest() {
           <input
             type='text'
             id='name_field'
-            className='nes-input'
+            className='nes-input bg-red text-grey'
             value={message}
             onChange={({ target }) => {
               setMessage(target.value)
@@ -82,7 +82,7 @@ export function SubmitProofRequest() {
 
         <button
           type='button'
-          className={`nes-btn ${canSign ? 'is-warning' : 'is-disabled'}`}
+          className={`nes-btn ${canSign ? 'bg-grey text-red' : 'is-disabled'}`}
           onClick={() => signMessage()}
         >
           Sign

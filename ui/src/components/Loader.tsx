@@ -19,7 +19,7 @@ export function Loader() {
   return (
     <div className='flex flex-row justify-center'>
       <progress
-        className='nes-progress is-success w-1/2'
+        className='nes-progress w-1/2'
         value={progress}
         max='100'
       ></progress>
