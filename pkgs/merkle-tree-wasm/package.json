@@ -1,7 +1,24 @@
 {
   "name": "@anonklub/merkle-tree-wasm",
   "version": "1.1.0",
-  "main": "index.js",
+  "author": "0xisk <0xisk@proton.me>",
+  "description": "Wasm Rust crate forked from [personaelabs/merkle-tree](https://github.com/personaelabs/merkle-tree) to facilitate the creation and management of Merkle tree structures, specifically for handling anonymity sets. ",
+  "keywords": [
+    "wasm",
+    "merkle-tree",
+    "anonymity",
+    "set",
+    "rust"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/cli",
+  "homepage": "https://github.com/anonklub/anonklub",
+  "bugs": "https://github.com/anonklub/anonklub/issues",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist/**/*.{js,ts,wasm}", "README.md", "CHANGELOG.md"],
+  "module": "dist/index.js",
+  "sideEffects": ["dist/index.js"],
   "scripts": {
     "compile": "pnpm check-wasm-pack && pnpm clean && wasm-pack build . --target bundler --out-dir dist --out-name index --scope anonklub",
     "clean": "rm -rf dist",
