@@ -1,6 +1,7 @@
 {
   "name": "@anonklub/query",
   "version": "1.2.0",
+  "author": "sripwoud <me@sripwoud.xyz>",
   "description": "Query Anonymity sets of Ethereum addresses",
   "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/query",
   "homepage": "https://github.com/anonklub/anonklub",
@@ -23,7 +24,6 @@
     "anonymity",
     "address"
   ],
-  "author": "sripwoud <me@sripwoud.xyz>",
   "dependencies": {
     "class-validator": "^0.14.0"
   }

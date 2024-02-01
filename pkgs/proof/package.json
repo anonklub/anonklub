@@ -1,11 +1,8 @@
 {
   "name": "@anonklub/proof",
   "version": "2.1.0",
-  "description": "Build Anonymous Proofs (Requests) of Ethereum Address Ownership",
-  "author": "BlakeMScurr <blakemscurr@gmail.com>",
-  "contributors": [
-    "sripwoud <me@sripwoud.xyz>"
-  ],
+  "description": "Build Anonymous Proofs of Ethereum Address Ownership",
+  "author": "sripwoud <me@sripwoud.xyz>",
   "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/proof",
   "homepage": "https://github.com/anonklub/anonklub",
   "bugs": "https://github.com/anonklub/anonklub/issues",
@@ -23,6 +20,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
+  "files": ["dist", "CHANGELOG.md"],
   "dependencies": {
     "@noble/secp256k1": "^1.7.0",
     "circomlibjs": "^0.1.7",

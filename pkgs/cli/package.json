@@ -1,15 +1,8 @@
 {
   "name": "@anonklub/cli",
   "version": "1.1.1",
+  "author": "sripwoud <me@sripwoud.xyz>",
   "description": "CLI to build zk proofs of ethereum address ownership.",
-  "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/cli",
-  "homepage": "https://github.com/anonklub/anonklub",
-  "bugs": "https://github.com/anonklub/anonklub/issues",
-  "main": "dist/index.js",
-  "types": "dist/types/index.d.ts",
-  "bin": {
-    "akcli": "dist/index.js"
-  },
   "keywords": [
     "zk",
     "ethereum",
@@ -22,8 +15,16 @@
     "circom",
     "privacy"
   ],
-  "author": "sripwoud <me@sripwoud.xyz>",
   "license": "MIT",
+  "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/cli",
+  "homepage": "https://github.com/anonklub/anonklub",
+  "bugs": "https://github.com/anonklub/anonklub/issues",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": ["dist", "CHANGELOG.md", "README.md"],
+  "bin": {
+    "akcli": "dist/index.js"
+  },
   "dependencies": {
     "@anonklub/proof": "2.1.0",
     "@anonklub/query": "1.2.0",
