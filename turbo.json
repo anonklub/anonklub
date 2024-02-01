@@ -8,22 +8,30 @@
         "!{pkgs/query,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
-    "//#_format": {
+    "//#format.prettier": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
-        "{.github,pkgs,circom,discord-bot,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
-        "!{pkgs,circom,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
+        "{.github,pkgs,circom,discord-bot,query-api,test,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
+        "!{pkgs,circom,discord-bot,query-api,test,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
-    "_format": {
+    "format.cargo": {
+      "cache": false,
+      "inputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs"]
+    },
+    "format.cargo.fix": {
+      "cache": false,
+      "inputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs"]
+    },
+    "format.forge": {
       "cache": false,
       "inputs": ["contracts/{script,src,test}/**/*.sol"]
     },
-    "_format.fix": {
+    "format.forge.fix": {
       "cache": false,
       "inputs": ["contracts/{script,src,test}/**/*.sol"]
     },
-    "//#_format.fix": {
+    "//#format.prettier.fix": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
         "{.github,pkgs,circom,discord-bot,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
@@ -38,22 +46,29 @@
         "!{pkgs,circom,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
-    "_lint": {
+    "lint.solhint": {
+      "inputs": ["contracts/{script,src,test}/**/*.sol"]
+    },
+    "lint.solhint.fix": {
       "cache": false,
       "inputs": ["contracts/{script,src,test}/**/*.sol"]
     },
-    "//#_lint": {
+    "lint.cargo": {
+      "cache": false,
+      "inputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs"]
+    },
+    "lint.cargo.fix": {
+      "cache": false,
+      "inputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs"]
+    },
+    "//#lint.eslint": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx}",
         "{pkgs,circom,discord-bot,query-api,test,ui}/**/*.{cjs,js,jsx,ts,tsx}",
         "!{pkgs,circom,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
-    "_lint.fix": {
-      "cache": false,
-      "inputs": ["contracts/{script,src,test}/**/*.sol"]
-    },
-    "//#_lint.fix": {
+    "//#lint.eslint.fix": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx}",
         "{pkgs,circom,discord-bot,query-api,test,ui}/**/*.{cjs,js,jsx,ts,tsx}",
