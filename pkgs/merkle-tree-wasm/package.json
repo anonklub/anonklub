@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/merkle-tree-wasm",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "0xisk <0xisk@proton.me>",
   "description": "Wasm Rust crate forked from [personaelabs/merkle-tree](https://github.com/personaelabs/merkle-tree) to facilitate the creation and management of Merkle tree structures, specifically for handling anonymity sets. ",
   "keywords": [
