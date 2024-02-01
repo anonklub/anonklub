@@ -5,9 +5,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "pnpm run clean && tsc --project tsconfig.compile.json",
+    "build": "pnpm clean && tsc --project tsconfig.compile.json",
     "clean": "rm -rf dist",
-    "prepack": "npm run build",
+    "prepack": "pnpm build",
     "typecheck": "tsc"
   },
   "keywords": [

@@ -49,16 +49,13 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-store-
 
-      - name: Build Rust wasm deps
-        run: pnpm compile.wasm
-
       - name: Install
         run: pnpm i --ignore-scripts --no-frozen-lockfile
 
       - name: Release
         uses: changesets/action@v1
         with:
-          publish: pnpm publish-packages
+          publish: pnpm publish.pkgs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

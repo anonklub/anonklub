@@ -1,10 +1,13 @@
 {
-    "name": "spartan-ecdsa-wasm",
+    "name": "@anonklub/spartan-ecdsa-wasm",
+    "version": "0.1.0",
     "main": "index.js",
     "type": "module",
     "scripts": {
+        "compile": "pnpm check-wasm-pack && pnpm clean && wasm-pack build . --target bundler --out-dir dist --out-name index --scope anonklub",
+        "clean": "rm -rf dist",
         "check-wasm-pack": "command -v wasm-pack >/dev/null 2>&1 || echo \"wasm-pack is not installed\"\n",
-        "compile": "pnpm run check-wasm-pack && wasm-pack build . --target bundler --out-dir dist --out-name index --scope anonklub"
+        "prepack": "pnpm compile"
     },
     "dependencies": {
         "pako": "^2.1.0",
@@ -13,6 +16,5 @@
     "devDependencies": {
         "ts-node": "^10.9.1",
         "typescript": "5.2.2"
-    },
-    "private": true
+    }
 }
