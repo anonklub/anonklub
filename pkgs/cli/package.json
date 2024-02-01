@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/cli",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "sripwoud <me@sripwoud.xyz>",
   "description": "CLI to build zk proofs of ethereum address ownership.",
   "keywords": [
@@ -21,13 +21,17 @@
   "bugs": "https://github.com/anonklub/anonklub/issues",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
-  "files": ["dist", "CHANGELOG.md", "README.md"],
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "README.md"
+  ],
   "bin": {
     "akcli": "dist/index.js"
   },
   "dependencies": {
-    "@anonklub/proof": "2.1.0",
-    "@anonklub/query": "1.2.0",
+    "@anonklub/proof": "2.1.1",
+    "@anonklub/query": "1.2.1",
     "@noble/secp256k1": "^1.7.0",
     "delay": "^5.0.0",
     "ethers": "^5.7.2",
