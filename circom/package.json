@@ -1,7 +1,7 @@
 {
   "name": "@anonklub/circom",
   "devDependencies": {
-    "@anonklub/proof": "2.0.0",
+    "@anonklub/proof": "2.1.0",
     "@noble/secp256k1": "^1.7.0",
     "@types/inquirer": "^9.0.3",
     "circom-ecdsa": "github:0xparc/circom-ecdsa",

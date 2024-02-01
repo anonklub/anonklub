@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/merkle-tree-wasm",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "scripts": {
     "compile": "pnpm check-wasm-pack && pnpm clean && wasm-pack build . --target bundler --out-dir dist --out-name index --scope anonklub",
