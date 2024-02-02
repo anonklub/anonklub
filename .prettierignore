@@ -27,3 +27,8 @@ contracts/out
 package.json
 
 target
+.husky/*
+commitlint.config.js
+.eslint
+.eslintignore
+.prettierignore

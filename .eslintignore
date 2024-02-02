@@ -27,3 +27,5 @@ queries
 target
 
 commitlint.config.js
+.husky/*
+.prettierignore
