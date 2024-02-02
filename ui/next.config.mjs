@@ -1,3 +1,5 @@
+import million from 'million/compiler'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
@@ -15,4 +17,8 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+const millionConfig = {
+  auto: true,
+}
+
+export default million.next(nextConfig, millionConfig)
