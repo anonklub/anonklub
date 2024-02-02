@@ -22,7 +22,7 @@ export function AnonSetResults({
       <div className='mb-5 flex flex-row justify-between'>
         <div>
           <h2>{title} Anonset</h2>
-          <h3 className='nes-text is-success'>Results</h3>
+          <h3>Results</h3>
         </div>
         <Link href='/prove/submit'>
           <button className='btn btn-secondary'>

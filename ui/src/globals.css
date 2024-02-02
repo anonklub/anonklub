@@ -88,9 +88,26 @@ body {
     filter: brightness(0) saturate(100%) invert(100%) sepia(59%) saturate(0%)
       hue-rotate(358deg) brightness(105%) contrast(95%);
   }
-}
 
-.check-done {
-  filter: brightness(0) saturate(100%) invert(42%) sepia(80%) saturate(579%)
-    hue-rotate(319deg) brightness(100%) contrast(97%);
+  .check-done {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(80%) saturate(579%)
+      hue-rotate(319deg) brightness(100%) contrast(97%);
+  }
+
+  progress {
+    width: 50%;
+    height: 1rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #f9f9f9;
+  }
+
+  progress::-webkit-progress-value {
+    background: linear-gradient(to right, #4dc0b5, #fb5e4d);
+  }
+
+  .scrollable-json-container {
+    @apply max-h-[325px] overflow-auto scroll-smooth rounded-lg border border-grey p-4 text-sm text-grey shadow-lg;
+  }
 }

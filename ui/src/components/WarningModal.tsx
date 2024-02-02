@@ -14,7 +14,7 @@ export const WarningModal = ({ content }: { content: string[] }) => {
         !
       </button>
       <section>
-        <dialog className='nes-dialog' ref={ref}>
+        <dialog className='p-2' ref={ref}>
           <form method='dialog' className='space-y-5'>
             <Text lines={content} />
             <menu className='dialog-menu flex flex-row justify-center'>

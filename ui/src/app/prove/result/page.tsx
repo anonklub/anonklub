@@ -36,13 +36,14 @@ export default function Page() {
   }
 
   return (
-    <div className='justify center flex flex-col space-y-10'>
+    <div className='flex flex-col items-center justify-center space-y-10'>
       <h2 className='self-start'>Proof Results</h2>
-      <div>
-        <div className='nes-text flex flex-col text-red'>
-          {ellipsify(fullProof.toString(), 100)}
-        </div>
-        {copySuccess}
+
+      <div className='flex flex-col text-red'>
+        {ellipsify(fullProof.toString(), 100)}
+      </div>
+      {copySuccess}
+      <div className='flex flex-row justify-center space-x-5'>
         <button onClick={copyToClipboard} className='btn btn-primary'>
           Copy to Clipboard
         </button>

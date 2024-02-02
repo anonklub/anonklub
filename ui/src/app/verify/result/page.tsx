@@ -11,7 +11,7 @@ export default function Page() {
     return (
       <div>
         Missing proof and public signals JSON files, go back to{' '}
-        <Link href='/verify' className='nes-text is-primary'>
+        <Link href='/verify' className='is-primary'>
           /verify
         </Link>{' '}
         to upload them.
