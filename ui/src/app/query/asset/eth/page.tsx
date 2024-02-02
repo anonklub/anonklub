@@ -28,21 +28,20 @@ export default function Page() {
           ]}
         />
       </div>
-      <div className='nes-field w-[220px]'>
-        <label>
-          Min
-          <input
-            min={100}
-            max={100_000_000}
-            step={1}
-            type='number'
-            className='nes-input'
-            value={min}
-            onChange={({ target }) => {
-              setMin(parseInt(target.value))
-            }}
-          />
-        </label>
+      <div className='field'>
+        <label htmlFor='eth_amount'>Min</label>
+        <input
+          id='eth_amount'
+          min={100}
+          max={100_000_000}
+          step={1}
+          type='number'
+          className='input'
+          value={min}
+          onChange={({ target }) => {
+            setMin(parseInt(target.value))
+          }}
+        />
       </div>
 
       <button className='btn btn-primary self-center' onClick={execute}>

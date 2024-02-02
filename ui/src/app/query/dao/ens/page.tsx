@@ -41,43 +41,36 @@ export default function Page() {
           ]}
         />
       </div>
-      <div className='nes-field w-[550px]'>
-        <label>
-          ENS Proposal ID
-          <input
-            placeholder='45461903078948131870051132081249892009497709518413744958551889217805827301425'
-            type='text'
-            className='nes-input text-xs'
-            value={id}
-            onChange={({ target }) => {
-              setId(target.value)
-            }}
-          />
-        </label>
+      <div className='field'>
+        <label htmlFor='ens_proposal_id'>ENS Proposal ID</label>
+        <input
+          id='ens_proposal_id'
+          placeholder='45461903078948131870051132081249892009497709518413744958551889217805827301425'
+          type='text'
+          className='input'
+          value={id}
+          onChange={({ target }) => {
+            setId(target.value)
+          }}
+        />
       </div>
-      <div className='nes-field'>
-        <label>
-          Choice
-          <div className='nes-select'>
-            <select
-              value={choice}
-              required
-              onChange={({ target }) => {
-                setChoice(target.value as Choice)
-              }}
-            >
-              {Object.values(Choice).map((_choice) => (
-                <option
-                  key={_choice}
-                  value={_choice}
-                  selected={_choice === choice}
-                >
-                  {_choice}
-                </option>
-              ))}
-            </select>
-          </div>
-        </label>
+      <div className='field'>
+        <label htmlFor='choice'>Choice</label>
+        <select
+          className='select'
+          id='choice'
+          value={choice}
+          required
+          onChange={({ target }) => {
+            setChoice(target.value as Choice)
+          }}
+        >
+          {Object.values(Choice).map((_choice) => (
+            <option key={_choice} value={_choice} selected={_choice === choice}>
+              {_choice}
+            </option>
+          ))}
+        </select>
       </div>
 
       <button

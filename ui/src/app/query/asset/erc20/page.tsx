@@ -32,34 +32,32 @@ export default function Page() {
           ]}
         />
       </div>
-      <div className='nes-field w-[550px]'>
-        <label>
-          ERC20 Token Address
-          <input
-            placeholder='0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'
-            type='text'
-            className='nes-input text-xs'
-            value={tokenAddress}
-            onChange={({ target }) => {
-              setTokenAddress(target.value)
-            }}
-          />
-        </label>
+      <div className='field'>
+        <label htmlFor='erc20_address'>ERC20 Token Address</label>
+        <input
+          id='erc20_address'
+          placeholder='0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'
+          type='text'
+          className='input'
+          value={tokenAddress}
+          onChange={({ target }) => {
+            setTokenAddress(target.value)
+          }}
+        />
       </div>
-      <div className='nes-field w-[550px]'>
-        <label>
-          Min
-          <input
-            min={0}
-            step={1}
-            type='number'
-            className='nes-input w-[550px] '
-            value={min}
-            onChange={({ target }) => {
-              setMin(parseInt(target.value))
-            }}
-          />
-        </label>
+      <div className='field'>
+        <label htmlFor='erc20_amount'>Min</label>
+        <input
+          id='erc20_amount'
+          min={0}
+          step={1}
+          type='number'
+          className='input'
+          value={min}
+          onChange={({ target }) => {
+            setMin(parseInt(target.value))
+          }}
+        />
       </div>
 
       <button

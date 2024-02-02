@@ -55,4 +55,18 @@ body {
   .question-box {
     @apply text-grey border border-blue rounded-lg p-4;
   }
+
+  .input {
+    background: transparent;
+    @apply border border-grey text-grey py-2 px-4 rounded focus:bg-black focus:bg-opacity-50 focus:border-blue
+  }
+
+  .field {
+    @apply flex flex-row items-center justify-between space-x-2
+  }
+
+  .select {
+    background: transparent;
+    @apply border border-grey text-grey py-2 px-4 rounded focus:bg-black focus:bg-opacity-50 focus:border-blue;
+  }
 }

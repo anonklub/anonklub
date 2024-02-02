@@ -67,12 +67,12 @@ export function SubmitProofRequest() {
         <Star full={isSuccess} text='Signed' />
       </div>
       <div className='flex flex-row items-end justify-evenly'>
-        <div className='nes-field'>
+        <div className='field'>
           <label htmlFor='name_field'>Message</label>
           <input
             type='text'
             id='name_field'
-            className='nes-input bg-red text-grey'
+            className='input'
             value={message}
             onChange={({ target }) => {
               setMessage(target.value)

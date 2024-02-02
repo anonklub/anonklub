@@ -27,19 +27,18 @@ export default function Page() {
       <div className='self-end'>
         <HelpModal content={['Provide the NFT contract address.']} />
       </div>
-      <div className='nes-field w-[550px]'>
-        <label>
-          NFT Contract Address
-          <input
-            placeholder='0x99a9b7c1116f9ceeb1652de04d5969cce509b069'
-            type='text'
-            className='nes-input text-xs'
-            value={tokenAddress}
-            onChange={({ target }) => {
-              setTokenAddress(target.value)
-            }}
-          />
-        </label>
+      <div className='field'>
+        <label htmlFor='nft_address'>NFT Contract Address</label>
+        <input
+          id='nft_address'
+          placeholder='0x99a9b7c1116f9ceeb1652de04d5969cce509b069'
+          type='text'
+          className='input'
+          value={tokenAddress}
+          onChange={({ target }) => {
+            setTokenAddress(target.value)
+          }}
+        />
       </div>
       <button
         type='button'
