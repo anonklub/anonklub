@@ -25,49 +25,50 @@ body {
 
 @layer components {
   .btn {
-    @apply text-grey py-2 px-4 rounded transition ease-in-out duration-300 border-grey border-2
+    @apply rounded border-2 border-grey px-4 py-2 text-grey transition duration-300 ease-in-out;
   }
 
-  .btn-primary, .btn-secondary {
-    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue
+  .btn-primary,
+  .btn-secondary {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue focus:ring-offset-2;
   }
 
   .btn-primary {
-    @apply hover:bg-gradient-to-r  hover:from-blue hover:to-red
+    @apply hover:bg-gradient-to-r  hover:from-blue hover:to-red;
   }
 
   .btn-secondary {
-    @apply text-blue bg-grey hover:bg-blue hover:text-grey
+    @apply bg-grey text-blue hover:bg-blue hover:text-grey;
   }
 
   .btn-warning {
-    @apply bg-grey text-red hover:bg-red hover:text-grey
+    @apply bg-grey text-red hover:bg-red hover:text-grey;
   }
 
   .btn-connect {
-    @apply text-blue hover:text-red
+    @apply text-blue hover:text-red;
   }
 
   .is-disabled {
-    @apply cursor-not-allowed opacity-50
+    @apply cursor-not-allowed opacity-50;
   }
 
   .question-box {
-    @apply text-grey border border-blue rounded-lg p-4;
+    @apply rounded-lg border border-blue p-4 text-grey;
   }
 
   .input {
     background: transparent;
-    @apply border border-grey text-grey py-2 px-4 rounded focus:bg-black focus:bg-opacity-50 focus:border-blue
+    @apply rounded border border-grey px-4 py-2 text-grey focus:border-blue focus:bg-black focus:bg-opacity-50;
   }
 
   .field {
-    @apply flex flex-row items-center justify-between space-x-2 w-1/2
+    @apply flex w-1/2 flex-row items-center justify-between space-x-2;
   }
 
   .select {
     background: transparent;
-    @apply border border-grey text-grey py-2 px-4 rounded focus:bg-black focus:bg-opacity-50 focus:border-blue;
+    @apply rounded border border-grey px-4 py-2 text-grey focus:border-blue focus:bg-black focus:bg-opacity-50;
   }
 
   .select option {
@@ -79,6 +80,7 @@ body {
   }
 
   .footer-link:hover img {
-    filter: brightness(0) saturate(100%) invert(76%) sepia(34%) saturate(828%) hue-rotate(160deg) brightness(100%) contrast(96%);
+    filter: brightness(0) saturate(100%) invert(76%) sepia(34%) saturate(828%)
+      hue-rotate(160deg) brightness(100%) contrast(96%);
   }
 }
