@@ -4,17 +4,19 @@ import { CustomButton } from '@components'
 
 export function Header() {
   return (
-    <div className='mb-4 flex h-12 flex-row justify-between'>
+    <div className='my-6 flex h-12 flex-row items-center justify-between'>
       <Link href='/' legacyBehavior>
-        <a href='#' className='mt=1'>
-          <Image
-            src='logo.svg'
-            alt='logo'
-            width={300}
-            height={50}
-            className='mt-2'
-          />
-        </a>
+        <div className='relative h-[60px] max-h-[60px] w-1/2 max-w-[400px]'>
+          <a href='#' className='mt=1'>
+            <Image
+              src='logo.svg'
+              priority={true}
+              alt='logo'
+              layout='fill'
+              objectFit='contain'
+            />
+          </a>
+        </div>
       </Link>
       <CustomButton />
     </div>
