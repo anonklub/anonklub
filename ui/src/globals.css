@@ -51,4 +51,8 @@ body {
   .is-disabled {
     @apply cursor-not-allowed opacity-50
   }
+
+  .question-box {
+    @apply text-grey border border-blue rounded-lg p-4;
+  }
 }

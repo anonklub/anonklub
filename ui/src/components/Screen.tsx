@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Balloon } from '@components'
+import { QuestionBox } from '@components'
 
 export function Screen({
   buttons,
@@ -15,7 +15,7 @@ export function Screen({
 }) {
   return (
     <div className='flex flex-col justify-center'>
-      <Balloon question={question} help={help} />
+      <QuestionBox question={question} help={help} />
       <div className='mt-28 flex flex-row justify-evenly'>
         {buttons.map(({ href, text }) => (
           <Link key={href} href={href} className='btn btn-primary'>

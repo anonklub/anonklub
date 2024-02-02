@@ -3,7 +3,7 @@
  */
 
 export * from './AnonSetResults'
-export * from './Balloon'
+export * from './QuestionBox'
 export * from './CustomButton'
 export * from './ExternalLink'
 export * from './Footer'
