@@ -38,6 +38,6 @@ export function CustomButton() {
       {loading ? 'Loading...' : label}
     </button>
   ) : (
-    Loader
+    <Loader />
   )
 }
