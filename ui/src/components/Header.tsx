@@ -1,12 +1,19 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { CustomButton } from '@components'
 
 export function Header() {
   return (
-    <div className='mb-7 flex flex-row justify-between'>
+    <div className='mb-4 flex h-12 flex-row justify-between'>
       <Link href='/' legacyBehavior>
-        <a href='#' className='nes-badge'>
-          <span className='bg-blue p-2.5 text-lg text-grey'>AnonKlub</span>
+        <a href='#' className='mt=1'>
+          <Image
+            src='logo.svg'
+            alt='logo'
+            width={300}
+            height={50}
+            className='mt-2'
+          />
         </a>
       </Link>
       <CustomButton />
