@@ -7,6 +7,8 @@
   "devDependencies": {
     "@anonklub/test": "workspace:^",
     "@changesets/cli": "^2.26.2",
+    "@commitlint/cli": "^18.6.0",
+    "@commitlint/config-conventional": "^18.6.0",
     "@faker-js/faker": "^7.6.0",
     "@sripwoud/eslint-config-with-jest": "^1.0.2",
     "@sripwoud/prettier-config": "^1.0.3",
@@ -15,6 +17,8 @@
     "barrelsby": "^2.5.1",
     "eslint-config-next": "^13.4.2",
     "find-up-cli": "^5.0.0",
+    "husky": "^9.0.10",
+    "is-ci": "^3.0.1",
     "jest": "^29.6.2",
     "jest-chain": "^1.1.6",
     "jest-extended": "^4.0.1",
@@ -24,6 +28,7 @@
     "jest-watch-select-projects": "^2.0.0",
     "jest-watch-typeahead": "^2.2.2",
     "knip": "^2.19.0",
+    "lint-staged": "^15.2.1",
     "reflect-metadata": "^0.1.13",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
@@ -59,7 +64,10 @@
     "_test": "jest",
     "test": "turbo _test",
     "typecheck": "turbo typecheck",
-    "validate": "turbo format.cargo format.forge format.prettier lint.cargo lint.eslint lint.solhint build _compile --cache-dir=.turbo"
+    "validate": "turbo format.cargo format.forge format.prettier lint.cargo lint.eslint lint.solhint build _compile --cache-dir=.turbo",
+    "githook:precommit": "lint-staged && pnpm run types",
+    "githook:prepush": "pnpm run test --coverage",
+    "prepare": "is-ci || husky install"
   },
   "workspaces": [
     "contracts",
