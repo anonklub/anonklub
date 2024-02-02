@@ -18,7 +18,7 @@ export function Screen({
       <Balloon question={question} help={help} />
       <div className='mt-28 flex flex-row justify-evenly'>
         {buttons.map(({ href, text }) => (
-          <Link key={href} href={href} className='nes-btn bg-grey text-red'>
+          <Link key={href} href={href} className='btn btn-primary'>
             {text}
           </Link>
         ))}

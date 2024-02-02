@@ -22,3 +22,33 @@ body {
   left: 0;
   z-index: -1; /* Ensures the background stays behind other content */
 }
+
+@layer components {
+  .btn {
+    @apply text-grey py-2 px-4 rounded transition ease-in-out duration-300 border-grey border-2
+  }
+
+  .btn-primary, .btn-secondary {
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue
+  }
+
+  .btn-primary {
+    @apply hover:bg-gradient-to-r  hover:from-blue hover:to-red
+  }
+
+  .btn-secondary {
+    @apply text-blue bg-grey hover:bg-blue hover:text-grey
+  }
+
+  .btn-warning {
+    @apply bg-grey text-red hover:bg-red hover:text-grey
+  }
+
+  .btn-connect {
+    @apply text-blue hover:text-red
+  }
+
+  .is-disabled {
+    @apply cursor-not-allowed opacity-50
+  }
+}

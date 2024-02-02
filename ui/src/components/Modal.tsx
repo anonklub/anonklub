@@ -15,7 +15,7 @@ const Modal = forwardRef(
           <form method='dialog' className='space-y-5'>
             {children}
             <menu className='dialog-menu flex flex-row justify-center'>
-              <button className='nes-btn' onClick={close}>
+              <button className='btn btn-warning' onClick={close}>
                 Cancel
               </button>
             </menu>

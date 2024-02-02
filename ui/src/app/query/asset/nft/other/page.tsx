@@ -43,8 +43,8 @@ export default function Page() {
       </div>
       <button
         type='button'
-        className={`nes-btn self-center ${
-          canFetch ? 'is-warning' : 'is-disabled'
+        className={`btn self-center ${
+          canFetch ? 'btn-primary' : 'is-disabled'
         }`}
         onClick={execute}
       >

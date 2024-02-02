@@ -19,7 +19,7 @@ export const WarningModal = ({ content }: { content: string[] }) => {
             <Text lines={content} />
             <menu className='dialog-menu flex flex-row justify-center'>
               <button
-                className='nes-btn'
+                className='btn btn-warning'
                 onClick={() => {
                   setWarningWasRead(true)
                   close()

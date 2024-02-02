@@ -19,10 +19,7 @@ export default function Page() {
       <div className='self-end'>
         {canVerify ? (
           <Link href='/verify/result'>
-            <button
-              type='button'
-              className={'nes-btn self-center bg-blue text-lg text-grey'}
-            >
+            <button className='btn btn-secondary self-center'>
               {NAVIGATION.VERIFY_PROOF}
             </button>
           </Link>

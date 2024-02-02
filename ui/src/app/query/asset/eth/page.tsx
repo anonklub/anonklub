@@ -45,11 +45,7 @@ export default function Page() {
         </label>
       </div>
 
-      <button
-        type='button'
-        className='nes-btn is-warning self-center'
-        onClick={execute}
-      >
+      <button className='btn btn-primary self-center' onClick={execute}>
         Fetch Anonset
       </button>
     </div>

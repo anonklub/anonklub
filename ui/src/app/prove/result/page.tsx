@@ -43,10 +43,10 @@ export default function Page() {
           {ellipsify(fullProof.toString(), 100)}
         </div>
         {copySuccess}
-        <button onClick={copyToClipboard} className='nes-btn bg-grey text-red'>
+        <button onClick={copyToClipboard} className='btn btn-primary'>
           Copy to Clipboard
         </button>
-        <button onClick={downloadTextFile} className='nes-btn bg-grey text-red'>
+        <button onClick={downloadTextFile} className='btn btn-primary'>
           Download as Text File
         </button>
       </div>
