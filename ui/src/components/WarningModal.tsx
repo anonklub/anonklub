@@ -10,7 +10,7 @@ export const WarningModal = ({ content }: { content: string[] }) => {
   const { setWarningWasRead } = useStore()
   return (
     <div>
-      <button type='button' className='nes-btn is-error' onClick={open}>
+      <button type='button' className='btn btn-warning' onClick={open}>
         !
       </button>
       <section>
