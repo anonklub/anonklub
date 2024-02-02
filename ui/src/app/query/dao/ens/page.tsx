@@ -66,7 +66,7 @@ export default function Page() {
           }}
         >
           {Object.values(Choice).map((_choice) => (
-            <option key={_choice} value={_choice} selected={_choice === choice}>
+            <option key={_choice} value={_choice}>
               {_choice}
             </option>
           ))}
