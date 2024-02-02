@@ -11,7 +11,7 @@ body {
 }
 
 .background-image {
-  background-image: url('svg/anonklub-banner.svg'); /* Adjust path as necessary */
+  background-image: url('background.png'); /* Adjust path as necessary */
   background-position: center;
   background-size: cover; /* This ensures the image covers the entire screen and maintains aspect ratio */
   background-repeat: no-repeat;
