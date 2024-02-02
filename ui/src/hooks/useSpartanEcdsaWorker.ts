@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
 import {
   ProveMembershipFn,
   SpartanEcdsaWorker,
   VerifyMembershipFn,
 } from '@anonklub/spartan-ecdsa-worker'
+import { useEffect } from 'react'
 
 export const useSpartanEcdsaWorker = () => {
   useEffect(() => {

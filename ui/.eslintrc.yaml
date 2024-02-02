@@ -9,3 +9,15 @@ overrides:
   - files: ['src/app/verify/result/page.tsx', 'src/hooks/useVerifyProof.ts']
     rules:
       '@typescript-eslint/no-var-requires': off
+
+  - files:
+      [
+        'src/components/CustomButton.tsx',
+        'src/lib/config.ts',
+        'src/hooks/{useMerkleTreeWorker,useSpartanEcdsaWorker}.ts',
+      ]
+    rules:
+      'no-console': off
+  - files: ['src/**/index.ts']
+    rules:
+      'sort/exports': off

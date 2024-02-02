@@ -5,7 +5,7 @@ export function AnonsetResponse() {
   return applyDecorators(
     ApiResponse({
       description: 'Returns a list of addresses.',
-      schema: { type: 'array', items: { type: 'string' } },
+      schema: { items: { type: 'string' }, type: 'array' },
       status: 200,
     }),
   )

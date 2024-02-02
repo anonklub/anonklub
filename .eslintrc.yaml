@@ -55,11 +55,11 @@ overrides:
         [error, { checksVoidReturn: { attributes: false } }]
   - files:
       [
-        'pkgs/cli/src/index.ts',
-        'pkgs/cli/src/Cli/index.ts',
+        'pkgs/cli/src/{,Cli/}index.ts',
         'circom/scripts/*.ts',
-        'query- api/src/index.ts',
+        'query-api/src/index.ts',
         'ui/src/lib/config.ts',
+        'discord-bot/src/{index,events/{ClientReady,MessageCreate}}.ts',
       ]
     rules:
       no-console: off

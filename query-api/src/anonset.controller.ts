@@ -1,13 +1,13 @@
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { AnonsetService } from './anonset.service'
+import { AnonsetResponse } from './decorators/AnonsetResponse'
 import {
   GetEnsProposalVotersDto,
   GetErc20BalanceOwnersDto,
   GetEthBalanceOwnersDto,
   GetNftOwnersDto,
 } from './dto'
-import { AnonsetResponse } from './decorators/AnonsetResponse'
 
 @Controller()
 export class AnonsetController {

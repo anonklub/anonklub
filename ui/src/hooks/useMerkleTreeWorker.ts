@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
 import {
   GenerateMerkleProofFn,
   MerkleTreeWorker,
 } from '@anonklub/merkle-tree-worker'
+import { useEffect } from 'react'
 
 export const useMerkleTreeWasmWorker = () => {
   useEffect(() => {
