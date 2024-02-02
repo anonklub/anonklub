@@ -42,11 +42,11 @@ body {
   }
 
   .btn-warning {
-    @apply bg-grey text-red hover:bg-red hover:text-grey;
+    @apply bg-grey text-blue hover:bg-blue hover:text-grey;
   }
 
   .btn-connect {
-    @apply text-blue hover:text-red;
+    @apply text-grey hover:text-blue;
   }
 
   .is-disabled {
@@ -54,7 +54,7 @@ body {
   }
 
   .question-box {
-    @apply rounded-lg border border-blue p-4 text-grey;
+    @apply rounded-lg border border-red p-4 text-grey;
   }
 
   .input {
@@ -76,12 +76,11 @@ body {
   }
 
   .footer-link:hover {
-    @apply text-blue;
+    @apply text-black;
   }
 
   .footer-link:hover img {
-    filter: brightness(0) saturate(100%) invert(76%) sepia(34%) saturate(828%)
-      hue-rotate(160deg) brightness(100%) contrast(96%);
+    filter: brightness(0) saturate(100%) invert(6%) sepia(4%) saturate(20%) hue-rotate(316deg) brightness(101%) contrast(93%);
   }
 
   .check-todo {
