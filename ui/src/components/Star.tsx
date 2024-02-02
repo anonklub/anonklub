@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export function Star({
   full = false,
   text,
@@ -6,9 +8,15 @@ export function Star({
   text?: string
 }) {
   return (
-    <p>
-      <i className={`nes-icon is-small star ${full ? '' : 'is-empty'}`}></i>{' '}
-      {text}
-    </p>
+    <div className='flex flex-row space-x-2'>
+      <Image
+        alt='check mark'
+        className={`${full ? 'check-done' : 'check-todo'}`}
+        src='/check.svg'
+        height={20}
+        width={20}
+      />{' '}
+      <p>{text}</p>
+    </div>
   )
 }

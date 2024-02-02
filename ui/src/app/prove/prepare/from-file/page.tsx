@@ -13,7 +13,7 @@ export default function Page() {
       <div className='flex flex-col items-end space-y-4'>
         {anonSet !== null ? (
           <Link href='/prove/submit'>
-            <button className='nes-btn bg-blue text-grey'>
+            <button className='btn btn-secondary'>
               {NAVIGATION.PREPARE_PROOF_REQUEST}
             </button>
           </Link>

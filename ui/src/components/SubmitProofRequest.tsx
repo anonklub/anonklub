@@ -34,12 +34,12 @@ export function SubmitProofRequest() {
             />
             {warningWasRead ? (
               <Link href='/prove/result'>
-                <button className='nes-btn bg-blue text-grey'>
+                <button className='btn btn-secondary'>
                   {NAVIGATION.SUBMIT_PROOF}
                 </button>
               </Link>
             ) : (
-              <button className='nes-btn is-disabled'>
+              <button className='btn btn-secondary'>
                 {NAVIGATION.SUBMIT_PROOF}
               </button>
             )}
@@ -67,12 +67,12 @@ export function SubmitProofRequest() {
         <Star full={isSuccess} text='Signed' />
       </div>
       <div className='flex flex-row items-end justify-evenly'>
-        <div className='nes-field'>
+        <div className='field'>
           <label htmlFor='name_field'>Message</label>
           <input
             type='text'
             id='name_field'
-            className='nes-input bg-red text-grey'
+            className='input'
             value={message}
             onChange={({ target }) => {
               setMessage(target.value)
@@ -81,8 +81,7 @@ export function SubmitProofRequest() {
         </div>
 
         <button
-          type='button'
-          className={`nes-btn ${canSign ? 'bg-grey text-red' : 'is-disabled'}`}
+          className={`btn ${canSign ? 'btn-primary' : 'is-disabled'}`}
           onClick={() => signMessage()}
         >
           Sign

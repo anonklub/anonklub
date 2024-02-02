@@ -25,12 +25,7 @@ export function CustomButton() {
   }
 
   return (
-    <button
-      type='button'
-      className='nes-btn bg-blue text-grey'
-      onClick={onClick}
-      disabled={loading}
-    >
+    <button className='btn btn-connect' onClick={onClick} disabled={loading}>
       {loading ? 'Loading...' : label}
     </button>
   )

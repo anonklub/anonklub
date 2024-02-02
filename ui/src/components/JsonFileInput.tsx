@@ -48,11 +48,7 @@ export function JsonFileInput({
             className='hidden'
             ref={inputRef}
           />
-          <button
-            type='button'
-            className='nes-btn self-center bg-grey text-red'
-            onClick={onClick}
-          >
+          <button className='btn btn-primary' onClick={onClick}>
             <div className='flex flex-row items-center'>
               <ArrowUpOnSquareIcon className='w-[40px]' />
             </div>

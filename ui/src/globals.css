@@ -11,7 +11,7 @@ body {
 }
 
 .background-image {
-  background-image: url('anonklub-banner.svg'); /* Adjust path as necessary */
+  background-image: url('svg/anonklub-banner.svg'); /* Adjust path as necessary */
   background-position: center;
   background-size: cover; /* This ensures the image covers the entire screen and maintains aspect ratio */
   background-repeat: no-repeat;
@@ -21,4 +21,76 @@ body {
   top: 0;
   left: 0;
   z-index: -1; /* Ensures the background stays behind other content */
+}
+
+@layer components {
+  .btn {
+    @apply rounded border-2 border-grey px-4 py-2 text-grey transition duration-300 ease-in-out;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply hover:bg-gradient-to-r  hover:from-blue hover:to-red;
+  }
+
+  .btn-secondary {
+    @apply bg-grey text-blue hover:bg-blue hover:text-grey;
+  }
+
+  .btn-warning {
+    @apply bg-grey text-red hover:bg-red hover:text-grey;
+  }
+
+  .btn-connect {
+    @apply text-blue hover:text-red;
+  }
+
+  .is-disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .question-box {
+    @apply rounded-lg border border-blue p-4 text-grey;
+  }
+
+  .input {
+    background: transparent;
+    @apply rounded border border-grey px-4 py-2 text-grey focus:border-blue focus:bg-black focus:bg-opacity-50;
+  }
+
+  .field {
+    @apply flex w-1/2 flex-row items-center justify-between space-x-2;
+  }
+
+  .select {
+    background: transparent;
+    @apply rounded border border-grey px-4 py-2 text-grey focus:border-blue focus:bg-black focus:bg-opacity-50;
+  }
+
+  .select option {
+    @apply text-center;
+  }
+
+  .footer-link:hover {
+    @apply text-blue;
+  }
+
+  .footer-link:hover img {
+    filter: brightness(0) saturate(100%) invert(76%) sepia(34%) saturate(828%)
+      hue-rotate(160deg) brightness(100%) contrast(96%);
+  }
+
+  .check-todo {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(59%) saturate(0%)
+      hue-rotate(358deg) brightness(105%) contrast(95%);
+  }
+}
+
+.check-done {
+  filter: brightness(0) saturate(100%) invert(42%) sepia(80%) saturate(579%)
+    hue-rotate(319deg) brightness(100%) contrast(97%);
 }

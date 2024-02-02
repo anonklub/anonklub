@@ -1,5 +1,5 @@
 'use client'
-import 'nes.css/css/nes.min.css'
+// import 'nes.css/css/nes.min.css'
 import '../globals.css'
 import 'tailwindcss/tailwind.css'
 import { StoreProvider } from 'easy-peasy'
