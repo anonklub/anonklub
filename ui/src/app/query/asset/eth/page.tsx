@@ -36,7 +36,7 @@ export default function Page() {
           max={100_000_000}
           step={1}
           type='number'
-          className='input'
+          className='input w-25 text-center'
           value={min}
           onChange={({ target }) => {
             setMin(parseInt(target.value))

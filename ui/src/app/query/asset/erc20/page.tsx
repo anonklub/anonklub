@@ -38,7 +38,7 @@ export default function Page() {
           id='erc20_address'
           placeholder='0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72'
           type='text'
-          className='input'
+          className='input flex-auto text-center'
           value={tokenAddress}
           onChange={({ target }) => {
             setTokenAddress(target.value)
@@ -52,7 +52,7 @@ export default function Page() {
           min={0}
           step={1}
           type='number'
-          className='input'
+          className='input w-1/4 flex-none'
           value={min}
           onChange={({ target }) => {
             setMin(parseInt(target.value))

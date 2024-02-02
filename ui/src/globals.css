@@ -11,7 +11,7 @@ body {
 }
 
 .background-image {
-  background-image: url('anonklub-banner.svg'); /* Adjust path as necessary */
+  background-image: url('svg/anonklub-banner.svg'); /* Adjust path as necessary */
   background-position: center;
   background-size: cover; /* This ensures the image covers the entire screen and maintains aspect ratio */
   background-repeat: no-repeat;
@@ -62,11 +62,19 @@ body {
   }
 
   .field {
-    @apply flex flex-row items-center justify-between space-x-2
+    @apply flex flex-row items-center justify-between space-x-2 w-1/2
   }
 
   .select {
     background: transparent;
     @apply border border-grey text-grey py-2 px-4 rounded focus:bg-black focus:bg-opacity-50 focus:border-blue;
+  }
+
+  .footer-link:hover {
+    @apply text-blue;
+  }
+
+  .footer-link:hover img {
+    filter: brightness(0) saturate(100%) invert(76%) sepia(34%) saturate(828%) hue-rotate(160deg) brightness(100%) contrast(96%);
   }
 }

@@ -47,7 +47,7 @@ export default function Page() {
           id='ens_proposal_id'
           placeholder='45461903078948131870051132081249892009497709518413744958551889217805827301425'
           type='text'
-          className='input'
+          className='input flex-auto text-center'
           value={id}
           onChange={({ target }) => {
             setId(target.value)
@@ -57,7 +57,7 @@ export default function Page() {
       <div className='field'>
         <label htmlFor='choice'>Choice</label>
         <select
-          className='select'
+          className='select w-25 text-center'
           id='choice'
           value={choice}
           required

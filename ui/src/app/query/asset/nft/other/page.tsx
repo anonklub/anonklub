@@ -33,7 +33,7 @@ export default function Page() {
           id='nft_address'
           placeholder='0x99a9b7c1116f9ceeb1652de04d5969cce509b069'
           type='text'
-          className='input'
+          className='input flex-auto text-center'
           value={tokenAddress}
           onChange={({ target }) => {
             setTokenAddress(target.value)
