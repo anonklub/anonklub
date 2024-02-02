@@ -83,4 +83,14 @@ body {
     filter: brightness(0) saturate(100%) invert(76%) sepia(34%) saturate(828%)
       hue-rotate(160deg) brightness(100%) contrast(96%);
   }
+
+  .check-todo {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(59%) saturate(0%)
+      hue-rotate(358deg) brightness(105%) contrast(95%);
+  }
+}
+
+.check-done {
+  filter: brightness(0) saturate(100%) invert(42%) sepia(80%) saturate(579%)
+    hue-rotate(319deg) brightness(100%) contrast(97%);
 }
