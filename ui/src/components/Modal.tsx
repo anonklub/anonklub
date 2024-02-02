@@ -11,7 +11,7 @@ const Modal = forwardRef(
 
     return (
       <section>
-        <dialog className='nes-dialog' ref={ref}>
+        <dialog className='bg-grey p-2' ref={ref}>
           <form method='dialog' className='space-y-5'>
             {children}
             <menu className='dialog-menu flex flex-row justify-center'>
