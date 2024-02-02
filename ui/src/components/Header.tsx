@@ -9,7 +9,7 @@ export function Header() {
         <div className='relative h-[60px] max-h-[60px] w-1/2 max-w-[400px]'>
           <a href='#' className='mt=1'>
             <Image
-              src='logo.svg'
+              src='/logo.svg'
               priority={true}
               alt='logo'
               layout='fill'
