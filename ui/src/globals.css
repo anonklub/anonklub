@@ -49,6 +49,10 @@ body {
     @apply text-grey hover:text-blue;
   }
 
+  .btn-cancel {
+    @apply border-2 border-black bg-grey text-black hover:bg-black hover:text-grey;
+  }
+
   .is-disabled {
     @apply cursor-not-allowed opacity-50;
   }
@@ -80,7 +84,8 @@ body {
   }
 
   .footer-link:hover img {
-    filter: brightness(0) saturate(100%) invert(6%) sepia(4%) saturate(20%) hue-rotate(316deg) brightness(101%) contrast(93%);
+    filter: brightness(0) saturate(100%) invert(6%) sepia(4%) saturate(20%)
+      hue-rotate(316deg) brightness(101%) contrast(93%);
   }
 
   .check-todo {
