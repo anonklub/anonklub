@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { isAddress } from 'viem'
 import { config, getData } from '#'
 import { AnonSetResults, HelpModal, Loader } from '@components'
 import { useAsync, useStore } from '@hooks'
@@ -8,14 +9,14 @@ export default function Page() {
   const [tokenAddress, setTokenAddress] = useState<string>('')
   const { anonSet, setAnonSet } = useStore()
   const { error, execute, isLoading } = useAsync(async () => {
-    if (tokenAddress !== '') {
+    if (isAddress(tokenAddress)) {
       const data = await getData<string[]>(
         `${config.urls.queryApi}/asset/nft?tokenAddress=${tokenAddress}`,
       )
       setAnonSet(data)
     }
   })
-  const canFetch = tokenAddress !== ''
+  const canFetch = isAddress(tokenAddress)
 
   if (isLoading) return <Loader />
   if (error instanceof Error) return <span>Error: {error.message}</span>
