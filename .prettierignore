@@ -32,3 +32,5 @@ commitlint.config.js
 .eslint
 .eslintignore
 .prettierignore
+
+*.rs
