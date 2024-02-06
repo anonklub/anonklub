@@ -8,11 +8,14 @@ export default function Page() {
   const [min, setMin] = useState<number>(100)
   const { anonSet, setAnonSet } = useStore()
   const { error, execute, isLoading } = useAsync(async () => {
-    const data = await getData<string[]>(
-      `${config.urls.queryApi}/asset/ETH?min=${min}`,
-    )
-    setAnonSet(data)
+    if (min > 0) {
+      const data = await getData<string[]>(
+        `${config.urls.queryApi}/asset/ETH?min=${min}`,
+      )
+      setAnonSet(data)
+    }
   })
+  const canFetch = min > 0
 
   if (isLoading) return <Loader />
   if (error instanceof Error) return <span>Error: {error.message}</span>
@@ -44,7 +47,12 @@ export default function Page() {
         />
       </div>
 
-      <button className='btn btn-primary self-center' onClick={execute}>
+      <button
+        className={`btn self-center ${
+          canFetch ? 'btn-primary' : 'is-disabled'
+        }`}
+        onClick={execute}
+      >
         Fetch Anonset
       </button>
     </div>
