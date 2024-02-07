@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { config, getData } from '#'
 import { AnonSetResults, HelpModal, Loader } from '@components'
-import { useAsync, useStore } from '@hooks'
+import { useFetchOnChain, useStore } from '@hooks'
 
 // TODO extract in shared lib
 enum Choice {
@@ -16,7 +16,7 @@ export default function Page() {
   const [choice, setChoice] = useState<Choice>(Choice.FOR)
   const [id, setId] = useState<string>('')
   const { anonSet, setAnonSet } = useStore()
-  const { error, execute, isLoading } = useAsync(async () => {
+  const { error, execute, isLoading } = useFetchOnChain(async () => {
     if (id !== '') {
       const data = await getData<string[]>(
         `${config.urls.queryApi}/dao/ens?id=${id}&choice=${choice}`,

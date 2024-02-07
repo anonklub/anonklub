@@ -14,7 +14,7 @@ export const useProofResult = () => {
       message: proofRequest.message,
       sig: proofRequest.rawSignature as Hex,
     })
-  }, 'submit-proof-request')
+  })
 
   return { error, fullProof }
 }

@@ -14,9 +14,8 @@ export const useVerifyProof = () => {
     error: errorSnarkJs,
     execute,
     isLoading: isLoadingSnarkJs,
-  } = useAsync<string>(
-    () => groth16.exportSolidityCallData(proof, publicSignals),
-    'verify-proof-calldata',
+  } = useAsync<string>(async () =>
+    groth16.exportSolidityCallData(proof, publicSignals),
   )
   const args: GetFunctionArgs<typeof abi, 'verifyProof'>['args'] =
     data !== undefined ? bigintify(JSON.parse(`[${data}]`)) : undefined

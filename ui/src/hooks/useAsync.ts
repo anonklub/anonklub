@@ -1,17 +1,30 @@
-import { useState } from 'react'
-import useSWR, { Fetcher } from 'swr'
-import { useBlockNumber } from 'wagmi'
+import { useCallback, useState } from 'react'
 
-export const useAsync = <T>(fetcher: Fetcher<T>, key?: string) => {
-  // use block number as a key to invalidate cache
-  const block = useBlockNumber()
-  const [shouldFetch, setShouldFetch] = useState(false)
-  const execute = () => setShouldFetch(true)
-  const { data, error, isLoading } = useSWR(
-    key === undefined ? (shouldFetch ? block : null) : key,
-    fetcher,
-    { revalidateOnFocus: false }, // don't revalidate if focusing tab/window out because queries can be expensive/long
-  )
+/**
+ * Executes an async function and returns the result, loading state and error
+ * @param asyncFn
+ */
+export const useAsync = <T>(asyncFn: () => Promise<T>) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<Error | undefined>(undefined)
+  const [data, setData] = useState<T | undefined>(undefined)
+
+  const execute = useCallback(() => {
+    setIsLoading(true)
+    setData(undefined)
+    setError(undefined)
+
+    void (async () => {
+      try {
+        const response = await asyncFn()
+        setData(response)
+      } catch (error) {
+        setError(error instanceof Error ? error : new Error('Unexpected error'))
+      } finally {
+        setIsLoading(false)
+      }
+    })()
+  }, [asyncFn])
 
   return { data, error, execute, isLoading }
 }
