@@ -3,6 +3,7 @@
  */
 
 export * from './useAsync'
+export * from './useFetchOnChain'
 export * from './useJsonFile'
 export * from './useProofRequest'
 export * from './useProofResult'

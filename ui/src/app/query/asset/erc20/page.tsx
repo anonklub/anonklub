@@ -3,13 +3,13 @@ import { useState } from 'react'
 import { isAddress } from 'viem'
 import { config, getData } from '#'
 import { AnonSetResults, HelpModal, Loader } from '@components'
-import { useAsync, useStore } from '@hooks'
+import { useFetchOnChain, useStore } from '@hooks'
 
 export default function Page() {
   const [min, setMin] = useState<number>(0)
   const [tokenAddress, setTokenAddress] = useState<string>('')
   const { anonSet, setAnonSet } = useStore()
-  const { error, execute, isLoading } = useAsync(async () => {
+  const { error, execute, isLoading } = useFetchOnChain(async () => {
     if (isAddress(tokenAddress) && min > 0) {
       const data = await getData<string[]>(
         `${config.urls.queryApi}/asset/ERC20?min=${min}&tokenAddress=${tokenAddress}`,
