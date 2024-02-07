@@ -1,4 +1,5 @@
-import { Controller, Get, Query } from '@nestjs/common'
+import { CacheInterceptor } from '@nestjs/cache-manager'
+import { Controller, Get, Query, UseInterceptors } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { AnonsetService } from './anonset.service'
 import { AnonsetResponse } from './decorators/AnonsetResponse'
@@ -10,6 +11,7 @@ import {
 } from './dto'
 
 @Controller()
+@UseInterceptors(CacheInterceptor)
 export class AnonsetController {
   constructor(private readonly service: AnonsetService) {}
 
