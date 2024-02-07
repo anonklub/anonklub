@@ -2,12 +2,12 @@
 import { useState } from 'react'
 import { config, getData } from '#'
 import { AnonSetResults, HelpModal, Loader } from '@components'
-import { useAsync, useStore } from '@hooks'
+import { useFetchOnChain, useStore } from '@hooks'
 
 export default function Page() {
   const [min, setMin] = useState<number>(100)
   const { anonSet, setAnonSet } = useStore()
-  const { error, execute, isLoading } = useAsync(async () => {
+  const { error, execute, isLoading } = useFetchOnChain(async () => {
     if (min > 0) {
       const data = await getData<string[]>(
         `${config.urls.queryApi}/asset/ETH?min=${min}`,
