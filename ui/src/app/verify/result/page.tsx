@@ -22,12 +22,8 @@ export default function Page() {
   return (
     valid !== undefined && (
       <div className='flex flex-col space-y-5'>
-        <h2>Proof Verification Result</h2>
-        <span
-          className={`nes-text ${
-            valid ? 'is-success' : 'is-error'
-          } self-center text-lg`}
-        >
+        <h2> Proof Verification Result</h2>
+        <span className={`text-${valid ? 'blue' : 'red'} self-center text-xl`}>
           {valid.toString().toUpperCase()}
         </span>
       </div>
