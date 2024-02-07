@@ -66,7 +66,6 @@
     "typecheck": "turbo typecheck",
     "validate": "turbo format.cargo format.forge format.prettier lint.cargo lint.eslint lint.solhint build _compile --cache-dir=.turbo",
     "githook:precommit": "lint-staged && pnpm run typecheck",
-    "githook:prepush": "pnpm run _test --coverage",
     "prepare": "is-ci || husky install"
   },
   "workspaces": [
