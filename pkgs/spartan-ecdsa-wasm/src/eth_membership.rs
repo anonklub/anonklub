@@ -181,7 +181,7 @@ mod tests {
             pub_input.push(to_cs_field(merkle_proof.root));
         }
 
-        let witness: Vec<F> = cs.gen_witness(&synthesizer, &pub_input, &priv_input);
+        let witness: Vec<F> = cs.gen_witness(synthesizer, &pub_input, &priv_input);
 
         assert!(cs.is_sat(&witness, &pub_input));
     }

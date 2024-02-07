@@ -1,0 +1,4 @@
+{
+  "*": ["prettier --write --ignore-path .prettierignore"],
+  "**/*.{ts,js}": ["eslint"]
+}
