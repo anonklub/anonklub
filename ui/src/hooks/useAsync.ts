@@ -12,8 +12,13 @@ export const useAsync = <T>(
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | undefined>(undefined)
   const [data, setData] = useState<T | undefined>(undefined)
+  const once = useRef(false)
 
   const execute = useCallback(() => {
+    // guard against multiple executions
+    if (once.current) return
+
+    once.current = true
     setIsLoading(true)
     setData(undefined)
     setError(undefined)
