@@ -12,7 +12,7 @@ const ellipsify = (text: string, start = 6): string => {
 }
 
 export default function Page() {
-  const { fullProof } = useProofResult()
+  const { value: fullProof } = useProofResult()
   const [copySuccess, setCopySuccess] = useState('')
 
   if (fullProof == null) {
