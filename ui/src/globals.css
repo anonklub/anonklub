@@ -23,6 +23,18 @@ body {
   z-index: -1; /* Ensures the background stays behind other content */
 }
 
+.dialog {
+  z-index: 1000;
+  position: fixed;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.3); /* Grey out the backdrop */
+}
+
 @layer components {
   .btn {
     @apply rounded border-2 border-grey bg-black px-4 py-2 text-grey;
