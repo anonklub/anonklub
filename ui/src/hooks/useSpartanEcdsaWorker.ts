@@ -7,8 +7,7 @@ import { useEffect } from 'react'
 
 export const useSpartanEcdsaWorker = () => {
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    ;(async () => {
+    void (async () => {
       await SpartanEcdsaWorker.prepare()
     })()
   }, [])
