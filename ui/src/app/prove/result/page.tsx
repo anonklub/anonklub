@@ -31,7 +31,7 @@ export default function Page() {
     const file = new Blob([fullProof.toString()], { type: 'text/plain' })
     element.href = URL.createObjectURL(file)
     element.download = 'fullProof.txt'
-    document.body.appendChild(element) // Required for this to work in FireFox
+    document.body.appendChild(element)
     element.click()
   }
 
