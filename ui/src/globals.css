@@ -29,7 +29,7 @@ body {
   }
 
   .btn-primary {
-    @apply hover:bg-black;
+    @apply hover:bg-gradient-to-r  hover:from-blue hover:to-red;
   }
 
   .btn-secondary {
