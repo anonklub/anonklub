@@ -57,8 +57,8 @@ body {
     @apply cursor-not-allowed opacity-50;
   }
 
-  .question-header {
-    @apply mt-20 w-fit  self-center p-4 text-2xl text-grey;
+  .header {
+    @apply mt-20 w-fit p-4 text-2xl text-grey;
   }
 
   .input {
@@ -113,5 +113,9 @@ body {
 
   .scrollable-json-container {
     @apply max-h-[325px] overflow-auto scroll-smooth rounded-lg border border-grey p-4 text-sm text-grey shadow-lg;
+  }
+
+  .buttons-row {
+    @apply mt-10 flex flex-row justify-center space-x-20;
   }
 }
