@@ -1,10 +1,13 @@
 'use client'
 import { useState } from 'react'
 import { config, getData } from '#'
-import { AnonSetResults, HelpModal, Loader } from '@components'
-import { useFetchOnChain, useStore } from '@hooks'
+import { AnonSetResults, Loader } from '@components'
+import { useFetchOnChain, useSetHelp, useStore } from '@hooks'
 
 export default function Page() {
+  useSetHelp([
+    'Provide the ERC20 token address and the minimum amount of tokens one should own to be part of the anonset.',
+  ])
   const [min, setMin] = useState<number>(100)
   const { anonSet, setAnonSet } = useStore()
   const { error, execute, isLoading } = useFetchOnChain(async () => {
@@ -24,13 +27,6 @@ export default function Page() {
 
   return (
     <div className='flex flex-col items-center space-y-10'>
-      <div className='self-end'>
-        <HelpModal
-          content={[
-            'Provide the ERC20 token address and the minimum amount of tokens one should own to be part of the anonset.',
-          ]}
-        />
-      </div>
       <div className='field'>
         <label htmlFor='eth_amount'>Min</label>
         <input

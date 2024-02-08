@@ -2,10 +2,13 @@
 import { useState } from 'react'
 import { isAddress } from 'viem'
 import { config, getData } from '#'
-import { AnonSetResults, HelpModal, Loader } from '@components'
-import { useFetchOnChain, useStore } from '@hooks'
+import { AnonSetResults, Loader } from '@components'
+import { useFetchOnChain, useSetHelp, useStore } from '@hooks'
 
 export default function Page() {
+  useSetHelp([
+    'Provide the ERC20 token address and the minimum amount of tokens one should own to be part of the anonset.',
+  ])
   const [min, setMin] = useState<number>(0)
   const [tokenAddress, setTokenAddress] = useState<string>('')
   const { anonSet, setAnonSet } = useStore()

@@ -1,8 +1,8 @@
 'use client'
 import { useState } from 'react'
 import { config, getData } from '#'
-import { AnonSetResults, HelpModal, Loader } from '@components'
-import { useFetchOnChain, useStore } from '@hooks'
+import { AnonSetResults, Loader } from '@components'
+import { useFetchOnChain, useSetHelp, useStore } from '@hooks'
 
 // TODO extract in shared lib
 enum Choice {
@@ -12,7 +12,10 @@ enum Choice {
 }
 
 export default function Page() {
-  // console.log(Object.values(Choice))
+  useSetHelp([
+    'ENS Proposal ID: can be found at https://www.tally.xyz/gov/ens/proposals. ID is in the URL path of an individual proposal (https://www.tally.xyz/gov/ens/proposal/[id]).',
+    'Choice: choice addresses should have voted to be part of the Anonset.',
+  ])
   const [choice, setChoice] = useState<Choice>(Choice.FOR)
   const [id, setId] = useState<string>('')
   const { anonSet, setAnonSet } = useStore()
@@ -33,14 +36,6 @@ export default function Page() {
 
   return (
     <div className='flex flex-col items-center space-y-10'>
-      <div className='self-end'>
-        <HelpModal
-          content={[
-            'ENS Proposal ID: can be found at https://www.tally.xyz/gov/ens/proposals. ID is in the URL path of an individual proposal (https://www.tally.xyz/gov/ens/proposal/[id]).',
-            'Choice: choice addresses should have voted to be part of the Anonset.',
-          ]}
-        />
-      </div>
       <div className='field'>
         <label htmlFor='ens_proposal_id'>ENS Proposal ID</label>
         <input

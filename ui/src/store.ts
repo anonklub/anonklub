@@ -7,6 +7,10 @@ export interface StoreModel {
     set: Action<{ data: string[] | null }, string[]>
     reset: Action<{ data: string[] | null }>
   }
+  help: {
+    text: string[] | null
+    setText: Action<{ text: string[] }, string[]>
+  }
   proof: {
     data: Uint8Array | null
     set: Action<{ data: Uint8Array | null }, Uint8Array | null>
@@ -30,6 +34,12 @@ export const store = createStore<StoreModel>({
     set: action((state, payload) => {
       state.data = payload
     }),
+  },
+  help: {
+    setText: action((state, payload) => {
+      state.text = payload
+    }),
+    text: null,
   },
   proof: {
     data: null,
