@@ -1,15 +1,24 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 /**
- * Executes an async function and returns the result, loading state and error
- * @param asyncFn
+ * Executes an async function (by default immediately) and returns the result, loading state and error
+ * @param asyncFn - The async function to execute
+ * @param execImmediately - Whether to execute the function immediately (default: true)
  */
-export const useAsync = <T>(asyncFn: () => Promise<T>) => {
+export const useAsync = <T>(
+  asyncFn: () => Promise<T>,
+  execImmediately = true,
+) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | undefined>(undefined)
   const [data, setData] = useState<T | undefined>(undefined)
+  const once = useRef(false)
 
   const execute = useCallback(() => {
+    // guard against multiple executions
+    if (once.current) return
+
+    once.current = true
     setIsLoading(true)
     setData(undefined)
     setError(undefined)
@@ -25,6 +34,10 @@ export const useAsync = <T>(asyncFn: () => Promise<T>) => {
       }
     })()
   }, [asyncFn])
+
+  useEffect(() => {
+    if (execImmediately) execute()
+  }, [execImmediately, execute])
 
   return { data, error, execute, isLoading }
 }
