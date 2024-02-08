@@ -1,18 +1,14 @@
-import { useAsync, useStore } from '@/hooks'
+import { useStore } from '@/hooks'
 import { useSpartanEcdsaWorker } from './useSpartanEcdsaWorker'
+import { useAsync } from 'react-use'
 
 export const useVerifyProof = () => {
   const { proof } = useStore()
   const { verifyMembership } = useSpartanEcdsaWorker()
 
-  const { data: isValid, error } = useAsync(async () => {
+  return useAsync(async () => {
     if (proof === null) return
 
     return await verifyMembership(proof)
-  })
-
-  return {
-    error,
-    isValid,
-  }
+  }, [proof])
 }

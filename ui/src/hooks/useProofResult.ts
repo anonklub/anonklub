@@ -1,13 +1,13 @@
+import { useAsync } from 'react-use'
 import { Hex } from 'viem'
-import { useAsync, useStore } from '@hooks'
+import { useStore } from '@hooks'
 import { useSpartanEcdsaWorker } from './useSpartanEcdsaWorker'
 
-// TODO: refactor, merge this with useSpartanEcdsaWorker hook?
 export const useProofResult = () => {
   const { proofRequest } = useStore()
   const { proveMembership } = useSpartanEcdsaWorker()
 
-  const { data: fullProof, error } = useAsync(async () => {
+  return useAsync(async () => {
     if (proofRequest === null) return
 
     return await proveMembership({
@@ -15,7 +15,5 @@ export const useProofResult = () => {
       message: proofRequest.message,
       sig: proofRequest.rawSignature as Hex,
     })
-  })
-
-  return { error, fullProof }
+  }, [proofRequest])
 }
