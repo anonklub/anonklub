@@ -37,7 +37,8 @@ export const useAsync = <T>(
 
   useEffect(() => {
     if (execImmediately) execute()
-  }, [execImmediately, execute])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [execute])
 
   return { data, error, execute, isLoading }
 }
