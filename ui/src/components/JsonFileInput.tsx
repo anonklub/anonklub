@@ -2,7 +2,7 @@
 import { ArrowUpOnSquareIcon } from '@heroicons/react/20/solid'
 import { useRef } from 'react'
 import { modal } from '#'
-import { Modal, ScrollableJsonContainer, Star } from '@components'
+import { Modal, ScrollableJsonContainer, CheckMark } from '@components'
 import { useJsonFile, useStore } from '@hooks'
 
 export type JSONValue =
@@ -36,11 +36,11 @@ export function JsonFileInput({
           <Modal ref={modalRef}>
             <ScrollableJsonContainer data={data} />
           </Modal>
-          <Star full text={title} />
+          <CheckMark full text={title} />
         </a>
       ) : (
         <>
-          <Star text={title} />
+          <CheckMark text={title} />
           <input
             type='file'
             accept='.json,application/json'

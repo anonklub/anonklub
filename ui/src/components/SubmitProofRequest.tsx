@@ -6,7 +6,7 @@ import {
   HelpModal,
   Modal,
   ScrollableJsonContainer,
-  Star,
+  CheckMark,
   WarningModal,
 } from '@components'
 import { useProofRequest, useStore } from '@hooks'
@@ -54,15 +54,15 @@ export function SubmitProofRequest() {
       <div className='flex flex-row justify-evenly'>
         {anonSet !== null ? (
           <a onClick={open}>
-            <Star full text='Anonset' />
+            <CheckMark full text='Anonset' />
             <Modal ref={ref}>
               <ScrollableJsonContainer data={anonSet} />
             </Modal>
           </a>
         ) : (
-          <Star full={false} text='Anonset' />
+          <CheckMark full={false} text='Anonset' />
         )}
-        <Star full={isSuccess} text='Signed' />
+        <CheckMark full={isSuccess} text='Signed' />
       </div>
       <div className='flex flex-row items-end justify-evenly'>
         <button

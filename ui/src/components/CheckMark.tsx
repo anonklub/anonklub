@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-export function Star({
+export function CheckMark({
   full = false,
   text,
 }: {
