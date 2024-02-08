@@ -19,7 +19,7 @@ export const useProofRequest = () => {
   } = useSignMessage({
     message,
   })
-  const { generateMerkleProof } = useMerkleTreeWasmWorker()
+  const { generateMerkleProof, isWorkerReady } = useMerkleTreeWasmWorker()
 
   const canSign = rawSignature === undefined && isConnected
   const canSubmit = isSuccess && anonSet !== null && proofRequest !== null
@@ -29,7 +29,8 @@ export const useProofRequest = () => {
       if (
         typeof rawSignature === 'undefined' ||
         anonSet === null ||
-        typeof address === 'undefined'
+        typeof address === 'undefined' ||
+        !isWorkerReady
       )
         return
 
@@ -49,7 +50,15 @@ export const useProofRequest = () => {
       )
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, canSign, canSubmit, message, rawSignature, anonSet])
+  }, [
+    address,
+    canSign,
+    canSubmit,
+    isWorkerReady,
+    message,
+    rawSignature,
+    anonSet,
+  ])
 
   return {
     canSign,

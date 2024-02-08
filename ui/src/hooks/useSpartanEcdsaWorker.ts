@@ -3,14 +3,10 @@ import {
   SpartanEcdsaWorker,
   VerifyMembershipFn,
 } from '@anonklub/spartan-ecdsa-worker'
-import { useEffect } from 'react'
+import { useWorker } from '@/hooks/useWorker'
 
 export const useSpartanEcdsaWorker = () => {
-  useEffect(() => {
-    void (async () => {
-      await SpartanEcdsaWorker.prepare()
-    })()
-  }, [])
+  const isWorkerReady = useWorker(SpartanEcdsaWorker)
 
   const proveMembership: ProveMembershipFn = async ({
     merkleProofBytesSerialized,
@@ -39,6 +35,7 @@ export const useSpartanEcdsaWorker = () => {
   }
 
   return {
+    isWorkerReady,
     proveMembership,
     verifyMembership,
   }

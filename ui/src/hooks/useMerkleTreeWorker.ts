@@ -2,14 +2,10 @@ import {
   GenerateMerkleProofFn,
   MerkleTreeWorker,
 } from '@anonklub/merkle-tree-worker'
-import { useEffect } from 'react'
+import { useWorker } from '@/hooks/useWorker'
 
 export const useMerkleTreeWasmWorker = () => {
-  useEffect(() => {
-    void (async () => {
-      await MerkleTreeWorker.prepare()
-    })()
-  }, [])
+  const isWorkerReady = useWorker(MerkleTreeWorker)
 
   const generateMerkleProof: GenerateMerkleProofFn = async (
     leaves,
@@ -28,5 +24,6 @@ export const useMerkleTreeWasmWorker = () => {
 
   return {
     generateMerkleProof,
+    isWorkerReady,
   }
 }

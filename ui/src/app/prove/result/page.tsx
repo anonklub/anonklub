@@ -13,12 +13,11 @@ const ellipsify = (text: string, start = 6): string => {
 }
 
 export default function Page() {
-  const { value: fullProof } = useProofResult()
+  const state = useProofResult()
+  const fullProof = state.value
   const [copySuccess, setCopySuccess] = useState('')
 
-  if (fullProof == null) {
-    return <Loader />
-  }
+  if (fullProof == null) return <Loader />
 
   const copyToClipboard = () => {
     navigator.clipboard
