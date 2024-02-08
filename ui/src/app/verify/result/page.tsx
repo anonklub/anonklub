@@ -21,8 +21,8 @@ export default function Page() {
   if (isValid === undefined) return <Loader />
 
   return (
-    <div className='flex flex-col space-y-5'>
-      <h2>Proof Verification Result</h2>
+    <div className='flex flex-col items-center justify-center space-y-5'>
+      <h2 className='header'>Proof Verification Result</h2>
       <span
         className={`nes-text ${
           isValid ? 'is-success' : 'is-error'
