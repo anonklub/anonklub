@@ -36,15 +36,12 @@ export default function Page() {
   }
 
   return (
-    <div className='flex flex-col items-center justify-center space-y-10'>
-      <h2 className='self-start'>Proof Results</h2>
+    <div className='mt-[70px] flex flex-col items-center justify-center'>
+      <h2 className='header'>Proof Results</h2>
 
-      {/* TODO: change color, red on red is hard to read */}
-      <div className='flex flex-col text-red'>
-        {ellipsify(fullProof.toString(), 100)}
-      </div>
+      <div className='text-grey'>{ellipsify(fullProof.toString(), 100)}</div>
       {copySuccess}
-      <div className='flex flex-row justify-center space-x-5'>
+      <div className='buttons-row'>
         <button onClick={copyToClipboard} className='btn btn-primary'>
           Copy to Clipboard
         </button>

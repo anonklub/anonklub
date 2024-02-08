@@ -2,10 +2,11 @@
 import { useState } from 'react'
 import { isAddress } from 'viem'
 import { config, getData } from '#'
-import { AnonSetResults, HelpModal, Loader } from '@components'
-import { useFetchOnChain, useStore } from '@hooks'
+import { AnonSetResults, Loader } from '@components'
+import { useFetchOnChain, useSetHelp, useStore } from '@hooks'
 
 export default function Page() {
+  useSetHelp(['Provide the NFT contract address.'])
   const [tokenAddress, setTokenAddress] = useState<string>('')
   const { anonSet, setAnonSet } = useStore()
   const { error, execute, isLoading } = useFetchOnChain(async () => {
@@ -24,10 +25,7 @@ export default function Page() {
     return <AnonSetResults anonSet={anonSet} title='NFT Owners' />
 
   return (
-    <div className='flex flex-col items-center space-y-10'>
-      <div className='self-end'>
-        <HelpModal content={['Provide the NFT contract address.']} />
-      </div>
+    <div className='mt-40 flex flex-col items-center space-y-10'>
       <div className='field'>
         <label htmlFor='nft_address'>NFT Contract Address</label>
         <input

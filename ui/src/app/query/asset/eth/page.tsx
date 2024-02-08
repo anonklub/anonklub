@@ -1,10 +1,13 @@
 'use client'
 import { useState } from 'react'
 import { config, getData } from '#'
-import { AnonSetResults, HelpModal, Loader } from '@components'
-import { useFetchOnChain, useStore } from '@hooks'
+import { AnonSetResults, Loader } from '@components'
+import { useFetchOnChain, useSetHelp, useStore } from '@hooks'
 
 export default function Page() {
+  useSetHelp([
+    'Provide the minimum amount of ETH one should own to be part of the anonset.',
+  ])
   const [min, setMin] = useState<number>(100)
   const { anonSet, setAnonSet } = useStore()
   const { error, execute, isLoading } = useFetchOnChain(async () => {
@@ -23,15 +26,8 @@ export default function Page() {
     return <AnonSetResults anonSet={anonSet} title='ETH Balance' />
 
   return (
-    <div className='flex flex-col items-center space-y-10'>
-      <div className='self-end'>
-        <HelpModal
-          content={[
-            'Provide the ERC20 token address and the minimum amount of tokens one should own to be part of the anonset.',
-          ]}
-        />
-      </div>
-      <div className='field'>
+    <div className='mt-40 flex flex-col items-center space-y-10 px-60'>
+      <div className='field justify-between'>
         <label htmlFor='eth_amount'>Min</label>
         <input
           id='eth_amount'
@@ -39,7 +35,7 @@ export default function Page() {
           max={100_000_000}
           step={1}
           type='number'
-          className='input w-1/4 text-center'
+          className='input text-center'
           value={min}
           onChange={({ target }) => {
             setMin(parseInt(target.value))

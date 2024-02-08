@@ -2,10 +2,11 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { NAVIGATION } from '#'
-import { HelpModal, JsonFileInput } from '@components'
-import { useStore } from '@hooks'
+import { JsonFileInput } from '@components'
+import { useSetHelp, useStore } from '@hooks'
 
 export default function Page() {
+  useSetHelp(['You need to provide a previously generated proof .txt file.'])
   const { proof, setProof } = useStore()
   const canVerify = proof !== null
 
@@ -16,22 +17,16 @@ export default function Page() {
   return (
     <div className='flex flex-col space-y-10'>
       <div className='self-end'>
-        {canVerify ? (
+        {canVerify && (
           <Link href='/verify/result'>
             <button className='btn btn-secondary self-center'>
               {NAVIGATION.VERIFY_PROOF}
             </button>
           </Link>
-        ) : (
-          <HelpModal
-            content={[
-              'You need to provide your proof and public signals json files.',
-            ]}
-          />
         )}
       </div>
 
-      <div className='flex flex-row'>
+      <div className='flex flex-row pt-20'>
         <JsonFileInput dataKey='proof' title='Proof' />
       </div>
     </div>

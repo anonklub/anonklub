@@ -3,10 +3,12 @@
  */
 
 export * from './useFetchOnChain'
+export * from './useHelp'
 export * from './useJsonFile'
 export * from './useProofRequest'
 export * from './useProofResult'
 export * from './useResetAnonSet'
+export * from './useSetHelp'
 export * from './useStore'
 export * from './useVerifyProof'
 export * from './useWorker'

@@ -11,11 +11,11 @@ const Modal = forwardRef(
 
     return (
       <section>
-        <dialog className='bg-grey p-2' ref={ref}>
+        <dialog className='dialog bg-black text-grey' ref={ref}>
           <form method='dialog' className='space-y-5'>
             {children}
             <menu className='dialog-menu flex flex-row justify-center'>
-              <button className='btn btn-cancel' onClick={close}>
+              <button className='btn btn-secondary' onClick={close}>
                 Cancel
               </button>
             </menu>

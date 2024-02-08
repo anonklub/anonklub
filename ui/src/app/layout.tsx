@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <title>{config.appTitle}</title>
       </head>
-      <body className='m-3 bg-black text-grey'>
+      <body className='mx-10 my-3 bg-black text-grey'>
         <div className='background-image' />
         <WagmiConfig config={wagmiConfig}>
           <StoreProvider store={store}>

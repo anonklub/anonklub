@@ -1,6 +1,7 @@
+'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ConnectButton } from '@components'
+import { ConnectButton, HelpModal } from '@components'
 
 export function Header() {
   return (
@@ -18,7 +19,10 @@ export function Header() {
           </a>
         </div>
       </Link>
-      <ConnectButton />
+      <div className='flex items-center justify-end space-x-4'>
+        <ConnectButton />
+        <HelpModal />
+      </div>
     </div>
   )
 }

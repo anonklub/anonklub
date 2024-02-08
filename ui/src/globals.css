@@ -23,42 +23,37 @@ body {
   z-index: -1; /* Ensures the background stays behind other content */
 }
 
+.dialog {
+  z-index: 1000;
+  position: fixed;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.3); /* Grey out the backdrop */
+}
+
 @layer components {
   .btn {
-    @apply rounded border-2 border-grey px-4 py-2 text-grey transition duration-300 ease-in-out;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue focus:ring-offset-2;
+    @apply rounded border-2 border-grey bg-black px-4 py-2 text-grey;
   }
 
   .btn-primary {
-    @apply hover:bg-gradient-to-r  hover:from-blue hover:to-red;
+    @apply hover:bg-gradient-to-r  hover:from-blue hover:to-red hover:text-black;
   }
 
   .btn-secondary {
-    @apply bg-grey text-blue hover:bg-blue hover:text-grey;
-  }
-
-  .btn-warning {
-    @apply bg-grey text-blue hover:bg-blue hover:text-grey;
-  }
-
-  .btn-connect {
-    @apply text-grey hover:text-blue;
-  }
-
-  .btn-cancel {
-    @apply border-2 border-black bg-grey text-black hover:bg-black hover:text-grey;
+    @apply hover:bg-grey hover:text-black;
   }
 
   .is-disabled {
     @apply cursor-not-allowed opacity-50;
   }
 
-  .question-box {
-    @apply rounded-lg border border-red p-4 text-grey;
+  .header {
+    @apply mt-20 w-fit p-4 text-2xl text-grey;
   }
 
   .input {
@@ -113,5 +108,9 @@ body {
 
   .scrollable-json-container {
     @apply max-h-[325px] overflow-auto scroll-smooth rounded-lg border border-grey p-4 text-sm text-grey shadow-lg;
+  }
+
+  .buttons-row {
+    @apply mt-10 flex flex-row justify-center space-x-20;
   }
 }

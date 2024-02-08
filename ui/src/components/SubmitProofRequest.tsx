@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react'
 import { modal, NAVIGATION } from '#'
 import {
   CheckMark,
-  HelpModal,
   Modal,
   ScrollableJsonContainer,
   WarningModal,
@@ -22,9 +21,9 @@ export function SubmitProofRequest() {
   }, [setWarningWasRead])
 
   return (
-    <div className='flex flex-col space-y-10'>
+    <div className='mt-20 flex flex-col space-y-10'>
       <div className='flex flex-row space-x-4 self-end'>
-        {canSubmit ? (
+        {canSubmit && (
           <>
             <WarningModal
               content={[
@@ -43,12 +42,6 @@ export function SubmitProofRequest() {
               </button>
             )}
           </>
-        ) : (
-          <HelpModal
-            content={[
-              'Sign a message with the address you want to prove is part on the anonset. This signature and the anonset are required to build your zk proof.',
-            ]}
-          />
         )}
       </div>
       <div className='flex flex-row justify-evenly'>
