@@ -4,7 +4,6 @@ import {
 } from '@anonklub/merkle-tree-worker'
 import { useEffect } from 'react'
 
-// TODO: refactor this with useAsync?
 export const useMerkleTreeWasmWorker = () => {
   useEffect(() => {
     void (async () => {
