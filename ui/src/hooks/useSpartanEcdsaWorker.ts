@@ -3,7 +3,7 @@ import {
   SpartanEcdsaWorker,
   VerifyMembershipFn,
 } from '@anonklub/spartan-ecdsa-worker'
-import { useWorker } from '@/hooks/useWorker'
+import { useWorker } from '@/hooks'
 
 export const useSpartanEcdsaWorker = () => {
   const isWorkerReady = useWorker(SpartanEcdsaWorker)
