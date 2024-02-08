@@ -34,7 +34,7 @@ body {
   }
 
   .btn-primary {
-    @apply hover:bg-gradient-to-r  hover:from-blue hover:to-red;
+    @apply hover:bg-black;
   }
 
   .btn-secondary {
