@@ -39,8 +39,7 @@ export default function Page() {
     <div className='flex flex-col items-center justify-center space-y-10'>
       <h2 className='self-start'>Proof Results</h2>
 
-      {/* TODO: change color, red on red is hard to read */}
-      <div className='flex flex-col text-red'>
+      <div className='flex flex-col text-grey'>
         {ellipsify(fullProof.toString(), 100)}
       </div>
       {copySuccess}
