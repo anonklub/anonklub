@@ -38,7 +38,7 @@ export function SubmitProofRequest() {
                 </button>
               </Link>
             ) : (
-              <button className='btn btn-secondary'>
+              <button className='btn btn-secondary is-disabled'>
                 {NAVIGATION.SUBMIT_PROOF}
               </button>
             )}
