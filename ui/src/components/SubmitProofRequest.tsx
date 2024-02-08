@@ -15,8 +15,7 @@ export function SubmitProofRequest() {
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = modal(ref)
   const { anonSet, setWarningWasRead, warningWasRead } = useStore()
-  const { canSign, canSubmit, isSuccess, message, setMessage, signMessage } =
-    useProofRequest()
+  const { canSign, canSubmit, isSuccess, signMessage } = useProofRequest()
 
   useEffect(() => {
     setWarningWasRead(false)
@@ -47,7 +46,7 @@ export function SubmitProofRequest() {
         ) : (
           <HelpModal
             content={[
-              'You need to choose a message and sign it with the address you want to prove is part on the anonset. This signature and the anonset are required to build your zk proof.',
+              'Sign a message with the address you want to prove is part on the anonset. This signature and the anonset are required to build your zk proof.',
             ]}
           />
         )}
@@ -63,23 +62,9 @@ export function SubmitProofRequest() {
         ) : (
           <Star full={false} text='Anonset' />
         )}
-        <Star full={message !== ''} text='Message' />
         <Star full={isSuccess} text='Signed' />
       </div>
       <div className='flex flex-row items-end justify-evenly'>
-        <div className='field'>
-          <label htmlFor='name_field'>Message</label>
-          <input
-            type='text'
-            id='name_field'
-            className='input'
-            value={message}
-            onChange={({ target }) => {
-              setMessage(target.value)
-            }}
-          />
-        </div>
-
         <button
           className={`btn ${canSign ? 'btn-primary' : 'is-disabled'}`}
           onClick={() => signMessage()}

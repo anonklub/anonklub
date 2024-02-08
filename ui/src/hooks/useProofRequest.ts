@@ -1,37 +1,33 @@
 import { ProofRequest } from '@anonklub/proof'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
+import { config } from '#'
 import { useMerkleTreeWasmWorker } from './useMerkleTreeWorker'
 import { useStore } from './useStore'
+
+const { message } = config
 
 export const useProofRequest = () => {
   const { address, isConnected } = useAccount()
   const { anonSet, proofRequest, setProofRequest } = useStore()
-  const [message, setMessage] = useState('')
   const {
     data: rawSignature,
     isError,
     isLoading,
     isSuccess,
-    reset,
     signMessage,
   } = useSignMessage({
     message,
   })
   const { generateMerkleProof } = useMerkleTreeWasmWorker()
 
-  useEffect(() => {
-    reset()
-  }, [message, reset])
-
-  const canSign = message !== '' && rawSignature === undefined && isConnected
+  const canSign = rawSignature === undefined && isConnected
   const canSubmit = isSuccess && anonSet !== null && proofRequest !== null
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     ;(async () => {
       if (
-        message === '' ||
         typeof rawSignature === 'undefined' ||
         anonSet === null ||
         typeof address === 'undefined'
@@ -61,9 +57,7 @@ export const useProofRequest = () => {
     isError,
     isLoading,
     isSuccess,
-    message,
     rawSignature,
-    setMessage,
     signMessage,
   }
 }

@@ -4,6 +4,7 @@ import { sepolia } from 'wagmi/chains'
 interface Config {
   appTitle: string
   chains: Chain[]
+  message: string
   urls: {
     queryApi: string
   }
@@ -49,6 +50,8 @@ if (isNaN(parseInt(verifierChainId))) {
 export const config: Config = {
   appTitle: 'Anonklub',
   chains: [sepolia],
+  message:
+    'I am generating an anonymous proof of Ethereum address ownership with AnonKlub.',
   urls: {
     queryApi: queryApiUrl,
   },
