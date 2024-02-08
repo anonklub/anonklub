@@ -1,6 +1,5 @@
 import { ProofRequest } from '@anonklub/proof'
 import { action, Action, createStore } from 'easy-peasy'
-import { JSONValue } from '@components'
 
 export interface StoreModel {
   anonSet: {
@@ -9,16 +8,12 @@ export interface StoreModel {
     reset: Action<{ data: string[] | null }>
   }
   proof: {
-    data: JSONValue | null
-    set: Action<{ data: JSONValue | null }, JSONValue | null>
+    data: Uint8Array | null
+    set: Action<{ data: Uint8Array | null }, Uint8Array | null>
   }
   proofRequest: {
     data: ProofRequest | null
     set: Action<{ data: ProofRequest | null }, ProofRequest>
-  }
-  publicSignals: {
-    data: JSONValue | null
-    set: Action<{ data: JSONValue | null }, JSONValue | null>
   }
   warning: {
     wasRead: boolean
@@ -36,7 +31,6 @@ export const store = createStore<StoreModel>({
       state.data = payload
     }),
   },
-
   proof: {
     data: null,
     set: action((state, payload) => {
@@ -44,12 +38,6 @@ export const store = createStore<StoreModel>({
     }),
   },
   proofRequest: {
-    data: null,
-    set: action((state, payload) => {
-      state.data = payload
-    }),
-  },
-  publicSignals: {
     data: null,
     set: action((state, payload) => {
       state.data = payload

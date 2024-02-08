@@ -4,29 +4,32 @@ import { Loader } from '@components'
 import { useStore, useVerifyProof } from '@hooks'
 
 export default function Page() {
-  const { proof, publicSignals } = useStore()
-  const { error, isError, isLoading, valid } = useVerifyProof()
+  const { proof } = useStore()
+  const { isValid } = useVerifyProof()
 
-  if (proof === null || publicSignals === null)
+  if (proof === null)
     return (
       <div>
-        Missing proof and public signals JSON files, go back to{' '}
-        <Link href='/verify' className='is-primary'>
+        Missing proof JSON file, go back to{' '}
+        <Link href='/verify' className='underline'>
           /verify
         </Link>{' '}
         to upload them.
       </div>
     )
-  if (isLoading) return <Loader />
-  if (isError && error !== null) return <span>{error.message}</span>
+
+  if (isValid === undefined) return <Loader />
+
   return (
-    valid !== undefined && (
-      <div className='flex flex-col space-y-5'>
-        <h2> Proof Verification Result</h2>
-        <span className={`text-${valid ? 'blue' : 'red'} self-center text-xl`}>
-          {valid.toString().toUpperCase()}
-        </span>
-      </div>
-    )
+    <div className='flex flex-col space-y-5'>
+      <h2>Proof Verification Result</h2>
+      <span
+        className={`nes-text ${
+          isValid ? 'is-success' : 'is-error'
+        } self-center text-lg`}
+      >
+        {isValid.toString().toUpperCase()}
+      </span>
+    </div>
   )
 }

@@ -6,13 +6,12 @@ import { HelpModal, JsonFileInput } from '@components'
 import { useStore } from '@hooks'
 
 export default function Page() {
-  const { proof, publicSignals, setProof, setPublicSignals } = useStore()
-  const canVerify = proof !== null && publicSignals !== null
+  const { proof, setProof } = useStore()
+  const canVerify = proof !== null
 
   useEffect(() => {
     setProof(null)
-    setPublicSignals(null)
-  }, [setProof, setPublicSignals])
+  }, [setProof])
 
   return (
     <div className='flex flex-col space-y-10'>
@@ -34,7 +33,6 @@ export default function Page() {
 
       <div className='flex flex-row'>
         <JsonFileInput dataKey='proof' title='Proof' />
-        <JsonFileInput dataKey='publicSignals' title='Public Signals' />
       </div>
     </div>
   )

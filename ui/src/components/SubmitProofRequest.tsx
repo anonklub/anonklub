@@ -3,10 +3,10 @@ import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import { modal, NAVIGATION } from '#'
 import {
+  CheckMark,
   HelpModal,
   Modal,
   ScrollableJsonContainer,
-  CheckMark,
   WarningModal,
 } from '@components'
 import { useProofRequest, useStore } from '@hooks'

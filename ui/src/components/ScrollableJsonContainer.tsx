@@ -1,6 +1,10 @@
-import { JSONValue } from '@components'
+import { JSONValue } from './JsonFileInput'
 
-export function ScrollableJsonContainer({ data }: { data: JSONValue }) {
+export function ScrollableJsonContainer({
+  data,
+}: {
+  data: JSONValue | Uint8Array
+}) {
   return (
     <>
       {Array.isArray(data) && (
