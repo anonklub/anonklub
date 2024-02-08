@@ -10,7 +10,6 @@ export async function readJsonFile(
         const fileResults = event.target.result
 
         if (key === 'proof' && fileResults != null) {
-          console.log('fileResults', fileResults)
           const array = (fileResults as string).split(',').map(Number)
           const proof = new Uint8Array(array)
           resolve(proof)
