@@ -2,6 +2,7 @@ import { Hex } from 'viem'
 import { useAsync, useStore } from '@hooks'
 import { useSpartanEcdsaWorker } from './useSpartanEcdsaWorker'
 
+// TODO: refactor, merge this with useSpartanEcdsaWorker hook?
 export const useProofResult = () => {
   const { proofRequest } = useStore()
   const { proveMembership } = useSpartanEcdsaWorker()
