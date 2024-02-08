@@ -4,7 +4,7 @@
 
 export * from './AnonSetResults'
 export * from './QuestionBox'
-export * from './CustomButton'
+export * from './ConnectButton'
 export * from './ExternalLink'
 export * from './Footer'
 export * from './Header'

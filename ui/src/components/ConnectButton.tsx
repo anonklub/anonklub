@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
 import { Loader } from '@/components/Loader'
 
-export function CustomButton() {
+export function ConnectButton() {
   // to avoid hydration errors
   // (content rendered by React on the client-side doesn't match the HTML sent from the server)
   // here label depends on the client side state which is known only after the component is mounted

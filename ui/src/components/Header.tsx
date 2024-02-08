@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { CustomButton } from '@components'
+import { ConnectButton } from '@components'
 
 export function Header() {
   return (
@@ -18,7 +18,7 @@ export function Header() {
           </a>
         </div>
       </Link>
-      <CustomButton />
+      <ConnectButton />
     </div>
   )
 }
