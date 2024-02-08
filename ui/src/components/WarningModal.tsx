@@ -14,7 +14,7 @@ export const WarningModal = ({ content }: { content: string[] }) => {
         !
       </button>
       <section>
-        <dialog className='p-2' ref={ref}>
+        <dialog className='bg-black p-2 text-grey' ref={ref}>
           <form method='dialog' className='space-y-5'>
             <Text lines={content} />
             <menu className='dialog-menu flex flex-row justify-center'>

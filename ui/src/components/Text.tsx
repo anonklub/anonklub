@@ -1,6 +1,6 @@
 export function Text({ lines }: { lines: string[] }) {
   return (
-    <div className='mb-2'>
+    <div className='text-center'>
       {lines.map((line, i) => (
         <p key={i}>{line}</p>
       ))}

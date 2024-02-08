@@ -26,7 +26,7 @@ export default function Page() {
         )}
       </div>
 
-      <div className='flex flex-row'>
+      <div className='flex flex-row pt-20'>
         <JsonFileInput dataKey='proof' title='Proof' />
       </div>
     </div>

@@ -35,7 +35,7 @@ export default function Page() {
     return <AnonSetResults anonSet={anonSet} title='ENS Proposal Voters' />
 
   return (
-    <div className='flex flex-col items-center space-y-10'>
+    <div className='mt-40 flex flex-col items-center space-y-10'>
       <div className='field'>
         <label htmlFor='ens_proposal_id'>ENS Proposal ID</label>
         <input
@@ -49,7 +49,7 @@ export default function Page() {
           }}
         />
       </div>
-      <div className='field'>
+      <div className='field px-20'>
         <label htmlFor='choice'>Choice</label>
         <select
           className='select w-25 text-center'

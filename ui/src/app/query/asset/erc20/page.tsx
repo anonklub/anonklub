@@ -28,14 +28,7 @@ export default function Page() {
     return <AnonSetResults anonSet={anonSet} title='ERC20 Balance' />
 
   return (
-    <div className='flex flex-col items-center space-y-10'>
-      <div className='self-end'>
-        <HelpModal
-          content={[
-            'Provide the ERC20 token address and the minimum amount of tokens one should own to be part of the anonset.',
-          ]}
-        />
-      </div>
+    <div className='mt-40 flex flex-col items-center space-y-10'>
       <div className='field'>
         <label htmlFor='erc20_address'>ERC20 Token Address</label>
         <input
@@ -49,14 +42,14 @@ export default function Page() {
           }}
         />
       </div>
-      <div className='field'>
+      <div className='field px-40'>
         <label htmlFor='erc20_amount'>Min</label>
         <input
           id='erc20_amount'
           min={0}
           step={1}
           type='number'
-          className='input w-1/4 flex-none'
+          className='input text-center'
           value={min}
           onChange={({ target }) => {
             setMin(parseInt(target.value))

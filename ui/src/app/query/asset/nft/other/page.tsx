@@ -25,7 +25,7 @@ export default function Page() {
     return <AnonSetResults anonSet={anonSet} title='NFT Owners' />
 
   return (
-    <div className='flex flex-col items-center space-y-10'>
+    <div className='mt-40 flex flex-col items-center space-y-10'>
       <div className='field'>
         <label htmlFor='nft_address'>NFT Contract Address</label>
         <input

@@ -1,3 +1,4 @@
+'use client'
 import { SubmitProofRequest } from '@components'
 import { useSetHelp } from '@hooks'
 
