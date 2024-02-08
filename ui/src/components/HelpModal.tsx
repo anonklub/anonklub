@@ -9,7 +9,7 @@ export const HelpModal = ({ content }: { content: string[] }) => {
 
   return (
     <div className='self-end'>
-      <button className='btn btn-warning' onClick={open}>
+      <button className='btn btn-secondary' onClick={open}>
         ?
       </button>
       <Modal ref={ref}>

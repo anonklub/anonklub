@@ -34,7 +34,7 @@ export function ConnectButton() {
   }
 
   return hasMounted ? (
-    <button className='btn btn-connect' onClick={onClick} disabled={loading}>
+    <button className='btn btn-secondary' onClick={onClick} disabled={loading}>
       {loading ? 'Loading...' : label}
     </button>
   ) : (

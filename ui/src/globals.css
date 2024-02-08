@@ -25,27 +25,15 @@ body {
 
 @layer components {
   .btn {
-    @apply rounded border-2 border-grey px-4 py-2 text-grey transition duration-300 ease-in-out;
+    @apply rounded border-2 border-grey bg-black px-4 py-2 text-grey;
   }
 
   .btn-primary {
-    @apply hover:bg-gradient-to-r  hover:from-blue hover:to-red;
+    @apply hover:bg-gradient-to-r  hover:from-blue hover:to-red hover:text-black;
   }
 
   .btn-secondary {
-    @apply bg-grey text-blue hover:bg-blue hover:text-grey;
-  }
-
-  .btn-warning {
-    @apply bg-grey text-blue hover:bg-blue hover:text-grey;
-  }
-
-  .btn-connect {
-    @apply text-grey hover:text-blue;
-  }
-
-  .btn-cancel {
-    @apply border-2 border-black bg-grey text-black hover:bg-black hover:text-grey;
+    @apply hover:bg-grey hover:text-black;
   }
 
   .is-disabled {
