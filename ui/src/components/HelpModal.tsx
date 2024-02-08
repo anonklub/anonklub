@@ -8,7 +8,7 @@ export const HelpModal = ({ content }: { content: string[] }) => {
   const { open } = modal(ref)
 
   return (
-    <div>
+    <div className='self-end'>
       <button className='btn btn-warning' onClick={open}>
         ?
       </button>

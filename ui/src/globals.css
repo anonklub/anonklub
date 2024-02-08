@@ -57,8 +57,8 @@ body {
     @apply cursor-not-allowed opacity-50;
   }
 
-  .question-box {
-    @apply rounded-lg border border-red p-4 text-grey;
+  .question-header {
+    @apply mt-20 w-fit  self-center p-4 text-2xl text-grey;
   }
 
   .input {
