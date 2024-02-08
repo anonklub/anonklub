@@ -5,7 +5,7 @@ import { useStore, useVerifyProof } from '@hooks'
 
 export default function Page() {
   const { proof } = useStore()
-  const { isValid } = useVerifyProof()
+  const { value: isValid } = useVerifyProof()
 
   if (proof === null)
     return (

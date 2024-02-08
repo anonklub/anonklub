@@ -3,15 +3,10 @@ import {
   SpartanEcdsaWorker,
   VerifyMembershipFn,
 } from '@anonklub/spartan-ecdsa-worker'
-import { useEffect } from 'react'
+import { useWorker } from '@/hooks'
 
 export const useSpartanEcdsaWorker = () => {
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    ;(async () => {
-      await SpartanEcdsaWorker.prepare()
-    })()
-  }, [])
+  const isWorkerReady = useWorker(SpartanEcdsaWorker)
 
   const proveMembership: ProveMembershipFn = async ({
     merkleProofBytesSerialized,
@@ -40,6 +35,7 @@ export const useSpartanEcdsaWorker = () => {
   }
 
   return {
+    isWorkerReady,
     proveMembership,
     verifyMembership,
   }

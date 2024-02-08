@@ -1,20 +1,19 @@
+import { useAsync } from 'react-use'
 import { Hex } from 'viem'
-import { useAsync, useStore } from '@hooks'
+import { useStore } from '@hooks'
 import { useSpartanEcdsaWorker } from './useSpartanEcdsaWorker'
 
 export const useProofResult = () => {
   const { proofRequest } = useStore()
-  const { proveMembership } = useSpartanEcdsaWorker()
+  const { isWorkerReady, proveMembership } = useSpartanEcdsaWorker()
 
-  const { data: fullProof, error } = useAsync(async () => {
-    if (proofRequest === null) return
+  return useAsync(async () => {
+    if (proofRequest === null || !isWorkerReady) return
 
     return await proveMembership({
       merkleProofBytesSerialized: proofRequest.merkleProof,
       message: proofRequest.message,
       sig: proofRequest.rawSignature as Hex,
     })
-  })
-
-  return { error, fullProof }
+  }, [isWorkerReady, proofRequest])
 }

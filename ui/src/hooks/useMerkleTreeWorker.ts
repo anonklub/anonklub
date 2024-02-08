@@ -2,15 +2,10 @@ import {
   GenerateMerkleProofFn,
   MerkleTreeWorker,
 } from '@anonklub/merkle-tree-worker'
-import { useEffect } from 'react'
+import { useWorker } from '@/hooks'
 
 export const useMerkleTreeWasmWorker = () => {
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    ;(async () => {
-      await MerkleTreeWorker.prepare()
-    })()
-  }, [])
+  const isWorkerReady = useWorker(MerkleTreeWorker)
 
   const generateMerkleProof: GenerateMerkleProofFn = async (
     leaves,
@@ -29,5 +24,6 @@ export const useMerkleTreeWasmWorker = () => {
 
   return {
     generateMerkleProof,
+    isWorkerReady,
   }
 }
