@@ -7,8 +7,7 @@ import { useEffect } from 'react'
 // TODO: refactor this with useAsync?
 export const useMerkleTreeWasmWorker = () => {
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    ;(async () => {
+    void (async () => {
       await MerkleTreeWorker.prepare()
     })()
   }, [])
