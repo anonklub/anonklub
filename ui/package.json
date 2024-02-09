@@ -10,6 +10,8 @@
     "@anonklub/proof": "2.1.1",
     "@anonklub/spartan-ecdsa-worker": "~1.1.0",
     "@heroicons/react": "^2.0.18",
+    "@typebot.io/js": "^0.2.41",
+    "@typebot.io/nextjs": "^0.2.41",
     "@web3modal/ethereum": "2.4.1",
     "@web3modal/react": "2.4.1",
     "autoprefixer": "^10.4.14",
