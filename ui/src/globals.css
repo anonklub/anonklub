@@ -37,7 +37,7 @@ dialog::backdrop {
 
 @layer components {
   .btn {
-    @apply rounded border-2 border-grey bg-black px-4 py-2 text-grey;
+    @apply rounded border-2 border-grey px-4 py-2 font-medium text-grey;
   }
 
   .btn-primary {
