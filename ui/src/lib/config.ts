@@ -5,6 +5,7 @@ interface Config {
   appTitle: string
   chains: Chain[]
   message: string
+  typebot: string
   urls: {
     queryApi: string
   }
@@ -52,6 +53,7 @@ export const config: Config = {
   chains: [sepolia],
   message:
     'I am generating an anonymous proof of Ethereum address ownership with AnonKlub.',
+  typebot: 'anonklub-feedback',
   urls: {
     queryApi: queryApiUrl,
   },

@@ -1,6 +1,7 @@
 'use client'
 import '../globals.css'
 import 'tailwindcss/tailwind.css'
+import { Bubble } from '@typebot.io/nextjs'
 import { StoreProvider } from 'easy-peasy'
 import { ReactNode } from 'react'
 import { WagmiConfig } from 'wagmi'
@@ -22,6 +23,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </StoreProvider>
         </WagmiConfig>
         <Web3Modal />
+        <Bubble
+          typebot={config.typebot}
+          theme={{ button: { backgroundColor: '#f9f9f9' } }}
+        />
       </body>
     </html>
   )
