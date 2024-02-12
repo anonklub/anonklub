@@ -10,7 +10,6 @@ import {
   WarningModal,
 } from '@components'
 import { useProofRequest, useResetProofRequest, useStore } from '@hooks'
-import { useMerkleTreeWasmWorker } from '@/hooks/useMerkleTreeWorker'
 
 export function SubmitProofRequest() {
   useResetProofRequest()
