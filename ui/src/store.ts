@@ -18,6 +18,7 @@ export interface StoreModel {
   proofRequest: {
     data: ProofRequest | null
     set: Action<{ data: ProofRequest | null }, ProofRequest>
+    reset: Action<{ data: ProofRequest | null }>
   }
   warning: {
     wasRead: boolean
@@ -49,6 +50,9 @@ export const store = createStore<StoreModel>({
   },
   proofRequest: {
     data: null,
+    reset: action((state) => {
+      state.data = null
+    }),
     set: action((state, payload) => {
       state.data = payload
     }),

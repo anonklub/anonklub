@@ -15,6 +15,7 @@ export const useStore = () => ({
   proof: useStoreState((state) => state.proof.data),
   proofRequest: useStoreState((state) => state.proofRequest.data),
   resetAnonSet: useStoreActions((actions) => actions.anonSet.reset),
+  resetProofRequest: useStoreActions((actions) => actions.proofRequest.reset),
   setAnonSet: useStoreActions((actions) => actions.anonSet.set),
   setHelpText: useStoreActions((actions) => actions.help.setText),
   setProof: useStoreActions((actions) => actions.proof.set),

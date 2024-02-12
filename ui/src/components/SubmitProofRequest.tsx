@@ -4,21 +4,31 @@ import { useEffect, useRef } from 'react'
 import { modal, NAVIGATION } from '#'
 import {
   CheckMark,
+  Loader,
   Modal,
   ScrollableJsonContainer,
   WarningModal,
 } from '@components'
-import { useProofRequest, useStore } from '@hooks'
+import { useProofRequest, useResetProofRequest, useStore } from '@hooks'
 
 export function SubmitProofRequest() {
+  useResetProofRequest()
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = modal(ref)
   const { anonSet, setWarningWasRead, warningWasRead } = useStore()
-  const { canSign, canSubmit, isSuccess, signMessage } = useProofRequest()
+  const {
+    canSign,
+    canSubmit,
+    isGeneratingMerkleProof,
+    isSuccess,
+    signMessage,
+  } = useProofRequest()
 
   useEffect(() => {
     setWarningWasRead(false)
   }, [setWarningWasRead])
+
+  if (isGeneratingMerkleProof) return <Loader />
 
   return (
     <div className='mt-20 flex flex-col space-y-10'>

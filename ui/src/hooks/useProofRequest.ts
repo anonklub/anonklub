@@ -1,5 +1,5 @@
 import { ProofRequest } from '@anonklub/proof'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
 import { config } from '#'
 import { useMerkleTreeWasmWorker } from './useMerkleTreeWorker'
@@ -13,12 +13,12 @@ export const useProofRequest = () => {
   const {
     data: rawSignature,
     isError,
-    isLoading,
     isSuccess,
     signMessage,
   } = useSignMessage({
     message,
   })
+  const [isGeneratingMerkleProof, setIsGeneratingMerkleProof] = useState(false)
   const { generateMerkleProof, isWorkerReady } = useMerkleTreeWasmWorker()
 
   const canSign = rawSignature === undefined && isConnected
@@ -34,12 +34,15 @@ export const useProofRequest = () => {
       )
         return
 
+      setIsGeneratingMerkleProof(true)
+
       const merkleProofBytes = await generateMerkleProof(
         anonSet,
         address.toLowerCase(),
         15,
       )
 
+      setIsGeneratingMerkleProof(false)
       setProofRequest(
         new ProofRequest({
           addresses: anonSet,
@@ -50,21 +53,13 @@ export const useProofRequest = () => {
       )
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    address,
-    canSign,
-    canSubmit,
-    isWorkerReady,
-    message,
-    rawSignature,
-    anonSet,
-  ])
+  }, [address, isWorkerReady, message, rawSignature, anonSet])
 
   return {
     canSign,
     canSubmit,
     isError,
-    isLoading,
+    isGeneratingMerkleProof,
     isSuccess,
     rawSignature,
     signMessage,
