@@ -8,9 +8,10 @@ import {
   ScrollableJsonContainer,
   WarningModal,
 } from '@components'
-import { useProofRequest, useStore } from '@hooks'
+import { useProofRequest, useResetProofRequest, useStore } from '@hooks'
 
 export function SubmitProofRequest() {
+  useResetProofRequest()
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = modal(ref)
   const { anonSet, setWarningWasRead, warningWasRead } = useStore()
