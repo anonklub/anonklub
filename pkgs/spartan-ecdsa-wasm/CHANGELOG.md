@@ -1,5 +1,11 @@
 # @anonklub/spartan-ecdsa-wasm
 
+## 1.1.0
+
+### Minor Changes
+
+- fd09423: Build with `--release` profile
+
 ## 1.0.2
 
 ### Patch Changes
