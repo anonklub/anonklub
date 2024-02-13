@@ -1,14 +1,14 @@
 mod eth_membership;
 mod utils;
 
-use utils::{efficient_ecdsa, verify_efficient_ecdsa};
 use ark_ff::BigInteger;
 use ark_secp256k1::{Affine, Fq, Fr};
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use eth_membership::{eth_membership, to_cs_field, NUM_MERKLE_PROOFS, TREE_DEPTH};
 use merkle_tree_wasm::MerkleProofBytes;
 use num_bigint::BigUint;
-use sapir::{constraint_system::ConstraintSystem, circuit, wasm::prelude::*};
+use sapir::{circuit, constraint_system::ConstraintSystem, wasm::prelude::*};
+use utils::{efficient_ecdsa, verify_efficient_ecdsa};
 
 pub type Curve = ark_secq256k1::Projective;
 type F = ark_secq256k1::Fr;
