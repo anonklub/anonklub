@@ -291,8 +291,8 @@ importers:
   pkgs/spartan-ecdsa-worker:
     dependencies:
       '@anonklub/spartan-ecdsa-wasm':
-        specifier: ~1.0.1
-        version: 1.0.1
+        specifier: ~1.1.0
+        version: 1.1.0
       comlink:
         specifier: ^4.4.1
         version: 4.4.1
@@ -435,8 +435,8 @@ importers:
         specifier: 2.1.1
         version: 2.1.1
       '@anonklub/spartan-ecdsa-worker':
-        specifier: ~1.1.0
-        version: 1.1.0(typescript@5.2.2)(zod@3.22.4)
+        specifier: ~1.1.1
+        version: 1.1.1(typescript@5.2.2)(zod@3.22.4)
       '@heroicons/react':
         specifier: ^2.0.18
         version: 2.1.1(react@18.2.0)
@@ -617,8 +617,8 @@ packages:
       class-validator: 0.14.1
     dev: false
 
-  /@anonklub/spartan-ecdsa-wasm@1.0.1:
-    resolution: {integrity: sha512-8yZqAkAUUywjU7QR/JzncEM3pFl0Qcen8ftC+H0DGM22vCwQI8FhGFu825cd3IziaFJPRGizpDoFqI5AF/VYag==}
+  /@anonklub/spartan-ecdsa-wasm@1.1.0:
+    resolution: {integrity: sha512-eH9KFjdclsmyouqDv+QAL3t0udqsaPaRcED9pOIAzDmDbew9YbB0GLGVi3SAutDWP1V1Tt+oriUiSt55CNKQsA==}
     dependencies:
       pako: 2.1.0
       spartan-ecdsa-circuits: 1.0.0
@@ -627,10 +627,10 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@anonklub/spartan-ecdsa-worker@1.1.0(typescript@5.2.2)(zod@3.22.4):
-    resolution: {integrity: sha512-NqPAuucAhXTLnC+FRgb2jiy8Bk513Smh03CWZ0wfmuBofe3Nqje0OidfSUL8pjYdDi2QvFN1PGlCFUHlNEF5KQ==}
+  /@anonklub/spartan-ecdsa-worker@1.1.1(typescript@5.2.2)(zod@3.22.4):
+    resolution: {integrity: sha512-71/bnmPR00Lg1cnNVoJiTwS9PoYlnOZT2WD1nUr2MBPuPWMfOAr1da8pTqho9/WD1FsBmheNkXZX5Rh716NjRA==}
     dependencies:
-      '@anonklub/spartan': 1.0.0
+      '@anonklub/spartan-ecdsa-wasm': 1.1.0
       comlink: 4.4.1
       viem: 2.7.1(typescript@5.2.2)(zod@3.22.4)
     transitivePeerDependencies:
@@ -638,10 +638,6 @@ packages:
       - typescript
       - utf-8-validate
       - zod
-    dev: false
-
-  /@anonklub/spartan@1.0.0:
-    resolution: {integrity: sha512-1LErPyds9ERv9QR6ZLM4IwvWOTNhWagWAdZVMHqASkI6rOBR+o3Ig/0DERD3hhkTc/fip7NTY1ujJdB1SMp+Xg==}
     dev: false
 
   /@ardatan/fast-json-stringify@0.0.6(ajv-formats@2.1.1)(ajv@8.12.0):
