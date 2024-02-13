@@ -43,7 +43,7 @@ pub fn prove_membership(
     msg_hash: &[u8],
     merkle_proof_bytes_serialized: &[u8],
 ) -> Vec<u8> {
-    console::log_1(&"Starting prove_membership".into());
+    // console::log_1(&"Starting prove_membership".into());
 
     let merkle_proof =
         MerkleProofBytes::deserialize_compressed(merkle_proof_bytes_serialized).unwrap();
@@ -52,7 +52,7 @@ pub fn prove_membership(
     assert!(merkle_proof.path_indices.len() == NUM_MERKLE_PROOFS * TREE_DEPTH * 32);
     assert!(merkle_proof.root.len() == NUM_MERKLE_PROOFS * 32);
 
-    console::log_1(&"Starting Deserialize the inputs".into());
+    // console::log_1(&"Starting Deserialize the inputs".into());
     // Deserialize the inputs
     let s = Fr::from(BigUint::from_bytes_be(s));
     let r = Fq::from(BigUint::from_bytes_be(r));
@@ -85,11 +85,11 @@ pub fn prove_membership(
         .map(|root| F::from(BigUint::from_bytes_be(root)))
         .collect::<Vec<F>>();
 
-    console::log_1(&"Starting computing the efficient ECDSA input".into());
+    // console::log_1(&"Starting computing the efficient ECDSA input".into());
     // Compute the efficient ECDSA input
     let (u, t) = efficient_ecdsa(msg_hash.clone(), r, is_y_odd);
 
-    console::log_1(&"Starting constructing the private input".into());
+    // console::log_1(&"Starting constructing the private input".into());
     // Construct the private input
     let mut priv_input = vec![];
 
@@ -102,21 +102,21 @@ pub fn prove_membership(
 
     priv_input.extend_from_slice(&s_bits);
 
-    console::log_1(&"Starting append the Merkle indices and siblings to the private input".into());
+    // console::log_1(&"Starting append the Merkle indices and siblings to the private input".into());
     // Append the Merkle indices and siblings to the private input
     for i in 0..NUM_MERKLE_PROOFS {
         priv_input.extend_from_slice(&merkle_indices[i * TREE_DEPTH..((i + 1) * TREE_DEPTH)]);
         priv_input.extend_from_slice(&merkle_siblings[i * TREE_DEPTH..((i + 1) * TREE_DEPTH)]);
     }
 
-    console::log_1(&"Starting converting the private input to bytes".into());
+    // console::log_1(&"Starting converting the private input to bytes".into());
     // Convert the private input to bytes
     let priv_input = priv_input
         .iter()
         .flat_map(|x| x.into_bigint().to_bytes_be())
         .collect::<Vec<u8>>();
 
-    console::log_1(&"Starting constructing the public input".into());
+    // console::log_1(&"Starting constructing the public input".into());
     // Construct the public input
     let mut pub_input = vec![
         to_cs_field(t.x),
@@ -125,7 +125,7 @@ pub fn prove_membership(
         to_cs_field(u.y),
     ];
 
-    console::log_1(&"Starting appending the Merkle roots to the public input".into());
+    // console::log_1(&"Starting appending the Merkle roots to the public input".into());
     // Append the Merkle roots to the public input
     for root in merkle_roots {
         pub_input.push(to_cs_field(root));
@@ -136,7 +136,7 @@ pub fn prove_membership(
         .flat_map(|x| x.into_bigint().to_bytes_be())
         .collect::<Vec<u8>>();
 
-    console::log_1(&"Starting generating the proof".into());
+    // console::log_1(&"Starting generating the proof".into());
     // Generate the proof
     let proof = prove(&pub_input, &priv_input);
 
@@ -147,7 +147,7 @@ pub fn prove_membership(
         msg_hash,
     };
 
-    console::log_1(&"Starting serializing the full proof".into());
+    // console::log_1(&"Starting serializing the full proof".into());
     // Serialize the full proof
     let mut membership_proof_bytes = Vec::new();
     membership_proof

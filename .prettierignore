@@ -34,3 +34,4 @@ commitlint.config.js
 .prettierignore
 
 *.rs
+*.toml
