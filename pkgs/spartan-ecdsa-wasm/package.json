@@ -29,7 +29,7 @@
     "sideEffects": "dist/index.js",
     "type": "module",
     "scripts": {
-        "compile": "pnpm check-wasm-pack && pnpm clean && wasm-pack build . --target bundler --out-dir dist --out-name index --scope anonklub",
+        "compile": "pnpm check-wasm-pack && pnpm clean && wasm-pack build . --release --target bundler --out-dir dist --out-name index --scope anonklub",
         "clean": "rm -rf dist",
         "check-wasm-pack": "command -v wasm-pack >/dev/null 2>&1 || echo \"wasm-pack is not installed\"\n",
         "format.cargo": "cargo fmt -- --check",
