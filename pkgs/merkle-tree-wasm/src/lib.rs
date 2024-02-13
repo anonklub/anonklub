@@ -9,7 +9,7 @@ use num_bigint::BigUint;
 use poseidon::constants::secp256k1_w3;
 use wasm_bindgen::prelude::wasm_bindgen;
 
-pub use crate::merkle_tree_wasm::{MerkleProofBytes, MerkleTree};
+pub use merkle_tree_wasm::{MerkleProofBytes, MerkleTree};
 
 fn internal_generate_merkle_proof<F: PrimeField>(
     leaves: Vec<String>,

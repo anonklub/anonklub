@@ -1,18 +1,16 @@
 mod eth_membership;
 mod utils;
 
-use crate::utils::{efficient_ecdsa, verify_efficient_ecdsa};
+use utils::{efficient_ecdsa, verify_efficient_ecdsa};
 use ark_ff::BigInteger;
 use ark_secp256k1::{Affine, Fq, Fr};
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use eth_membership::{eth_membership, to_cs_field, NUM_MERKLE_PROOFS, TREE_DEPTH};
 use merkle_tree_wasm::MerkleProofBytes;
 use num_bigint::BigUint;
-use sapir::constraint_system::ConstraintSystem;
-use sapir::{circuit, wasm::prelude::*};
-use web_sys::console;
+use sapir::{constraint_system::ConstraintSystem, circuit, wasm::prelude::*};
 
-pub type Curve = sapir::ark_secq256k1::Projective;
+pub type Curve = ark_secq256k1::Projective;
 type F = ark_secq256k1::Fr;
 
 // Produce the code to generate and verify the proof of the `eth_membership` circuit.
