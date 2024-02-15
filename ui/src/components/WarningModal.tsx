@@ -25,7 +25,7 @@ export const WarningModal = ({ content }: { content: string[] }) => {
                   close()
                 }}
               >
-                Cancel
+                OK
               </button>
             </menu>
           </form>
