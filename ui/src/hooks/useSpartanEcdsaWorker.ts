@@ -13,13 +13,15 @@ export const useSpartanEcdsaWorker = () => {
     message,
     sig,
   }): Promise<Uint8Array> => {
-    console.time('==> Prove')
+    process.env.NODE_ENV === 'development' && console.time('==> Prove')
+
     const proof = await SpartanEcdsaWorker.proveMembership({
       merkleProofBytesSerialized,
       message,
       sig,
     })
-    console.timeEnd('==> Prove')
+
+    process.env.NODE_ENV === 'development' && console.timeEnd('==> Prove')
 
     return proof
   }
@@ -27,9 +29,11 @@ export const useSpartanEcdsaWorker = () => {
   const verifyMembership: VerifyMembershipFn = async (
     anonklubProof: Uint8Array,
   ): Promise<boolean> => {
-    console.time('==> Verify')
+    process.env.NODE_ENV === 'development' && console.time('==> Verify')
+
     const isVerified = await SpartanEcdsaWorker.verifyMembership(anonklubProof)
-    console.timeEnd('==> Verify')
+
+    process.env.NODE_ENV === 'development' && console.timeEnd('==> Verify')
 
     return isVerified
   }

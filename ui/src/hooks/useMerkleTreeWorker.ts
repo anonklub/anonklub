@@ -12,13 +12,15 @@ export const useMerkleTreeWasmWorker = () => {
     leaf,
     depth,
   ): Promise<Uint8Array> => {
-    console.time('==>merkle')
+    process.env.NODE_ENV === 'development' && console.time('==>merkle')
+
     const proof = await MerkleTreeWorker.generateMerkleProof(
       leaves,
       leaf,
       depth,
     )
-    console.timeEnd('==>merkle')
+
+    process.env.NODE_ENV === 'development' && console.timeEnd('==>merkle')
     return proof
   }
 
