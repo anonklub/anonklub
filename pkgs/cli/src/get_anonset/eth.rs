@@ -8,5 +8,5 @@ struct EthAnonSetQuery {
 }
 
 pub async fn get_eth_anonset(min: Option<u64>) -> Result<Anonset> {
-    get_anonset(EthAnonSetQuery { min }, "asset/eth").await
+    get_anonset(Some(EthAnonSetQuery { min }), "asset/eth").await
 }

@@ -29,8 +29,7 @@ async fn main() -> Result<()> {
                 println!("{:?}", get_nft_anonset(address));
             }
             QuerySubcommand::Punks => {
-                println!("Cryptopunk");
-                println!("{:?}", get_punks_anonset());
+                pprint(get_punks_anonset().await);
             }
             QuerySubcommand::Ens { id, choice } => {
                 println!("Ens: id: {}, choice: {:?}", id, choice);

@@ -23,14 +23,23 @@ use crate::get_query_client;
 #[derive(Serialize, Deserialize)]
 pub struct Anonset(pub Vec<String>);
 
-pub async fn get_anonset<T:Serialize>(query_params: T, endpoint: &str) -> Result<Anonset> {
-    let mut res = get_query_client()?
-        .get(endpoint)
-        .query(&query_params)
-        .map_err(|e| anyhow!("Error building request: {:?}", e))?
-        .send()
-        .await
-        .map_err(|e| anyhow::anyhow!("Error fetching anonset: {:?}", e))?;
+pub async fn get_anonset<T: Serialize>(query_params: Option<T>, endpoint: &str) -> Result<Anonset> {
+    let client = get_query_client()?;
+
+    let mut res = match query_params {
+        Some(query_params) => client
+            .get(endpoint)
+            .query(&query_params)
+            .map_err(|e| anyhow!("Error building request: {:?}", e))?
+            .send()
+            .await
+            .map_err(|e| anyhow::anyhow!("Error fetching anonset: {:?}", e))?,
+        None => client
+            .get(endpoint)
+            .send()
+            .await
+            .map_err(|e| anyhow::anyhow!("Error fetching anonset: {:?}", e))?,
+    };
 
     if res.status().is_success() {
         let anonset = res
@@ -39,6 +48,9 @@ pub async fn get_anonset<T:Serialize>(query_params: T, endpoint: &str) -> Result
             .map_err(|e| anyhow::anyhow!("Error parsing anonset: {:?}", e))?;
         Ok(Anonset(anonset))
     } else {
-        Err(anyhow::anyhow!("Request failed with status: {:?}", res.status()))
+        Err(anyhow::anyhow!(
+            "Request failed with status: {:?}",
+            res.status()
+        ))
     }
 }
