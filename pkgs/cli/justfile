@@ -1,0 +1,19 @@
+demo:
+  cargo run -- -p foo -f content.txt -vvv
+
+# test everything
+test:
+  cargo nextest run
+exec *ARGS:
+  cargo run -- {{ARGS}}
+
+# format
+fmt:
+  cargo fmt
+
+# lint with clippy
+lint:
+  cargo clippy
+
+publish:
+  cargo publish
