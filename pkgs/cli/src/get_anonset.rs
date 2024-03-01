@@ -15,3 +15,7 @@ pub use nft::*;
 
 pub mod punks;
 pub use punks::*;
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize)]
+pub struct Anonset(pub Vec<String>);

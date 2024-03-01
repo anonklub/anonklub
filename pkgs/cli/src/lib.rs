@@ -1,3 +1,4 @@
+use anyhow::Result;
 use clap::ValueEnum;
 
 mod get_anonset;
@@ -11,4 +12,14 @@ pub enum EnsVoteChoice {
     Yes,
     No,
     Abstain,
+}
+
+pub fn pprint(anonset: Result<Anonset>) {
+    match anonset {
+        Ok(anonset) => match serde_json::to_string_pretty(&anonset) {
+            Ok(pretty_anonset) => println!("{}", pretty_anonset),
+            Err(e) => eprintln!("Error serializing anonset: {:?}", e),
+        },
+        Err(e) => eprintln!("Error fetching eth anonset: {:?}", e),
+    }
 }

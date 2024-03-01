@@ -1,6 +1,6 @@
 use akli::{
     get_beacon_anonset, get_ens_dao_anonset, get_erc20_anonset, get_eth_anonset, get_nft_anonset,
-    get_punks_anonset,
+    get_punks_anonset, pprint,
 };
 use anyhow::Result;
 use clap::Parser;
@@ -23,7 +23,7 @@ async fn main() -> Result<()> {
                 println!("{:?}", get_erc20_anonset(address, min));
             }
             QuerySubcommand::Eth { min } => {
-                println!("{:?}", get_eth_anonset(min).await?);
+                pprint(get_eth_anonset(min).await);
             }
             QuerySubcommand::Nft { address } => {
                 println!("Nft: address: {}", address);
