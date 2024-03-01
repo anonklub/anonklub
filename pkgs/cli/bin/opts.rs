@@ -50,4 +50,3 @@ pub enum QuerySubcommand {
         choice: EnsVoteChoice,
     },
 }
-
