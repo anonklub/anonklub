@@ -1,7 +1,19 @@
-use std::fs;
+use crate::{get_anonset, Anonset};
+use anyhow::Result;
+use serde::{Deserialize, Serialize};
 
-pub fn get_nft_anonset(address:String) {
-    let contents = fs::read_to_string("../tests/fixtures/addresses.json")
-        .expect("Something went wrong reading the file");
-    println!("{}", contents);
+#[derive(Serialize, Deserialize)]
+struct NftAnonSetQuery {
+    // TODO: use Address type from alloy-primitives
+    tokenAddress: String
+}
+
+pub async fn get_nft_anonset(address: String) -> Result<Anonset> {
+    get_anonset(
+        Some(NftAnonSetQuery {
+            tokenAddress: address,
+        }),
+        "asset/nft",
+    )
+    .await
 }

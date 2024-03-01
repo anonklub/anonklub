@@ -15,8 +15,7 @@ async fn main() -> Result<()> {
     match cmd {
         AkliCommand::Query(query) => match query {
             QuerySubcommand::Beacon => {
-                println!("Beacon");
-                println!("{:?}", get_beacon_anonset());
+                pprint(get_beacon_anonset().await);
             }
             QuerySubcommand::Erc20 { address, min } => {
                 pprint(get_erc20_anonset(address, min).await);
@@ -25,8 +24,7 @@ async fn main() -> Result<()> {
                 pprint(get_eth_anonset(min).await);
             }
             QuerySubcommand::Nft { address } => {
-                println!("Nft: address: {}", address);
-                println!("{:?}", get_nft_anonset(address));
+                pprint(get_nft_anonset(address).await);
             }
             QuerySubcommand::Punks => {
                 pprint(get_punks_anonset().await);
