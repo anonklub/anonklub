@@ -7,7 +7,9 @@ pub use get_anonset::*;
 mod query_client;
 pub use query_client::get_query_client;
 
-#[derive(Debug, Clone, ValueEnum)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Serialize, Deserialize, ValueEnum)]
 pub enum EnsVoteChoice {
     Yes,
     No,

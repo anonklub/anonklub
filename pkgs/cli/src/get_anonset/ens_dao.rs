@@ -1,8 +1,14 @@
-use std::fs;
-use crate::EnsVoteChoice;
+use crate::{get_anonset, Anonset, EnsVoteChoice};
+use anyhow::Result;
+use serde::{Deserialize, Serialize};
 
-pub fn get_ens_dao_anonset(pid:String, choice: EnsVoteChoice) {
-    let contents = fs::read_to_string("../tests/fixtures/addresses.json")
-        .expect("Something went wrong reading the file");
-    println!("{}", contents);
+#[derive(Serialize, Deserialize)]
+struct EnsDaoQuery {
+    // TODO: use Address type from alloy-primitives
+    id: String,
+    choice: EnsVoteChoice,
+}
+
+pub async fn get_ens_dao_anonset(id: String, choice: EnsVoteChoice) -> Result<Anonset> {
+    get_anonset(Some(EnsDaoQuery { id, choice }), "asset/erc20").await
 }

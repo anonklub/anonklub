@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize)]
 struct NftAnonSetQuery {
     // TODO: use Address type from alloy-primitives
-    tokenAddress: String
+    tokenAddress: String,
 }
 
 pub async fn get_nft_anonset(address: String) -> Result<Anonset> {

@@ -30,8 +30,7 @@ async fn main() -> Result<()> {
                 pprint(get_punks_anonset().await);
             }
             QuerySubcommand::Ens { id, choice } => {
-                println!("Ens: id: {}, choice: {:?}", id, choice);
-                println!("{:?}", get_ens_dao_anonset(id, choice));
+                pprint(get_ens_dao_anonset(id, choice).await);
             }
         },
         AkliCommand::Prove => {
