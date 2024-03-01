@@ -19,8 +19,7 @@ async fn main() -> Result<()> {
                 println!("{:?}", get_beacon_anonset());
             }
             QuerySubcommand::Erc20 { address, min } => {
-                println!("Erc20: address: {}, min: {:?}", address, min);
-                println!("{:?}", get_erc20_anonset(address, min));
+                pprint(get_erc20_anonset(address, min).await);
             }
             QuerySubcommand::Eth { min } => {
                 pprint(get_eth_anonset(min).await);

@@ -2,7 +2,7 @@ use anyhow::Result;
 use std::time::Duration;
 use surf::{Client, Config, Url};
 
-const QUERY_BASE_URL: &str = "https://anonset.fly.dev";
+const QUERY_BASE_URL: &str = "https://anonset.fly.dev/";
 
 pub fn get_query_client() -> Result<Client> {
     Ok(Config::new()
