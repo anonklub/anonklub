@@ -1,7 +1,6 @@
-use std::fs;
+use crate::{get_anonset, Anonset};
+use anyhow::Result;
 
-pub fn get_beacon_anonset() {
-    let contents = fs::read_to_string("../tests/fixtures/addresses.json")
-        .expect("Something went wrong reading the file");
-    println!("{}", contents);
+pub async fn get_beacon_anonset() -> Result<Anonset> {
+    get_anonset::<()>(None, "beacon").await
 }
