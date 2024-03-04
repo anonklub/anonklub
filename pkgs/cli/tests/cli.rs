@@ -45,7 +45,7 @@ fn query_eth() {
 #[test]
 fn query_erc20_odd_address() {
     let (_, mut cmd) = setup_test();
-    cmd.arg("query")
+   cmd.arg("query")
         .arg("erc20")
         .arg("--address")
         .arg("0x0")
@@ -59,7 +59,7 @@ fn query_erc20_odd_address() {
 #[test]
 fn query_erc20_wrong_length_address() {
     let (_, mut cmd) = setup_test();
-    cmd.arg("query")
+   cmd.arg("query")
         .arg("erc20")
         .arg("--address")
         .arg("0x2b661d3a28490794000b7FCaA5f9D732501bbb");

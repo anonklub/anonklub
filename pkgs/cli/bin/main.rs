@@ -32,9 +32,16 @@ async fn main() -> Result<()> {
             QuerySubcommand::Ens { id, choice } => {
                 pprint(get_ens_dao_anonset(id, choice).await);
             }
-        },
-        AkliCommand::Prove => {
+        }
+        AkliCommand::Merkle { file } => {
+            println!("Merkle");
+            println!("File: {:?}", file);
+        }
+        AkliCommand::Prove { merkle_root, message, private_key } => {
             println!("Prove");
+            println!("Merkle Root: {}", merkle_root);
+            println!("Message: {}", message);
+            println!("Private Key: {}", private_key);
         }
         AkliCommand::Verify => {
             println!("Verify");
