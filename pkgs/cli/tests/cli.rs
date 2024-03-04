@@ -1,36 +1,71 @@
 use assert_cmd::prelude::*; // Add methods on commands
-use assert_fs::prelude::*;
 use predicates::prelude::*; // Used for writing assertions
 use std::process::Command; // Run programs
 
-const BIN_NAME: &str = "grrs";
+const BIN_NAME: &str = "akli";
 
 #[test]
-fn file_doesnt_exist() -> Result<(), Box<dyn std::error::Error>> {
+fn no_args() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin(BIN_NAME)?;
 
-    cmd.arg("-p foo").arg("-f absent.txt");
     cmd.assert()
         .failure()
-        .stderr(predicate::str::contains("Could not read file"));
+        .stderr(predicate::str::contains("Usage"));
 
     Ok(())
 }
+
 #[test]
-fn find_content_in_file() -> Result<(), Box<dyn std::error::Error>> {
-    const FILE_NAME: &str = "sample.txt";
-    const CONTENT: &str = "A test\nActual content\nMore content\nAnother test";
-    const PATTERN: &str = "test";
-
-    let temp_file = assert_fs::NamedTempFile::new(FILE_NAME)?;
-    temp_file.write_str(CONTENT)?;
-
+fn query_eth() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin(BIN_NAME)?;
 
-    cmd.arg("-p").arg(PATTERN).arg("-f").arg(temp_file.path());
+    cmd.arg("query").arg("eth").arg("--min").arg("100000");
     cmd.assert()
         .success()
-        .stdout(predicate::str::contains("A test\nAnother test"));
+        .stdout(predicate::str::contains("0x"));
+    Ok(())
+}
+
+#[test]
+fn query_erc20_odd_address() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin(BIN_NAME)?;
+
+    cmd.arg("query").arg("erc20").arg("--address").arg("0x0").arg("--min").arg("100000");
+    cmd.assert()
+        .failure()
+        .stderr(predicate::str::contains("Odd number of digits"));
 
     Ok(())
+}
+
+#[test]
+fn query_erc20_wrong_length_address() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin(BIN_NAME)?;
+
+    cmd.arg("query").arg("erc20").arg("--address").arg("0x2b661d3a28490794000b7FCaA5f9D732501bbb");
+    cmd.assert()
+        .failure()
+        .stderr(predicate::str::contains("Invalid string length"));
+    Ok(())
+}
+
+#[test]
+fn query_erc20_wrong_min() {
+    let mut cmd = Command::cargo_bin(BIN_NAME).unwrap();
+
+    cmd.arg("query").arg("erc20").arg("--address").arg("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045").arg("--min").arg("abc");
+    cmd.assert()
+        .failure()
+        .stderr(predicate::str::contains("invalid digit found in string"));
+}
+
+#[test]
+fn query_ens_wrong_choice() {
+    let mut cmd = Command::cargo_bin(BIN_NAME).unwrap();
+
+    cmd.arg("query").arg("ens").arg("--id").arg("anonklub.eth").arg("--choice").arg("abc");
+    cmd.assert()
+        .failure()
+        .stderr(predicate::str::contains("invalid value"))
+        .stderr(predicate::str::contains("possible values: yes, no, abstain"));
 }

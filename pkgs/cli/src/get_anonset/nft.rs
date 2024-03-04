@@ -1,4 +1,7 @@
+#![allow(non_snake_case)]
+
 use crate::{get_anonset, Anonset};
+use alloy_primitives::Address;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 
@@ -8,10 +11,10 @@ struct NftAnonSetQuery {
     tokenAddress: String,
 }
 
-pub async fn get_nft_anonset(address: String) -> Result<Anonset> {
+pub async fn get_nft_anonset(address: Address) -> Result<Anonset> {
     get_anonset(
         Some(NftAnonSetQuery {
-            tokenAddress: address,
+            tokenAddress: address.to_string(),
         }),
         "asset/nft",
     )

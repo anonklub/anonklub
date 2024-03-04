@@ -1,4 +1,5 @@
 use akli::EnsVoteChoice;
+use alloy_primitives::Address;
 use clap::{Parser, Subcommand};
 
 /// Perform Anonklub operations from the command line
@@ -29,8 +30,8 @@ pub enum AkliCommand {
 pub enum QuerySubcommand {
     Beacon,
     Erc20 {
-        #[clap(short, long)]
-        address: String,
+        #[clap(short, long, value_parser(|s: &str|s.parse::<Address>()))]
+        address: Address,
         #[clap(short, long)]
         min: Option<u64>,
     },
@@ -39,8 +40,8 @@ pub enum QuerySubcommand {
         min: Option<u64>,
     },
     Nft {
-        #[clap(short, long)]
-        address: String,
+        #[clap(short, long, value_parser(|s: &str|s.parse::<Address>()))]
+        address: Address,
     },
     Punks,
     Ens {
