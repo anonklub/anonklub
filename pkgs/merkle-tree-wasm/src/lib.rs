@@ -37,7 +37,7 @@ fn internal_generate_merkle_proof<F: PrimeField>(
     tree.finish();
 
     let leaf_hex = hex::decode(leaf.replace("0x", ""))
-            .map_err(|e| format!("MerkleTree: Error decoding hex: {}", e))?;
+        .map_err(|e| format!("MerkleTree: Error decoding hex: {}", e))?;
     let leaf_prime_field = F::from(BigUint::from_bytes_be(&leaf_hex));
 
     let proof = tree.create_proof(leaf_prime_field)?;
