@@ -18,7 +18,7 @@ fn internal_generate_merkle_proof<F: PrimeField>(
 ) -> Result<MerkleProofBytes, String> {
     let mut padded_leaves = leaves.clone();
     // Pad the leaves to equal the size of the tree
-    padded_leaves.resize(1 << depth, "0".to_string());
+    padded_leaves.resize(1 << depth, "0x".to_string());
 
     const ARITY: usize = 2;
     const WIDTH: usize = ARITY + 1;

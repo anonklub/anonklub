@@ -25,7 +25,11 @@ pub enum AkliCommand {
     Merkle {
         /// Path to the json file containing a list of addresses (aka Anonymity set)
         #[clap(short, long, value_parser = parse_path)]
-        file: Anonset
+        file: Anonset,
+
+        /// Address you want to prove is in the set
+        #[clap(short, long, value_parser(|s: &str|s.parse::<Address>()))]
+        address: Address,
     },
 
     Prove {

@@ -6,6 +6,7 @@ use anyhow::Result;
 use clap::Parser;
 
 pub mod opts;
+use merkle_tree_wasm::generate_merkle_proof;
 use opts::{Akli, AkliCommand, QuerySubcommand};
 
 #[async_std::main]
@@ -33,9 +34,9 @@ async fn main() -> Result<()> {
                 pprint(get_ens_dao_anonset(id, choice).await);
             }
         }
-        AkliCommand::Merkle { file } => {
-            println!("Merkle");
-            println!("File: {:?}", file);
+        AkliCommand::Merkle { file: anonset, address } => {
+            let merkle_proof = generate_merkle_proof(anonset.0,  address.to_string().to_lowercase(), 15).iter().map(|x| format!("{:02x}", x)).collect::<String>();
+            println!("{:?}",merkle_proof );
         }
         AkliCommand::Prove { merkle_root, message, private_key } => {
             println!("Prove");
