@@ -12,7 +12,7 @@ export interface IMerkleTreeWorker {
     leaves: string[],
     leaf: string,
     depth: number,
-  ) => Uint8Array
+  ) => Promise<Uint8Array>
 }
 
 export interface IMerkleTreeWasm {

@@ -14,14 +14,19 @@ export const useMerkleTreeWasmWorker = () => {
   ): Promise<Uint8Array> => {
     process.env.NODE_ENV === 'development' && console.time('==>merkle')
 
-    const proof = await MerkleTreeWorker.generateMerkleProof(
-      leaves,
-      leaf,
-      depth,
-    )
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const proof = await MerkleTreeWorker.generateMerkleProof(
+        leaves,
+        leaf,
+        depth,
+      )
 
-    process.env.NODE_ENV === 'development' && console.timeEnd('==>merkle')
-    return proof
+      process.env.NODE_ENV === 'development' && console.timeEnd('==>merkle')
+      return proof
+    } catch (error) {
+      throw error
+    }
   }
 
   return {

@@ -10,17 +10,20 @@ import {
   WarningModal,
 } from '@components'
 import { useProofRequest, useResetProofRequest, useStore } from '@hooks'
+import { ErrorModal } from './ErrorModal'
 
 export function SubmitProofRequest() {
   useResetProofRequest()
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = modal(ref)
-  const { anonSet, setWarningWasRead, warningWasRead } = useStore()
+  const { anonSet, setWarningWasRead, warningWasRead, errorWasRead } =
+    useStore()
   const {
     canSign,
     canSubmit,
     isGeneratingMerkleProof,
     isSuccess,
+    isSubmitError,
     signMessage,
   } = useProofRequest()
 
@@ -29,6 +32,13 @@ export function SubmitProofRequest() {
   }, [setWarningWasRead])
 
   if (isGeneratingMerkleProof) return <Loader />
+
+  if (isSubmitError.isError)
+    return (
+      <>
+        <ErrorModal content={[isSubmitError.error as string]} />
+      </>
+    )
 
   return (
     <div className='mt-20 flex flex-col space-y-10'>
