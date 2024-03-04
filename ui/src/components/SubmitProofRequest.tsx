@@ -16,14 +16,13 @@ export function SubmitProofRequest() {
   useResetProofRequest()
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = modal(ref)
-  const { anonSet, setWarningWasRead, warningWasRead, errorWasRead } =
-    useStore()
+  const { anonSet, setWarningWasRead, warningWasRead } = useStore()
   const {
     canSign,
     canSubmit,
     isGeneratingMerkleProof,
-    isSuccess,
     isSubmitError,
+    isSuccess,
     signMessage,
   } = useProofRequest()
 
@@ -36,7 +35,7 @@ export function SubmitProofRequest() {
   if (isSubmitError.isError)
     return (
       <>
-        <ErrorModal content={[isSubmitError.error as string]} />
+        <ErrorModal content={[isSubmitError.error]} />
       </>
     )
 

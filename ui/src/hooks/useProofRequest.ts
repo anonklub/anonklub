@@ -21,8 +21,8 @@ export const useProofRequest = () => {
   const [isGeneratingMerkleProof, setIsGeneratingMerkleProof] = useState(false)
   const { generateMerkleProof, isWorkerReady } = useMerkleTreeWasmWorker()
   const [isSubmitError, setIsSubmitError] = useState({
-    isError: false,
     error: '',
+    isError: false,
   })
 
   const canSign = rawSignature === undefined && isConnected
@@ -59,8 +59,8 @@ export const useProofRequest = () => {
       } catch (error) {
         setIsGeneratingMerkleProof(false)
         setIsSubmitError({
-          isError: true,
           error,
+          isError: true,
         })
       }
     })()
@@ -72,8 +72,8 @@ export const useProofRequest = () => {
     canSubmit,
     isError,
     isGeneratingMerkleProof,
-    isSuccess,
     isSubmitError,
+    isSuccess,
     rawSignature,
     signMessage,
   }

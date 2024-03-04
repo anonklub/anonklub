@@ -11,17 +11,17 @@ export const useStoreActions = typedHooks.useStoreActions
  */
 export const useStore = () => ({
   anonSet: useStoreState((state) => state.anonSet.data),
+  errorWasRead: useStoreState((state) => state.error.wasError),
   helpText: useStoreState((state) => state.help.text),
   proof: useStoreState((state) => state.proof.data),
   proofRequest: useStoreState((state) => state.proofRequest.data),
   resetAnonSet: useStoreActions((actions) => actions.anonSet.reset),
   resetProofRequest: useStoreActions((actions) => actions.proofRequest.reset),
   setAnonSet: useStoreActions((actions) => actions.anonSet.set),
+  setErrorWasRead: useStoreActions((actions) => actions.error.setWasError),
   setHelpText: useStoreActions((actions) => actions.help.setText),
   setProof: useStoreActions((actions) => actions.proof.set),
   setProofRequest: useStoreActions((actions) => actions.proofRequest.set),
   setWarningWasRead: useStoreActions((actions) => actions.warning.setWasRead),
   warningWasRead: useStoreState((state) => state.warning.wasRead),
-  setErrorWasRead: useStoreActions((actions) => actions.error.setWasError),
-  errorWasRead: useStoreState((state) => state.error.wasError),
 })

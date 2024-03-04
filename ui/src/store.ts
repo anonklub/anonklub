@@ -40,6 +40,12 @@ export const store = createStore<StoreModel>({
       state.data = payload
     }),
   },
+  error: {
+    setWasError: action((state, payload) => {
+      state.wasError = payload
+    }),
+    wasError: false,
+  },
   help: {
     setText: action((state, payload) => {
       state.text = payload
@@ -66,11 +72,5 @@ export const store = createStore<StoreModel>({
       state.wasRead = payload
     }),
     wasRead: false,
-  },
-  error: {
-    setWasError: action((state, payload) => {
-      state.wasError = payload
-    }),
-    wasError: false,
   },
 })

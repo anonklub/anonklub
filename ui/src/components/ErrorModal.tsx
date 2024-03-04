@@ -1,27 +1,18 @@
 'use client'
-import { useEffect, useRef } from 'react'
-import { modal } from '#'
-import { Text } from '@components'
-import { useStore } from '@hooks'
 import Link from 'next/link'
+import { useStore } from '@hooks'
 
 export const ErrorModal = ({ content }: { content: string[] }) => {
-  const ref = useRef<HTMLDialogElement>(null)
-  const { close, open } = modal(ref)
   const { setErrorWasRead } = useStore()
 
   return (
-    <div
-      className='bg-gray-600 fixed inset-0 h-full w-full overflow-y-auto bg-opacity-50'
-      onClick={close}
-    >
+    <div className='bg-gray-600 fixed inset-0 h-full w-full overflow-y-auto bg-opacity-50'>
       <div className='bg-white relative top-20 mx-auto w-96 rounded-md border p-5 shadow-lg'>
         <div className='flex items-center justify-between'>
           <h3 className='text-gray-900 text-lg font-medium leading-6'>Error</h3>
           <button
             type='button'
             className='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 ml-auto inline-flex items-center rounded-lg p-1.5 text-sm'
-            onClick={close}
           >
             <svg
               className='h-5 w-5'
