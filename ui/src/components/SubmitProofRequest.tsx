@@ -16,13 +16,15 @@ export function SubmitProofRequest() {
   useResetProofRequest()
   const ref = useRef<HTMLDialogElement>(null)
   const { open } = modal(ref)
-  const { anonSet, setWarningWasRead, warningWasRead } = useStore()
+  const { anonSet, setWarningWasRead, warningWasRead, errorWasRead } =
+    useStore()
   const {
     canSign,
     canSubmit,
     isGeneratingMerkleProof,
     merkleProofError,
     isSuccess,
+    isSubmitError,
     signMessage,
   } = useProofRequest()
 
