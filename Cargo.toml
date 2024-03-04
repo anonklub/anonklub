@@ -3,6 +3,7 @@ resolver = "2"
 default-members = ["pkgs/cli"]
 members = [
     "pkgs/cli",
+    "pkgs/circuits/halo2",
     "pkgs/merkle-tree-wasm",
     "pkgs/spartan-ecdsa-wasm", 
     "pkgs/circuits/halo2wrong-ecdsa"
