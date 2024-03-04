@@ -1,4 +1,7 @@
+#![allow(non_snake_case)]
+
 use crate::{get_anonset, Anonset};
+use alloy_primitives::Address;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 
@@ -9,10 +12,10 @@ struct Erc20AnonSetQuery {
     min: Option<u64>,
 }
 
-pub async fn get_erc20_anonset(address: String, min: Option<u64>) -> Result<Anonset> {
+pub async fn get_erc20_anonset(address: Address, min: Option<u64>) -> Result<Anonset> {
     get_anonset(
         Some(Erc20AnonSetQuery {
-            tokenAddress: address,
+            tokenAddress: address.to_string(),
             min,
         }),
         "asset/erc20",
