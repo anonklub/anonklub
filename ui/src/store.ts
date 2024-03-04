@@ -73,4 +73,10 @@ export const store = createStore<StoreModel>({
     }),
     wasRead: false,
   },
+  error: {
+    setWasError: action((state, payload) => {
+      state.wasError = payload
+    }),
+    wasError: false,
+  },
 })
