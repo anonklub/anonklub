@@ -22,6 +22,4 @@ export const useStore = () => ({
   setProofRequest: useStoreActions((actions) => actions.proofRequest.set),
   setWarningWasRead: useStoreActions((actions) => actions.warning.setWasRead),
   warningWasRead: useStoreState((state) => state.warning.wasRead),
-  setErrorWasRead: useStoreActions((actions) => actions.error.setWasError),
-  errorWasRead: useStoreState((state) => state.error.wasError),
 })

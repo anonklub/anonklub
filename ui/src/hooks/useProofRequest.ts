@@ -69,6 +69,7 @@ export const useProofRequest = () => {
     merkleProofError,
     isSuccess,
     isSubmitError,
+    isSuccess,
     rawSignature,
     signMessage,
   }
