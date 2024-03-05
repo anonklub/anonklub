@@ -113,4 +113,8 @@ dialog::backdrop {
   .buttons-row {
     @apply mt-10 flex flex-row justify-center space-x-20;
   }
+
+  .error-container {
+    @apply mt-28 flex flex-col items-center justify-start border border-red bg-black p-4 text-center text-red;
+  }
 }
