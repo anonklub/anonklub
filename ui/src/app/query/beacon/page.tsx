@@ -9,7 +9,6 @@ import { AnonSetResults } from '@components'
 export const dynamic = 'force-dynamic'
 
 export default async function Page() {
-  throw new Error('This page is showed to test error handling')
   const anonSet = await getData<string[]>(`${config.urls.queryApi}/beacon`)
 
   return <AnonSetResults anonSet={anonSet} title='Beacon depositors' />
