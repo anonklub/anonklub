@@ -34,7 +34,7 @@ pub fn pprint(anonset: Result<Anonset>) {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize )]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Path(PathBuf);
 
 pub fn parse_path(s: &str) -> Result<Anonset> {

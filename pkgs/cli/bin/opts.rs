@@ -1,7 +1,6 @@
-
 use std::path::PathBuf;
 
-use akli::{EnsVoteChoice, parse_path, Anonset };
+use akli::{parse_path, Anonset, EnsVoteChoice};
 use alloy_primitives::Address;
 use clap::{Parser, Subcommand};
 
@@ -41,13 +40,11 @@ pub enum AkliCommand {
 
         #[clap(short, long)]
         private_key: String,
-
     },
 
     #[clap(subcommand, name = "")]
     Verify,
 }
-
 
 #[derive(Debug, Subcommand)]
 pub enum QuerySubcommand {

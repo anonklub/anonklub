@@ -33,12 +33,23 @@ async fn main() -> Result<()> {
             QuerySubcommand::Ens { id, choice } => {
                 pprint(get_ens_dao_anonset(id, choice).await);
             }
+        },
+        AkliCommand::Merkle {
+            file: anonset,
+            address,
+        } => {
+            let merkle_proof =
+                generate_merkle_proof(anonset.0, address.to_string().to_lowercase(), 15)
+                    .iter()
+                    .map(|x| format!("{:02x}", x))
+                    .collect::<String>();
+            println!("{:?}", merkle_proof);
         }
-        AkliCommand::Merkle { file: anonset, address } => {
-            let merkle_proof = generate_merkle_proof(anonset.0,  address.to_string().to_lowercase(), 15).iter().map(|x| format!("{:02x}", x)).collect::<String>();
-            println!("{:?}",merkle_proof );
-        }
-        AkliCommand::Prove { merkle_root, message, private_key } => {
+        AkliCommand::Prove {
+            merkle_root,
+            message,
+            private_key,
+        } => {
             println!("Prove");
             println!("Merkle Root: {}", merkle_root);
             println!("Message: {}", message);
