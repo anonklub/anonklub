@@ -4,13 +4,13 @@ import { useEffect, useRef } from 'react'
 import { modal, NAVIGATION } from '#'
 import {
   CheckMark,
+  ErrorContainer,
   Loader,
   Modal,
   ScrollableJsonContainer,
   WarningModal,
 } from '@components'
 import { useProofRequest, useResetProofRequest, useStore } from '@hooks'
-import { ErrorModal } from './ErrorModal'
 
 export function SubmitProofRequest() {
   useResetProofRequest()
@@ -21,7 +21,7 @@ export function SubmitProofRequest() {
     canSign,
     canSubmit,
     isGeneratingMerkleProof,
-    isSubmitError,
+    merkleProofError,
     isSuccess,
     signMessage,
   } = useProofRequest()
@@ -32,12 +32,8 @@ export function SubmitProofRequest() {
 
   if (isGeneratingMerkleProof) return <Loader />
 
-  if (isSubmitError.isError)
-    return (
-      <>
-        <ErrorModal content={[isSubmitError.error]} />
-      </>
-    )
+  if (merkleProofError !== null)
+    return <ErrorContainer message={merkleProofError} />
 
   return (
     <div className='mt-20 flex flex-col space-y-10'>
