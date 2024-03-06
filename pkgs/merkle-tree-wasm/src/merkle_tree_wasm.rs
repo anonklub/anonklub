@@ -4,8 +4,6 @@ use poseidon::{Poseidon, PoseidonConstants};
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 
 pub use ark_ff;
-pub use ark_secp256k1;
-pub use num_bigint;
 pub use poseidon;
 
 pub struct MerkleTree<F: PrimeField, const WIDTH: usize> {
@@ -117,7 +115,7 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
         WIDTH - 1
     }
 
-    pub fn create_proof(&self, leaf: F) -> MerkleProof<F> {
+    pub fn create_proof(&self, leaf: F) -> Result<MerkleProof<F>, String> {
         if !self.is_tree_ready {
             panic!("MerkleTree: Tree is not ready.");
         }
@@ -127,11 +125,12 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
 
         let mut current_layer = &self.layers[0];
 
-        let mut leaf_index = self
-            .leaves
-            .iter()
-            .position(|&x| x == leaf)
-            .expect("MerkleProof: Leaf is not found");
+        let leaf_index_result = self.leaves.iter().position(|&x| x == leaf);
+
+        let mut leaf_index = match leaf_index_result {
+            Some(index) => index,
+            None => return Err("MerkleProof: Leaf is not found, please consider using an address belongs to the anonymous set.".to_string()),
+        };
 
         for i in 0..self.depth.unwrap() {
             let sibling_index = if leaf_index % 2 == 0 {
@@ -150,12 +149,12 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
 
         // TODO: encode the output of the merkle_proof into big-endian bytes
 
-        MerkleProof {
+        Ok(MerkleProof {
             leaf,
             siblings,
             path_indices,
             root: self.root.unwrap(),
-        }
+        })
     }
 
     pub fn verify_proof(&mut self, root: F, proof: &MerkleProof<F>) -> bool {
@@ -206,7 +205,7 @@ mod tests {
 
         tree.finish();
 
-        let proof = tree.create_proof(leaves[0]);
+        let proof = tree.create_proof(leaves[0]).unwrap();
         assert!(tree.verify_proof(tree.root.unwrap(), &proof));
     }
 }

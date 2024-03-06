@@ -20,6 +20,10 @@ export const useProofRequest = () => {
   })
   const [isGeneratingMerkleProof, setIsGeneratingMerkleProof] = useState(false)
   const { generateMerkleProof, isWorkerReady } = useMerkleTreeWasmWorker()
+  const [isSubmitError, setIsSubmitError] = useState({
+    error: '',
+    isError: false,
+  })
 
   const canSign = rawSignature === undefined && isConnected
   const canSubmit = isSuccess && anonSet !== null && proofRequest !== null
@@ -36,21 +40,29 @@ export const useProofRequest = () => {
 
       setIsGeneratingMerkleProof(true)
 
-      const merkleProofBytes = await generateMerkleProof(
-        anonSet,
-        address.toLowerCase(),
-        15,
-      )
+      try {
+        const merkleProofBytes = await generateMerkleProof(
+          anonSet,
+          address.toLowerCase(),
+          15,
+        )
 
-      setIsGeneratingMerkleProof(false)
-      setProofRequest(
-        new ProofRequest({
-          addresses: anonSet,
-          merkleProof: merkleProofBytes,
-          message,
-          rawSignature,
-        }),
-      )
+        setIsGeneratingMerkleProof(false)
+        setProofRequest(
+          new ProofRequest({
+            addresses: anonSet,
+            merkleProof: merkleProofBytes,
+            message,
+            rawSignature,
+          }),
+        )
+      } catch (error) {
+        setIsGeneratingMerkleProof(false)
+        setIsSubmitError({
+          error,
+          isError: true,
+        })
+      }
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, isWorkerReady, message, rawSignature, anonSet])
@@ -60,6 +72,7 @@ export const useProofRequest = () => {
     canSubmit,
     isError,
     isGeneratingMerkleProof,
+    isSubmitError,
     isSuccess,
     rawSignature,
     signMessage,

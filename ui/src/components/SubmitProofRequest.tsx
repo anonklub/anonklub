@@ -10,6 +10,7 @@ import {
   WarningModal,
 } from '@components'
 import { useProofRequest, useResetProofRequest, useStore } from '@hooks'
+import { ErrorModal } from './ErrorModal'
 
 export function SubmitProofRequest() {
   useResetProofRequest()
@@ -20,6 +21,7 @@ export function SubmitProofRequest() {
     canSign,
     canSubmit,
     isGeneratingMerkleProof,
+    isSubmitError,
     isSuccess,
     signMessage,
   } = useProofRequest()
@@ -29,6 +31,13 @@ export function SubmitProofRequest() {
   }, [setWarningWasRead])
 
   if (isGeneratingMerkleProof) return <Loader />
+
+  if (isSubmitError.isError)
+    return (
+      <>
+        <ErrorModal content={[isSubmitError.error]} />
+      </>
+    )
 
   return (
     <div className='mt-20 flex flex-col space-y-10'>

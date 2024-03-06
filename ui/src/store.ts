@@ -24,6 +24,10 @@ export interface StoreModel {
     wasRead: boolean
     setWasRead: Action<{ wasRead: boolean }, boolean>
   }
+  error: {
+    wasError: boolean
+    setWasError: Action<{ wasError: boolean }, boolean>
+  }
 }
 
 export const store = createStore<StoreModel>({
@@ -35,6 +39,12 @@ export const store = createStore<StoreModel>({
     set: action((state, payload) => {
       state.data = payload
     }),
+  },
+  error: {
+    setWasError: action((state, payload) => {
+      state.wasError = payload
+    }),
+    wasError: false,
   },
   help: {
     setText: action((state, payload) => {
