@@ -48,6 +48,10 @@ dialog::backdrop {
     @apply hover:bg-grey hover:text-black;
   }
 
+  .btn-error {
+    @apply rounded border-2 border-red px-4 py-2 font-medium text-red hover:bg-red hover:text-black;
+  }
+
   .is-disabled {
     @apply cursor-not-allowed opacity-50;
   }
@@ -112,5 +116,9 @@ dialog::backdrop {
 
   .buttons-row {
     @apply mt-10 flex flex-row justify-center space-x-20;
+  }
+
+  .error-container {
+    @apply mt-28 flex flex-col items-center justify-start border border-red bg-black p-4 text-center text-red;
   }
 }
