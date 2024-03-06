@@ -2662,6 +2662,7 @@ dependencies = [
  "halo2_proofs",
  "halo2wrong",
  "log",
+ "maingate",
  "rand 0.8.5",
  "serde",
  "serde_json",
@@ -3360,6 +3361,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b5e6163cb8c49088c2c36f57875e58ccd8c87c7427f7fbd50ea6710b2f3f2e8f"
 dependencies = [
  "value-bag",
+]
+
+[[package]]
+name = "maingate"
+version = "0.1.0"
+source = "git+https://github.com/privacy-scaling-explorations/halo2wrong.git?tag=v2023_02_02#5905a20b62fcd9f6c269416a39c80de7ced8fb02"
+dependencies = [
+ "group 0.12.1",
+ "halo2wrong",
+ "num-bigint",
+ "num-integer",
+ "num-traits",
+ "rand 0.8.5",
+ "subtle",
 ]
 
 [[package]]
