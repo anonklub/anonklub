@@ -23,8 +23,6 @@ export function SubmitProofRequest() {
     isGeneratingMerkleProof,
     merkleProofError,
     isSuccess,
-    isSubmitError,
-    isSuccess,
     signMessage,
   } = useProofRequest()
 
