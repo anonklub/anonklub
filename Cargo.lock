@@ -2648,6 +2648,7 @@ dependencies = [
  "halo2_proofs 0.2.0",
  "halo2wrong 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong.git?tag=v2023_02_02)",
  "log",
+ "maingate",
  "rand 0.8.5",
  "serde",
  "serde_json",

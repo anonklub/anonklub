@@ -2,3 +2,4 @@
 
 pub mod scaffold;
 pub mod vanilla_circuits;
+pub mod ecdsa;
