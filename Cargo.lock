@@ -2660,6 +2660,7 @@ dependencies = [
  "ethers-core",
  "halo2-base",
  "halo2_proofs",
+ "halo2wrong",
  "log",
  "rand 0.8.5",
  "serde",
@@ -2725,6 +2726,18 @@ dependencies = [
  "sha2 0.10.8",
  "static_assertions",
  "subtle",
+]
+
+[[package]]
+name = "halo2wrong"
+version = "0.1.0"
+source = "git+https://github.com/privacy-scaling-explorations/halo2wrong.git?tag=v2023_02_02#5905a20b62fcd9f6c269416a39c80de7ced8fb02"
+dependencies = [
+ "group 0.12.1",
+ "halo2_proofs",
+ "num-bigint",
+ "num-integer",
+ "num-traits",
 ]
 
 [[package]]
