@@ -205,8 +205,8 @@ importers:
   pkgs/merkle-tree-worker:
     dependencies:
       '@anonklub/merkle-tree-wasm':
-        specifier: ~1.1.1
-        version: 1.1.2
+        specifier: ~1.1.3
+        version: 1.1.3
       comlink:
         specifier: ^4.4.1
         version: 4.4.1
@@ -389,8 +389,8 @@ importers:
   ui:
     dependencies:
       '@anonklub/merkle-tree-worker':
-        specifier: ~1.1.1
-        version: 1.1.1
+        specifier: ~1.1.2
+        version: 1.1.2
       '@anonklub/proof':
         specifier: 2.1.1
         version: 2.1.1
@@ -549,18 +549,14 @@ packages:
       - chokidar
     dev: true
 
-  /@anonklub/merkle-tree-wasm@1.1.1:
-    resolution: {integrity: sha512-c6B0dVlDVY8t1f4BpIYpylqAzNpE9+Ox5wNHKJg4UBbU8Enf94CS3w2Lpqhn2mDwW55RIC5NXjexeuGYVURqsw==}
+  /@anonklub/merkle-tree-wasm@1.1.3:
+    resolution: {integrity: sha512-klSyPx6BQd5KxI+lzAx/eCUXFYNn85nujcePXbZLyFjnhvhZAkwQ8yQ04+dNhYYZSCdzUJv4YsElW7u0bMQ5NQ==}
     dev: false
 
-  /@anonklub/merkle-tree-wasm@1.1.2:
-    resolution: {integrity: sha512-tR1bZh7n3nGJkIzU8LUjPnpjooEUTho+qS+JOGBfNKAeBoiDKhjANf4QwOXFE/ulFB/zpkNUyFoo8ns45/0qEg==}
-    dev: false
-
-  /@anonklub/merkle-tree-worker@1.1.1:
-    resolution: {integrity: sha512-dQ5PsN5HQwNrw9m7y3jKCvZoIUyNA+Bu95pqawO2MIYxHE4Pzugev6WptoLsUKsolbyZ5pYNLwuZYIT2emYwJA==}
+  /@anonklub/merkle-tree-worker@1.1.2:
+    resolution: {integrity: sha512-Zfe7Ab652DhHJdJUiaSg1sdGL0qfWiY8ZIdrJVuhUiDW8vP31D/joG9sn8UuiFBvOkimhqoY4LUQ/XitWi6upw==}
     dependencies:
-      '@anonklub/merkle-tree-wasm': 1.1.1
+      '@anonklub/merkle-tree-wasm': 1.1.3
       comlink: 4.4.1
     dev: false
 
