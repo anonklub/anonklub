@@ -46,6 +46,7 @@
     "build.docker.ui": "docker build -f ui/Dockerfile . -t anonklub-ui",
     "build.pkgs": "turbo --filter=// --filter='./pkgs/*' build _compile",
     "build.ui":"pnpm --filter @anonklub/ui build",
+    "changeset": "changeset",
     "clean": "find . \\( -name 'node_modules' -o -name 'dist' -o -name 'next' \\) -type d -prune -exec rm -rf '{}' +",
     "compile": "turbo _compile",
     "fix": "turbo _format.fix _lint.fix",
