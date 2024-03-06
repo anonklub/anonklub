@@ -6,9 +6,9 @@
     "net": false
   },
   "dependencies": {
-    "@anonklub/merkle-tree-worker": "~1.1.2",
+    "@anonklub/merkle-tree-worker": "workspace:*",
     "@anonklub/proof": "2.1.1",
-    "@anonklub/spartan-ecdsa-worker": "~1.1.1",
+    "@anonklub/spartan-ecdsa-worker": "workspace:*",
     "@heroicons/react": "^2.0.18",
     "@typebot.io/js": "^0.2.41",
     "@typebot.io/nextjs": "^0.2.41",
