@@ -3,6 +3,7 @@
  */
 
 export * from './useFetchOnChain'
+export * from './useGoBackOnClickOutside'
 export * from './useHelp'
 export * from './useJsonFile'
 export * from './useMerkleTreeWorker'
