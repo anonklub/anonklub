@@ -1,5 +1,11 @@
 # @anonklub/merkle-tree-worker
 
+## 1.1.2
+
+### Patch Changes
+
+- f0acf3f: Bump `@anonklub/merkle-tree-wasm` dep
+
 ## 1.1.1
 
 ### Patch Changes
