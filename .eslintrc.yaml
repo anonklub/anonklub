@@ -4,7 +4,6 @@ parserOptions:
     [
       'circom/tsconfig.json',
       'discord-bot/tsconfig.json',
-      'pkgs/cli/tsconfig.json',
       'pkgs/merkle-tree-worker/tsconfig.json',
       'pkgs/proof/tsconfig.json',
       'pkgs/query/tsconfig.json',

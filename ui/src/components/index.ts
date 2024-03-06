@@ -3,7 +3,9 @@
  */
 
 export * from './AnonSetResults'
+export * from './CheckMark'
 export * from './ConnectButton'
+export * from './ErrorContainer'
 export * from './ExternalLink'
 export * from './Footer'
 export * from './Header'
@@ -14,7 +16,6 @@ export * from './Loader'
 export * from './Modal'
 export * from './Screen'
 export * from './ScrollableJsonContainer'
-export * from './CheckMark'
 export * from './SubmitProofRequest'
 export * from './Text'
 export * from './WarningModal'
