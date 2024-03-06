@@ -5,10 +5,7 @@
     "moduleResolution": "Node",
     "noUncheckedIndexedAccess": false,
     "strictPropertyInitialization": false,
-    "lib": ["webWorker", "DOM"],
-    "paths": {
-      "@anonklub/merkle-tree-wasm": ["../merkle_tree_wasm/dist"]
-    }
+    "lib": ["webWorker", "DOM"]
   },
   "include": ["src"]
 }

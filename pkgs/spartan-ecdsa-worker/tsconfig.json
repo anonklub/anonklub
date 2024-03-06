@@ -5,8 +5,7 @@
     "moduleResolution": "Node",
     "noUncheckedIndexedAccess": false,
     "strictPropertyInitialization": false,
-    "lib": ["webWorker", "DOM"],
-    "noEmit": false
+    "lib": ["webWorker", "DOM"]
   },
   "include": ["src"]
 }
