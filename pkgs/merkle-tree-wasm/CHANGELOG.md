@@ -1,5 +1,11 @@
 # @anonklub/merkle-tree-wasm
 
+## 1.1.3
+
+### Patch Changes
+
+- 81c037b: fix: handle leaf not found error
+
 ## 1.1.2
 
 ### Patch Changes
