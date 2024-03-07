@@ -1,5 +1,11 @@
 # @anonklub/merkle-tree-worker
 
+## 1.1.3
+
+### Patch Changes
+
+- 0bf4936: Remove useless try/catch
+
 ## 1.1.2
 
 ### Patch Changes
