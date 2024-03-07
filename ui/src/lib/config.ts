@@ -20,21 +20,19 @@ interface Config {
 // https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#loading-environment-variables
 const walletConnectProjectId =
   process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ''
-const queryApiUrl = process.env.NEXT_PUBLIC_QUERY_API_URL ?? ''
 const verifierAddress = process.env.NEXT_PUBLIC_VERIFIER_ADDRESS ?? ''
 const verifierChainId = process.env.NEXT_PUBLIC_VERIFIER_CHAIN_ID ?? ''
 
-;[
-  [walletConnectProjectId, 'NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID'],
-  [queryApiUrl, 'NEXT_PUBLIC_QUERY_API_URL'],
-].forEach(([value, name]) => {
-  if (value === '') {
-    // this means next build will fail
-    if (process.env.NEXT_PHASE === 'phase-production-build')
-      throw new Error(`Missing environment variable ${name}`)
-    else console.warn(`Missing environment variable ${name}`)
-  }
-})
+;[[walletConnectProjectId, 'NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID']].forEach(
+  ([value, name]) => {
+    if (value === '') {
+      // this means next build will fail
+      if (process.env.NEXT_PHASE === 'phase-production-build')
+        throw new Error(`Missing environment variable ${name}`)
+      else console.warn(`Missing environment variable ${name}`)
+    }
+  },
+)
 
 if (!verifierAddress.startsWith('0x')) {
   if (process.env.NEXT_PHASE === 'phase-production-build')
@@ -55,7 +53,7 @@ export const config: Config = {
     'I am generating an anonymous proof of Ethereum address ownership with AnonKlub.',
   typebot: 'anonklub-feedback',
   urls: {
-    queryApi: queryApiUrl,
+    queryApi: 'https://anonset.fly.dev',
   },
   verifier: {
     // @ts-expect-error we already checked that verifierAddress starts with 0x
