@@ -1,4 +1,6 @@
 {
-  "*": ["prettier --write --ignore-path .prettierignore"],
-  "**/*.{ts,js}": ["eslint"]
+  "**/*.{css,less,scss,html,graphql,json,js,jsx,md,ts,tsx,yml,yaml}": [
+    "prettier --write --ignore-path .prettierignore"
+  ],
+  "**/*.{js,jsx,ts,tsx}": ["eslint"]
 }
