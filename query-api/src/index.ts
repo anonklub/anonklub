@@ -9,6 +9,7 @@ async function bootstrap() {
   // TODO: set more restrictive CORS policy
   const app = await NestFactory.create<NestExpressApplication>(AnonsetModule, {
     cors: true,
+    logger: ['error', 'warn', 'log', 'debug'],
   })
   app.useGlobalPipes(new ValidationPipe())
   app.useStaticAssets(join(__dirname, '..', 'public'))
