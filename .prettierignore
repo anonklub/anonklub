@@ -32,7 +32,7 @@ commitlint.config.js
 .eslint
 .eslintignore
 .prettierignore
-
+.tool-versions
 *.rs
 *.toml
 Dockerfile
