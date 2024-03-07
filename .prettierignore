@@ -35,3 +35,4 @@ commitlint.config.js
 
 *.rs
 *.toml
+Dockerfile

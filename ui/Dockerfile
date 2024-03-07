@@ -6,6 +6,8 @@ WORKDIR app
 FROM base as deps
 
 COPY *.json *.yaml global.d.ts .npmrc ./
+# necessary to successfully install node deps because local test pkg is part of dev deps
+COPY test ./test
 COPY ui/package.json ./ui/
 
 RUN  npm i -g pnpm && pnpm i --filter @anonklub/ui
