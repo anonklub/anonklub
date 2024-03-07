@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common'
 export class BigqueryClient extends BigQuery {
   constructor() {
     const {
-      GOOGLE_APPLICATION_CREDENTIALS,
+      GOOGLE_APPLICATION_CREDENTIALS_JSON_STR,
       GOOGLE_CLOUD_PROJECT: projectId,
       NODE_ENV,
     } = process.env
@@ -16,12 +16,12 @@ export class BigqueryClient extends BigQuery {
         projectId: '',
       })
     } else {
-      if (GOOGLE_APPLICATION_CREDENTIALS === undefined)
+      if (GOOGLE_APPLICATION_CREDENTIALS_JSON_STR === undefined)
         throw new Error('missing google credentials')
       if (projectId === undefined) throw new Error('missing google project id')
 
       super({
-        credentials: JSON.parse(GOOGLE_APPLICATION_CREDENTIALS),
+        credentials: JSON.parse(GOOGLE_APPLICATION_CREDENTIALS_JSON_STR),
         projectId,
       })
     }

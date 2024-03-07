@@ -1,5 +1,6 @@
-import { CacheModule } from '@nestjs/cache-manager'
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager'
 import { Module } from '@nestjs/common'
+import { APP_INTERCEPTOR } from '@nestjs/core'
 import { AnonsetController } from './anonset.controller'
 import { AnonsetService } from './anonset.service'
 import {
@@ -22,6 +23,10 @@ const ONE_DAY = 60 * 60 * 24 * 1000
     GraphRepository,
     BigqueryClient,
     DuneClient,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
   ],
 })
 export class AnonsetModule {}
