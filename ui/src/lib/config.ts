@@ -9,10 +9,6 @@ interface Config {
   urls: {
     queryApi: string
   }
-  verifier: {
-    address: `0x${string}`
-    chainId: number
-  }
   walletConnectProjectId: string
 }
 
@@ -20,8 +16,6 @@ interface Config {
 // https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#loading-environment-variables
 const walletConnectProjectId =
   process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ''
-const verifierAddress = process.env.NEXT_PUBLIC_VERIFIER_ADDRESS ?? ''
-const verifierChainId = process.env.NEXT_PUBLIC_VERIFIER_CHAIN_ID ?? ''
 
 ;[[walletConnectProjectId, 'NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID']].forEach(
   ([value, name]) => {
@@ -34,18 +28,6 @@ const verifierChainId = process.env.NEXT_PUBLIC_VERIFIER_CHAIN_ID ?? ''
   },
 )
 
-if (!verifierAddress.startsWith('0x')) {
-  if (process.env.NEXT_PHASE === 'phase-production-build')
-    throw new Error(`Invalid verifier address ${verifierAddress}`)
-  else console.warn(`Invalid verifier address ${verifierAddress}`)
-}
-
-if (isNaN(parseInt(verifierChainId))) {
-  if (process.env.NEXT_PHASE === 'phase-production-build')
-    throw new Error(`Invalid verifier chain id ${verifierChainId}`)
-  else console.warn(`Invalid verifier chain id ${verifierChainId}`)
-}
-
 export const config: Config = {
   appTitle: 'Anonklub',
   chains: [sepolia],
@@ -54,11 +36,6 @@ export const config: Config = {
   typebot: 'anonklub-feedback',
   urls: {
     queryApi: 'https://anonset.fly.dev',
-  },
-  verifier: {
-    // @ts-expect-error we already checked that verifierAddress starts with 0x
-    address: verifierAddress,
-    chainId: parseInt(verifierChainId),
   },
   walletConnectProjectId,
 }
