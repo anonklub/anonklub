@@ -12,7 +12,8 @@ export const useProofRequest = () => {
   const { anonSet, proofRequest, setProofRequest } = useStore()
   const {
     data: rawSignature,
-    isError,
+    // TODO: use an errors array and push the potential signature error and merkle tree error to it, render everything in the ErrorContainer
+    // error,
     isSuccess,
     signMessage,
   } = useSignMessage({
@@ -20,10 +21,7 @@ export const useProofRequest = () => {
   })
   const [isGeneratingMerkleProof, setIsGeneratingMerkleProof] = useState(false)
   const { generateMerkleProof, isWorkerReady } = useMerkleTreeWasmWorker()
-  const [isSubmitError, setIsSubmitError] = useState({
-    error: '',
-    isError: false,
-  })
+  const [merkleProofError, setMerkleProofError] = useState<string | null>(null)
 
   const canSign = rawSignature === undefined && isConnected
   const canSubmit = isSuccess && anonSet !== null && proofRequest !== null
@@ -47,7 +45,6 @@ export const useProofRequest = () => {
           15,
         )
 
-        setIsGeneratingMerkleProof(false)
         setProofRequest(
           new ProofRequest({
             addresses: anonSet,
@@ -57,11 +54,9 @@ export const useProofRequest = () => {
           }),
         )
       } catch (error) {
+        setMerkleProofError(error)
+      } finally {
         setIsGeneratingMerkleProof(false)
-        setIsSubmitError({
-          error,
-          isError: true,
-        })
       }
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,9 +65,8 @@ export const useProofRequest = () => {
   return {
     canSign,
     canSubmit,
-    isError,
     isGeneratingMerkleProof,
-    isSubmitError,
+    merkleProofError,
     isSuccess,
     rawSignature,
     signMessage,
