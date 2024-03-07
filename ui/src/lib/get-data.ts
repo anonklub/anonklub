@@ -4,8 +4,9 @@ export async function getData<T>(url: string): Promise<T> {
   const data = await res.json()
 
   if (!res.ok) {
-    if (data.message !== undefined) throw new Error(data.message)
-    throw new Error('Failed to fetch data')
+    if (data.statusCode === 429 && data.message !== undefined)
+      throw new Error(data.message, { cause: 'rate-limit' })
+    throw new Error('Fail to fetch data')
   }
 
   return res.json()
