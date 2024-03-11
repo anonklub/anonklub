@@ -25,7 +25,6 @@ pub struct Anonset(pub Vec<String>);
 
 pub async fn get_anonset<T: Serialize>(query_params: Option<T>, endpoint: &str) -> Result<Anonset> {
     let client = get_query_client()?;
-
     let mut res = match query_params {
         Some(query_params) => client
             .get(endpoint)

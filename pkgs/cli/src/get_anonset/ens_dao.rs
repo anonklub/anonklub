@@ -10,5 +10,5 @@ struct EnsDaoQuery {
 }
 
 pub async fn get_ens_dao_anonset(id: String, choice: EnsVoteChoice) -> Result<Anonset> {
-    get_anonset(Some(EnsDaoQuery { id, choice }), "asset/erc20").await
+    get_anonset(Some(EnsDaoQuery { id, choice }), "dao/ens").await
 }

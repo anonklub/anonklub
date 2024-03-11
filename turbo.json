@@ -95,11 +95,14 @@
     "//#_compile": {
       "outputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/dist/**"]
     },
-    "//#_test": {
+    "//#test.jest": {
       "dependsOn": ["^build"],
       "inputs": [
         "{pkgs/{proof,query},circom,query-api}/{src,test}/**/*.{js,jsx,ts,tsx}"
       ]
+    },
+    "//#test.cargo": {
+      "inputs": ["pkgs/cli/**/*.rs"]
     },
     "_test": {
       "cache": false,
