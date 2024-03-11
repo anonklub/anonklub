@@ -9,5 +9,5 @@ export async function getData<T>(url: string): Promise<T> {
     throw new Error('Fail to fetch data')
   }
 
-  return res.json()
+  return data
 }
