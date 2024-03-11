@@ -5,7 +5,8 @@ members = [
     "pkgs/cli",
     "pkgs/circuits/halo2",
     "pkgs/merkle-tree-wasm",
-    "pkgs/spartan-ecdsa-wasm"
+    "pkgs/spartan-ecdsa-wasm", 
+    "pkgs/circuits/halo2-ecdsa"
 ]
 
 [profile.release]
