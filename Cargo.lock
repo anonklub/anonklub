@@ -2642,13 +2642,14 @@ dependencies = [
  "ark-std 0.3.0",
  "clap",
  "clap-num",
+ "ecc 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong.git?tag=v2023_02_02)",
  "env_logger",
  "ethers-core",
  "halo2-base",
  "halo2_proofs 0.2.0",
  "halo2wrong 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong.git?tag=v2023_02_02)",
  "log",
- "maingate",
+ "maingate 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong.git?tag=v2023_02_02)",
  "rand 0.8.5",
  "serde",
  "serde_json",
@@ -2659,7 +2660,7 @@ dependencies = [
 [[package]]
 name = "halo2_proofs"
 version = "0.2.0"
-source = "git+https://github.com/privacy-scaling-explorations/halo2.git?tag=v2023_02_02#0a8646b78286a13d320759b1c585262d6536dce4"
+source = "git+https://github.com/privacy-scaling-explorations/halo2?tag=v2023_02_02#0a8646b78286a13d320759b1c585262d6536dce4"
 dependencies = [
  "blake2b_simd",
  "ff 0.12.1",
