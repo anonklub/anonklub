@@ -1,5 +1,6 @@
 use anyhow::Result;
 use clap::ValueEnum;
+use strum::AsRefStr;
 
 mod get_anonset;
 pub use get_anonset::*;
@@ -7,13 +8,17 @@ pub use get_anonset::*;
 mod query_client;
 pub use query_client::get_query_client;
 
-use serde::{Deserialize, Serialize};
 use derive_more::Display;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Display, Clone, Serialize, Deserialize, ValueEnum)]
+#[derive(Debug, Display, Clone, Serialize, Deserialize, ValueEnum, AsRefStr)]
+#[serde(rename_all = "UPPERCASE")]
 pub enum EnsVoteChoice {
+    #[strum(serialize = "YES")]
     Yes,
+    #[strum(serialize = "NO")]
     No,
+    #[strum(serialize = "ABSTAIN")]
     Abstain,
 }
 

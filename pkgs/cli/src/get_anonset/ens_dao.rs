@@ -6,9 +6,9 @@ use serde::{Deserialize, Serialize};
 struct EnsDaoQuery {
     // TODO: use Address type from alloy-primitives
     id: String,
-    choice: String,
+    choice: EnsVoteChoice,
 }
 
 pub async fn get_ens_dao_anonset(id: String, choice: EnsVoteChoice) -> Result<Anonset> {
-    get_anonset(Some(EnsDaoQuery { id, choice: choice.to_string().to_uppercase() }), "dao/ens").await
+    get_anonset(Some(EnsDaoQuery { id, choice }), "dao/ens").await
 }
