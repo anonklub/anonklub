@@ -41,6 +41,9 @@ jobs:
         with:
           version: nightly
 
+      - name: Install nextest
+        run: cargo install cargo-nextest --locked
+
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
