@@ -38,7 +38,7 @@
   },
   "scripts": {
     "_compile": "pnpm --filter merkle-tree-wasm compile && pnpm --filter spartan-ecdsa-wasm compile",
-    "_test": "jest",
+    "test.jest": "jest",
     "barrels": "barrelsby --config .barrelsby.json",
     "build": "turbo build _compile",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
@@ -64,7 +64,8 @@
     "publish.pkgs": "pnpm build.pkgs && changeset version && changeset publish",
     "start.query-api": "pnpm --filter query-api start.dev",
     "start.ui":"pnpm --filter @anonklub/ui dev",
-    "test": "turbo _test",
+    "test.cargo": "cargo nextest run",
+    "test": "turbo _test test.jest test.cargo",
     "test.watch": "jest --watch",
     "typecheck": "turbo typecheck",
     "validate": "turbo format.cargo format.forge format.prettier lint.cargo lint.eslint lint.solhint build _compile --cache-dir=.turbo"
