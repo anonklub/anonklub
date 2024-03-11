@@ -8,8 +8,9 @@ mod query_client;
 pub use query_client::get_query_client;
 
 use serde::{Deserialize, Serialize};
+use derive_more::Display;
 
-#[derive(Debug, Clone, Serialize, Deserialize, ValueEnum)]
+#[derive(Debug, Display, Clone, Serialize, Deserialize, ValueEnum)]
 pub enum EnsVoteChoice {
     Yes,
     No,
