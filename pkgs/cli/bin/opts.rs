@@ -1,5 +1,3 @@
-use std::path::PathBuf;
-
 use akli::{parse_path, Anonset, EnsVoteChoice};
 use alloy_primitives::Address;
 use clap::{Parser, Subcommand};

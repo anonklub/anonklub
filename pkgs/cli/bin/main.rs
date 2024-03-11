@@ -1,3 +1,4 @@
+use std::fmt::Write;
 use akli::{
     get_beacon_anonset, get_ens_dao_anonset, get_erc20_anonset, get_eth_anonset, get_nft_anonset,
     get_punks_anonset, pprint,
@@ -39,11 +40,14 @@ async fn main() -> Result<()> {
             address,
         } => {
             let merkle_proof =
-                generate_merkle_proof(anonset.0, address.to_string().to_lowercase(), 15)
-                    .iter()
-                    .map(|x| format!("{:02x}", x))
-                    .collect::<String>();
-            println!("{:?}", merkle_proof);
+                generate_merkle_proof(anonset.0, address.to_string().to_lowercase(), 15).map_err(
+                    |e| anyhow::Error::msg(format!("Error generating merkle proof: {:?}", e)),
+                )?;
+            let merkle_proof_hex = merkle_proof.iter().fold(String::new(), |mut acc, x| {
+                write!(acc, "{:02x}", x).expect("Failed to write string");
+                acc
+            });
+            println!("Merkle Proof: {:?}", merkle_proof_hex);
         }
         AkliCommand::Prove {
             merkle_root,
