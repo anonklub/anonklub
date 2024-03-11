@@ -7,7 +7,7 @@ on:
     branches: [main, staging]
     paths:
       [
-        'pkgs/**/*.{json,ts}',
+        'pkgs/**/*.{json,ts,rs}',
         'contracts/**/*.sol',
         'query-api/**/*.{js,json,ts,graphql}',
         'test/**/*.{js,ts}',
