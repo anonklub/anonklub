@@ -111,7 +111,7 @@ dialog::backdrop {
   }
 
   .scrollable-json-container {
-    @apply max-h-[325px] overflow-auto scroll-smooth rounded-lg border border-grey p-4 text-sm text-grey shadow-lg;
+    @apply max-h-[325px] overflow-auto scroll-smooth whitespace-pre-wrap rounded-lg border border-grey p-4 text-sm text-grey shadow-lg;
   }
 
   .buttons-row {
