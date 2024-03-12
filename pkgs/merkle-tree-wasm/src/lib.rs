@@ -116,5 +116,4 @@ pub fn generate_merkle_proof(
     Ok(merkle_proof_bytes_serialized)
 }
 
-
 // TODO: writing tests
