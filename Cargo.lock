@@ -128,7 +128,7 @@ dependencies = [
  "env_logger",
  "indicatif",
  "log",
- "merkle-tree-wasm 1.1.0 (git+https://github.com/anonklub/anonklub?rev=ad324b411870c64e54aa80333c10be1591e49e04)",
+ "merkle-tree-wasm 1.1.0",
  "mockito",
  "predicates",
  "serde",
@@ -167,6 +167,17 @@ checksum = "8d58d9f5da7b40e9bfff0b7e7816700be4019db97d4b6359fe7f94a9e22e42ac"
 dependencies = [
  "arrayvec",
  "bytes 1.5.0",
+]
+
+[[package]]
+name = "anonklub-poseidon"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "966e25b7f6d469e54f2e7b3772c3a15c844309178a61a1531f3d7d3834868f42"
+dependencies = [
+ "ark-ff 0.4.2",
+ "ark-serialize 0.4.2",
+ "tiny-keccak",
 ]
 
 [[package]]
@@ -2947,31 +2958,10 @@ dependencies = [
  "csv",
  "hex",
  "num-bigint",
- "poseidon 0.1.0 (git+https://github.com/personaelabs/poseidon)",
+ "poseidon",
  "rayon",
  "serde",
  "serde_json",
-]
-
-[[package]]
-name = "merkle-tree-wasm"
-version = "1.1.0"
-dependencies = [
- "ark-ff 0.4.2",
- "ark-secp256k1",
- "ark-secq256k1",
- "ark-serialize 0.4.2",
- "ark-std 0.4.0",
- "console_error_panic_hook",
- "csv",
- "hex",
- "num-bigint",
- "poseidon 0.1.0 (git+https://github.com/personaelabs/poseidon?rev=133d535faadac705480f2f08a0ba9f61adf0d2b8)",
- "rayon",
- "serde",
- "serde_json",
- "wasm-bindgen",
- "web-sys",
 ]
 
 [[package]]
@@ -2988,7 +2978,28 @@ dependencies = [
  "csv",
  "hex",
  "num-bigint",
- "poseidon 0.1.0 (git+https://github.com/personaelabs/poseidon)",
+ "poseidon",
+ "rayon",
+ "serde",
+ "serde_json",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
+name = "merkle-tree-wasm"
+version = "1.1.1"
+dependencies = [
+ "anonklub-poseidon",
+ "ark-ff 0.4.2",
+ "ark-secp256k1",
+ "ark-secq256k1",
+ "ark-serialize 0.4.2",
+ "ark-std 0.4.0",
+ "console_error_panic_hook",
+ "csv",
+ "hex",
+ "num-bigint",
  "rayon",
  "serde",
  "serde_json",
@@ -3515,16 +3526,6 @@ name = "portable-atomic"
 version = "1.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7170ef9988bc169ba16dd36a7fa041e5c4cbeb6a35b76d4c03daded371eae7c0"
-
-[[package]]
-name = "poseidon"
-version = "0.1.0"
-source = "git+https://github.com/personaelabs/poseidon?rev=133d535faadac705480f2f08a0ba9f61adf0d2b8#133d535faadac705480f2f08a0ba9f61adf0d2b8"
-dependencies = [
- "ark-ff 0.4.2",
- "ark-serialize 0.4.2",
- "tiny-keccak",
-]
 
 [[package]]
 name = "poseidon"
@@ -4167,7 +4168,7 @@ dependencies = [
  "merkle-tree",
  "merlin",
  "num-bigint",
- "poseidon 0.1.0 (git+https://github.com/personaelabs/poseidon)",
+ "poseidon",
  "rand 0.8.5",
  "tiny-keccak",
  "wasm-bindgen",
@@ -4540,7 +4541,7 @@ dependencies = [
  "ark-secq256k1",
  "ark-serialize 0.4.2",
  "ethers",
- "merkle-tree-wasm 1.1.0",
+ "merkle-tree-wasm 1.1.1",
  "num-bigint",
  "sapir",
  "wasm-bindgen",
