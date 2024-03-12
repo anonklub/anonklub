@@ -1,10 +1,10 @@
-use std::fmt::Write;
 use akli::{
     get_beacon_anonset, get_ens_dao_anonset, get_erc20_anonset, get_eth_anonset, get_nft_anonset,
     get_punks_anonset, pprint,
 };
 use anyhow::Result;
 use clap::Parser;
+use std::fmt::Write;
 
 pub mod opts;
 use merkle_tree_wasm::generate_merkle_proof;
