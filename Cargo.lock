@@ -170,6 +170,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "anonklub-poseidon"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "966e25b7f6d469e54f2e7b3772c3a15c844309178a61a1531f3d7d3834868f42"
+dependencies = [
+ "ark-ff 0.4.2",
+ "ark-serialize 0.4.2",
+ "tiny-keccak",
+]
+
+[[package]]
 name = "anstream"
 version = "0.6.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2955,8 +2966,9 @@ dependencies = [
 
 [[package]]
 name = "merkle-tree-wasm"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
+ "anonklub-poseidon",
  "ark-ff 0.4.2",
  "ark-secp256k1",
  "ark-secq256k1",
@@ -2966,7 +2978,6 @@ dependencies = [
  "csv",
  "hex",
  "num-bigint",
- "poseidon",
  "rayon",
  "serde",
  "serde_json",
