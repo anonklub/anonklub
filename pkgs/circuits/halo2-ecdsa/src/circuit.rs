@@ -1,12 +1,12 @@
 use std::marker::PhantomData;
 
 use ecc::maingate::RegionCtx;
-use ecc::{AssignedPoint, EccConfig, GeneralEccChip};
+use ecc::{EccConfig, GeneralEccChip};
 use halo2::arithmetic::CurveAffine;
 use halo2::circuit::{Layouter, SimpleFloorPlanner, Value};
 use halo2::plonk::{Circuit, ConstraintSystem, Error};
 use halo2wrong::curves::ff::PrimeField;
-use integer::{AssignedInteger, IntegerChip, IntegerConfig, IntegerInstructions, Range};
+use integer::{IntegerInstructions, Range};
 use maingate::{MainGate, MainGateConfig, RangeChip, RangeConfig, RangeInstructions as _};
 
 use crate::ecdsa::{AssignedEcdsaSig, AssignedPublicKey, EcdsaChip};
@@ -146,7 +146,7 @@ mod tests {
     use halo2::arithmetic::CurveAffine;
     use halo2::circuit::Value;
     use halo2::halo2curves::{
-        ff::{Field, FromUniformBytes, PrimeField},
+        ff::{Field, FromUniformBytes},
         group::{Curve, Group},
     };
     use maingate::mock_prover_verify;

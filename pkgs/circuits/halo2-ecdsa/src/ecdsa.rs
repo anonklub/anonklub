@@ -1,10 +1,11 @@
 use ecc::maingate::RegionCtx;
 use ecc::{AssignedPoint, EccConfig, GeneralEccChip};
 use halo2::arithmetic::CurveAffine;
+use halo2::circuit::Value;
 use halo2::plonk::Error;
 use halo2wrong::curves::ff::PrimeField;
 use integer::rns::Integer;
-use integer::{AssignedInteger, IntegerChip, IntegerConfig};
+use integer::{AssignedInteger, IntegerChip, IntegerConfig, IntegerInstructions};
 use maingate::{MainGateConfig, RangeConfig};
 
 #[derive(Debug, Clone)]
@@ -76,7 +77,7 @@ impl<E: CurveAffine, N: PrimeField, const NUMBER_OF_LIMBS: usize, const BIT_LEN_
     pub fn scalar_filed_chip(
         &self,
     ) -> &IntegerChip<E::ScalarExt, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB> {
-        self.scalar_filed_chip()
+        self.0.scalar_field_chip()
     }
 
     fn ecc_clip(&self) -> GeneralEccChip<E, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB> {
@@ -94,6 +95,42 @@ impl<E: CurveAffine, N: PrimeField, const NUMBER_OF_LIMBS: usize, const BIT_LEN_
         pk: &AssignedPublicKey<E::Base, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB>,
         msg_hash: &AssignedInteger<E::Scalar, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB>,
     ) -> Result<(), Error> {
-        Err(Error::Synthesis)
+        let ecc_chip = self.ecc_clip();
+        let scalar_chip = ecc_chip.scalar_field_chip();
+        let base_chip = ecc_chip.base_field_chip();
+
+        // 1. check 0 < r, s < n
+        // since `assert_not_zero` already includes a in-field check, we can just
+        // call `assert_not_zero`
+        let _ = scalar_chip.assert_not_zero(ctx, &sig.r);
+        let _ = scalar_chip.assert_not_zero(ctx, &sig.s);
+
+        // 2. w = s^(-1) (mod n)
+        let (s_inv, _) = scalar_chip.invert(ctx, &sig.s)?;
+
+        // 3. u1 = m' * w (mod n)
+        let u1 = scalar_chip.mul(ctx, msg_hash, &s_inv)?;
+
+        // 4. u2 = r * w (mod n)
+        let u2 = scalar_chip.mul(ctx, &sig.r, &s_inv)?;
+
+        // 5. compute Q = u1*G + u2*pk
+        let e_gen = ecc_chip.assign_point(ctx, Value::known(E::generator()))?;
+        let pairs = vec![(e_gen, u1), (pk.point.clone(), u2)];
+        // TODO: why the `window_size` here is hardcoded?
+        let q = ecc_chip.mul_batch_1d_horizontal(ctx, pairs, 4)?;
+
+        // 6. reduce q_x in E::ScalarExt
+        // assuming E::Base/E::ScalarExt have the same number of limbs
+        let q_x = q.x();
+        let q_x_reduced_in_q = base_chip.reduce(ctx, q_x)?;
+        let q_x_reduced_in_r = scalar_chip.reduce_external(ctx, &q_x_reduced_in_q)?;
+
+        // 7. check if Q.x == r (mod n)
+        scalar_chip
+            .assert_strict_equal(ctx, &q_x_reduced_in_r, &sig.r)
+            .expect("Error: Strict equality ECDSA Verification assertion failed");
+
+        Ok(())
     }
 }
