@@ -11,6 +11,7 @@ documentation = "https://github.com/anonklub/anonklub/tree/main/pkgs/cli/README.
 repository = "https://github.com/anonklub/anonklub/tree/main/pkgs/cli"
 keywords = ["ethereum", "anonymity", "query", "set", "data"]
 categories = ["command-line-utilities"]
+exclude = ["tests/*", "justfile"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [[bin]]
