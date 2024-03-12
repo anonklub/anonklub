@@ -128,7 +128,7 @@ dependencies = [
  "env_logger",
  "indicatif",
  "log",
- "merkle-tree-wasm 1.1.0",
+ "merkle-tree-wasm",
  "mockito",
  "predicates",
  "serde",
@@ -2966,28 +2966,6 @@ dependencies = [
 
 [[package]]
 name = "merkle-tree-wasm"
-version = "1.1.0"
-source = "git+https://github.com/anonklub/anonklub?rev=ad324b411870c64e54aa80333c10be1591e49e04#ad324b411870c64e54aa80333c10be1591e49e04"
-dependencies = [
- "ark-ff 0.4.2",
- "ark-secp256k1",
- "ark-secq256k1",
- "ark-serialize 0.4.2",
- "ark-std 0.4.0",
- "console_error_panic_hook",
- "csv",
- "hex",
- "num-bigint",
- "poseidon",
- "rayon",
- "serde",
- "serde_json",
- "wasm-bindgen",
- "web-sys",
-]
-
-[[package]]
-name = "merkle-tree-wasm"
 version = "1.1.1"
 dependencies = [
  "anonklub-poseidon",
@@ -4541,7 +4519,7 @@ dependencies = [
  "ark-secq256k1",
  "ark-serialize 0.4.2",
  "ethers",
- "merkle-tree-wasm 1.1.1",
+ "merkle-tree-wasm",
  "num-bigint",
  "sapir",
  "wasm-bindgen",
