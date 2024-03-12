@@ -37,6 +37,10 @@
 <img alt="@anonklub/spartan-ecdsa-worker npm badge" src="https://img.shields.io/npm/v/%40anonklub/spartan-ecdsa-worker?logo=npm&label=%40anonklub%2Fspartan-ecdsa-worker">
 </a>
 <br>
+<a href="https://crates.io/crates/akli">
+<img alt="akli rust badge" src="https://img.shields.io/crates/msrv/akli?logo=rust&label=akli">
+</a>
+<br>
 <a href="https://github.com/anonklub/anonklub/deployments/query-api-staging">
 <img alt="Discord" src="https://img.shields.io/github/deployments/anonklub/anonklub/query-api-staging?label=Query%20API%20Staging">
 </a>
