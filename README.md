@@ -15,9 +15,6 @@
   <img alt="Coveralls Badge" src="https://img.shields.io/coverallsCoverage/github/anonklub/anonklub.svg?label=coverage%20(ts)&logo=coveralls">
 </a>
 <br>
- <a href="https://www.npmjs.com/package/@anonklub/cli">
-<img alt="@anonklub/cli npm badge" src="https://img.shields.io/npm/v/%40anonklub/cli?logo=npm&label=%40anonklub%2Fcli">
-</a>
 <a href="https://www.npmjs.com/package/@anonklub/proof">
 <img alt="@anonklub/proof npm badge" src="https://img.shields.io/npm/v/%40anonklub/proof?logo=npm&label=%40anonklub%2Fproof">
 </a>
