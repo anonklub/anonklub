@@ -73,6 +73,7 @@ fn internal_generate_merkle_proof<F: PrimeField>(
     })
 }
 
+#[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
 pub fn generate_merkle_proof(
     leaves: Vec<String>,
@@ -94,5 +95,25 @@ pub fn generate_merkle_proof(
 
     Ok(merkle_proof_bytes_serialized)
 }
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn generate_merkle_proof(
+    leaves: Vec<String>,
+    leaf: String,
+    depth: usize,
+) -> Result<Vec<u8>, String> {
+    type F = ark_secp256k1::Fq;
+
+    let merkle_proof_bytes = internal_generate_merkle_proof::<F>(leaves, leaf, depth)?;
+
+    // Serialize the full merkle proof
+    let mut merkle_proof_bytes_serialized = Vec::new();
+    merkle_proof_bytes
+        .serialize_compressed(&mut merkle_proof_bytes_serialized)
+        .map_err(|e| format!("Error serializing Merkle proof bytes: {}", e))?;
+
+    Ok(merkle_proof_bytes_serialized)
+}
+
 
 // TODO: writing tests
