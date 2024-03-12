@@ -3,11 +3,13 @@ name = "akli"
 version = "0.1.0"
 edition = "2021"
 license = "AGPL-3.0"
-description = "A simple grep clone written in Rust"
+authors = ["sripwoud"]
+description = "Command line to interact with anonklub query api (https://anonset.fly.dev)."
 readme = "README.md"
-homepage = "https://github.com/sripwoud/grrs"
-repository = "https://github.com/sripwoud/grrs"
-keywords = ["cli", "search", "demo"]
+homepage = "https://github.com/anonklub/anonklub/tree/main/pkgs/cli/"
+documentation = "https://github.com/anonklub/anonklub/tree/main/pkgs/cli/README.md"
+repository = "https://github.com/anonklub/anonklub/tree/main/pkgs/cli"
+keywords = ["ethereum", "anonymity", "query", "set", "data"]
 categories = ["command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
