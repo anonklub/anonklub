@@ -1,10 +1,10 @@
+use anonklub_poseidon::{Poseidon, PoseidonConstants};
 use ark_ff::PrimeField;
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
-use anonklub_poseidon::{Poseidon, PoseidonConstants};
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 
-pub use ark_ff;
 pub use anonklub_poseidon;
+pub use ark_ff;
 
 pub struct MerkleTree<F: PrimeField, const WIDTH: usize> {
     _marker: std::marker::PhantomData<F>,
