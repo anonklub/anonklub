@@ -47,7 +47,7 @@ async fn main() -> Result<()> {
                 write!(acc, "{:02x}", x).expect("Failed to write string");
                 acc
             });
-            println!("Merkle Proof: {:?}", merkle_proof_hex);
+            println!("{}", merkle_proof_hex);
         }
         AkliCommand::Prove {
             merkle_root,
