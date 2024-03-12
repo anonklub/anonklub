@@ -30,6 +30,8 @@ circuits/circom/package-lock.json
 .privatekey
 
 addresses.json
+!pkgs/cli/tests/fixtures/addresses.json
+
 *.zkey
 
 .next
