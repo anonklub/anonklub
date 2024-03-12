@@ -4,7 +4,7 @@ use halo2::arithmetic::CurveAffine;
 use halo2::plonk::Error;
 use halo2wrong::curves::ff::PrimeField;
 use integer::rns::Integer;
-use integer::{AssignedInteger, IntegerChip, IntegerConfig,};
+use integer::{AssignedInteger, IntegerChip, IntegerConfig};
 use maingate::{MainGateConfig, RangeConfig};
 
 #[derive(Debug, Clone)]
@@ -80,7 +80,7 @@ impl<E: CurveAffine, N: PrimeField, const NUMBER_OF_LIMBS: usize, const BIT_LEN_
     }
 
     fn ecc_clip(&self) -> GeneralEccChip<E, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB> {
-        self.clone()
+        self.0.clone()
     }
 }
 
@@ -94,6 +94,6 @@ impl<E: CurveAffine, N: PrimeField, const NUMBER_OF_LIMBS: usize, const BIT_LEN_
         pk: &AssignedPublicKey<E::Base, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB>,
         msg_hash: &AssignedInteger<E::Scalar, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB>,
     ) -> Result<(), Error> {
-        Ok(false)
+        Err(Error::Synthesis)
     }
 }
