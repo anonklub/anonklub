@@ -1,4 +1,4 @@
-use akli::EnsVoteChoice;
+use akli::{parse_path, Anonset, EnsVoteChoice};
 use alloy_primitives::Address;
 use clap::{Parser, Subcommand};
 
@@ -19,10 +19,28 @@ pub enum AkliCommand {
     #[clap(subcommand, name = "query")]
     Query(QuerySubcommand),
 
-    #[clap(subcommand, name = "prove")]
-    Prove,
+    Merkle {
+        /// Path to the json file containing a list of addresses (aka Anonymity set)
+        #[clap(short, long, value_parser = parse_path)]
+        file: Anonset,
 
-    #[clap(subcommand, name = "verify")]
+        /// Address you want to prove is in the set
+        #[clap(short, long, value_parser(|s: &str|s.parse::<Address>()))]
+        address: Address,
+    },
+
+    Prove {
+        #[clap(short, long)]
+        merkle_root: String,
+
+        #[clap(short, long)]
+        message: String,
+
+        #[clap(short, long)]
+        private_key: String,
+    },
+
+    #[clap(subcommand, name = "")]
     Verify,
 }
 

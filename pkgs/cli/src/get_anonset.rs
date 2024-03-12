@@ -20,7 +20,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::get_query_client;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Anonset(pub Vec<String>);
 
 pub async fn get_anonset<T: Serialize>(query_params: Option<T>, endpoint: &str) -> Result<Anonset> {

@@ -18,7 +18,8 @@ fn internal_generate_merkle_proof<F: PrimeField>(
 ) -> Result<MerkleProofBytes, String> {
     let mut padded_leaves = leaves.clone();
     // Pad the leaves to equal the size of the tree
-    padded_leaves.resize(1 << depth, "0".to_string());
+    // Needs to be an even string
+    padded_leaves.resize(1 << depth, "00".to_string());
 
     const ARITY: usize = 2;
     const WIDTH: usize = ARITY + 1;
@@ -73,6 +74,7 @@ fn internal_generate_merkle_proof<F: PrimeField>(
     })
 }
 
+#[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
 pub fn generate_merkle_proof(
     leaves: Vec<String>,
@@ -91,6 +93,25 @@ pub fn generate_merkle_proof(
     merkle_proof_bytes
         .serialize_compressed(&mut merkle_proof_bytes_serialized)
         .map_err(|_e| JsValue::from_str("Error serializing Merkle proof bytes"))?;
+
+    Ok(merkle_proof_bytes_serialized)
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn generate_merkle_proof(
+    leaves: Vec<String>,
+    leaf: String,
+    depth: usize,
+) -> Result<Vec<u8>, String> {
+    type F = ark_secp256k1::Fq;
+
+    let merkle_proof_bytes = internal_generate_merkle_proof::<F>(leaves, leaf, depth)?;
+
+    // Serialize the full merkle proof
+    let mut merkle_proof_bytes_serialized = Vec::new();
+    merkle_proof_bytes
+        .serialize_compressed(&mut merkle_proof_bytes_serialized)
+        .map_err(|e| format!("Error serializing Merkle proof bytes: {}", e))?;
 
     Ok(merkle_proof_bytes_serialized)
 }
