@@ -11,6 +11,7 @@ fn build_merkle_proof() -> Result<(), Box<dyn std::error::Error>> {
     let fixture_path = format!("{}/tests/fixtures/addresses.json", manifest_dir);
 
     cmd.arg("merkle")
+        .arg("proof")
         .arg("-f")
         .arg(fixture_path)
         .arg("-a")
