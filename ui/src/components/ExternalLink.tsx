@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 export enum Links {
   Twitter = 'https://twitter.com/PrivacyScaling',
   Github = 'https://github.com/anonklub/anonklub',
-  Docs = 'https://anonklub.github.io',
+  Docs = 'https://docs.anonklub.xyz',
 }
 
 export const ExternalLink = ({
