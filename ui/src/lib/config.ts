@@ -35,7 +35,7 @@ export const config: Config = {
     'I am generating an anonymous proof of Ethereum address ownership with AnonKlub.',
   typebot: 'anonklub-feedback',
   urls: {
-    queryApi: 'https://anonset.fly.dev',
+    queryApi: 'https://query.anonklub.xyz',
   },
   walletConnectProjectId,
 }

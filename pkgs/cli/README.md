@@ -1,6 +1,6 @@
 # Akli
 
-Command line to interact with [anonklub query api](https://anonset.fly.dev).
+Command line to interact with [anonklub query api](https://query.anonklub.xyz).
 
 - Query
 

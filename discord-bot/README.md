@@ -1,7 +1,7 @@
 # Discord Verification Bot
 
 1. Discord admin defines their anonymity set. That is, the list of users that will be able to join the discord server.  
-   Can use this [Query API server](https://anonset.fly.dev/) to fetch anonymity sets based on different on chain
+   Can use this [Query API server](https://query.anonklub.xyz/) to fetch anonymity sets based on different on chain
    criteria.
 2. Compute merkle root and publish a
    corresponding [Verifier contract](../contracts/src/Verifier.sol)
