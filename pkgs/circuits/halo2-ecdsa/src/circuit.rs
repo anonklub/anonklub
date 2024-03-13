@@ -2,9 +2,9 @@ use std::marker::PhantomData;
 
 use ecc::maingate::RegionCtx;
 use ecc::{EccConfig, GeneralEccChip};
-use halo2::arithmetic::CurveAffine;
-use halo2::circuit::{Layouter, SimpleFloorPlanner, Value};
-use halo2::plonk::{Circuit, ConstraintSystem, Error};
+use halo2_proofs::arithmetic::CurveAffine;
+use halo2_proofs::circuit::{Layouter, SimpleFloorPlanner, Value};
+use halo2_proofs::plonk::{Circuit, ConstraintSystem, Error};
 use halo2wrong::curves::ff::PrimeField;
 use integer::{IntegerInstructions, Range};
 use maingate::{MainGate, MainGateConfig, RangeChip, RangeConfig, RangeInstructions as _};
@@ -58,14 +58,13 @@ impl EcdsaVerifyCircuitConfig {
 }
 
 #[derive(Default, Clone)]
-struct EcdsaVerifyCircuit<E: CurveAffine, N: PrimeField> {
-    public_key: Value<E>,
-    signature: Value<(E::Scalar, E::Scalar)>,
-    msg_hash: Value<E::Scalar>,
-
-    aux_generator: E,
-    window_size: usize,
-    _marker: PhantomData<N>,
+pub struct EcdsaVerifyCircuit<E: CurveAffine, N: PrimeField> {
+    pub(crate) public_key: Value<E>,
+    pub(crate) signature: Value<(E::Scalar, E::Scalar)>,
+    pub(crate) msg_hash: Value<E::Scalar>,
+    pub(crate) aux_generator: E,
+    pub(crate) window_size: usize,
+    pub(crate) _marker: PhantomData<N>,
 }
 
 impl<E: CurveAffine, N: PrimeField> Circuit<N> for EcdsaVerifyCircuit<E, N> {
@@ -143,9 +142,9 @@ impl<E: CurveAffine, N: PrimeField> Circuit<N> for EcdsaVerifyCircuit<E, N> {
 mod tests {
     use ecc::maingate::big_to_fe;
     use ecc::maingate::fe_to_big;
-    use halo2::arithmetic::CurveAffine;
-    use halo2::circuit::Value;
-    use halo2::halo2curves::{
+    use halo2_proofs::arithmetic::CurveAffine;
+    use halo2_proofs::circuit::Value;
+    use halo2_proofs::halo2curves::{
         ff::{Field, FromUniformBytes},
         group::{Curve, Group},
     };
@@ -211,9 +210,9 @@ mod tests {
             mock_prover_verify(&circuit, instance);
         }
 
-        use halo2::halo2curves::bn256::Fr as BnScalar;
-        use halo2::halo2curves::pasta::{Fp as PastaFp, Fq as PastaFq};
-        use halo2::halo2curves::secp256k1::Secp256k1Affine as Secp256k1;
+        use halo2_proofs::halo2curves::bn256::Fr as BnScalar;
+        use halo2_proofs::halo2curves::pasta::{Fp as PastaFp, Fq as PastaFq};
+        use halo2_proofs::halo2curves::secp256k1::Secp256k1Affine as Secp256k1;
         run::<Secp256k1, BnScalar>();
         run::<Secp256k1, PastaFp>();
         run::<Secp256k1, PastaFq>();

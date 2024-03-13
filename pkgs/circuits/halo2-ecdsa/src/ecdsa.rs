@@ -1,8 +1,8 @@
 use ecc::maingate::RegionCtx;
 use ecc::{AssignedPoint, EccConfig, GeneralEccChip};
-use halo2::arithmetic::CurveAffine;
-use halo2::circuit::Value;
-use halo2::plonk::Error;
+use halo2_proofs::arithmetic::CurveAffine;
+use halo2_proofs::circuit::Value;
+use halo2_proofs::plonk::Error;
 use halo2wrong::curves::ff::PrimeField;
 use integer::rns::Integer;
 use integer::{AssignedInteger, IntegerChip, IntegerConfig, IntegerInstructions};
