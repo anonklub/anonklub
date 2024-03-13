@@ -389,8 +389,8 @@ importers:
   ui:
     dependencies:
       '@anonklub/merkle-tree-worker':
-        specifier: ~1.1.2
-        version: 1.1.2
+        specifier: ~1.1.3
+        version: 1.1.3
       '@anonklub/proof':
         specifier: 2.1.1
         version: 2.1.1
@@ -553,8 +553,8 @@ packages:
     resolution: {integrity: sha512-klSyPx6BQd5KxI+lzAx/eCUXFYNn85nujcePXbZLyFjnhvhZAkwQ8yQ04+dNhYYZSCdzUJv4YsElW7u0bMQ5NQ==}
     dev: false
 
-  /@anonklub/merkle-tree-worker@1.1.2:
-    resolution: {integrity: sha512-Zfe7Ab652DhHJdJUiaSg1sdGL0qfWiY8ZIdrJVuhUiDW8vP31D/joG9sn8UuiFBvOkimhqoY4LUQ/XitWi6upw==}
+  /@anonklub/merkle-tree-worker@1.1.3:
+    resolution: {integrity: sha512-ysxx8d9SxfiH5oqEeoroey+mDY0fOLrgNJ/SnCPGf8ehpRZqyeeOSiQFhLTu5H/hfsNRY6ssitWqoKDuQx//PA==}
     dependencies:
       '@anonklub/merkle-tree-wasm': 1.1.3
       comlink: 4.4.1
