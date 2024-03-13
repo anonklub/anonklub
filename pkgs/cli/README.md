@@ -2,6 +2,8 @@
 
 Command line to interact with [anonklub query api](https://query.anonklub.xyz).
 
+## Examples
+
 - Query
 
   - ETH balance anonset
@@ -17,6 +19,11 @@ Command line to interact with [anonklub query api](https://query.anonklub.xyz).
   ```
 
 - Merkle
+  - Proof
   ```shell
-  cargo run --release -- merkle -f tests/fixtures/addresses.json -a 0x30b86f843a10ec6b28e8fa76b8b86d8317c708b6
+  cargo run --release -- merkle proof -f tests/fixtures/addresses.json -a 0x30b86f843a10ec6b28e8fa76b8b86d8317c708b6
+  ```
+  - Root
+  ```shell
+  cargo run --release merkle proof -f tests/fixtures/addresses.json
   ```
