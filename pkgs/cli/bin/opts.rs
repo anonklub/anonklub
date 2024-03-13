@@ -16,19 +16,15 @@ pub struct Akli {
 
 #[derive(Debug, Subcommand)]
 pub enum AkliCommand {
+    /// Fetch anonymity sets
     #[clap(subcommand, name = "query")]
     Query(QuerySubcommand),
 
-    Merkle {
-        /// Path to the json file containing a list of addresses (aka Anonymity set)
-        #[clap(short, long, value_parser = parse_path)]
-        file: Anonset,
+    /// Generate a merkle proof or root
+    #[clap(subcommand, name = "merkle")]
+    Merkle(MerkleSubcommand),
 
-        /// Address you want to prove is in the set
-        #[clap(short, long, value_parser(|s: &str|s.parse::<Address>()))]
-        address: Address,
-    },
-
+    /// Build an ethereum address ownership zkp
     Prove {
         #[clap(short, long)]
         merkle_root: String,
@@ -40,6 +36,7 @@ pub enum AkliCommand {
         private_key: String,
     },
 
+    /// Verify an ethereum address ownership zkp
     #[clap(subcommand, name = "")]
     Verify,
 }
@@ -67,5 +64,26 @@ pub enum QuerySubcommand {
         id: String,
         #[clap(short, long)]
         choice: EnsVoteChoice,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+pub enum MerkleSubcommand {
+    /// Generate a merkle proof
+    Proof {
+        /// Path to the json file containing a list of addresses (aka Anonymity set)
+        #[clap(short, long, value_parser = parse_path)]
+        file: Anonset,
+
+        /// Address you want to prove is in the set
+        #[clap(short, long, value_parser(|s: &str|s.parse::<Address>()))]
+        address: Address,
+    },
+
+    /// Generate a merkle root
+    Root {
+        #[clap(short, long, value_parser = parse_path)]
+        /// Path to the json file containing a list of addresses (aka Anonymity set)
+        file: Anonset,
     },
 }
