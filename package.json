@@ -67,6 +67,8 @@
     "test.cargo": "cargo nextest run",
     "test": "turbo _test test.jest test.cargo",
     "test.watch": "jest --watch",
+    "test.coverage.html": "cargo llvm-cov --all-features --workspace --html --output-dir=target/llvm-cov/html",
+    "test.coverage.summary": "cargo llvm-cov --all-features --workspace --summary-only",
     "typecheck": "turbo typecheck",
     "validate": "turbo format.cargo format.forge format.prettier lint.cargo lint.eslint lint.solhint build _compile --cache-dir=.turbo"
   },
