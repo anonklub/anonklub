@@ -7,7 +7,7 @@ use clap::Parser;
 use std::fmt::Write;
 
 pub mod opts;
-use merkle_tree_wasm::generate_merkle_proof;
+use merkle_tree_wasm::{generate_merkle_proof, generate_merkle_root};
 use opts::{Akli, AkliCommand, QuerySubcommand};
 
 use crate::opts::MerkleSubcommand;
@@ -53,8 +53,17 @@ async fn main() -> Result<()> {
                 });
                 println!("{}", merkle_proof_hex);
             }
-            MerkleSubcommand::Root { file } => {
-                println!("genera merkle root");
+            MerkleSubcommand::Root { file: anonset } => {
+                let merkle_root = generate_merkle_root(anonset.0, 15).map_err(|e| {
+                    anyhow::Error::msg(format!("Error generating merkle root: {:?}", e))
+                })?;
+
+                // TODO: extract in helper function
+                let merkle_root_hex = merkle_root.iter().fold(String::new(), |mut acc, x| {
+                    write!(acc, "{:02x}", x).expect("Failed to write string");
+                    acc
+                });
+                println!("{}", merkle_root_hex);
             }
         },
         AkliCommand::Prove {

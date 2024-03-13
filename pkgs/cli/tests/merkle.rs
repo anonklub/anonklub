@@ -21,3 +21,18 @@ fn build_merkle_proof() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+#[test]
+pub fn build_merkle_root() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin(BIN_NAME)?;
+    let manifest_dir = env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR is not set");
+    let fixture_path = format!("{}/tests/fixtures/addresses.json", manifest_dir);
+
+    cmd.arg("merkle").arg("root").arg("-f").arg(fixture_path);
+
+    cmd.assert().success().stdout(predicate::str::contains(
+        "e3bc08980139dddb41de1f4b64483840fe0ad54490cf0c916664d9447ed9bb46",
+    ));
+
+    Ok(())
+}
