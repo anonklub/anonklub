@@ -1,6 +1,6 @@
+import { MerkleTreeWorker } from '@anonklub/merkle-tree-worker'
 import { SpartanEcdsaWorker } from '@anonklub/spartan-ecdsa-worker'
 import { useEffect, useState } from 'react'
-import { MerkleTreeWorker } from '@anonklub/merkle-tree-worker'
 
 export const useWorker = (
   worker: typeof SpartanEcdsaWorker | typeof MerkleTreeWorker,
