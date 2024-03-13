@@ -7,7 +7,6 @@ use anonklub_poseidon::constants::secp256k1_w3;
 use ark_ff::{BigInteger, PrimeField};
 use ark_serialize::CanonicalSerialize;
 use num_bigint::BigUint;
-use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 pub use merkle_tree_wasm::{MerkleProofBytes, MerkleTree};
 
