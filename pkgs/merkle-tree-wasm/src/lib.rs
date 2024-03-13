@@ -11,7 +11,7 @@ use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 pub use merkle_tree_wasm::{MerkleProofBytes, MerkleTree};
 
-fn _build_merlke_tree<F: PrimeField>(
+fn _build_merkle_tree<F: PrimeField>(
     leaves: Vec<String>,
     depth: usize,
 ) -> Result<MerkleTree<F, 3>, String> {
@@ -43,7 +43,7 @@ fn _generate_merkle_proof<F: PrimeField>(
     leaf: String,
     depth: usize,
 ) -> Result<MerkleProofBytes, String> {
-    let tree = _build_merlke_tree::<F>(leaves, depth)?;
+    let tree = _build_merkle_tree::<F>(leaves, depth)?;
 
     let leaf_hex = hex::decode(leaf.replace("0x", ""))
         .map_err(|e| format!("MerkleTree: Error decoding hex: {}", e))?;
@@ -130,7 +130,7 @@ pub fn generate_merkle_proof(
 pub fn generate_merkle_root(leaves: Vec<String>, depth: usize) -> Result<Vec<u8>, String> {
     type F = ark_secp256k1::Fq;
 
-    let tree = _build_merlke_tree::<F>(leaves, depth)?;
+    let tree = _build_merkle_tree::<F>(leaves, depth)?;
 
     let root_bytes = tree
         .root
