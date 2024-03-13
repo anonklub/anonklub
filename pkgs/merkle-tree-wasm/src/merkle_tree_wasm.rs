@@ -178,8 +178,8 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ark_std::{end_timer, start_timer};
     use anonklub_poseidon::constants::secp256k1_w3;
+    use ark_std::{end_timer, start_timer};
 
     type F = ark_secp256k1::Fq;
 
