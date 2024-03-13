@@ -80,3 +80,15 @@
 Environment variables you may need: see [`.env.example`](.env.example)
 
 ## [Contribute](https://github.com/anonklub/anonklub/contribute)
+
+## Setup
+
+### Test coverage tool.
+
+`cargo-llvm-cov` is the tool used for doing test coverage for the workspace members.
+
+You would only need to install it in your system, also you can check other ways from here [cargo-llvm-cov/installations](https://lib.rs/crates/cargo-llvm-cov#readme-installation)
+
+```sh
+cargo +stable install cargo-llvm-cov --locked
+```
