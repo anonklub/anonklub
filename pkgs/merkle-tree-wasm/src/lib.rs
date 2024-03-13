@@ -7,6 +7,7 @@ use anonklub_poseidon::constants::secp256k1_w3;
 use ark_ff::{BigInteger, PrimeField};
 use ark_serialize::CanonicalSerialize;
 use num_bigint::BigUint;
+use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 pub use merkle_tree_wasm::{MerkleProofBytes, MerkleTree};
 
@@ -97,7 +98,7 @@ pub fn generate_merkle_proof(
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-pub fn generate_merkle_proof(
+pub fn generate_merkle_proof_cli(
     leaves: Vec<String>,
     leaf: String,
     depth: usize,
