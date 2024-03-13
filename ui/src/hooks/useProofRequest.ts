@@ -66,8 +66,8 @@ export const useProofRequest = () => {
     canSign,
     canSubmit,
     isGeneratingMerkleProof,
-    merkleProofError,
     isSuccess,
+    merkleProofError,
     rawSignature,
     signMessage,
   }
