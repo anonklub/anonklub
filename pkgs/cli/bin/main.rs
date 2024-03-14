@@ -55,13 +55,10 @@ async fn main() -> Result<()> {
             message,
             private_key,
         } => {
-            println!("Prove");
-            println!("Merkle Root: {}", merkle_root);
-            println!("Message: {}", message);
-            println!("Private Key: {}", private_key);
+            println!("Not implemented");
         }
         AkliCommand::Verify => {
-            println!("Verify");
+            println!("Not implemented");
         }
     }
 
