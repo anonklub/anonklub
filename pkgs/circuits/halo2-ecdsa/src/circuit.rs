@@ -15,7 +15,7 @@ const BIT_LEN_LIMB: usize = 68;
 const NUMBER_OF_LIMBS: usize = 4;
 
 #[derive(Clone, Debug)]
-struct EcdsaVerifyCircuitConfig {
+pub struct EcdsaVerifyCircuitConfig {
     main_gate_config: MainGateConfig,
     range_config: RangeConfig,
 }
