@@ -1,4 +1,5 @@
 use anonklub_poseidon::{Poseidon, PoseidonConstants};
+use anyhow::{Context, Result};
 use ark_ff::PrimeField;
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
@@ -115,7 +116,7 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
         WIDTH - 1
     }
 
-    pub fn create_proof(&self, leaf: F) -> Result<MerkleProof<F>, String> {
+    pub fn create_proof(&self, leaf: F) -> Result<MerkleProof<F>> {
         if !self.is_tree_ready {
             panic!("MerkleTree: Tree is not ready.");
         }
@@ -125,12 +126,11 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
 
         let mut current_layer = &self.layers[0];
 
-        let leaf_index_result = self.leaves.iter().position(|&x| x == leaf);
-
-        let mut leaf_index = match leaf_index_result {
-            Some(index) => index,
-            None => return Err("MerkleProof: Leaf is not found, please consider using an address belongs to the anonymous set.".to_string()),
-        };
+        let mut leaf_index = self
+            .leaves
+            .iter()
+            .position(|&x| x == leaf)
+            .context("merkle tree leaf not found")?;
 
         for i in 0..self.depth.unwrap() {
             let sibling_index = if leaf_index % 2 == 0 {

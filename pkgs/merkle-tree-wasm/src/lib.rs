@@ -4,6 +4,7 @@ mod merkle_tree_wasm;
 extern crate console_error_panic_hook;
 
 use anonklub_poseidon::constants::secp256k1_w3;
+use anyhow::{Context, Result};
 use ark_ff::{BigInteger, PrimeField};
 use ark_serialize::CanonicalSerialize;
 use num_bigint::BigUint;
@@ -14,7 +15,7 @@ pub use merkle_tree_wasm::{MerkleProofBytes, MerkleTree};
 fn _build_merkle_tree<F: PrimeField>(
     leaves: Vec<String>,
     depth: usize,
-) -> Result<MerkleTree<F, 3>, String> {
+) -> Result<MerkleTree<F, 3>> {
     let mut padded_leaves = leaves.clone();
     // Pad the leaves to equal the size of the tree
     // Needs to be an even string
@@ -29,7 +30,7 @@ fn _build_merkle_tree<F: PrimeField>(
     for leaf in &padded_leaves {
         // Converting String to F
         let leaf_hex = hex::decode(leaf.replace("0x", ""))
-            .map_err(|e| format!("MerkleTree: Error decoding hex: {}", e))?;
+            .with_context(|| format!("could not decode hex for leaf {}", leaf))?;
         let leaf_bytes = F::from(BigUint::from_bytes_be(&leaf_hex));
         tree.insert(leaf_bytes);
     }
@@ -42,11 +43,11 @@ fn _generate_merkle_proof<F: PrimeField>(
     leaves: Vec<String>,
     leaf: String,
     depth: usize,
-) -> Result<MerkleProofBytes, String> {
-    let tree = _build_merkle_tree::<F>(leaves, depth)?;
+) -> Result<MerkleProofBytes> {
+    let tree = _build_merkle_tree::<F>(leaves, depth).context("failed constructing merkle tree")?;
 
     let leaf_hex = hex::decode(leaf.replace("0x", ""))
-        .map_err(|e| format!("MerkleTree: Error decoding hex: {}", e))?;
+        .with_context(|| format!("could not decode hex for leaf {}", leaf))?;
     let leaf_prime_field = F::from(BigUint::from_bytes_be(&leaf_hex));
 
     let proof = tree.create_proof(leaf_prime_field)?;
@@ -71,7 +72,7 @@ fn _generate_merkle_proof<F: PrimeField>(
 
     let root_bytes = tree
         .root
-        .ok_or("MerkleTree: Root is not available")?
+        .context("merkle tree toot is not available")?
         .into_bigint()
         .to_bytes_be();
 
@@ -101,17 +102,13 @@ pub fn generate_merkle_proof(
     let mut merkle_proof_bytes_serialized = Vec::new();
     merkle_proof_bytes
         .serialize_compressed(&mut merkle_proof_bytes_serialized)
-        .map_err(|_e| JsValue::from_str("Error serializing Merkle proof bytes"))?;
+        .with_context(|_e| JsValue::from_str("could not serialize merkle proof bytes"))?;
 
     Ok(merkle_proof_bytes_serialized)
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-pub fn generate_merkle_proof(
-    leaves: Vec<String>,
-    leaf: String,
-    depth: usize,
-) -> Result<Vec<u8>, String> {
+pub fn generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) -> Result<Vec<u8>> {
     type F = ark_secp256k1::Fq;
 
     let merkle_proof_bytes = _generate_merkle_proof::<F>(leaves, leaf, depth)?;
@@ -120,21 +117,21 @@ pub fn generate_merkle_proof(
     let mut merkle_proof_bytes_serialized = Vec::new();
     merkle_proof_bytes
         .serialize_compressed(&mut merkle_proof_bytes_serialized)
-        .map_err(|e| format!("Error serializing Merkle proof bytes: {}", e))?;
+        .context("could not serizalize merkle proof bytes")?;
 
     Ok(merkle_proof_bytes_serialized)
 }
 
 // TODO: use Option for depth, default to 15
 #[cfg(not(target_arch = "wasm32"))]
-pub fn generate_merkle_root(leaves: Vec<String>, depth: usize) -> Result<Vec<u8>, String> {
+pub fn generate_merkle_root(leaves: Vec<String>, depth: usize) -> Result<Vec<u8>> {
     type F = ark_secp256k1::Fq;
 
     let tree = _build_merkle_tree::<F>(leaves, depth)?;
 
     let root_bytes = tree
         .root
-        .ok_or("MerkleTree: Root is not available")?
+        .context("merkle tree root is not available")?
         .into_bigint()
         .to_bytes_be();
 
