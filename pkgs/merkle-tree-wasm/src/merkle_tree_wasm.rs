@@ -111,7 +111,7 @@ impl<F: PrimeField> MerkleTree<F> {
         current_layer[0]
     }
 
-    pub fn create_proof(&self, leaf: F, address: String ) -> Result<MerkleProof<F>, String> {
+    pub fn create_proof(&self, leaf: F, address: String) -> Result<MerkleProof<F>, String> {
         if !self.is_tree_ready {
             panic!("MerkleTree: Tree is not ready.");
         }
@@ -121,11 +121,12 @@ impl<F: PrimeField> MerkleTree<F> {
 
         let mut current_layer = &self.layers[0];
 
-        let mut leaf_index = self
-            .leaves
-            .iter()
-            .position(|&x| x == leaf)
-            .ok_or_else(|| format!("Merkle proof: Leaf not found. Address {} is not part of the addresses set.", address))?;
+        let mut leaf_index = self.leaves.iter().position(|&x| x == leaf).ok_or_else(|| {
+            format!(
+                "Merkle proof: Leaf not found. Address {} is not part of the addresses set.",
+                address
+            )
+        })?;
 
         for i in 0..self.depth.unwrap() {
             let sibling_index = if leaf_index % 2 == 0 {
@@ -197,7 +198,9 @@ mod tests {
 
         tree.finish();
 
-        let proof = tree.create_proof(leaves[0], leaves[0].0.to_string()).unwrap();
+        let proof = tree
+            .create_proof(leaves[0], leaves[0].0.to_string())
+            .unwrap();
         assert!(tree.verify_proof(tree.root.unwrap(), &proof));
     }
 

@@ -44,7 +44,9 @@ fn _generate_merkle_proof<F: PrimeField>(
         .with_context(|| format!("could not decode hex for leaf {}", leaf))?;
     let leaf_prime_field = F::from(BigUint::from_bytes_be(&leaf_hex));
 
-    let proof = tree.create_proof(leaf_prime_field, leaf).map_err(|e| anyhow::anyhow!(e))?;
+    let proof = tree
+        .create_proof(leaf_prime_field, leaf)
+        .map_err(|e| anyhow::anyhow!(e))?;
 
     // Encode the Merkle Proof output with BigEndian
     let mut merkle_siblings = Vec::with_capacity(depth);
