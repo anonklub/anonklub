@@ -12,19 +12,13 @@ use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 pub use merkle_tree_wasm::{MerkleProofBytes, MerkleTree};
 
-fn _build_merkle_tree<F: PrimeField>(
-    leaves: Vec<String>,
-    depth: usize,
-) -> Result<MerkleTree<F, 3>> {
+fn _build_merkle_tree<F: PrimeField>(leaves: Vec<String>, depth: usize) -> Result<MerkleTree<F>> {
     let mut padded_leaves = leaves.clone();
     // Pad the leaves to equal the size of the tree
     // Needs to be an even string
     padded_leaves.resize(1 << depth, "00".to_string());
 
-    const ARITY: usize = 2;
-    const WIDTH: usize = ARITY + 1;
-
-    let mut tree = MerkleTree::<F, WIDTH>::new(secp256k1_w3());
+    let mut tree = MerkleTree::<F>::new(secp256k1_w3());
 
     // Insert all the leaves into the tree
     for leaf in &padded_leaves {

@@ -7,7 +7,10 @@ use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 pub use anonklub_poseidon;
 pub use ark_ff;
 
-pub struct MerkleTree<F: PrimeField, const WIDTH: usize> {
+const WIDTH: usize = 3;
+const ARITY: usize = WIDTH - 1;
+
+pub struct MerkleTree<F: PrimeField> {
     _marker: std::marker::PhantomData<F>,
     leaves: Vec<F>,
     poseidon: Poseidon<F, WIDTH>,
@@ -32,12 +35,8 @@ pub struct MerkleProof<F: PrimeField> {
     pub root: F,
 }
 
-impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
+impl<F: PrimeField> MerkleTree<F> {
     pub fn new(constants: PoseidonConstants<F>) -> Self {
-        let arity = WIDTH - 1;
-
-        assert_eq!(arity, 2, "MerkleTree: Only arity 2 is supported.");
-
         let mut poseidon = Poseidon::new(constants);
         poseidon.state[0] = F::from(3u32);
 
@@ -96,7 +95,7 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
 
         for _ in 0..self.depth.unwrap() {
             let layer_above = current_layer
-                .par_chunks(self.arity())
+                .par_chunks(ARITY)
                 .map(|nodes| {
                     let mut poseidon = self.poseidon.clone();
                     Self::hash(&mut poseidon, nodes)
@@ -110,10 +109,6 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
         assert_eq!(current_layer.len(), 1);
 
         current_layer[0]
-    }
-
-    fn arity(&self) -> usize {
-        WIDTH - 1
     }
 
     pub fn create_proof(&self, leaf: F) -> Result<MerkleProof<F>> {
@@ -185,10 +180,7 @@ mod tests {
 
     #[test]
     fn test_tree() {
-        const ARITY: usize = 2;
-        const WIDTH: usize = ARITY + 1;
-
-        let mut tree = MerkleTree::<F, WIDTH>::new(secp256k1_w3());
+        let mut tree = MerkleTree::<F>::new(secp256k1_w3());
 
         let depth = 10;
         let num_leaves = 1 << depth;
