@@ -200,4 +200,29 @@ mod tests {
         let proof = tree.create_proof(leaves[0]).unwrap();
         assert!(tree.verify_proof(tree.root.unwrap(), &proof));
     }
+
+    #[test]
+    fn fail_to_build_proof_if_leaf_not_present() {
+        let mut tree = MerkleTree::<F>::new(secp256k1_w3());
+
+        let depth = 10;
+        let num_leaves = 1 << depth;
+        println!("num_leaves: {}", num_leaves);
+        let leaves = (0..num_leaves)
+            .map(|i| F::from(i as u32))
+            .collect::<Vec<F>>();
+
+        // Insert leaves
+        for leaf in leaves.iter() {
+            tree.insert(*leaf);
+        }
+        tree.finish();
+
+        let leaf = F::from(num_leaves + 1);
+        let proof = tree.create_proof(leaf);
+        match proof {
+            Err(e) => assert_eq!(e.to_string(), "merkle tree leaf not found"),
+            _ => panic!("expected error"),
+        }
+    }
 }

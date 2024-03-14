@@ -133,3 +133,92 @@ pub fn generate_merkle_root(leaves: Vec<String>, depth: usize) -> Result<Vec<u8>
 }
 
 // TODO:tests
+
+#[cfg(test)]
+mod tests {
+    use super::{_build_merkle_tree, generate_merkle_proof, generate_merkle_root};
+
+    const DEPTH: usize = 3;
+
+    #[test]
+    fn fail_to_build_merkle_tree_if_not_hex() {
+        let leaves = vec!["wxyz".to_string(), "hjkl".to_string()];
+        let result = _build_merkle_tree::<ark_secp256k1::Fq>(leaves, DEPTH);
+
+        match result {
+            Ok(_) => panic!("Expected to fail"),
+            Err(e) => assert_eq!(e.to_string(), "could not decode hex for leaf wxyz"),
+        }
+    }
+
+    #[test]
+    fn can_build_merkle_tree() {
+        let leaves = vec!["0x1234".to_string(), "0x4567".to_string()];
+        let result = _build_merkle_tree::<ark_secp256k1::Fq>(leaves, DEPTH);
+
+        match result {
+            Ok(_) => (),
+            Err(e) => panic!("Expected to succeed, got error: {}", e),
+        }
+    }
+
+    #[test]
+    fn fail_to_generate_merkle_proof() {
+        let leaves = vec!["wxyz".to_string(), "hjkl".to_string()];
+
+        let result = generate_merkle_proof(leaves, "wxyz".to_string(), DEPTH);
+        match result {
+            Ok(_) => panic!("Expected to fail"),
+            Err(e) => assert_eq!(e.to_string(), "failed constructing merkle tree"),
+        }
+    }
+
+    #[test]
+    fn can_generate_merkle_proof() {
+        let leaves = vec!["0x1234".to_string(), "0x4567".to_string()];
+        let result = generate_merkle_proof(leaves, "0x1234".to_string(), DEPTH);
+
+        match result {
+            Ok(proof) => {
+                assert_eq!(
+                    proof,
+                    vec![
+                        96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 69, 103, 42, 106, 236, 60, 219, 199,
+                        235, 47, 135, 38, 26, 208, 190, 66, 208, 203, 135, 208, 196, 87, 254, 186,
+                        148, 33, 217, 75, 104, 3, 123, 23, 204, 101, 41, 235, 49, 168, 222, 206,
+                        42, 58, 150, 51, 228, 157, 242, 239, 56, 200, 101, 56, 118, 187, 234, 142,
+                        239, 123, 197, 145, 11, 15, 44, 118, 30, 140, 96, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0,
+                        0, 0, 0, 156, 244, 160, 240, 109, 126, 49, 99, 81, 33, 252, 212, 65, 211,
+                        134, 142, 44, 122, 99, 89, 149, 249, 42, 186, 112, 171, 241, 222, 20, 140,
+                        116, 253
+                    ]
+                )
+            }
+            Err(e) => panic!("Expected to succeed, got error: {}", e),
+        }
+    }
+
+    #[test]
+    fn can_generate_merkle_root() {
+        let leaves = vec!["0x12", "0xfe", "0x4912de"];
+
+        let root = generate_merkle_root(leaves.into_iter().map(|s| s.to_string()).collect(), DEPTH);
+        match root {
+            Err(e) => panic!("Expected to succeed, got error {}", e),
+            Ok(root) => {
+                assert_eq!(
+                    root,
+                    vec![
+                        230, 148, 99, 147, 85, 193, 189, 219, 123, 0, 199, 176, 218, 104, 130, 149,
+                        80, 94, 7, 55, 219, 145, 110, 56, 51, 240, 141, 3, 99, 182, 22, 218
+                    ]
+                )
+            }
+        }
+    }
+}
