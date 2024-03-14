@@ -1,4 +1,5 @@
 use anonklub_poseidon::{Poseidon, PoseidonConstants};
+use anyhow::{Context, Result};
 use ark_ff::PrimeField;
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
@@ -6,7 +7,10 @@ use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 pub use anonklub_poseidon;
 pub use ark_ff;
 
-pub struct MerkleTree<F: PrimeField, const WIDTH: usize> {
+const WIDTH: usize = 3;
+const ARITY: usize = WIDTH - 1;
+
+pub struct MerkleTree<F: PrimeField> {
     _marker: std::marker::PhantomData<F>,
     leaves: Vec<F>,
     poseidon: Poseidon<F, WIDTH>,
@@ -31,12 +35,8 @@ pub struct MerkleProof<F: PrimeField> {
     pub root: F,
 }
 
-impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
+impl<F: PrimeField> MerkleTree<F> {
     pub fn new(constants: PoseidonConstants<F>) -> Self {
-        let arity = WIDTH - 1;
-
-        assert_eq!(arity, 2, "MerkleTree: Only arity 2 is supported.");
-
         let mut poseidon = Poseidon::new(constants);
         poseidon.state[0] = F::from(3u32);
 
@@ -95,7 +95,7 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
 
         for _ in 0..self.depth.unwrap() {
             let layer_above = current_layer
-                .par_chunks(self.arity())
+                .par_chunks(ARITY)
                 .map(|nodes| {
                     let mut poseidon = self.poseidon.clone();
                     Self::hash(&mut poseidon, nodes)
@@ -111,11 +111,7 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
         current_layer[0]
     }
 
-    fn arity(&self) -> usize {
-        WIDTH - 1
-    }
-
-    pub fn create_proof(&self, leaf: F) -> Result<MerkleProof<F>, String> {
+    pub fn create_proof(&self, leaf: F) -> Result<MerkleProof<F>> {
         if !self.is_tree_ready {
             panic!("MerkleTree: Tree is not ready.");
         }
@@ -125,12 +121,11 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
 
         let mut current_layer = &self.layers[0];
 
-        let leaf_index_result = self.leaves.iter().position(|&x| x == leaf);
-
-        let mut leaf_index = match leaf_index_result {
-            Some(index) => index,
-            None => return Err("MerkleProof: Leaf is not found, please consider using an address belongs to the anonymous set.".to_string()),
-        };
+        let mut leaf_index = self
+            .leaves
+            .iter()
+            .position(|&x| x == leaf)
+            .context("merkle tree leaf not found")?;
 
         for i in 0..self.depth.unwrap() {
             let sibling_index = if leaf_index % 2 == 0 {
@@ -185,10 +180,7 @@ mod tests {
 
     #[test]
     fn test_tree() {
-        const ARITY: usize = 2;
-        const WIDTH: usize = ARITY + 1;
-
-        let mut tree = MerkleTree::<F, WIDTH>::new(secp256k1_w3());
+        let mut tree = MerkleTree::<F>::new(secp256k1_w3());
 
         let depth = 10;
         let num_leaves = 1 << depth;
@@ -207,5 +199,30 @@ mod tests {
 
         let proof = tree.create_proof(leaves[0]).unwrap();
         assert!(tree.verify_proof(tree.root.unwrap(), &proof));
+    }
+
+    #[test]
+    fn fail_to_build_proof_if_leaf_not_present() {
+        let mut tree = MerkleTree::<F>::new(secp256k1_w3());
+
+        let depth = 10;
+        let num_leaves = 1 << depth;
+        println!("num_leaves: {}", num_leaves);
+        let leaves = (0..num_leaves)
+            .map(|i| F::from(i as u32))
+            .collect::<Vec<F>>();
+
+        // Insert leaves
+        for leaf in leaves.iter() {
+            tree.insert(*leaf);
+        }
+        tree.finish();
+
+        let leaf = F::from(num_leaves + 1);
+        let proof = tree.create_proof(leaf);
+        match proof {
+            Err(e) => assert_eq!(e.to_string(), "merkle tree leaf not found"),
+            _ => panic!("expected error"),
+        }
     }
 }

@@ -13,6 +13,7 @@ crate-type = ["lib","cdylib"]
 
 [dependencies]
 anonklub-poseidon = "1.0.0"
+anyhow = "1.0.81"
 ark-ff = "0.4.2"
 ark-secp256k1 = "0.4.0"
 ark-secq256k1 = "0.4.0"
