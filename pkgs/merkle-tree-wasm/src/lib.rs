@@ -84,19 +84,19 @@ pub fn generate_merkle_proof(
     leaves: Vec<String>,
     leaf: String,
     depth: usize,
-) -> Result<Vec<u8>, JsValue> {
+) -> std::result::Result<Vec<u8>, JsValue> {
     std::panic::set_hook(Box::new(console_error_panic_hook::hook));
 
     type F = ark_secp256k1::Fq;
 
     let merkle_proof_bytes =
-        _generate_merkle_proof::<F>(leaves, leaf, depth).map_err(|e| JsValue::from_str(&e))?;
+        _generate_merkle_proof::<F>(leaves, leaf, depth).map_err(|_e|JsValue::from_str("Could not generate merkle proof"))?;
 
     // Serialize the full merkle proof
     let mut merkle_proof_bytes_serialized = Vec::new();
     merkle_proof_bytes
         .serialize_compressed(&mut merkle_proof_bytes_serialized)
-        .with_context(|_e| JsValue::from_str("could not serialize merkle proof bytes"))?;
+        .map_err(|_e|JsValue::from_str("Could not serialize merkle proof bytes"))?;
 
     Ok(merkle_proof_bytes_serialized)
 }
