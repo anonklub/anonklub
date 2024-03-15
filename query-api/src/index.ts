@@ -21,7 +21,7 @@ async function bootstrap() {
       app,
       new DocumentBuilder()
         .setTitle('Anonset API')
-        .addServer('https://anonset.fly.dev', 'production')
+        .addServer('https://query.anonklub.xyz', 'production')
         .addServer('https://anonset-staging.fly.dev', 'staging')
         .addServer('http://localhost:3000', 'local')
         .setContact(

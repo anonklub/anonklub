@@ -3,7 +3,7 @@ use std::env;
 use std::time::Duration;
 use surf::{Client, Config, Url};
 
-const QUERY_BASE_URL: &str = "https://anonset.fly.dev/";
+const QUERY_BASE_URL: &str = "https://query.anonklub.xyz/";
 
 pub fn get_query_client() -> Result<Client> {
     let base_url = env::var("QUERY_API_URL").unwrap_or_else(|_| QUERY_BASE_URL.to_string());

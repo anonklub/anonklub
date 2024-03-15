@@ -9,7 +9,7 @@ jobs:
   deployment:
     environment:
       name: ui-prod
-      url: https://anonklub.fly.dev/
+      url: https://anonklub.xyz
     name: Deploy UI to production
     runs-on: ubuntu-latest
     steps:

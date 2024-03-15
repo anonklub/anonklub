@@ -15,9 +15,6 @@
   <img alt="Coveralls Badge" src="https://img.shields.io/coverallsCoverage/github/anonklub/anonklub.svg?label=coverage%20(ts)&logo=coveralls">
 </a>
 <br>
- <a href="https://www.npmjs.com/package/@anonklub/cli">
-<img alt="@anonklub/cli npm badge" src="https://img.shields.io/npm/v/%40anonklub/cli?logo=npm&label=%40anonklub%2Fcli">
-</a>
 <a href="https://www.npmjs.com/package/@anonklub/proof">
 <img alt="@anonklub/proof npm badge" src="https://img.shields.io/npm/v/%40anonklub/proof?logo=npm&label=%40anonklub%2Fproof">
 </a>
@@ -75,8 +72,8 @@
 | [queries/crypto_ethereum](queries/crypto_ethereum)     | Google [`bigquery-public-data.crypto_ethereum`](https://console.cloud.google.com/marketplace/product/ethereum/crypto-ethereum-blockchain) queries examples |          :heavy_check_mark:          |                                                                                                                                                                                                            |
 | [queries/dune_analytics](queries/dune_analytics)       | [Dune Analytics](https://dune.com/) queries examples                                                                                                       |          :heavy_check_mark:          |                                                                                                                                                                                                            |
 | [queries/the_graph](queries/the_graph)                 | [The Graph](https://thegraph.com/en/) queries examples                                                                                                     |          :heavy_check_mark:          |                                                                                                                                                                                                            |
-| [query-api](query-api)                                 | Query API server                                                                                                                                           |          :heavy_check_mark:          | [anonset.fly.dev](https://anonset.fly.dev)                                                                                                                                                                 |
-| [ui](ui)                                               | User Interface (fetch anonymity sets, generate or verify membership proofs)                                                                                |          :heavy_check_mark:          | [anonklub.xyz](https://anonklub.xyz) [anonklub.fly.dev](https://anonklub.fly.dev)                                                                                                                          |
+| [query-api](query-api)                                 | Query API server                                                                                                                                           |          :heavy_check_mark:          | [query.anonklub.xyz](https://query.anonklub.xyz)                                                                                                                                                           |
+| [ui](ui)                                               | User Interface (fetch anonymity sets, generate or verify membership proofs)                                                                                |          :heavy_check_mark:          | [anonklub.xyz](https://anonklub.xyz)                                                                                                                                                                       |
 
 ## Environment
 

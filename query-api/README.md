@@ -1,6 +1,6 @@
 # Query API
 
-[https://anonset.fly.dev/](https://e2e-zkecdsa-query-api.fly.dev/)
+[query.anonklub.xyz/](https://query.anonklub.xyz)
 
 ## Develop
 

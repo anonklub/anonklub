@@ -64,3 +64,10 @@ pub fn parse_path(s: &str) -> Result<Anonset> {
 
     anonset
 }
+
+pub fn hexlify(bytes: Vec<u8>) -> String {
+    bytes.iter().fold(String::new(), |mut acc, x| {
+        format!("{:02x}", x).chars().for_each(|c| acc.push(c));
+        acc
+    })
+}

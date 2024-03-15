@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 license = "AGPL-3.0"
 authors = ["sripwoud"]
-description = "Command line to interact with anonklub query api (https://anonset.fly.dev)."
+description = "Command line to interact with anonklub query api (https://query.anonklub.xyz)."
 readme = "README.md"
 homepage = "https://github.com/anonklub/anonklub/tree/main/pkgs/cli/"
 documentation = "https://github.com/anonklub/anonklub/tree/main/pkgs/cli/README.md"
@@ -35,7 +35,5 @@ serde_json = "1.0.114"
 strum = { version = "0.26.2", features = ["derive"] }
 surf = "2.3.2"
 [dev-dependencies]
-alloy-primitives = "0.6.4"
 assert_cmd = "2.0.14"
-assert_fs = "1.1.1"
 predicates = "3.1.0"

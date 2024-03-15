@@ -102,7 +102,7 @@
       ]
     },
     "//#test.cargo": {
-      "inputs": ["pkgs/cli/**/*.rs"]
+      "inputs": ["pkgs/**/*.rs"]
     },
     "_test": {
       "cache": false,

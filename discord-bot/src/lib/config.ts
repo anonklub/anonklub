@@ -42,7 +42,7 @@ export const config: Config = {
     GatewayIntentBits.Guilds,
     GatewayIntentBits.MessageContent,
   ],
-  urls: { ui: 'https://anonklub.fly.dev' },
+  urls: { ui: 'https://anonklub.xyz' },
   VERIFICATION_CHANNEL_ID: '1133394590318202942',
   VERIFIED_ROLE_ID: '1130886825087606924',
 }
