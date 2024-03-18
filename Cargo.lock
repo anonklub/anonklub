@@ -2360,116 +2360,16 @@ dependencies = [
 ]
 
 [[package]]
-name = "halo2-axiom"
-version = "0.4.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d698920cd4cb189e6b90db50cb9393f1671f732f39665b907f745b5d45b51c8c"
-dependencies = [
- "blake2b_simd",
- "crossbeam",
- "ff 0.13.0",
- "group 0.13.0",
- "halo2curves-axiom",
- "itertools 0.11.0",
- "maybe-rayon",
- "pairing",
- "rand 0.8.5",
- "rand_core 0.6.4",
- "rustc-hash",
- "sha3 0.10.8",
- "tracing",
-]
-
-[[package]]
-name = "halo2-base"
-version = "0.4.1"
-source = "git+https://github.com/axiom-crypto/halo2-lib?branch=community-edition#d9a1f91c764e28bc2a8b8c3fd0eb3953f9939729"
-dependencies = [
- "ark-std 0.3.0",
- "getset",
- "halo2-axiom",
- "itertools 0.11.0",
- "jemallocator",
- "log",
- "num-bigint",
- "num-integer",
- "num-traits",
- "poseidon-primitives",
- "rand 0.8.5",
- "rand_chacha 0.3.1",
- "rayon",
- "rustc-hash",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "halo2-ecc"
-version = "0.4.1"
-source = "git+https://github.com/axiom-crypto/halo2-lib?branch=community-edition#d9a1f91c764e28bc2a8b8c3fd0eb3953f9939729"
-dependencies = [
- "halo2-base",
- "itertools 0.11.0",
- "num-bigint",
- "num-integer",
- "num-traits",
- "rand 0.8.5",
- "rand_chacha 0.3.1",
- "rand_core 0.6.4",
- "rayon",
- "serde",
- "serde_json",
- "test-case",
-]
-
-[[package]]
 name = "halo2-ecdsa"
 version = "0.1.0"
 dependencies = [
  "ecc",
- "halo2_proofs 0.3.0",
- "halo2wrong 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong.git)",
+ "halo2_proofs",
+ "halo2wrong",
  "integer",
  "maingate",
  "num-bigint",
  "rand_core 0.6.4",
-]
-
-[[package]]
-name = "halo2-scaffold"
-version = "0.3.0"
-dependencies = [
- "ark-std 0.3.0",
- "clap",
- "clap-num",
- "ecc 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong.git?tag=v2023_02_02)",
- "env_logger",
- "ethers-core",
- "halo2-base",
- "halo2_proofs 0.2.0",
- "halo2wrong 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong.git?tag=v2023_02_02)",
- "log",
- "maingate 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong.git?tag=v2023_02_02)",
- "rand 0.8.5",
- "serde",
- "serde_json",
- "snark-verifier-sdk",
- "test-log",
-]
-
-[[package]]
-name = "halo2_proofs"
-version = "0.2.0"
-source = "git+https://github.com/privacy-scaling-explorations/halo2?tag=v2023_02_02#0a8646b78286a13d320759b1c585262d6536dce4"
-dependencies = [
- "blake2b_simd",
- "ff 0.12.1",
- "group 0.12.1",
- "halo2curves 0.3.1",
- "rand_core 0.6.4",
- "rayon",
- "sha3 0.9.1",
- "tracing",
 ]
 
 [[package]]

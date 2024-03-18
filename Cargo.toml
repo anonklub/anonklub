@@ -5,11 +5,7 @@ members = [
     "pkgs/cli",
     "pkgs/merkle-tree-wasm",
     "pkgs/spartan-ecdsa-wasm", 
-<<<<<<< HEAD
     "pkgs/circuits/halo2wrong-ecdsa"
-=======
-    "pkgs/circuits/halo2-ecdsa"
->>>>>>> f50031f (feat: adding halo2wrong ecdsa verison circuit wip)
 ]
 
 [profile.release]
