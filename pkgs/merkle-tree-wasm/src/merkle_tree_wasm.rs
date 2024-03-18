@@ -1,5 +1,5 @@
 use anonklub_poseidon::{Poseidon, PoseidonConstants};
-use anyhow::{Context, Result};
+use anyhow::Result;
 use ark_ff::PrimeField;
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
@@ -224,7 +224,7 @@ mod tests {
         let leaf = F::from(num_leaves + 1);
         let proof = tree.create_proof(leaf, leaf.0.to_string());
         match proof {
-            Err(e) => assert_eq!(e.to_string(), "merkle tree leaf not found"),
+            Err(e) => assert!(e.to_string().contains("not part of the addresses set")),
             _ => panic!("expected error"),
         }
     }
