@@ -21,8 +21,8 @@ export function SubmitProofRequest() {
     canSign,
     canSubmit,
     isGeneratingMerkleProof,
-    merkleProofError,
     isSuccess,
+    merkleProofError,
     signMessage,
   } = useProofRequest()
 
