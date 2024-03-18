@@ -425,6 +425,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "arrayref"
+version = "0.3.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6b4930d2cb77ce62f89ee5d5289b4ac049559b1c45539271f5ed4fdc7db34545"
+
+[[package]]
 name = "arrayvec"
 version = "0.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -756,11 +762,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "blake2b_simd"
+version = "1.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "23285ad32269793932e830392f2fe2f83e26488fd3ec778883a93c8323735780"
+dependencies = [
+ "arrayref",
+ "arrayvec",
+ "constant_time_eq 0.3.0",
+]
+
+[[package]]
 name = "block-buffer"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4152116fd6e9dadb291ae18fc1ec3575ed6d84c29642d97890f4b4a3417297e4"
 dependencies = [
+ "block-padding",
  "generic-array",
 ]
 
@@ -772,6 +790,12 @@ checksum = "3078c7629b62d3f0439517fa394996acacc5cbc91c5a20d8c658e77abd503a71"
 dependencies = [
  "generic-array",
 ]
+
+[[package]]
+name = "block-padding"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8d696c370c750c948ada61c69a0ee2cbbb9c50b1019ddb86d9317157a99c2cae"
 
 [[package]]
 name = "blocking"
@@ -1038,7 +1062,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "sha2 0.10.8",
- "sha3",
+ "sha3 0.10.8",
  "thiserror",
 ]
 
@@ -1120,6 +1144,12 @@ name = "constant_time_eq"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "245097e9a4535ee1e3e3931fcfcd55a796a44c643e8596ff6566d68f09b87bbc"
+
+[[package]]
+name = "constant_time_eq"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f7144d30dcf0fafbce74250a3963025d8d52177934239851c917d29f1df280c2"
 
 [[package]]
 name = "convert_case"
@@ -1460,6 +1490,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "56ce8c6da7551ec6c462cbaf3bfbc75131ebbfa1c944aeaa9dab51ca1c5f0c3b"
 
 [[package]]
+name = "ecc"
+version = "0.1.0"
+source = "git+https://github.com/privacy-scaling-explorations/halo2wrong.git#1fe10a798edde7a0686248c29cae96ca79b710ae"
+dependencies = [
+ "integer",
+ "num-bigint",
+ "num-integer",
+ "num-traits",
+ "rand 0.8.5",
+ "subtle",
+]
+
+[[package]]
 name = "ecdsa"
 version = "0.16.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1536,7 +1579,7 @@ dependencies = [
  "rand 0.8.5",
  "rlp",
  "serde",
- "sha3",
+ "sha3 0.10.8",
  "zeroize",
 ]
 
@@ -1596,7 +1639,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2 0.10.8",
- "sha3",
+ "sha3 0.10.8",
  "thiserror",
  "uuid",
 ]
@@ -1613,7 +1656,7 @@ dependencies = [
  "regex",
  "serde",
  "serde_json",
- "sha3",
+ "sha3 0.10.8",
  "thiserror",
  "uint",
 ]
@@ -1987,6 +2030,7 @@ version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ded41244b729663b1e574f1b4fb731469f69f79c17667b5d776b16cda0479449"
 dependencies = [
+ "bitvec",
  "rand_core 0.6.4",
  "subtle",
 ]
@@ -2316,6 +2360,68 @@ dependencies = [
 ]
 
 [[package]]
+name = "halo2-ecdsa"
+version = "0.1.0"
+dependencies = [
+ "ecc",
+ "halo2_proofs",
+ "halo2wrong",
+ "integer",
+ "maingate",
+ "num-bigint",
+ "rand_core 0.6.4",
+]
+
+[[package]]
+name = "halo2_proofs"
+version = "0.3.0"
+source = "git+https://github.com/privacy-scaling-explorations/halo2?tag=v0.3.0#73408a140737d8336490452193b21f5a7a94e7de"
+dependencies = [
+ "blake2b_simd",
+ "ff",
+ "group",
+ "halo2curves",
+ "rand_chacha 0.3.1",
+ "rand_core 0.6.4",
+ "rayon",
+ "sha3 0.9.1",
+ "tracing",
+]
+
+[[package]]
+name = "halo2curves"
+version = "0.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "db81d01d0bbfec9f624d7590fc6929ee2537a64ec1e080d8f8c9e2d2da291405"
+dependencies = [
+ "blake2b_simd",
+ "ff",
+ "group",
+ "lazy_static",
+ "num-bigint",
+ "num-traits",
+ "pairing",
+ "pasta_curves",
+ "paste",
+ "rand 0.8.5",
+ "rand_core 0.6.4",
+ "rayon",
+ "static_assertions",
+ "subtle",
+]
+
+[[package]]
+name = "halo2wrong"
+version = "0.1.0"
+source = "git+https://github.com/privacy-scaling-explorations/halo2wrong.git#1fe10a798edde7a0686248c29cae96ca79b710ae"
+dependencies = [
+ "halo2_proofs",
+ "num-bigint",
+ "num-integer",
+ "num-traits",
+]
+
+[[package]]
 name = "hashbrown"
 version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2617,6 +2723,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "integer"
+version = "0.1.0"
+source = "git+https://github.com/privacy-scaling-explorations/halo2wrong.git#1fe10a798edde7a0686248c29cae96ca79b710ae"
+dependencies = [
+ "maingate",
+ "num-bigint",
+ "num-integer",
+ "num-traits",
+ "rand 0.8.5",
+ "subtle",
+]
+
+[[package]]
 name = "io-lifetimes"
 version = "1.0.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2798,6 +2917,9 @@ name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
+dependencies = [
+ "spin 0.5.2",
+]
 
 [[package]]
 name = "libc"
@@ -2873,6 +2995,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b5e6163cb8c49088c2c36f57875e58ccd8c87c7427f7fbd50ea6710b2f3f2e8f"
 dependencies = [
  "value-bag",
+]
+
+[[package]]
+name = "maingate"
+version = "0.1.0"
+source = "git+https://github.com/privacy-scaling-explorations/halo2wrong.git#1fe10a798edde7a0686248c29cae96ca79b710ae"
+dependencies = [
+ "halo2wrong",
+ "num-bigint",
+ "num-integer",
+ "num-traits",
+ "rand 0.8.5",
+ "subtle",
 ]
 
 [[package]]
@@ -3018,6 +3153,7 @@ dependencies = [
  "autocfg",
  "num-integer",
  "num-traits",
+ "rand 0.8.5",
 ]
 
 [[package]]
@@ -3148,6 +3284,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "04744f49eae99ab78e0d5c0b603ab218f515ea8cfe5a456d7629ad883a3b6e7d"
 
 [[package]]
+name = "pairing"
+version = "0.23.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "81fec4625e73cf41ef4bb6846cafa6d44736525f442ba45e407c4a000a13996f"
+dependencies = [
+ "group",
+]
+
+[[package]]
 name = "parity-scale-codec"
 version = "3.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3210,6 +3355,21 @@ checksum = "7676374caaee8a325c9e7a2ae557f216c5563a171d6997b0ef8a65af35147700"
 dependencies = [
  "base64ct",
  "rand_core 0.6.4",
+ "subtle",
+]
+
+[[package]]
+name = "pasta_curves"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d3e57598f73cc7e1b2ac63c79c517b31a0877cd7c402cdcaa311b5208de7a095"
+dependencies = [
+ "blake2b_simd",
+ "ff",
+ "group",
+ "lazy_static",
+ "rand 0.8.5",
+ "static_assertions",
  "subtle",
 ]
 
@@ -4338,6 +4498,18 @@ dependencies = [
  "cfg-if",
  "cpufeatures",
  "digest 0.10.7",
+]
+
+[[package]]
+name = "sha3"
+version = "0.9.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f81199417d4e5de3f04b1e871023acea7389672c4135918f05aa9cbf2f2fa809"
+dependencies = [
+ "block-buffer 0.9.0",
+ "digest 0.9.0",
+ "keccak",
+ "opaque-debug",
 ]
 
 [[package]]
@@ -5605,7 +5777,7 @@ dependencies = [
  "aes 0.8.3",
  "byteorder",
  "bzip2",
- "constant_time_eq",
+ "constant_time_eq 0.1.5",
  "crc32fast",
  "crossbeam-utils",
  "flate2",
