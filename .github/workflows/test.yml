@@ -1,4 +1,4 @@
-name: test
+name: Test
 on:
   # push trigger required to get coveralls monitoring of default branch
   # pull_request trigger required to get PR comments
