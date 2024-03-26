@@ -1,6 +1,8 @@
 {
-	"**/*.{json,jsonc,js,jsx,ts,tsx}": "pnpm biome format --write",
+	"**/*.{json,jsonc,js,jsx,ts,tsx}": [
+		"pnpm biome lint --apply",
+		"pnpm biome format --write"
+	],
 	"**/*.rs": "rustfmt",
-	"**/*.{ts,tsx}": "tsc-files --noEmit",
-	"**/*.{json,jsonc,js,jsx,ts,tsx}": "pnpm biome lint --apply"
+	"**/*.{ts,tsx}": "tsc-files --noEmit"
 }
