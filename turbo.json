@@ -63,14 +63,14 @@
 			"cache": false,
 			"inputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs"]
 		},
-		"//#lint.eslint": {
+		"//#lint.biome": {
 			"inputs": [
 				"*.{cjs,js,jsx,ts,tsx}",
 				"{pkgs,circom,discord-bot,query-api,test,ui}/**/*.{cjs,js,jsx,ts,tsx}",
 				"!{pkgs,circom,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
 			]
 		},
-		"//#lint.eslint.fix": {
+		"//#lint.biome.fix": {
 			"inputs": [
 				"*.{cjs,js,jsx,ts,tsx}",
 				"{pkgs,circom,discord-bot,query-api,test,ui}/**/*.{cjs,js,jsx,ts,tsx}",

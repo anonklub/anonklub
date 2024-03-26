@@ -1,13 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { parseEther } from 'viem'
 import { HandleDuneCreditsError } from './decorators/handle-dune-credits-error'
-import {
+import type {
 	GetEnsProposalVotersDto,
 	GetErc20BalanceOwnersDto,
 	GetEthBalanceOwnersDto,
 	GetNftOwnersDto,
 } from './dto'
-import {
+import type {
 	BigQueryRepository,
 	DuneRepository,
 	GraphRepository,
@@ -47,7 +47,7 @@ export class AnonsetService {
 
 	@HandleDuneCreditsError()
 	async getBeaconDepositors() {
-		this.logger.log(`getBeaconDepositors`)
+		this.logger.log('getBeaconDepositors')
 		return this.duneRepository.getBeaconDepositors().then(({ result }) => {
 			return result.rows.map((row) => row.address) ?? []
 		})
@@ -59,7 +59,7 @@ export class AnonsetService {
 	}
 
 	async getCryptopunkOwners() {
-		this.logger.log(`getCryptopunkOwners`)
+		this.logger.log('getCryptopunkOwners')
 		return this.graphRepository.getCryptopunkOwners()
 	}
 

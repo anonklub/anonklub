@@ -1,4 +1,4 @@
-import { Events } from 'discord.js'
+import type { Events } from 'discord.js'
 
 export type HandledEvent =
 	| Events.ClientReady

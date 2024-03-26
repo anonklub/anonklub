@@ -1,4 +1,4 @@
-import { CommandInteraction, TextChannel } from 'discord.js'
+import { type CommandInteraction, TextChannel } from 'discord.js'
 import { config } from '../config'
 
 export function inVerificationChannel(

@@ -1,9 +1,9 @@
 import { Service } from 'typedi'
 import { config, error, info } from '~'
 import { commands } from 'commands'
-import { DiscordClient } from 'DiscordClient'
+import type { DiscordClient } from 'DiscordClient'
 import { Events } from '../events'
-import { ClientI } from './interface'
+import type { ClientI } from './interface'
 
 @Service()
 export class Client implements ClientI {

@@ -1,8 +1,8 @@
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import { NestExpressApplication } from '@nestjs/platform-express'
+import type { NestExpressApplication } from '@nestjs/platform-express'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { join } from 'path'
+import { join } from 'node:path'
 import { AnonsetModule } from './anonset.module'
 
 async function bootstrap() {

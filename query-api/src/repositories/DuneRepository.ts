@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { GetErc20BalanceOwnersDto } from '../dto'
-import { DuneClient, DuneQuery } from './dune-client'
+import type { GetErc20BalanceOwnersDto } from '../dto'
+import { type DuneClient, DuneQuery } from './dune-client'
 
 @Injectable()
 export class DuneRepository {

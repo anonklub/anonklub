@@ -1,4 +1,4 @@
-import { Chain } from 'wagmi'
+import type { Chain } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
 
 interface Config {
@@ -16,16 +16,16 @@ interface Config {
 // https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#loading-environment-variables
 const walletConnectProjectId =
 	process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ''
-;[[walletConnectProjectId, 'NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID']].forEach(
-	([value, name]) => {
-		if (value === '') {
-			// this means next build will fail
-			if (process.env.NEXT_PHASE === 'phase-production-build')
-				throw new Error(`Missing environment variable ${name}`)
-			else console.warn(`Missing environment variable ${name}`)
-		}
-	},
-)
+for (const [value, name] of [
+	[walletConnectProjectId, 'NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID'],
+]) {
+	if (value === '') {
+		// this means next build will fail
+		if (process.env.NEXT_PHASE === 'phase-production-build')
+			throw new Error(`Missing environment variable ${name}`)
+		console.warn(`Missing environment variable ${name}`)
+	}
+}
 
 export const config: Config = {
 	appTitle: 'Anonklub',

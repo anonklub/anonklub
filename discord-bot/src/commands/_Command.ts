@@ -1,6 +1,6 @@
-import { CommandInteraction, SlashCommandBuilder } from 'discord.js'
+import type { CommandInteraction, SlashCommandBuilder } from 'discord.js'
 import { inVerificationChannel, isMatchingCommand, tryCatchReply } from '~'
-import { _CommandI } from './interface'
+import type { _CommandI } from './interface'
 
 export abstract class _Command implements _CommandI {
 	public abstract commandBuilder: Omit<

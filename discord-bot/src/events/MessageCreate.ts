@@ -1,13 +1,13 @@
 import {
-	Attachment,
-	Collection,
+	type Attachment,
+	type Collection,
 	Events,
-	Message,
-	TextChannel,
+	type Message,
+	type TextChannel,
 } from 'discord.js'
 import { config, verifyOnChain } from '~'
 import { _Event } from './_Event'
-import { HandledEvent } from './interface'
+import type { HandledEvent } from './interface'
 
 export class MessageCreate extends _Event {
 	override bind = true

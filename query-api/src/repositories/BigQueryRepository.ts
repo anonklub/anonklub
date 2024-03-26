@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { BigqueryClient } from './bigquery-client'
+import type { BigqueryClient } from './bigquery-client'
 
 @Injectable()
 export class BigQueryRepository {

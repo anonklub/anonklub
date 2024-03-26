@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import useSWR, { Fetcher } from 'swr'
+import useSWR, { type Fetcher } from 'swr'
 import { useBlockNumber } from 'wagmi'
 
 /**

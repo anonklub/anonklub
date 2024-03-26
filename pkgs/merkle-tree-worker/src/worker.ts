@@ -1,5 +1,5 @@
 import { expose } from 'comlink'
-import { IMerkleTreeWasm, IMerkleTreeWorker } from './interface'
+import type { IMerkleTreeWasm, IMerkleTreeWorker } from './interface'
 
 let merkleTreeWasm: IMerkleTreeWasm
 

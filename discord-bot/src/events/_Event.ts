@@ -1,6 +1,6 @@
 import { tryCatchReply } from '~'
-import { Client } from 'Client'
-import { _EventI, HandledEvent, ListeningMethod } from './interface'
+import type { Client } from 'Client'
+import { type _EventI, type HandledEvent, ListeningMethod } from './interface'
 
 export abstract class _Event implements _EventI {
 	bind = false

@@ -1,4 +1,4 @@
-import {
+import type {
 	EnsProposalVotersRequest,
 	Erc20BalanceAnonSetRequest,
 	EthBalanceAnonSetRequest,

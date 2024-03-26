@@ -57,7 +57,7 @@
     "knip": "knip -c .knip.ts --production --strict",
     "lint": "turbo lint.cargo lint.biome lint.solhint",
     "lint.biome": "biome lint --max-diagnostics 200 .",
-    "lint.biome.fix": "biome lint --apply-safe --max-diagnostics 200 .",
+    "lint.biome.fix": "biome lint --apply --max-diagnostics 200 .",
     "lint.fix": "turbo lint.cargo.fix lint.biome.fix lint.solhint.fix",
     "prepare": "is-ci || husky install",
     "publish.pkgs": "pnpm build.pkgs && changeset version && changeset publish",

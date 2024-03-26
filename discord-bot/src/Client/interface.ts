@@ -1,6 +1,6 @@
-import { Client as DiscordClient } from 'discord.js'
-import { commands } from 'commands'
-import { Events } from '../events'
+import type { Client as DiscordClient } from 'discord.js'
+import type { commands } from 'commands'
+import type { Events } from '../events'
 
 export interface ClientI {
 	commands: typeof commands

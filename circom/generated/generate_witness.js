@@ -15,7 +15,7 @@ if (process.argv.length != 5) {
 		//	console.log(w[i]);
 		//    }
 		const buff = await witnessCalculator.calculateWTNSBin(input, 0)
-		writeFile(process.argv[4], buff, function (err) {
+		writeFile(process.argv[4], buff, (err) => {
 			if (err) throw err
 		})
 	})

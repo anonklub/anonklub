@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { NAVIGATION } from '#'
-import { JSONValue, ScrollableJsonContainer } from '@components'
+import { type JSONValue, ScrollableJsonContainer } from '@components'
 import { useStore } from '@hooks'
 
 export function AnonSetResults({

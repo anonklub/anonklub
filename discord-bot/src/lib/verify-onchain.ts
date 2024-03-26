@@ -3,7 +3,7 @@
 import { groth16 } from 'snarkjs'
 import { config } from '~'
 import { groth16VerifierAbi as abi } from './abis/groth16Verifier'
-import { Proof, PublicSignals } from './types'
+import type { Proof, PublicSignals } from './types'
 import { web3Client } from './web3-client'
 
 export const verifyOnChain = async ({

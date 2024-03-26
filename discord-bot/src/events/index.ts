@@ -4,7 +4,7 @@ import { ClientReady } from './ClientReady'
 import { Debug } from './Debug'
 import { Error } from './Error'
 import { InteractionCreate } from './InteractionCreate'
-import { HandledEvent } from './interface'
+import type { HandledEvent } from './interface'
 import { MessageCreate } from './MessageCreate'
 
 export * from './_Event'
@@ -25,11 +25,11 @@ const EventsClasses = {
 	[DiscordEvents.MessageCreate]: MessageCreate,
 }
 const Events: Map<DiscordEvents, EventClass> = new Map()
-Object.entries(EventsClasses).forEach(([eventName, EventClass]) => {
+for (const [eventName, EventClass] of Object.entries(EventsClasses)) {
 	if (config.eventHandlerOn[eventName as HandledEvent]) {
 		Events.set(eventName as DiscordEvents, EventClass)
 	}
-})
+}
 
 export { Events }
 // Events.set(DiscordEvents.ClientReady, ClientReady)

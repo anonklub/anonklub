@@ -1,8 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { AnonsetService } from './anonset.service'
+import type { AnonsetService } from './anonset.service'
 import { AnonsetResponse } from './decorators/AnonsetResponse'
-import {
+import type {
 	GetEnsProposalVotersDto,
 	GetErc20BalanceOwnersDto,
 	GetEthBalanceOwnersDto,

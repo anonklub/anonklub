@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import { Events, GatewayIntentBits } from 'discord.js'
-import { HandledEvent } from '../events'
+import type { HandledEvent } from '../events'
 
 interface Config {
 	addresses: {

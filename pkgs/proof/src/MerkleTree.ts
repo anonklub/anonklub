@@ -8,7 +8,7 @@ export class MerkleTree {
 	levels: bigint[][]
 
 	constructor(elements: bigint[], depth: number, hashFunction, field) {
-		if (elements.length > Math.pow(2, depth)) {
+		if (elements.length > 2 ** depth) {
 			throw new Error(
 				`Merkle tree depth ${depth} is too small for ${elements.length} items`,
 			)

@@ -1,11 +1,11 @@
 import { OutOfDuneCreditsException } from '../errors/out-of-dune-credits.exception'
 
 export function HandleDuneCreditsError() {
-	return function (
+	return (
 		_target: any,
 		_propertyName: string,
 		descriptor: PropertyDescriptor,
-	) {
+	) => {
 		const originalMethod = descriptor.value
 
 		descriptor.value = function (...args: any[]) {

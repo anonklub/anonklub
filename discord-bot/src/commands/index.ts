@@ -1,4 +1,4 @@
-import { _Command } from './_Command'
+import type { _Command } from './_Command'
 import { CommandName } from './interface'
 import { VerifyCommand } from './VerifyCommand'
 

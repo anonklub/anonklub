@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder } from 'discord.js'
+import type { CommandInteraction, SlashCommandBuilder } from 'discord.js'
 
 export enum CommandName {
 	Prove = 'prove',

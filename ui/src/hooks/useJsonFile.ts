@@ -1,5 +1,5 @@
-import { ActionCreator } from 'easy-peasy'
-import { ChangeEvent } from 'react'
+import type { ActionCreator } from 'easy-peasy'
+import type { ChangeEvent } from 'react'
 import { readJsonFile } from '#'
 import { useStoreActions } from '@hooks'
 

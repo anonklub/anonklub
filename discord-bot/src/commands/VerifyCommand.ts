@@ -1,6 +1,6 @@
 import {
 	ChannelType,
-	CommandInteraction,
+	type CommandInteraction,
 	PermissionsBitField,
 	SlashCommandBuilder,
 } from 'discord.js'

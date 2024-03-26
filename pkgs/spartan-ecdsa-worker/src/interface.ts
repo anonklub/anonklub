@@ -4,7 +4,7 @@ import type {
 	prove_membership,
 	verify_membership,
 } from '@anonklub/spartan-ecdsa-wasm'
-import { Hex } from 'viem'
+import type { Hex } from 'viem'
 
 export interface MerkleProof {
 	root: bigint

@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Message } from 'discord.js'
+import { type ChatInputCommandInteraction, Message } from 'discord.js'
 import { ErrorEmbed } from '../ErrorEmbed'
 import { tryCatch } from './tryCatch'
 

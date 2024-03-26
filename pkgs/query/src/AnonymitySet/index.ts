@@ -1,12 +1,17 @@
 import { URLS } from '../CONSTANTS'
 import { fetchJson } from '../fetch-json'
-import {
+import type {
 	EnsProposalVotersRequest,
 	Erc20BalanceAnonSetRequest,
 	EthBalanceAnonSetRequest,
 } from '../requests'
-import { Endpoint, Environment, Request, RequestClass } from '../types'
-import { AnonymitySetI } from './interface'
+import {
+	Endpoint,
+	Environment,
+	type Request,
+	type RequestClass,
+} from '../types'
+import type { AnonymitySetI } from './interface'
 
 export class AnonymitySet implements AnonymitySetI {
 	constructor(public env = Environment.PRODUCTION) {}

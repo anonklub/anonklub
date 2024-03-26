@@ -1,5 +1,5 @@
 import { useAsync } from 'react-use'
-import { Hex } from 'viem'
+import type { Hex } from 'viem'
 import { useStore } from '@hooks'
 import { useSpartanEcdsaWorker } from './useSpartanEcdsaWorker'
 

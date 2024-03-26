@@ -68,6 +68,86 @@
 					}
 				}
 			}
+		},
+		{
+			// TODO: why a string literal was used to get the env var here?
+			"include": ["query-api/src/repositories/dune-client/index.ts"],
+			"linter": {
+				"rules": {
+					"complexity": {
+						"useLiteralKeys": "warn"
+					}
+				}
+			}
+		},
+		{
+			"include": [
+				"discord-bot/src/lib/decorators/*.ts",
+				"discord-bot/src/events/*.ts",
+				"pkgs/proof/src/poseidon.ts",
+				"pkgs/proof/src/ExcludableMerkleTree.ts",
+				"query-api/src/repositories/dune-client/types.ts",
+				"query-api/src/repositories/GraphRepository.ts",
+				"query-api/src/decorators/handle-dune-credits-error.ts",
+				"ui/src/components/ExternalLink.tsx",
+				"**/test/**"
+			],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noExplicitAny": "warn"
+					}
+				}
+			}
+		},
+		{
+			"include": ["**/test/**"],
+			"linter": { "rules": { "suspicious": { "noImplicitAnyLet": "off" } } }
+		},
+		{
+			"include": ["ui/src/components/*.tsx"],
+			"linter": {
+				"rules": {
+					"a11y": {
+						"useValidAnchor": "warn"
+					}
+				}
+			}
+		},
+		{
+			"include": ["ui/src/app/**/error.tsx", "discord-bot/src/events/*.ts"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noShadowRestrictedNames": "off"
+					}
+				}
+			}
+		},
+		{
+			// FIXME
+			"include": ["ui/src/**/*.tsx", "ui/src/**/*.ts"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"useExhaustiveDependencies": "warn"
+					}
+				}
+			}
+		},
+		{
+			"include": ["pkgs/proof/src/MerkleTree.ts", "pkgs/proof/src/helpers.ts"],
+			"linter": { "rules": { "style": { "noParameterAssign": "off" } } }
+		},
+		// FIXME
+		{
+			"include": ["ui/src/**"],
+			"linter": { "rules": { "complexity": { "noUselessCatch": "warn" } } }
+		},
+		//FIXME
+		{
+			"include": ["discord-bot/src/Client/index.ts"],
+			"linter": { "rules": { "complexity": { "noForEach": "warn" } } }
 		}
 	]
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import {
 	execute,
-	Punk,
+	type Punk,
 	PunkOwnersDocument,
-	Scalars,
-	Vote,
-	VoteChoice,
+	type Scalars,
+	type Vote,
+	type VoteChoice,
 	VotersPerProposalDocument,
 } from './graph-client'
 

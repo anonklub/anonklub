@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 export enum Links {
 	Twitter = 'https://twitter.com/PrivacyScaling',

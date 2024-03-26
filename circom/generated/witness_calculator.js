@@ -19,7 +19,7 @@ module.exports = async function builder(code, options) {
 
 	const instance = await WebAssembly.instantiate(wasmModule, {
 		runtime: {
-			exceptionHandler: function (code) {
+			exceptionHandler: (code) => {
 				let err
 				if (code == 1) {
 					err = 'Signal not found.\n'
@@ -38,14 +38,14 @@ module.exports = async function builder(code, options) {
 				}
 				throw new Error(err + errStr)
 			},
-			printErrorMessage: function () {
+			printErrorMessage: () => {
 				errStr += getMessage() + '\n'
 				// console.error(getMessage());
 			},
-			showSharedRWMemory: function () {
+			showSharedRWMemory: () => {
 				printSharedRWMemory()
 			},
-			writeBufferMessage: function () {
+			writeBufferMessage: () => {
 				const msg = getMessage()
 				// Any calls to `log()` will always end with a `\n`, so that's when we print and reset
 				if (msg === '\n') {
@@ -133,8 +133,8 @@ class WitnessCalculator {
 		let input_counter = 0
 		keys.forEach((k) => {
 			const h = fnvHash(k)
-			const hMSB = parseInt(h.slice(0, 8), 16)
-			const hLSB = parseInt(h.slice(8, 16), 16)
+			const hMSB = Number.parseInt(h.slice(0, 8), 16)
+			const hLSB = Number.parseInt(h.slice(8, 16), 16)
 			const fArr = flatArray(input[k])
 			const signalSize = this.instance.exports.getInputSignalSize(hMSB, hLSB)
 			if (signalSize < 0) {
@@ -224,8 +224,8 @@ class WitnessCalculator {
 		// id section 1 length in 64bytes
 		const idSection1length = 8 + n8
 		const idSection1lengthHex = idSection1length.toString(16)
-		buff32[4] = parseInt(idSection1lengthHex.slice(0, 8), 16)
-		buff32[5] = parseInt(idSection1lengthHex.slice(8, 16), 16)
+		buff32[4] = Number.parseInt(idSection1lengthHex.slice(0, 8), 16)
+		buff32[5] = Number.parseInt(idSection1lengthHex.slice(8, 16), 16)
 
 		// this.n32
 		buff32[6] = n8
@@ -250,8 +250,8 @@ class WitnessCalculator {
 		// section 2 length
 		const idSection2length = n8 * this.witnessSize
 		const idSection2lengthHex = idSection2length.toString(16)
-		buff32[pos] = parseInt(idSection2lengthHex.slice(0, 8), 16)
-		buff32[pos + 1] = parseInt(idSection2lengthHex.slice(8, 16), 16)
+		buff32[pos] = Number.parseInt(idSection2lengthHex.slice(0, 8), 16)
+		buff32[pos + 1] = Number.parseInt(idSection2lengthHex.slice(8, 16), 16)
 
 		pos += 2
 		for (let i = 0; i < this.witnessSize; i++) {

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import ms from 'ms'
 import {
-	ApiError,
-	DuneClientI,
-	ExecuteOk,
-	GetQueryResultsOk,
-	GetQueryStatusOk,
+	type ApiError,
+	type DuneClientI,
+	type ExecuteOk,
+	type GetQueryResultsOk,
+	type GetQueryStatusOk,
 	Query as DuneQuery,
 	QueryState,
 } from './types'

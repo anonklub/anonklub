@@ -1,7 +1,7 @@
-import { Events, Interaction } from 'discord.js'
-import { CommandName } from 'commands'
+import { Events, type Interaction } from 'discord.js'
+import type { CommandName } from 'commands'
 import { _Event } from './_Event'
-import { HandledEvent } from './interface'
+import type { HandledEvent } from './interface'
 
 export class InteractionCreate extends _Event {
 	public name = Events.InteractionCreate as HandledEvent

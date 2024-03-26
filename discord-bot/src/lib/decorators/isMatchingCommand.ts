@@ -1,5 +1,5 @@
-import { CommandInteraction } from 'discord.js'
-import { _Command } from 'commands/_Command'
+import type { CommandInteraction } from 'discord.js'
+import type { _Command } from 'commands/_Command'
 
 export function isMatchingCommand(
 	_target: any,

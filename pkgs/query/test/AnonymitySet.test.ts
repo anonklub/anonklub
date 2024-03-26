@@ -26,9 +26,9 @@ describe('AnonymitySet', () => {
 		const { data } = await anonymitySet.fromEthBalance({ min })
 
 		expect(data).toBeDefined()
-		data?.forEach((address) => {
+		for (const address of data ?? []) {
 			expect(address).toMatch(/^0x[0-9a-fA-F]{40}$/)
-		})
+		}
 		expect(fetchMock).toHaveBeenCalledWith(
 			`${URLS[env]}/${Endpoint.EthBalance}?min=${min}`,
 		)
@@ -39,9 +39,9 @@ describe('AnonymitySet', () => {
 		const { data } = await anonymitySet.fromErc20Balance({ min, tokenAddress })
 
 		expect(data).toBeDefined()
-		data?.forEach((address) => {
+		for (const address of data ?? []) {
 			expect(address).toMatch(/^0x[0-9a-fA-F]{40}$/)
-		})
+		}
 		expect(fetchMock).toHaveBeenCalledWith(
 			`${URLS[env]}/${Endpoint.Erc20Balance}?min=${min}&tokenAddress=${tokenAddress}`,
 		)
@@ -51,9 +51,9 @@ describe('AnonymitySet', () => {
 		const { data } = await anonymitySet.fromCryptoPunkOwners()
 
 		expect(data).toBeDefined()
-		data?.forEach((address) => {
+		for (const address of data ?? []) {
 			expect(address).toMatch(/^0x[0-9a-fA-F]{40}$/)
-		})
+		}
 		expect(fetchMock).toHaveBeenCalledWith(
 			`${URLS[env]}/${Endpoint.CryptoPunks}`,
 		)
@@ -63,9 +63,9 @@ describe('AnonymitySet', () => {
 		const { data } = await anonymitySet.fromBeaconDepositors()
 
 		expect(data).toBeDefined()
-		data?.forEach((address) => {
+		for (const address of data ?? []) {
 			expect(address).toMatch(/^0x[0-9a-fA-F]{40}$/)
-		})
+		}
 		expect(fetchMock).toHaveBeenCalledWith(
 			`${URLS[env]}/${Endpoint.BeaconDepositors}`,
 		)
@@ -85,9 +85,9 @@ describe('AnonymitySet', () => {
 		})
 
 		expect(data).toBeDefined()
-		data?.forEach((address) => {
+		for (const address of data ?? []) {
 			expect(address).toMatch(/^0x[0-9a-fA-F]{40}$/)
-		})
+		}
 		expect(fetchMock).toHaveBeenCalledWith(
 			`${URLS[env]}/${Endpoint.EnsProposalVoters}?choice=${
 				choice as string

@@ -3,11 +3,11 @@ import { error } from '~'
 type ErrorHandler = (err: Error, ...args: any[]) => void | Promise<void>
 
 export function tryCatch(onError?: ErrorHandler): MethodDecorator {
-	return function (
+	return (
 		_target: any,
 		_propertyKey: string | symbol,
 		descriptor: PropertyDescriptor,
-	) {
+	) => {
 		const originalMethod = descriptor.value
 
 		descriptor.value = async function (...args: any[]): Promise<void> {
