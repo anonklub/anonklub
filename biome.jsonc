@@ -1,6 +1,9 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.6.3/schema.json",
-	"files": {
+	"linter": {
+		"ignore": []
+	},
+	"formatter": {
 		"ignore": [
 			"**/node_modules/**",
 			"**/dist/**",
@@ -33,6 +36,38 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true
+		},
+		"ignore": [
+			"**/node_modules/**",
+			"**/dist/**",
+			"**/out/**",
+			"**/.next/**",
+			"**/target/**",
+			"**/generated/**",
+			"**/coverage/**",
+			"**/*.graphql",
+			"**/.graphclient/**",
+			"**/cache/**",
+			"contracts/lib/forge-std/**",
+			"contracts/lib/openzeppelin-contracts/**",
+			"**/package.json",
+			"ui/next.config.js",
+			"ui/next-env.d.ts",
+			"ui/public/**",
+			".turbo/**",
+			"queries/**"
+		]
+	},
+	"overrides": [
+		{
+			"include": ["ui/src/**/*.tsx"],
+			"linter": {
+				"rules": {
+					"a11y": {
+						"useButtonType": "warn"
+					}
+				}
+			}
 		}
-	}
+	]
 }
