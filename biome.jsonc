@@ -1,0 +1,38 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.6.3/schema.json",
+	"files": {
+		"ignore": [
+			"**/node_modules/**",
+			"**/dist/**",
+			"**/out/**",
+			"**/.next/**",
+			"**/target/**",
+			"**/coverage/**",
+			"**/*.graphql",
+			"**/.graphclient/**",
+			"**/cache/**",
+			"contracts/lib/forge-std/**",
+			"contracts/lib/openzeppelin-contracts/**",
+			"**/package.json"
+		]
+	},
+	"organizeImports": {
+		"enabled": true
+	},
+	"javascript": {
+		"formatter": {
+			"jsxQuoteStyle": "single",
+			"quoteStyle": "single",
+			"semicolons": "asNeeded"
+		},
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		}
+	}
+}

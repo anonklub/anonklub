@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "@anonklub/test": "workspace:^",
+    "@biomejs/biome": "1.6.3",
     "@changesets/cli": "^2.26.2",
     "@faker-js/faker": "^7.6.0",
     "@sripwoud/eslint-config-with-jest": "^1.0.2",
@@ -51,10 +52,10 @@
     "clean": "find . \\( -name 'node_modules' -o -name 'dist' -o -name 'next' \\) -type d -prune -exec rm -rf '{}' +",
     "compile": "turbo _compile",
     "fix": "turbo _format.fix _lint.fix",
-    "format": "turbo format.cargo format.forge format.prettier",
-    "format.fix": "turbo format.cargo.fix format.forge.fix format.prettier.fix",
-    "format.prettier": "prettier -c .",
-    "format.prettier.fix": "prettier -w .",
+    "format": "turbo format.cargo format.forge format.biome",
+    "format.fix": "turbo format.cargo.fix format.forge.fix format.biome.fix",
+    "format.biome": "biome format .",
+    "format.biome.fix": "biome format --write .",
     "githook:precommit": "lint-staged",
     "knip": "knip -c .knip.ts --production --strict",
     "lint": "turbo lint.cargo lint.eslint lint.solhint",
@@ -71,7 +72,7 @@
     "test.coverage.html": "cargo llvm-cov --all-features --workspace --html --output-dir=target/llvm-cov/html",
     "test.coverage.summary": "cargo llvm-cov --all-features --workspace --summary-only",
     "typecheck": "turbo typecheck",
-    "validate": "turbo format.cargo format.forge format.prettier lint.cargo lint.eslint lint.solhint build _compile --cache-dir=.turbo"
+    "validate": "turbo format.cargo format.forge format.biome lint.cargo lint.eslint lint.solhint build _compile --cache-dir=.turbo"
   },
   "workspaces": [
     "contracts",
