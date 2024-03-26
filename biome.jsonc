@@ -10,6 +10,7 @@
 			"**/out/**",
 			"**/.next/**",
 			"**/target/**",
+			"**/.turbo/**",
 			"**/coverage/**",
 			"**/*.graphql",
 			"**/.graphclient/**",
