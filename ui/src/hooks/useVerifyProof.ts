@@ -3,12 +3,12 @@ import { useStore } from '@/hooks'
 import { useSpartanEcdsaWorker } from './useSpartanEcdsaWorker'
 
 export const useVerifyProof = () => {
-  const { proof } = useStore()
-  const { verifyMembership } = useSpartanEcdsaWorker()
+	const { proof } = useStore()
+	const { verifyMembership } = useSpartanEcdsaWorker()
 
-  return useAsync(async () => {
-    if (proof === null) return
+	return useAsync(async () => {
+		if (proof === null) return
 
-    return await verifyMembership(proof)
-  }, [proof])
+		return await verifyMembership(proof)
+	}, [proof])
 }

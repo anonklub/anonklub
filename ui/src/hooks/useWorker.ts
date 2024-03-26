@@ -3,17 +3,17 @@ import { SpartanEcdsaWorker } from '@anonklub/spartan-ecdsa-worker'
 import { useEffect, useState } from 'react'
 
 export const useWorker = (
-  worker: typeof SpartanEcdsaWorker | typeof MerkleTreeWorker,
+	worker: typeof SpartanEcdsaWorker | typeof MerkleTreeWorker,
 ) => {
-  const [isWorkerReady, setIsWorkerReady] = useState(false)
+	const [isWorkerReady, setIsWorkerReady] = useState(false)
 
-  useEffect(() => {
-    void (async () => {
-      await worker.prepare()
-      setIsWorkerReady(true)
-    })()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+	useEffect(() => {
+		void (async () => {
+			await worker.prepare()
+			setIsWorkerReady(true)
+		})()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
-  return isWorkerReady
+	return isWorkerReady
 }

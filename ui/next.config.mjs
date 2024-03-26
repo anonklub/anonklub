@@ -2,23 +2,23 @@ import million from 'million/compiler'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  reactStrictMode: true,
-  webpack: function (config, options) {
-    if (!options.isServer) {
-      config.resolve.fallback.fs = false
-      config.resolve.fallback.readline = false
-    }
-    config.experiments = { asyncWebAssembly: true, layers: true }
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
+	reactStrictMode: true,
+	webpack: function (config, options) {
+		if (!options.isServer) {
+			config.resolve.fallback.fs = false
+			config.resolve.fallback.readline = false
+		}
+		config.experiments = { asyncWebAssembly: true, layers: true }
 
-    return config
-  },
+		return config
+	},
 }
 
 const millionConfig = {
-  auto: true,
+	auto: true,
 }
 
 export default million.next(nextConfig, millionConfig)

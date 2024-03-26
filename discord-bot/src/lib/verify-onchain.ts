@@ -7,28 +7,28 @@ import { Proof, PublicSignals } from './types'
 import { web3Client } from './web3-client'
 
 export const verifyOnChain = async ({
-  proof,
-  publicSignals,
+	proof,
+	publicSignals,
 }: {
-  proof: Proof
-  publicSignals: PublicSignals
+	proof: Proof
+	publicSignals: PublicSignals
 }) => {
-  const callDataStr: string = await groth16.exportSolidityCallData(
-    proof,
-    publicSignals,
-  )
+	const callDataStr: string = await groth16.exportSolidityCallData(
+		proof,
+		publicSignals,
+	)
 
-  const args: [
-    [bigint, bigint],
-    [[bigint, bigint], [bigint, bigint]],
-    [bigint, bigint],
-    [bigint, bigint, bigint, bigint, bigint],
-  ] = JSON.parse(`[${callDataStr}]`)
+	const args: [
+		[bigint, bigint],
+		[[bigint, bigint], [bigint, bigint]],
+		[bigint, bigint],
+		[bigint, bigint, bigint, bigint, bigint],
+	] = JSON.parse(`[${callDataStr}]`)
 
-  return web3Client.readContract({
-    abi,
-    address: config.addresses.groth16Verifier,
-    args,
-    functionName: 'verifyProof',
-  })
+	return web3Client.readContract({
+		abi,
+		address: config.addresses.groth16Verifier,
+		args,
+		functionName: 'verifyProof',
+	})
 }

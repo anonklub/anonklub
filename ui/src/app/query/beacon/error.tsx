@@ -2,9 +2,9 @@
 import { ErrorContainer } from '@components'
 
 export default function Error({
-  error,
+	error,
 }: {
-  error: Error & { digest?: string }
+	error: Error & { digest?: string }
 }) {
-  return <ErrorContainer message={error.message} />
+	return <ErrorContainer message={error.message} />
 }

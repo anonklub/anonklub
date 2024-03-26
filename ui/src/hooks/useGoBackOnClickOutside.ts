@@ -2,25 +2,25 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 export const useGoBackOnClickOutside = (
-  containingClass = 'error-container',
+	containingClass = 'error-container',
 ) => {
-  const router = useRouter()
-  const goBack = () => {
-    router.back()
-  }
+	const router = useRouter()
+	const goBack = () => {
+		router.back()
+	}
 
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if ((event.target as HTMLElement).closest(`.${containingClass}`) === null)
-        goBack()
-    }
+	useEffect(() => {
+		const handleOutsideClick = (event: MouseEvent) => {
+			if ((event.target as HTMLElement).closest(`.${containingClass}`) === null)
+				goBack()
+		}
 
-    document.addEventListener('click', handleOutsideClick)
+		document.addEventListener('click', handleOutsideClick)
 
-    return () => {
-      document.removeEventListener('click', handleOutsideClick)
-    }
-  }, [goBack])
+		return () => {
+			document.removeEventListener('click', handleOutsideClick)
+		}
+	}, [goBack])
 
-  return goBack
+	return goBack
 }

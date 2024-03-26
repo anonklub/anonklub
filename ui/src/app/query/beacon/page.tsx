@@ -9,13 +9,13 @@ import { AnonSetResults, ErrorContainer } from '@components'
 export const dynamic = 'force-dynamic'
 
 export default async function Page() {
-  try {
-    const anonSet = await getData<string[]>(`${config.urls.queryApi}/beacon`)
-    return <AnonSetResults anonSet={anonSet} title='Beacon depositors' />
-  } catch (error) {
-    if (error.cause === 'rate-limit')
-      return <ErrorContainer message={error.message} />
+	try {
+		const anonSet = await getData<string[]>(`${config.urls.queryApi}/beacon`)
+		return <AnonSetResults anonSet={anonSet} title='Beacon depositors' />
+	} catch (error) {
+		if (error.cause === 'rate-limit')
+			return <ErrorContainer message={error.message} />
 
-    throw error
-  }
+		throw error
+	}
 }

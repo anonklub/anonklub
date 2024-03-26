@@ -1,10 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "noUncheckedIndexedAccess": false,
-    "strictPropertyInitialization": false
-  },
-  "include": ["src", "test"]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"noUncheckedIndexedAccess": false,
+		"strictPropertyInitialization": false
+	},
+	"include": ["src", "test"]
 }

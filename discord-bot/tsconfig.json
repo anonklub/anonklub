@@ -1,15 +1,15 @@
 {
-  "extends": "../tsconfig.json",
+	"extends": "../tsconfig.json",
 
-  "include": ["src", "test"],
-  "compilerOptions": {
-    "baseUrl": "src",
-    "target": "ESNext",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "importHelpers": true,
-    "paths": {
-      "~": ["lib"]
-    }
-  }
+	"include": ["src", "test"],
+	"compilerOptions": {
+		"baseUrl": "src",
+		"target": "ESNext",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"importHelpers": true,
+		"paths": {
+			"~": ["lib"]
+		}
+	}
 }

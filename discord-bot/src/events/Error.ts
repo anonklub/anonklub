@@ -4,9 +4,9 @@ import { _Event } from './_Event'
 import { HandledEvent } from './interface'
 
 export class Error extends _Event {
-  public name = Events.Error as HandledEvent
+	public name = Events.Error as HandledEvent
 
-  handleFn(err: Error): void {
-    error(err)
-  }
+	handleFn(err: Error): void {
+		error(err)
+	}
 }

@@ -1,7 +1,7 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "src"
-  },
-  "include": ["src", "jest-preset.js", "setup.ts"]
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": "src"
+	},
+	"include": ["src", "jest-preset.js", "setup.ts"]
 }

@@ -1,12 +1,12 @@
 import pino from 'pino'
 
 const logger = pino({
-  transport: {
-    options: {
-      colorize: true,
-    },
-    target: 'pino-pretty',
-  },
+	transport: {
+		options: {
+			colorize: true,
+		},
+		target: 'pino-pretty',
+	},
 })
 
 export const debug = logger.debug.bind(logger)

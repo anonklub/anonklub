@@ -4,9 +4,9 @@ import { getData } from '#/get-data'
 import { AnonSetResults } from '@components'
 
 export default async function Page() {
-  const anonSet = await getData<string[]>(
-    `${config.urls.queryApi}/asset/cryptopunk`,
-  )
+	const anonSet = await getData<string[]>(
+		`${config.urls.queryApi}/asset/cryptopunk`,
+	)
 
-  return <AnonSetResults anonSet={anonSet} title='Cryptopunk' />
+	return <AnonSetResults anonSet={anonSet} title='Cryptopunk' />
 }

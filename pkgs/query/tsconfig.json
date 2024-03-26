@@ -1,12 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "noUncheckedIndexedAccess": false,
-    "strictPropertyInitialization": false
-  },
-  "include": ["src", "test"]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"noUncheckedIndexedAccess": false,
+		"strictPropertyInitialization": false
+	},
+	"include": ["src", "test"]
 }

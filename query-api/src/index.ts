@@ -6,38 +6,38 @@ import { join } from 'path'
 import { AnonsetModule } from './anonset.module'
 
 async function bootstrap() {
-  // TODO: set more restrictive CORS policy
-  const app = await NestFactory.create<NestExpressApplication>(AnonsetModule, {
-    cors: true,
-    logger: ['error', 'warn', 'log', 'debug'],
-  })
-  app.useGlobalPipes(new ValidationPipe())
-  app.useStaticAssets(join(__dirname, '..', 'public'))
+	// TODO: set more restrictive CORS policy
+	const app = await NestFactory.create<NestExpressApplication>(AnonsetModule, {
+		cors: true,
+		logger: ['error', 'warn', 'log', 'debug'],
+	})
+	app.useGlobalPipes(new ValidationPipe())
+	app.useStaticAssets(join(__dirname, '..', 'public'))
 
-  SwaggerModule.setup(
-    '',
-    app,
-    SwaggerModule.createDocument(
-      app,
-      new DocumentBuilder()
-        .setTitle('Anonset API')
-        .addServer('https://query.anonklub.xyz', 'production')
-        .addServer('https://anonset-staging.fly.dev', 'staging')
-        .addServer('http://localhost:3000', 'local')
-        .setContact(
-          'Privacy Scaling Explorations',
-          'https://pse.dev',
-          'me@sripwoud.xyz',
-        )
-        .build(),
-    ),
-    {
-      customfavIcon: 'favicon.ico',
-      customSiteTitle: 'Anonset API',
-    },
-  )
+	SwaggerModule.setup(
+		'',
+		app,
+		SwaggerModule.createDocument(
+			app,
+			new DocumentBuilder()
+				.setTitle('Anonset API')
+				.addServer('https://query.anonklub.xyz', 'production')
+				.addServer('https://anonset-staging.fly.dev', 'staging')
+				.addServer('http://localhost:3000', 'local')
+				.setContact(
+					'Privacy Scaling Explorations',
+					'https://pse.dev',
+					'me@sripwoud.xyz',
+				)
+				.build(),
+		),
+		{
+			customfavIcon: 'favicon.ico',
+			customSiteTitle: 'Anonset API',
+		},
+	)
 
-  await app.listen(3000)
+	await app.listen(3000)
 }
 
 void bootstrap()

@@ -1,16 +1,16 @@
 {
-  "directory": [
-    "discord-bot/src/lib",
-    "discord-bot/src/lib/decorators",
-    "pkgs/query/src/requests",
-    "query-api/src/dto",
-    "query-api/src/repositories",
-    "test/src",
-    "ui/src/components",
-    "ui/src/hooks",
-    "ui/src/lib"
-  ],
-  "delete": true,
-  "noSemicolon": true,
-  "singleQuotes": true
+	"directory": [
+		"discord-bot/src/lib",
+		"discord-bot/src/lib/decorators",
+		"pkgs/query/src/requests",
+		"query-api/src/dto",
+		"query-api/src/repositories",
+		"test/src",
+		"ui/src/components",
+		"ui/src/hooks",
+		"ui/src/lib"
+	],
+	"delete": true,
+	"noSemicolon": true,
+	"singleQuotes": true
 }

@@ -1,6 +1,6 @@
 {
-  "*": "prettier -u -w",
-  "**/*.rs": "rustfmt",
-  "**/*.{ts,tsx}": "tsc-files --noEmit",
-  "**/*.{js,jsx,ts,tsx}": "eslint"
+	"*": "prettier -u -w",
+	"**/*.rs": "rustfmt",
+	"**/*.{ts,tsx}": "tsc-files --noEmit",
+	"**/*.{js,jsx,ts,tsx}": "eslint"
 }
