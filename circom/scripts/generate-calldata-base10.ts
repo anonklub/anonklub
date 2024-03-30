@@ -1,4 +1,4 @@
-import { execSync } from 'child_process'
+import { execSync } from 'node:child_process'
 import { groth16 } from 'snarkjs'
 import { askProofFile, askPublicSignalsFile } from './_prompt'
 import { wrapExec } from './_wrap'

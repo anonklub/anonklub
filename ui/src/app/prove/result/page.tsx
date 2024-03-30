@@ -42,10 +42,18 @@ export default function Page() {
       <div className='text-grey'>{ellipsify(fullProof.toString(), 100)}</div>
       {copySuccess}
       <div className='buttons-row'>
-        <button onClick={copyToClipboard} className='btn btn-primary'>
+        <button
+          type='button'
+          onClick={copyToClipboard}
+          className='btn btn-primary'
+        >
           Copy to Clipboard
         </button>
-        <button onClick={downloadTextFile} className='btn btn-primary'>
+        <button
+          type='button'
+          onClick={downloadTextFile}
+          className='btn btn-primary'
+        >
           Download as Text File
         </button>
       </div>

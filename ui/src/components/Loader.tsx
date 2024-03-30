@@ -18,7 +18,7 @@ export function Loader() {
 
   return (
     <div className='mt-40 flex flex-row justify-center'>
-      <progress value={progress} max='100'></progress>
+      <progress value={progress} max='100' />
     </div>
   )
 }

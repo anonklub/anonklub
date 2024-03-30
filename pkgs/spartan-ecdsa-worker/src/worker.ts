@@ -1,6 +1,6 @@
 import { expose } from 'comlink'
 import { hashMessage, hexToBytes, hexToSignature } from 'viem'
-import { ISpartanEcdsaWasm, ISpartanEcdsaWorker } from './interface'
+import type { ISpartanEcdsaWasm, ISpartanEcdsaWorker } from './interface'
 import { calculateSigRecovery } from './utils'
 
 let spartanEcdsaWasm: ISpartanEcdsaWasm

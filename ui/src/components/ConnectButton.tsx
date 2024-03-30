@@ -34,7 +34,12 @@ export function ConnectButton() {
   }
 
   return hasMounted ? (
-    <button className='btn btn-secondary' onClick={onClick} disabled={loading}>
+    <button
+      type='button'
+      className='btn btn-secondary'
+      onClick={onClick}
+      disabled={loading}
+    >
       {loading ? 'Loading...' : label}
     </button>
   ) : (

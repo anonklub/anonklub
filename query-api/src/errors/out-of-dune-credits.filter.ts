@@ -1,5 +1,5 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
-import { Response } from 'express'
+import { type ArgumentsHost, Catch, type ExceptionFilter } from '@nestjs/common'
+import type { Response } from 'express'
 import { OutOfDuneCreditsException } from './out-of-dune-credits.exception'
 
 @Catch(OutOfDuneCreditsException)
