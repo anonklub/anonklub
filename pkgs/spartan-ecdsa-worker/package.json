@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/spartan-ecdsa-worker",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "0xisk <0xisk@proton.me>",
   "description": "A Web-Worker package for generating spartan ECDSA proves in the browser using wasm.",
   "keywords": [
