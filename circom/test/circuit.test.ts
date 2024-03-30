@@ -11,11 +11,11 @@ import { Point, sign } from '@noble/secp256k1'
 import { wasm as wasm_tester } from 'circom_tester'
 import { buildPoseidon } from 'circomlibjs'
 import { BigNumber, utils } from 'ethers'
-import { join } from 'path'
+import { join } from 'node:path'
 
 jest.setTimeout(10_000_000) // ~1 hour
 
-describe('Poseidon Merkle Tree', function () {
+describe('Poseidon Merkle Tree', () => {
   let poseidon
   let F
   let circuit
@@ -158,7 +158,7 @@ describe('Poseidon Merkle Tree', function () {
   })
 })
 
-describe('SetMembership', function () {
+describe('SetMembership', () => {
   let poseidon
   let F
   let membershipCircuit
@@ -177,7 +177,7 @@ describe('SetMembership', function () {
     ).toBigInt(),
   )
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     membershipCircuit = await wasm_tester(
       join(__dirname, 'membership_test.circom'),
     )
@@ -248,7 +248,7 @@ describe('SetMembership', function () {
   })
 })
 
-describe('ECDSACheckPubKey', function () {
+describe('ECDSACheckPubKey', () => {
   const testCases: Array<[bigint, bigint]> = []
   const privkeys: bigint[] = [
     88549154299169935420064281163296845505587953610183896504176354567359434168161n,
@@ -263,19 +263,19 @@ describe('ECDSACheckPubKey', function () {
   }
 
   let circuit: any
-  beforeAll(async function () {
+  beforeAll(async () => {
     circuit = await wasm_tester(
       join(__dirname, 'test_ecdsa_check_pub_key.circom'),
     )
   })
 
-  const testECDSAVerify = function (testCase: [bigint, bigint]) {
+  const testECDSAVerify = (testCase: [bigint, bigint]) => {
     const pub0 = testCase[0]
     const pub1 = testCase[1]
 
     const pub0Array: bigint[] = bigintToArray(64, 4, pub0)
     const pub1Array: bigint[] = bigintToArray(64, 4, pub1)
-    it(`Testing valid pub key: pub0: ${pub0} pub1: ${pub1}`, async function () {
+    it(`Testing valid pub key: pub0: ${pub0} pub1: ${pub1}`, async () => {
       const witness = await circuit.calculateWitness({
         pubkey: [pub0Array, pub1Array],
       })
@@ -286,9 +286,9 @@ describe('ECDSACheckPubKey', function () {
   testCases.forEach(testECDSAVerify)
 })
 
-describe('Ordering', function () {
+describe('Ordering', () => {
   let orderingCircuit
-  beforeAll(async function () {
+  beforeAll(async () => {
     orderingCircuit = await wasm_tester(
       join(__dirname, 'is_ordered_test.circom'),
     )

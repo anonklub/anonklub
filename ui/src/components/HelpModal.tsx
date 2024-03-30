@@ -12,7 +12,7 @@ export const HelpModal = () => {
   return (
     helpText !== null && (
       <div>
-        <button className='btn btn-secondary' onClick={open}>
+        <button type='button' className='btn btn-secondary' onClick={open}>
           ?
         </button>
         <Modal ref={ref}>

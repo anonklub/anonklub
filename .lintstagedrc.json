@@ -1,6 +1,8 @@
 {
-  "*": "prettier -u -w",
+  "**/*.{json,jsonc,js,jsx,ts,tsx}": [
+    "pnpm biome lint --apply",
+    "pnpm biome format --write"
+  ],
   "**/*.rs": "rustfmt",
-  "**/*.{ts,tsx}": "tsc-files --noEmit",
-  "**/*.{js,jsx,ts,tsx}": "eslint"
+  "**/*.{ts,tsx}": "tsc-files --noEmit"
 }

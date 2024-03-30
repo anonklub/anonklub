@@ -1,13 +1,16 @@
-import inquirer, { DistinctQuestion, QuestionCollection } from 'inquirer'
+import inquirer, {
+  type DistinctQuestion,
+  type QuestionCollection,
+} from 'inquirer'
 import inquirerFuzzyPath from 'inquirer-fuzzy-path'
-import { join } from 'path'
+import { join } from 'node:path'
 
 inquirer.registerPrompt('fuzzypath', inquirerFuzzyPath)
 
 export const prompt =
   <T>(questions: QuestionCollection | DistinctQuestion) =>
   async (): Promise<T> => {
-    if (questions instanceof Array)
+    if (Array.isArray(questions))
       return (await inquirer.prompt(questions as QuestionCollection)) as T
 
     const { name } = questions as DistinctQuestion

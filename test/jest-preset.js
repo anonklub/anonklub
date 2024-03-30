@@ -1,5 +1,5 @@
 const tsJestPreset = require('ts-jest/jest-preset')
-const { join } = require('path')
+const { join } = require('node:path')
 
 const projects = [
   ...['proof', 'query'].map((name) => `pkgs/${name}`),

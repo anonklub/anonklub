@@ -1,5 +1,5 @@
-import { Remote, wrap } from 'comlink'
-import { ISpartanEcdsaWorker } from './interface'
+import { type Remote, wrap } from 'comlink'
+import type { ISpartanEcdsaWorker } from './interface'
 
 let SpartanEcdsaWorker: Remote<ISpartanEcdsaWorker>
 

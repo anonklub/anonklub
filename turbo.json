@@ -8,11 +8,12 @@
         "!{pkgs/query,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
-    "//#format.prettier": {
+    "//#format.biome": {
+      "cache": false,
       "inputs": [
-        "*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
-        "{.github,pkgs,circom,discord-bot,query-api,test,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
-        "!{pkgs,circom,discord-bot,query-api,test,ui}/**/{build,dist,node_modules,.next}/**"
+        "*.{cjs,js,jsx,ts,tsx,json,jsonc}",
+        "{.github,pkgs,circom,discord-bot,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx,json,jsonc}",
+        "!{pkgs,circom,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
     "format.cargo": {
@@ -31,10 +32,11 @@
       "cache": false,
       "inputs": ["contracts/{script,src,test}/**/*.sol"]
     },
-    "//#format.prettier.fix": {
+    "//#format.biome.fix": {
+      "cache": false,
       "inputs": [
-        "*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
-        "{.github,pkgs,circom,discord-bot,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx,yaml,yml,json,md,mdx,css,html,graphql}",
+        "*.{cjs,js,jsx,ts,tsx,json,jsonc}",
+        "{.github,pkgs,circom,discord-bot,query-api,ui}/**/*.{cjs,js,jsx,ts,tsx,json,jsonc}",
         "!{pkgs,circom,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
@@ -61,14 +63,14 @@
       "cache": false,
       "inputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs"]
     },
-    "//#lint.eslint": {
+    "//#lint.biome": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx}",
         "{pkgs,circom,discord-bot,query-api,test,ui}/**/*.{cjs,js,jsx,ts,tsx}",
         "!{pkgs,circom,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
     },
-    "//#lint.eslint.fix": {
+    "//#lint.biome.fix": {
       "inputs": [
         "*.{cjs,js,jsx,ts,tsx}",
         "{pkgs,circom,discord-bot,query-api,test,ui}/**/*.{cjs,js,jsx,ts,tsx}",

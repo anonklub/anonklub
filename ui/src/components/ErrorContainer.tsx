@@ -8,7 +8,7 @@ export const ErrorContainer = ({ message }) => {
     <div className='error-container'>
       <h2 className='mb-4 text-4xl font-bold'>Something went wrong!</h2>
       <p className='mb-8 text-red'>{message}</p>
-      <button className='btn btn-error' onClick={goBack}>
+      <button type='button' className='btn btn-error' onClick={goBack}>
         Back
       </button>
     </div>

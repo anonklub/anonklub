@@ -1,7 +1,7 @@
 import {
-  ProveMembershipFn,
+  type ProveMembershipFn,
   SpartanEcdsaWorker,
-  VerifyMembershipFn,
+  type VerifyMembershipFn,
 } from '@anonklub/spartan-ecdsa-worker'
 import { useWorker } from '@/hooks'
 

@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { NAVIGATION } from '#'
-import { JSONValue, ScrollableJsonContainer } from '@components'
+import { type JSONValue, ScrollableJsonContainer } from '@components'
 import { useStore } from '@hooks'
 
 export function AnonSetResults({
@@ -25,7 +25,7 @@ export function AnonSetResults({
           <h3>Results</h3>
         </div>
         <Link href='/prove/submit'>
-          <button className='btn btn-secondary'>
+          <button type='button' className='btn btn-secondary'>
             {NAVIGATION.PREPARE_PROOF_REQUEST}
           </button>
         </Link>

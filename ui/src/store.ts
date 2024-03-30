@@ -1,5 +1,5 @@
-import { ProofRequest } from '@anonklub/proof'
-import { action, Action, createStore } from 'easy-peasy'
+import type { ProofRequest } from '@anonklub/proof'
+import { action, type Action, createStore } from 'easy-peasy'
 
 export interface StoreModel {
   anonSet: {
