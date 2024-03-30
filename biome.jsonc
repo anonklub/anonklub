@@ -63,6 +63,18 @@
   },
   "overrides": [
     {
+      "include": [
+        "discord-bot/src/lib/decorators/tryCatch.ts",
+        "query-api/src/decorators/handle-dune-credits-error.ts",
+        "query-api/src/decorators/tryCatchReply.ts"
+      ],
+      "linter": {
+        "rules": {
+          "complexity": { "useArrowFunction": "off" }
+        }
+      }
+    },
+    {
       "include": ["ui/src/**/*.tsx"],
       "linter": {
         "rules": {
@@ -147,10 +159,20 @@
       "include": ["ui/src/**"],
       "linter": { "rules": { "complexity": { "noUselessCatch": "warn" } } }
     },
-    //FIXME
     {
-      "include": ["discord-bot/src/Client/index.ts"],
-      "linter": { "rules": { "complexity": { "noForEach": "warn" } } }
+      "include": [
+        "discord-bot/src/Client/index.ts",
+        "query-api/src/*.ts",
+        "discord-bot/src/*.ts"
+      ],
+      "linter": {
+        "rules": {
+          //FIXME
+          "complexity": { "noForEach": "warn" },
+          // using import type breaks typeDI Service/Container
+          "style": { "useImportType": "off" }
+        }
+      }
     }
   ]
 }

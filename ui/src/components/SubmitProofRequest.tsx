@@ -47,12 +47,12 @@ export function SubmitProofRequest() {
             />
             {warningWasRead ? (
               <Link href='/prove/result'>
-                <button className='btn btn-secondary'>
+                <button type='button' className='btn btn-secondary'>
                   {NAVIGATION.SUBMIT_PROOF}
                 </button>
               </Link>
             ) : (
-              <button className='btn btn-secondary is-disabled'>
+              <button type='button' className='btn btn-secondary is-disabled'>
                 {NAVIGATION.SUBMIT_PROOF}
               </button>
             )}
@@ -74,6 +74,7 @@ export function SubmitProofRequest() {
       </div>
       <div className='flex flex-row items-end justify-evenly'>
         <button
+          type='button'
           className={`btn ${canSign ? 'btn-primary' : 'is-disabled'}`}
           onClick={() => signMessage()}
         >

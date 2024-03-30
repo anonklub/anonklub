@@ -6,7 +6,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   reactStrictMode: true,
-  webpack: function (config, options) {
+  webpack: (config, options) => {
     if (!options.isServer) {
       config.resolve.fallback.fs = false
       config.resolve.fallback.readline = false

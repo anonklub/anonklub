@@ -38,12 +38,13 @@ export default function Page() {
           className='input text-center'
           value={min}
           onChange={({ target }) => {
-            setMin(parseInt(target.value))
+            setMin(Number.parseInt(target.value))
           }}
         />
       </div>
 
       <button
+        type='button'
         className={`btn self-center ${
           canFetch ? 'btn-primary' : 'is-disabled'
         }`}

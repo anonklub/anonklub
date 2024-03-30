@@ -1,9 +1,9 @@
-import {
+import type {
   EnsProposalVotersRequest,
   Erc20BalanceAnonSetRequest,
   EthBalanceAnonSetRequest,
 } from '../requests'
-import { AnonSetResponse } from '../types'
+import type { AnonSetResponse } from '../types'
 
 export interface AnonymitySetI {
   fromEthBalance: ({

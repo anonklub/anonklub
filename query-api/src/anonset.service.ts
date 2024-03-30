@@ -47,19 +47,19 @@ export class AnonsetService {
 
   @HandleDuneCreditsError()
   async getBeaconDepositors() {
-    this.logger.log(`getBeaconDepositors`)
+    this.logger.log('getBeaconDepositors')
     return this.duneRepository.getBeaconDepositors().then(({ result }) => {
       return result.rows.map((row) => row.address) ?? []
     })
   }
 
   async getEnsProposalVoters(dto: GetEnsProposalVotersDto) {
-    this.logger.log(`getEnsProposalVoters: ${dto.choice} ${dto.id}`)
+    this.logger.log('getEnsProposalVoters: ${dto.choice} ${dto.id}')
     return this.graphRepository.getEnsProposalVoters(dto)
   }
 
   async getCryptopunkOwners() {
-    this.logger.log(`getCryptopunkOwners`)
+    this.logger.log('getCryptopunkOwners')
     return this.graphRepository.getCryptopunkOwners()
   }
 

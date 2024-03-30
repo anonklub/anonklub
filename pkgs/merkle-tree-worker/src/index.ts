@@ -1,5 +1,5 @@
-import { Remote, wrap } from 'comlink'
-import { IMerkleTreeWorker } from './interface'
+import { type Remote, wrap } from 'comlink'
+import type { IMerkleTreeWorker } from './interface'
 
 let MerkleTreeWorker: Remote<IMerkleTreeWorker>
 

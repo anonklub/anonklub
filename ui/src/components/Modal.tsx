@@ -1,5 +1,5 @@
 'use client'
-import { forwardRef, ReactNode, RefObject } from 'react'
+import { forwardRef, type ReactNode, type RefObject } from 'react'
 import { modal } from '#'
 
 const Modal = forwardRef(
@@ -15,7 +15,11 @@ const Modal = forwardRef(
           <form method='dialog' className='space-y-5'>
             {children}
             <menu className='dialog-menu flex flex-row justify-center'>
-              <button className='btn btn-secondary' onClick={close}>
+              <button
+                type='button'
+                className='btn btn-secondary'
+                onClick={close}
+              >
                 Cancel
               </button>
             </menu>
