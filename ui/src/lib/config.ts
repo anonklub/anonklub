@@ -16,7 +16,6 @@ interface Config {
 // https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#loading-environment-variables
 const walletConnectProjectId =
   process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ''
-
 ;[[walletConnectProjectId, 'NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID']].forEach(
   ([value, name]) => {
     if (value === '') {
