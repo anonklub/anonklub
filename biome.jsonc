@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.6.3/schema.json",
-  "linter": {
-    "ignore": []
+  "files": {
+    "ignore": ["**/package.json"]
   },
   "formatter": {
     "indentStyle": "space",
@@ -18,8 +18,7 @@
       "**/.graphclient/**",
       "**/cache/**",
       "contracts/lib/forge-std/**",
-      "contracts/lib/openzeppelin-contracts/**",
-      "**/package.json"
+      "contracts/lib/openzeppelin-contracts/**"
     ]
   },
   "organizeImports": {
