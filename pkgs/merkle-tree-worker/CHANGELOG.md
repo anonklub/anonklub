@@ -1,5 +1,11 @@
 # @anonklub/merkle-tree-worker
 
+## 1.1.4
+
+### Patch Changes
+
+- 94eac87: lint: use `type` imports
+
 ## 1.1.3
 
 ### Patch Changes

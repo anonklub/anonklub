@@ -1,5 +1,11 @@
 # @anonklub/query
 
+## 1.2.2
+
+### Patch Changes
+
+- 94eac87: lint: use `type` imports
+
 ## 1.2.1
 
 ### Patch Changes

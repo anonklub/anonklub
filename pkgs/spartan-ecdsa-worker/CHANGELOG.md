@@ -1,5 +1,11 @@
 # @anonklub/spartan-ecdsa-worker
 
+## 1.1.2
+
+### Patch Changes
+
+- 94eac87: lint: use `type` imports
+
 ## 1.1.1
 
 ### Patch Changes
