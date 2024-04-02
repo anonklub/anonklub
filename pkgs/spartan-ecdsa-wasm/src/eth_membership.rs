@@ -2,10 +2,12 @@ use ark_ff::PrimeField;
 use sapir::{
     constraint_system::{ConstraintSystem, Wire},
     frontend::gadgets::{
-        ec_add_complete, ec_mul, poseidon::poseidon::PoseidonChip, to_addr, to_le_bits,
-        verify_merkle_proof, AffinePoint,
+        poseidon::poseidon::PoseidonChip,
+        to_addr, to_le_bits, verify_merkle_proof,
+        weierstrass::{ec_add_complete, ec_mul},
+        AffinePoint,
     },
-    poseidon::constants::secp256k1_w3,
+    poseidon::{constants::secp256k1_w3, Poseidon},
 };
 
 pub const TREE_DEPTH: usize = 15;
@@ -100,6 +102,14 @@ pub fn eth_membership<F: PrimeField>(cs: &mut ConstraintSystem<F>) {
 
         cs.expose_public(root);
     }
+
+    // Compute the nullifier
+    let mut poseidon = PoseidonChip::<F, 3>::new(cs, secp256k1_w3());
+    poseidon.state[0] = cs.alloc_const(F::from(3u32));
+    poseidon.state[1] = pub_key.x;
+    poseidon.state[2] = pub_key.y;
+    poseidon.permute();
+    cs.expose_public(poseidon.state[1])
 }
 
 pub fn to_cs_field(x: ark_secp256k1::Fq) -> ark_secq256k1::Fr {
@@ -113,7 +123,7 @@ mod tests {
     use ark_ec::AffineRepr;
     use ark_ff::BigInteger;
     use num_bigint::BigUint;
-    use sapir::merkle_tree::{MerkleProof, MerkleTree};
+    use sapir::merkle_tree::tree::{MerkleProof, MerkleTree};
 
     type F = ark_secq256k1::Fr;
 
