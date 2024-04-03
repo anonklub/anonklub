@@ -8,9 +8,7 @@ use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use eth_membership::{eth_membership, to_cs_field, NUM_MERKLE_PROOFS, TREE_DEPTH};
 use merkle_tree_wasm::MerkleProofBytes;
 use num_bigint::BigUint;
-use sapir::{
-    constraint_system::ConstraintSystem, embed_to_wasm, frontend::circuit, wasm::prelude::*,
-};
+use sapir::{constraint_system::ConstraintSystem, embed_to_wasm, wasm::prelude::*};
 use utils::{efficient_ecdsa, verify_efficient_ecdsa};
 
 pub type Curve = ark_secq256k1::Projective;
