@@ -2,8 +2,10 @@ use ark_ff::PrimeField;
 use sapir::{
     constraint_system::{ConstraintSystem, Wire},
     frontend::gadgets::{
-        ec_add_complete, ec_mul, poseidon::poseidon::PoseidonChip, to_addr, to_le_bits,
-        verify_merkle_proof, AffinePoint,
+        poseidon::poseidon::PoseidonChip,
+        to_addr, to_le_bits, verify_merkle_proof,
+        weierstrass::{ec_add_complete, ec_mul},
+        AffinePoint,
     },
     poseidon::constants::secp256k1_w3,
 };
@@ -100,6 +102,14 @@ pub fn eth_membership<F: PrimeField>(cs: &mut ConstraintSystem<F>) {
 
         cs.expose_public(root);
     }
+
+    // Compute the nullifier
+    let mut poseidon = PoseidonChip::<F, 3>::new(cs, secp256k1_w3());
+    poseidon.state[0] = cs.alloc_const(F::from(3u32));
+    poseidon.state[1] = pub_key.x;
+    poseidon.state[2] = pub_key.y;
+    poseidon.permute();
+    cs.expose_public(poseidon.state[1])
 }
 
 pub fn to_cs_field(x: ark_secp256k1::Fq) -> ark_secq256k1::Fr {
@@ -113,7 +123,10 @@ mod tests {
     use ark_ec::AffineRepr;
     use ark_ff::BigInteger;
     use num_bigint::BigUint;
-    use sapir::merkle_tree::{MerkleProof, MerkleTree};
+    use sapir::{
+        merkle_tree::tree::{MerkleProof, MerkleTree},
+        poseidon::Poseidon,
+    };
 
     type F = ark_secq256k1::Fr;
 
@@ -127,6 +140,13 @@ mod tests {
         cs.set_constraints(&synthesizer);
 
         let eff_ecdsa_input = mock_eff_ecdsa_input(42);
+        let mut poseidon = Poseidon::<F, 3>::new(secp256k1_w3());
+        poseidon.state[0] = F::from(3u32);
+        poseidon.state[1] = *eff_ecdsa_input.pub_key.x().unwrap();
+        poseidon.state[2] = *eff_ecdsa_input.pub_key.y().unwrap();
+        poseidon.permute();
+        let nullifier = poseidon.state[1];
+
         let address = F::from(BigUint::from_bytes_be(
             &eff_ecdsa_input.address.to_fixed_bytes(),
         ));
@@ -180,6 +200,8 @@ mod tests {
         for _ in 0..NUM_MERKLE_PROOFS {
             pub_input.push(to_cs_field(merkle_proof.root));
         }
+
+        pub_input.push(nullifier);
 
         let witness: Vec<F> = cs.gen_witness(synthesizer, &pub_input, &priv_input);
 
