@@ -3029,18 +3029,22 @@ checksum = "523dc4f511e55ab87b694dc30d0f820d60906ef06413f93d4d7a1385599cc149"
 [[package]]
 name = "merkle-tree"
 version = "0.1.0"
-source = "git+https://github.com/personaelabs/merkle-tree.git#0438708139d94cb0c3642504e851853aebe6affc"
+source = "git+https://github.com/personaelabs/merkle-tree.git?branch=main#ad9f4fab8e2ab21fa1023ef2d486f59102954eb7"
 dependencies = [
  "ark-ff 0.4.2",
  "ark-secp256k1",
+ "ark-serialize 0.4.2",
  "ark-std 0.4.0",
+ "console_error_panic_hook",
  "csv",
  "hex",
  "num-bigint",
+ "once_cell",
  "poseidon",
  "rayon",
  "serde",
  "serde_json",
+ "wasm-bindgen",
 ]
 
 [[package]]
@@ -3613,9 +3617,10 @@ checksum = "7170ef9988bc169ba16dd36a7fa041e5c4cbeb6a35b76d4c03daded371eae7c0"
 [[package]]
 name = "poseidon"
 version = "0.1.0"
-source = "git+https://github.com/personaelabs/poseidon#b798817998d0f54687a2ab0f6158fea962f3703c"
+source = "git+https://github.com/personaelabs/poseidon.git?branch=main#133d535faadac705480f2f08a0ba9f61adf0d2b8"
 dependencies = [
  "ark-ff 0.4.2",
+ "ark-serialize 0.4.2",
  "tiny-keccak",
 ]
 
@@ -4237,12 +4242,10 @@ dependencies = [
 [[package]]
 name = "sapir"
 version = "0.1.0"
-source = "git+https://github.com/personaelabs/sapir.git?branch=main#6f170ef812c26a342203106672a94cd5c6ed6777"
+source = "git+https://github.com/personaelabs/sapir.git#e41418ad1abaa657d386d6e15a2cf171bd067e2e"
 dependencies = [
  "ark-ec",
  "ark-ff 0.4.2",
- "ark-secp256k1",
- "ark-secq256k1",
  "ark-serialize 0.4.2",
  "ark-std 0.4.0",
  "console_error_panic_hook",
@@ -4251,9 +4254,9 @@ dependencies = [
  "merkle-tree",
  "merlin",
  "num-bigint",
+ "num-traits",
  "poseidon",
  "rand 0.8.5",
- "tiny-keccak",
  "wasm-bindgen",
  "web-sys",
 ]

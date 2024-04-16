@@ -7,7 +7,7 @@ use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use eth_membership::{eth_membership, to_cs_field, NUM_MERKLE_PROOFS, TREE_DEPTH};
 use merkle_tree_wasm::MerkleProofBytes;
 use num_bigint::BigUint;
-use sapir::{circuit, constraint_system::ConstraintSystem, wasm::prelude::*};
+use sapir::{constraint_system::ConstraintSystem, embed_to_wasm, wasm::prelude::*};
 use utils::{efficient_ecdsa, verify_efficient_ecdsa};
 
 pub type Curve = ark_secq256k1::Projective;
@@ -16,7 +16,7 @@ type F = ark_secq256k1::Fr;
 // Produce the code to generate and verify the proof of the `eth_membership` circuit.
 // We wrap the `prove` and `verify` functions with additional logic
 // and expose them to the JavaScript runtime.
-circuit!(
+embed_to_wasm!(
     |cs: &mut ConstraintSystem<F>| { eth_membership(cs) },
     Curve,
     b"anonklub"
