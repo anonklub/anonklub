@@ -2,7 +2,7 @@ import {
   type GenerateMerkleProofFn,
   MerkleTreeWorker,
 } from '@anonklub/merkle-tree-worker'
-import { useWorker } from '@/hooks'
+import { useWorker } from '@hooks'
 
 export const useMerkleTreeWasmWorker = () => {
   const isWorkerReady = useWorker(MerkleTreeWorker)

@@ -1,4 +1,4 @@
-import { useStore } from './useStore'
+import { useStore } from '@hooks'
 
 export const useHelp = () => {
   const { helpText, setHelpText } = useStore()

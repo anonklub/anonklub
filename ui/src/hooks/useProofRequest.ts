@@ -2,8 +2,7 @@ import { ProofRequest } from '@anonklub/proof'
 import { useEffect, useState } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
 import { config } from '#'
-import { useMerkleTreeWasmWorker } from './useMerkleTreeWorker'
-import { useStore } from './useStore'
+import { useMerkleTreeWasmWorker, useStore } from '@hooks'
 
 const { message } = config
 
