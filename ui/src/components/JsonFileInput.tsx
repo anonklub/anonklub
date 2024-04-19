@@ -1,3 +1,4 @@
+'use client'
 import { FileType } from '@types'
 import { FileInput } from './FileInput'
 
