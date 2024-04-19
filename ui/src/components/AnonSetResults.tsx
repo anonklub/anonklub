@@ -2,14 +2,15 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { NAVIGATION } from '#'
-import { type JSONValue, ScrollableJsonContainer } from '@components'
+import { ScrollableJsonContainer } from '@components'
 import { useStore } from '@hooks'
+import { JsonValue } from '@types'
 
 export function AnonSetResults({
   anonSet,
   title,
 }: {
-  anonSet: JSONValue
+  anonSet: JsonValue
   title: string
 }) {
   const { setAnonSet } = useStore()

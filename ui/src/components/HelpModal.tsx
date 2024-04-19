@@ -1,7 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import { modal } from '#'
-import { useHelp } from '@/hooks'
+import { useHelp } from '@hooks'
 import { Modal, Text } from '@components'
 
 export const HelpModal = () => {

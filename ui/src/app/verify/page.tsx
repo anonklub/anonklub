@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { NAVIGATION } from '#'
-import { JsonFileInput } from '@components'
+import { ProofTxtFileInput } from '@components'
 import { useSetHelp, useStore } from '@hooks'
 
 export default function Page() {
@@ -27,7 +27,7 @@ export default function Page() {
       </div>
 
       <div className='flex flex-row pt-20'>
-        <JsonFileInput dataKey='proof' title='Proof' />
+        <ProofTxtFileInput title='Proof' />
       </div>
     </div>
   )
