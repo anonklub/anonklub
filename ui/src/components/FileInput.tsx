@@ -19,7 +19,7 @@ export const FileInput =
     title: string
   }) => {
     const { [fileType]: data } = useStore()
-    const handleChange = useFile(fileType)
+    const handleChange = useFile(fileType)()
     const modalRef = useRef<HTMLDialogElement>(null)
     const { open } = modal(modalRef)
 
