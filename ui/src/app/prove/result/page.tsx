@@ -1,38 +1,23 @@
 'use client'
-import { useState } from 'react'
 import { Loader } from '@components'
-import { useProofResult } from '@hooks'
-
-// TODO: extract in /lib
-const ellipsify = (text: string, start = 6): string => {
-  if (text.length <= start) {
-    return text
-  }
-
-  return `${text.slice(0, start)}... +${text.length - start}`
-}
+import { useCopyToClipboard, useProofResult } from '@hooks'
+import { ellipsify } from '#'
 
 export default function Page() {
-  const state = useProofResult()
-  const fullProof = state.value
-  const [copySuccess, setCopySuccess] = useState('')
+  const { copyToClipboard, copySuccess } = useCopyToClipboard()
+  const { value: fullProof } = useProofResult()
 
   if (fullProof == null) return <Loader />
 
-  const copyToClipboard = () => {
-    navigator.clipboard
-      .writeText(fullProof.toString())
-      .then(() => setCopySuccess('Copied!'))
-      .catch(() => setCopySuccess('Failed to copy'))
-  }
-
-  const downloadTextFile = () => {
+  const downloadProof = () => {
+    const file = new Blob([fullProof], { type: 'application/octet-stream' })
     const element = document.createElement('a')
-    const file = new Blob([fullProof.toString()], { type: 'text/plain' })
     element.href = URL.createObjectURL(file)
-    element.download = 'fullProof.txt'
+    element.download = 'anonklub-proof.bin'
     document.body.appendChild(element)
     element.click()
+    document.body.removeChild(element)
+    URL.revokeObjectURL(element.href)
   }
 
   return (
@@ -44,17 +29,17 @@ export default function Page() {
       <div className='buttons-row'>
         <button
           type='button'
-          onClick={copyToClipboard}
+          onClick={() => copyToClipboard(fullProof.toString())}
           className='btn btn-primary'
         >
           Copy to Clipboard
         </button>
         <button
           type='button'
-          onClick={downloadTextFile}
+          onClick={downloadProof}
           className='btn btn-primary'
         >
-          Download as Text File
+          Download as binary file
         </button>
       </div>
     </div>

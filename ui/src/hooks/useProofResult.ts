@@ -1,7 +1,6 @@
 import { useAsync } from 'react-use'
 import type { Hex } from 'viem'
-import { useStore } from '@hooks'
-import { useSpartanEcdsaWorker } from './useSpartanEcdsaWorker'
+import { useSpartanEcdsaWorker, useStore } from '@hooks'
 
 export const useProofResult = () => {
   const { proofRequest } = useStore()

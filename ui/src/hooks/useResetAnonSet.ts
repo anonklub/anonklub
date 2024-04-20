@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useStore } from './useStore'
+import { useStore } from '@hooks'
 
 /**
  * Reset the anon set when the component mounts.
