@@ -1,9 +1,9 @@
 import type { ChangeEvent } from 'react'
-import { readAnonSetJsonFile, readProofTxtFile } from '#'
-import type { FileType } from '@types'
+import { readAnonSetJsonFile, readProofBinFile } from '#'
+import { File } from '@types'
 import { useStore } from '@hooks'
 
-export const useFile = (fileType: FileType) => () => {
+export const useFile = (fileType: File) => () => {
   const { setAnonSet, setProof } = useStore()
 
   return async (event: ChangeEvent<HTMLInputElement>) => {
@@ -15,10 +15,7 @@ export const useFile = (fileType: FileType) => () => {
       return
 
     const file = event.target.files[0]
-    fileType === FileType.ANONSET && setAnonSet(await readAnonSetJsonFile(file))
-    fileType === FileType.PROOF && setProof(await readProofTxtFile(file))
+    fileType === File.ANONSET && setAnonSet(await readAnonSetJsonFile(file))
+    fileType === File.PROOF && setProof(await readProofBinFile(file))
   }
 }
-
-export const useAnonSetJsonFile = useFile(FileType.ANONSET)
-export const useProofTxtFile = useFile(FileType.PROOF)

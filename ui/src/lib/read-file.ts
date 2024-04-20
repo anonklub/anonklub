@@ -1,9 +1,9 @@
 import { parse } from './parse'
-import { FileType } from './types'
+import { File } from './types'
 
-function ReadFile(fileType: FileType.ANONSET): (file: Blob) => Promise<string[]>
-function ReadFile(fileType: FileType.PROOF): (file: Blob) => Promise<Uint8Array>
-function ReadFile(fileType: FileType) {
+function ReadFile(fileType: File.ANONSET): (file: Blob) => Promise<string[]>
+function ReadFile(fileType: File.PROOF): (file: Blob) => Promise<Uint8Array>
+function ReadFile(fileType: File) {
   return (file: Blob): Promise<Uint8Array | string[]> => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader()
@@ -19,11 +19,11 @@ function ReadFile(fileType: FileType) {
 
       fileReader.onerror = (error) => reject(error)
       fileReader[
-        fileType === FileType.ANONSET ? 'readAsText' : 'readAsArrayBuffer'
+        fileType === File.ANONSET ? 'readAsText' : 'readAsArrayBuffer'
       ](file)
     })
   }
 }
 
-export const readAnonSetJsonFile = ReadFile(FileType.ANONSET)
-export const readProofTxtFile = ReadFile(FileType.PROOF)
+export const readAnonSetJsonFile = ReadFile(File.ANONSET)
+export const readProofBinFile = ReadFile(File.PROOF)

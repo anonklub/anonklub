@@ -4,22 +4,22 @@ import { useRef } from 'react'
 import { modal } from '#'
 import { CheckMark, Modal, ScrollableJsonContainer } from '@components'
 import { useFile, useStore } from '@hooks'
-import { FileType } from '@types'
+import { File } from '@types'
 
 const ACCEPTS = new Map([
-  [FileType.ANONSET, '.json,application/json'],
-  [FileType.PROOF, '.bin,application/octet-stream'],
+  [File.ANONSET, '.json,application/json'],
+  [File.PROOF, '.bin,application/octet-stream'],
 ])
 
 export const FileInput =
-  (fileType: FileType) =>
+  (file: File) =>
   ({
     title,
   }: {
     title: string
   }) => {
-    const { [fileType]: data } = useStore()
-    const handleChange = useFile(fileType)()
+    const { [file]: data } = useStore()
+    const handleChange = useFile(file)()
     const modalRef = useRef<HTMLDialogElement>(null)
     const { open } = modal(modalRef)
 
@@ -42,7 +42,7 @@ export const FileInput =
             <CheckMark text={title} />
             <input
               type='file'
-              accept={ACCEPTS.get(fileType)}
+              accept={ACCEPTS.get(file)}
               onChange={handleChange}
               className='hidden'
               ref={inputRef}
