@@ -10,11 +10,11 @@ export default function Page() {
   if (proof === null)
     return (
       <div>
-        Missing proof JSON file, go back to{' '}
+        Missing proof `anonklub-proof.bin` file, go back to{' '}
         <Link href='/verify' className='underline'>
           /verify
         </Link>{' '}
-        to upload them.
+        to upload it.
       </div>
     )
 
@@ -24,9 +24,7 @@ export default function Page() {
     <div className='flex flex-col items-center justify-center space-y-5'>
       <h2 className='header'>Proof Verification Result</h2>
       <span
-        className={`nes-text ${
-          isValid ? 'is-success' : 'is-error'
-        } self-center text-lg`}
+        className={`${isValid ? 'is-success' : 'is-error'} self-center text-lg`}
       >
         {isValid.toString().toUpperCase()}
       </span>

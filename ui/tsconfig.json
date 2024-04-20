@@ -21,6 +21,7 @@
       "@components": ["src/components"],
       "@hooks": ["src/hooks"],
       "@images/*": ["public/images/*"],
+      "@types": ["src/lib/types"],
       "#": ["src/lib"],
       "#/*": ["src/lib/*"],
       "$/*": ["public/generated/*"]

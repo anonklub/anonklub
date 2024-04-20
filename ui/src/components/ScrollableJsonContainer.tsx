@@ -1,9 +1,9 @@
-import type { JSONValue } from './JsonFileInput'
+import type { JsonValue } from '@types'
 
 export function ScrollableJsonContainer({
   data,
 }: {
-  data: JSONValue | Uint8Array
+  data: JsonValue | Uint8Array
 }) {
   return (
     <>

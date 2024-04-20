@@ -2,4 +2,4 @@
 import { File } from '@types'
 import { FileInput } from './FileInput'
 
-export const JsonFileInput = FileInput(File.ANONSET)
+export const ProofBinFileInput = FileInput(File.PROOF)
