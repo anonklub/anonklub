@@ -1,6 +1,6 @@
 import type { ChangeEvent } from 'react'
 import { readAnonSetJsonFile, readProofTxtFile } from '#'
-import { FileType } from '@types'
+import type { FileType } from '@types'
 import { useStore } from '@hooks'
 
 export const useFile = (fileType: FileType) => () => {

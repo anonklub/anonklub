@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { NAVIGATION } from '#'
 import { ScrollableJsonContainer } from '@components'
 import { useStore } from '@hooks'
-import { JsonValue } from '@types'
+import type { JsonValue } from '@types'
 
 export function AnonSetResults({
   anonSet,

@@ -21,7 +21,7 @@ export default function Page() {
       <div className='self-end'>
         {canVerify && (
           <Link href='/verify/result'>
-            <button className='btn btn-secondary self-center'>
+            <button className='btn btn-secondary self-center' type='button'>
               {NAVIGATION.VERIFY_PROOF}
             </button>
           </Link>

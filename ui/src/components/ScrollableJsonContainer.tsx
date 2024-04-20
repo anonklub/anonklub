@@ -1,4 +1,4 @@
-import { JsonValue } from '@types'
+import type { JsonValue } from '@types'
 
 export function ScrollableJsonContainer({
   data,
