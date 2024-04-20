@@ -10,7 +10,7 @@ export default function Page() {
   if (proof === null)
     return (
       <div>
-        Missing proof txt file, go back to{' '}
+        Missing proof `anonklub-proof.bin` file, go back to{' '}
         <Link href='/verify' className='underline'>
           /verify
         </Link>{' '}

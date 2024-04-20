@@ -8,7 +8,7 @@ import { FileType } from '@types'
 
 const ACCEPTS = new Map([
   [FileType.ANONSET, '.json,application/json'],
-  [FileType.PROOF, '.txt,text/plain'],
+  [FileType.PROOF, '.bin,application/octet-stream'],
 ])
 
 export const FileInput =

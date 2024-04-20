@@ -2,11 +2,13 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { NAVIGATION } from '#'
-import { ProofTxtFileInput } from '@components'
+import { ProofBinFileInput } from '@components'
 import { useSetHelp, useStore } from '@hooks'
 
 export default function Page() {
-  useSetHelp(['You need to provide a previously generated proof .txt file.'])
+  useSetHelp([
+    'You need to provide a previously generated `anonklub-proof.bin` file.',
+  ])
   const { proof, setProof } = useStore()
   const canVerify = proof !== null
 
@@ -27,7 +29,7 @@ export default function Page() {
       </div>
 
       <div className='flex flex-row pt-20'>
-        <ProofTxtFileInput title='Proof' />
+        <ProofBinFileInput title='Proof' />
       </div>
     </div>
   )
