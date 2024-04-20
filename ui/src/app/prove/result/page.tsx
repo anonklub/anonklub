@@ -3,7 +3,6 @@ import { Loader } from '@components'
 import { useCopyToClipboard, useProofResult } from '@hooks'
 import { ellipsify } from '#'
 
-// TODO: extract in /lib
 export default function Page() {
   const { copyToClipboard, copySuccess } = useCopyToClipboard()
   const { value: fullProof } = useProofResult()
@@ -40,7 +39,7 @@ export default function Page() {
           onClick={downloadProof}
           className='btn btn-primary'
         >
-          Download as Text File
+          Download as binary file
         </button>
       </div>
     </div>
