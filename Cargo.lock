@@ -132,6 +132,7 @@ dependencies = [
  "predicates",
  "serde",
  "serde_json",
+ "spartan-ecdsa-wasm",
  "strum 0.26.2",
  "surf",
 ]

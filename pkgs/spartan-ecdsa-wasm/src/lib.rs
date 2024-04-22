@@ -155,6 +155,7 @@ pub fn prove_membership(
     membership_proof_bytes
 }
 
+#[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
 pub fn verify_membership(anonklub_proof: &[u8]) -> bool {
     // Get the public input from the proof
@@ -179,6 +180,31 @@ pub fn verify_membership(anonklub_proof: &[u8]) -> bool {
     let is_proof_valid = verify(&anonklub_proof.proof);
 
     // Verify the efficient ECDSA input
+    let is_efficient_ecdsa_valid = verify_efficient_ecdsa(msg_hash, r, is_y_odd, t, u);
+
+    is_proof_valid && is_efficient_ecdsa_valid
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn verify_membership(anonklub_proof: &[u8]) -> bool {
+    let anonklub_proof = MembershipProof::deserialize_compressed(anonklub_proof).unwrap();
+    let spartan_proof =
+        SpartanProof::<Curve>::deserialize_compressed(anonklub_proof.proof.as_slice()).unwrap();
+    let pub_inputs = spartan_proof.pub_input.clone();
+
+    let tx = pub_inputs[0];
+    let ty = pub_inputs[1];
+    let ux = pub_inputs[2];
+    let uy = pub_inputs[3];
+
+    let t = Affine::new(tx, ty);
+    let u = Affine::new(ux, uy);
+
+    let r = anonklub_proof.r;
+    let is_y_odd = anonklub_proof.is_y_odd;
+    let msg_hash = anonklub_proof.msg_hash;
+
+    let is_proof_valid = verify(&anonklub_proof.proof);
     let is_efficient_ecdsa_valid = verify_efficient_ecdsa(msg_hash, r, is_y_odd, t, u);
 
     is_proof_valid && is_efficient_ecdsa_valid

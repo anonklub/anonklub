@@ -8,6 +8,7 @@ use clap::Parser;
 pub mod opts;
 use merkle_tree_wasm::{generate_merkle_proof, generate_merkle_root};
 use opts::{Akli, AkliCommand, QuerySubcommand};
+use spartan_ecdsa_wasm::verify_membership;
 
 use crate::opts::MerkleSubcommand;
 
@@ -50,15 +51,13 @@ async fn main() -> Result<()> {
                 println!("{}", hexlify(merkle_root));
             }
         },
-        AkliCommand::Prove {
-            merkle_root,
-            message,
-            private_key,
-        } => {
+        AkliCommand::Prove { .. } => {
             println!("Not implemented");
         }
-        AkliCommand::Verify => {
-            println!("Not implemented");
+        AkliCommand::Verify { path } => {
+            let content = std::fs::read(path)?;
+            let result = verify_membership(&content);
+            println!("{}", result);
         }
     }
 
