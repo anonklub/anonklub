@@ -21,6 +21,13 @@ jobs:
           toolchain: stable
           override: true
 
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly-2024-02-18
+          profile: minimal
+          override: true
+
       - name: Install cargo-llvm-cov
         run: cargo install cargo-llvm-cov
 

@@ -36,6 +36,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly-2024-02-18
+          profile: minimal
+          override: true
+
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
