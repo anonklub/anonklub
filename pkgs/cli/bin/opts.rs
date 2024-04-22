@@ -37,8 +37,11 @@ pub enum AkliCommand {
     },
 
     /// Verify an ethereum address ownership zkp
-    #[clap(subcommand, name = "")]
-    Verify,
+    Verify {
+        /// Path to text file generated on anonklub.xyz
+        #[clap(short, long)]
+        path: String,
+    },
 }
 
 #[derive(Debug, Subcommand)]
