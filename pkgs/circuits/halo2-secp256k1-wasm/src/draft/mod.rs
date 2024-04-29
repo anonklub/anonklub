@@ -119,7 +119,13 @@ mod tests {
         let k_inv = k.invert().unwrap();
 
         // Calculate `r`
+<<<<<<< HEAD
         let r_point = Secp256k1Affine::from(G * k).coordinates().unwrap();
+=======
+        let r_point = Secp256k1Affine::from(G * k)
+            .coordinates()
+            .unwrap();
+>>>>>>> 49a75ad (feat: halo2lib secp256k1 recover pk)
         let x = r_point.x();
         let x_bigint = fe_to_biguint(x);
         let r = biguint_to_fe::<Fq>(&(x_bigint % modulus::<Fq>()));
