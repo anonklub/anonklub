@@ -1,4 +1,2 @@
-flyctl 0.1.119
 nodejs 19.1.0
-rust 1.76.0
-gcloud 465.0.0
+rust 1.77.2
