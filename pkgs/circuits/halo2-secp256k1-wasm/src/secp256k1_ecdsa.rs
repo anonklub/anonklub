@@ -75,6 +75,7 @@ impl Secp256k1VerifyCircuit {
         Secp256k1FqChip::<Bn254Fr>::new(&self.range_chip, limb_bits, num_limbs)
     }
 
+    #[allow(clippy::extra_unused_type_parameters)]
     fn ecc_chip<'a, Fp: BigPrimeField>(
         &'a self,
         fp_chip: &'a FpChip<Bn254Fr, Secp256k1Fp>, // TODO that could be generalized in the future
