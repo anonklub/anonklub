@@ -54,14 +54,11 @@ pub fn recover_pk_eff(
 
     let one = BigUint::from(1u32);
     let modulus_bigint = to_bigint(secp256k1::Fq::MODULUS);
-    let modulus = BigUint::from(modulus_bigint);
-
-    //let r_inv_mod_n = secp256k1::Fq::from(BigUint::from(r.to_repr())).invert().unwrap();
 
     let r_inv_mod_n = ct_option_ok_or(r.invert(), "Failed to compute modular inverse of r")?;
 
     // w = r^-1 * msg
-    let msg_hash = msg_hash.modpow(&one, &modulus);
+    let msg_hash = msg_hash.modpow(&one, &modulus_bigint);
     let msg_hash = msg_hash
         .to_bytes_le()
         .as_slice()
@@ -128,17 +125,11 @@ mod tests {
         utils::{hash_message, secret_key_to_address},
     };
     use halo2_base::{
-        gates::{circuit::builder::BaseCircuitBuilder, RangeChip},
         halo2_proofs::{
             arithmetic::{CurveAffine, Field},
-            halo2curves::{
-                bn256::Fr as Bn254Fr,
-                ff::PrimeField,
-                group::{prime::PrimeCurveAffine, Curve},
-                secp256k1::{self, Fp as Secp256k1Fp, Fq as Secp256k1Fq, Secp256k1Affine},
-            },
+            halo2curves::{ff::PrimeField, group::Curve, secp256k1},
         },
-        utils::{biguint_to_fe, fe_to_biguint, modulus, BigPrimeField},
+        utils::{biguint_to_fe, fe_to_biguint, modulus},
     };
     use num_bigint::BigUint;
     use rand::{rngs::StdRng, SeedableRng};
@@ -146,19 +137,6 @@ mod tests {
     use crate::utils::ct_option_ok_or;
 
     use super::{recover_pk, recover_pk_eff};
-
-    fn bytes_to_u64_array(bytes: &[u8; 32]) -> Result<[u64; 4], String> {
-        let mut u64s = [0u64; 4];
-
-        for (i, chunk) in bytes.chunks_exact(8).enumerate() {
-            let array_chunk: [u8; 8] = chunk
-                .try_into()
-                .map_err(|_| "Failed to convert slice to array".to_string())?;
-            u64s[i] = u64::from_le_bytes(array_chunk);
-        }
-
-        Ok(u64s)
-    }
 
     pub struct MockECDSAInput {
         pub s: Option<secp256k1::Fq>,
@@ -225,8 +203,6 @@ mod tests {
 
     /// @src Spartan
     fn mock_eff_ecdsa_input(priv_key: u64) -> Result<MockECDSAInput, String> {
-        let rng: StdRng = StdRng::seed_from_u64(0);
-
         let mock_ecdsa_input = mock_sig(priv_key)?;
 
         let s = mock_ecdsa_input.s.ok_or("s value missing")?;
@@ -261,6 +237,8 @@ mod tests {
         })
     }
 
+    /// This helper function for the recover_pk
+    #[allow(dead_code)]
     fn random_ecdsa_input(rng: &mut StdRng) -> MockECDSAInput {
         let g = secp256k1::Secp256k1Affine::generator();
 
@@ -311,7 +289,9 @@ mod tests {
         }
     }
 
-    fn mock_recover_pk(priv_key: u64) -> Result<MockECDSAInput, String> {
+    /// This helper function for the recover_pk
+    #[allow(dead_code)]
+    fn mock_recover_pk() -> Result<MockECDSAInput, String> {
         let mut rng: StdRng = StdRng::seed_from_u64(0);
 
         let mock_ecdsa_input = random_ecdsa_input(&mut rng);
