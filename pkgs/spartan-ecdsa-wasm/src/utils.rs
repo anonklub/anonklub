@@ -27,12 +27,15 @@ pub fn efficient_ecdsa(msg_hash: BigUint, r: Fq, is_y_odd: bool) -> (Affine, Aff
     let r_point = from_x(r, is_y_odd);
 
     let one = BigUint::from(1u32);
-    let modulus = BigUint::from(Fr::MODULUS);
+    let modulus: BigUint = BigUint::from(Fr::MODULUS);
 
     let r_inv_mod_n = Fr::from(BigUint::from(r.into_bigint())).inverse().unwrap();
 
     // w = r^-1 * msg
-    let w = -Fr::from(msg_hash.modpow(&one, &modulus)) * r_inv_mod_n;
+    let msg_hash = msg_hash.modpow(&one, &modulus);
+    let msg_hash = Fr::from(msg_hash);
+    let w = -msg_hash * r_inv_mod_n;
+
     // u = -(w * G) = -(r^-1 * msg * G)
     let u = (g * w).into_affine();
 
