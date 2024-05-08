@@ -90,17 +90,22 @@ impl Secp256k1VerifyCircuit {
     /// @src halo2-ecc axiom
     /// If `do_check = true`, then this function constrains that `P.x != Q.x`.
     /// Otherwise does nothing.
-    fn check_points_are_equal<F: BigPrimeField, CF: BigPrimeField>(
+    fn check_points_are_equal<'a, F, CF>(
         &self,
-        ecc_chip: &EccChip<F, FpChip<F, CF>>,
+        ecc_chip: &EccChip<F, FpChip<'a, F, CF>>,
         ctx: &mut Context<F>,
-        P: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
-        Q: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
-    ) {
+        P: impl Into<ComparableEcPoint<F, FpChip<'a, F, CF>>>,
+        Q: impl Into<ComparableEcPoint<F, FpChip<'a, F, CF>>>,
+    ) where
+        F: BigPrimeField,
+        CF: BigPrimeField,
+    {
         let chip = ecc_chip.field_chip;
 
-        let P: ComparableEcPoint<F, FpChip<F, CF>> = ComparableEcPoint::from(P);
-        let Q: ComparableEcPoint<F, FpChip<F, CF>> = ComparableEcPoint::from(Q);
+        let P = P.into();
+        let Q = Q.into();
+        //let P: ComparableEcPoint<F, FpChip<F, CF>> = ComparableEcPoint::from(P);
+        //let Q: ComparableEcPoint<F, FpChip<F, CF>> = ComparableEcPoint::from(Q);
 
         let [x1, x2] = [P, Q].map(|pt: ComparableEcPoint<F, FpChip<F, CF>>| match pt {
             ComparableEcPoint::Strict(pt) => pt.x,
