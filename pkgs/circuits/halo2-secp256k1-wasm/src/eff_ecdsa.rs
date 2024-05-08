@@ -99,10 +99,10 @@ impl Secp256k1VerifyCircuit {
     ) {
         let chip = ecc_chip.field_chip;
 
-        // let P = ComparableEcPoint::<>from(P);
-        // let Q = Q.into();
+        let P: ComparableEcPoint<F, FpChip<F, CF>> = ComparableEcPoint::from(P);
+        let Q: ComparableEcPoint<F, FpChip<F, CF>> = ComparableEcPoint::from(Q);
 
-        let [x1, x2] = [&P, &Q].map(|pt| match pt {
+        let [x1, x2] = [P, Q].map(|pt: ComparableEcPoint<F, FpChip<F, CF>>| match pt {
             ComparableEcPoint::Strict(pt) => pt.x,
             ComparableEcPoint::NonStrict(pt) => chip.enforce_less_than(ctx, pt.x),
         });
