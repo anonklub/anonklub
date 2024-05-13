@@ -1,18 +1,20 @@
+#![allow(non_snake_case)]
 /// This crate is drafted, it was a trail for using `Halo2_wasm::ECC` crate
 use std::{cell::RefCell, rc::Rc};
 
-use anyhow::{Context, Result};
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, RangeChip},
     halo2_proofs::halo2curves::{
         bn256::Fr as Bn254Fr,
         secp256k1::{Fp as Secp256k1Fp, Fq as Secp256k1Fq, Secp256k1Affine},
     },
-    utils::BigPrimeField,
+    utils::{BigPrimeField, CurveAffineExt},
+    Context,
 };
 
 use halo2_ecc::{
-    ecc::{ecdsa::ecdsa_verify_no_pubkey_check, EccChip},
+    bigint::ProperCrtUint,
+    ecc::{EcPoint, EccChip},
     fields::{fp::FpChip, FieldChip},
     secp256k1::{FpChip as Secp256k1FpChip, FqChip as Secp256k1FqChip},
 };
@@ -20,37 +22,37 @@ use halo2_wasm::Halo2Wasm;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[derive(Debug)]
-pub struct ECDSAInputs {
-    r: Secp256k1Fq,
+pub struct EffECDSAInputs {
     s: Secp256k1Fq,
-    msg_hash: Secp256k1Fq,
     pk: Secp256k1Affine,
+    T: Secp256k1Affine,
+    U: Secp256k1Affine,
 }
 
 #[wasm_bindgen]
 pub struct Secp256k1VerifyCircuit {
-    ecdsa_inputs: ECDSAInputs,
+    eff_ecdsa_inputs: EffECDSAInputs,
     range_chip: RangeChip<Bn254Fr>,
     builder: Rc<RefCell<BaseCircuitBuilder<Bn254Fr>>>,
 }
 
 impl Secp256k1VerifyCircuit {
-    pub fn new(halo2_wasm: &Halo2Wasm, ecdsa_inputs: ECDSAInputs) -> Result<Self> {
-        let ecdsa_inputs = ECDSAInputs {
-            r: ecdsa_inputs.r,
+    pub fn new(halo2_wasm: &Halo2Wasm, ecdsa_inputs: EffECDSAInputs) -> Result<Self, String> {
+        let ecdsa_inputs = EffECDSAInputs {
             s: ecdsa_inputs.s,
-            msg_hash: ecdsa_inputs.msg_hash,
             pk: ecdsa_inputs.pk,
+            T: ecdsa_inputs.T,
+            U: ecdsa_inputs.U,
         };
 
         let circuit_params = halo2_wasm
             .circuit_params
             .clone()
-            .context("Error: Circuit params are not set")?;
+            .ok_or("Error: Circuit params are not set")?;
 
         let lookup_bits = circuit_params
             .lookup_bits
-            .context("Error: Lookup bits are not set in circuit params")?;
+            .ok_or("Error: Lookup bits are not set in circuit params")?;
 
         let range = RangeChip::new(
             lookup_bits,
@@ -58,7 +60,7 @@ impl Secp256k1VerifyCircuit {
         );
 
         Ok(Secp256k1VerifyCircuit {
-            ecdsa_inputs,
+            eff_ecdsa_inputs: ecdsa_inputs,
             range_chip: range,
             builder: Rc::clone(&halo2_wasm.circuit),
         })
@@ -75,7 +77,6 @@ impl Secp256k1VerifyCircuit {
         Secp256k1FqChip::<Bn254Fr>::new(&self.range_chip, limb_bits, num_limbs)
     }
 
-    #[allow(clippy::extra_unused_type_parameters)]
     fn ecc_chip<'a, Fp: BigPrimeField>(
         &'a self,
         fp_chip: &'a FpChip<Bn254Fr, Secp256k1Fp>, // TODO that could be generalized in the future
@@ -83,14 +84,46 @@ impl Secp256k1VerifyCircuit {
         EccChip::new(fp_chip)
     }
 
-    pub fn verify_signature(&mut self) -> Result<()> {
-        let var_window_bits = 4;
-        let fixed_window_bits = 4;
+    fn recover_pk_eff<F: BigPrimeField, CF: BigPrimeField, SF: BigPrimeField, GA>(
+        &self,
+        ecc_chip: &EccChip<F, FpChip<F, CF>>,
+        ctx: &mut Context<F>,
+        T: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
+        U: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
+        s: ProperCrtUint<F>,
+        fixed_window_bits: usize,
+    ) -> EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>
+    where
+        GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
+    {
+        // Following https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm
+        let base_chip = ecc_chip.field_chip;
+        let scalar_chip =
+            FpChip::<F, SF>::new(base_chip.range, base_chip.limb_bits, base_chip.num_limbs);
 
-        // Deserialize the inputs
-        // let s = Secp256k1Fq::from(vec_to_u64(self.ecdsa_inputs.s.clone()));
-        // let r = Secp256k1Fq::from(vec_to_u64(self.ecdsa_inputs.r.clone()));
-        // let msg_hash = Secp256k1Fq::from(vec_to_u64(self.ecdsa_inputs.msg_hash.clone()));
+        // Check s is in [1, (n-1)]
+        scalar_chip.is_soft_nonzero(ctx, &s);
+        base_chip.enforce_less_than(ctx, T.x().clone());
+        base_chip.enforce_less_than(ctx, U.x().clone());
+
+        // Recover the public key from signature
+        // s_mul_t = s * T
+        let s_mul_t = ecc_chip.scalar_mult::<GA>(
+            ctx,
+            T,
+            s.limbs().to_vec(),
+            base_chip.limb_bits,
+            fixed_window_bits,
+        );
+
+        // s_mul_t + U = pk
+        let recovered_pk = ecc_chip.add_unequal(ctx, &s_mul_t, &U, false);
+
+        recovered_pk
+    }
+
+    pub fn verify_signature(&mut self) -> Result<(), String> {
+        let fixed_window_bits = 4;
 
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(0); //TODO why 0?
@@ -101,35 +134,31 @@ impl Secp256k1VerifyCircuit {
         let ecc_chip = self.ecc_chip::<Bn254Fr>(&fp_chip);
 
         // Assign private inputs
-        let [r, s, msg_hash] = [
-            self.ecdsa_inputs.r,
-            self.ecdsa_inputs.s,
-            self.ecdsa_inputs.msg_hash,
-        ]
-        .map(|x| fq_chip.load_private(ctx, x));
-        let pk =
-            ecc_chip.load_private_unchecked(ctx, (self.ecdsa_inputs.pk.x, self.ecdsa_inputs.pk.y));
+        let s = fq_chip.load_private(ctx, self.eff_ecdsa_inputs.s);
+        let pk = ecc_chip.load_private_unchecked(
+            ctx,
+            (self.eff_ecdsa_inputs.pk.x, self.eff_ecdsa_inputs.pk.y),
+        );
+        // TODO: I think no need to do load private for T and U
+        let T = ecc_chip
+            .load_private_unchecked(ctx, (self.eff_ecdsa_inputs.T.x, self.eff_ecdsa_inputs.T.y));
+        let U = ecc_chip
+            .load_private_unchecked(ctx, (self.eff_ecdsa_inputs.U.x, self.eff_ecdsa_inputs.U.y));
 
-        // Verify ECDSA Signature
-        let _verification_result =
-            ecdsa_verify_no_pubkey_check::<Bn254Fr, Secp256k1Fp, Secp256k1Fq, Secp256k1Affine>(
+        // Recover pk from precomputed T and U.
+        let recovered_pk = self
+            .recover_pk_eff::<Bn254Fr, Secp256k1Fp, Secp256k1Fq, Secp256k1Affine>(
                 &ecc_chip,
                 ctx,
-                pk,
-                r,
+                T,
+                U,
                 s,
-                msg_hash,
-                var_window_bits,
                 fixed_window_bits,
             );
 
-        #[cfg(feature = "display")]
-        if self.r.is_some() {
-            let result = *_verification_result.value();
-            println!("ECDSA res {result:?}");
+        // Check pk equals recovered_pk
+        ecc_chip.assert_equal(ctx, pk, recovered_pk);
 
-            ctx.print_stats(&["Range"]);
-        }
         Ok(())
     }
 }
@@ -138,22 +167,37 @@ impl Secp256k1VerifyCircuit {
 mod tests {
     use std::{fs::File, io::Cursor, time::Instant};
 
-    use anyhow::Result;
+    use ethers::{
+        core::k256::{
+            ecdsa::SigningKey,
+            elliptic_curve::{ScalarPrimitive, SecretKey},
+        },
+        signers::Wallet,
+        utils::hash_message,
+    };
     use halo2_base::{
         halo2_proofs::{
             arithmetic::{CurveAffine, Field},
-            halo2curves::{bn256::Bn256, secp256k1::Fq},
+            halo2curves::{
+                bn256::Bn256,
+                ff::PrimeField,
+                group::Curve,
+                secp256k1::{self, Fq},
+            },
             poly::{commitment::Params, kzg::commitment::ParamsKZG},
         },
-        utils::{biguint_to_fe, fe_to_biguint, modulus},
+        utils::{biguint_to_fe, fe_to_biguint, modulus, ScalarField},
     };
     use halo2_ecc::fields::FpStrategy;
     use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
+    use num_bigint::BigUint;
     use rand::{rngs::StdRng, SeedableRng};
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
 
-    use super::{ECDSAInputs, Secp256k1VerifyCircuit};
+    use crate::{recovery::recover_pk_eff, utils::ct_option_ok_or};
+
+    use super::{EffECDSAInputs, Secp256k1VerifyCircuit};
 
     #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
     pub struct CircuitParams {
@@ -177,7 +221,7 @@ mod tests {
         buf
     }
 
-    fn random_ecdsa_input(rng: &mut StdRng) -> ECDSAInputs {
+    fn random_ecdsa_input(rng: &mut StdRng) -> Result<EffECDSAInputs, String> {
         let g = Secp256k1Affine::generator();
 
         // Generate a key pair
@@ -201,18 +245,64 @@ mod tests {
         // Calculate `s`
         let s = k_inv * (msg_hash + (r * sk));
 
-        ECDSAInputs { r, s, msg_hash, pk }
+        // Check if y is odd
+        let is_y_odd = r_point.y().to_bytes_le();
+        let is_y_odd = BigUint::from_bytes_le(&is_y_odd);
+        let is_y_odd = is_y_odd.bit(0);
+
+        let msg_hash = BigUint::from_bytes_le(&msg_hash.to_bytes_le());
+
+        // Precompile T and U
+        let (U, T) = recover_pk_eff(msg_hash.clone(), r, is_y_odd)
+            .map_err(|e| format!("Failed to compute efficient ECDSA: {}", e))?;
+
+        Ok(EffECDSAInputs { s, pk, T, U })
+    }
+
+    /// @src Spartan
+    fn mock_eff_ecdsa_input(priv_key: u64) -> Result<EffECDSAInputs, String> {
+        let signing_key = SigningKey::from(SecretKey::new(ScalarPrimitive::from(priv_key)));
+        let g = secp256k1::Secp256k1Affine::generator();
+        let pk = (g * secp256k1::Fq::from(priv_key)).to_affine();
+
+        let message = b"harry AnonKlub";
+        let msg_hash = hash_message(message);
+        let msg_hash_bigint = BigUint::from_bytes_be(&msg_hash.to_fixed_bytes());
+        let wallet = Wallet::from(signing_key);
+        let sig = wallet.sign_hash(msg_hash).unwrap();
+
+        let mut s = [0u8; 32];
+        let mut r = [0u8; 32];
+        sig.s.to_little_endian(&mut s);
+        sig.r.to_little_endian(&mut r);
+
+        let is_y_odd = sig.v == 27;
+
+        let s = ct_option_ok_or(
+            secp256k1::Fq::from_repr(s),
+            "Failed to convert s into Fq.".to_string(),
+        )?;
+
+        let r = ct_option_ok_or(
+            secp256k1::Fq::from_repr(r),
+            "Failed to convert s into Fq.".to_string(),
+        )?;
+
+        let (U, T) = recover_pk_eff(msg_hash_bigint.clone(), r, is_y_odd)
+            .map_err(|e| format!("Failed to compute efficient ECDSA: {}", e))?;
+
+        Ok(EffECDSAInputs { s, pk, T, U })
     }
 
     #[test]
-    fn test_secp256k1_mock_verify() -> Result<()> {
+    fn test_eff_secp256k1_mock_verify() -> Result<(), String> {
         let path = "configs/secp256k1_ecdsa_circuit.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path).unwrap_or_else(|e| panic!("{path} does not exist: {e:?}")),
-        )?;
+        )
+        .map_err(|e| e.to_string())?;
 
-        let mut rng = StdRng::seed_from_u64(0);
-        let ecdsa_inputs = random_ecdsa_input(&mut rng);
+        let ecdsa_inputs = mock_eff_ecdsa_input(42)?;
 
         let mut halo2_wasm = Halo2Wasm::new();
 
@@ -227,14 +317,37 @@ mod tests {
     }
 
     #[test]
-    fn test_secp256k1_real_verify() -> Result<()> {
+    fn test_secp256k1_mock_random_verify() -> Result<(), String> {
         let path = "configs/secp256k1_ecdsa_circuit.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path).unwrap_or_else(|e| panic!("{path} does not exist: {e:?}")),
-        )?;
+        )
+        .map_err(|e| e.to_string())?;
 
         let mut rng = StdRng::seed_from_u64(0);
-        let ecdsa_inputs = random_ecdsa_input(&mut rng);
+        let ecdsa_inputs = random_ecdsa_input(&mut rng)?;
+
+        let mut halo2_wasm = Halo2Wasm::new();
+
+        halo2_wasm.config(circuit_params);
+
+        let mut circuit = Secp256k1VerifyCircuit::new(&halo2_wasm, ecdsa_inputs)?;
+
+        circuit.verify_signature()?;
+
+        halo2_wasm.mock();
+        Ok(())
+    }
+
+    #[test]
+    fn test_eff_secp256k1_real_verify() -> Result<(), String> {
+        let path = "configs/secp256k1_ecdsa_circuit.config";
+        let circuit_params: CircuitConfig = serde_json::from_reader(
+            File::open(path).unwrap_or_else(|e| panic!("{path} does not exist: {e:?}")),
+        )
+        .map_err(|e| e.to_string())?;
+
+        let ecdsa_inputs = mock_eff_ecdsa_input(42)?;
 
         let mut halo2_wasm = Halo2Wasm::new();
 

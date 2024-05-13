@@ -122,7 +122,7 @@ mod tests {
         },
         signers::Wallet,
         types::H160,
-        utils::{hash_message, secret_key_to_address},
+        utils::hash_message,
     };
     use halo2_base::{
         halo2_proofs::{
@@ -142,8 +142,6 @@ mod tests {
         pub s: Option<secp256k1::Fq>,
         pub r: Option<secp256k1::Fq>,
         pub v: Option<u8>,
-        pub s_bytes: Option<[u8; 32]>,
-        pub r_bytes: Option<[u8; 32]>,
         pub is_y_odd: Option<bool>,
         pub u: Option<secp256k1::Secp256k1Affine>,
         pub t: Option<secp256k1::Secp256k1Affine>,
@@ -155,11 +153,10 @@ mod tests {
     }
 
     /// @src Spartan
-    fn mock_sig(priv_key: u64) -> Result<MockECDSAInput, String> {
+    fn mock_eff_ecdsa_input(priv_key: u64) -> Result<MockECDSAInput, String> {
         let signing_key = SigningKey::from(SecretKey::new(ScalarPrimitive::from(priv_key)));
         let g = secp256k1::Secp256k1Affine::generator();
         let actual_pk = (g * secp256k1::Fq::from(priv_key)).to_affine();
-        let address = secret_key_to_address(&signing_key);
 
         let message = b"harry AnonKlub";
         let msg_hash = hash_message(message);
@@ -175,47 +172,14 @@ mod tests {
 
         let is_y_odd = sig.v == 27;
 
-        let s_fq = ct_option_ok_or(
+        let s = ct_option_ok_or(
             secp256k1::Fq::from_repr(s),
             "Failed to convert s into Fq.".to_string(),
         )?;
-        let r_fq = ct_option_ok_or(
+        let r = ct_option_ok_or(
             secp256k1::Fq::from_repr(r),
             "Failed to convert r into Fq.".to_string(),
         )?;
-
-        Ok(MockECDSAInput {
-            s: Some(s_fq),
-            r: Some(r_fq),
-            v: Some(v),
-            s_bytes: Some(s),
-            r_bytes: Some(r),
-            is_y_odd: Some(is_y_odd),
-            u: None,
-            t: None,
-            msg_hash: None,
-            msg_hash_bigint: Some(msg_hash_bigint),
-            actual_pk: Some(actual_pk),
-            recovered_pk: None,
-            address: Some(address),
-        })
-    }
-
-    /// @src Spartan
-    fn mock_eff_ecdsa_input(priv_key: u64) -> Result<MockECDSAInput, String> {
-        let mock_ecdsa_input = mock_sig(priv_key)?;
-
-        let s = mock_ecdsa_input.s.ok_or("s value missing")?;
-        let r = mock_ecdsa_input.r.ok_or("r value missing")?;
-        let v = mock_ecdsa_input.v.ok_or("v value missing")?;
-        let msg_hash_bigint = mock_ecdsa_input
-            .msg_hash_bigint
-            .clone()
-            .ok_or("msg_hash_bigint value missing")?;
-        let is_y_odd = mock_ecdsa_input.is_y_odd.ok_or("is_y_odd value missing")?;
-        let actual_pk = mock_ecdsa_input
-            .actual_pk
-            .ok_or("actual_pk value missing")?;
 
         let (u, t) = recover_pk_eff(msg_hash_bigint.clone(), r, is_y_odd)
             .map_err(|e| format!("Failed to compute efficient ECDSA: {}", e))?;
@@ -224,8 +188,6 @@ mod tests {
             s: Some(s),
             r: Some(r),
             v: Some(v),
-            s_bytes: None,
-            r_bytes: None,
             is_y_odd: Some(is_y_odd),
             u: Some(u),
             t: Some(t),
@@ -276,8 +238,6 @@ mod tests {
             s: Some(s),
             r: Some(r),
             v: Some(v),
-            s_bytes: None,
-            r_bytes: None,
             is_y_odd: Some(is_y_odd),
             u: None,
             t: None,
@@ -320,8 +280,6 @@ mod tests {
             s: Some(s),
             r: Some(r),
             v: Some(v),
-            s_bytes: None,
-            r_bytes: None,
             is_y_odd: Some(is_y_odd),
             u: None,
             t: None,
@@ -347,12 +305,12 @@ mod tests {
         let actual_pk = mock_eff_ecdsa.actual_pk.ok_or("actual_pk is missing")?;
 
         // s * T
-        let t_mul_s = (t * s).to_affine();
+        let s_mul_t = (t * s).to_affine();
 
-        // s * T + U = pubkey
-        let recovered_pubkey = (t_mul_s + u).to_affine();
+        // s * T + U = pk
+        let recovered_pk = (s_mul_t + u).to_affine();
 
-        assert_eq!(recovered_pubkey, actual_pk);
+        assert_eq!(recovered_pk, actual_pk);
 
         Ok(())
     }
