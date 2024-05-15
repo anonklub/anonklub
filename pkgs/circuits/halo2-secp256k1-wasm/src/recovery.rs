@@ -1,4 +1,5 @@
 #![allow(non_snake_case)]
+use crate::utils::{ct_option_ok_or, pk_bytes_swap_endianness, to_bigint};
 use anyhow::anyhow;
 use anyhow::{Context, Result};
 use halo2_base::{
@@ -10,8 +11,6 @@ use halo2_base::{
 };
 use halo2_ecc::secp256k1::SECP_B;
 use num_bigint::BigUint;
-
-use crate::utils::{ct_option_ok_or, pk_bytes_swap_endianness, to_bigint};
 
 // Recover the point from the x coordinate and the parity bit
 fn from_x(x: secp256k1::Fq, is_y_odd: bool) -> Result<secp256k1::Secp256k1Affine> {
@@ -122,6 +121,8 @@ pub fn recover_pk(
 
 #[cfg(test)]
 mod tests {
+    use super::{recover_pk, recover_pk_eff};
+    use crate::utils::ct_option_ok_or;
     use anyhow::anyhow;
     use anyhow::{Context, Result};
     use ethers::{
@@ -142,10 +143,6 @@ mod tests {
     };
     use num_bigint::BigUint;
     use rand::{rngs::StdRng, SeedableRng};
-
-    use crate::utils::ct_option_ok_or;
-
-    use super::{recover_pk, recover_pk_eff};
 
     pub struct MockECDSAInput {
         pub s: Option<secp256k1::Fq>,

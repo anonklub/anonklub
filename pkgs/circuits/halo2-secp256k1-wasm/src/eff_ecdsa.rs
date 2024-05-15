@@ -9,9 +9,6 @@ use halo2_base::{
     utils::{BigPrimeField, CurveAffineExt},
     Context as Halo2Context,
 };
-/// This crate is drafted, it was a trail for using `Halo2_wasm::ECC` crate
-use std::{cell::RefCell, rc::Rc};
-
 use halo2_ecc::{
     bigint::ProperCrtUint,
     ecc::{EcPoint, EccChip},
@@ -19,6 +16,7 @@ use halo2_ecc::{
     secp256k1::{FpChip as Secp256k1FpChip, FqChip as Secp256k1FqChip},
 };
 use halo2_wasm::Halo2Wasm;
+use std::{cell::RefCell, rc::Rc};
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[derive(Debug)]
@@ -168,6 +166,8 @@ impl Secp256k1VerifyCircuit {
 
 #[cfg(test)]
 mod tests {
+    use super::{EffECDSAInputs, Secp256k1VerifyCircuit};
+    use crate::{recovery::recover_pk_eff, utils::ct_option_ok_or};
     use anyhow::anyhow;
     use anyhow::{Context, Result};
     use ethers::{
@@ -198,10 +198,6 @@ mod tests {
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
     use std::{fs::File, io::Cursor, time::Instant};
-
-    use crate::{recovery::recover_pk_eff, utils::ct_option_ok_or};
-
-    use super::{EffECDSAInputs, Secp256k1VerifyCircuit};
 
     #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
     pub struct CircuitParams {

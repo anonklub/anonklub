@@ -1,6 +1,3 @@
-/// This crate is drafted, it was a trail for using `Halo2_wasm::ECC` crate
-use std::{cell::RefCell, rc::Rc};
-
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, RangeChip},
     halo2_proofs::halo2curves::{
@@ -9,13 +6,13 @@ use halo2_base::{
     },
     utils::BigPrimeField,
 };
-
 use halo2_ecc::{
     ecc::{ecdsa::ecdsa_verify_no_pubkey_check, EccChip},
     fields::{fp::FpChip, FieldChip},
     secp256k1::{FpChip as Secp256k1FpChip, FqChip as Secp256k1FqChip},
 };
 use halo2_wasm::Halo2Wasm;
+use std::{cell::RefCell, rc::Rc};
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[derive(Debug)]
@@ -135,8 +132,7 @@ impl Secp256k1VerifyCircuit {
 
 #[cfg(test)]
 mod tests {
-    use std::{fs::File, io::Cursor, time::Instant};
-
+    use super::{ECDSAInputs, Secp256k1VerifyCircuit};
     use halo2_base::{
         halo2_proofs::{
             arithmetic::{CurveAffine, Field},
@@ -150,8 +146,7 @@ mod tests {
     use rand::{rngs::StdRng, SeedableRng};
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
-
-    use super::{ECDSAInputs, Secp256k1VerifyCircuit};
+    use std::{fs::File, io::Cursor, time::Instant};
 
     #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
     pub struct CircuitParams {
