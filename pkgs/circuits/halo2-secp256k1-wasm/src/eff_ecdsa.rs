@@ -373,21 +373,17 @@ mod tests {
         let params = ParamsKZG::<Bn256>::setup(15, OsRng);
 
         // Load params
-        println!("Load KZG params");
         halo2_wasm.load_params(&serialize_params_to_bytes(&params));
 
         // Generate VK
-        println!("Generating Verification Key");
         halo2_wasm.gen_vk();
 
         // Generate PK
-        println!("Generating Proving Key from Verification Key");
         halo2_wasm.gen_pk();
 
         let start = Instant::now();
 
         // Generate proof
-        println!("Generating Proof!");
         let proof = halo2_wasm.prove();
 
         // // Verify the proof
