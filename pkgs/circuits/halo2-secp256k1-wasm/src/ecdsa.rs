@@ -16,11 +16,12 @@ use std::{cell::RefCell, rc::Rc};
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[derive(Debug)]
+// TODO: should it be private?
 pub struct ECDSAInputs {
-    r: Secp256k1Fq,
-    s: Secp256k1Fq,
-    msg_hash: Secp256k1Fq,
-    pk: Secp256k1Affine,
+    pub r: Secp256k1Fq,
+    pub s: Secp256k1Fq,
+    pub msg_hash: Secp256k1Fq,
+    pub pk: Secp256k1Affine,
 }
 
 #[wasm_bindgen]
@@ -82,11 +83,6 @@ impl Secp256k1VerifyCircuit {
     pub fn verify_signature(&mut self) -> Result<(), String> {
         let var_window_bits = 4;
         let fixed_window_bits = 4;
-
-        // Deserialize the inputs
-        // let s = Secp256k1Fq::from(vec_to_u64(self.ecdsa_inputs.s.clone()));
-        // let r = Secp256k1Fq::from(vec_to_u64(self.ecdsa_inputs.r.clone()));
-        // let msg_hash = Secp256k1Fq::from(vec_to_u64(self.ecdsa_inputs.msg_hash.clone()));
 
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(0); //TODO why 0?

@@ -198,6 +198,7 @@ mod tests {
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
     use std::{fs::File, io::Cursor, time::Instant};
+    use wasm_bindgen::convert::ReturnWasmAbi;
 
     #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
     pub struct CircuitParams {
@@ -317,7 +318,10 @@ mod tests {
 
         let mut circuit = Secp256k1VerifyCircuit::new(&halo2_wasm, mock_eff_ecdsa)?;
 
-        circuit.verify_signature()?;
+        circuit
+            .verify_signature()
+            .map_err(|e| anyhow!(e))
+            .context("The circuit failed to verify signature!")?;
 
         halo2_wasm.mock();
         Ok(())
@@ -343,7 +347,10 @@ mod tests {
 
         let mut circuit = Secp256k1VerifyCircuit::new(&halo2_wasm, ecdsa_inputs)?;
 
-        circuit.verify_signature()?;
+        circuit
+            .verify_signature()
+            .map_err(|e| anyhow!(e))
+            .context("The circuit failed to verify signature!")?;
 
         halo2_wasm.mock();
         Ok(())
@@ -368,8 +375,10 @@ mod tests {
 
         let mut circuit = Secp256k1VerifyCircuit::new(&halo2_wasm, ecdsa_inputs)?;
 
-        circuit.verify_signature()?;
-
+        circuit
+            .verify_signature()
+            .map_err(|e| anyhow!(e))
+            .context("The circuit failed to verify signature!")?;
         let params = ParamsKZG::<Bn256>::setup(15, OsRng);
 
         // Load params
