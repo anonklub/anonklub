@@ -13,21 +13,61 @@ use halo2_base::{
 use halo2_wasm::{CircuitConfig, Halo2Wasm};
 use num_bigint::BigUint;
 use rand::rngs::StdRng;
+use serde::{Deserialize, Serialize};
 
 use crate::{ecdsa::Secp256k1VerifyCircuit, recovery::recover_pk_eff};
 
+// `AnonklubProof` consists of a Halo2 proof
+// This proof is serialized and passed around in the JavaScript runtime.
+#[derive(Serialize, Deserialize)]
+pub struct AnonklubProof {
+    pub proof: Vec<u8>,
+    r: Fq,
+    is_y_odd: bool,
+    msg_hash: BigUint,
+}
+
 #[wasm_bindgen]
 pub fn prove_membership(s: &[u8], r: &[u8], msg_hash: &[u8], is_y_odd: bool) -> Result<Vec<u8>> {
+    // Initialize the config and the circuit
     let config = read_config("configs/secp256k1_ecdsa_circuit.config")?;
     let circuit = create_circuit(s, r, msg_hash, is_y_odd)?;
-    let anonklub_proof = generate_proof(&config, &circuit)?;
 
-    Ok(anonklub_proof)
+    // Generate the proof
+    let proof = generate_proof(&config, &circuit)?;
+
+    // Serialize Anonklub proof.
+    let anonklub_proof = AnonklubProof {
+        proof,
+        r,
+        is_y_odd,
+        msg_hash,
+    };
+
+    let mut anonklub_proof_serialized = Vec::<u8>::new();
+    anonklub_proof
+        .serialize(&mut anonklub_proof_serialized)
+        .map_err(|e| anyhow!(e))
+        .context("Failed to serialize the proof!")?;
+
+    Ok(anonklub_proof_serialized)
 }
 
 #[wasm_bindgen]
 pub fn verify_membership(anonklub_proof: &[u8]) -> bool {
-    verify_proof::<Bn256>(anonklub_proof)
+    // Get the public input from the proof
+    let anonklub_proof = AnonklubProof::deserialize(anonklub_proof)
+        .map_err(|e| anyhow!(e))
+        .context("Failed to deserialize the proof!")?;
+    let config = read_config("configs/secp256k1_ecdsa_circuit.config")?;
+    let circuit = create_circuit(
+        anonklub_proof.s,
+        anonklub_proof.r,
+        anonklub_proof.msg_hash,
+        anonklub_proof.is_y_odd,
+    )?;
+
+    verify_proof::<Bn256>(&config, circuit, &anonklub_proof.proof)?
 }
 
 fn read_config(path: &str) -> Result<CircuitConfig> {
@@ -123,13 +163,20 @@ where
     Ok(proof)
 }
 
-fn verify_proof<E>(anonklub_proof: &[u8]) -> Result<()>
+fn verify_proof<E>(
+    config: &CircuitConfig,
+    mut circuit: Secp256k1VerifyCircuit,
+    anonklub_proof: &[u8],
+) -> Result<bool>
 where
     E: Engine,
 {
     let halo2_wasm = initialize_halo2_wasm::<E>(config, circuit)?;
 
-    halo2_wasm.verify(anonklub_proof);
+    let verification = halo2_wasm.verify(anonklub_proof);
 
-    Ok(())
+    match verification {
+        Err(_) => Ok(false),
+        _ => Ok(true),
+    }
 }
