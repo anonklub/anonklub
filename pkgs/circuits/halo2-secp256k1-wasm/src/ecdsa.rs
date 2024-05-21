@@ -1,7 +1,3 @@
-/// This crate is drafted, it was a trail for using `Halo2_wasm::ECC` crate
-use std::{cell::RefCell, rc::Rc};
-
-use anyhow::{Context, Result};
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, RangeChip},
     halo2_proofs::halo2curves::{
@@ -10,13 +6,13 @@ use halo2_base::{
     },
     utils::BigPrimeField,
 };
-
 use halo2_ecc::{
     ecc::{ecdsa::ecdsa_verify_no_pubkey_check, EccChip},
     fields::{fp::FpChip, FieldChip},
     secp256k1::{FpChip as Secp256k1FpChip, FqChip as Secp256k1FqChip},
 };
 use halo2_wasm::Halo2Wasm;
+use std::{cell::RefCell, rc::Rc};
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[derive(Debug)]
@@ -35,7 +31,7 @@ pub struct Secp256k1VerifyCircuit {
 }
 
 impl Secp256k1VerifyCircuit {
-    pub fn new(halo2_wasm: &Halo2Wasm, ecdsa_inputs: ECDSAInputs) -> Result<Self> {
+    pub fn new(halo2_wasm: &Halo2Wasm, ecdsa_inputs: ECDSAInputs) -> Result<Self, String> {
         let ecdsa_inputs = ECDSAInputs {
             r: ecdsa_inputs.r,
             s: ecdsa_inputs.s,
@@ -46,11 +42,11 @@ impl Secp256k1VerifyCircuit {
         let circuit_params = halo2_wasm
             .circuit_params
             .clone()
-            .context("Error: Circuit params are not set")?;
+            .ok_or("Error: Circuit params are not set")?;
 
         let lookup_bits = circuit_params
             .lookup_bits
-            .context("Error: Lookup bits are not set in circuit params")?;
+            .ok_or("Error: Lookup bits are not set in circuit params")?;
 
         let range = RangeChip::new(
             lookup_bits,
@@ -83,7 +79,7 @@ impl Secp256k1VerifyCircuit {
         EccChip::new(fp_chip)
     }
 
-    pub fn verify_signature(&mut self) -> Result<()> {
+    pub fn verify_signature(&mut self) -> Result<(), String> {
         let var_window_bits = 4;
         let fixed_window_bits = 4;
 
@@ -136,9 +132,7 @@ impl Secp256k1VerifyCircuit {
 
 #[cfg(test)]
 mod tests {
-    use std::{fs::File, io::Cursor, time::Instant};
-
-    use anyhow::Result;
+    use super::{ECDSAInputs, Secp256k1VerifyCircuit};
     use halo2_base::{
         halo2_proofs::{
             arithmetic::{CurveAffine, Field},
@@ -152,8 +146,7 @@ mod tests {
     use rand::{rngs::StdRng, SeedableRng};
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
-
-    use super::{ECDSAInputs, Secp256k1VerifyCircuit};
+    use std::{fs::File, io::Cursor, time::Instant};
 
     #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
     pub struct CircuitParams {
@@ -205,11 +198,12 @@ mod tests {
     }
 
     #[test]
-    fn test_secp256k1_mock_verify() -> Result<()> {
+    fn test_secp256k1_mock_verify() -> Result<(), String> {
         let path = "configs/secp256k1_ecdsa_circuit.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path).unwrap_or_else(|e| panic!("{path} does not exist: {e:?}")),
-        )?;
+        )
+        .map_err(|e| e.to_string())?;
 
         let mut rng = StdRng::seed_from_u64(0);
         let ecdsa_inputs = random_ecdsa_input(&mut rng);
@@ -227,11 +221,12 @@ mod tests {
     }
 
     #[test]
-    fn test_secp256k1_real_verify() -> Result<()> {
+    fn test_secp256k1_real_verify() -> Result<(), String> {
         let path = "configs/secp256k1_ecdsa_circuit.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path).unwrap_or_else(|e| panic!("{path} does not exist: {e:?}")),
-        )?;
+        )
+        .map_err(|e| e.to_string())?;
 
         let mut rng = StdRng::seed_from_u64(0);
         let ecdsa_inputs = random_ecdsa_input(&mut rng);
@@ -247,21 +242,17 @@ mod tests {
         let params = ParamsKZG::<Bn256>::setup(15, OsRng);
 
         // Load params
-        println!("Load KZG params");
         halo2_wasm.load_params(&serialize_params_to_bytes(&params));
 
         // Generate VK
-        println!("Generating Verification Key");
         halo2_wasm.gen_vk();
 
         // Generate PK
-        println!("Generating Proving Key from Verification Key");
         halo2_wasm.gen_pk();
 
         let start = Instant::now();
 
         // Generate proof
-        println!("Generating Proof!");
         let proof = halo2_wasm.prove();
 
         // // Verify the proof

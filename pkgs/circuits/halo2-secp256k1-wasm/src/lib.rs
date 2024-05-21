@@ -1,3 +1,4 @@
+pub mod ecdsa;
+pub mod eff_ecdsa;
 pub mod recovery;
-pub mod secp256k1_ecdsa;
 pub(crate) mod utils;
