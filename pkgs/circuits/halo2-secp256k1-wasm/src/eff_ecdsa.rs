@@ -9,7 +9,9 @@ use halo2_base::{
             secp256k1::{self, Secp256k1Affine},
         },
     },
-    utils::{BigPrimeField, CurveAffineExt},
+    utils::{
+        biguint_to_fe, decompose_bigint, fe_to_bigint, fe_to_biguint, BigPrimeField, CurveAffineExt,
+    },
     Context as Halo2Context,
 };
 use halo2_ecc::{
@@ -18,7 +20,7 @@ use halo2_ecc::{
     fields::{fp, FieldChip},
 };
 use halo2_wasm::Halo2Wasm;
-use std::{cell::RefCell, fs::FileType, marker::PhantomData, rc::Rc};
+use std::{borrow::Borrow, cell::RefCell, fs::FileType, marker::PhantomData, rc::Rc};
 use wasm_bindgen::prelude::wasm_bindgen;
 
 type FpChip<'range, F, CF> = fp::FpChip<'range, F, CF>;
@@ -52,6 +54,7 @@ where
 {
     eff_ecdsa_inputs: EffECDSAInputs<CF, SF, GA>,
     range_chip: RangeChip<F>,
+    halo2_wasm: Rc<RefCell<Halo2Wasm>>,
     builder: Rc<RefCell<BaseCircuitBuilder<F>>>,
     _CF_marker: PhantomData<CF>,
     _SF_marker: PhantomData<SF>,
@@ -65,10 +68,10 @@ where
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
     pub fn new(
-        halo2_wasm: &Halo2Wasm,
+        halo2_wasm: Rc<RefCell<Halo2Wasm>>,
         eff_ecdsa_inputs: EffECDSAInputs<CF, SF, GA>,
     ) -> Result<Self> {
-        let ecdsa_inputs = EffECDSAInputs {
+        let eff_ecdsa_inputs = EffECDSAInputs {
             s: eff_ecdsa_inputs.s,
             pk: eff_ecdsa_inputs.pk,
             T: eff_ecdsa_inputs.T,
@@ -76,6 +79,7 @@ where
         };
 
         let circuit_params = halo2_wasm
+            .borrow_mut()
             .circuit_params
             .clone()
             .context("Error: Circuit params are not set")?;
@@ -84,15 +88,21 @@ where
             .lookup_bits
             .context("Error: Lookup bits are not set in circuit params")?;
 
-        let range = RangeChip::<F>::new(
+        let range_chip = RangeChip::<F>::new(
             lookup_bits,
-            halo2_wasm.circuit.borrow().lookup_manager().clone(),
+            halo2_wasm
+                .borrow_mut()
+                .circuit
+                .borrow_mut()
+                .lookup_manager()
+                .clone(),
         );
 
         Ok(EffECDSAVerifyCircuit {
-            eff_ecdsa_inputs: ecdsa_inputs,
-            range_chip: range,
-            builder: Rc::clone(&halo2_wasm.circuit),
+            eff_ecdsa_inputs,
+            range_chip,
+            halo2_wasm: Rc::clone(&halo2_wasm),
+            builder: Rc::clone(&halo2_wasm.borrow_mut().circuit),
             _CF_marker: PhantomData,
             _SF_marker: PhantomData,
             _GA_marker: PhantomData,
@@ -109,19 +119,57 @@ where
         FqChip::<F, SF>::new(&self.range_chip, LIMB_BITS, NUM_LIMBS)
     }
 
-    fn ecc_chip<'a>(&'a self, fp_chip: &'a fp::FpChip<F, CF>) -> EccChip<'a, F, fp::FpChip<F, CF>> {
+    fn ecc_chip<'a>(&'a self, fp_chip: &'a fp::FpChip<F, CF>) -> EccChip<'a, F, FpChip<F, CF>> {
         EccChip::new(fp_chip)
+    }
+
+    fn load_instance(
+        &self,
+        ecc_chip: &EccChip<F, FpChip<F, CF>>,
+        ctx: &mut Halo2Context<F>,
+        instance: GA,
+    ) -> EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint> {
+        let base_chip = ecc_chip.field_chip;
+
+        let (x, y) = instance.into_coordinates();
+
+        // Set as constants in the BaseField chip
+        let (x_assigned, y_assigned) = (
+            base_chip.load_constant(ctx, x).into(),
+            base_chip.load_constant(ctx, y).into(),
+        );
+
+        let (x, y) = (fe_to_biguint(&x), fe_to_biguint(&y));
+        let (x, y) = (biguint_to_fe::<F>(&x), biguint_to_fe::<F>(&y));
+
+        let (x_offset, y_offset): (u32, u32) = (
+            ctx.load_witness(x).cell.unwrap().offset.try_into().unwrap(),
+            ctx.load_witness(y).cell.unwrap().offset.try_into().unwrap(),
+        );
+
+        let (x, y) = (
+            ctx.get(x_offset.try_into().unwrap()),
+            ctx.get(y_offset.try_into().unwrap()),
+        );
+
+        let instances_cells = vec![x_offset, x_offset];
+        self.halo2_wasm
+            .borrow_mut()
+            .set_instances(&instances_cells, 0);
+        self.halo2_wasm.borrow_mut().assign_instances();
+
+        EcPoint::new(x_assigned, y_assigned)
     }
 
     fn load_constant(
         &self,
-        ecc_chip: &EccChip<F, fp::FpChip<F, CF>>,
+        ecc_chip: &EccChip<F, FpChip<F, CF>>,
         ctx: &mut Halo2Context<F>,
         (x, y): (
-            <fp::FpChip<F, CF> as FieldChip<F>>::FieldType,
-            <fp::FpChip<F, CF> as FieldChip<F>>::FieldType,
+            <FpChip<F, CF> as FieldChip<F>>::FieldType,
+            <FpChip<F, CF> as FieldChip<F>>::FieldType,
         ),
-    ) -> EcPoint<F, <fp::FpChip<F, CF> as FieldChip<F>>::FieldPoint> {
+    ) -> EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint> {
         let base_chip = ecc_chip.field_chip;
 
         let x_assigned = base_chip.load_constant(ctx, x).into();
@@ -132,13 +180,13 @@ where
 
     fn recover_pk_eff(
         &self,
-        ecc_chip: &EccChip<F, fp::FpChip<F, CF>>,
+        ecc_chip: &EccChip<F, FpChip<F, CF>>,
         ctx: &mut Halo2Context<F>,
-        T: EcPoint<F, <fp::FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
-        U: EcPoint<F, <fp::FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
+        T: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
+        U: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
         s: ProperCrtUint<F>,
         fixed_window_bits: usize,
-    ) -> EcPoint<F, <fp::FpChip<F, CF> as FieldChip<F>>::FieldPoint> {
+    ) -> EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint> {
         // Following https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm
         let base_chip = ecc_chip.field_chip;
         let scalar_chip = self.ecc_fq_chip();
@@ -181,23 +229,9 @@ where
             ),
         );
 
-        // TODO: I think no need to do load private for T and U
-        let T = self.load_constant(
-            &ecc_chip,
-            ctx,
-            (
-                self.eff_ecdsa_inputs.T.into_coordinates().0,
-                self.eff_ecdsa_inputs.T.into_coordinates().1,
-            ),
-        );
-        let U = self.load_constant(
-            &ecc_chip,
-            ctx,
-            (
-                self.eff_ecdsa_inputs.U.into_coordinates().0,
-                self.eff_ecdsa_inputs.U.into_coordinates().1,
-            ),
-        );
+        // Extracting the T and U points
+        let T = self.load_instance(&ecc_chip, ctx, self.eff_ecdsa_inputs.T);
+        let U = self.load_instance(&ecc_chip, ctx, self.eff_ecdsa_inputs.U);
 
         // Recover pk from precomputed T and U.
         let recovered_pk = self.recover_pk_eff(&ecc_chip, ctx, T, U, s, FIXED_WINDOW_BITS);
@@ -237,6 +271,8 @@ mod tests {
     use rand::{rngs::StdRng, SeedableRng};
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
+    use std::cell::RefCell;
+    use std::rc::Rc;
     use std::{fs::File, io::Cursor, time::Instant};
 
     #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
@@ -355,13 +391,13 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA")?;
 
-        let mut halo2_wasm = Halo2Wasm::new();
+        let halo2_wasm = Rc::new(RefCell::new(Halo2Wasm::new()));
 
-        halo2_wasm.config(circuit_params);
+        halo2_wasm.borrow_mut().config(circuit_params);
 
         let mut circuit =
             EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-                &halo2_wasm,
+                Rc::clone(&halo2_wasm),
                 mock_eff_ecdsa,
             )?;
 
@@ -370,7 +406,7 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
-        halo2_wasm.mock();
+        halo2_wasm.borrow_mut().mock();
         Ok(())
     }
 
@@ -388,22 +424,24 @@ mod tests {
         let mut rng = StdRng::seed_from_u64(0);
         let ecdsa_inputs = random_ecdsa_input(&mut rng)?;
 
-        let mut halo2_wasm = Halo2Wasm::new();
+        let halo2_wasm = Rc::new(RefCell::new(Halo2Wasm::new()));
 
-        halo2_wasm.config(circuit_params);
+        halo2_wasm.borrow_mut().config(circuit_params);
 
-        let mut circuit =
-            EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-                &halo2_wasm,
-                ecdsa_inputs,
-            )?;
+        {
+            let mut circuit =
+                EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+                    Rc::clone(&halo2_wasm),
+                    ecdsa_inputs,
+                )?;
 
-        circuit
-            .verify_signature()
-            .map_err(|e| anyhow!(e))
-            .context("The circuit failed to verify signature!")?;
+            circuit
+                .verify_signature()
+                .map_err(|e| anyhow!(e))
+                .context("The circuit failed to verify signature!")?;
+        }
 
-        halo2_wasm.mock();
+        halo2_wasm.borrow_mut().mock();
         Ok(())
     }
 
@@ -420,13 +458,13 @@ mod tests {
 
         let ecdsa_inputs = mock_eff_ecdsa_input(42)?;
 
-        let mut halo2_wasm = Halo2Wasm::new();
+        let halo2_wasm = Rc::new(RefCell::new(Halo2Wasm::new()));
 
-        halo2_wasm.config(circuit_params);
+        halo2_wasm.borrow_mut().config(circuit_params);
 
         let mut circuit =
             EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-                &halo2_wasm,
+                Rc::clone(&halo2_wasm),
                 ecdsa_inputs,
             )?;
 
@@ -434,27 +472,46 @@ mod tests {
             .verify_signature()
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
+
         let params = ParamsKZG::<Bn256>::setup(15, OsRng);
 
         // Load params
-        halo2_wasm.load_params(&serialize_params_to_bytes(&params));
+        halo2_wasm
+            .borrow_mut()
+            .load_params(&serialize_params_to_bytes(&params));
 
         // Generate VK
-        halo2_wasm.gen_vk();
+        halo2_wasm.borrow_mut().gen_vk();
 
         // Generate PK
-        halo2_wasm.gen_pk();
+        halo2_wasm.borrow_mut().gen_pk();
 
         let start = Instant::now();
 
         // Generate proof
-        let proof = halo2_wasm.prove();
+        let proof: Vec<u8> = halo2_wasm.borrow_mut().prove();
+
+        // let proof = proof.proof;
+        // let instances: Vec<Vec<halo2_wasm::halo2lib::ecc::Bn254Fr>> = proof.instances;
 
         // // Verify the proof
         // println!("Verifying Proof");
         // halo2_wasm.verify(&proof);
 
         println!("Full generated Proof: {}", hex::encode(proof));
+
+        // let mut encoded_instances = vec![];
+        // for instance in instances {
+        //     let mut encoded_instance = vec![];
+        //     for element in instance {
+        //         let element_bytes = element.to_bytes(); // Convert field element to bytes
+        //         encoded_instance.push(hex::encode(&element_bytes));
+        //     }
+        //     encoded_instances.push(encoded_instance);
+        // }
+        // println!("Full generated Instances: {:?}", encoded_instances);
+
+        // println!("Full generated instances: {}", encoded_instances);
 
         let duration = start.elapsed();
         let duration_in_minutes = duration.as_secs_f64() / 60.0;
