@@ -1,6 +1,4 @@
 use anyhow::{anyhow, Context, Result};
-use ecdsa::ECDSAInputs;
-use eff_ecdsa::Secp256k1VerifyCircuit;
 use halo2_base::{
     halo2_proofs::{
         arithmetic::CurveAffine,
@@ -14,15 +12,20 @@ use halo2_wasm::{CircuitConfig, Halo2Wasm};
 use num_bigint::BigUint;
 use rand::rngs::StdRng;
 use serde::{Deserialize, Serialize};
+use wasm_bindgen::prelude::wasm_bindgen;
 
-use crate::{ecdsa::Secp256k1VerifyCircuit, recovery::recover_pk_eff};
+use crate::{
+    ecdsa::Secp256k1VerifyCircuit, eff_ecdsa::EffECDSAVerifyCircuit, recovery::recover_pk_eff,
+};
+
+const K: i32 = 15;
 
 // `AnonklubProof` consists of a Halo2 proof
 // This proof is serialized and passed around in the JavaScript runtime.
 #[derive(Serialize, Deserialize)]
 pub struct AnonklubProof {
     pub proof: Vec<u8>,
-    r: Fq,
+    r: secp256k1::Fq,
     is_y_odd: bool,
     msg_hash: BigUint,
 }
@@ -68,6 +71,8 @@ pub fn verify_membership(anonklub_proof: &[u8]) -> bool {
     )?;
 
     verify_proof::<Bn256>(&config, circuit, &anonklub_proof.proof)?
+
+    // Verify the efficient ECDSA input
 }
 
 fn read_config(path: &str) -> Result<CircuitConfig> {
@@ -88,7 +93,7 @@ fn create_circuit(
     r: &[u8],
     msg_hash: &[u8],
     is_y_odd: bool,
-) -> Result<Secp256k1VerifyCircuit> {
+) -> Result<EffECDSAVerifyCircuit> {
     // Deserialize the inputs
     let s = secp256k1::Fq::from_bytes_le(s);
     let r = secp256k1::Fq::from_bytes_le(r);
@@ -101,7 +106,7 @@ fn create_circuit(
 
     let ecdsa_inputs = ECDSAInputs { r, s, msg_hash, pk };
 
-    let circuit = Secp256k1VerifyCircuit::new(&halo2_wasm, ecdsa_inputs)
+    let circuit = EffECDSAVerifyCircuit::new(&halo2_wasm, ecdsa_inputs)
         .map_err(|e| anyhow!(e))
         .context("Failed to initialize the circuit!")?;
 
@@ -132,7 +137,7 @@ where
     let circuit_stats = halo2_wasm.get_circuit_stats();
 
     // Generate Params based on the circuit stats
-    let params = generate_params::<E>(15)?;
+    let params = generate_params::<E>(K)?;
 
     // Load params
     halo2_wasm.load_params(&serialize_params_to_bytes(&params));
@@ -146,7 +151,10 @@ where
     Ok(halo2_wasm)
 }
 
-fn generate_proof<E>(config: &CircuitConfig, mut circuit: Secp256k1VerifyCircuit) -> Result<Vec<u8>>
+fn generate_proof<E, CF, SF, GA>(
+    config: &CircuitConfig,
+    mut circuit: EffECDSAVerifyCircuit<CF, SF, GA: >,
+) -> Result<Vec<u8>>
 where
     E: Engine,
 {
