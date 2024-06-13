@@ -12,7 +12,7 @@ use halo2_base::{
     utils::{
         biguint_to_fe, decompose_bigint, fe_to_bigint, fe_to_biguint, BigPrimeField, CurveAffineExt,
     },
-    Context as Halo2Context,
+    AssignedValue, Context as Halo2Context,
 };
 use halo2_ecc::{
     bigint::ProperCrtUint,
@@ -20,6 +20,7 @@ use halo2_ecc::{
     fields::{fp, FieldChip},
 };
 use halo2_wasm::Halo2Wasm;
+use itertools::{concat, Itertools};
 use std::{borrow::Borrow, cell::RefCell, fs::FileType, marker::PhantomData, rc::Rc};
 use wasm_bindgen::prelude::wasm_bindgen;
 
@@ -52,6 +53,7 @@ where
     SF: BigPrimeField,
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
+    pub public: Vec<u32>,
     eff_ecdsa_inputs: EffECDSAInputs<CF, SF, GA>,
     range_chip: RangeChip<F>,
     halo2_wasm: Rc<RefCell<Halo2Wasm>>,
@@ -79,7 +81,8 @@ where
         };
 
         let circuit_params = halo2_wasm
-            .borrow_mut()
+            .try_borrow()
+            .unwrap()
             .circuit_params
             .clone()
             .context("Error: Circuit params are not set")?;
@@ -91,18 +94,21 @@ where
         let range_chip = RangeChip::<F>::new(
             lookup_bits,
             halo2_wasm
-                .borrow_mut()
+                .try_borrow()
+                .unwrap()
                 .circuit
-                .borrow_mut()
+                .try_borrow()
+                .unwrap()
                 .lookup_manager()
                 .clone(),
         );
 
         Ok(EffECDSAVerifyCircuit {
+            public: vec![],
             eff_ecdsa_inputs,
             range_chip,
             halo2_wasm: Rc::clone(&halo2_wasm),
-            builder: Rc::clone(&halo2_wasm.borrow_mut().circuit),
+            builder: Rc::clone(&halo2_wasm.try_borrow().unwrap().circuit),
             _CF_marker: PhantomData,
             _SF_marker: PhantomData,
             _GA_marker: PhantomData,
@@ -123,42 +129,99 @@ where
         EccChip::new(fp_chip)
     }
 
-    fn load_instance(
-        &self,
-        ecc_chip: &EccChip<F, FpChip<F, CF>>,
-        ctx: &mut Halo2Context<F>,
-        instance: GA,
-    ) -> EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint> {
+    fn set_instances(&mut self, instances_cells: &[u32], col: usize) -> Vec<AssignedValue<F>> {
+        let instances: Vec<AssignedValue<F>> = instances_cells
+            .iter()
+            .map(|x| {
+                self.builder
+                    .borrow_mut()
+                    .main(0)
+                    .get((*x).try_into().expect("Failed to set instances!"))
+            })
+            .collect();
+
+        instances
+    }
+
+    fn assign_instances(&mut self, instances: Vec<AssignedValue<F>>) {
+        //let flattened: Vec<AssignedValue<F>> = concat(self.public.clone());
+        self.builder.borrow_mut().assigned_instances = vec![instances];
+    }
+
+    fn load_instances(
+        &mut self,
+    ) -> (
+        EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
+        EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
+    ) {
+        let mut builder = self.builder.borrow_mut();
+        let ctx = builder.main(0);
+
+        // Get BaseField chip
+        let fp_chip = self.ecc_fp_chip();
+        let ecc_chip = self.ecc_chip(&fp_chip);
         let base_chip = ecc_chip.field_chip;
 
-        let (x, y) = instance.into_coordinates();
+        // Get Points out fo the T and U
+        let (Tx, Ty) = self.eff_ecdsa_inputs.T.into_coordinates();
+        let (Ux, Uy) = self.eff_ecdsa_inputs.U.into_coordinates();
 
         // Set as constants in the BaseField chip
-        let (x_assigned, y_assigned) = (
-            base_chip.load_constant(ctx, x).into(),
-            base_chip.load_constant(ctx, y).into(),
+        let (Tx_assigned, Ty_assigned) = (
+            base_chip.load_constant(ctx, Tx),
+            base_chip.load_constant(ctx, Ty),
         );
 
-        let (x, y) = (fe_to_biguint(&x), fe_to_biguint(&y));
-        let (x, y) = (biguint_to_fe::<F>(&x), biguint_to_fe::<F>(&y));
-
-        let (x_offset, y_offset): (u32, u32) = (
-            ctx.load_witness(x).cell.unwrap().offset.try_into().unwrap(),
-            ctx.load_witness(y).cell.unwrap().offset.try_into().unwrap(),
+        let (Ux_assigned, Uy_assigned) = (
+            base_chip.load_constant(ctx, Ux),
+            base_chip.load_constant(ctx, Uy),
         );
 
-        let (x, y) = (
-            ctx.get(x_offset.try_into().unwrap()),
-            ctx.get(y_offset.try_into().unwrap()),
+        let precompile_ec_points = (
+            EcPoint::new(Tx_assigned, Ty_assigned),
+            EcPoint::new(Ux_assigned, Uy_assigned),
         );
 
-        let instances_cells = vec![x_offset, x_offset];
-        self.halo2_wasm
-            .borrow_mut()
-            .set_instances(&instances_cells, 0);
-        self.halo2_wasm.borrow_mut().assign_instances();
+        // Load them as public inputs in the context
+        let (Tx, Ty) = (fe_to_biguint(&Tx), fe_to_biguint(&Ty));
+        let (Tx, Ty) = (biguint_to_fe::<F>(&Tx), biguint_to_fe::<F>(&Ty));
 
-        EcPoint::new(x_assigned, y_assigned)
+        let (Ux, Uy) = (fe_to_biguint(&Ux), fe_to_biguint(&Uy));
+        let (Ux, Uy) = (biguint_to_fe::<F>(&Ux), biguint_to_fe::<F>(&Uy));
+
+        let (Tx_offset, Ty_offset): (u32, u32) = (
+            ctx.load_witness(Tx)
+                .cell
+                .unwrap()
+                .offset
+                .try_into()
+                .unwrap(),
+            ctx.load_witness(Ty)
+                .cell
+                .unwrap()
+                .offset
+                .try_into()
+                .unwrap(),
+        );
+        let (Ux_offset, Uy_offset): (u32, u32) = (
+            ctx.load_witness(Ux)
+                .cell
+                .unwrap()
+                .offset
+                .try_into()
+                .unwrap(),
+            ctx.load_witness(Uy)
+                .cell
+                .unwrap()
+                .offset
+                .try_into()
+                .unwrap(),
+        );
+
+        // Load instances as public
+        self.public = vec![Tx_offset, Ty_offset, Ux_offset, Uy_offset];
+
+        precompile_ec_points
     }
 
     fn load_constant(
@@ -180,16 +243,20 @@ where
 
     fn recover_pk_eff(
         &self,
-        ecc_chip: &EccChip<F, FpChip<F, CF>>,
-        ctx: &mut Halo2Context<F>,
+        pk: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
         T: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
         U: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
         s: ProperCrtUint<F>,
         fixed_window_bits: usize,
     ) -> EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint> {
-        // Following https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm
-        let base_chip = ecc_chip.field_chip;
+        let mut builder = self.builder.borrow_mut();
+        let ctx = builder.main(0);
+
+        // Get BaseField chip
+        let base_chip = self.ecc_fp_chip();
         let scalar_chip = self.ecc_fq_chip();
+        let ecc_chip = self.ecc_chip(&base_chip);
+        let base_chip = ecc_chip.field_chip;
 
         // Check s is in [1, (n-1)]
         scalar_chip.is_soft_nonzero(ctx, &s);
@@ -207,10 +274,15 @@ where
         );
 
         // s_mul_t + U = pk
-        ecc_chip.add_unequal(ctx, &s_mul_t, &U, false)
+        let recovered_pk = ecc_chip.add_unequal(ctx, &s_mul_t, &U, false);
+
+        // Check pk equals recovered_pk
+        ecc_chip.assert_equal(ctx, pk, recovered_pk.clone());
+
+        recovered_pk
     }
 
-    pub fn verify_signature(&mut self) -> Result<()> {
+    fn load_signature(&mut self) -> (ProperCrtUint<F>, EcPoint<F, ProperCrtUint<F>>) {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(0); //TODO why 0?
 
@@ -229,15 +301,21 @@ where
             ),
         );
 
-        // Extracting the T and U points
-        let T = self.load_instance(&ecc_chip, ctx, self.eff_ecdsa_inputs.T);
-        let U = self.load_instance(&ecc_chip, ctx, self.eff_ecdsa_inputs.U);
+        (s, pk)
+    }
+
+    pub fn verify_signature(&mut self) -> Result<()> {
+        let (s, pk) = self.load_signature();
+
+        // Load instances
+        let (T, U) = self.load_instances();
+
+        // // Set and assign instances
+        // let instances = self.set_instances(&precompile_instances_cells, 0);
+        // self.assign_instances(instances);
 
         // Recover pk from precomputed T and U.
-        let recovered_pk = self.recover_pk_eff(&ecc_chip, ctx, T, U, s, FIXED_WINDOW_BITS);
-
-        // Check pk equals recovered_pk
-        ecc_chip.assert_equal(ctx, pk, recovered_pk);
+        self.recover_pk_eff(pk, T, U, s, FIXED_WINDOW_BITS);
 
         Ok(())
     }
@@ -406,6 +484,8 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
+        halo2_wasm.borrow_mut().set_instances(&circuit.public, 0);
+        halo2_wasm.borrow_mut().assign_instances();
         halo2_wasm.borrow_mut().mock();
         Ok(())
     }
@@ -472,6 +552,9 @@ mod tests {
             .verify_signature()
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
+
+        halo2_wasm.borrow_mut().set_instances(&circuit.public, 0);
+        halo2_wasm.borrow_mut().assign_instances();
 
         let params = ParamsKZG::<Bn256>::setup(15, OsRng);
 
