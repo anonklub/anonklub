@@ -45,10 +45,12 @@ fn from_x(x: secp256k1::Fq, is_y_odd: bool) -> Result<secp256k1::Secp256k1Affine
 /// @src https://personaelabs.org/posts/efficient-ecdsa-1/
 /// Compute `T` and `U` for efficient ECDSA verification
 pub fn recover_pk_eff(
-    msg_hash: BigUint,
+    msg_hash: &[u8],
     r: secp256k1::Fq,
     is_y_odd: bool,
 ) -> Result<(secp256k1::Secp256k1Affine, secp256k1::Secp256k1Affine)> {
+    let msg_hash = BigUint::from_bytes_be(msg_hash);
+
     let g = secp256k1::Secp256k1Affine::generator();
 
     // Recover the `R` point

@@ -1,3 +1,10 @@
+use crate::{
+    consts::{E, K},
+    ecdsa::Secp256k1VerifyCircuit,
+    eff_ecdsa::{EffECDSAInputs, EffECDSAVerifyCircuit},
+    recovery::recover_pk_eff,
+    utils::serialize_params_to_bytes,
+};
 use anyhow::{anyhow, Context, Result};
 use halo2_base::{
     halo2_proofs::{
@@ -6,19 +13,15 @@ use halo2_base::{
         plonk::{Circuit, ProvingKey},
         poly::kzg::commitment::ParamsKZG,
     },
-    utils::{BigPrimeField, ScalarField},
+    utils::{BigPrimeField, CurveAffineExt, ScalarField},
 };
-use halo2_wasm::{CircuitConfig, Halo2Wasm};
+use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
 use num_bigint::BigUint;
 use rand::rngs::StdRng;
+use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
+use std::fs::File;
 use wasm_bindgen::prelude::wasm_bindgen;
-
-use crate::{
-    ecdsa::Secp256k1VerifyCircuit, eff_ecdsa::EffECDSAVerifyCircuit, recovery::recover_pk_eff,
-};
-
-const K: i32 = 15;
 
 // `AnonklubProof` consists of a Halo2 proof
 // This proof is serialized and passed around in the JavaScript runtime.
@@ -33,11 +36,20 @@ pub struct AnonklubProof {
 #[wasm_bindgen]
 pub fn prove_membership(s: &[u8], r: &[u8], msg_hash: &[u8], is_y_odd: bool) -> Result<Vec<u8>> {
     // Initialize the config and the circuit
-    let config = read_config("configs/secp256k1_ecdsa_circuit.config")?;
-    let circuit = create_circuit(s, r, msg_hash, is_y_odd)?;
+    let config = read_config("configs/ecdsa.config")?;
+
+    let halo2_wasm = initialize_halo2_wasm::<E>(&config)?;
+
+    let circuit = create_circuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>(
+        s,
+        r,
+        msg_hash,
+        is_y_odd,
+        &halo2_wasm,
+    )?;
 
     // Generate the proof
-    let proof = generate_proof(&config, &circuit)?;
+    let proof = generate_proof(&circuit, &halo2_wasm)?;
 
     // Serialize Anonklub proof.
     let anonklub_proof = AnonklubProof {
@@ -57,20 +69,26 @@ pub fn prove_membership(s: &[u8], r: &[u8], msg_hash: &[u8], is_y_odd: bool) -> 
 }
 
 #[wasm_bindgen]
-pub fn verify_membership(anonklub_proof: &[u8]) -> bool {
+pub fn verify_membership(anonklub_proof: &[u8]) -> Result<bool> {
+    // Initialize the config and the circuit
+    let config = read_config("configs/ecdsa.config")?;
+
+    let halo2_wasm = initialize_halo2_wasm::<E>(&config)?;
+
     // Get the public input from the proof
     let anonklub_proof = AnonklubProof::deserialize(anonklub_proof)
         .map_err(|e| anyhow!(e))
         .context("Failed to deserialize the proof!")?;
-    let config = read_config("configs/secp256k1_ecdsa_circuit.config")?;
-    let circuit = create_circuit(
+
+    let circuit = create_circuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>(
         anonklub_proof.s,
         anonklub_proof.r,
         anonklub_proof.msg_hash,
         anonklub_proof.is_y_odd,
+        &halo2_wasm,
     )?;
 
-    verify_proof::<Bn256>(&config, circuit, &anonklub_proof.proof)?
+    verify_proof::<E>(&anonklub_proof.proof)?
 
     // Verify the efficient ECDSA input
 }
@@ -88,25 +106,30 @@ fn read_config(path: &str) -> Result<CircuitConfig> {
     Ok(config)
 }
 
-fn create_circuit(
+fn create_circuit<CF, SF, GA>(
     s: &[u8],
     r: &[u8],
     msg_hash: &[u8],
     is_y_odd: bool,
-) -> Result<EffECDSAVerifyCircuit> {
+    halo2_wasm: &Halo2Wasm,
+) -> Result<EffECDSAVerifyCircuit<CF, SF, GA>>
+where
+    CF: BigPrimeField,
+    SF: BigPrimeField,
+    GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
+{
     // Deserialize the inputs
     let s = secp256k1::Fq::from_bytes_le(s);
     let r = secp256k1::Fq::from_bytes_le(r);
-    let msg_hash = BigUint::from_bytes_be(msg_hash);
 
     // Compute the efficient ECDSA inputs
     let (U, T) = recover_pk_eff(msg_hash, r, is_y_odd).context("Failed to recover the PK!")?;
 
     let msg_hash = secp256k1::Fq::from_bytes_le(msg_hash);
 
-    let ecdsa_inputs = ECDSAInputs { r, s, msg_hash, pk };
+    let ecdsa_inputs = EffECDSAInputs::new(s, pk, T, U);
 
-    let circuit = EffECDSAVerifyCircuit::new(&halo2_wasm, ecdsa_inputs)
+    let circuit = EffECDSAVerifyCircuit::<CF, SF, GA>::new(&halo2_wasm, ecdsa_inputs)
         .map_err(|e| anyhow!(e))
         .context("Failed to initialize the circuit!")?;
 
@@ -117,21 +140,18 @@ fn generate_params<E>(k: usize) -> Result<ParamsKZG<E>>
 where
     E: Engine,
 {
-    let params = ParamsKZG::<C>::setup(15, OsRng);
+    let params = ParamsKZG::<E>::setup(K, OsRng);
 
     Ok(params)
 }
 
-fn initialize_halo2_wasm<E>(
-    config: &CircuitConfig,
-    circuit: Secp256k1VerifyCircuit,
-) -> Result<Halo2Wasm>
+fn initialize_halo2_wasm<E>(config: &CircuitConfig) -> Result<&mut Halo2Wasm>
 where
     E: Engine,
 {
     let mut halo2_wasm = Halo2Wasm::new();
 
-    halo2_wasm.config(config);
+    halo2_wasm.config(*config);
 
     // Get Circuit Stats
     let circuit_stats = halo2_wasm.get_circuit_stats();
@@ -148,18 +168,19 @@ where
     // Generate PK
     halo2_wasm.gen_pk();
 
-    Ok(halo2_wasm)
+    Ok(&mut halo2_wasm)
 }
 
 fn generate_proof<E, CF, SF, GA>(
-    config: &CircuitConfig,
-    mut circuit: EffECDSAVerifyCircuit<CF, SF, GA: >,
+    mut circuit: EffECDSAVerifyCircuit<CF, SF, GA>,
+    halo2_wasm: &Halo2Wasm,
 ) -> Result<Vec<u8>>
 where
     E: Engine,
+    CF: BigPrimeField,
+    SF: BigPrimeField,
+    GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
-    let halo2_wasm = initialize_halo2_wasm::<E>(config, circuit)?;
-
     circuit
         .verify_signature()
         .map_err(|e| anyhow!(e))
@@ -171,20 +192,11 @@ where
     Ok(proof)
 }
 
-fn verify_proof<E>(
-    config: &CircuitConfig,
-    mut circuit: Secp256k1VerifyCircuit,
-    anonklub_proof: &[u8],
-) -> Result<bool>
-where
-    E: Engine,
-{
-    let halo2_wasm = initialize_halo2_wasm::<E>(config, circuit)?;
-
+fn verify_proof<E>(anonklub_proof: &[u8], halo2_wasm: &Halo2Wasm) -> Result<bool> {
     let verification = halo2_wasm.verify(anonklub_proof);
 
     match verification {
         Err(_) => Ok(false),
-        _ => Ok(true),
+        Ok(_) => Ok(true),
     }
 }

@@ -1,6 +1,12 @@
+use halo2_base::halo2_proofs::{
+    halo2curves::bn256::Bn256,
+    poly::{commitment::Params, kzg::commitment::ParamsKZG},
+};
 use num_bigint::BigUint;
-use std::{result::Result, str::from_utf8};
+use std::{io::Cursor, result::Result, str::from_utf8};
 use subtle::CtOption;
+
+use crate::consts::E;
 
 /// @src https://github.com/privacy-scaling-explorations/zkevm-circuits/blob/main/eth-types/src/sign_types.rs
 /// Helper function to convert a `CtOption` into an `Result`.  Similar to
@@ -39,4 +45,14 @@ pub fn pk_bytes_swap_endianness<T: Clone>(actual_pk: &[T]) -> [T; 64] {
     pk_swap[..32].reverse();
     pk_swap[32..].reverse();
     pk_swap
+}
+
+pub fn serialize_params_to_bytes(params: &ParamsKZG<E>) -> Vec<u8> {
+    let mut buf = Vec::new();
+    let mut cursor = Cursor::new(&mut buf);
+
+    // Hypothetical write method, replace with the actual method to serialize ParamsKZG<Bn256>
+    params.write(&mut cursor).expect("Serialization failed");
+
+    buf
 }

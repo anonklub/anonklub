@@ -24,14 +24,7 @@ use itertools::{concat, Itertools};
 use std::{borrow::Borrow, cell::RefCell, fs::FileType, marker::PhantomData, rc::Rc};
 use wasm_bindgen::prelude::wasm_bindgen;
 
-type FpChip<'range, F, CF> = fp::FpChip<'range, F, CF>;
-type FqChip<'range, F, SF> = fp::FpChip<'range, F, SF>;
-type F = bn256::Fr;
-
-const LIMB_BITS: usize = 88;
-const NUM_LIMBS: usize = 3;
-const FIXED_WINDOW_BITS: usize = 4;
-const CONTEXT_PHASE: usize = 0;
+use crate::consts::{FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS};
 
 // CF is the coordinate field of GA
 // SF is the scalar field of GA
@@ -46,6 +39,17 @@ where
     pk: GA,
     T: GA,
     U: GA,
+}
+
+impl<CF, SF, GA> EffECDSAInputs<CF, SF, GA>
+where
+    CF: BigPrimeField,
+    SF: BigPrimeField,
+    GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
+{
+    pub fn new(s: SF, pk: GA, T: GA, U: GA) -> Self {
+        Self { s, pk, T, U }
+    }
 }
 
 pub struct EffECDSAVerifyCircuit<CF, SF, GA>
@@ -345,16 +349,6 @@ mod tests {
         lookup_bits: usize,
         limb_bits: usize,
         num_limbs: usize,
-    }
-
-    fn serialize_params_to_bytes(params: &ParamsKZG<Bn256>) -> Vec<u8> {
-        let mut buf = Vec::new();
-        let mut cursor = Cursor::new(&mut buf);
-
-        // Hypothetical write method, replace with the actual method to serialize ParamsKZG<Bn256>
-        params.write(&mut cursor).expect("Serialization failed");
-
-        buf
     }
 
     fn random_ecdsa_input(
