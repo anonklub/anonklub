@@ -195,7 +195,7 @@ mod tests {
 
     #[test]
     fn test_secp256k1_mock_verify() -> Result<(), String> {
-        let path = "configs/secp256k1_ecdsa_circuit.config";
+        let path = "configs/ecdsa.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path).unwrap_or_else(|e| panic!("{path} does not exist: {e:?}")),
         )
@@ -218,7 +218,7 @@ mod tests {
 
     #[test]
     fn test_secp256k1_real_verify() -> Result<(), String> {
-        let path = "configs/secp256k1_ecdsa_circuit.config";
+        let path = "configs/ecdsa.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path).unwrap_or_else(|e| panic!("{path} does not exist: {e:?}")),
         )

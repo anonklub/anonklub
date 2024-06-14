@@ -31,6 +31,7 @@ type F = bn256::Fr;
 const LIMB_BITS: usize = 88;
 const NUM_LIMBS: usize = 3;
 const FIXED_WINDOW_BITS: usize = 4;
+const CONTEXT_PHASE: usize = 0;
 
 // CF is the coordinate field of GA
 // SF is the scalar field of GA
@@ -56,7 +57,6 @@ where
     pub public: Vec<u32>,
     eff_ecdsa_inputs: EffECDSAInputs<CF, SF, GA>,
     range_chip: RangeChip<F>,
-    halo2_wasm: Rc<RefCell<Halo2Wasm>>,
     builder: Rc<RefCell<BaseCircuitBuilder<F>>>,
     _CF_marker: PhantomData<CF>,
     _SF_marker: PhantomData<SF>,
@@ -70,7 +70,7 @@ where
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
     pub fn new(
-        halo2_wasm: Rc<RefCell<Halo2Wasm>>,
+        halo2_wasm: &Halo2Wasm,
         eff_ecdsa_inputs: EffECDSAInputs<CF, SF, GA>,
     ) -> Result<Self> {
         let eff_ecdsa_inputs = EffECDSAInputs {
@@ -81,8 +81,6 @@ where
         };
 
         let circuit_params = halo2_wasm
-            .try_borrow()
-            .unwrap()
             .circuit_params
             .clone()
             .context("Error: Circuit params are not set")?;
@@ -94,8 +92,6 @@ where
         let range_chip = RangeChip::<F>::new(
             lookup_bits,
             halo2_wasm
-                .try_borrow()
-                .unwrap()
                 .circuit
                 .try_borrow()
                 .unwrap()
@@ -107,8 +103,7 @@ where
             public: vec![],
             eff_ecdsa_inputs,
             range_chip,
-            halo2_wasm: Rc::clone(&halo2_wasm),
-            builder: Rc::clone(&halo2_wasm.try_borrow().unwrap().circuit),
+            builder: Rc::clone(&halo2_wasm.circuit),
             _CF_marker: PhantomData,
             _SF_marker: PhantomData,
             _GA_marker: PhantomData,
@@ -129,33 +124,14 @@ where
         EccChip::new(fp_chip)
     }
 
-    fn set_instances(&mut self, instances_cells: &[u32], col: usize) -> Vec<AssignedValue<F>> {
-        let instances: Vec<AssignedValue<F>> = instances_cells
-            .iter()
-            .map(|x| {
-                self.builder
-                    .borrow_mut()
-                    .main(0)
-                    .get((*x).try_into().expect("Failed to set instances!"))
-            })
-            .collect();
-
-        instances
-    }
-
-    fn assign_instances(&mut self, instances: Vec<AssignedValue<F>>) {
-        //let flattened: Vec<AssignedValue<F>> = concat(self.public.clone());
-        self.builder.borrow_mut().assigned_instances = vec![instances];
-    }
-
-    fn load_instances(
+    fn load_constants(
         &mut self,
     ) -> (
         EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
         EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
     ) {
         let mut builder = self.builder.borrow_mut();
-        let ctx = builder.main(0);
+        let ctx = builder.main(CONTEXT_PHASE);
 
         // Get BaseField chip
         let fp_chip = self.ecc_fp_chip();
@@ -163,18 +139,18 @@ where
         let base_chip = ecc_chip.field_chip;
 
         // Get Points out fo the T and U
-        let (Tx, Ty) = self.eff_ecdsa_inputs.T.into_coordinates();
-        let (Ux, Uy) = self.eff_ecdsa_inputs.U.into_coordinates();
+        let (T_x, T_y) = self.eff_ecdsa_inputs.T.into_coordinates();
+        let (U_x, U_y) = self.eff_ecdsa_inputs.U.into_coordinates();
 
         // Set as constants in the BaseField chip
         let (Tx_assigned, Ty_assigned) = (
-            base_chip.load_constant(ctx, Tx),
-            base_chip.load_constant(ctx, Ty),
+            base_chip.load_constant(ctx, T_x),
+            base_chip.load_constant(ctx, T_y),
         );
 
         let (Ux_assigned, Uy_assigned) = (
-            base_chip.load_constant(ctx, Ux),
-            base_chip.load_constant(ctx, Uy),
+            base_chip.load_constant(ctx, U_x),
+            base_chip.load_constant(ctx, U_y),
         );
 
         let precompile_ec_points = (
@@ -182,21 +158,41 @@ where
             EcPoint::new(Ux_assigned, Uy_assigned),
         );
 
-        // Load them as public inputs in the context
-        let (Tx, Ty) = (fe_to_biguint(&Tx), fe_to_biguint(&Ty));
-        let (Tx, Ty) = (biguint_to_fe::<F>(&Tx), biguint_to_fe::<F>(&Ty));
+        precompile_ec_points
+    }
 
-        let (Ux, Uy) = (fe_to_biguint(&Ux), fe_to_biguint(&Uy));
-        let (Ux, Uy) = (biguint_to_fe::<F>(&Ux), biguint_to_fe::<F>(&Uy));
+    fn load_instances(&mut self) {
+        let mut builder = self.builder.borrow_mut();
+        let ctx = builder.main(CONTEXT_PHASE);
+
+        // Get Points out fo the T and U
+        let (T_x, T_y) = self.eff_ecdsa_inputs.T.into_coordinates();
+        let (U_x, U_y) = self.eff_ecdsa_inputs.U.into_coordinates();
+
+        // Load them as public inputs in the context
+        let (T_x, T_y) = (
+            biguint_to_fe::<F>(&fe_to_biguint(&T_x)),
+            biguint_to_fe::<F>(&fe_to_biguint(&T_y)),
+        );
+
+        let (U_x, U_y) = (
+            biguint_to_fe::<F>(&fe_to_biguint(&U_x)),
+            biguint_to_fe::<F>(&fe_to_biguint(&U_y)),
+        );
+
+        let (T_x_cf, T_y_cf) = (
+            biguint_to_fe::<CF>(&fe_to_biguint(&T_x)),
+            biguint_to_fe::<CF>(&fe_to_biguint(&T_y)),
+        );
 
         let (Tx_offset, Ty_offset): (u32, u32) = (
-            ctx.load_witness(Tx)
+            ctx.load_witness(T_x)
                 .cell
                 .unwrap()
                 .offset
                 .try_into()
                 .unwrap(),
-            ctx.load_witness(Ty)
+            ctx.load_witness(T_y)
                 .cell
                 .unwrap()
                 .offset
@@ -204,13 +200,13 @@ where
                 .unwrap(),
         );
         let (Ux_offset, Uy_offset): (u32, u32) = (
-            ctx.load_witness(Ux)
+            ctx.load_witness(U_x)
                 .cell
                 .unwrap()
                 .offset
                 .try_into()
                 .unwrap(),
-            ctx.load_witness(Uy)
+            ctx.load_witness(U_y)
                 .cell
                 .unwrap()
                 .offset
@@ -220,25 +216,6 @@ where
 
         // Load instances as public
         self.public = vec![Tx_offset, Ty_offset, Ux_offset, Uy_offset];
-
-        precompile_ec_points
-    }
-
-    fn load_constant(
-        &self,
-        ecc_chip: &EccChip<F, FpChip<F, CF>>,
-        ctx: &mut Halo2Context<F>,
-        (x, y): (
-            <FpChip<F, CF> as FieldChip<F>>::FieldType,
-            <FpChip<F, CF> as FieldChip<F>>::FieldType,
-        ),
-    ) -> EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint> {
-        let base_chip = ecc_chip.field_chip;
-
-        let x_assigned = base_chip.load_constant(ctx, x).into();
-        let y_assigned = base_chip.load_constant(ctx, y).into();
-
-        EcPoint::new(x_assigned, y_assigned)
     }
 
     fn recover_pk_eff(
@@ -250,7 +227,7 @@ where
         fixed_window_bits: usize,
     ) -> EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint> {
         let mut builder = self.builder.borrow_mut();
-        let ctx = builder.main(0);
+        let ctx = builder.main(CONTEXT_PHASE);
 
         // Get BaseField chip
         let base_chip = self.ecc_fp_chip();
@@ -284,22 +261,19 @@ where
 
     fn load_signature(&mut self) -> (ProperCrtUint<F>, EcPoint<F, ProperCrtUint<F>>) {
         let mut builder = self.builder.borrow_mut();
-        let ctx = builder.main(0); //TODO why 0?
+        let ctx = builder.main(CONTEXT_PHASE);
 
         // Get needed chips
         let fp_chip = self.ecc_fp_chip();
         let fq_chip = self.ecc_fq_chip();
         let ecc_chip = self.ecc_chip(&fp_chip);
 
+        // Get PK points
+        let (pk_x, pk_y) = self.eff_ecdsa_inputs.pk.into_coordinates();
+
         // Assign private inputs
         let s = fq_chip.load_private(ctx, self.eff_ecdsa_inputs.s);
-        let pk = ecc_chip.load_private_unchecked(
-            ctx,
-            (
-                self.eff_ecdsa_inputs.pk.into_coordinates().0,
-                self.eff_ecdsa_inputs.pk.into_coordinates().1,
-            ),
-        );
+        let pk = ecc_chip.load_private_unchecked(ctx, (pk_x, pk_y));
 
         (s, pk)
     }
@@ -307,12 +281,16 @@ where
     pub fn verify_signature(&mut self) -> Result<()> {
         let (s, pk) = self.load_signature();
 
-        // Load instances
-        let (T, U) = self.load_instances();
+        // Load T and U as constants in the base field
+        // TODO: I am not sure if that step is right or wrong.
+        //      Since we need the T and U precomputed points to be loaded as type of EcPoint
+        //      For doing the computations to recover the PK. It is only allowed to get that type
+        //      through loading the two points into the base_filed_chip as constants and
+        //      therefore I can get back EcPoint<F, F>.
+        let (T, U) = self.load_constants();
 
-        // // Set and assign instances
-        // let instances = self.set_instances(&precompile_instances_cells, 0);
-        // self.assign_instances(instances);
+        // Load T and U as public instances
+        self.load_instances();
 
         // Recover pk from precomputed T and U.
         self.recover_pk_eff(pk, T, U, s, FIXED_WINDOW_BITS);
@@ -352,6 +330,10 @@ mod tests {
     use std::cell::RefCell;
     use std::rc::Rc;
     use std::{fs::File, io::Cursor, time::Instant};
+
+    const K: u32 = 15;
+    const PRIV_KEY: u64 = 42;
+    const INSTANCE_COL: usize = 0;
 
     #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
     pub struct CircuitParams {
@@ -456,7 +438,7 @@ mod tests {
 
     #[test]
     fn test_eff_secp256k1_mock_verify() -> Result<()> {
-        let path = "configs/secp256k1_ecdsa_circuit.config";
+        let path = "configs/ecdsa.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
                 .map_err(|e| anyhow!(e))
@@ -465,17 +447,17 @@ mod tests {
         .map_err(|e| anyhow!(e))
         .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
 
-        let mock_eff_ecdsa = mock_eff_ecdsa_input(42)
+        let mock_eff_ecdsa = mock_eff_ecdsa_input(PRIV_KEY)
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA")?;
 
-        let halo2_wasm = Rc::new(RefCell::new(Halo2Wasm::new()));
+        let mut halo2_wasm = Halo2Wasm::new();
 
-        halo2_wasm.borrow_mut().config(circuit_params);
+        halo2_wasm.config(circuit_params);
 
         let mut circuit =
             EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-                Rc::clone(&halo2_wasm),
+                &halo2_wasm,
                 mock_eff_ecdsa,
             )?;
 
@@ -484,15 +466,16 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
-        halo2_wasm.borrow_mut().set_instances(&circuit.public, 0);
-        halo2_wasm.borrow_mut().assign_instances();
-        halo2_wasm.borrow_mut().mock();
+        halo2_wasm.set_instances(&circuit.public, INSTANCE_COL);
+        halo2_wasm.assign_instances();
+        halo2_wasm.mock();
+
         Ok(())
     }
 
     #[test]
     fn test_secp256k1_mock_random_verify() -> Result<()> {
-        let path = "configs/secp256k1_ecdsa_circuit.config";
+        let path = "configs/ecdsa.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
                 .map_err(|e| anyhow!(e))
@@ -504,47 +487,13 @@ mod tests {
         let mut rng = StdRng::seed_from_u64(0);
         let ecdsa_inputs = random_ecdsa_input(&mut rng)?;
 
-        let halo2_wasm = Rc::new(RefCell::new(Halo2Wasm::new()));
+        let mut halo2_wasm = Halo2Wasm::new();
 
-        halo2_wasm.borrow_mut().config(circuit_params);
-
-        {
-            let mut circuit =
-                EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-                    Rc::clone(&halo2_wasm),
-                    ecdsa_inputs,
-                )?;
-
-            circuit
-                .verify_signature()
-                .map_err(|e| anyhow!(e))
-                .context("The circuit failed to verify signature!")?;
-        }
-
-        halo2_wasm.borrow_mut().mock();
-        Ok(())
-    }
-
-    #[test]
-    fn test_eff_secp256k1_real_verify() -> Result<()> {
-        let path = "configs/secp256k1_ecdsa_circuit.config";
-        let circuit_params: CircuitConfig = serde_json::from_reader(
-            File::open(path)
-                .map_err(|e| anyhow!(e))
-                .with_context(|| format!("The circuit config file does not exist: {}", path))?,
-        )
-        .map_err(|e| anyhow!(e))
-        .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
-
-        let ecdsa_inputs = mock_eff_ecdsa_input(42)?;
-
-        let halo2_wasm = Rc::new(RefCell::new(Halo2Wasm::new()));
-
-        halo2_wasm.borrow_mut().config(circuit_params);
+        halo2_wasm.config(circuit_params);
 
         let mut circuit =
             EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-                Rc::clone(&halo2_wasm),
+                &halo2_wasm,
                 ecdsa_inputs,
             )?;
 
@@ -553,26 +502,62 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
-        halo2_wasm.borrow_mut().set_instances(&circuit.public, 0);
-        halo2_wasm.borrow_mut().assign_instances();
+        halo2_wasm.set_instances(&circuit.public, INSTANCE_COL);
 
-        let params = ParamsKZG::<Bn256>::setup(15, OsRng);
+        halo2_wasm.assign_instances();
+
+        halo2_wasm.mock();
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_eff_secp256k1_real_verify() -> Result<()> {
+        let path = "configs/ecdsa.config";
+        let circuit_params: CircuitConfig = serde_json::from_reader(
+            File::open(path)
+                .map_err(|e| anyhow!(e))
+                .with_context(|| format!("The circuit config file does not exist: {}", path))?,
+        )
+        .map_err(|e| anyhow!(e))
+        .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
+
+        let ecdsa_inputs = mock_eff_ecdsa_input(PRIV_KEY)?;
+
+        let mut halo2_wasm = Halo2Wasm::new();
+
+        halo2_wasm.config(circuit_params);
+
+        let mut circuit =
+            EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+                &halo2_wasm,
+                ecdsa_inputs,
+            )?;
+
+        circuit
+            .verify_signature()
+            .map_err(|e| anyhow!(e))
+            .context("The circuit failed to verify signature!")?;
+
+        halo2_wasm.set_instances(&circuit.public, INSTANCE_COL);
+
+        halo2_wasm.assign_instances();
+
+        let params = ParamsKZG::<Bn256>::setup(K, OsRng);
 
         // Load params
-        halo2_wasm
-            .borrow_mut()
-            .load_params(&serialize_params_to_bytes(&params));
+        halo2_wasm.load_params(&serialize_params_to_bytes(&params));
 
         // Generate VK
-        halo2_wasm.borrow_mut().gen_vk();
+        halo2_wasm.gen_vk();
 
         // Generate PK
-        halo2_wasm.borrow_mut().gen_pk();
+        halo2_wasm.gen_pk();
 
         let start = Instant::now();
 
         // Generate proof
-        let proof: Vec<u8> = halo2_wasm.borrow_mut().prove();
+        let proof: Vec<u8> = halo2_wasm.prove();
 
         // let proof = proof.proof;
         // let instances: Vec<Vec<halo2_wasm::halo2lib::ecc::Bn254Fr>> = proof.instances;
