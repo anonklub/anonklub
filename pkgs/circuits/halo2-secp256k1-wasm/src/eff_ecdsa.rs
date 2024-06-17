@@ -2,17 +2,7 @@
 use anyhow::{Context, Result};
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, RangeChip},
-    halo2_proofs::{
-        arithmetic::CurveAffine,
-        halo2curves::{
-            bn256,
-            secp256k1::{self, Secp256k1Affine},
-        },
-    },
-    utils::{
-        biguint_to_fe, decompose_bigint, fe_to_bigint, fe_to_biguint, BigPrimeField, CurveAffineExt,
-    },
-    AssignedValue, Context as Halo2Context,
+    utils::{biguint_to_fe, fe_to_biguint, BigPrimeField, CurveAffineExt},
 };
 use halo2_ecc::{
     bigint::ProperCrtUint,
@@ -20,9 +10,7 @@ use halo2_ecc::{
     fields::{fp, FieldChip},
 };
 use halo2_wasm::Halo2Wasm;
-use itertools::{concat, Itertools};
-use std::{borrow::Borrow, cell::RefCell, fs::FileType, marker::PhantomData, rc::Rc};
-use wasm_bindgen::prelude::wasm_bindgen;
+use std::{cell::RefCell, marker::PhantomData, rc::Rc};
 
 use crate::consts::{FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS};
 
@@ -36,7 +24,6 @@ where
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
     s: SF,
-    pk: GA,
     T: GA,
     U: GA,
 }
@@ -47,8 +34,8 @@ where
     SF: BigPrimeField,
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
-    pub fn new(s: SF, pk: GA, T: GA, U: GA) -> Self {
-        Self { s, pk, T, U }
+    pub fn new(s: SF, T: GA, U: GA) -> Self {
+        Self { s, T, U }
     }
 }
 
@@ -79,7 +66,6 @@ where
     ) -> Result<Self> {
         let eff_ecdsa_inputs = EffECDSAInputs {
             s: eff_ecdsa_inputs.s,
-            pk: eff_ecdsa_inputs.pk,
             T: eff_ecdsa_inputs.T,
             U: eff_ecdsa_inputs.U,
         };
@@ -126,6 +112,17 @@ where
 
     fn ecc_chip<'a>(&'a self, fp_chip: &'a fp::FpChip<F, CF>) -> EccChip<'a, F, FpChip<F, CF>> {
         EccChip::new(fp_chip)
+    }
+
+    fn load_private(&mut self) -> ProperCrtUint<F> {
+        let mut builder = self.builder.borrow_mut();
+        let ctx = builder.main(CONTEXT_PHASE);
+
+        // Get needed chips
+        let fq_chip = self.ecc_fq_chip();
+
+        // Assign private inputs
+        fq_chip.load_private(ctx, self.eff_ecdsa_inputs.s)
     }
 
     fn load_constants(
@@ -184,11 +181,6 @@ where
             biguint_to_fe::<F>(&fe_to_biguint(&U_y)),
         );
 
-        let (T_x_cf, T_y_cf) = (
-            biguint_to_fe::<CF>(&fe_to_biguint(&T_x)),
-            biguint_to_fe::<CF>(&fe_to_biguint(&T_y)),
-        );
-
         let (Tx_offset, Ty_offset): (u32, u32) = (
             ctx.load_witness(T_x)
                 .cell
@@ -224,7 +216,6 @@ where
 
     fn recover_pk_eff(
         &self,
-        pk: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
         T: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
         U: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
         s: ProperCrtUint<F>,
@@ -258,32 +249,13 @@ where
         let recovered_pk = ecc_chip.add_unequal(ctx, &s_mul_t, &U, false);
 
         // Check pk equals recovered_pk
-        ecc_chip.assert_equal(ctx, pk, recovered_pk.clone());
+        //ecc_chip.assert_equal(ctx, pk, recovered_pk.clone());
 
         recovered_pk
     }
 
-    fn load_signature(&mut self) -> (ProperCrtUint<F>, EcPoint<F, ProperCrtUint<F>>) {
-        let mut builder = self.builder.borrow_mut();
-        let ctx = builder.main(CONTEXT_PHASE);
-
-        // Get needed chips
-        let fp_chip = self.ecc_fp_chip();
-        let fq_chip = self.ecc_fq_chip();
-        let ecc_chip = self.ecc_chip(&fp_chip);
-
-        // Get PK points
-        let (pk_x, pk_y) = self.eff_ecdsa_inputs.pk.into_coordinates();
-
-        // Assign private inputs
-        let s = fq_chip.load_private(ctx, self.eff_ecdsa_inputs.s);
-        let pk = ecc_chip.load_private_unchecked(ctx, (pk_x, pk_y));
-
-        (s, pk)
-    }
-
     pub fn verify_signature(&mut self) -> Result<()> {
-        let (s, pk) = self.load_signature();
+        let s = self.load_private();
 
         // Load T and U as constants in the base field
         // TODO: I am not sure if that step is right or wrong.
@@ -297,7 +269,7 @@ where
         self.load_instances();
 
         // Recover pk from precomputed T and U.
-        self.recover_pk_eff(pk, T, U, s, FIXED_WINDOW_BITS);
+        self.recover_pk_eff(T, U, s, FIXED_WINDOW_BITS);
 
         Ok(())
     }
@@ -306,6 +278,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::{EffECDSAInputs, EffECDSAVerifyCircuit};
+    use crate::utils::serialize_params_to_bytes;
     use crate::{recovery::recover_pk_eff, utils::ct_option_ok_or};
     use anyhow::anyhow;
     use anyhow::{Context, Result};
@@ -321,7 +294,7 @@ mod tests {
         halo2_proofs::{
             arithmetic::{CurveAffine, Field},
             halo2curves::{bn256::Bn256, ff::PrimeField, group::Curve, secp256k1},
-            poly::{commitment::Params, kzg::commitment::ParamsKZG},
+            poly::kzg::commitment::ParamsKZG,
         },
         utils::{biguint_to_fe, fe_to_biguint, modulus, ScalarField},
     };
@@ -331,9 +304,7 @@ mod tests {
     use rand::{rngs::StdRng, SeedableRng};
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
-    use std::cell::RefCell;
-    use std::rc::Rc;
-    use std::{fs::File, io::Cursor, time::Instant};
+    use std::{fs::File, time::Instant};
 
     const K: u32 = 15;
     const PRIV_KEY: u64 = 42;
@@ -358,7 +329,7 @@ mod tests {
 
         // Generate a key pair
         let sk = <Secp256k1Affine as CurveAffine>::ScalarExt::random(rng.clone());
-        let pk = Secp256k1Affine::from(g * sk);
+        let _pk = Secp256k1Affine::from(g * sk);
 
         // Generate a valid signature
         // Suppose `m_hash` is the message hash
@@ -389,7 +360,7 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("Failed to compute random based efficient ECDSA!")?;
 
-        Ok(EffECDSAInputs { s, pk, T, U })
+        Ok(EffECDSAInputs { s, T, U })
     }
 
     /// @src Spartan
@@ -398,7 +369,7 @@ mod tests {
     ) -> Result<EffECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>> {
         let signing_key = SigningKey::from(SecretKey::new(ScalarPrimitive::from(priv_key)));
         let g = secp256k1::Secp256k1Affine::generator();
-        let pk = (g * secp256k1::Fq::from(priv_key)).to_affine();
+        let _pk = (g * secp256k1::Fq::from(priv_key)).to_affine();
 
         let message = b"harry AnonKlub";
         let msg_hash = hash_message(message);
@@ -427,7 +398,7 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA!")?;
 
-        Ok(EffECDSAInputs { s, pk, T, U })
+        Ok(EffECDSAInputs { s, T, U })
     }
 
     #[test]

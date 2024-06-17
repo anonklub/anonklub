@@ -9,8 +9,9 @@ pub type F = bn256::Fr;
 pub type FpChip<'range, F, CF> = fp::FpChip<'range, F, CF>;
 pub type FqChip<'range, F, SF> = fp::FpChip<'range, F, SF>;
 
-pub const K: usize = 15;
+pub const K: u32 = 15;
 pub const LIMB_BITS: usize = 88;
 pub const NUM_LIMBS: usize = 3;
 pub const FIXED_WINDOW_BITS: usize = 4;
 pub const CONTEXT_PHASE: usize = 0;
+pub const INSTANCE_COL: usize = 0;

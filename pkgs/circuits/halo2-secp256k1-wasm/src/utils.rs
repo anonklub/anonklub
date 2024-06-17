@@ -1,7 +1,4 @@
-use halo2_base::halo2_proofs::{
-    halo2curves::bn256::Bn256,
-    poly::{commitment::Params, kzg::commitment::ParamsKZG},
-};
+use halo2_base::halo2_proofs::poly::{commitment::Params, kzg::commitment::ParamsKZG};
 use num_bigint::BigUint;
 use std::{io::Cursor, result::Result, str::from_utf8};
 use subtle::CtOption;
