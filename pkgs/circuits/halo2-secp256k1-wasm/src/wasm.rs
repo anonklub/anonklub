@@ -15,6 +15,7 @@ use num_bigint::BigUint;
 use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
 use std::fs::File;
+use std::panic::{catch_unwind, AssertUnwindSafe};
 
 // `AnonklubProof` consists of a Halo2 proof
 // This proof is serialized and passed around in the JavaScript runtime.
@@ -84,7 +85,7 @@ pub fn prove_membership(s: &[u8], r: &[u8], msg_hash: &[u8], is_y_odd: bool) -> 
     Ok(membership_proof_serialized)
 }
 
-pub fn verify_membership(membership_proof: &[u8]) -> Result<()> {
+pub fn verify_membership(membership_proof: &[u8]) -> Result<bool> {
     // Initialize and configure Halo2Wasm
     let mut halo2_wasm = Halo2Wasm::new();
     let _ = configure_halo2_wasm(&mut halo2_wasm, K);
@@ -99,9 +100,15 @@ pub fn verify_membership(membership_proof: &[u8]) -> Result<()> {
 
     set_instances(&mut halo2_wasm, public.clone(), INSTANCE_COL);
 
-    halo2_wasm.verify(&membership_proof.proof);
+    let verification_result = catch_unwind(AssertUnwindSafe(|| {
+        halo2_wasm.verify(&membership_proof.proof)
+    }))
+    .is_ok();
 
-    Ok(())
+    // TODO: extract the `T` and `U` from the public inputs
+    // And verify_eff_ecdsa
+
+    Ok(verification_result)
 }
 
 fn read_config(path: &str) -> Result<CircuitConfig> {
