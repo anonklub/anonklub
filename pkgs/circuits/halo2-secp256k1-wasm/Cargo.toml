@@ -22,6 +22,10 @@ libsecp256k1 = "0.7"
 ethers = "2.0.11"
 subtle = "2.5"
 itertools = "0.13.0"
+snark-verifier-sdk = { version = "0.1.7", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
+# snark-verifier-sdk = { git = "https://github.com/axiom-crypto/snark-verifier.git", branch = "main", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
+snark-verifier = { version = "0.1.7", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
+# snark-verifier = { git = "https://github.com/axiom-crypto/snark-verifier.git", branch = "main", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
 
 [features]
 default = ["rayon"]

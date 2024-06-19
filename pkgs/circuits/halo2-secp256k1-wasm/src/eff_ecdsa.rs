@@ -1,5 +1,5 @@
 #![allow(non_snake_case)]
-use anyhow::{Context, Result};
+use anyhow::{anyhow, Context, Result};
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, RangeChip},
     utils::{biguint_to_fe, fe_to_biguint, BigPrimeField, CurveAffineExt},
@@ -278,6 +278,8 @@ where
 #[cfg(test)]
 mod tests {
     use super::{EffECDSAInputs, EffECDSAVerifyCircuit};
+    use crate::consts::F;
+    use crate::halo2_ext::Halo2WasmExt;
     use crate::utils::serialize_params_to_bytes;
     use crate::{recovery::recover_pk_eff, utils::ct_option_ok_or};
     use anyhow::anyhow;
@@ -426,6 +428,8 @@ mod tests {
                 mock_eff_ecdsa,
             )?;
 
+        halo2_wasm.set_instances(&circuit.public, INSTANCE_COL);
+
         circuit
             .verify_signature()
             .map_err(|e| anyhow!(e))
@@ -520,6 +524,8 @@ mod tests {
         halo2_wasm.gen_pk();
 
         let start = Instant::now();
+
+        let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
 
         // Generate proof
         let proof: Vec<u8> = halo2_wasm.prove();

@@ -2507,6 +2507,8 @@ dependencies = [
  "rand_core 0.6.4",
  "serde",
  "serde_json",
+ "snark-verifier",
+ "snark-verifier-sdk",
  "subtle",
  "wasm-bindgen",
 ]

@@ -2,6 +2,7 @@
 use crate::{
     consts::{E, INSTANCE_COL, K},
     eff_ecdsa::{EffECDSAInputs, EffECDSAVerifyCircuit},
+    halo2_ext::Halo2WasmExt,
     recovery::recover_pk_eff,
     utils::serialize_params_to_bytes,
 };
@@ -22,7 +23,7 @@ use std::panic::{catch_unwind, AssertUnwindSafe};
 #[derive(Serialize, Deserialize)]
 pub struct MembershipProof {
     pub proof: Vec<u8>,
-    pub public: Vec<u32>,
+    pub public: [u8; 32],
     r: Vec<u8>,
     msg_hash: Vec<u8>,
     is_y_odd: bool,
@@ -39,7 +40,7 @@ impl MembershipProof {
         }
     }
 
-    pub fn set_proof(&mut self, proof: Vec<u8>, public: Vec<u32>) {
+    pub fn set_proof(&mut self, proof: Vec<u8>, public: [u8; 32]) {
         self.proof = proof;
         self.public = public;
     }
@@ -76,6 +77,8 @@ pub fn prove_membership(s: &[u8], r: &[u8], msg_hash: &[u8], is_y_odd: bool) -> 
     // Generate the proof
     let proof =
         generate_proof::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>(&mut circuit, &halo2_wasm)?;
+
+    let public = halo2_wasm.get_instance_values_ext(INSTANCE_COL);
 
     // Serialize Membership proof
     membership_proof.set_proof(proof, public.clone());
@@ -173,6 +176,10 @@ fn set_instances(halo2_wasm: &mut Halo2Wasm, instances: Vec<u32>, col: usize) {
     halo2_wasm.assign_instances();
 }
 
+fn get_instances(halo2_wasm: &mut Halo2Wasm, col: usize) -> Vec<u32> {
+    halo2_wasm.get_instances(col)
+}
+
 fn generate_proof<CF, SF, GA>(
     circuit: &mut EffECDSAVerifyCircuit<CF, SF, GA>,
     halo2_wasm: &Halo2Wasm,
@@ -191,4 +198,16 @@ where
     let proof = halo2_wasm.prove();
 
     Ok(proof)
+}
+
+fn verify_eff_ecdsa(
+    msg_hash: BigUint,
+    r: secp256k1::Fq,
+    is_y_odd: bool,
+    T: Secp256k1Affine,
+    U: Secp256k1Affine,
+) -> Result<bool> {
+    let (expected_U, expected_T) = recover_pk_eff(msg_hash, r, is_y_odd)?;
+
+    Ok(T == expected_T && U == expected_U)
 }

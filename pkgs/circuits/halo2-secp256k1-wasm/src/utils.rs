@@ -1,9 +1,8 @@
+use crate::consts::E;
 use halo2_base::halo2_proofs::poly::{commitment::Params, kzg::commitment::ParamsKZG};
 use num_bigint::BigUint;
 use std::{io::Cursor, result::Result, str::from_utf8};
 use subtle::CtOption;
-
-use crate::consts::E;
 
 /// @src https://github.com/privacy-scaling-explorations/zkevm-circuits/blob/main/eth-types/src/sign_types.rs
 /// Helper function to convert a `CtOption` into an `Result`.  Similar to

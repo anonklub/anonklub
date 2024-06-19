@@ -1,8 +1,9 @@
-use halo2_base::halo2_proofs::halo2curves::bn256::{self, Bn256};
+use halo2_base::halo2_proofs::halo2curves::bn256::{self, Bn256, G1Affine};
 use halo2_ecc::fields::fp;
 
 // Scaler field of the E curve
 pub type E = Bn256;
+pub type E_AFFINE = G1Affine;
 pub type F = bn256::Fr;
 
 // Scalar Field and Base Field chips based on Scalar F
