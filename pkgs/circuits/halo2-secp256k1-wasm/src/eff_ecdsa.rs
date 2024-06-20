@@ -278,9 +278,8 @@ where
 #[cfg(test)]
 mod tests {
     use super::{EffECDSAInputs, EffECDSAVerifyCircuit};
-    use crate::consts::F;
     use crate::halo2_ext::Halo2WasmExt;
-    use crate::utils::serialize_params_to_bytes;
+    use crate::utils::{serialize_params_to_bytes, verify_eff_ecdsa};
     use crate::{recovery::recover_pk_eff, utils::ct_option_ok_or};
     use anyhow::anyhow;
     use anyhow::{Context, Result};
@@ -324,9 +323,18 @@ mod tests {
         num_limbs: usize,
     }
 
+    pub struct TestInputs {
+        r: secp256k1::Fq,
+        msg_hash: BigUint,
+        is_y_odd: bool,
+    }
+
     fn random_ecdsa_input(
         rng: &mut StdRng,
-    ) -> Result<EffECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>> {
+    ) -> Result<(
+        EffECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>,
+        TestInputs,
+    )> {
         let g = Secp256k1Affine::generator();
 
         // Generate a key pair
@@ -362,22 +370,32 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("Failed to compute random based efficient ECDSA!")?;
 
-        Ok(EffECDSAInputs { s, T, U })
+        Ok((
+            EffECDSAInputs { s, T, U },
+            TestInputs {
+                r,
+                msg_hash,
+                is_y_odd,
+            },
+        ))
     }
 
     /// @src Spartan
     fn mock_eff_ecdsa_input(
         priv_key: u64,
-    ) -> Result<EffECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>> {
+    ) -> Result<(
+        EffECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>,
+        TestInputs,
+    )> {
         let signing_key = SigningKey::from(SecretKey::new(ScalarPrimitive::from(priv_key)));
         let g = secp256k1::Secp256k1Affine::generator();
         let _pk = (g * secp256k1::Fq::from(priv_key)).to_affine();
 
         let message = b"harry AnonKlub";
         let msg_hash = hash_message(message);
-        let msg_hash_bigint = BigUint::from_bytes_be(&msg_hash.to_fixed_bytes());
         let wallet = Wallet::from(signing_key);
         let sig = wallet.sign_hash(msg_hash).unwrap();
+        let msg_hash = BigUint::from_bytes_be(&msg_hash.to_fixed_bytes());
 
         let mut s = [0u8; 32];
         let mut r = [0u8; 32];
@@ -396,11 +414,18 @@ mod tests {
             anyhow!("Failed to convert s into Fq."),
         )?;
 
-        let (U, T) = recover_pk_eff(msg_hash_bigint.clone(), r, is_y_odd)
+        let (U, T) = recover_pk_eff(msg_hash.clone(), r, is_y_odd)
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA!")?;
 
-        Ok(EffECDSAInputs { s, T, U })
+        Ok((
+            EffECDSAInputs { s, T, U },
+            TestInputs {
+                r,
+                msg_hash,
+                is_y_odd,
+            },
+        ))
     }
 
     #[test]
@@ -414,7 +439,7 @@ mod tests {
         .map_err(|e| anyhow!(e))
         .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
 
-        let mock_eff_ecdsa = mock_eff_ecdsa_input(PRIV_KEY)
+        let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA")?;
 
@@ -425,7 +450,7 @@ mod tests {
         let mut circuit =
             EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
                 &halo2_wasm,
-                mock_eff_ecdsa,
+                ecdsa_inputs,
             )?;
 
         halo2_wasm.set_instances(&circuit.public, INSTANCE_COL);
@@ -454,7 +479,7 @@ mod tests {
         .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
 
         let mut rng = StdRng::seed_from_u64(0);
-        let ecdsa_inputs = random_ecdsa_input(&mut rng)?;
+        let (ecdsa_inputs, test_inputs) = random_ecdsa_input(&mut rng)?;
 
         let mut halo2_wasm = Halo2Wasm::new();
 
@@ -491,7 +516,7 @@ mod tests {
         .map_err(|e| anyhow!(e))
         .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
 
-        let ecdsa_inputs = mock_eff_ecdsa_input(PRIV_KEY)?;
+        let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
 
         let mut halo2_wasm = Halo2Wasm::new();
 
@@ -525,32 +550,40 @@ mod tests {
 
         let start = Instant::now();
 
-        let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
-
         // Generate proof
         let proof: Vec<u8> = halo2_wasm.prove();
 
-        // let proof = proof.proof;
-        // let instances: Vec<Vec<halo2_wasm::halo2lib::ecc::Bn254Fr>> = proof.instances;
+        // Get the public instance inputs
+        let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
 
-        // // Verify the proof
-        // println!("Verifying Proof");
-        // halo2_wasm.verify(&proof);
+        // Deserialize instances
+        let instances = instances
+            .chunks(32)
+            .map(|chunk| chunk.try_into().expect("slice with incorrect length"))
+            .collect::<Vec<[u8; 32]>>();
 
-        println!("Full generated Proof: {}", hex::encode(proof));
+        // Verify the proof
+        println!("Verifying Proof");
 
-        // let mut encoded_instances = vec![];
-        // for instance in instances {
-        //     let mut encoded_instance = vec![];
-        //     for element in instance {
-        //         let element_bytes = element.to_bytes(); // Convert field element to bytes
-        //         encoded_instance.push(hex::encode(&element_bytes));
-        //     }
-        //     encoded_instances.push(encoded_instance);
-        // }
-        // println!("Full generated Instances: {:?}", encoded_instances);
+        let is_proof_valid = halo2_wasm.verify_ext(instances.clone(), &proof, params)?;
 
-        // println!("Full generated instances: {}", encoded_instances);
+        println!("- Is proof valid? {}", is_proof_valid);
+
+        assert!(is_proof_valid == true, "The proof is not valid");
+
+        // Verify Eff ECDSA
+        println!("Verifying Eff ECDSA Proof");
+
+        let is_eff_ecdsa_valid = verify_eff_ecdsa(
+            test_inputs.msg_hash,
+            test_inputs.r,
+            test_inputs.is_y_odd,
+            instances.clone(),
+        )?;
+
+        println!("- Is Eff ECDSA valid? {}", is_eff_ecdsa_valid);
+
+        assert!(is_eff_ecdsa_valid == true, "Eff ECDSA is not valid");
 
         let duration = start.elapsed();
         let duration_in_minutes = duration.as_secs_f64() / 60.0;

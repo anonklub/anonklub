@@ -1,26 +1,32 @@
-use crate::consts::{E, E_AFFINE, F};
+use std::io::BufReader;
+
+use crate::{
+    consts::{E, E_AFFINE, F},
+    utils::ct_option_ok_or,
+};
 use anyhow::{anyhow, Context, Ok, Result};
-use halo2_base::halo2_proofs::{
-    halo2curves::ff::PrimeField,
-    plonk::{verify_proof, VerifyingKey},
-    poly::{
-        commitment::ParamsProver,
-        kzg::{
-            commitment::{KZGCommitmentScheme, ParamsKZG},
-            multiopen::VerifierSHPLONK,
-            strategy::SingleStrategy,
+use halo2_base::{
+    gates::circuit::builder::BaseCircuitBuilder,
+    halo2_proofs::{
+        halo2curves::ff::PrimeField,
+        plonk::{verify_proof, VerifyingKey},
+        poly::{
+            commitment::ParamsProver,
+            kzg::{
+                commitment::{KZGCommitmentScheme, ParamsKZG},
+                multiopen::VerifierSHPLONK,
+                strategy::SingleStrategy,
+            },
         },
+        SerdeFormat,
     },
-    SerdeFormat,
 };
 use halo2_wasm::Halo2Wasm;
 use itertools::Itertools;
-use rand_core::OsRng;
 use snark_verifier_sdk::{
     halo2::{PoseidonTranscript, POSEIDON_SPEC},
     NativeLoader,
 };
-use wasm_bindgen::JsValue;
 
 pub trait Halo2WasmExt {
     #[cfg(target_arch = "wasm32")]
@@ -29,7 +35,12 @@ pub trait Halo2WasmExt {
     #[cfg(not(target_arch = "wasm32"))]
     fn get_instance_values_ext(&mut self, col: usize) -> Result<Vec<u8>>;
 
-    fn verify(&self, instance_values: &[u8], proof: &[u8], params: ParamsKZG<E>) -> Result<bool>;
+    fn verify_ext(
+        &self,
+        instance_values: Vec<[u8; 32]>,
+        proof: &[u8],
+        params: ParamsKZG<E>,
+    ) -> Result<bool>;
 }
 
 impl Halo2WasmExt for Halo2Wasm {
@@ -51,31 +62,55 @@ impl Halo2WasmExt for Halo2Wasm {
         Ok(instance_values)
     }
 
-    fn verify(&self, instance_values: &[u8], proof: &[u8], params: ParamsKZG<E>) -> Result<bool> {
-        // Deserialize instances
-        let instances = instance_values
-            .chunks(32)
-            .map(|chunk| chunk.try_into().expect("slice with incorrect length"))
-            .collect::<Vec<[u8; 32]>>();
-
+    fn verify_ext(
+        &self,
+        instances: Vec<[u8; 32]>,
+        proof: &[u8],
+        params: ParamsKZG<E>,
+    ) -> Result<bool> {
+        // Convert instances
         let instances = instances
             .iter()
-            .map(|bytes| F::from_bytes(bytes))
-            .collect::<Vec<F>>();
+            .map(|bytes| {
+                let instance = ct_option_ok_or(
+                    F::from_bytes(bytes),
+                    anyhow!("Failed to convert instances into F."),
+                )?;
 
+                Ok(instance)
+            })
+            .collect::<Result<Vec<F>>>()?;
+        let instances = vec![instances];
+        let instances = instances.iter().map(Vec::as_slice).collect_vec();
+
+        // Get BaseCircuitParams
+        let circuit_params = self.circuit_params.clone().unwrap();
+
+        // Getting the VK
         let vk = self.get_vk();
-        let vk =
-            VerifyingKey::<E_AFFINE>::read::<_, SerdeFormat>(&vk, SerdeFormat::RawBytesUnchecked)?;
+        let vk_reader = &mut BufReader::new(vk.as_slice());
+        let vk = VerifyingKey::<E_AFFINE>::read::<BufReader<&[u8]>, BaseCircuitBuilder<F>>(
+            vk_reader,
+            SerdeFormat::RawBytesUnchecked,
+            circuit_params,
+        )?;
+
+        // Get Params
         let verifier_params = params.verifier_params();
         let mut transcript_read =
-            PoseidonTranscript::<NativeLoader, &[u8]>::from_spec(proof, POSEIDON_SPEC);
+            PoseidonTranscript::<NativeLoader, &[u8]>::from_spec(proof, POSEIDON_SPEC.clone());
 
-        let x = verify_proof::<KZGCommitmentScheme<E>, VerifierSHPLONK<'_, E>, _, _, _>(
-            verifier_params,
-            &vk,
-            SingleStrategy::new(verifier_params),
-            &[&instances],
-            &mut transcript_read,
-        );
+        Ok(
+            verify_proof::<KZGCommitmentScheme<E>, VerifierSHPLONK<'_, E>, _, _, _>(
+                verifier_params,
+                &vk,
+                SingleStrategy::new(verifier_params),
+                &[&instances],
+                &mut transcript_read,
+            )
+            .map_err(|e| anyhow!(e))
+            .context("Failed to verify the proof")
+            .is_ok(),
+        )
     }
 }
