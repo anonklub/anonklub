@@ -10,7 +10,7 @@ use halo2_base::{
         halo2curves::secp256k1,
         poly::{commitment::Params, kzg::commitment::ParamsKZG},
     },
-    utils::{BigPrimeField, CurveAffineExt},
+    utils::{biguint_to_fe, fe_to_biguint, BigPrimeField, CurveAffineExt},
 };
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
 use num_bigint::BigUint;
@@ -168,7 +168,7 @@ pub fn verify_eff_ecdsa(
         .iter()
         .map(|bytes| {
             let instance = ct_option_ok_or(
-                CF::from_repr(*bytes),
+                secp256k1::Fp::from_repr(*bytes),
                 anyhow!("Failed to convert instances into F."),
             )?;
 
@@ -177,11 +177,11 @@ pub fn verify_eff_ecdsa(
         .collect::<Result<Vec<CF>>>()?;
 
     let T = ct_option_ok_or(
-        Secp256k1Affine::from_xy(instances[0].clone(), instances[1].clone()),
+        Secp256k1Affine::from_xy(instances[0], instances[1]),
         anyhow!("Failed to convert T into CF"),
     )?;
     let U = ct_option_ok_or(
-        Secp256k1Affine::from_xy(instances[2].clone(), instances[3].clone()),
+        Secp256k1Affine::from_xy(instances[2], instances[3]),
         anyhow!("Failed to convert U into CF"),
     )?;
 

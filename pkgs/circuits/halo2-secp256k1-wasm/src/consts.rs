@@ -1,6 +1,6 @@
 use halo2_base::halo2_proofs::halo2curves::{
     bn256::{self, Bn256, G1Affine},
-    secp256k1, secp256r1,
+    secp256k1,
 };
 use halo2_ecc::fields::fp;
 

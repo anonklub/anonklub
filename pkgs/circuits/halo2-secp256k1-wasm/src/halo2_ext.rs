@@ -51,15 +51,38 @@ impl Halo2WasmExt for Halo2Wasm {
 
     #[cfg(not(target_arch = "wasm32"))]
     fn get_instance_values_ext(&mut self, col: usize) -> Result<Vec<u8>> {
-        let instance_values = self
+        use halo2_base::{
+            halo2_proofs::halo2curves::secp256k1,
+            utils::{biguint_to_fe, fe_to_biguint},
+        };
+
+        let instances = self
             .public
             .get(col)
             .context("Failed to get instances")?
             .iter()
-            .flat_map(|x| x.value().to_repr())
+            .map(|instance| {
+                let instance_F = instance.value();
+                let instance_CF = biguint_to_fe::<secp256k1::Fp>(&fe_to_biguint(instance_F));
+
+                let instance = instance.value().to_repr();
+
+                let instance_CF = ct_option_ok_or(
+                    secp256k1::Fp::from_repr(instance),
+                    anyhow!("Failed to convert instances into F."),
+                )?;
+
+                Ok(instance)
+            })
+            .collect::<Result<Vec<[u8; 32]>>>()?;
+
+        let instances = instances
+            .iter()
+            .flat_map(|instance| instance)
+            .copied()
             .collect_vec();
 
-        Ok(instance_values)
+        Ok(instances)
     }
 
     fn verify_ext(
