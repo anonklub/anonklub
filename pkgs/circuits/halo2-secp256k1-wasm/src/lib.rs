@@ -71,9 +71,9 @@ pub fn prove_membership(s: &[u8], r: &[u8], msg_hash: &[u8], is_y_odd: bool) -> 
     let mut circuit = create_circuit(s, r, msg_hash, is_y_odd, &halo2_wasm)?;
 
     // Set public inputs
-    let public = circuit.public.clone();
+    let public = circuit.instances.clone();
 
-    set_instances(&mut halo2_wasm, public.clone(), INSTANCE_COL);
+    //set_instances(&mut halo2_wasm, public.clone(), INSTANCE_COL);
 
     // Generate the proof
     let proof =

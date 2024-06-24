@@ -2,18 +2,24 @@
 use anyhow::{Context, Ok, Result};
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, RangeChip},
-    utils::{biguint_to_fe, fe_to_biguint, BigPrimeField, CurveAffineExt, ScalarField},
+    utils::{
+        biguint_to_fe, decompose_biguint, fe_to_biguint, BigPrimeField, CurveAffineExt, ScalarField,
+    },
+    AssignedValue,
 };
 use halo2_ecc::{
-    bigint::ProperCrtUint,
+    bigint::{CRTInteger, ProperCrtUint},
     ecc::{EcPoint, EccChip},
     fields::{fp, FieldChip},
 };
 use halo2_wasm::Halo2Wasm;
+use itertools::{concat, Itertools};
 use std::{cell::RefCell, marker::PhantomData, rc::Rc};
 
 use crate::{
-    consts::{FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS},
+    consts::{
+        FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, INSTANCE_COL, LIMB_BITS, NUM_LIMBS,
+    },
     utils::ct_option_ok_or,
 };
 
@@ -48,7 +54,7 @@ where
     SF: BigPrimeField,
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
-    pub public: Vec<u32>,
+    pub instances: Vec<u32>,
     eff_ecdsa_inputs: EffECDSAInputs<CF, SF, GA>,
     range_chip: RangeChip<F>,
     builder: Rc<RefCell<BaseCircuitBuilder<F>>>,
@@ -93,7 +99,7 @@ where
         );
 
         Ok(EffECDSAVerifyCircuit {
-            public: vec![],
+            instances: vec![],
             eff_ecdsa_inputs,
             range_chip,
             builder: Rc::clone(&halo2_wasm.circuit),
@@ -128,7 +134,7 @@ where
         fq_chip.load_private(ctx, self.eff_ecdsa_inputs.s)
     }
 
-    fn load_constants(
+    fn load_instances(
         &mut self,
     ) -> (
         EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
@@ -147,76 +153,54 @@ where
         let (U_x, U_y) = self.eff_ecdsa_inputs.U.into_coordinates();
 
         // Set as constants in the BaseField chip
-        let (Tx_assigned, Ty_assigned) = (
+        let (T_x, T_y) = (
             base_chip.load_constant(ctx, T_x),
             base_chip.load_constant(ctx, T_y),
         );
 
-        let (Ux_assigned, Uy_assigned) = (
+        let (U_x, U_y) = (
             base_chip.load_constant(ctx, U_x),
             base_chip.load_constant(ctx, U_y),
         );
 
         let precompile_ec_points = (
-            EcPoint::new(Tx_assigned, Ty_assigned),
-            EcPoint::new(Ux_assigned, Uy_assigned),
+            EcPoint::new(T_x.clone(), T_y.clone()),
+            EcPoint::new(U_x.clone(), U_y.clone()),
         );
+
+        let T_x_Fp = T_x.value();
+        let T_x_Fp: &CRTInteger<F> = T_x.as_ref();
+        let T_x_Fp_value = &T_x_Fp.value;
+        let T_x_Fp = fp_chip.get_assigned_value(T_x_Fp);
+
+        let T_x_Fp = T_y.value();
+        let T_y_Fp: &CRTInteger<F> = T_y.as_ref();
+        let T_y_Fp_value = &T_y_Fp.value;
+        let T_y_Fp = fp_chip.get_assigned_value(T_y_Fp);
+
+        self.instances = vec![T_x, T_y, U_x, U_y]
+            .iter()
+            .map(|instance_point| {
+                instance_point
+                    .as_ref()
+                    .native()
+                    .cell
+                    .unwrap()
+                    .offset
+                    .try_into()
+                    .unwrap()
+            })
+            .collect();
+
+        // let T_y_instance: &CRTInteger<F> = T_y.as_ref();
+        // let T_y_actual_value = fp_chip.get_assigned_value(T_y_instance);
+
+        // let instances = vec![T_x, T_y, U_x, U_y]
+        //     .iter()
+        //     .map(|instance_point| *instance_point.as_ref().native())
+        //     .collect::<Vec<AssignedValue<F>>>();
 
         precompile_ec_points
-    }
-
-    fn load_instances(&mut self) -> Result<()> {
-        let mut builder = self.builder.borrow_mut();
-        let ctx = builder.main(CONTEXT_PHASE);
-
-        // Get Points out fo the T and U
-        let (T_x, T_y) = self.eff_ecdsa_inputs.T.into_coordinates();
-        let (U_x, U_y) = self.eff_ecdsa_inputs.U.into_coordinates();
-
-        // Load them as public inputs in the context
-        let (T_x, T_y) = (
-            biguint_to_fe::<F>(&fe_to_biguint(&T_x)),
-            biguint_to_fe::<F>(&fe_to_biguint(&T_y)),
-        );
-
-        let (U_x, U_y) = (
-            biguint_to_fe::<F>(&fe_to_biguint(&U_x)),
-            biguint_to_fe::<F>(&fe_to_biguint(&U_y)),
-        );
-
-        let (Tx_offset, Ty_offset): (u32, u32) = (
-            ctx.load_witness(T_x)
-                .cell
-                .unwrap()
-                .offset
-                .try_into()
-                .unwrap(),
-            ctx.load_witness(T_y)
-                .cell
-                .unwrap()
-                .offset
-                .try_into()
-                .unwrap(),
-        );
-        let (Ux_offset, Uy_offset): (u32, u32) = (
-            ctx.load_witness(U_x)
-                .cell
-                .unwrap()
-                .offset
-                .try_into()
-                .unwrap(),
-            ctx.load_witness(U_y)
-                .cell
-                .unwrap()
-                .offset
-                .try_into()
-                .unwrap(),
-        );
-
-        // Load instances as public
-        self.public = vec![Tx_offset, Ty_offset, Ux_offset, Uy_offset];
-
-        Ok(())
     }
 
     fn recover_pk_eff(
@@ -263,15 +247,7 @@ where
         let s = self.load_private();
 
         // Load T and U as constants in the base field
-        // TODO: I am not sure if that step is right or wrong.
-        //      Since we need the T and U precomputed points to be loaded as type of EcPoint
-        //      For doing the computations to recover the PK. It is only allowed to get that type
-        //      through loading the two points into the base_filed_chip as constants and
-        //      therefore I can get back EcPoint<F, F>.
-        let (T, U) = self.load_constants();
-
-        // Load T and U as public instances
-        self.load_instances();
+        let (T, U) = self.load_instances();
 
         // Recover pk from precomputed T and U.
         self.recover_pk_eff(T, U, s, FIXED_WINDOW_BITS);
@@ -283,7 +259,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::{EffECDSAInputs, EffECDSAVerifyCircuit};
-    use crate::consts::F;
+    use crate::consts::{E, F, LIMB_BITS, NUM_LIMBS};
     use crate::eff_ecdsa;
     use crate::halo2_ext::Halo2WasmExt;
     use crate::utils::{serialize_params_to_bytes, verify_eff_ecdsa};
@@ -298,7 +274,9 @@ mod tests {
         signers::Wallet,
         utils::hash_message,
     };
-    use halo2_base::utils::CurveAffineExt;
+    use halo2_base::utils::{
+        bigint_to_fe, compose, decompose, decompose_biguint, fe_to_bigint, CurveAffineExt,
+    };
     use halo2_base::{
         halo2_proofs::{
             arithmetic::{CurveAffine, Field},
@@ -309,7 +287,7 @@ mod tests {
     };
     use halo2_ecc::fields::FpStrategy;
     use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
-    use num_bigint::BigUint;
+    use num_bigint::{BigInt, BigUint};
     use rand::{rngs::StdRng, SeedableRng};
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
@@ -461,15 +439,14 @@ mod tests {
                 ecdsa_inputs,
             )?;
 
-        halo2_wasm.set_instances(&circuit.public, INSTANCE_COL);
-
         circuit
             .verify_signature()
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
-        halo2_wasm.set_instances(&circuit.public, INSTANCE_COL);
+        halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
         halo2_wasm.assign_instances();
+
         halo2_wasm.mock();
 
         Ok(())
@@ -504,7 +481,7 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
-        halo2_wasm.set_instances(&circuit.public, INSTANCE_COL);
+        halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
 
         halo2_wasm.assign_instances();
 
@@ -541,7 +518,7 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
-        halo2_wasm.set_instances(&circuit.public, INSTANCE_COL);
+        halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
 
         halo2_wasm.assign_instances();
 
@@ -601,19 +578,6 @@ mod tests {
         Ok(())
     }
 
-    fn fe_to_biguint_ext<P: PrimeField>(fe: &P) -> BigUint {
-        let bytes = fe.to_repr().as_ref().to_vec();
-        BigUint::from_bytes_le(&bytes)
-    }
-
-    fn biguint_to_fe_ext<P: PrimeField>(e: &BigUint) -> P {
-        let mut bytes = e.to_bytes_le();
-        bytes.resize(32, 0); // Ensure it is 32 bytes long
-        let repr =
-            P::Repr::from_bytes(&bytes).expect("Failed to convert bytes to field representation");
-        P::from_repr(repr).expect("Failed to convert representation to field element")
-    }
-
     #[test]
     fn test_eff_secp256k1_verify() -> Result<()> {
         let path = "configs/ecdsa.config";
@@ -648,11 +612,7 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
-        halo2_wasm.set_instances(&circuit.public, INSTANCE_COL);
-
-        halo2_wasm.assign_instances();
-
-        let params = ParamsKZG::<Bn256>::setup(K, OsRng);
+        let params = ParamsKZG::<E>::setup(K, OsRng);
 
         // Load params
         halo2_wasm.load_params(&serialize_params_to_bytes(&params));
@@ -698,16 +658,10 @@ mod tests {
 
     #[test]
     fn test_eff_ecdsa_precompute() -> Result<()> {
-        let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
+        let (ecdsa_inputs, _) = mock_eff_ecdsa_input(PRIV_KEY)?;
 
         let (T_x_Fp, T_y_Fp) = ecdsa_inputs.T.into_coordinates();
         let (U_x_Fp, U_y_Fp) = ecdsa_inputs.U.into_coordinates();
-
-        let T_x_bytes_Fp = T_x_Fp.to_bytes_le();
-        let T_y_bytes_Fp = T_y_Fp.to_bytes_le();
-
-        let T_x_repr = T_x_Fp.to_repr();
-        let T_y_repr = T_y_Fp.to_repr();
 
         // Convert to F: Method 1 via from_bytes_le (fail)
         // That didn't work becuase of this error:
@@ -725,29 +679,42 @@ mod tests {
         // let T_y_F = ct_option_ok_or( F::from_repr(T_y_repr), anyhow!("Error"))?;
 
         // Convert to F: Method 3 via from_biguint (success)
-        let T_x_Fp_biguint = fe_to_biguint_ext::<secp256k1::Fp>(&T_x_Fp);
-        let T_y_Fp_biguint = fe_to_biguint_ext::<secp256k1::Fp>(&T_y_Fp);
+        let T_x_Fp_biguint = fe_to_biguint(&T_x_Fp);
+        let T_y_Fp_biguint = fe_to_biguint(&T_y_Fp);
 
-        let T_x_F = biguint_to_fe_ext::<F>(&T_x_Fp_biguint);
-        let T_y_F = biguint_to_fe_ext::<F>(&T_y_Fp_biguint);
+        let T_x_F = biguint_to_fe::<F>(&T_x_Fp_biguint);
+        let T_y_F = biguint_to_fe::<F>(&T_y_Fp_biguint);
 
         let T_x_bytes_F = T_x_F.to_bytes_le();
         let T_y_bytes_F = T_y_F.to_bytes_le();
 
+        // let T_x_Fp = secp256k1::Fp::from_bytes_le(&T_x_bytes_F);
+        // let T_y_Fp = secp256k1::Fp::from_bytes_le(&T_y_bytes_F);
+
         // Convert F to Biguint
-        let T_x_F_biguint = fe_to_biguint(&T_x_F);
+        let T_x_F_bigint = fe_to_bigint(&T_x_F);
+        let T_y_F_bigint = fe_to_bigint(&T_y_F);
+
         let T_y_F_biguint = fe_to_biguint(&T_y_F);
+        let T_y_vec = decompose_biguint::<secp256k1::Fp>(&T_y_F_biguint, NUM_LIMBS, LIMB_BITS);
+
+        //let T_y_F_final = decompose(e, number_of_limbs, bit_len)
+
+        // get value
+        let p: BigInt = modulus::<secp256k1::Fp>().into();
+        let x_value = &T_x_F_bigint % &p;
+        let y_value = &T_y_F_bigint % &p;
 
         // Convert back to Fp using BigUint
-        let T_x_Fp = biguint_to_fe_ext::<secp256k1::Fp>(&T_x_F_biguint);
-        let T_x_Fp = biguint_to_fe_ext::<secp256k1::Fp>(&T_y_F_biguint);
+        let T_x_Fp_final = bigint_to_fe::<secp256k1::Fp>(&x_value);
+        let T_y_Fp_final = bigint_to_fe::<secp256k1::Fp>(&y_value);
 
-        let T_x_biguint_bytes_F = T_x_F_biguint.to_bytes_le();
-        let T_y_biguint_bytes_F = T_y_F_biguint.to_bytes_le();
+        // let T_x_biguint_bytes_F = T_x_F_biguint.to_bytes_le();
+        // let T_y_biguint_bytes_F = T_y_F_biguint.to_bytes_le();
 
-        // Convert back to Fp () Method 2: via from_bytes_le
-        let T_x_Fp = secp256k1::Fp::from_bytes_le(&T_x_biguint_bytes_F);
-        let T_y_Fp = secp256k1::Fp::from_bytes_le(&T_y_biguint_bytes_F);
+        // // Convert back to Fp () Method 2: via from_bytes_le
+        // let T_x_Fp = secp256k1::Fp::from_bytes_le(&T_x_biguint_bytes_F);
+        // let T_y_Fp = secp256k1::Fp::from_bytes_le(&T_y_biguint_bytes_F);
         Ok(())
     }
 }
