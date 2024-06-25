@@ -47,20 +47,13 @@ impl Halo2WasmExt for Halo2Wasm {
 
     #[cfg(not(target_arch = "wasm32"))]
     fn get_instance_values_ext(&mut self, col: usize) -> Result<Vec<u8>> {
-        let instances = self
+        Ok(self
             .public
             .get(col)
             .context("Failed to get instances")?
             .iter()
-            .map(|instance| {
-                let instance = instance.value().to_repr();
-                Ok(instance)
-            })
-            .collect::<Result<Vec<[u8; 32]>>>()?;
-
-        let instances = instances.iter().flatten().copied().collect_vec();
-
-        Ok(instances)
+            .flat_map(|instance| instance.value().to_repr().to_vec())
+            .collect())
     }
 
     fn verify_ext(&self, instances: &[u8], proof: &[u8], params: ParamsKZG<E>) -> Result<bool> {
