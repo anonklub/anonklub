@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 use crate::{
-    consts::{CF, E, F},
+    consts::{E, F},
     eff_ecdsa::{EffECDSAInputs, EffECDSAVerifyCircuit},
     recovery::recover_pk_eff,
 };
@@ -10,13 +10,13 @@ use halo2_base::{
         halo2curves::secp256k1,
         poly::{commitment::Params, kzg::commitment::ParamsKZG},
     },
-    utils::{biguint_to_fe, fe_to_biguint, BigPrimeField, CurveAffineExt},
+    utils::{biguint_to_fe, fe_to_biguint, modulus, BigPrimeField, CurveAffineExt},
 };
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
 use num_bigint::BigUint;
 use rand_core::OsRng;
-use snark_verifier::util::arithmetic::{CurveAffine, PrimeField};
-use std::{fs::File, io::Cursor, result::Result as StdResult, str::from_utf8};
+
+use std::{fs::File, io::Cursor, iter::zip, result::Result as StdResult, str::from_utf8};
 use subtle::CtOption;
 
 /// @src https://github.com/privacy-scaling-explorations/zkevm-circuits/blob/main/eth-types/src/sign_types.rs
@@ -97,7 +97,7 @@ pub fn create_circuit(
     let ecdsa_inputs = EffECDSAInputs::new(s, T, U);
 
     let circuit = EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-        &halo2_wasm,
+        halo2_wasm,
         ecdsa_inputs,
     )
     .map_err(|e| anyhow!(e))
@@ -112,7 +112,7 @@ pub fn configure_halo2_wasm(halo2_wasm: &mut Halo2Wasm, params: &ParamsKZG<E>) -
     halo2_wasm.config(config);
 
     // Load params
-    halo2_wasm.load_params(&serialize_params_to_bytes(&params));
+    halo2_wasm.load_params(&serialize_params_to_bytes(params));
 
     // Generate VK
     halo2_wasm.gen_vk();
@@ -161,31 +161,38 @@ pub fn verify_eff_ecdsa(
     msg_hash: BigUint,
     r: secp256k1::Fq,
     is_y_odd: bool,
-    instances: Vec<[u8; 32]>,
+    instances: &[u8],
 ) -> Result<bool> {
-    // Convert instances
-    let instances = instances
-        .iter()
-        .map(|bytes| {
+    // Deserialize instances into Native base finite fields
+    let actual = instances
+        .chunks(32)
+        .map(|chunk| {
+            let bytes: [u8; 32] = chunk.try_into().expect("slice with incorrect length");
             let instance = ct_option_ok_or(
-                secp256k1::Fp::from_repr(*bytes),
+                F::from_bytes(&bytes),
                 anyhow!("Failed to convert instances into F."),
             )?;
-
             Ok(instance)
         })
-        .collect::<Result<Vec<CF>>>()?;
+        .collect::<Result<Vec<F>>>()?;
 
-    let T = ct_option_ok_or(
-        Secp256k1Affine::from_xy(instances[0], instances[1]),
-        anyhow!("Failed to convert T into CF"),
-    )?;
-    let U = ct_option_ok_or(
-        Secp256k1Affine::from_xy(instances[2], instances[3]),
-        anyhow!("Failed to convert U into CF"),
-    )?;
+    let (U_expected, T_expected) = recover_pk_eff(msg_hash, r, is_y_odd)?;
 
-    let (expected_U, expected_T) = recover_pk_eff(msg_hash, r, is_y_odd)?;
+    let (T_x_expected, T_y_expected) = T_expected.into_coordinates();
+    let (U_x_expected, U_y_expected) = U_expected.into_coordinates();
 
-    Ok(T == expected_T && U == expected_U)
+    // Convert Expected precompute values from Secp256k1 Affine into Bn256 scalar finite fields
+    let native_modules = modulus::<F>();
+    let expected = [T_x_expected, T_y_expected, U_x_expected, U_y_expected]
+        .iter()
+        .map(|expected_value| {
+            let expected_value_biguint = fe_to_biguint(expected_value);
+
+            biguint_to_fe::<F>(&(&expected_value_biguint % &native_modules))
+        })
+        .collect::<Vec<F>>();
+
+    let is_eff_ecdsa_verified = zip(actual.iter(), expected.iter()).all(|(a, e)| a == e);
+
+    Ok(is_eff_ecdsa_verified)
 }

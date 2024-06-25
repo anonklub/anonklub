@@ -5,6 +5,7 @@ use crate::{
     utils::ct_option_ok_or,
 };
 use anyhow::{anyhow, Context, Ok, Result};
+
 use halo2_base::{
     gates::circuit::builder::BaseCircuitBuilder,
     halo2_proofs::{
@@ -35,12 +36,7 @@ pub trait Halo2WasmExt {
     #[cfg(not(target_arch = "wasm32"))]
     fn get_instance_values_ext(&mut self, col: usize) -> Result<Vec<u8>>;
 
-    fn verify_ext(
-        &self,
-        instance_values: Vec<[u8; 32]>,
-        proof: &[u8],
-        params: ParamsKZG<E>,
-    ) -> Result<bool>;
+    fn verify_ext(&self, instances: &[u8], proof: &[u8], params: ParamsKZG<E>) -> Result<bool>;
 }
 
 impl Halo2WasmExt for Halo2Wasm {
@@ -51,59 +47,37 @@ impl Halo2WasmExt for Halo2Wasm {
 
     #[cfg(not(target_arch = "wasm32"))]
     fn get_instance_values_ext(&mut self, col: usize) -> Result<Vec<u8>> {
-        use halo2_base::{
-            halo2_proofs::halo2curves::secp256k1,
-            utils::{biguint_to_fe, fe_to_biguint},
-        };
-
         let instances = self
             .public
             .get(col)
             .context("Failed to get instances")?
             .iter()
             .map(|instance| {
-                let instance_F = instance.value();
-                let instance_CF = biguint_to_fe::<secp256k1::Fp>(&fe_to_biguint(instance_F));
-
                 let instance = instance.value().to_repr();
-
-                let instance_CF = ct_option_ok_or(
-                    secp256k1::Fp::from_repr(instance),
-                    anyhow!("Failed to convert instances into F."),
-                )?;
-
                 Ok(instance)
             })
             .collect::<Result<Vec<[u8; 32]>>>()?;
 
-        let instances = instances
-            .iter()
-            .flat_map(|instance| instance)
-            .copied()
-            .collect_vec();
+        let instances = instances.iter().flatten().copied().collect_vec();
 
         Ok(instances)
     }
 
-    fn verify_ext(
-        &self,
-        instances: Vec<[u8; 32]>,
-        proof: &[u8],
-        params: ParamsKZG<E>,
-    ) -> Result<bool> {
-        // Convert instances
+    fn verify_ext(&self, instances: &[u8], proof: &[u8], params: ParamsKZG<E>) -> Result<bool> {
+        // Deserialize instances into Native scalar Field
         let instances = instances
-            .iter()
-            .map(|bytes| {
+            .chunks(32)
+            .map(|chunk| {
+                let bytes: [u8; 32] = chunk.try_into().expect("slice with incorrect length");
                 let instance = ct_option_ok_or(
-                    F::from_bytes(bytes),
+                    F::from_bytes(&bytes),
                     anyhow!("Failed to convert instances into F."),
                 )?;
-
                 Ok(instance)
             })
             .collect::<Result<Vec<F>>>()?;
-        let instances = vec![instances];
+
+        let instances = [instances];
         let instances = instances.iter().map(Vec::as_slice).collect_vec();
 
         // Get BaseCircuitParams

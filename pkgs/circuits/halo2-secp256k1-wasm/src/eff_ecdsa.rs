@@ -2,26 +2,17 @@
 use anyhow::{Context, Ok, Result};
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, RangeChip},
-    utils::{
-        biguint_to_fe, decompose_biguint, fe_to_biguint, BigPrimeField, CurveAffineExt, ScalarField,
-    },
-    AssignedValue,
+    utils::{BigPrimeField, CurveAffineExt},
 };
 use halo2_ecc::{
-    bigint::{CRTInteger, ProperCrtUint},
+    bigint::ProperCrtUint,
     ecc::{EcPoint, EccChip},
     fields::{fp, FieldChip},
 };
 use halo2_wasm::Halo2Wasm;
-use itertools::{concat, Itertools};
 use std::{cell::RefCell, marker::PhantomData, rc::Rc};
 
-use crate::{
-    consts::{
-        FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, INSTANCE_COL, LIMB_BITS, NUM_LIMBS,
-    },
-    utils::ct_option_ok_or,
-};
+use crate::consts::{FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS};
 
 // CF is the coordinate field of GA
 // SF is the scalar field of GA
@@ -168,16 +159,6 @@ where
             EcPoint::new(U_x.clone(), U_y.clone()),
         );
 
-        let T_x_Fp = T_x.value();
-        let T_x_Fp: &CRTInteger<F> = T_x.as_ref();
-        let T_x_Fp_value = &T_x_Fp.value;
-        let T_x_Fp = fp_chip.get_assigned_value(T_x_Fp);
-
-        let T_x_Fp = T_y.value();
-        let T_y_Fp: &CRTInteger<F> = T_y.as_ref();
-        let T_y_Fp_value = &T_y_Fp.value;
-        let T_y_Fp = fp_chip.get_assigned_value(T_y_Fp);
-
         self.instances = vec![T_x, T_y, U_x, U_y]
             .iter()
             .map(|instance_point| {
@@ -191,14 +172,6 @@ where
                     .unwrap()
             })
             .collect();
-
-        // let T_y_instance: &CRTInteger<F> = T_y.as_ref();
-        // let T_y_actual_value = fp_chip.get_assigned_value(T_y_instance);
-
-        // let instances = vec![T_x, T_y, U_x, U_y]
-        //     .iter()
-        //     .map(|instance_point| *instance_point.as_ref().native())
-        //     .collect::<Vec<AssignedValue<F>>>();
 
         precompile_ec_points
     }
@@ -235,12 +208,11 @@ where
         );
 
         // s_mul_t + U = pk
-        let recovered_pk = ecc_chip.add_unequal(ctx, &s_mul_t, &U, false);
 
         // Check pk equals recovered_pk
         //ecc_chip.assert_equal(ctx, pk, recovered_pk.clone());
 
-        recovered_pk
+        ecc_chip.add_unequal(ctx, &s_mul_t, &U, false)
     }
 
     pub fn verify_signature(&mut self) -> Result<()> {
@@ -259,8 +231,8 @@ where
 #[cfg(test)]
 mod tests {
     use super::{EffECDSAInputs, EffECDSAVerifyCircuit};
-    use crate::consts::{E, F, LIMB_BITS, NUM_LIMBS};
-    use crate::eff_ecdsa;
+    use crate::consts::E;
+
     use crate::halo2_ext::Halo2WasmExt;
     use crate::utils::{serialize_params_to_bytes, verify_eff_ecdsa};
     use crate::{recovery::recover_pk_eff, utils::ct_option_ok_or};
@@ -274,9 +246,7 @@ mod tests {
         signers::Wallet,
         utils::hash_message,
     };
-    use halo2_base::utils::{
-        bigint_to_fe, compose, decompose, decompose_biguint, fe_to_bigint, CurveAffineExt,
-    };
+    use halo2_base::utils::CurveAffineExt;
     use halo2_base::{
         halo2_proofs::{
             arithmetic::{CurveAffine, Field},
@@ -287,7 +257,7 @@ mod tests {
     };
     use halo2_ecc::fields::FpStrategy;
     use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
-    use num_bigint::{BigInt, BigUint};
+    use num_bigint::BigUint;
     use rand::{rngs::StdRng, SeedableRng};
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
@@ -464,7 +434,7 @@ mod tests {
         .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
 
         let mut rng = StdRng::seed_from_u64(0);
-        let (ecdsa_inputs, _) = random_ecdsa_input(&mut rng)?;
+        let (ecdsa_inputs, test_inputs) = random_ecdsa_input(&mut rng)?;
 
         let mut halo2_wasm = Halo2Wasm::new();
 
@@ -486,6 +456,21 @@ mod tests {
         halo2_wasm.assign_instances();
 
         halo2_wasm.mock();
+
+        // Get the public instance inputs
+        let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
+
+        // Verify Eff ECDSA
+        println!("Verifying Eff ECDSA Proof");
+
+        let is_eff_ecdsa_valid = verify_eff_ecdsa(
+            test_inputs.msg_hash,
+            test_inputs.r,
+            test_inputs.is_y_odd,
+            &instances,
+        )?;
+
+        assert!(is_eff_ecdsa_valid);
 
         Ok(())
     }
@@ -541,20 +526,14 @@ mod tests {
         // Get the public instance inputs
         let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
 
-        // Deserialize instances
-        let instances = instances
-            .chunks(32)
-            .map(|chunk| chunk.try_into().expect("slice with incorrect length"))
-            .collect::<Vec<[u8; 32]>>();
-
         // Verify the proof
         println!("Verifying Proof");
 
-        let is_proof_valid = halo2_wasm.verify_ext(instances.clone(), &proof, params)?;
+        let is_proof_valid = halo2_wasm.verify_ext(&instances, &proof, params)?;
 
         println!("- Is proof valid? {}", is_proof_valid);
 
-        assert!(is_proof_valid == true, "The proof is not valid");
+        assert!(is_proof_valid, "The proof is not valid");
 
         // Verify Eff ECDSA
         println!("Verifying Eff ECDSA Proof");
@@ -563,12 +542,12 @@ mod tests {
             test_inputs.msg_hash,
             test_inputs.r,
             test_inputs.is_y_odd,
-            instances.clone(),
+            &instances,
         )?;
 
         println!("- Is Eff ECDSA valid? {}", is_eff_ecdsa_valid);
 
-        assert!(is_eff_ecdsa_valid == true, "Eff ECDSA is not valid");
+        assert!(is_eff_ecdsa_valid, "Eff ECDSA is not valid");
 
         let duration = start.elapsed();
         let duration_in_minutes = duration.as_secs_f64() / 60.0;
@@ -590,12 +569,6 @@ mod tests {
         .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
 
         let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
-
-        let (T_x, T_y) = ecdsa_inputs.T.into_coordinates();
-        let (U_x, U_y) = ecdsa_inputs.U.into_coordinates();
-
-        let T_x = T_x.to_bytes_le();
-        let T_y = T_y.to_bytes_le();
 
         let mut halo2_wasm = Halo2Wasm::new();
 
@@ -626,12 +599,6 @@ mod tests {
         // Get the public instance inputs
         let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
 
-        // Deserialize instances
-        let instances = instances
-            .chunks(32)
-            .map(|chunk| chunk.try_into().expect("slice with incorrect length"))
-            .collect::<Vec<[u8; 32]>>();
-
         let start = Instant::now();
 
         // Verify Eff ECDSA
@@ -641,80 +608,18 @@ mod tests {
             test_inputs.msg_hash,
             test_inputs.r,
             test_inputs.is_y_odd,
-            instances.clone(),
+            &instances,
         )?;
 
         println!("- Is Eff ECDSA valid? {}", is_eff_ecdsa_valid);
 
-        assert!(is_eff_ecdsa_valid == true, "Eff ECDSA is not valid");
+        assert!(is_eff_ecdsa_valid, "Eff ECDSA is not valid");
 
         let duration = start.elapsed();
         let duration_in_minutes = duration.as_secs_f64() / 60.0;
         println!("Test executed in: {:.2?} seconds", duration);
         println!("Test executed in: {:.2?} minutes", duration_in_minutes);
 
-        Ok(())
-    }
-
-    #[test]
-    fn test_eff_ecdsa_precompute() -> Result<()> {
-        let (ecdsa_inputs, _) = mock_eff_ecdsa_input(PRIV_KEY)?;
-
-        let (T_x_Fp, T_y_Fp) = ecdsa_inputs.T.into_coordinates();
-        let (U_x_Fp, U_y_Fp) = ecdsa_inputs.U.into_coordinates();
-
-        // Convert to F: Method 1 via from_bytes_le (fail)
-        // That didn't work becuase of this error:
-        //         ---- eff_ecdsa::tests::test_eff_ecdsa_precompute stdout ----
-        // thread 'eff_ecdsa::tests::test_eff_ecdsa_precompute' panicked at /home/isk/.cargo/registry/src/index.crates.io-6f17d22bba15001f/subtle-2.5.0/src/lib.rs:703:9:
-        // assertion `left == right` failed
-        //   left: 0
-        //  right: 1
-        // stack backtrace
-        // let T_x_F = F::from_bytes_le(&T_x_bytes);
-        // let T_y_F = F::from_bytes_le(&T_y_bytes);
-
-        // Convert to F: Method 2 via from_repr (fail)
-        // let T_x_F = ct_option_ok_or( F::from_repr(T_x_repr), anyhow!("Error"))?;
-        // let T_y_F = ct_option_ok_or( F::from_repr(T_y_repr), anyhow!("Error"))?;
-
-        // Convert to F: Method 3 via from_biguint (success)
-        let T_x_Fp_biguint = fe_to_biguint(&T_x_Fp);
-        let T_y_Fp_biguint = fe_to_biguint(&T_y_Fp);
-
-        let T_x_F = biguint_to_fe::<F>(&T_x_Fp_biguint);
-        let T_y_F = biguint_to_fe::<F>(&T_y_Fp_biguint);
-
-        let T_x_bytes_F = T_x_F.to_bytes_le();
-        let T_y_bytes_F = T_y_F.to_bytes_le();
-
-        // let T_x_Fp = secp256k1::Fp::from_bytes_le(&T_x_bytes_F);
-        // let T_y_Fp = secp256k1::Fp::from_bytes_le(&T_y_bytes_F);
-
-        // Convert F to Biguint
-        let T_x_F_bigint = fe_to_bigint(&T_x_F);
-        let T_y_F_bigint = fe_to_bigint(&T_y_F);
-
-        let T_y_F_biguint = fe_to_biguint(&T_y_F);
-        let T_y_vec = decompose_biguint::<secp256k1::Fp>(&T_y_F_biguint, NUM_LIMBS, LIMB_BITS);
-
-        //let T_y_F_final = decompose(e, number_of_limbs, bit_len)
-
-        // get value
-        let p: BigInt = modulus::<secp256k1::Fp>().into();
-        let x_value = &T_x_F_bigint % &p;
-        let y_value = &T_y_F_bigint % &p;
-
-        // Convert back to Fp using BigUint
-        let T_x_Fp_final = bigint_to_fe::<secp256k1::Fp>(&x_value);
-        let T_y_Fp_final = bigint_to_fe::<secp256k1::Fp>(&y_value);
-
-        // let T_x_biguint_bytes_F = T_x_F_biguint.to_bytes_le();
-        // let T_y_biguint_bytes_F = T_y_F_biguint.to_bytes_le();
-
-        // // Convert back to Fp () Method 2: via from_bytes_le
-        // let T_x_Fp = secp256k1::Fp::from_bytes_le(&T_x_biguint_bytes_F);
-        // let T_y_Fp = secp256k1::Fp::from_bytes_le(&T_y_biguint_bytes_F);
         Ok(())
     }
 }

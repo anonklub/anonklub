@@ -6,10 +6,7 @@ use halo2_ext::Halo2WasmExt;
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, Halo2Wasm};
 use num_bigint::BigUint;
 use serde::{Deserialize, Serialize};
-use utils::{
-    configure_halo2_wasm, create_circuit, gen_params, generate_proof, set_instances,
-    verify_eff_ecdsa,
-};
+use utils::{configure_halo2_wasm, create_circuit, gen_params, generate_proof, verify_eff_ecdsa};
 
 pub(crate) mod consts;
 pub mod ecdsa;
@@ -106,16 +103,10 @@ pub fn verify_membership(membership_proof: &[u8], instances: &[u8]) -> Result<bo
     let is_y_odd = membership_proof.is_y_odd;
     let proof = membership_proof.proof;
 
-    // Deserialize instances
-    let instances = instances
-        .chunks(32)
-        .map(|chunk| chunk.try_into().expect("slice with incorrect length"))
-        .collect::<Vec<[u8; 32]>>();
-
     // Verifications
-    let is_proof_valid = halo2_wasm.verify_ext(instances.clone(), &proof, params)?;
+    let is_proof_valid = halo2_wasm.verify_ext(instances, &proof, params)?;
 
-    let is_eff_ecdsa_valid = verify_eff_ecdsa(msg_hash, r, is_y_odd, instances.clone())?;
+    let is_eff_ecdsa_valid = verify_eff_ecdsa(msg_hash, r, is_y_odd, instances)?;
 
     Ok(is_proof_valid && is_eff_ecdsa_valid)
 }
