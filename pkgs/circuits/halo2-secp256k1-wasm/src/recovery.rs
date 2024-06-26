@@ -79,12 +79,12 @@ pub fn recover_pk_eff(
     let w = msg_hash.neg() * r_inv_mod_n;
 
     // u = -(w * G) = -(r^-1 *msg *G)
-    let u = (g * w).to_affine();
+    let U = (g * w).to_affine();
 
     // t = r^1 * R
-    let t = (r_point * r_inv_mod_n).to_affine();
+    let T = (r_point * r_inv_mod_n).to_affine();
 
-    Ok((u, t))
+    Ok((U, T))
 }
 
 /// @src https://github.com/privacy-scaling-explorations/zkevm-circuits/blob/82e8d8fed3ab1c6ad3f04e3fa3f9b15423b16b5e/eth-types/src/sign_types.rs#L113

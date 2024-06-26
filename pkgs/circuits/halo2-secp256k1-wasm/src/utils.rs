@@ -1,11 +1,29 @@
+#![allow(non_snake_case)]
+use crate::{
+    consts::{E, F},
+    eff_ecdsa::{EffECDSAInputs, EffECDSAVerifyCircuit},
+    recovery::recover_pk_eff,
+};
+use anyhow::{anyhow, Context, Result};
+use halo2_base::{
+    halo2_proofs::{
+        halo2curves::secp256k1,
+        poly::{commitment::Params, kzg::commitment::ParamsKZG},
+    },
+    utils::{biguint_to_fe, fe_to_biguint, modulus, BigPrimeField, CurveAffineExt},
+};
+use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
 use num_bigint::BigUint;
-use std::{result::Result, str::from_utf8};
+use rand_core::OsRng;
+
+use std::{fs::File, io::Cursor, iter::zip, result::Result as StdResult, str::from_utf8};
 use subtle::CtOption;
 
 /// @src https://github.com/privacy-scaling-explorations/zkevm-circuits/blob/main/eth-types/src/sign_types.rs
 /// Helper function to convert a `CtOption` into an `Result`.  Similar to
 /// `Option::ok_or`.
-pub fn ct_option_ok_or<T, E>(v: CtOption<T>, err: E) -> Result<T, E> {
+/// TODO: switch to anyhow result
+pub fn ct_option_ok_or<T, E>(v: CtOption<T>, err: E) -> StdResult<T, E> {
     Option::<T>::from(v).ok_or(err)
 }
 
@@ -39,4 +57,142 @@ pub fn pk_bytes_swap_endianness<T: Clone>(actual_pk: &[T]) -> [T; 64] {
     pk_swap[..32].reverse();
     pk_swap[32..].reverse();
     pk_swap
+}
+
+pub fn serialize_params_to_bytes(params: &ParamsKZG<E>) -> Vec<u8> {
+    let mut buf = Vec::new();
+    let mut cursor = Cursor::new(&mut buf);
+
+    // Hypothetical write method, replace with the actual method to serialize ParamsKZG<Bn256>
+    params.write(&mut cursor).expect("Serialization failed");
+
+    buf
+}
+
+/// Wasm helpers
+pub fn read_config(path: &str) -> Result<CircuitConfig> {
+    // Read circuit config
+    let config = serde_json::from_reader(
+        File::open(path)
+            .map_err(|e| anyhow!(e))
+            .with_context(|| format!("The circuit config file does not exist: {}", path))?,
+    )
+    .map_err(|e| anyhow!(e))
+    .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
+
+    Ok(config)
+}
+
+pub fn create_circuit(
+    s: secp256k1::Fq,
+    r: secp256k1::Fq,
+    msg_hash: BigUint,
+    is_y_odd: bool,
+    halo2_wasm: &Halo2Wasm,
+) -> Result<EffECDSAVerifyCircuit<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>> {
+    // Compute the efficient ECDSA inputs
+    // TODO: Generalize recover_pk_eff
+    let (U, T) = recover_pk_eff(msg_hash, r, is_y_odd).context("Failed to recover the PK!")?;
+
+    let ecdsa_inputs = EffECDSAInputs::new(s, T, U);
+
+    let circuit = EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+        halo2_wasm,
+        ecdsa_inputs,
+    )
+    .map_err(|e| anyhow!(e))
+    .context("Failed to initialize the circuit!")?;
+
+    Ok(circuit)
+}
+
+pub fn configure_halo2_wasm(halo2_wasm: &mut Halo2Wasm, params: &ParamsKZG<E>) -> Result<()> {
+    // Initialize the config and the circuit
+    let config = read_config("configs/ecdsa.config")?;
+    halo2_wasm.config(config);
+
+    // Load params
+    halo2_wasm.load_params(&serialize_params_to_bytes(params));
+
+    // Generate VK
+    halo2_wasm.gen_vk();
+
+    // Generate PK
+    halo2_wasm.gen_pk();
+
+    Ok(())
+}
+
+pub fn gen_params(k: u32) -> ParamsKZG<E> {
+    // Generate Params based on the circuit stats
+    ParamsKZG::<E>::setup(k, OsRng)
+}
+
+pub fn set_instances(halo2_wasm: &mut Halo2Wasm, instances: Vec<u32>, col: usize) {
+    halo2_wasm.set_instances(&instances, col);
+    halo2_wasm.assign_instances();
+}
+
+pub fn get_instances(halo2_wasm: &mut Halo2Wasm, col: usize) -> Vec<u32> {
+    halo2_wasm.get_instances(col)
+}
+
+pub fn generate_proof<CF, SF, GA>(
+    circuit: &mut EffECDSAVerifyCircuit<CF, SF, GA>,
+    halo2_wasm: &Halo2Wasm,
+) -> Result<Vec<u8>>
+where
+    CF: BigPrimeField,
+    SF: BigPrimeField,
+    GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
+{
+    circuit
+        .verify_signature()
+        .map_err(|e| anyhow!(e))
+        .context("The circuit failed to verify signature!")?;
+
+    // Generate proof
+    let proof = halo2_wasm.prove();
+
+    Ok(proof)
+}
+
+pub fn verify_eff_ecdsa(
+    msg_hash: BigUint,
+    r: secp256k1::Fq,
+    is_y_odd: bool,
+    instances: &[u8],
+) -> Result<bool> {
+    // Deserialize instances into Native base finite fields
+    let actual = instances
+        .chunks(32)
+        .map(|chunk| {
+            let bytes: [u8; 32] = chunk.try_into().expect("slice with incorrect length");
+            let instance = ct_option_ok_or(
+                F::from_bytes(&bytes),
+                anyhow!("Failed to convert instances into F."),
+            )?;
+            Ok(instance)
+        })
+        .collect::<Result<Vec<F>>>()?;
+
+    let (U_expected, T_expected) = recover_pk_eff(msg_hash, r, is_y_odd)?;
+
+    let (T_x_expected, T_y_expected) = T_expected.into_coordinates();
+    let (U_x_expected, U_y_expected) = U_expected.into_coordinates();
+
+    // Convert Expected precompute values from Secp256k1 Affine into Bn256 scalar finite fields
+    let native_modules = modulus::<F>();
+    let expected = [T_x_expected, T_y_expected, U_x_expected, U_y_expected]
+        .iter()
+        .map(|expected_value| {
+            let expected_value_biguint = fe_to_biguint(expected_value);
+
+            biguint_to_fe::<F>(&(&expected_value_biguint % &native_modules))
+        })
+        .collect::<Vec<F>>();
+
+    let is_eff_ecdsa_verified = zip(actual.iter(), expected.iter()).all(|(a, e)| a == e);
+
+    Ok(is_eff_ecdsa_verified)
 }
