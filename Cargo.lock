@@ -3341,6 +3341,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "merkle-tree-halo2"
+version = "1.1.1"
+dependencies = [
+ "anyhow",
+ "ark-std 0.4.0",
+ "console_error_panic_hook",
+ "csv",
+ "halo2-base",
+ "halo2-ecc",
+ "halo2-wasm",
+ "hex",
+ "num-bigint",
+ "pse-poseidon",
+ "rayon",
+ "serde",
+ "serde_json",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
 name = "merkle-tree-wasm"
 version = "1.1.1"
 dependencies = [
@@ -4075,6 +4096,15 @@ dependencies = [
  "rusty-fork",
  "tempfile",
  "unarray",
+]
+
+[[package]]
+name = "pse-poseidon"
+version = "0.2.0"
+source = "git+https://github.com/aerius-labs/pse-poseidon.git?branch=feat/stateless-hash#8b4246f7785f0a3a0e384b694d4ef62392c4dc6a"
+dependencies = [
+ "halo2curves-axiom",
+ "subtle",
 ]
 
 [[package]]
