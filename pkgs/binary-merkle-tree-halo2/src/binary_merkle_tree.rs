@@ -1,18 +1,17 @@
-use crate::consts::{ARITY, F, RATE, T};
+#[warn(dead_code)]
 use anyhow::{Context, Ok, Result};
-use halo2_base::{poseidon, utils::BigPrimeField};
-use halo2_wasm::halo2lib::R_F;
+use halo2_base::utils::BigPrimeField;
 use pse_poseidon::Poseidon;
-use rayon::{
-    iter::{IntoParallelRefIterator, ParallelIterator},
-    slice::ParallelSlice,
-};
-use serde::{de, Deserialize, Serialize};
+use rayon::{iter::ParallelIterator, slice::ParallelSlice};
+use serde::{Deserialize, Serialize};
 
-pub struct BinaryMerkleTree {
+pub struct BinaryMerkleTree<'a, F, const T: usize, const RATE: usize, const ARITY: usize>
+where
+    F: BigPrimeField,
+{
     pub root: F,
     leaves: Vec<F>,
-    poseidon: Poseidon<F, T, RATE>,
+    poseidon: &'a mut Poseidon<F, T, RATE>,
     is_tree_ready: bool,
     layers: Vec<Vec<F>>,
     depth: usize,
@@ -20,30 +19,44 @@ pub struct BinaryMerkleTree {
 
 #[derive(Serialize, Deserialize)]
 pub struct MerkleProofBytes {
-    siblings: Vec<u8>,
-    path_indices: Vec<u8>,
-    root: Vec<u8>,
+    pub siblings: Vec<u8>,
+    pub path_indices: Vec<u8>,
+    pub root: Vec<u8>,
 }
 
-pub struct MerkleProof {
-    leaf: F,
-    siblings: Vec<F>,
-    path_indices: Vec<usize>,
-    root: F,
+impl MerkleProofBytes {
+    pub fn serialize(&self) -> Result<Vec<u8>> {
+        bincode::serialize(self).context("Failed to serialize MembershipProof")
+    }
+
+    pub fn deserialize(serialized: &[u8]) -> Result<Self> {
+        bincode::deserialize(serialized).context("Failed to deserialize MembershipProof")
+    }
+}
+
+pub struct MerkleProof<F>
+where
+    F: BigPrimeField,
+{
+    pub leaf: F,
+    pub siblings: Vec<F>,
+    pub path_indices: Vec<usize>,
+    pub root: F,
 }
 
 // TODO: maybe adding PoseidonConstants in the PSE version
-impl BinaryMerkleTree {
-    pub fn new(r_f: usize, r_p: usize) -> Self {
-        let mut poseidon = Poseidon::<F, T, RATE>::new(r_f, r_p);
-        poseidon.update(&[F::from(3u64)]);
-
+impl<'a, F, const T: usize, const RATE: usize, const ARITY: usize>
+    BinaryMerkleTree<'a, F, T, RATE, ARITY>
+where
+    F: BigPrimeField,
+{
+    pub fn new(poseidon: &'a mut Poseidon<F, T, RATE>) -> Self {
         Self {
-            root: F::zero(),
-            leaves: vec![],
+            root: F::ZERO,
+            leaves: Vec::new(),
             poseidon,
             is_tree_ready: false,
-            layers: vec![],
+            layers: Vec::new(),
             depth: 0,
         }
     }
@@ -54,7 +67,7 @@ impl BinaryMerkleTree {
     }
 
     fn hash(poseidon: &mut Poseidon<F, T, RATE>, nodes: &[F]) -> F {
-        poseidon.update(nodes);
+        poseidon.update(&nodes[..]);
 
         let out = poseidon.squeeze_and_reset();
 
@@ -63,7 +76,7 @@ impl BinaryMerkleTree {
 
     pub fn finish(&mut self) {
         let padding_len = self.leaves.len().next_power_of_two();
-        self.leaves.resize(padding_len, F::zero());
+        self.leaves.resize(padding_len, F::ZERO);
 
         let depth = (padding_len as f64).log2() as usize;
 
@@ -72,6 +85,8 @@ impl BinaryMerkleTree {
         self.is_tree_ready = true;
 
         // Calculate the root
+        let root = self.gen_root();
+        self.root = root;
     }
 
     pub fn gen_root(&mut self) -> F {
@@ -100,7 +115,7 @@ impl BinaryMerkleTree {
         current_layer[0]
     }
 
-    pub fn gen_proof(&self, leaf: F, address: String) -> Result<MerkleProof> {
+    pub fn gen_proof(&self, leaf: F, address: String) -> Result<MerkleProof<F>> {
         if !self.is_tree_ready {
             panic!("MerkleTree: Tree is not ready.");
         }
@@ -144,7 +159,7 @@ impl BinaryMerkleTree {
         })
     }
 
-    pub fn verify_proof(&mut self, root: F, proof: &MerkleProof) -> bool {
+    pub fn verify_proof(&mut self, root: F, proof: &MerkleProof<F>) -> bool {
         let mut node = proof.leaf;
         for (sibling, node_index) in proof.siblings.iter().zip(proof.path_indices.iter()) {
             let is_node_index_even = node_index & 1 == 0;
@@ -164,15 +179,28 @@ impl BinaryMerkleTree {
 
 #[cfg(test)]
 mod tests {
-    use ark_std::{end_timer, start_timer};
-
-    use crate::consts::{F, R_F, R_P};
-
     use super::BinaryMerkleTree;
+    use halo2_base::halo2_proofs::halo2curves::secp256k1;
+    use pse_poseidon::Poseidon;
+
+    type F = secp256k1::Fp; // Base FF;
+
+    /// Binary Merkle Tree
+    const WIDTH: usize = 3;
+    const ARITY: usize = WIDTH - 1;
+
+    /// Poseidon
+    /// `State` is structure `T` sized field elements that are subjected to
+    /// permutation
+    const T: usize = 3;
+    const RATE: usize = 2;
+    const R_F: usize = 8;
+    const R_P: usize = 57;
 
     #[test]
     fn test_tree() {
-        let mut tree = BinaryMerkleTree::new(R_F, R_P);
+        let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
+        let mut tree = BinaryMerkleTree::<F, T, RATE, ARITY>::new(&mut poseidon);
 
         let depth = 10;
         let num_leaves = 1 << depth;
@@ -181,11 +209,9 @@ mod tests {
             .collect::<Vec<F>>();
 
         // Insert leaves
-        let insert_leaves_timer = start_timer!(|| "Insert leaves");
         for leaf in leaves.iter() {
             tree.insert(*leaf);
         }
-        end_timer!(insert_leaves_timer);
 
         tree.finish();
 
@@ -194,5 +220,32 @@ mod tests {
             .unwrap();
 
         assert!(tree.verify_proof(tree.root, &proof));
+    }
+
+    #[test]
+    fn fail_to_build_proof_if_leaf_not_present() {
+        let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
+        let mut tree = BinaryMerkleTree::<F, T, RATE, ARITY>::new(&mut poseidon);
+
+        let depth = 10;
+        let num_leaves = 1 << depth;
+        let leaves = (0..num_leaves)
+            .map(|i| F::from(i as u64))
+            .collect::<Vec<F>>();
+
+        // Insert leaves
+        for leaf in leaves.iter() {
+            tree.insert(*leaf);
+        }
+
+        tree.finish();
+
+        let leaf = F::from(num_leaves + 1);
+        let proof = tree.gen_proof(leaf, (&"Test address").to_string());
+
+        match proof {
+            Err(e) => assert!(e.to_string().contains("not part of the addresses set")),
+            _ => panic!("expected error"),
+        }
     }
 }
