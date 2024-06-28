@@ -222,7 +222,7 @@ mod tests {
         tree.finish();
 
         let leaf = F::from(num_leaves + 1);
-        let proof = tree.create_proof(leaf, leaf.0.to_string());
+        let proof = tree.   (leaf, leaf.0.to_string());
         match proof {
             Err(e) => assert!(e.to_string().contains("not part of the addresses set")),
             _ => panic!("expected error"),
