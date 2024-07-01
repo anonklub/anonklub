@@ -7,6 +7,7 @@ use pse_poseidon::Poseidon;
 use web_sys::js_sys::wasm_bindgen;
 
 pub mod binary_merkle_tree;
+pub mod chip;
 pub(crate) mod consts;
 
 type F = secp256k1::Fp;
