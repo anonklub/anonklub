@@ -38,10 +38,34 @@ pub struct MerkleProof<F>
 where
     F: BigPrimeField,
 {
+    pub depth: usize,
     pub leaf: F,
     pub siblings: Vec<F>,
     pub path_indices: Vec<usize>,
     pub root: F,
+}
+
+impl<F> MerkleProof<F>
+where
+    F: BigPrimeField,
+{
+    pub fn to_bytes_le(&self) -> Result<MerkleProofBytes> {
+        Ok(MerkleProofBytes {
+            siblings: self
+                .siblings
+                .iter()
+                .flat_map(|sibling| sibling.to_bytes_le())
+                .collect::<Vec<u8>>(),
+            path_indices: self
+                .path_indices
+                .iter()
+                .flat_map(|path_index| F::from(*path_index as u64).to_bytes_le())
+                .collect::<Vec<u8>>(),
+            root: self.root.to_bytes_le(),
+        })
+    }
+
+    // TODO: impl from_bytes_le()
 }
 
 // TODO: maybe adding PoseidonConstants in the PSE version
@@ -155,6 +179,7 @@ where
             leaf,
             siblings,
             path_indices,
+            depth: self.depth,
             root: self.root,
         })
     }
@@ -179,23 +204,13 @@ where
 
 #[cfg(test)]
 mod tests {
+    use crate::consts::{ARITY, RATE, R_F, R_P, T};
+
     use super::BinaryMerkleTree;
     use halo2_base::halo2_proofs::halo2curves::secp256k1;
     use pse_poseidon::Poseidon;
 
     type F = secp256k1::Fp; // Base FF;
-
-    /// Binary Merkle Tree
-    const WIDTH: usize = 3;
-    const ARITY: usize = WIDTH - 1;
-
-    /// Poseidon
-    /// `State` is structure `T` sized field elements that are subjected to
-    /// permutation
-    const T: usize = 3;
-    const RATE: usize = 2;
-    const R_F: usize = 8;
-    const R_P: usize = 57;
 
     #[test]
     fn test_tree() {
