@@ -4,15 +4,20 @@ use consts::{ARITY, RATE, R_F, R_P, T};
 use halo2_base::halo2_proofs::halo2curves::secp256k1;
 use halo2_base::utils::BigPrimeField;
 use pse_poseidon::Poseidon;
-use web_sys::js_sys::wasm_bindgen;
+/// Adding this exception because wasm_bindgen
+/// is being used in generate_merkle_proof that has
+/// #[cfg(target_arch = "wasm32")] flag which is not
+/// readable by `cargo clippy` so we get unused import warn
+#[allow(unused_imports)]
+use wasm_bindgen::prelude::wasm_bindgen;
 
 pub mod binary_merkle_tree;
-pub mod chip;
 pub(crate) mod consts;
+pub mod gadget;
 
 type F = secp256k1::Fp;
 
-fn _generate_merkle_proof<'a, F>(
+fn _generate_merkle_proof<F>(
     leaves: Vec<String>,
     leaf: String,
     depth: usize,

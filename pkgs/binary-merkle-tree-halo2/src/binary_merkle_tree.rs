@@ -1,4 +1,4 @@
-#[warn(dead_code)]
+#![warn(dead_code)]
 use anyhow::{Context, Ok, Result};
 use halo2_base::utils::BigPrimeField;
 use pse_poseidon::Poseidon;
@@ -91,11 +91,9 @@ where
     }
 
     fn hash(poseidon: &mut Poseidon<F, T, RATE>, nodes: &[F]) -> F {
-        poseidon.update(&nodes[..]);
+        poseidon.update(nodes);
 
-        let out = poseidon.squeeze_and_reset();
-
-        out
+        poseidon.squeeze_and_reset()
     }
 
     pub fn finish(&mut self) {
@@ -195,7 +193,7 @@ where
                 [*sibling, node]
             };
 
-            node = Self::hash(&mut self.poseidon, &nodes);
+            node = Self::hash(self.poseidon, &nodes);
         }
 
         node == root

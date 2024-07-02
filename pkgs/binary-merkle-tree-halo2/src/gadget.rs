@@ -1,6 +1,5 @@
 use halo2_base::{
     gates::{GateChip, GateInstructions},
-    halo2_proofs::plonk::Assigned,
     poseidon::hasher::PoseidonHasher,
     utils::BigPrimeField,
     AssignedValue, Context,
@@ -16,7 +15,7 @@ fn dual_mux<F>(
 where
     F: BigPrimeField,
 {
-    gate.assert_bit(ctx, &switch);
+    gate.assert_bit(ctx, *switch);
 
     let a_sub_b = gate.sub(ctx, *a, *b);
     let b_sub_a = gate.sub(ctx, *b, *a);
