@@ -31,19 +31,19 @@ pub fn verify_membership_proof<F, const T: usize, const RATE: usize>(
     ctx: &mut Context<F>,
     gate: &GateChip<F>,
     hasher: PoseidonHasher<F, T, RATE>,
-    root: &AssignedValue<F>,
     leaf: &AssignedValue<F>,
-    proof: &[AssignedValue<F>],
-    helper: &[AssignedValue<F>],
+    root: &AssignedValue<F>,
+    siblings: &[AssignedValue<F>],
+    path_indices: &[AssignedValue<F>],
 ) where
     F: BigPrimeField,
 {
-    let mut computed_hash = ctx.load_witness(*leaf.value());
+    let mut computed_root = ctx.load_witness(*leaf.value());
 
-    for (proof_element, helper) in proof.iter().zip(helper.iter()) {
-        let inp = dual_mux(ctx, gate, &computed_hash, proof_element, helper);
-        computed_hash = hasher.hash_fix_len_array(ctx, gate, &inp);
+    for (sibling, path_index) in siblings.iter().zip(path_indices.iter()) {
+        let inp = dual_mux(ctx, gate, &computed_root, sibling, path_index);
+        computed_root = hasher.hash_fix_len_array(ctx, gate, &inp);
     }
 
-    ctx.constrain_equal(&computed_hash, root)
+    ctx.constrain_equal(&computed_root, root)
 }
