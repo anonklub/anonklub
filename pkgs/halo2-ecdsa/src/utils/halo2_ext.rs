@@ -1,11 +1,4 @@
-use std::io::BufReader;
-
-use crate::{
-    consts::{E, E_AFFINE, F},
-    utils::ct_option_ok_or,
-};
 use anyhow::{anyhow, Context, Ok, Result};
-
 use halo2_base::{
     gates::circuit::builder::BaseCircuitBuilder,
     halo2_proofs::{
@@ -27,6 +20,12 @@ use itertools::Itertools;
 use snark_verifier_sdk::{
     halo2::{PoseidonTranscript, POSEIDON_SPEC},
     NativeLoader,
+};
+use std::io::BufReader;
+
+use super::{
+    consts::{E, E_AFFINE, F},
+    ct_option_ok_or,
 };
 
 pub trait Halo2WasmExt {

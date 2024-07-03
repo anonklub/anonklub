@@ -1,5 +1,5 @@
 [package]
-name = "halo2-secp256k1-wasm"
+name = "halo2-ecdsa"
 version = "0.1.0"
 edition = "2021"
 

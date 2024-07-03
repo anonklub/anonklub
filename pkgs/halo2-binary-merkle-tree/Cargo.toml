@@ -1,5 +1,5 @@
 [package]
-name = "binary-merkle-tree-halo2"
+name = "halo2-binary-merkle-tree"
 version = "1.1.1"
 edition = "2021"
 license = "AGPL-3.0"
