@@ -1,8 +1,4 @@
-import type {
-  EnsProposalVotersRequest,
-  Erc20BalanceAnonSetRequest,
-  EthBalanceAnonSetRequest,
-} from './requests'
+import type { EnsProposalVotersRequest, Erc20BalanceAnonSetRequest, EthBalanceAnonSetRequest } from './requests'
 
 export enum Environment {
   PRODUCTION = 'production',

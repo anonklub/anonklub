@@ -1,13 +1,13 @@
 'use client'
 import '../globals.css'
 import 'tailwindcss/tailwind.css'
+import { config, wagmiConfig } from '#'
+import { store } from '@/store'
+import { Layout, Web3Modal } from '@components'
 import { Bubble } from '@typebot.io/nextjs'
 import { StoreProvider } from 'easy-peasy'
 import type { ReactNode } from 'react'
 import { WagmiConfig } from 'wagmi'
-import { config, wagmiConfig } from '#'
-import { store } from '@/store'
-import { Layout, Web3Modal } from '@components'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

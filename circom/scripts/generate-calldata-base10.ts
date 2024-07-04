@@ -14,14 +14,15 @@ const toUintArray = (
     | string[]
     | string[][]
     | [string[], string[][], string[], string[]],
-) =>
-  Array.isArray(el) ? el.map((hexString) => toUintArray(hexString)) : toUint(el)
+) => Array.isArray(el) ? el.map((hexString) => toUintArray(hexString)) : toUint(el)
 
 const stringify = (input: string[] | string[][]) => {
   if (Array.isArray(input[0])) {
-    return `"[${input
-      .map((el) => `[${(el as string[]).join(',')}]`)
-      .join(',')}]"`
+    return `"[${
+      input
+        .map((el) => `[${(el as string[]).join(',')}]`)
+        .join(',')
+    }]"`
   }
   return `"[${input.join(',')}]"`
 }
@@ -34,10 +35,9 @@ const main = async () => {
     publicSignals,
   )
 
-  const callDataBase10Str: [string[], string[][], string[], string[]] =
-    toUintArray(JSON.parse(`[${callDataHexStr}]`))
-      .map(stringify)
-      .join(' ')
+  const callDataBase10Str: [string[], string[][], string[], string[]] = toUintArray(JSON.parse(`[${callDataHexStr}]`))
+    .map(stringify)
+    .join(' ')
 
   console.log(callDataBase10Str)
 }

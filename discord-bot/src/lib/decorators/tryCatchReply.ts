@@ -7,9 +7,7 @@ export const tryCatchReply = tryCatch(
     const isMessage = arg instanceof Message
     const embeds = [
       new ErrorEmbed({
-        description: `Error while handling your ${
-          isMessage ? 'message' : 'slash command'
-        }`,
+        description: `Error while handling your ${isMessage ? 'message' : 'slash command'}`,
         details: err.message,
       }),
     ]

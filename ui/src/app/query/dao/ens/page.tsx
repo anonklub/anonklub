@@ -1,8 +1,8 @@
 'use client'
-import { useState } from 'react'
 import { config, getData } from '#'
 import { AnonSetResults, Loader } from '@components'
 import { useFetchOnChain, useSetHelp, useStore } from '@hooks'
+import { useState } from 'react'
 
 // TODO extract in shared lib
 enum Choice {
@@ -70,9 +70,7 @@ export default function Page() {
 
       <button
         type='button'
-        className={`btn self-center ${
-          canFetch ? 'btn-primary' : 'is-disabled'
-        }`}
+        className={`btn self-center ${canFetch ? 'btn-primary' : 'is-disabled'}`}
         onClick={execute}
       >
         Fetch Anonset

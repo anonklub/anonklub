@@ -8,7 +8,7 @@ export function inVerificationChannel(
 ) {
   const originalMethod = descriptor.value
 
-  descriptor.value = async function (
+  descriptor.value = async function(
     interaction: CommandInteraction,
   ): Promise<void> {
     const channel = interaction.guild?.channels.cache.get(

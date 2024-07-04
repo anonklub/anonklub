@@ -1,9 +1,4 @@
-import {
-  IsDefined,
-  IsEthereumAddress,
-  IsNumberString,
-  IsOptional,
-} from 'class-validator'
+import { IsDefined, IsEthereumAddress, IsNumberString, IsOptional } from 'class-validator'
 
 export class Erc20BalanceAnonSetRequest {
   @IsOptional()

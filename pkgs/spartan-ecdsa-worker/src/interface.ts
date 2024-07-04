@@ -1,9 +1,4 @@
-import type {
-  init_panic_hook,
-  prepare,
-  prove_membership,
-  verify_membership,
-} from '@anonklub/spartan-ecdsa-wasm'
+import type { init_panic_hook, prepare, prove_membership, verify_membership } from '@anonklub/spartan-ecdsa-wasm'
 import type { Hex } from 'viem'
 
 export interface MerkleProof {

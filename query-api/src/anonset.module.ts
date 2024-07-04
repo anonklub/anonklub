@@ -3,13 +3,7 @@ import { Module } from '@nestjs/common'
 import { APP_INTERCEPTOR } from '@nestjs/core'
 import { AnonsetController } from './anonset.controller'
 import { AnonsetService } from './anonset.service'
-import {
-  BigqueryClient,
-  BigQueryRepository,
-  DuneClient,
-  DuneRepository,
-  GraphRepository,
-} from './repositories'
+import { BigqueryClient, BigQueryRepository, DuneClient, DuneRepository, GraphRepository } from './repositories'
 
 const ONE_DAY = 60 * 60 * 24 * 1000
 

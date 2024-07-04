@@ -1,5 +1,5 @@
-import { Events, Interaction } from 'discord.js'
 import { CommandName } from 'commands'
+import { Events, Interaction } from 'discord.js'
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
 

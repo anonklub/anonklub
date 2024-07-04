@@ -30,8 +30,8 @@ export class ExcludableMerkleTree extends MerkleTree {
     // Find the index of the leaf that would be immediately before the non member (TODO: binary search)
     let leftLeafIndex = 0
     while (
-      this.levels[0][leftLeafIndex + 1] < nonMember &&
-      leftLeafIndex < this.levels[0].length
+      this.levels[0][leftLeafIndex + 1] < nonMember
+      && leftLeafIndex < this.levels[0].length
     ) {
       leftLeafIndex++
     }

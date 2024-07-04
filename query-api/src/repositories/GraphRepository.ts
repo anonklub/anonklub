@@ -27,9 +27,8 @@ export class GraphRepository {
       if (current !== undefined) {
         for (const item of current) {
           const id = idFn(item).toLowerCase()
-          if (!results.includes(id)) {
+          if (!results.includes(id))
             results.push(id)
-          }
         }
       }
 

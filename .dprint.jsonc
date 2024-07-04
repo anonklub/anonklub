@@ -1,0 +1,28 @@
+{
+  "exec": {
+    "commands": [
+      { "command": "rustfmt --edition 2021", "exts": ["rs"] },
+      { "command": "forge fmt - --raw", "exts": ["sol"] }
+    ]
+  },
+  "excludes": [
+    "generated",
+    ".graphclient",
+    "pnpm-lock.yaml",
+    "public"
+  ],
+  "extends": [
+    "https://raw.githubusercontent.com/sripwoud/configs/main/packages/dprint/.dprint.ts.jsonc",
+    "https://raw.githubusercontent.com/sripwoud/configs/main/packages/dprint/.dprint.yaml.jsonc"
+  ],
+  "json": {
+    "trailingCommas": "never"
+  },
+  "plugins": [
+    "https://plugins.dprint.dev/exec-0.4.4.json@c207bf9b9a4ee1f0ecb75c594f774924baf62e8e53a2ce9d873816a408cecbf7",
+    "https://plugins.dprint.dev/json-0.19.3.wasm",
+    "https://plugins.dprint.dev/markdown-0.17.1.wasm",
+    "https://plugins.dprint.dev/typescript-0.91.2.wasm",
+    "https://plugins.dprint.dev/prettier-0.40.0.json@68c668863ec834d4be0f6f5ccaab415df75336a992aceb7eeeb14fdf096a9e9c"
+  ]
+}

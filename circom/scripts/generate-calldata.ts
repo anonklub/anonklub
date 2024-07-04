@@ -3,8 +3,7 @@ import terminalLink from 'terminal-link'
 import { askProofFile, askPublicSignalsFile } from './_prompt'
 import { wrapExec } from './_wrap'
 
-const stringify = (input: string[]) =>
-  `${JSON.stringify(input).replace(/"/g, '')}`
+const stringify = (input: string[]) => `${JSON.stringify(input).replace(/"/g, '')}`
 
 const main = async () => {
   const proof = await askProofFile()
@@ -19,10 +18,12 @@ const main = async () => {
     `[${callDataStr}]`,
   )
   console.log(
-    `Use the following inputs to perform a 'verifyProof' read call to the ${terminalLink(
-      'Groth16Verifier contract',
-      'https://sepolia.etherscan.io/address/0x893f293e3918a179bf87fb772206e9927db61b0c#readContract',
-    )}`,
+    `Use the following inputs to perform a 'verifyProof' read call to the ${
+      terminalLink(
+        'Groth16Verifier contract',
+        'https://sepolia.etherscan.io/address/0x893f293e3918a179bf87fb772206e9927db61b0c#readContract',
+      )
+    }`,
   )
   console.log()
   console.log(`_pA: ${stringify(callData[0])}`)

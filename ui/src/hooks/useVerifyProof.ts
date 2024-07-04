@@ -1,5 +1,5 @@
+import { useSpartanEcdsaWorker, useStore } from '@hooks'
 import { useAsync } from 'react-use'
-import { useStore, useSpartanEcdsaWorker } from '@hooks'
 
 export const useVerifyProof = () => {
   const { proof } = useStore()

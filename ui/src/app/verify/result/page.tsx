@@ -1,13 +1,13 @@
 'use client'
-import Link from 'next/link'
 import { Loader } from '@components'
 import { useStore, useVerifyProof } from '@hooks'
+import Link from 'next/link'
 
 export default function Page() {
   const { proof } = useStore()
   const { value: isValid } = useVerifyProof()
 
-  if (proof === null)
+  if (proof === null) {
     return (
       <div>
         Missing proof `anonklub-proof.bin` file, go back to{' '}
@@ -17,6 +17,7 @@ export default function Page() {
         to upload it.
       </div>
     )
+  }
 
   if (isValid === undefined) return <Loader />
 

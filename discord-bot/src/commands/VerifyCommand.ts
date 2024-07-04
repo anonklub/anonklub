@@ -1,9 +1,4 @@
-import {
-  ChannelType,
-  CommandInteraction,
-  PermissionsBitField,
-  SlashCommandBuilder,
-} from 'discord.js'
+import { ChannelType, CommandInteraction, PermissionsBitField, SlashCommandBuilder } from 'discord.js'
 import { config } from '~'
 import { _Command } from './_Command'
 import { CommandName } from './interface'

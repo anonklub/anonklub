@@ -1,17 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { parseEther } from 'viem'
 import { HandleDuneCreditsError } from './decorators/handle-dune-credits-error'
-import {
-  GetEnsProposalVotersDto,
-  GetErc20BalanceOwnersDto,
-  GetEthBalanceOwnersDto,
-  GetNftOwnersDto,
-} from './dto'
-import {
-  BigQueryRepository,
-  DuneRepository,
-  GraphRepository,
-} from './repositories'
+import { GetEnsProposalVotersDto, GetErc20BalanceOwnersDto, GetEthBalanceOwnersDto, GetNftOwnersDto } from './dto'
+import { BigQueryRepository, DuneRepository, GraphRepository } from './repositories'
 
 @Injectable()
 export class AnonsetService {

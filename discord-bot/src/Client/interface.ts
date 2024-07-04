@@ -1,5 +1,5 @@
-import { Client as DiscordClient } from 'discord.js'
 import { commands } from 'commands'
+import { Client as DiscordClient } from 'discord.js'
 import { Events } from '../events'
 
 export interface ClientI {

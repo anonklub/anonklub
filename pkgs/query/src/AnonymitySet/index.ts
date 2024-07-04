@@ -1,16 +1,7 @@
 import { URLS } from '../CONSTANTS'
 import { fetchJson } from '../fetch-json'
-import type {
-  EnsProposalVotersRequest,
-  Erc20BalanceAnonSetRequest,
-  EthBalanceAnonSetRequest,
-} from '../requests'
-import {
-  Endpoint,
-  Environment,
-  type Request,
-  type RequestClass,
-} from '../types'
+import type { EnsProposalVotersRequest, Erc20BalanceAnonSetRequest, EthBalanceAnonSetRequest } from '../requests'
+import { Endpoint, Environment, type Request, type RequestClass } from '../types'
 import type { AnonymitySetI } from './interface'
 
 export class AnonymitySet implements AnonymitySetI {
@@ -33,8 +24,7 @@ export class AnonymitySet implements AnonymitySetI {
   )
 
   private _fetchWithParams<T extends RequestClass>(endpoint: Endpoint) {
-    return async (params: Request<T>) =>
-      await fetchJson(`${URLS[this.env]}/${endpoint}`, params)
+    return async (params: Request<T>) => await fetchJson(`${URLS[this.env]}/${endpoint}`, params)
   }
 
   private _fetchWithoutParams(endpoint: Endpoint) {

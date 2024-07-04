@@ -1,5 +1,5 @@
-import { CommandInteraction } from 'discord.js'
 import { _Command } from 'commands/_Command'
+import { CommandInteraction } from 'discord.js'
 
 export function isMatchingCommand(
   _target: any,
@@ -8,7 +8,7 @@ export function isMatchingCommand(
 ) {
   const originalMethod = descriptor.value
 
-  descriptor.value = async function (
+  descriptor.value = async function(
     interaction: CommandInteraction,
   ): Promise<void> {
     if (interaction.commandName !== (this as _Command).commandBuilder.name)

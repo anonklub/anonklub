@@ -1,8 +1,8 @@
 'use client'
+import { Loader } from '@/components/Loader'
 import { useWeb3Modal } from '@web3modal/react'
 import { useEffect, useState } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
-import { Loader } from '@/components/Loader'
 
 export function ConnectButton() {
   // to avoid hydration errors
@@ -26,23 +26,22 @@ export function ConnectButton() {
   }
 
   function onClick() {
-    if (isConnected) {
+    if (isConnected)
       disconnect()
-    } else {
+    else
       onOpen().catch(console.error)
-    }
   }
 
-  return hasMounted ? (
-    <button
-      type='button'
-      className='btn btn-secondary'
-      onClick={onClick}
-      disabled={loading}
-    >
-      {loading ? 'Loading...' : label}
-    </button>
-  ) : (
-    <Loader />
-  )
+  return hasMounted
+    ? (
+      <button
+        type='button'
+        className='btn btn-secondary'
+        onClick={onClick}
+        disabled={loading}
+      >
+        {loading ? 'Loading...' : label}
+      </button>
+    )
+    : <Loader />
 }

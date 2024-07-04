@@ -1,6 +1,6 @@
 'use client'
-import { Web3Modal as _Web3Modal } from '@web3modal/react'
 import { config, ethereumClient } from '#'
+import { Web3Modal as _Web3Modal } from '@web3modal/react'
 
 export function Web3Modal() {
   return (

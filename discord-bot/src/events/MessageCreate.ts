@@ -1,10 +1,4 @@
-import {
-  Attachment,
-  Collection,
-  Events,
-  Message,
-  TextChannel,
-} from 'discord.js'
+import { Attachment, Collection, Events, Message, TextChannel } from 'discord.js'
 import { config, verifyOnChain } from '~'
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
@@ -40,7 +34,8 @@ export class MessageCreate extends _Event {
         throw new Error('No member found')
       await message.member.roles.add(config.VERIFIED_ROLE_ID)
       await message.channel.send({
-        content: `Congrats \`${message.author.username}\`, you proof is valid ✅! You have been granted the verified role. This private channel will be deleted in 10s.`,
+        content:
+          `Congrats \`${message.author.username}\`, you proof is valid ✅! You have been granted the verified role. This private channel will be deleted in 10s.`,
       })
 
       setTimeout(() => {
@@ -53,8 +48,8 @@ export class MessageCreate extends _Event {
           const pastMessages = await verificationChannel.messages.fetch()
           const botMessage = pastMessages.find(
             (pastMessage: Message) =>
-              pastMessage.author.id === config.CLIENT_ID &&
-              pastMessage.content.includes(
+              pastMessage.author.id === config.CLIENT_ID
+              && pastMessage.content.includes(
                 `Hello \`${message.author.username}\`, please check #private-verify-${message.author.username} for further instructions.`,
               ),
           )
@@ -65,7 +60,8 @@ export class MessageCreate extends _Event {
       }, 10000)
     } else {
       await message.channel.send({
-        content: `Sorry \`${message.author.username}\`, your proof is invalid ❌. You have not been granted the verified role.`,
+        content:
+          `Sorry \`${message.author.username}\`, your proof is invalid ❌. You have not been granted the verified role.`,
       })
     }
   }
@@ -74,9 +70,7 @@ export class MessageCreate extends _Event {
     attachments: Collection<string, Attachment>,
   ) {
     const [proof, publicSignals] = await Promise.all(
-      ['proof.json', 'public.json'].map(async (name) =>
-        this._handleJsonAttachment({ attachments, name }),
-      ),
+      ['proof.json', 'public.json'].map(async (name) => this._handleJsonAttachment({ attachments, name })),
     )
 
     return {
