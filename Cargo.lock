@@ -2546,6 +2546,7 @@ dependencies = [
  "halo2-base",
  "halo2-ecc",
  "halo2-wasm",
+ "halo2-wasm-ext",
  "hex",
  "itertools 0.13.0",
  "libsecp256k1",

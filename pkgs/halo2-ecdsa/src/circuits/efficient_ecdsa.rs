@@ -13,7 +13,7 @@ use halo2_wasm::Halo2Wasm;
 use std::{cell::RefCell, marker::PhantomData, rc::Rc};
 
 use crate::utils::consts::{
-    FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS,
+    FpChip, FqChip, Point, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS,
 };
 
 // CF is the coordinate field of GA
@@ -103,12 +103,12 @@ where
     }
 
     // CF
-    fn ecc_fp_chip<'a>(&self) -> FpChip<F, CF> {
+    fn ecc_fp_chip(&self) -> FpChip<F, CF> {
         FpChip::<F, CF>::new(&self.range_chip, LIMB_BITS, NUM_LIMBS)
     }
 
     // SF
-    fn ecc_fq_chip<'a>(&self) -> FqChip<F, SF> {
+    fn ecc_fq_chip(&self) -> FqChip<F, SF> {
         FqChip::<F, SF>::new(&self.range_chip, LIMB_BITS, NUM_LIMBS)
     }
 
@@ -127,12 +127,7 @@ where
         fq_chip.load_private(ctx, self.eff_ecdsa_inputs.s)
     }
 
-    fn load_instances(
-        &mut self,
-    ) -> (
-        EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
-        EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
-    ) {
+    fn load_instances(&mut self) -> (Point<CF>, Point<CF>) {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
@@ -180,11 +175,11 @@ where
 
     pub fn recover_pk_efficient(
         &self,
-        T: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
-        U: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
+        T: Point<CF>,
+        U: Point<CF>,
         s: ProperCrtUint<F>,
         fixed_window_bits: usize,
-    ) -> EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint> {
+    ) -> Point<CF> {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
@@ -248,6 +243,9 @@ mod tests {
     };
     use halo2_ecc::fields::FpStrategy;
     use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
+    use halo2_wasm_ext::ext::Halo2WasmExt;
+    use halo2_wasm_ext::params::serialize_params_to_bytes;
+    use halo2_wasm_ext::utils::ct_option_ok_or;
     use num_bigint::BigUint;
     use rand::{rngs::StdRng, SeedableRng};
     use rand_core::OsRng;
@@ -255,9 +253,6 @@ mod tests {
     use std::{fs::File, time::Instant};
 
     use crate::utils::consts::E;
-    use crate::utils::ct_option_ok_or;
-    use crate::utils::halo2_ext::Halo2WasmExt;
-    use crate::utils::halo2_utils::serialize_params_to_bytes;
     use crate::utils::recovery::recover_pk_efficient;
     use crate::utils::verify::verify_efficient_ecdsa;
 

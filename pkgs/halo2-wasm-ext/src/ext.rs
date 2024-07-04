@@ -24,7 +24,10 @@ use snark_verifier_sdk::{
 };
 use std::io::BufReader;
 
-use crate::consts::{E, E_AFFINE, F};
+use crate::{
+    consts::{E, E_AFFINE, F},
+    utils::ct_option_ok_or,
+};
 
 pub trait Halo2WasmExt {
     #[cfg(target_arch = "wasm32")]
@@ -59,8 +62,10 @@ impl Halo2WasmExt for Halo2Wasm {
             .chunks(32)
             .map(|chunk| {
                 let bytes: [u8; 32] = chunk.try_into().expect("slice with incorrect length");
-                let instance = Option::<F>::from(F::from_bytes(&bytes))
-                    .ok_or_else(|| anyhow!("Failed to convert instances into F."))?;
+                let instance = ct_option_ok_or(
+                    F::from_bytes(&bytes),
+                    anyhow!("Failed to convert instances into F."),
+                )?;
                 Ok(instance)
             })
             .collect::<Result<Vec<F>>>()?;

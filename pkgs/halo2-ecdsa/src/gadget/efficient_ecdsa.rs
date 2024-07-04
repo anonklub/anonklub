@@ -1,5 +1,5 @@
 #![allow(non_snake_case)]
-use crate::utils::consts::{FpChip, FqChip, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS};
+use crate::utils::consts::{FpChip, FqChip, Point, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS};
 use anyhow::{Ok, Result};
 use halo2_base::{
     gates::RangeChip,
@@ -12,8 +12,6 @@ use halo2_ecc::{
     fields::{fp, FieldChip},
 };
 use std::marker::PhantomData;
-
-type Point<'a, CF> = EcPoint<F, <FpChip<'a, F, CF> as FieldChip<F>>::FieldPoint>;
 
 // CF is the coordinate field of GA
 // SF is the scalar field of GA
@@ -64,12 +62,6 @@ where
         range_chip: RangeChip<F>,
         efficient_ecdsa_inputs: EfficientECDSAInputs<CF, SF, GA>,
     ) -> Result<Self> {
-        let efficient_ecdsa_inputs = EfficientECDSAInputs {
-            s: efficient_ecdsa_inputs.s,
-            T: efficient_ecdsa_inputs.T,
-            U: efficient_ecdsa_inputs.U,
-        };
-
         Ok(EfficientECDSA {
             instances: vec![],
             efficient_ecdsa_inputs,
@@ -81,12 +73,12 @@ where
     }
 
     // CF
-    fn ecc_fp_chip<'a>(&self) -> FpChip<F, CF> {
+    fn ecc_fp_chip(&self) -> FpChip<F, CF> {
         FpChip::<F, CF>::new(&self.range_chip, LIMB_BITS, NUM_LIMBS)
     }
 
     // SF
-    fn ecc_fq_chip<'a>(&self) -> FqChip<F, SF> {
+    fn ecc_fq_chip(&self) -> FqChip<F, SF> {
         FqChip::<F, SF>::new(&self.range_chip, LIMB_BITS, NUM_LIMBS)
     }
 
@@ -189,7 +181,9 @@ mod tests {
         signers::Wallet,
         utils::hash_message,
     };
+    use halo2_base::gates::circuit::builder::BaseCircuitBuilder;
     use halo2_base::gates::RangeChip;
+    use halo2_base::utils::{BigPrimeField, CurveAffineExt};
     use halo2_base::{
         halo2_proofs::{
             arithmetic::{CurveAffine, Field},
@@ -200,16 +194,16 @@ mod tests {
     };
     use halo2_ecc::fields::FpStrategy;
     use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
-    use halo2_wasm_ext::Halo2WasmExt;
+    use halo2_wasm_ext::ext::Halo2WasmExt;
+    use halo2_wasm_ext::params::serialize_params_to_bytes;
+    use halo2_wasm_ext::utils::ct_option_ok_or;
     use num_bigint::BigUint;
     use rand::{rngs::StdRng, SeedableRng};
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
-    use std::{fs::File, time::Instant};
+    use std::{cell::RefCell, fs::File, marker::PhantomData, rc::Rc, time::Instant};
 
-    use crate::utils::consts::E;
-    use crate::utils::ct_option_ok_or;
-    use crate::utils::halo2_utils::serialize_params_to_bytes;
+    use crate::utils::consts::{CONTEXT_PHASE, E, F};
     use crate::utils::recovery::recover_pk_efficient;
     use crate::utils::verify::verify_efficient_ecdsa;
 
@@ -235,6 +229,76 @@ mod tests {
         r: secp256k1::Fq,
         msg_hash: BigUint,
         is_y_odd: bool,
+    }
+
+    struct TestCircuit<CF, SF, GA>
+    where
+        CF: BigPrimeField,
+        SF: BigPrimeField,
+        GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
+    {
+        pub instances: Vec<u32>,
+        efficient_ecdsa_gadget: EfficientECDSA<CF, SF, GA>,
+        builder: Rc<RefCell<BaseCircuitBuilder<F>>>,
+        _CF_marker: PhantomData<CF>,
+        _SF_marker: PhantomData<SF>,
+        _GA_marker: PhantomData<GA>,
+    }
+
+    impl<CF, SF, GA> TestCircuit<CF, SF, GA>
+    where
+        CF: BigPrimeField,
+        SF: BigPrimeField,
+        GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
+    {
+        pub fn new(
+            halo2_wasm: &Halo2Wasm,
+            efficient_ecdsa_inputs: EfficientECDSAInputs<CF, SF, GA>,
+        ) -> Result<Self> {
+            let circuit_params = halo2_wasm
+                .circuit_params
+                .clone()
+                .context("Error: Circuit params are not set")?;
+
+            let lookup_bits = circuit_params
+                .lookup_bits
+                .context("Error: Lookup bits are not set in circuit params")?;
+
+            let range_chip = RangeChip::<F>::new(
+                lookup_bits,
+                halo2_wasm
+                    .circuit
+                    .try_borrow()
+                    .unwrap()
+                    .lookup_manager()
+                    .clone(),
+            );
+
+            let efficient_ecdsa_gadget =
+                EfficientECDSA::<CF, SF, GA>::new(range_chip.clone(), efficient_ecdsa_inputs)?;
+
+            Ok(TestCircuit {
+                instances: vec![],
+                efficient_ecdsa_gadget,
+                builder: Rc::clone(&halo2_wasm.circuit),
+                _CF_marker: PhantomData,
+                _SF_marker: PhantomData,
+                _GA_marker: PhantomData,
+            })
+        }
+
+        pub fn verify(&mut self) -> Result<()> {
+            let mut builder = self.builder.try_borrow_mut()?;
+            let ctx = builder.main(CONTEXT_PHASE);
+
+            let _pk = self.efficient_ecdsa_gadget.recover_pk_efficient(ctx);
+
+            // Push Recover ECDSA public instances
+            self.instances
+                .extend(self.efficient_ecdsa_gadget.instances.clone());
+
+            Ok(())
+        }
     }
 
     fn random_ecdsa_input(
@@ -355,31 +419,13 @@ mod tests {
 
         halo2_wasm.config(circuit_params);
 
-        let circuit_params = halo2_wasm
-            .circuit_params
-            .clone()
-            .context("Error: Circuit params are not set")?;
-
-        let lookup_manger = halo2_wasm
-            .circuit
-            .try_borrow()
-            .unwrap()
-            .lookup_manager()
-            .clone();
-
-        let lookup_bits = circuit_params
-            .lookup_bits
-            .context("Error: Lookup bits are not set in circuit params");
-
-        let range_chip = RangeChip::<F>::new(lookup_bits, lookup_manger);
-
-        let mut circuit = EfficientECDSA::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-            range_chip,
+        let mut circuit = TestCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+            &halo2_wasm,
             ecdsa_inputs,
         )?;
 
         circuit
-            .verify_signature()
+            .verify()
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
@@ -409,14 +455,13 @@ mod tests {
 
         halo2_wasm.config(circuit_params);
 
-        let mut circuit =
-            EfficientECDSACircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-                &halo2_wasm,
-                ecdsa_inputs,
-            )?;
+        let mut circuit = TestCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+            &halo2_wasm,
+            ecdsa_inputs,
+        )?;
 
         circuit
-            .verify_signature()
+            .verify()
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
@@ -461,14 +506,13 @@ mod tests {
 
         halo2_wasm.config(circuit_params);
 
-        let mut circuit =
-            EfficientECDSACircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-                &halo2_wasm,
-                ecdsa_inputs,
-            )?;
+        let mut circuit = TestCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+            &halo2_wasm,
+            ecdsa_inputs,
+        )?;
 
         circuit
-            .verify_signature()
+            .verify()
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
 
@@ -543,17 +587,15 @@ mod tests {
 
         halo2_wasm.config(circuit_params);
 
-        let mut circuit =
-            EfficientECDSACircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-                &halo2_wasm,
-                ecdsa_inputs,
-            )?;
+        let mut circuit = TestCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+            &halo2_wasm,
+            ecdsa_inputs,
+        )?;
 
         circuit
-            .verify_signature()
+            .verify()
             .map_err(|e| anyhow!(e))
             .context("The circuit failed to verify signature!")?;
-
         let params = ParamsKZG::<E>::setup(K, OsRng);
 
         // Load params
