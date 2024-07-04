@@ -1,5 +1,8 @@
+use crate::{consts::E, params::serialize_params_to_bytes};
+use anyhow::{anyhow, Context, Ok, Result};
 use halo2_base::halo2_proofs::poly::kzg::commitment::ParamsKZG;
 use halo2_wasm::{CircuitConfig, Halo2Wasm};
+use std::fs::File;
 
 pub fn configure_halo2_wasm(halo2_wasm: &mut Halo2Wasm, params: &ParamsKZG<E>) -> Result<()> {
     // Initialize the config and the circuit
@@ -20,7 +23,7 @@ pub fn configure_halo2_wasm(halo2_wasm: &mut Halo2Wasm, params: &ParamsKZG<E>) -
 
 pub fn read_config(path: &str) -> Result<CircuitConfig> {
     // Read circuit config
-    let config = serde_json::from_reader(
+    let config: CircuitConfig = serde_json::from_reader(
         File::open(path)
             .map_err(|e| anyhow!(e))
             .with_context(|| format!("The circuit config file does not exist: {}", path))?,
@@ -30,4 +33,3 @@ pub fn read_config(path: &str) -> Result<CircuitConfig> {
 
     Ok(config)
 }
-

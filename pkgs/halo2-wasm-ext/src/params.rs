@@ -1,5 +1,7 @@
-use halo2_base::halo2_proofs::poly::kzg::commitment::ParamsKZG;
+use crate::consts::E;
+use halo2_base::halo2_proofs::poly::{commitment::Params, kzg::commitment::ParamsKZG};
 use rand_core::OsRng;
+use std::io::Cursor;
 
 pub fn gen_params(k: u32) -> ParamsKZG<E> {
     // Generate Params based on the circuit stats

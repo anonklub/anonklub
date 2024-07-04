@@ -23,26 +23,8 @@ use snark_verifier_sdk::{
     NativeLoader,
 };
 use std::io::BufReader;
-use std::result::Result as StdResult;
-use subtle::CtOption;
 
-use super::{
-    consts::{E, E_AFFINE, F},
-    ct_option_ok_or,
-};
-
-// Scaler field of the E curve
-type E = Bn256;
-type E_AFFINE = G1Affine;
-type F = bn256::Fr; // Scalar Native FF;
-
-/// @src https://github.com/privacy-scaling-explorations/zkevm-circuits/blob/main/eth-types/src/sign_types.rs
-/// Helper function to convert a `CtOption` into an `Result`.  Similar to
-/// `Option::ok_or`.
-/// TODO: switch to anyhow result
-fn ct_option_ok_or<T, E>(v: CtOption<T>, err: E) -> StdResult<T, E> {
-    Option::<T>::from(v).ok_or(err)
-}
+use crate::consts::{E, E_AFFINE, F};
 
 pub trait Halo2WasmExt {
     #[cfg(target_arch = "wasm32")]
@@ -77,10 +59,8 @@ impl Halo2WasmExt for Halo2Wasm {
             .chunks(32)
             .map(|chunk| {
                 let bytes: [u8; 32] = chunk.try_into().expect("slice with incorrect length");
-                let instance = ct_option_ok_or(
-                    F::from_bytes(&bytes),
-                    anyhow!("Failed to convert instances into F."),
-                )?;
+                let instance = Option::<F>::from(F::from_bytes(&bytes))
+                    .ok_or_else(|| anyhow!("Failed to convert instances into F."))?;
                 Ok(instance)
             })
             .collect::<Result<Vec<F>>>()?;
@@ -106,7 +86,16 @@ impl Halo2WasmExt for Halo2Wasm {
             PoseidonTranscript::<NativeLoader, &[u8]>::from_spec(proof, POSEIDON_SPEC.clone());
 
         Ok(
-            ,
+            verify_proof::<KZGCommitmentScheme<E>, VerifierSHPLONK<'_, E>, _, _, _>(
+                verifier_params,
+                &vk,
+                SingleStrategy::new(verifier_params),
+                &[&instances],
+                &mut transcript_read,
+            )
+            .map_err(|e| anyhow!(e))
+            .context("Failed to verify the proof")
+            .is_ok(),
         )
     }
 }
