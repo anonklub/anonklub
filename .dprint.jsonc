@@ -6,6 +6,7 @@
     ]
   },
   "excludes": [
+    "contracts/lib",
     "generated",
     ".graphclient",
     "pnpm-lock.yaml",
