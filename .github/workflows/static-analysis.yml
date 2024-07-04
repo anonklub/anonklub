@@ -14,24 +14,18 @@ jobs:
 
     steps:
       # TODO: skip tasks if unaffected https://turbo.build/repo/docs/core-concepts/monorepos/skipping-tasks
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1.2.0
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1.2.0
         with:
           version: nightly
-
       - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: taiki-e/cache-cargo-install-action@v2.0.1
+        with:
+          tool: wasm-pack
+      - uses: actions/setup-node@v4
         with:
           node-version: 20.x
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4.0.0
+      - uses: pnpm/action-setup@v4.0.0
         id: pnpm-install
         with:
           version: 9.4.0
