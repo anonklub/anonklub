@@ -72,6 +72,8 @@ jobs:
       - if: steps.pnpm-cache.outputs.cache-hit != true
         run: pnpm i --ignore-scripts --no-frozen-lockfile
 
+  # TODO: optimize further?
+  # this will run all jest tests
   test-node:
     needs: [changed-files, deps]
     if: needs.changed-files.outputs.jts_any_changed == 'true'

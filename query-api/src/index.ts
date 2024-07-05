@@ -5,6 +5,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { join } from 'node:path'
 import { AnonsetModule } from './anonset.module'
 
+// trigger jest
+
 async function bootstrap() {
   // TODO: set more restrictive CORS policy
   const app = await NestFactory.create<NestExpressApplication>(AnonsetModule, {
