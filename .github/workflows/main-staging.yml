@@ -28,11 +28,11 @@ jobs:
               - '**/*.{rs,toml}'
               - Cargo.lock
             jts:
-              - **/package.json
-              - **/*.{js,ts}
+              - '**/package.json'
+              - '**/*.{js,ts}'
               - pnpm-lock.yaml
             sol:
-              - **/*.sol
+              - '**/*.sol'
 
   deps:
     needs: changed-files
