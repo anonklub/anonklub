@@ -38,7 +38,6 @@
   },
   "scripts": {
     "_compile": "pnpm --filter merkle-tree-wasm compile && pnpm --filter spartan-ecdsa-wasm compile",
-    "test.jest": "jest",
     "barrels": "barrelsby --config .barrelsby.json",
     "build": "turbo build _compile",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
@@ -65,6 +64,7 @@
     "start.ui": "pnpm --filter @anonklub/ui dev",
     "test.cargo": "cargo nextest run --workspace",
     "test": "turbo _test test.jest test.cargo",
+    "test.jest": "jest",
     "test.watch": "jest --watch",
     "test.coverage.html": "cargo llvm-cov --all-features --workspace --html --output-dir=target/llvm-cov/html",
     "test.coverage.summary": "cargo llvm-cov --all-features --workspace --summary-only",

@@ -1,6 +1,6 @@
 {
   "**/*.{json,jsonc,js,jsx,rs,ts,tsx}": [
-    "pnpm biome lint --apply --vcs-use-ignore-file=true --files-ignore-unknown=true",
+    "pnpm biome lint --apply --vcs-use-ignore-file=true --files-ignore-unknown=true --no-errors-on-unmatched",
     "pnpm fmt"
   ],
   "**/*.{ts,tsx}": "tsc-files --noEmit"
