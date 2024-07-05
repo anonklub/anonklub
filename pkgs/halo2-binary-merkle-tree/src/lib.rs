@@ -17,14 +17,11 @@ pub mod gadget;
 
 type F = secp256k1::Fp;
 
-fn _generate_merkle_proof<F>(
+fn _generate_merkle_proof<F: BigPrimeField>(
     leaves: Vec<String>,
     leaf: String,
     depth: usize,
-) -> Result<MerkleProof<F>>
-where
-    F: BigPrimeField,
-{
+) -> Result<MerkleProof<F>> {
     let mut padded_leaves = leaves.clone();
     // Pad the leaves to equal the size of the tree
     // Needs to be an even string

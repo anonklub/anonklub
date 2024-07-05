@@ -2545,6 +2545,7 @@ dependencies = [
  "ethers",
  "halo2-base",
  "halo2-ecc",
+ "halo2-ecdsa",
  "halo2-wasm",
  "halo2-wasm-ext",
  "hex",

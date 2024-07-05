@@ -1,8 +1,18 @@
-use halo2_wasm::Halo2Wasm;
-use serde::{Deserialize, Serialize};
+#![allow(non_snake_case)]
 use anyhow::{anyhow, Context, Ok, Result};
+use halo2_base::{halo2_proofs::halo2curves::secp256k1, utils::ScalarField};
+use halo2_wasm::Halo2Wasm;
+use halo2_wasm_ext::{config::configure_halo2_wasm, ext::Halo2WasmExt, params::gen_params};
+use num_bigint::BigUint;
+use serde::{Deserialize, Serialize};
+use utils::{
+    circuit::create_circuit,
+    consts::{INSTANCE_COL, K},
+    prove::generate_proof,
+};
 
 pub mod eth_membership;
+pub mod utils;
 
 // `AnonklubProof` consists of a Halo2 proof
 // This proof is serialized and passed around in the JavaScript runtime.
@@ -57,13 +67,15 @@ pub fn prove_membership(s: &[u8], r: &[u8], msg_hash: &[u8], is_y_odd: bool) -> 
     let mut circuit = create_circuit(s, r, msg_hash, is_y_odd, &halo2_wasm)?;
 
     // Set public inputs
-    let public = circuit.instances.clone();
+    let _public = circuit.instances.clone();
 
     //set_instances(&mut halo2_wasm, public.clone(), INSTANCE_COL);
 
     // Generate the proof
-    let proof =
-        generate_proof::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>(&mut circuit, &halo2_wasm)?;
+    let proof = generate_proof::<secp256k1::Fp, secp256k1::Fq, secp256k1::Secp256k1Affine>(
+        &mut circuit,
+        &halo2_wasm,
+    )?;
 
     let public = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
 

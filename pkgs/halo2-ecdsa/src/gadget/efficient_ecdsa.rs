@@ -38,7 +38,7 @@ where
     }
 }
 
-pub struct EfficientECDSA<CF, SF, GA>
+pub struct EfficientECDSA<'a, CF, SF, GA>
 where
     CF: BigPrimeField,
     SF: BigPrimeField,
@@ -46,20 +46,20 @@ where
 {
     pub instances: Vec<u32>,
     efficient_ecdsa_inputs: EfficientECDSAInputs<CF, SF, GA>,
-    range_chip: RangeChip<F>,
+    range_chip: &'a RangeChip<F>,
     _CF_marker: PhantomData<CF>,
     _SF_marker: PhantomData<SF>,
     _GA_marker: PhantomData<GA>,
 }
 
-impl<CF, SF, GA> EfficientECDSA<CF, SF, GA>
+impl<'a, CF, SF, GA> EfficientECDSA<'a, CF, SF, GA>
 where
     CF: BigPrimeField,
     SF: BigPrimeField,
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
     pub fn new(
-        range_chip: RangeChip<F>,
+        range_chip: &'a RangeChip<F>,
         efficient_ecdsa_inputs: EfficientECDSAInputs<CF, SF, GA>,
     ) -> Result<Self> {
         Ok(EfficientECDSA {
@@ -74,15 +74,15 @@ where
 
     // CF
     fn ecc_fp_chip(&self) -> FpChip<F, CF> {
-        FpChip::<F, CF>::new(&self.range_chip, LIMB_BITS, NUM_LIMBS)
+        FpChip::<F, CF>::new(self.range_chip, LIMB_BITS, NUM_LIMBS)
     }
 
     // SF
     fn ecc_fq_chip(&self) -> FqChip<F, SF> {
-        FqChip::<F, SF>::new(&self.range_chip, LIMB_BITS, NUM_LIMBS)
+        FqChip::<F, SF>::new(self.range_chip, LIMB_BITS, NUM_LIMBS)
     }
 
-    fn ecc_chip<'a>(&'a self, fp_chip: &'a fp::FpChip<F, CF>) -> EccChip<'a, F, FpChip<F, CF>> {
+    fn ecc_chip(&'a self, fp_chip: &'a fp::FpChip<F, CF>) -> EccChip<'a, F, FpChip<F, CF>> {
         EccChip::new(fp_chip)
     }
 
@@ -275,7 +275,7 @@ mod tests {
             );
 
             let efficient_ecdsa_gadget =
-                EfficientECDSA::<CF, SF, GA>::new(range_chip.clone(), efficient_ecdsa_inputs)?;
+                EfficientECDSA::<CF, SF, GA>::new(&range_chip, efficient_ecdsa_inputs)?;
 
             Ok(TestCircuit {
                 instances: vec![],

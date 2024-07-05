@@ -5,10 +5,13 @@ use pse_poseidon::Poseidon;
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 use serde::{Deserialize, Serialize};
 
-pub struct BinaryMerkleTree<'a, F, const T: usize, const RATE: usize, const ARITY: usize>
-where
+pub struct BinaryMerkleTree<
+    'a,
     F: BigPrimeField,
-{
+    const T: usize,
+    const RATE: usize,
+    const ARITY: usize,
+> {
     pub root: F,
     leaves: Vec<F>,
     poseidon: &'a mut Poseidon<F, T, RATE>,
@@ -34,10 +37,7 @@ impl MerkleProofBytes {
     }
 }
 
-pub struct MerkleProof<F>
-where
-    F: BigPrimeField,
-{
+pub struct MerkleProof<F: BigPrimeField> {
     pub depth: usize,
     pub leaf: F,
     pub siblings: Vec<F>,
@@ -45,10 +45,7 @@ where
     pub root: F,
 }
 
-impl<F> MerkleProof<F>
-where
-    F: BigPrimeField,
-{
+impl<F> MerkleProof<F: BigPrimeField> {
     pub fn to_bytes_le(&self) -> Result<MerkleProofBytes> {
         Ok(MerkleProofBytes {
             siblings: self
@@ -69,10 +66,8 @@ where
 }
 
 // TODO: maybe adding PoseidonConstants in the PSE version
-impl<'a, F, const T: usize, const RATE: usize, const ARITY: usize>
+impl<'a, F: BigPrimeField, const T: usize, const RATE: usize, const ARITY: usize>
     BinaryMerkleTree<'a, F, T, RATE, ARITY>
-where
-    F: BigPrimeField,
 {
     pub fn new(poseidon: &'a mut Poseidon<F, T, RATE>) -> Self {
         Self {
