@@ -1,7 +1,7 @@
 'use client'
+import { ellipsify } from '#'
 import { Loader } from '@components'
 import { useCopyToClipboard, useProofResult } from '@hooks'
-import { ellipsify } from '#'
 
 export default function Page() {
   const { copyToClipboard, copySuccess } = useCopyToClipboard()

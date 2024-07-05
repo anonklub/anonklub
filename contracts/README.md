@@ -23,8 +23,8 @@ Environment variables used in this directory:
 
 [//]: # 'TODO: fix passing of merkle root constructor argument, probably needs to be converted into base 10 integer string'
 
-Somehow verification at deployment with `forge create --verify` or even `forge verify-contract` failed.  
-So instead use `--show-standard-json-input` to get json input and upload that file manually to etherscan.  
+Somehow verification at deployment with `forge create --verify` or even `forge verify-contract` failed.\
+So instead use `--show-standard-json-input` to get json input and upload that file manually to etherscan.\
 See `pn --filter contracts verify.sepolia`
 
 ### Mint

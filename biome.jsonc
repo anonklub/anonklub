@@ -1,35 +1,6 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.6.3/schema.json",
-  "files": {
-    "ignore": ["**/package.json"]
-  },
-  "formatter": {
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "ignore": [
-      "**/node_modules/**",
-      "**/dist/**",
-      "**/out/**",
-      "**/.next/**",
-      "**/target/**",
-      "**/.turbo/**",
-      "**/coverage/**",
-      "**/*.graphql",
-      "**/.graphclient/**",
-      "**/cache/**",
-      "contracts/lib/forge-std/**",
-      "contracts/lib/openzeppelin-contracts/**"
-    ]
-  },
-  "organizeImports": {
-    "enabled": true
-  },
   "javascript": {
-    "formatter": {
-      "jsxQuoteStyle": "single",
-      "quoteStyle": "single",
-      "semicolons": "asNeeded"
-    },
     "parser": {
       "unsafeParameterDecoratorsEnabled": true
     }
@@ -57,7 +28,8 @@
       "ui/next-env.d.ts",
       "ui/public/**",
       ".turbo/**",
-      "queries/**"
+      "queries/**",
+      ".dprint.jsonc"
     ]
   },
   "overrides": [
@@ -166,7 +138,7 @@
       ],
       "linter": {
         "rules": {
-          //FIXME
+          // FIXME
           "complexity": { "noForEach": "warn" },
           // using import type breaks typeDI Service/Container
           "style": { "useImportType": "off" }

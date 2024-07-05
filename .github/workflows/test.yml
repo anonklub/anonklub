@@ -1,4 +1,4 @@
-name: Test
+name: main-staging
 on:
   # push trigger required to get coveralls monitoring of default branch
   # pull_request trigger required to get PR comments
@@ -29,41 +29,29 @@ on:
       ]
 jobs:
   test:
-    name: test
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install Rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly-2024-02-18
-          profile: minimal
-          override: true
-
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+      - uses: Swatinem/rust-cache@v2.7.3
+      - uses: foundry-rs/foundry-toolchain@v1.2.0
         with:
           version: nightly
-
       - name: Install nextest
-        run: cargo install cargo-nextest --locked
-
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: taiki-e/cache-cargo-install-action@v2.0.1
         with:
-          node-version: 19
-
-      - uses: pnpm/action-setup@v2.2.4
-        name: Install pnpm
+          tool: cargo-nextest
+      - name: Install wasm-pack
+        uses: taiki-e/cache-cargo-install-action@v2.0.1
+        with:
+          tool: wasm-pack
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      - uses: pnpm/action-setup@v4.0.0
         id: pnpm-install
         with:
-          version: 8.6.2
+          version: 9.4.0
           run_install: false
 
       - name: Get pnpm store directory
@@ -71,7 +59,7 @@ jobs:
         shell: bash
         run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
@@ -87,7 +75,6 @@ jobs:
           GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }} # required for build step on which test depends on
         run: pnpm test
 
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
+      - uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -14,27 +14,21 @@ jobs:
 
     steps:
       # TODO: skip tasks if unaffected https://turbo.build/repo/docs/core-concepts/monorepos/skipping-tasks
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1.2.0
         with:
           version: nightly
-
       - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: taiki-e/cache-cargo-install-action@v2.0.1
         with:
-          node-version: 19.1.0
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.4
+          tool: wasm-pack
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      - uses: pnpm/action-setup@v4.0.0
         id: pnpm-install
         with:
-          version: 8.6.2
+          version: 9.4.0
           run_install: false
 
       - name: Get pnpm store directory
@@ -43,7 +37,7 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -51,7 +45,7 @@ jobs:
 
       - name: Setup turbo cache
         id: turbo-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .turbo
           key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}

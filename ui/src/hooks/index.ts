@@ -4,9 +4,9 @@
 
 export * from './useCopyToClipboard'
 export * from './useFetchOnChain'
+export * from './useFile'
 export * from './useGoBackOnClickOutside'
 export * from './useHelp'
-export * from './useFile'
 export * from './useMerkleTreeWorker'
 export * from './useProofRequest'
 export * from './useProofResult'

@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
-import { isAddress } from 'viem'
 import { config, getData } from '#'
 import { AnonSetResults, Loader } from '@components'
 import { useFetchOnChain, useSetHelp, useStore } from '@hooks'
+import { useState } from 'react'
+import { isAddress } from 'viem'
 
 export default function Page() {
   useSetHelp(['Provide the NFT contract address.'])
@@ -41,9 +41,7 @@ export default function Page() {
       </div>
       <button
         type='button'
-        className={`btn self-center ${
-          canFetch ? 'btn-primary' : 'is-disabled'
-        }`}
+        className={`btn self-center ${canFetch ? 'btn-primary' : 'is-disabled'}`}
         onClick={execute}
       >
         Fetch Anonset

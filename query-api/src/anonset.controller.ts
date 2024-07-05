@@ -2,12 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { AnonsetService } from './anonset.service'
 import { AnonsetResponse } from './decorators/AnonsetResponse'
-import {
-  GetEnsProposalVotersDto,
-  GetErc20BalanceOwnersDto,
-  GetEthBalanceOwnersDto,
-  GetNftOwnersDto,
-} from './dto'
+import { GetEnsProposalVotersDto, GetErc20BalanceOwnersDto, GetEthBalanceOwnersDto, GetNftOwnersDto } from './dto'
 
 @Controller()
 export class AnonsetController {
@@ -26,8 +21,7 @@ export class AnonsetController {
   @ApiTags('Asset')
   @AnonsetResponse()
   @ApiOperation({
-    summary:
-      'Get ethereum addresses that have a minimum balance of some ERC20.',
+    summary: 'Get ethereum addresses that have a minimum balance of some ERC20.',
   })
   @Get('/asset/ERC20')
   async getErc20BalanceOwners(@Query() dto: GetErc20BalanceOwnersDto) {
@@ -37,8 +31,7 @@ export class AnonsetController {
   @ApiTags('Asset')
   @AnonsetResponse()
   @ApiOperation({
-    summary:
-      'Get ethereum addresses that own an NFT of a given collection (other than cryptopunk).',
+    summary: 'Get ethereum addresses that own an NFT of a given collection (other than cryptopunk).',
   })
   @Get('/asset/nft')
   async getNftOwners(@Query() dto: GetNftOwnersDto) {

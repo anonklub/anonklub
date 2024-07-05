@@ -174,7 +174,7 @@ describe('SetMembership', () => {
   const addresses = privkeys.map((priv) =>
     BigNumber.from(
       utils.computeAddress(BigNumber.from(priv).toHexString()),
-    ).toBigInt(),
+    ).toBigInt()
   )
 
   beforeAll(async () => {

@@ -1,16 +1,9 @@
 'use client'
+import { modal, NAVIGATION } from '#'
+import { CheckMark, ErrorContainer, Loader, Modal, ScrollableJsonContainer, WarningModal } from '@components'
+import { useProofRequest, useResetProofRequest, useStore } from '@hooks'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
-import { modal, NAVIGATION } from '#'
-import {
-  CheckMark,
-  ErrorContainer,
-  Loader,
-  Modal,
-  ScrollableJsonContainer,
-  WarningModal,
-} from '@components'
-import { useProofRequest, useResetProofRequest, useStore } from '@hooks'
 
 export function SubmitProofRequest() {
   useResetProofRequest()
@@ -45,31 +38,33 @@ export function SubmitProofRequest() {
                 "You are about to generate a zk proof in your browser. This is development and un audited application. Don't use the generated proof result in production or for any sensitive purposes.",
               ]}
             />
-            {warningWasRead ? (
-              <Link href='/prove/result'>
-                <button type='button' className='btn btn-secondary'>
+            {warningWasRead
+              ? (
+                <Link href='/prove/result'>
+                  <button type='button' className='btn btn-secondary'>
+                    {NAVIGATION.SUBMIT_PROOF}
+                  </button>
+                </Link>
+              )
+              : (
+                <button type='button' className='btn btn-secondary is-disabled'>
                   {NAVIGATION.SUBMIT_PROOF}
                 </button>
-              </Link>
-            ) : (
-              <button type='button' className='btn btn-secondary is-disabled'>
-                {NAVIGATION.SUBMIT_PROOF}
-              </button>
-            )}
+              )}
           </>
         )}
       </div>
       <div className='flex flex-row justify-evenly'>
-        {anonSet !== null ? (
-          <a onClick={open}>
-            <CheckMark full text='Anonset' />
-            <Modal ref={ref}>
-              <ScrollableJsonContainer data={anonSet} />
-            </Modal>
-          </a>
-        ) : (
-          <CheckMark full={false} text='Anonset' />
-        )}
+        {anonSet !== null
+          ? (
+            <a onClick={open}>
+              <CheckMark full text='Anonset' />
+              <Modal ref={ref}>
+                <ScrollableJsonContainer data={anonSet} />
+              </Modal>
+            </a>
+          )
+          : <CheckMark full={false} text='Anonset' />}
         <CheckMark full={isSuccess} text='Signed' />
       </div>
       <div className='flex flex-row items-end justify-evenly'>

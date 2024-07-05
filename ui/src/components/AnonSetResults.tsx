@@ -1,10 +1,10 @@
 'use client'
-import Link from 'next/link'
-import { useEffect } from 'react'
 import { NAVIGATION } from '#'
 import { ScrollableJsonContainer } from '@components'
 import { useStore } from '@hooks'
 import type { JsonValue } from '@types'
+import Link from 'next/link'
+import { useEffect } from 'react'
 
 export function AnonSetResults({
   anonSet,

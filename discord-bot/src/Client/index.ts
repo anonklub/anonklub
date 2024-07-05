@@ -1,7 +1,7 @@
-import { Service } from 'typedi'
-import { config, error, info } from '~'
 import { commands } from 'commands'
 import { DiscordClient } from 'DiscordClient'
+import { Service } from 'typedi'
+import { config, error, info } from '~'
 import { Events } from '../events'
 import { ClientI } from './interface'
 
