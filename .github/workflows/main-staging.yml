@@ -103,10 +103,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - if: contains(needs.deps.outputs.modified_files, ".rs")
-        uses: dtolnay/rust-toolchain@nightly
-      - if: contains(needs.deps.outputs.modified_files, ".rs")
-        uses: Swatinem/rust-cache@v2.7.3
+      - uses: dtolnay/rust-toolchain@nightly
+      - uses: Swatinem/rust-cache@v2.7.3
       - name: Install nextest
         uses: taiki-e/cache-cargo-install-action@v2.0.1
         with:
