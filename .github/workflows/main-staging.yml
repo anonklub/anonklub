@@ -65,7 +65,7 @@ jobs:
         with:
           key: ${{ steps.cache-env.outputs.key }}
           path: ${{ steps.cache-env.outputs.path }}
-          restore-keys: ${{ runnner.os }}-pnpm-store-
+          restore-keys: ${{ runner.os }}-pnpm-store-
 
       - if: steps.pnpm-cache.outputs.cache-hit != true
         run: pnpm i --ignore-scripts --no-frozen-lockfile
