@@ -23,7 +23,7 @@ fn dual_mux<F: BigPrimeField>(
     [left, right]
 }
 
-pub fn verify_membership_proof<F: BigPrimeField, const T: usize, const RATE: usize>(
+pub fn verify_merkle_proof<F: BigPrimeField, const T: usize, const RATE: usize>(
     ctx: &mut Context<F>,
     gate: &GateChip<F>,
     hasher: PoseidonHasher<F, T, RATE>,

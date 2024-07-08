@@ -6,9 +6,8 @@ use halo2_wasm_ext::{config::configure_halo2_wasm, ext::Halo2WasmExt, params::ge
 use num_bigint::BigUint;
 use serde::{Deserialize, Serialize};
 use utils::{
-    circuit::create_circuit,
+    circuit::
     consts::{INSTANCE_COL, K},
-    prove::generate_proof,
 };
 
 pub mod eth_membership;

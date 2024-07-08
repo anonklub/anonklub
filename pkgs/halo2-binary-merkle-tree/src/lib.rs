@@ -2,7 +2,8 @@ use anyhow::{Context, Ok, Result};
 use binary_merkle_tree::{BinaryMerkleTree, MerkleProof};
 use consts::{ARITY, RATE, R_F, R_P, T};
 use halo2_base::halo2_proofs::halo2curves::secp256k1;
-use halo2_base::utils::BigPrimeField;
+use halo2_base::utils::{BigPrimeField, ScalarField};
+use halo2_wasm_ext::consts::F;
 use pse_poseidon::Poseidon;
 /// Adding this exception because wasm_bindgen
 /// is being used in generate_merkle_proof that has
@@ -15,20 +16,14 @@ pub mod binary_merkle_tree;
 pub(crate) mod consts;
 pub mod gadget;
 
-type F = secp256k1::Fp;
-
-fn _generate_merkle_proof<F: BigPrimeField>(
-    leaves: Vec<String>,
-    leaf: String,
-    depth: usize,
-) -> Result<MerkleProof<F>> {
+fn _generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) -> Result<MerkleProof> {
     let mut padded_leaves = leaves.clone();
     // Pad the leaves to equal the size of the tree
     // Needs to be an even string
     padded_leaves.resize(1 << depth, "00".to_string());
 
     let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
-    let mut binary_merkle_tree = BinaryMerkleTree::<F, T, RATE, ARITY>::new(&mut poseidon);
+    let mut binary_merkle_tree = BinaryMerkleTree::<T, RATE, ARITY>::new(&mut poseidon);
 
     for padded_leaf in &padded_leaves {
         binary_merkle_tree.insert(F::from_bytes_le(
@@ -51,7 +46,7 @@ fn _generate_merkle_proof<F: BigPrimeField>(
 
 #[cfg(not(target_arch = "wasm32"))]
 pub fn generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) -> Result<Vec<u8>> {
-    Ok(_generate_merkle_proof::<F>(leaves, leaf, depth)
+    Ok(_generate_merkle_proof(leaves, leaf, depth)
         .map_err(|e| anyhow::anyhow!(e))?
         .to_bytes_le()
         .context("could not encode merkle proof into bytes")?

@@ -2,15 +2,29 @@
 use anyhow::{Context, Ok, Result};
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, GateChip, RangeChip},
+    poseidon::hasher::PoseidonHasher,
     utils::{BigPrimeField, CurveAffineExt},
 };
-use halo2_ecc::{ecc, fields};
-use halo2_ecdsa::gadget::efficient_ecdsa::{EfficientECDSA, EfficientECDSAInputs};
+use halo2_binary_merkle_tree::gadget::verify_merkle_proof;
+use halo2_ecc::{
+    bigint::ProperCrtUint,
+    ecc::{self, EccChip},
+    fields::{self, FieldChip},
+};
+use halo2_ecdsa::{
+    gadget::{
+        efficient_ecdsa::{EfficientECDSA, EfficientECDSAInputs},
+        recover_pk_efficient,
+    },
+    utils::consts::Point,
+};
 use halo2_wasm::Halo2Wasm;
+use snark_verifier_sdk::halo2::OptimizedPoseidonSpec;
 use std::{cell::RefCell, marker::PhantomData, rc::Rc};
 
 use crate::utils::consts::{
-    FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS,
+    FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS, RATE,
+    T as T_POSEIDON,
 };
 
 // CF is the coordinate field of GA
@@ -109,23 +123,141 @@ where
         })
     }
 
+    // CF
+    fn ecc_fp_chip(&self) -> FpChip<F, CF> {
+        FpChip::<F, CF>::new(&self.range_chip, LIMB_BITS, NUM_LIMBS)
+    }
+
+    // SF
+    fn ecc_fq_chip(&self) -> FqChip<F, SF> {
+        FqChip::<F, SF>::new(&self.range_chip, LIMB_BITS, NUM_LIMBS)
+    }
+
+    fn ecc_chip<'a>(&'a self, fp_chip: &'a fp::FpChip<F, CF>) -> EccChip<'a, F, FpChip<F, CF>> {
+        EccChip::new(fp_chip)
+    }
+
+    fn load_private(&mut self, a: F) -> ProperCrtUint<F> {
+        let mut builder = self.builder.borrow_mut();
+        let ctx = builder.main(CONTEXT_PHASE);
+
+        // Get needed chips
+        let fq_chip = self.ecc_fq_chip();
+
+        // Assign private inputs
+        fq_chip.load_private(ctx, F)
+    }
+
+    fn load_instances(&mut self) -> (Point<CF>, Point<CF>) {
+        let mut builder = self.builder.borrow_mut();
+        let ctx = builder.main(CONTEXT_PHASE);
+
+        // Get BaseField chip
+        let fp_chip = self.ecc_fp_chip();
+        let ecc_chip = self.ecc_chip(&fp_chip);
+        let base_chip = ecc_chip.field_chip;
+
+        // Get Points out fo the T and U
+        let (T_x, T_y) = self.eff_ecdsa_inputs.T.into_coordinates();
+        let (U_x, U_y) = self.eff_ecdsa_inputs.U.into_coordinates();
+
+        // Set as constants in the BaseField chip
+        let (T_x, T_y) = (
+            base_chip.load_constant(ctx, T_x),
+            base_chip.load_constant(ctx, T_y),
+        );
+
+        let (U_x, U_y) = (
+            base_chip.load_constant(ctx, U_x),
+            base_chip.load_constant(ctx, U_y),
+        );
+
+        let precompile_ec_points = (
+            EcPoint::new(T_x.clone(), T_y.clone()),
+            EcPoint::new(U_x.clone(), U_y.clone()),
+        );
+
+        self.instances = vec![T_x, T_y, U_x, U_y]
+            .iter()
+            .map(|instance_point| {
+                instance_point
+                    .as_ref()
+                    .native()
+                    .cell
+                    .unwrap()
+                    .offset
+                    .try_into()
+                    .unwrap()
+            })
+            .collect();
+
+        precompile_ec_points
+    }
+
     pub fn verify_membership(&mut self) -> Result<()> {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
-        // Recover PK efficiently
-        let efficient_ecdsa_inputs = EfficientECDSAInputs::<CF, SF, GA>::new(
-            self.eth_membership_inputs.s,
-            self.eth_membership_inputs.T,
-            self.eth_membership_inputs.U,
+        // Get BaseField chip
+        let base_chip = self.ecc_fp_chip();
+        let scalar_chip = self.ecc_fq_chip();
+        let ecc_chip = self.ecc_chip(&base_chip);
+
+        // Initialize Poseidon
+        let mut posiedon_hasher =
+            PoseidonHasher::<F, T_POSEIDON, RATE>::new(OptimizedPoseidonSpec::new::<R_F, R_P, 0>());
+        posiedon_hasher.initialize_consts(ctx, self.gate_chip);
+
+        // Load s as private witness value
+        // Assign private inputs
+        let s_assigned = scalar_chip
+            .load_private(ctx, self.eth_membership_inputs.s)
+            .native();
+
+        let root_assigned = ctx.load_witness(self.eth_membership_inputs.root);
+
+        let siblings_assigned = self
+            .eth_membership_inputs
+            .siblings
+            .iter()
+            .map(|sibling| ctx.load_witness(sibling))
+            .collect::<Vec<_>>();
+
+        let path_indices_assigned = self
+            .eth_membership_inputs
+            .path_indices
+            .iter()
+            .map(|path_index| ctx.load_witness(path_index))
+            .collect::<Vec<_>>();
+
+        // Load T and U as constants in the base field
+        let (T, U) = self.load_instances();
+
+        let recovered_pk = recover_pk_efficient(
+            &base_chip,
+            &scalar_chip,
+            &ecc_chip,
+            ctx,
+            T,
+            U,
+            s,
+            fixed_window_bits,
         );
 
-        let mut efficient_ecdsa_gadget =
-            EfficientECDSA::<CF, SF, GA>::new(self.range_chip, efficient_ecdsa_inputs)?;
-
-        let pk = efficient_ecdsa_gadget.recover_pk_efficient(ctx);
+        // Convert PK to leaf
+        let leaf_preimage = [recovered_pk.x().limbs(), recovered_pk.y().limbs()].concat();
+        let leaf = posiedon_hasher.hash_fix_len_array(ctx, gate, &leaf_preimage[..]);
 
         // Verify Merkle Tree proof
+        verify_merkle_proof::<F, T_POSEIDON, RATE>(
+            ctx,
+            self.gate_chip,
+            poseidon_hasher,
+            &leaf,
+            &root_assigned,
+            &siblings_assigned,
+            &path_indices_assigned,
+        );
 
         Ok(())
     }

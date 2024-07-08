@@ -1,17 +1,12 @@
 #![warn(dead_code)]
 use anyhow::{Context, Ok, Result};
-use halo2_base::utils::BigPrimeField;
+use halo2_base::utils::{BigPrimeField, ScalarField};
+use halo2_wasm_ext::consts::F;
 use pse_poseidon::Poseidon;
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 use serde::{Deserialize, Serialize};
 
-pub struct BinaryMerkleTree<
-    'a,
-    F: BigPrimeField,
-    const T: usize,
-    const RATE: usize,
-    const ARITY: usize,
-> {
+pub struct BinaryMerkleTree<'a, const T: usize, const RATE: usize, const ARITY: usize> {
     pub root: F,
     leaves: Vec<F>,
     poseidon: &'a mut Poseidon<F, T, RATE>,
@@ -37,7 +32,7 @@ impl MerkleProofBytes {
     }
 }
 
-pub struct MerkleProof<F: BigPrimeField> {
+pub struct MerkleProof {
     pub depth: usize,
     pub leaf: F,
     pub siblings: Vec<F>,
@@ -45,7 +40,7 @@ pub struct MerkleProof<F: BigPrimeField> {
     pub root: F,
 }
 
-impl<F> MerkleProof<F: BigPrimeField> {
+impl MerkleProof {
     pub fn to_bytes_le(&self) -> Result<MerkleProofBytes> {
         Ok(MerkleProofBytes {
             siblings: self
@@ -66,12 +61,12 @@ impl<F> MerkleProof<F: BigPrimeField> {
 }
 
 // TODO: maybe adding PoseidonConstants in the PSE version
-impl<'a, F: BigPrimeField, const T: usize, const RATE: usize, const ARITY: usize>
-    BinaryMerkleTree<'a, F, T, RATE, ARITY>
+impl<'a, const T: usize, const RATE: usize, const ARITY: usize>
+    BinaryMerkleTree<'a, T, RATE, ARITY>
 {
     pub fn new(poseidon: &'a mut Poseidon<F, T, RATE>) -> Self {
         Self {
-            root: F::ZERO,
+            root: F::zero(),
             leaves: Vec::new(),
             poseidon,
             is_tree_ready: false,
@@ -93,7 +88,7 @@ impl<'a, F: BigPrimeField, const T: usize, const RATE: usize, const ARITY: usize
 
     pub fn finish(&mut self) {
         let padding_len = self.leaves.len().next_power_of_two();
-        self.leaves.resize(padding_len, F::ZERO);
+        self.leaves.resize(padding_len, F::zero());
 
         let depth = (padding_len as f64).log2() as usize;
 
@@ -132,7 +127,7 @@ impl<'a, F: BigPrimeField, const T: usize, const RATE: usize, const ARITY: usize
         current_layer[0]
     }
 
-    pub fn gen_proof(&self, leaf: F, address: String) -> Result<MerkleProof<F>> {
+    pub fn gen_proof(&self, leaf: F, address: String) -> Result<MerkleProof> {
         if !self.is_tree_ready {
             panic!("MerkleTree: Tree is not ready.");
         }
@@ -177,7 +172,7 @@ impl<'a, F: BigPrimeField, const T: usize, const RATE: usize, const ARITY: usize
         })
     }
 
-    pub fn verify_proof(&mut self, root: F, proof: &MerkleProof<F>) -> bool {
+    pub fn verify_proof(&mut self, root: F, proof: &MerkleProof) -> bool {
         let mut node = proof.leaf;
         for (sibling, node_index) in proof.siblings.iter().zip(proof.path_indices.iter()) {
             let is_node_index_even = node_index & 1 == 0;

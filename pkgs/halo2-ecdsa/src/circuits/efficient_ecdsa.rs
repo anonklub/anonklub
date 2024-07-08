@@ -1,8 +1,9 @@
 #![allow(non_snake_case)]
-use anyhow::{Context, Ok, Result};
+use anyhow::{Context as AnyhowContext, Ok, Result};
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, RangeChip},
     utils::{BigPrimeField, CurveAffineExt},
+    Context,
 };
 use halo2_ecc::{
     bigint::ProperCrtUint,
@@ -187,7 +188,7 @@ where
         let base_chip = self.ecc_fp_chip();
         let scalar_chip = self.ecc_fq_chip();
         let ecc_chip = self.ecc_chip(&base_chip);
-        let base_chip = ecc_chip.field_chip;
+        //let base_chip = ecc_chip.field_chip;
 
         // Check s is in [1, (n-1)]
         scalar_chip.is_soft_nonzero(ctx, &s);

@@ -24,3 +24,11 @@ pub const NUM_LIMBS: usize = 3;
 pub const FIXED_WINDOW_BITS: usize = 4;
 pub const CONTEXT_PHASE: usize = 0;
 pub const INSTANCE_COL: usize = 0;
+
+/// Poseidon
+/// `State` is structure `T` sized field elements that are subjected to
+/// permutation
+pub const T: usize = 3;
+pub const RATE: usize = 2;
+pub const R_F: usize = 8;
+pub const R_P: usize = 57;
