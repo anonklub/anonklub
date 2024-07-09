@@ -13,9 +13,9 @@ pub fn recover_pk_efficient<'a, CF, SF, GA>(
     scalar_chip: &'a FqChip<'a, F, SF>,
     ecc_chip: &'a EccChip<'a, F, FpChip<'a, F, CF>>,
     ctx: &'a mut Context<F>,
+    s: ProperCrtUint<F>,
     T: Point<'a, CF>,
     U: Point<'a, CF>,
-    s: ProperCrtUint<F>,
     fixed_window_bits: usize,
 ) -> Point<'a, CF>
 where

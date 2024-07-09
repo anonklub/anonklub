@@ -1,6 +1,6 @@
 #![warn(dead_code)]
 use anyhow::{Context, Ok, Result};
-use halo2_base::utils::{BigPrimeField, ScalarField};
+use halo2_base::utils::ScalarField;
 use halo2_wasm_ext::consts::F;
 use pse_poseidon::Poseidon;
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
@@ -32,11 +32,12 @@ impl MerkleProofBytes {
     }
 }
 
+#[derive(Debug)]
 pub struct MerkleProof {
     pub depth: usize,
     pub leaf: F,
     pub siblings: Vec<F>,
-    pub path_indices: Vec<usize>,
+    pub path_indices: Vec<F>,
     pub root: F,
 }
 
@@ -51,7 +52,7 @@ impl MerkleProof {
             path_indices: self
                 .path_indices
                 .iter()
-                .flat_map(|path_index| F::from(*path_index as u64).to_bytes_le())
+                .flat_map(|path_index| path_index.to_bytes_le())
                 .collect::<Vec<u8>>(),
             root: self.root.to_bytes_le(),
         })
@@ -157,7 +158,12 @@ impl<'a, const T: usize, const RATE: usize, const ARITY: usize>
 
             let sibling = current_layer[sibling_index];
             siblings.push(sibling);
-            path_indices.push(leaf_index & 1);
+            let path_index = if leaf_index & 1 == 1 {
+                F::from(1)
+            } else {
+                F::from(0)
+            };
+            path_indices.push(path_index);
 
             leaf_index /= 2;
             current_layer = &self.layers[i + 1];
@@ -175,7 +181,7 @@ impl<'a, const T: usize, const RATE: usize, const ARITY: usize>
     pub fn verify_proof(&mut self, root: F, proof: &MerkleProof) -> bool {
         let mut node = proof.leaf;
         for (sibling, node_index) in proof.siblings.iter().zip(proof.path_indices.iter()) {
-            let is_node_index_even = node_index & 1 == 0;
+            let is_node_index_even = *node_index == F::from(0);
 
             let nodes = if is_node_index_even {
                 [node, *sibling]
@@ -195,15 +201,13 @@ mod tests {
     use crate::consts::{ARITY, RATE, R_F, R_P, T};
 
     use super::BinaryMerkleTree;
-    use halo2_base::halo2_proofs::halo2curves::secp256k1;
+    use halo2_wasm_ext::consts::F;
     use pse_poseidon::Poseidon;
-
-    type F = secp256k1::Fp; // Base FF;
 
     #[test]
     fn test_tree() {
         let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
-        let mut tree = BinaryMerkleTree::<F, T, RATE, ARITY>::new(&mut poseidon);
+        let mut tree = BinaryMerkleTree::<T, RATE, ARITY>::new(&mut poseidon);
 
         let depth = 10;
         let num_leaves = 1 << depth;
@@ -228,7 +232,7 @@ mod tests {
     #[test]
     fn fail_to_build_proof_if_leaf_not_present() {
         let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
-        let mut tree = BinaryMerkleTree::<F, T, RATE, ARITY>::new(&mut poseidon);
+        let mut tree = BinaryMerkleTree::<T, RATE, ARITY>::new(&mut poseidon);
 
         let depth = 10;
         let num_leaves = 1 << depth;

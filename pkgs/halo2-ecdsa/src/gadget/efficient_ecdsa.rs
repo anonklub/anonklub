@@ -22,9 +22,9 @@ where
     SF: BigPrimeField,
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
-    s: SF,
-    T: GA,
-    U: GA,
+    pub s: SF,
+    pub T: GA,
+    pub U: GA,
 }
 
 impl<CF, SF, GA> EfficientECDSAInputs<CF, SF, GA>

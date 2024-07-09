@@ -28,7 +28,8 @@ pub const INSTANCE_COL: usize = 0;
 /// Poseidon
 /// `State` is structure `T` sized field elements that are subjected to
 /// permutation
-pub const T: usize = 3;
-pub const RATE: usize = 2;
-pub const R_F: usize = 8;
-pub const R_P: usize = 57;
+pub const T_POSEIDON: usize = 3;
+pub const RATE_POSEIDON: usize = 2;
+pub const R_F_POSEIDON: usize = 8;
+pub const R_P_POSEIDON: usize = 57;
+pub const SECURE_MDS_POSEIDON: usize = 0;

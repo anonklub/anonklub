@@ -2554,6 +2554,7 @@ dependencies = [
  "itertools 0.13.0",
  "libsecp256k1",
  "num-bigint",
+ "pse-poseidon",
  "rand 0.8.5",
  "rand_core 0.6.4",
  "serde",
