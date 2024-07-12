@@ -5,6 +5,7 @@ use halo2_base::{
     AssignedValue, Context,
 };
 
+/// @src https://github.com/aerius-labs/zksnap-circuits-halo2/tree/ffa3f7e3c1102deb78520015c02342fda5e0c630/voter/src/merkletree
 fn dual_mux<F: BigPrimeField>(
     ctx: &mut Context<F>,
     gate: &GateChip<F>,

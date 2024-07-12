@@ -3,7 +3,6 @@ use anyhow::{Context as AnyhowContext, Ok, Result};
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, RangeChip},
     utils::{BigPrimeField, CurveAffineExt},
-    Context,
 };
 use halo2_ecc::{
     bigint::ProperCrtUint,

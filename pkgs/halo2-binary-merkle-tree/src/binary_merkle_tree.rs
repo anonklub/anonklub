@@ -6,7 +6,9 @@ use pse_poseidon::Poseidon;
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 use serde::{Deserialize, Serialize};
 
-pub struct BinaryMerkleTree<'a, const T: usize, const RATE: usize, const ARITY: usize> {
+use crate::consts::ARITY;
+
+pub struct BinaryMerkleTree<'a, const T: usize, const RATE: usize> {
     pub root: F,
     leaves: Vec<F>,
     poseidon: &'a mut Poseidon<F, T, RATE>,
@@ -17,6 +19,8 @@ pub struct BinaryMerkleTree<'a, const T: usize, const RATE: usize, const ARITY: 
 
 #[derive(Serialize, Deserialize)]
 pub struct MerkleProofBytes {
+    pub depth: u8,
+    pub leaf: Vec<u8>,
     pub siblings: Vec<u8>,
     pub path_indices: Vec<u8>,
     pub root: Vec<u8>,
@@ -44,6 +48,8 @@ pub struct MerkleProof {
 impl MerkleProof {
     pub fn to_bytes_le(&self) -> Result<MerkleProofBytes> {
         Ok(MerkleProofBytes {
+            depth: self.depth as u8,
+            leaf: self.leaf.to_bytes_le(),
             siblings: self
                 .siblings
                 .iter()
@@ -58,13 +64,48 @@ impl MerkleProof {
         })
     }
 
-    // TODO: impl from_bytes_le()
+    pub fn from_bytes_le(merkle_proof_bytes: &MerkleProofBytes) -> Result<Self> {
+        let field_element_size = 32; // 256 bits / 8 bits per byte = 32 bytes
+
+        // Helper function to convert 32-byte array to F
+        fn bytes_to_field_element(bytes: &[u8]) -> Result<F> {
+            let mut array = [0u8; 32];
+            array.copy_from_slice(bytes);
+            Ok(F::from_bytes_le(&array))
+        }
+
+        let leaf = bytes_to_field_element(&merkle_proof_bytes.leaf)
+            .context("Failed to deserialize leaf")?;
+
+        let siblings = merkle_proof_bytes
+            .siblings
+            .chunks(field_element_size)
+            .map(bytes_to_field_element)
+            .collect::<Result<Vec<F>, _>>()
+            .context("Failed to deserialize siblings")?;
+
+        let path_indices = merkle_proof_bytes
+            .path_indices
+            .chunks(field_element_size)
+            .map(bytes_to_field_element)
+            .collect::<Result<Vec<F>, _>>()
+            .context("Failed to deserialize path_indices")?;
+
+        let root = bytes_to_field_element(&merkle_proof_bytes.root)
+            .context("Failed to deserialize root")?;
+
+        Ok(MerkleProof {
+            depth: merkle_proof_bytes.depth as usize,
+            leaf,
+            siblings,
+            path_indices,
+            root,
+        })
+    }
 }
 
 // TODO: maybe adding PoseidonConstants in the PSE version
-impl<'a, const T: usize, const RATE: usize, const ARITY: usize>
-    BinaryMerkleTree<'a, T, RATE, ARITY>
-{
+impl<'a, const T: usize, const RATE: usize> BinaryMerkleTree<'a, T, RATE> {
     pub fn new(poseidon: &'a mut Poseidon<F, T, RATE>) -> Self {
         Self {
             root: F::zero(),
@@ -158,6 +199,7 @@ impl<'a, const T: usize, const RATE: usize, const ARITY: usize>
 
             let sibling = current_layer[sibling_index];
             siblings.push(sibling);
+
             let path_index = if leaf_index & 1 == 1 {
                 F::from(1)
             } else {
@@ -179,20 +221,20 @@ impl<'a, const T: usize, const RATE: usize, const ARITY: usize>
     }
 
     pub fn verify_proof(&mut self, root: F, proof: &MerkleProof) -> bool {
-        let mut node = proof.leaf;
+        let mut computed_root = proof.leaf;
         for (sibling, node_index) in proof.siblings.iter().zip(proof.path_indices.iter()) {
             let is_node_index_even = *node_index == F::from(0);
 
             let nodes = if is_node_index_even {
-                [node, *sibling]
+                [computed_root, *sibling]
             } else {
-                [*sibling, node]
+                [*sibling, computed_root]
             };
 
-            node = Self::hash(self.poseidon, &nodes);
+            computed_root = Self::hash(self.poseidon, &nodes);
         }
 
-        node == root
+        computed_root == root
     }
 }
 

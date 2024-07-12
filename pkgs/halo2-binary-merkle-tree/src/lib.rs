@@ -14,6 +14,8 @@ use wasm_bindgen::prelude::wasm_bindgen;
 pub mod binary_merkle_tree;
 pub mod consts;
 pub mod gadget;
+pub mod binary_merkle_tree_2;
+//pub mod binary_merkle_tree_2;
 
 fn _generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) -> Result<MerkleProof> {
     let mut padded_leaves = leaves.clone();
@@ -22,7 +24,7 @@ fn _generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) -> Re
     padded_leaves.resize(1 << depth, "00".to_string());
 
     let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
-    let mut binary_merkle_tree = BinaryMerkleTree::<T, RATE, ARITY>::new(&mut poseidon);
+    let mut binary_merkle_tree = BinaryMerkleTree::<T, RATE>::new(&mut poseidon);
 
     for padded_leaf in &padded_leaves {
         binary_merkle_tree.insert(F::from_bytes_le(

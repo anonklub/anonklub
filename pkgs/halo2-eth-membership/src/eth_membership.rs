@@ -8,21 +8,17 @@ use halo2_base::{
 };
 use halo2_binary_merkle_tree::{binary_merkle_tree::MerkleProof, gadget::verify_merkle_proof};
 use halo2_ecc::{
-    bigint::{CRTInteger, ProperCrtUint},
-    ecc::{self, EcPoint, EccChip},
-    fields::{self, fp, FieldChip},
+    bigint::ProperCrtUint,
+    ecc::{EcPoint, EccChip},
+    fields::FieldChip,
 };
 use halo2_ecdsa::{
-    circuits::efficient_ecdsa,
-    gadget::{
-        efficient_ecdsa::{EfficientECDSA, EfficientECDSAInputs},
-        recover_pk_efficient,
-    },
+    gadget::{efficient_ecdsa::EfficientECDSAInputs, recover_pk_efficient},
     utils::consts::Point,
 };
 use halo2_wasm::Halo2Wasm;
 use snark_verifier_sdk::halo2::OptimizedPoseidonSpec;
-use std::{cell::RefCell, marker::PhantomData, path, rc::Rc};
+use std::{cell::RefCell, marker::PhantomData, rc::Rc};
 
 use crate::utils::consts::{
     FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS, RATE_POSEIDON,
@@ -176,7 +172,6 @@ where
 
         // Get BaseField chip
         let base_chip = self.ecc_base_chip();
-        let ecc_chip = EccChip::new(&base_chip);
 
         // Get Points out fo the T and U
         let (T_x, T_y) = self
@@ -250,7 +245,7 @@ where
         poseidon_hasher.hash_fix_len_array(ctx, &self.gate_chip, &key_preimage[..])
     }
 
-    fn recover_leaf(&mut self, s: ProperCrtUint<F>, T: Point<CF>, U: Point<CF>) -> Point<CF> {
+    fn recover_pk(&mut self, s: ProperCrtUint<F>, T: Point<CF>, U: Point<CF>) -> Point<CF> {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
@@ -296,7 +291,7 @@ where
 
     pub fn verify_membership(&mut self) -> Result<()> {
         // Initialize Poseidon
-        let mut posiedon_hasher = self.initialize_poseidon_hasher();
+        let poseidon_hasher = self.initialize_poseidon_hasher();
 
         // Load private signature scalar finite field
         let s = self.load_private_scalar();
@@ -307,14 +302,14 @@ where
         // Load T and U as constants in the base field
         let (T, U) = self.load_instances();
 
-        let recovered_pk = self.recover_leaf(s, T, U);
+        let recovered_pk = self.recover_pk(s, T, U);
 
         // Convert PK to leaf
-        let leaf = self.hash(posiedon_hasher.clone(), recovered_pk);
+        let leaf = self.hash(poseidon_hasher.clone(), recovered_pk);
 
         // Verify membership merkle proof
         self.verify_membership_merkle_proof(
-            posiedon_hasher,
+            poseidon_hasher,
             &leaf,
             &root,
             &siblings,
@@ -329,7 +324,7 @@ where
 mod tests {
     use anyhow::{anyhow, Ok};
     use anyhow::{Context, Result};
-    use ethers::types::Address;
+    use ethers::types::H160;
     use ethers::utils::secret_key_to_address;
     use ethers::{
         core::k256::{
@@ -341,13 +336,13 @@ mod tests {
     };
     use halo2_base::{
         halo2_proofs::{
-            arithmetic::{CurveAffine, Field},
             halo2curves::{bn256::Bn256, ff::PrimeField, group::Curve, secp256k1},
             poly::kzg::commitment::ParamsKZG,
         },
-        utils::{biguint_to_fe, fe_to_biguint, modulus, ScalarField},
+        utils::ScalarField,
     };
     use halo2_binary_merkle_tree::binary_merkle_tree::{BinaryMerkleTree, MerkleProof};
+    use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
     use halo2_binary_merkle_tree::consts::ARITY;
     use halo2_ecc::fields::FpStrategy;
     use halo2_ecdsa::gadget::efficient_ecdsa::EfficientECDSAInputs;
@@ -360,7 +355,6 @@ mod tests {
     use halo2_wasm_ext::utils::ct_option_ok_or;
     use num_bigint::BigUint;
     use pse_poseidon::Poseidon;
-    use rand::{rngs::StdRng, SeedableRng};
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
     use std::{fs::File, time::Instant};
@@ -372,7 +366,7 @@ mod tests {
     const K: u32 = 15;
     const PRIV_KEY: u64 = 42;
     const INSTANCE_COL: usize = 0;
-    const TREE_DEPTH: usize = 15;
+    const TREE_DEPTH: usize = 14;
 
     #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
     pub struct CircuitParams {
@@ -390,7 +384,8 @@ mod tests {
         r: secp256k1::Fq,
         msg_hash: BigUint,
         is_y_odd: bool,
-        address: Address,
+        pk: Secp256k1Affine,
+        address: H160,
     }
 
     // fn random_ecdsa_input(
@@ -456,7 +451,7 @@ mod tests {
     )> {
         let signing_key = SigningKey::from(SecretKey::new(ScalarPrimitive::from(priv_key)));
         let g = secp256k1::Secp256k1Affine::generator();
-        let _pk = (g * secp256k1::Fq::from(priv_key)).to_affine();
+        let pk = (g * secp256k1::Fq::from(priv_key)).to_affine();
         let address = secret_key_to_address(&signing_key);
 
         let message = b"harry AnonKlub";
@@ -493,28 +488,50 @@ mod tests {
             r,
             msg_hash,
             is_y_odd,
+            pk,
             address,
         };
 
         Ok((efficient_ecdsa_inputs, test_inputs))
     }
 
-    fn mock_merkle_proof(address: &Address) -> MerkleProof {
+    fn mock_merkle_proof(pk: &Secp256k1Affine, address: &H160) -> MerkleProof {
         // Initialize Poseidon Hasher
         let mut poseidon =
             Poseidon::<F, T_POSEIDON, RATE_POSEIDON>::new(R_F_POSEIDON, R_P_POSEIDON);
 
         // Members MerkleTree
-        let leaf = F::from_bytes_le(&address.to_fixed_bytes());
+        let leaf_x =
+            pk.x.to_bytes()
+                .to_vec()
+                .chunks(11)
+                .into_iter()
+                .map(|chunk| F::from_bytes_le(chunk))
+                .collect::<Vec<_>>();
+        let leaf_y =
+            pk.y.to_bytes()
+                .to_vec()
+                .chunks(11)
+                .into_iter()
+                .map(|chunk| F::from_bytes_le(chunk))
+                .collect::<Vec<_>>();
 
         // Construct Leaves
-        let mut leaves = vec![leaf];
+        let mut leaves = Vec::<F>::new();
+
         for i in 0..(2usize.pow(TREE_DEPTH as u32) - 1) {
-            leaves.push(F::from(i as u64));
+            if i == 0 {
+                poseidon.update(leaf_x.as_slice());
+                poseidon.update(leaf_y.as_slice());
+            } else {
+                poseidon.update(&[F::zero()]);
+            }
+
+            leaves.push(poseidon.squeeze_and_reset());
         }
 
         // Construct MerkleTree
-        let mut tree = BinaryMerkleTree::<T_POSEIDON, RATE_POSEIDON, ARITY>::new(&mut poseidon);
+        let mut tree = BinaryMerkleTree::<T_POSEIDON, RATE_POSEIDON>::new(&mut poseidon);
 
         // Insert leaves
         for leaf in leaves.iter() {
@@ -523,11 +540,74 @@ mod tests {
 
         tree.finish();
 
-        tree.gen_proof(leaves[0], address.to_string()).unwrap()
+        let merkle_proof = tree.gen_proof(leaves[0], address.to_string()).unwrap();
+
+        assert_eq!(tree.verify_proof(merkle_proof.root, &merkle_proof), true);
+
+        merkle_proof
+    }
+
+    fn mock_merkle_proof_2(pk: &Secp256k1Affine) -> Result<MerkleProof> {
+        // Initialize Poseidon Hasher
+        let mut poseidon =
+            Poseidon::<F, T_POSEIDON, RATE_POSEIDON>::new(R_F_POSEIDON, R_P_POSEIDON);
+
+        let tree_size: u32 = u32::pow(2, 15);
+
+        // Members MerkleTree
+        let leaf_x =
+            pk.x.to_bytes()
+                .to_vec()
+                .chunks(11)
+                .into_iter()
+                .map(|chunk| F::from_bytes_le(chunk))
+                .collect::<Vec<_>>();
+        let leaf_y =
+            pk.y.to_bytes()
+                .to_vec()
+                .chunks(11)
+                .into_iter()
+                .map(|chunk| F::from_bytes_le(chunk))
+                .collect::<Vec<_>>();
+
+        // Construct Leaves
+        let mut leaves = Vec::<F>::new();
+
+        for i in 0..tree_size {
+            if i == 0 {
+                poseidon.update(leaf_x.as_slice());
+                poseidon.update(leaf_y.as_slice());
+            } else {
+                poseidon.update(&[F::zero()]);
+            }
+
+            leaves.push(poseidon.squeeze_and_reset());
+        }
+
+        // Construct MerkleTree
+        let mut membership_tree =
+            BinaryMerkleTree2::<F, T_POSEIDON, RATE_POSEIDON>::new(&mut poseidon, leaves.clone())
+                .unwrap();
+
+        let root = membership_tree.get_root();
+        let (siblings, path_indices) = membership_tree.get_proof(0);
+
+        assert_eq!(
+            membership_tree.verify_proof(&leaves[0], 0, &root, &siblings),
+            true
+        );
+
+        Ok(MerkleProof {
+            depth: TREE_DEPTH,
+            leaf: leaves[0],
+            siblings,
+            path_indices,
+            root,
+        })
     }
 
     #[test]
-    fn test_eff_secp256k1_mock_verify() -> Result<()> {
+    fn test_eth_membership_mock_verify() -> Result<()> {
         let path = "configs/eth_membership.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
@@ -541,7 +621,7 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA")?;
 
-        let merkle_proof = mock_merkle_proof(&test_inputs.address);
+        let merkle_proof = mock_merkle_proof_2(&test_inputs.pk)?;
 
         let eth_membership_inputs = EthMembershipInputs::<
             secp256k1::Fp,
@@ -638,7 +718,7 @@ mod tests {
 
         let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
 
-        let merkle_proof = mock_merkle_proof(&test_inputs.address);
+        let merkle_proof = mock_merkle_proof_2(&test_inputs.pk)?;
 
         let eth_membership_inputs = EthMembershipInputs::<
             secp256k1::Fp,
@@ -728,7 +808,7 @@ mod tests {
 
         let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
 
-        let merkle_proof = mock_merkle_proof(&test_inputs.address);
+        let merkle_proof = mock_merkle_proof_2(&test_inputs.pk)?;
 
         let eth_membership_inputs = EthMembershipInputs::<
             secp256k1::Fp,
