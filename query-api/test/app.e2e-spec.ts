@@ -15,7 +15,7 @@ describe('AnonsetController (e2e)', () => {
   //   await app.init()
   // })
 
-  it.todo('/ (GET)') //, async () => {
+  it.todo('/ (GET)') // , async () => {
   //   return request(app.getHttpServer())
   //     .get('/')
   //     .expect(200)

@@ -4,6 +4,10 @@
     libs = ["contracts/lib"]
     test = "contracts/test"
 
+    remappings = [
+      "openzeppelin/=contracts/lib/openzeppelin-contracts/contracts"
+    ]
+
 [fmt]
     ignore = ["lib/forge-std"]
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config

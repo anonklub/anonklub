@@ -1,9 +1,5 @@
 import { groth16 } from 'snarkjs'
-import {
-  askProofFile,
-  askPublicSignalsFile,
-  askVerificationKeyFile,
-} from './_prompt'
+import { askProofFile, askPublicSignalsFile, askVerificationKeyFile } from './_prompt'
 import { wrapExec } from './_wrap'
 
 const main = async () => {

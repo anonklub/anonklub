@@ -12,6 +12,7 @@
     "@types/jest": "^29.5.3",
     "@types/node": "^18.11.15",
     "barrelsby": "^2.5.1",
+    "dprint": "^0.47.0",
     "find-up-cli": "^5.0.0",
     "husky": "^9.0.10",
     "is-ci": "^3.0.1",
@@ -37,7 +38,6 @@
   },
   "scripts": {
     "_compile": "pnpm --filter merkle-tree-wasm compile && pnpm --filter spartan-ecdsa-wasm compile",
-    "test.jest": "jest",
     "barrels": "barrelsby --config .barrelsby.json",
     "build": "turbo build _compile",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
@@ -49,9 +49,8 @@
     "clean": "find . \\( -name 'node_modules' -o -name 'dist' -o -name 'next' \\) -type d -prune -exec rm -rf '{}' +",
     "compile": "turbo _compile",
     "fix": "turbo _format.fix _lint.fix",
-    "format": "turbo format.cargo format.forge format.biome",
+    "fmt": "dprint fmt",
     "format.fix": "turbo format.cargo.fix format.forge.fix format.biome.fix",
-    "format.biome": "biome format .",
     "format.biome.fix": "biome format --write .",
     "githook:precommit": "lint-staged",
     "knip": "knip -c .knip.ts --production --strict",
@@ -65,11 +64,12 @@
     "start.ui": "pnpm --filter @anonklub/ui dev",
     "test.cargo": "cargo nextest run --workspace",
     "test": "turbo _test test.jest test.cargo",
+    "test.jest": "jest",
     "test.watch": "jest --watch",
     "test.coverage.html": "cargo llvm-cov --all-features --workspace --html --output-dir=target/llvm-cov/html",
     "test.coverage.summary": "cargo llvm-cov --all-features --workspace --summary-only",
     "typecheck": "turbo typecheck",
-    "validate": "turbo format.cargo format.forge format.biome lint.cargo lint.biome lint.solhint build _compile --cache-dir=.turbo"
+    "validate": "turbo fmt lint.solhint build _compile --cache-dir=.turbo"
   },
   "workspaces": [
     "contracts",

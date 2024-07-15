@@ -10,11 +10,10 @@ function ReadFile(fileType: File) {
 
       fileReader.onload = (event) => {
         const proofFile = event.target?.result
-        if (proofFile === null || proofFile === undefined) {
+        if (proofFile === null || proofFile === undefined)
           reject(new Error('File is empty'))
-        } else {
+        else
           resolve(parse(proofFile))
-        }
       }
 
       fileReader.onerror = (error) => reject(error)

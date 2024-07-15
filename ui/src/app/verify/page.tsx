@@ -1,9 +1,9 @@
 'use client'
-import Link from 'next/link'
-import { useEffect } from 'react'
 import { NAVIGATION } from '#'
 import { ProofBinFileInput } from '@components'
 import { useSetHelp, useStore } from '@hooks'
+import Link from 'next/link'
+import { useEffect } from 'react'
 
 export default function Page() {
   useSetHelp([

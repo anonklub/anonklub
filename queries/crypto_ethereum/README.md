@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Configure your connection (Google service account, Google user account, access/refresh tokens...).  
+Configure your connection (Google service account, Google user account, access/refresh tokens...).\
 For instance with a JetBrains IDE, see [docs](https://www.jetbrains.com/help/idea/connect-to-bigquery.html).
 
 ## Queries

@@ -1,8 +1,8 @@
+import { config } from '#'
 import { ProofRequest } from '@anonklub/proof'
+import { useMerkleTreeWasmWorker, useStore } from '@hooks'
 import { useEffect, useState } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
-import { config } from '#'
-import { useMerkleTreeWasmWorker, useStore } from '@hooks'
 
 const { message } = config
 
@@ -28,12 +28,13 @@ export const useProofRequest = () => {
   useEffect(() => {
     void (async () => {
       if (
-        typeof rawSignature === 'undefined' ||
-        anonSet === null ||
-        typeof address === 'undefined' ||
-        !isWorkerReady
-      )
+        typeof rawSignature === 'undefined'
+        || anonSet === null
+        || typeof address === 'undefined'
+        || !isWorkerReady
+      ) {
         return
+      }
 
       setIsGeneratingMerkleProof(true)
 

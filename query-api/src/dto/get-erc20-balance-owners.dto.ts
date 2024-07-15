@@ -1,10 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import {
-  IsDefined,
-  IsEthereumAddress,
-  IsNumberString,
-  IsOptional,
-} from 'class-validator'
+import { IsDefined, IsEthereumAddress, IsNumberString, IsOptional } from 'class-validator'
 
 export class GetErc20BalanceOwnersDto {
   @IsOptional()

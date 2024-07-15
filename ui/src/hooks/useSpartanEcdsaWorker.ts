@@ -1,8 +1,4 @@
-import {
-  type ProveMembershipFn,
-  SpartanEcdsaWorker,
-  type VerifyMembershipFn,
-} from '@anonklub/spartan-ecdsa-worker'
+import { type ProveMembershipFn, SpartanEcdsaWorker, type VerifyMembershipFn } from '@anonklub/spartan-ecdsa-worker'
 import { useWorker } from '@hooks'
 
 export const useSpartanEcdsaWorker = () => {

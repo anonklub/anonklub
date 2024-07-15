@@ -26,9 +26,8 @@ const EventsClasses = {
 }
 const Events: Map<DiscordEvents, EventClass> = new Map()
 Object.entries(EventsClasses).forEach(([eventName, EventClass]) => {
-  if (config.eventHandlerOn[eventName as HandledEvent]) {
+  if (config.eventHandlerOn[eventName as HandledEvent])
     Events.set(eventName as DiscordEvents, EventClass)
-  }
 })
 
 export { Events }
