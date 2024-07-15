@@ -73,24 +73,22 @@ jobs:
         run: pnpm i --ignore-scripts --no-frozen-lockfile --shamefully-hoist # easier to manage cache of node_modules when shamefully hoisting
 
   test-node:
-    needs: [changed-files, deps]
+    needs: [changed-files]
     if: needs.changed-files.outputs.jts_any_changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
+      # FIXME: use cache from deps job
       - uses: pnpm/action-setup@v4.0.0
         id: pnpm-install
         with:
           version: 9.4.0
           run_install: false
-      - uses: actions/cache/restore@v4
+      - uses: actions/setup-node@v4
         with:
-          key: ${{ needs.deps.outputs.cache-key }}
-          path: ${{ needs.deps.outputs.cache-path }}
-
+          node-version: 20.x
+          cache: pnpm
+      - run: pnpm i --ignore-scripts --no-frozen-lockfile
       - run: pnpm test.jest
         env:
           DUNE_API_KEY: foo
