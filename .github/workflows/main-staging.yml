@@ -70,7 +70,7 @@ jobs:
           restore-keys: ${{ runner.os }}-node_modules-
 
       - if: steps.pnpm-cache.outputs.cache-hit != 'true'
-        run: pnpm i --ignore-scripts --no-frozen-lockfile
+        run: pnpm i --ignore-scripts --no-frozen-lockfile --shamefully-hoist # easier to manage cache of node_modules when shamefully hoisting
 
   test-node:
     needs: [changed-files, deps]
