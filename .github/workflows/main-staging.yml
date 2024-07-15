@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       jts_any_changed: ${{ steps.changed-files.outputs.jts_any_changed }}
-      rust_any_changed: ${{ steps.changed-files.outputs.rust_any_changed }}
+      rs_any_changed: ${{ steps.changed-files.outputs.rs_any_changed }}
       sol_any_changed: ${{ steps.changed-files.outputs.sol_any_changed }}
     steps:
       - uses: actions/checkout@v4
@@ -25,7 +25,7 @@ jobs:
         id: changed-files
         with:
           files_yaml: |
-            rust:
+            rs:
               - '**/*.{rs,toml}'
               - Cargo.lock
             jts:
