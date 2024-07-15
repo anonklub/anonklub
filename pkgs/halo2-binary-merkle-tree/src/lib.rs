@@ -1,6 +1,6 @@
 use anyhow::{Context, Ok, Result};
 use binary_merkle_tree::{BinaryMerkleTree, MerkleProof};
-use consts::{ARITY, RATE, R_F, R_P, T};
+use consts::{RATE, R_F, R_P, T};
 use halo2_base::utils::ScalarField;
 use halo2_wasm_ext::consts::F;
 use pse_poseidon::Poseidon;
@@ -12,9 +12,9 @@ use pse_poseidon::Poseidon;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 pub mod binary_merkle_tree;
+pub mod binary_merkle_tree_2;
 pub mod consts;
 pub mod gadget;
-pub mod binary_merkle_tree_2;
 //pub mod binary_merkle_tree_2;
 
 fn _generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) -> Result<MerkleProof> {

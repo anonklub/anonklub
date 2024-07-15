@@ -102,12 +102,10 @@ pub fn prove_membership(
     // Serialize Membership proof
     eth_membership_proof.set_proof(proof, public.clone());
 
-    let membership_proof_serialized = eth_membership_proof
+    eth_membership_proof
         .serialize()
         .map_err(|e| anyhow!(e))
-        .expect("Failed to serialize EthMembershipProof.");
-
-    membership_proof_serialized
+        .expect("Failed to serialize EthMembershipProof.")
 }
 
 #[wasm_bindgen]

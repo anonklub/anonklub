@@ -98,6 +98,7 @@ impl<'a, F: BigPrimeField, const T: usize, const RATE: usize> BinaryMerkleTree2<
 
         computed_hash == *root
     }
+
     pub fn get_leaf_proof(self, leaf: &F) -> (Vec<F>, Vec<F>) {
         for node in self.tree[0].clone() {
             if node == *leaf {
@@ -105,8 +106,7 @@ impl<'a, F: BigPrimeField, const T: usize, const RATE: usize> BinaryMerkleTree2<
                 return self.get_proof(index);
             }
         }
-        assert!(false, "Leaf not found");
-        (vec![], vec![])
+        panic!("Leaf not found");
     }
 
     pub fn get_tree(&self) -> Vec<Vec<F>> {

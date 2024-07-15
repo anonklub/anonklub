@@ -758,8 +758,17 @@ mod tests {
 
         let start = Instant::now();
 
+        // Time tracking for proof generation
+        let proof_start = Instant::now();
+
         // Generate proof
         let proof: Vec<u8> = halo2_wasm.prove();
+
+        let proof_duration = proof_start.elapsed();
+        println!(
+            "Eth Membership Proof generation executed in: {:.2?} seconds",
+            proof_duration
+        );
 
         // Get the public instance inputs
         let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
@@ -774,7 +783,7 @@ mod tests {
         assert!(is_proof_valid, "The proof is not valid");
 
         // Verify Eff ECDSA
-        println!("Verifying Eff ECDSA Proof");
+        println!("Verifying Eth Membership Proof");
 
         let is_eff_ecdsa_valid = verify_efficient_ecdsa(
             test_inputs.msg_hash,

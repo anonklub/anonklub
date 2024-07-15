@@ -8,6 +8,7 @@ use halo2_wasm_ext::consts::F;
 
 pub mod efficient_ecdsa;
 
+#[allow(clippy::too_many_arguments)]
 pub fn recover_pk_efficient<'a, CF, SF, GA>(
     base_chip: &'a FpChip<'a, F, CF>,
     scalar_chip: &'a FqChip<'a, F, SF>,
