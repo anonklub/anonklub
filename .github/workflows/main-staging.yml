@@ -131,6 +131,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt
       - uses: Swatinem/rust-cache@v2.7.3
       - uses: foundry-rs/foundry-toolchain@v1.2.0
         with:
