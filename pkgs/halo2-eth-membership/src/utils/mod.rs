@@ -1,4 +1,3 @@
+pub mod circuit;
 pub mod consts;
 pub mod prove;
-pub mod circuit;
-
