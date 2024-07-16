@@ -165,7 +165,7 @@ jobs:
           github-token: ${{ secrets.github_token }}
           files: ${{ steps.coverage-files.outputs.files }}
           allow-empty: true
-          base-path: .
+          base-path: /
 
   fmt:
     needs: deps
