@@ -38,38 +38,37 @@ jobs:
 
   deps:
     needs: changed-files
-    if: needs.changed-files.outputs.jts_any_changed == 'true'
     runs-on: ubuntu-latest
     outputs:
       cache-key: ${{ steps.cache-env.outputs.key }}
       cache-path: ${{ steps.cache-env.outputs.path }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-      - uses: pnpm/action-setup@v4.0.0
-        id: pnpm-install
-        with:
-          version: 9.4.0
-          run_install: false
-
       - name: Output cache env
         id: cache-env
         shell: bash
         run: |
           echo "key=${{ runner.os }}-node_modules-${{ hashFiles('**/pnpm-lock.yaml') }}" >> $GITHUB_OUTPUT
           echo "path=node_modules" >> $GITHUB_OUTPUT
-
-      - name: Setup pnpm cache
+      - if: needs.changed-files.outputs.jts_any_changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      - if: needs.changed-files.outputs.jts_any_changed == 'true'
+        uses: pnpm/action-setup@v4.0.0
+        id: pnpm-install
+        with:
+          version: 9.4.0
+          run_install: false
+      - if: needs.changed-files.outputs.jts_any_changed == 'true'
+        name: Setup pnpm cache
         uses: actions/cache@v4
         id: pnpm-cache
         with:
           key: ${{ steps.cache-env.outputs.key }}
           path: ${{ steps.cache-env.outputs.path }}
           restore-keys: ${{ runner.os }}-node_modules-
-
-      - if: steps.pnpm-cache.outputs.cache-hit != 'true'
+      - if: steps.pnpm-cache.outputs.cache-hit != 'true' && needs.changed-files-outputs.jts_any_changed == 'true'
         run: pnpm i --ignore-scripts --no-frozen-lockfile --shamefully-hoist # easier to manage cache of node_modules when shamefully hoisting
 
   test-node:
@@ -89,14 +88,17 @@ jobs:
           node-version: 20.x
           cache: pnpm
       - run: pnpm i --ignore-scripts --no-frozen-lockfile
-      - run: pnpm test.jest
+      - name: Run tests with coverage report
+        run: pnpm test.jest
         env:
           DUNE_API_KEY: foo
           GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }} # required for build step on which test depends on
 
-      - uses: coverallsapp/github-action@master
+      - name: Upload node/jest coverage report
+        uses: actions/upload-artifact@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: lcov-node.info
+          path: coverage/lcov.info
 
   test-rust:
     needs: changed-files
@@ -104,13 +106,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@nightly
-      - uses: Swatinem/rust-cache@v2.7.3
-      - name: Install nextest
-        uses: taiki-e/cache-cargo-install-action@v2.0.1
+      - uses: dtolnay/rust-toolchain@master
         with:
-          tool: cargo-nextest
-      - run: cargo nextest run --workspace
+          toolchain: nightly-2024-02-18
+      - uses: Swatinem/rust-cache@v2.7.3
+      - uses: taiki-e/install-action@v2.42.0
+        with:
+          tool: cargo-llvm-cov
+      - name: Run tests with coverage report
+        # excluding pkg whose tests are too long
+        run: cargo llvm-cov --lcov --output-path lcov-rs.info --workspace --exclude halo2-secp256k1-wasm --exclude halo2wrong-ecdsa
+      - name: Upload rs test coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcov-rs.info
+          path: lcov-rs.info
 
   test-sol:
     needs: changed-files
@@ -121,10 +131,45 @@ jobs:
       - uses: foundry-rs/foundry-toolchain@v1.2.0
         with:
           version: nightly
-      - run: forge test
+      - run: forge coverage --report lcov --report-file lcov-sol.info
+      - name: Upload sol test coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcov-sol.info
+          path: lcov-sol.info
+
+  coverage:
+    needs: [test-node, test-rust, test-sol]
+    # workaround for https://github.com/orgs/community/discussions/13690
+    # https://stackoverflow.com/a/77066140/9771158
+    if: ${{ !(failure() || cancelled()) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: coverage
+          merge-multiple: true
+
+      - name: Get coverage files
+        id: coverage-files
+        run: |
+          files=$(find coverage -type f -name '*.info' -printf '%p ')
+          echo "files=$files" >> $GITHUB_OUTPUT
+
+      - name: debug
+        run: cat coverage/lcov-rs.info
+
+      - uses: coverallsapp/github-action@v2.3.0
+        with:
+          github-token: ${{ secrets.github_token }}
+          files: ${{ steps.coverage-files.outputs.files }}
+          allow-empty: true
+          base-path: /
 
   fmt:
     needs: deps
+    if: ${{ !(failure() || cancelled()) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

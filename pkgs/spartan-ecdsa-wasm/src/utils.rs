@@ -7,6 +7,8 @@ use ark_secp256k1::Fr;
 use num_bigint::BigUint;
 use sapir::wasm::prelude::*;
 
+// chore: trigger test-rs ci job
+
 // Recover the point from the x coordinate and the parity bit
 // following the SEC 1 spec https://www.secg.org/sec1-v2.pdf
 pub fn from_x(x: Fq, is_y_odd: bool) -> Affine {
