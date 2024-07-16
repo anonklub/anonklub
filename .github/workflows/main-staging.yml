@@ -104,13 +104,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@nightly
-      - uses: Swatinem/rust-cache@v2.7.3
-      - name: Install nextest
-        uses: taiki-e/cache-cargo-install-action@v2.0.1
+      - uses: dtolnay/rust-toolchain@master
         with:
-          tool: cargo-nextest
-      - run: cargo nextest run --workspace
+          toolchain: nightly-2024-02-18
+      - uses: Swatinem/rust-cache@v2.7.3
+      - uses: taiki-e/install-action@v2.42.0
+        with:
+          tool: cargo-llvm-cov,nextest
+      - run: cargo llvm-cov nextest run --workspace
 
   test-sol:
     needs: changed-files
