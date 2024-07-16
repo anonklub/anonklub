@@ -2455,7 +2455,6 @@ dependencies = [
  "getset",
  "halo2-axiom",
  "itertools 0.11.0",
- "jemallocator",
  "log",
  "num-bigint",
  "num-integer",
@@ -2480,7 +2479,6 @@ dependencies = [
  "csv",
  "halo2-base",
  "halo2-ecc",
- "halo2-wasm",
  "halo2-wasm-ext",
  "hex",
  "num-bigint",
@@ -2550,10 +2548,8 @@ dependencies = [
  "halo2-ecdsa",
  "halo2-wasm",
  "halo2-wasm-ext",
- "halo2curves-axiom",
  "hex",
  "itertools 0.13.0",
- "jemalloc-sys",
  "libsecp256k1",
  "num-bigint",
  "pse-poseidon",
@@ -3119,26 +3115,6 @@ name = "itoa"
 version = "1.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b1a46d1a171d865aa5f83f92695765caa047a9b4cbae2cbf37dbd613a793fd4c"
-
-[[package]]
-name = "jemalloc-sys"
-version = "0.5.4+5.3.0-patched"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac6c1946e1cea1788cbfde01c993b52a10e2da07f4bac608228d1bed20bfebf2"
-dependencies = [
- "cc",
- "libc",
-]
-
-[[package]]
-name = "jemallocator"
-version = "0.5.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a0de374a9f8e63150e6f5e8a60cc14c668226d7a347d8aee1a45766e3c4dd3bc"
-dependencies = [
- "jemalloc-sys",
- "libc",
-]
 
 [[package]]
 name = "jobserver"

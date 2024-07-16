@@ -14,9 +14,8 @@ crate-type = ["lib","cdylib"]
 [dependencies]
 pse-poseidon = { git = "https://github.com/aerius-labs/pse-poseidon.git", branch = "feat/stateless-hash" }
 anyhow = "1.0.81"
-halo2-ecc = { version = "0.4.1" }
-halo2-base = { version = "0.4.1"}
-halo2-wasm = { version = "0.3.4"}
+halo2-ecc = { version = "0.4.1", default-features = false, features = ["halo2-axiom"] }
+halo2-base = { version = "0.4.1", default-features = false, features = ["halo2-axiom"]}
 halo2-wasm-ext = { path = "../halo2-wasm-ext" }
 console_error_panic_hook = "0.1.7"
 bincode = "1.3.3"
