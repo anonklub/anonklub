@@ -1,0 +1,38 @@
+{
+    "name": "@anonklub/halo2-ecdsa",
+    "version": "1.1.3",
+    "author": "0xisk <0xisk@proton.me>",
+    "description": "Wasm Rust crate for verifying Secp256k1 signatures",
+    "keywords": [
+      "wasm",
+      "ecdsa",
+      "Secp256k1",
+      "rust"
+    ],
+    "license": "MIT",
+    "repository": "https://github.com/anonklub/anonklub",
+    "homepage": "https://github.com/anonklub/anonklub",
+    "bugs": "https://github.com/anonklub/anonklub/issues",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+      "dist/**/*.{js,ts,wasm}",
+      "README.md",
+      "CHANGELOG.md"
+    ],
+    "module": "dist/index.js",
+    "sideEffects": [
+      "dist/index.js"
+    ],
+    "scripts": {
+      "compile": "pnpm check-wasm-pack && pnpm clean && wasm-pack build . --release --target bundler --out-dir dist --out-name index --scope anonklub",
+      "clean": "rm -rf dist",
+      "check-wasm-pack": "command -v wasm-pack >/dev/null 2>&1 || echo \"wasm-pack is not installed\"\n",
+      "format.cargo": "cargo fmt -- --check",
+      "format.cargo.fix": "cargo fmt",
+      "lint.cargo": "cargo clippy",
+      "lint.cargo.fix": "cargo clippy --fix",
+      "prepack": "pnpm compile"
+    }
+  }
+}

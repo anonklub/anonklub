@@ -1,5 +1,8 @@
 #![allow(non_snake_case)]
-use crate::utils::{ct_option_ok_or, pk_bytes_swap_endianness, to_bigint};
+#![allow(dead_code)]
+use std::str::from_utf8;
+
+use crate::utils::ct_option_ok_or;
 use anyhow::anyhow;
 use anyhow::{Context, Result};
 use halo2_base::{
@@ -42,9 +45,29 @@ fn from_x(x: secp256k1::Fq, is_y_odd: bool) -> Result<secp256k1::Secp256k1Affine
     }
 }
 
+fn to_bigint(s: &str) -> BigUint {
+    let chunks = s[2..]
+        .as_bytes()
+        .chunks(16)
+        .rev()
+        .map(|chunk| from_utf8(chunk).unwrap())
+        .map(|s| u64::from_str_radix(s, 16).unwrap())
+        .collect::<Vec<_>>();
+
+    let mut bigint = BigUint::from(0u64);
+    let base: BigUint = BigUint::from(2u64).pow(64);
+
+    // Construct biguint from chunks
+    for (i, value) in chunks.iter().enumerate() {
+        bigint += BigUint::from(*value) * &base.pow(i as u32);
+    }
+
+    bigint
+}
+
 /// @src https://personaelabs.org/posts/efficient-ecdsa-1/
 /// Compute `T` and `U` for efficient ECDSA verification
-pub fn recover_pk_eff(
+pub fn recover_pk_efficient(
     msg_hash: BigUint,
     r: secp256k1::Fq,
     is_y_odd: bool,
@@ -87,6 +110,18 @@ pub fn recover_pk_eff(
     Ok((U, T))
 }
 
+/// @src https://github.com/privacy-scaling-explorations/zkevm-circuits/blob/main/eth-types/src/sign_types.rs#L155
+/// Return a copy of the serialized public key with swapped Endianness.
+fn pk_bytes_swap_endianness<T: Clone>(actual_pk: &[T]) -> [T; 64] {
+    assert_eq!(actual_pk.len(), 64);
+    let mut pk_swap = <&[T; 64]>::try_from(actual_pk)
+        .cloned()
+        .expect("actual_pk.len() != 64");
+    pk_swap[..32].reverse();
+    pk_swap[32..].reverse();
+    pk_swap
+}
+
 /// @src https://github.com/privacy-scaling-explorations/zkevm-circuits/blob/82e8d8fed3ab1c6ad3f04e3fa3f9b15423b16b5e/eth-types/src/sign_types.rs#L113
 pub fn recover_pk(
     v: u8,
@@ -121,7 +156,7 @@ pub fn recover_pk(
 
 #[cfg(test)]
 mod tests {
-    use super::{recover_pk, recover_pk_eff};
+    use super::{recover_pk, recover_pk_efficient};
     use crate::utils::ct_option_ok_or;
     use anyhow::anyhow;
     use anyhow::{Context, Result};
@@ -187,7 +222,7 @@ mod tests {
             anyhow!("Failed to convert r into Fq."),
         )?;
 
-        let (U, T) = recover_pk_eff(msg_hash_bigint.clone(), r, is_y_odd)
+        let (U, T) = recover_pk_efficient(msg_hash_bigint.clone(), r, is_y_odd)
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA!")?;
 
@@ -302,7 +337,7 @@ mod tests {
     }
 
     #[test]
-    fn test_recover_pk_eff() -> Result<()> {
+    fn test_recover_pk_efficient() -> Result<()> {
         let mock_eff_ecdsa = mock_eff_ecdsa_input(42)
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA")?;
@@ -328,7 +363,7 @@ mod tests {
 
     // TODO: Fix the failed test for `recover_pk` since it is not a priority
     // and is outside the scope of the current PR.
-    // Initially, test with `recover_pk_eff` and return to this function
+    // Initially, test with `recover_pk_efficient` and return to this function
     // only if it improves the computations.
     // #[test]
     // fn test_recover_pk() -> Result<(), String> {
