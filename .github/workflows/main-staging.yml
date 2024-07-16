@@ -153,9 +153,12 @@ jobs:
       - name: debug
         run: ls -R
 
-      - uses: coverallsapp/github-action@master
+      - uses: coverallsapp/github-action@v2.3.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          files: lcov-node.info lcov-rs.info lcov-sol.info
+          allow-empty: true
+
   fmt:
     needs: deps
     if: ${{ !(failure() || cancelled()) }}
