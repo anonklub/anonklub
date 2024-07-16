@@ -139,7 +139,7 @@ jobs:
           path: lcov-sol.info
 
   coverage:
-    needs: [test-node, test-rust,test-sol]
+    needs: [test-node, test-rust, test-sol]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
