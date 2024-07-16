@@ -10,7 +10,7 @@ use pse_poseidon::Poseidon;
 /// readable by `cargo clippy` so we get unused import warn
 #[allow(unused_imports)]
 use wasm_bindgen::prelude::wasm_bindgen;
-
+use wasm_bindgen::JsValue;
 pub mod binary_merkle_tree;
 pub mod binary_merkle_tree_2;
 pub mod consts;
@@ -65,7 +65,7 @@ pub fn generate_merkle_proof(
     std::panic::set_hook(Box::new(console_error_panic_hook::hook));
 
     // Serialize the full merkle proof
-    Ok(_generate_merkle_proof::<F>(leaves, leaf, depth)
+    Ok(_generate_merkle_proof(leaves, leaf, depth)
         .map_err(|_e| JsValue::from_str(&_e.to_string()))?
         .to_bytes_le()
         .map_err(|_e| JsValue::from_str("Could not encode merkle proof"))?

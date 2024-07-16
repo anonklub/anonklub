@@ -1,4 +1,8 @@
 #![allow(non_camel_case_types)]
+use crate::{
+    consts::{E, E_AFFINE, F},
+    utils::ct_option_ok_or,
+};
 use anyhow::{anyhow, Context, Ok, Result};
 use halo2_base::{
     gates::circuit::builder::BaseCircuitBuilder,
@@ -23,11 +27,7 @@ use snark_verifier_sdk::{
     NativeLoader,
 };
 use std::io::BufReader;
-
-use crate::{
-    consts::{E, E_AFFINE, F},
-    utils::ct_option_ok_or,
-};
+use wasm_bindgen::JsValue;
 
 pub trait Halo2WasmExt {
     #[cfg(target_arch = "wasm32")]
