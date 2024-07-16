@@ -53,7 +53,7 @@ fn query_erc20_odd_address() {
         .arg("100000");
     cmd.assert()
         .failure()
-        .stderr(predicate::str::contains("Odd number of digits"));
+        .stderr(predicate::str::contains("odd number of digits"));
 }
 
 #[test]
@@ -65,7 +65,7 @@ fn query_erc20_wrong_length_address() {
         .arg("0x2b661d3a28490794000b7FCaA5f9D732501bbb");
     cmd.assert()
         .failure()
-        .stderr(predicate::str::contains("Invalid string length"));
+        .stderr(predicate::str::contains("invalid string length"));
 }
 
 #[test]
