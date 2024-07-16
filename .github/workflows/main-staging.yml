@@ -140,6 +140,9 @@ jobs:
 
   coverage:
     needs: [test-node, test-rust, test-sol]
+    # workaround for https://github.com/orgs/community/discussions/13690
+    # https://stackoverflow.com/a/77066140/9771158
+    if: ${{ !(failure() || cancelled()) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
