@@ -89,14 +89,17 @@ jobs:
           node-version: 20.x
           cache: pnpm
       - run: pnpm i --ignore-scripts --no-frozen-lockfile
-      - run: pnpm test.jest
+      - name: Run tests with coverage report
+        run: pnpm test.jest
         env:
           DUNE_API_KEY: foo
           GRAPH_API_KEY: ${{ secrets.GRAPH_API_KEY }} # required for build step on which test depends on
 
-      - uses: coverallsapp/github-action@master
+      - name: Upload node/jest coverage report
+        uses: actions/upload-artifact@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: lcov-node.info
+          path: coverage/lcov.info
 
   test-rust:
     needs: changed-files
@@ -110,8 +113,14 @@ jobs:
       - uses: Swatinem/rust-cache@v2.7.3
       - uses: taiki-e/install-action@v2.42.0
         with:
-          tool: cargo-llvm-cov,nextest
-      - run: cargo llvm-cov nextest run --workspace
+          tool: cargo-llvm-cov
+      - name: Run tests with coverage report
+        run: cargo llvm-cov --lcov --output-path lcov-rs.info --workspace
+      - name: Upload rs test coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcov-rs.info
+          path: lcov-rs.info
 
   test-sol:
     needs: changed-files
@@ -122,8 +131,28 @@ jobs:
       - uses: foundry-rs/foundry-toolchain@v1.2.0
         with:
           version: nightly
-      - run: forge test
+      - run: forge coverage --report lcov --report-file lcov-sol.info
+      - name: Upload sol test coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lcov-sol.info
+          path: lcov-sol.info
 
+  coverage:
+    needs: [test-node, test-rust,test-sol]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: coverage
+          merge-multiple: true
+
+      - name: debug
+        run: ls -R
+
+      - uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
   fmt:
     needs: deps
     runs-on: ubuntu-latest
