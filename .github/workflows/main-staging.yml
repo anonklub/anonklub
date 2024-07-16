@@ -150,13 +150,16 @@ jobs:
           path: coverage
           merge-multiple: true
 
-      - name: debug
-        run: ls -R
+      - name: Get coverage files
+        id: coverage-files
+        run: |
+          files=$(find coverage -type f -name '*.info' -printf '%p ')
+          echo "files=$files" >> $GITHUB_OUTPUT
 
       - uses: coverallsapp/github-action@v2.3.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          files: lcov-node.info lcov-rs.info lcov-sol.info
+          github-token: ${{ secrets.github_token }}
+          files: ${{ steps.coverage-files.outputs.files }}
           allow-empty: true
 
   fmt:
