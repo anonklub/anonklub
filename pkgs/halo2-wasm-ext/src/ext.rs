@@ -33,7 +33,6 @@ pub trait Halo2WasmExt {
     #[cfg(target_arch = "wasm32")]
     fn get_instance_values(&mut self, col: usize) -> JsValue;
 
-    #[cfg(not(target_arch = "wasm32"))]
     fn get_instance_values_ext(&mut self, col: usize) -> Result<Vec<u8>>;
 
     fn verify_ext(&self, instances: &[u8], proof: &[u8], params: ParamsKZG<E>) -> Result<bool>;
@@ -45,7 +44,6 @@ impl Halo2WasmExt for Halo2Wasm {
         self.get_instance_values(col)
     }
 
-    #[cfg(not(target_arch = "wasm32"))]
     fn get_instance_values_ext(&mut self, col: usize) -> Result<Vec<u8>> {
         Ok(self
             .public
