@@ -722,6 +722,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d86b93f97252c47b41663388e6d155714a9d0c398b99f1005cbc5f978b29f445"
 
 [[package]]
+name = "binary-merkle-tree-halo2"
+version = "1.1.1"
+dependencies = [
+ "anyhow",
+ "ark-std 0.4.0",
+ "bincode",
+ "console_error_panic_hook",
+ "csv",
+ "halo2-base",
+ "halo2-ecc",
+ "halo2-wasm",
+ "hex",
+ "num-bigint",
+ "pse-poseidon",
+ "rayon",
+ "serde",
+ "serde_json",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
 name = "bincode"
 version = "1.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4075,6 +4097,15 @@ dependencies = [
  "rusty-fork",
  "tempfile",
  "unarray",
+]
+
+[[package]]
+name = "pse-poseidon"
+version = "0.2.0"
+source = "git+https://github.com/aerius-labs/pse-poseidon.git?branch=feat/stateless-hash#8b4246f7785f0a3a0e384b694d4ef62392c4dc6a"
+dependencies = [
+ "halo2curves-axiom",
+ "subtle",
 ]
 
 [[package]]
