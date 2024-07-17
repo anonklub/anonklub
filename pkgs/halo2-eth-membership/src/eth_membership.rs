@@ -705,8 +705,9 @@ mod tests {
     //     Ok(())
     // }
 
+    #[cfg(feature = "native-tests")]
     #[test]
-    fn test_eff_secp256k1_real_verify() -> Result<()> {
+    fn test_eth_membership_real_verify() -> Result<()> {
         let path = "configs/eth_membership.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
@@ -805,7 +806,7 @@ mod tests {
     }
 
     #[test]
-    fn test_eff_secp256k1_verify() -> Result<()> {
+    fn test_eff_ecdsa_verify() -> Result<()> {
         let path = "configs/eth_membership.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)

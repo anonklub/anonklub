@@ -8,6 +8,7 @@ use halo2_wasm_ext::{
 };
 use num_bigint::BigUint;
 use serde::{Deserialize, Serialize};
+use serde_wasm_bindgen::from_value;
 use utils::{
     circuit::create_circuit,
     consts::{INSTANCE_COL, K},
@@ -94,10 +95,8 @@ pub fn prove_membership(
     .map_err(|e| anyhow!(e))
     .expect("Failed to generate proof.");
 
-    let public = halo2_wasm
-        .get_instance_values_ext(INSTANCE_COL)
-        .map_err(|e| anyhow!(e))
-        .expect("Failed to get instance values.");
+    let public = from_value::<Vec<u8>>(halo2_wasm.get_instance_values(INSTANCE_COL))
+        .expect("Failed to deserialize instance values.");
 
     // Serialize Membership proof
     eth_membership_proof.set_proof(proof, public.clone());

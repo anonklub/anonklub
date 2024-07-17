@@ -8,9 +8,8 @@ use pse_poseidon::Poseidon;
 /// is being used in generate_merkle_proof that has
 /// #[cfg(target_arch = "wasm32")] flag which is not
 /// readable by `cargo clippy` so we get unused import warn
-#[allow(unused_imports)]
-use wasm_bindgen::prelude::wasm_bindgen;
-use wasm_bindgen::JsValue;
+use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
+
 pub mod binary_merkle_tree;
 pub mod binary_merkle_tree_2;
 pub mod consts;
@@ -55,23 +54,23 @@ pub fn generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) ->
         .context("could not serialize merkle proof bytes")?)
 }
 
-#[cfg(target_arch = "wasm32")]
-#[wasm_bindgen]
-pub fn generate_merkle_proof(
-    leaves: Vec<String>,
-    leaf: String,
-    depth: usize,
-) -> std::result::Result<Vec<u8>, JsValue> {
-    std::panic::set_hook(Box::new(console_error_panic_hook::hook));
+// #[cfg(target_arch = "wasm32")]
+// #[wasm_bindgen]
+// pub fn generate_merkle_proof(
+//     leaves: Vec<String>,
+//     leaf: String,
+//     depth: usize,
+// ) -> std::result::Result<Vec<u8>, JsValue> {
+//     std::panic::set_hook(Box::new(console_error_panic_hook::hook));
 
-    // Serialize the full merkle proof
-    Ok(_generate_merkle_proof(leaves, leaf, depth)
-        .map_err(|_e| JsValue::from_str(&_e.to_string()))?
-        .to_bytes_le()
-        .map_err(|_e| JsValue::from_str("Could not encode merkle proof"))?
-        .serialize()
-        .map_err(|_e| JsValue::from_str("Could not serialize merkle proof bytes"))?)
-}
+//     // Serialize the full merkle proof
+//     Ok(_generate_merkle_proof(leaves, leaf, depth)
+//         .map_err(|_e| JsValue::from_str("Could not "))?
+//         .to_bytes_le()
+//         .map_err(|_e| JsValue::from_str("Could not encode merkle proof"))?
+//         .serialize()
+//         .map_err(|_e| JsValue::from_str("Could not serialize merkle proof bytes"))?)
+// }
 
 #[cfg(test)]
 mod tests {
