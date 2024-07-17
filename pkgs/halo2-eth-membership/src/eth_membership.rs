@@ -705,7 +705,6 @@ mod tests {
     //     Ok(())
     // }
 
-    #[cfg(feature = "native-tests")]
     #[test]
     fn test_eth_membership_real_verify() -> Result<()> {
         let path = "configs/eth_membership.config";
