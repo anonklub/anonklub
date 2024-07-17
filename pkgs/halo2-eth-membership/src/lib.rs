@@ -59,8 +59,8 @@ impl EthMembershipProof {
 pub fn prove_membership(
     s: &[u8],
     r: &[u8],
-    msg_hash: &[u8],
     is_y_odd: bool,
+    msg_hash: &[u8],
     merkle_proof_bytes_serialized: &[u8],
 ) -> Vec<u8> {
     // Initialize and configure Halo2Wasm
