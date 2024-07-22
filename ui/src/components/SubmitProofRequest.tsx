@@ -2,14 +2,12 @@
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import { modal, NAVIGATION } from '#'
-import {
-  CheckMark,
-  ErrorContainer,
-  Loader,
-  Modal,
-  ScrollableJsonContainer,
-  WarningModal,
-} from '@components'
+import { WarningModal } from '@/components/WarningModal'
+import { ScrollableJsonContainer } from '@/components/ScrollableJsonContainer'
+import { Modal } from '@/components/Modal'
+import { Loader } from '@/components/Loader'
+import { ErrorContainer } from '@/components/ErrorContainer'
+import { CheckMark } from '@/components/CheckMark'
 import { useProofRequest, useResetProofRequest, useStore } from '@hooks'
 
 export function SubmitProofRequest() {

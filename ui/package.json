@@ -6,6 +6,8 @@
     "net": false
   },
   "dependencies": {
+    "@anonklub/halo2-binary-merkle-tree-worker": "file:../pkgs/halo2-binary-merkle-tree-worker",
+    "@anonklub/halo2-eth-membership-worker": "file:../pkgs/halo2-eth-membership-worker",
     "@anonklub/merkle-tree-worker": "~1.1.3",
     "@anonklub/proof": "~2.1.1",
     "@anonklub/spartan-ecdsa-worker": "~1.1.1",
@@ -29,7 +31,9 @@
     "wagmi": "1.0.5"
   },
   "devDependencies": {
+    "@types/circular-dependency-plugin": "^5.0.8",
     "@types/react": "^18.2.6",
+    "circular-dependency-plugin": "^5.2.2",
     "encoding": "^0.1.13",
     "lokijs": "^1.5.12",
     "prettier-plugin-tailwindcss": "0.3.0"

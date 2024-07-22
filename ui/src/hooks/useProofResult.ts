@@ -1,10 +1,12 @@
 import { useAsync } from 'react-use'
 import type { Hex } from 'viem'
-import { useSpartanEcdsaWorker, useStore } from '@hooks'
+import { useSpartanEcdsaWorker } from '@/hooks/useSpartanEcdsaWorker'
+import { useHalo2EthMembershipWorker } from '@/hooks/useHalo2EthMembershipWorker'
+import { useStore } from '@/hooks/useStore'
 
 export const useProofResult = () => {
   const { proofRequest } = useStore()
-  const { isWorkerReady, proveMembership } = useSpartanEcdsaWorker()
+  const { isWorkerReady, proveMembership } = useHalo2EthMembershipWorker()
 
   return useAsync(async () => {
     if (proofRequest === null || !isWorkerReady) return

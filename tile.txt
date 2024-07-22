@@ -1,0 +1,6 @@
+ ⚠ Circular dependency between chunks with runtime (
+  _app-pages-browser_node_modules_pnpm_file_pkgs_halo2-binary-merkle-tree-worker_node_modules_a-e43deb,
+  _app-pages-browser_node_modules_pnpm_file_pkgs_halo2-binary-merkle-tree_node_modules_anonklub-44aa8e, 
+  _app-pages-browser_node_modules_pnpm_file_pkgs_halo2-eth-membership-worker_typescript_5_2_2_z-84bc84, 
+  _app-pages-browser_node_modules_pnpm_file_pkgs_halo2-eth-membership_node_modules_anonklub_hal-aa79b8, 
+webpack)

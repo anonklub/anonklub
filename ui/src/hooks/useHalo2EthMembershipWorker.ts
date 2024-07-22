@@ -1,21 +1,21 @@
 import {
   type ProveMembershipFn,
-  SpartanEcdsaWorker,
+  Halo2EthMembershipWorker,
   type VerifyMembershipFn,
-} from '@anonklub/spartan-ecdsa-worker'
+} from '@anonklub/halo2-eth-membership-worker'
 import { useWorker } from '@/hooks/useWorker'
 
-export const useSpartanEcdsaWorker = () => {
-  const isWorkerReady = useWorker(SpartanEcdsaWorker)
+export const useHalo2EthMembershipWorker = () => {
+  const isWorkerReady = useWorker(Halo2EthMembershipWorker)
 
   const proveMembership: ProveMembershipFn = async ({
-    merkleProofBytesSerialized,
-    message,
     sig,
+    message,
+    merkleProofBytesSerialized,
   }): Promise<Uint8Array> => {
     process.env.NODE_ENV === 'development' && console.time('==> Prove')
 
-    const proof = await SpartanEcdsaWorker.proveMembership({
+    const proof = await Halo2EthMembershipWorker.proveMembership({
       merkleProofBytesSerialized,
       message,
       sig,
@@ -27,11 +27,15 @@ export const useSpartanEcdsaWorker = () => {
   }
 
   const verifyMembership: VerifyMembershipFn = async (
-    anonklubProof: Uint8Array,
+    ethMembershipProof: Uint8Array,
+    instances: Uint8Array,
   ): Promise<boolean> => {
     process.env.NODE_ENV === 'development' && console.time('==> Verify')
 
-    const isVerified = await SpartanEcdsaWorker.verifyMembership(anonklubProof)
+    const isVerified = await Halo2EthMembershipWorker.verifyMembership(
+      ethMembershipProof,
+      instances,
+    )
 
     process.env.NODE_ENV === 'development' && console.timeEnd('==> Verify')
 

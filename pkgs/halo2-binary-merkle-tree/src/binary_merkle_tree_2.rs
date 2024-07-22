@@ -12,7 +12,7 @@ pub struct BinaryMerkleTree2<'a, F: BigPrimeField, const T: usize, const RATE: u
 impl<'a, F: BigPrimeField, const T: usize, const RATE: usize> BinaryMerkleTree2<'a, F, T, RATE> {
     pub fn new(
         hash: &'a mut Poseidon<F, T, RATE>,
-        leaves: Vec<F>,
+        leaves: &Vec<F>,
     ) -> Result<BinaryMerkleTree2<'a, F, T, RATE>, &'static str> {
         if leaves.is_empty() {
             return Err("Cannot create Merkle Tree with no leaves");

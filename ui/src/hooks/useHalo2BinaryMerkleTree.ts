@@ -1,10 +1,10 @@
 import {
   type GenerateMerkleProofFn,
   MerkleTreeWorker,
-} from '@anonklub/merkle-tree-worker'
+} from '@anonklub/halo2-binary-merkle-tree-worker'
 import { useWorker } from '@/hooks/useWorker'
 
-export const useMerkleTreeWasmWorker = () => {
+export const useHalo2BinaryMerkleTreeWorker = () => {
   const isWorkerReady = useWorker(MerkleTreeWorker)
 
   const generateMerkleProof: GenerateMerkleProofFn = async (

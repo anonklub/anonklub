@@ -26,6 +26,7 @@
     ],
     "scripts": {
       "clean": "rm -rf dist",
+      "compile": "pnpm check-wasm-pack && pnpm clean && wasm-pack build . --release --target web --out-dir dist --out-name index --scope anonklub",
       "check-wasm-pack": "command -v wasm-pack >/dev/null 2>&1 || echo \"wasm-pack is not installed\"\n",
       "format.cargo": "cargo fmt -- --check",
       "format.cargo.fix": "cargo fmt",

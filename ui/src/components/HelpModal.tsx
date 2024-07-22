@@ -2,7 +2,8 @@
 import { useRef } from 'react'
 import { modal } from '#'
 import { useHelp } from '@hooks'
-import { Modal, Text } from '@components'
+import { Text } from '@/components/Text'
+import { Modal } from '@/components/Modal'
 
 export const HelpModal = () => {
   const ref = useRef<HTMLDialogElement>(null)

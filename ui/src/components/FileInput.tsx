@@ -2,7 +2,9 @@
 import { ArrowUpOnSquareIcon } from '@heroicons/react/20/solid'
 import { useRef } from 'react'
 import { modal } from '#'
-import { CheckMark, Modal, ScrollableJsonContainer } from '@components'
+import { CheckMark } from '@/components/CheckMark'
+import { ScrollableJsonContainer } from '@/components/ScrollableJsonContainer'
+import { Modal } from '@/components/Modal'
 import { useFile, useStore } from '@hooks'
 import { File } from '@types'
 

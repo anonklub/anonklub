@@ -21,10 +21,13 @@ export interface ProveInputs {
 export type ProveMembershipFn = (
   proveInputs: ProveInputs,
 ) => Promise<Uint8Array>
-export type VerifyMembershipFn = (anonklubProof: Uint8Array) => Promise<boolean>
+export type VerifyMembershipFn = (
+  ethMembershipProof: Uint8Array,
+  instances: Uint8Array,
+) => Promise<boolean>
 
 export interface IHalo2EthMembershipaWorker {
-  prepare: (num_threads: number) => void
+  prepare: () => void
   proveMembership: (proveInputs: ProveInputs) => Uint8Array
   verifyMembership: (
     ethMembershipProof: Uint8Array,

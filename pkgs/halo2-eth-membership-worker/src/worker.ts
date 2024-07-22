@@ -11,12 +11,14 @@ let initialized = false
 
 export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  async prepare(num_threads: number) {
+  async prepare() {
     halo2EcdsaWasm = await import('@anonklub/halo2-eth-membership')
     halo2EcdsaWasm.initPanicHook()
 
     if (!initialized) {
-      await halo2EcdsaWasm.initThreadPool(num_threads)
+      // TODO: remove this hard coded num_threads into a variable, just using 1 for simplicity
+      const numThreads = 1
+      await halo2EcdsaWasm.initThreadPool(numThreads)
       initialized = true
     }
   },

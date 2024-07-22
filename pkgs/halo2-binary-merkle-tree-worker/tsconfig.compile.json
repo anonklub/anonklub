@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["test", "test/jest.config.ts"],
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "inlineSourceMap": true,
+    "noEmit": false,
+    "outDir": "dist",
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "target": "ES2022"
+  }
+}

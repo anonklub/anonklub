@@ -1,7 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import { modal } from '#'
-import { Text } from '@components'
+import { Text } from '@/components/Text'
 import { useStore } from '@hooks'
 
 export const WarningModal = ({ content }: { content: string[] }) => {

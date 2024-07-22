@@ -2473,7 +2473,6 @@ name = "halo2-binary-merkle-tree"
 version = "1.1.1"
 dependencies = [
  "anyhow",
- "ark-std 0.4.0",
  "bincode",
  "console_error_panic_hook",
  "csv",

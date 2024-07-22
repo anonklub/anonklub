@@ -249,7 +249,7 @@ mod tests {
     #[test]
     fn test_tree() {
         let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
-        let mut tree = BinaryMerkleTree::<T, RATE, ARITY>::new(&mut poseidon);
+        let mut tree = BinaryMerkleTree::<T, RATE>::new(&mut poseidon);
 
         let depth = 10;
         let num_leaves = 1 << depth;
@@ -274,7 +274,7 @@ mod tests {
     #[test]
     fn fail_to_build_proof_if_leaf_not_present() {
         let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
-        let mut tree = BinaryMerkleTree::<T, RATE, ARITY>::new(&mut poseidon);
+        let mut tree = BinaryMerkleTree::<T, RATE>::new(&mut poseidon);
 
         let depth = 10;
         let num_leaves = 1 << depth;

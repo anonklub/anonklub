@@ -2,7 +2,9 @@ import { ProofRequest } from '@anonklub/proof'
 import { useEffect, useState } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
 import { config } from '#'
-import { useMerkleTreeWasmWorker, useStore } from '@hooks'
+import { useMerkleTreeWasmWorker } from '@/hooks/useMerkleTreeWorker'
+import { useHalo2BinaryMerkleTreeWorker } from '@/hooks/useHalo2BinaryMerkleTree'
+import { useStore } from '@/hooks/useStore'
 
 const { message } = config
 
@@ -19,7 +21,8 @@ export const useProofRequest = () => {
     message,
   })
   const [isGeneratingMerkleProof, setIsGeneratingMerkleProof] = useState(false)
-  const { generateMerkleProof, isWorkerReady } = useMerkleTreeWasmWorker()
+  const { generateMerkleProof, isWorkerReady } =
+    useHalo2BinaryMerkleTreeWorker()
   const [merkleProofError, setMerkleProofError] = useState<string | null>(null)
 
   const canSign = rawSignature === undefined && isConnected
