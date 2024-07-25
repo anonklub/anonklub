@@ -1,4 +1,4 @@
-import type { generate_merkle_proof } from '@anonklub/halo2-binary-merkle-tree'
+import type { generate_merkle_proof, initPanicHook, initThreadPool, initSync } from '@anonklub/halo2-binary-merkle-tree'
 
 export type GenerateMerkleProofFn = (
   leaves: string[],
@@ -6,7 +6,7 @@ export type GenerateMerkleProofFn = (
   depth: number,
 ) => Promise<Uint8Array>
 
-export interface IMerkleTreeWorker {
+export interface IHalo2BinaryMerkleTree {
   prepare: () => Promise<void>
   generateMerkleProof: (
     leaves: string[],
@@ -15,6 +15,9 @@ export interface IMerkleTreeWorker {
   ) => Promise<Uint8Array>
 }
 
-export interface IMerkleTreeWasm {
+export interface IHalo2BinaryMerkleTreeWasm {
   generate_merkle_proof: typeof generate_merkle_proof
+  initSync: typeof initSync
+  initPanicHook: typeof initPanicHook
+  initThreadPool: typeof initThreadPool
 }

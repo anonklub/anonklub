@@ -44,7 +44,7 @@ export const useProofRequest = () => {
         const merkleProofBytes = await generateMerkleProof(
           anonSet,
           address.toLowerCase(),
-          15,
+          16,
         )
 
         setProofRequest(

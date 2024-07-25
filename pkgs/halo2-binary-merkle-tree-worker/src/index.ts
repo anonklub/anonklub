@@ -1,13 +1,13 @@
 import { type Remote, wrap } from 'comlink'
-import type { IMerkleTreeWorker } from './interface'
+import type { IHalo2BinaryMerkleTree } from './interface'
 
-let MerkleTreeWorker: Remote<IMerkleTreeWorker>
+let Halo2BinaryMerkleTreeWorker: Remote<IHalo2BinaryMerkleTree>
 
 if (typeof window !== 'undefined') {
-  MerkleTreeWorker = wrap<IMerkleTreeWorker>(
+  Halo2BinaryMerkleTreeWorker = wrap<IHalo2BinaryMerkleTree>(
     new Worker(new URL('./worker.js', import.meta.url)),
   )
 }
 
 export { type GenerateMerkleProofFn } from './interface'
-export { MerkleTreeWorker }
+export { Halo2BinaryMerkleTreeWorker }

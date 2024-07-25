@@ -586,7 +586,8 @@ mod tests {
 
         // Construct MerkleTree
         let mut membership_tree =
-            BinaryMerkleTree2::<F, T_POSEIDON, RATE_POSEIDON>::new(&mut poseidon, &leaves).unwrap();
+            BinaryMerkleTree2::<F, T_POSEIDON, RATE_POSEIDON>::new(&mut poseidon, &mut leaves)
+                .unwrap();
 
         let root = membership_tree.get_root();
         let (siblings, path_indices) = membership_tree.get_proof(0);

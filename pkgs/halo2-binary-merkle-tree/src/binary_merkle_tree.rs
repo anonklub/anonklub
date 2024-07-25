@@ -36,7 +36,7 @@ impl MerkleProofBytes {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct MerkleProof {
     pub depth: usize,
     pub leaf: F,

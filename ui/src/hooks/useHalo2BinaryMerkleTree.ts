@@ -1,11 +1,11 @@
 import {
   type GenerateMerkleProofFn,
-  MerkleTreeWorker,
+  Halo2BinaryMerkleTreeWorker,
 } from '@anonklub/halo2-binary-merkle-tree-worker'
 import { useWorker } from '@/hooks/useWorker'
 
 export const useHalo2BinaryMerkleTreeWorker = () => {
-  const isWorkerReady = useWorker(MerkleTreeWorker)
+  const isWorkerReady = useWorker(Halo2BinaryMerkleTreeWorker)
 
   const generateMerkleProof: GenerateMerkleProofFn = async (
     leaves,
@@ -16,7 +16,7 @@ export const useHalo2BinaryMerkleTreeWorker = () => {
 
     // eslint-disable-next-line no-useless-catch
     try {
-      const proof = await MerkleTreeWorker.generateMerkleProof(
+      const proof = await Halo2BinaryMerkleTreeWorker.generateMerkleProof(
         leaves,
         leaf,
         depth,

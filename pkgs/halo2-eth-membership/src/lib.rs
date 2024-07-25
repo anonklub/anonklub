@@ -4,7 +4,10 @@ use halo2_base::{halo2_proofs::halo2curves::secp256k1, utils::ScalarField};
 use halo2_ecdsa::utils::verify::verify_efficient_ecdsa;
 use halo2_wasm::Halo2Wasm;
 use halo2_wasm_ext::{
-    config::configure_halo2_wasm, ext::Halo2WasmExt, instances::set_instances, params::gen_params,
+    config::{configure_halo2_wasm, read_config_from_str},
+    ext::Halo2WasmExt,
+    instances::set_instances,
+    params::{gen_params, serialize_params_to_bytes},
 };
 use num_bigint::BigUint;
 use serde::{Deserialize, Serialize};
@@ -18,6 +21,9 @@ use wasm_bindgen::prelude::*;
 
 pub mod eth_membership;
 pub mod utils;
+
+// Include the generated file containing the embedded configuration data
+include!(concat!(env!("OUT_DIR"), "/eth_membership_config.rs"));
 
 // `AnonklubProof` consists of a Halo2 proof
 // This proof is serialized and passed around in the JavaScript runtime.
@@ -65,8 +71,11 @@ pub fn prove_membership(
 ) -> Vec<u8> {
     // Initialize and configure Halo2Wasm
     let mut halo2_wasm = Halo2Wasm::new();
-    let params = gen_params(K);
-    let _ = configure_halo2_wasm(&mut halo2_wasm, &params);
+
+    // Configure halo2-wasm
+    // Initialize the config and the circuit
+    let circuit_config = read_config_from_str(ETH_MEMBERSHIP_CONFIG).expect("Could not read Circuit Config");
+    halo2_wasm.config(circuit_config);
 
     // Initialize a Membership proof
     let mut eth_membership_proof = EthMembershipProof::new(r.to_vec(), msg_hash.to_vec(), is_y_odd);
@@ -84,8 +93,17 @@ pub fn prove_membership(
 
     // Set public inputs
     let instances = circuit.instances.clone();
-
     set_instances(&mut halo2_wasm, instances.clone(), INSTANCE_COL);
+
+    // Load Params
+    let params = gen_params(K);
+    halo2_wasm.load_params(&serialize_params_to_bytes(&params));
+
+    // Generate VK
+    halo2_wasm.gen_vk();
+
+    // Generate PK
+    halo2_wasm.gen_pk();
 
     // Generate the proof
     let proof = generate_proof::<secp256k1::Fp, secp256k1::Fq, secp256k1::Secp256k1Affine>(

@@ -1,10 +1,15 @@
+extern crate console_error_panic_hook;
+
 use anyhow::{Context, Ok, Result};
 use binary_merkle_tree::{BinaryMerkleTree, MerkleProof};
 use binary_merkle_tree_2::BinaryMerkleTree2;
 use consts::{RATE, R_F, R_P, T};
+use gloo_utils::format::JsValueSerdeExt;
 use halo2_base::utils::ScalarField;
 use halo2_wasm_ext::consts::F;
 use pse_poseidon::Poseidon;
+use serde::Serialize;
+
 /// Adding this exception because wasm_bindgen
 /// is being used in generate_merkle_proof that has
 /// #[cfg(target_arch = "wasm32")] flag which is not
@@ -15,6 +20,17 @@ pub mod binary_merkle_tree;
 pub mod binary_merkle_tree_2;
 pub mod consts;
 pub mod gadget;
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+}
+
+fn log_jsvalue(value: &impl Serialize) {
+    let js_value = JsValue::from_serde(value).unwrap();
+    log(&format!("{:?}", js_value));
+}
 
 fn _generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) -> Result<MerkleProof> {
     let mut padded_leaves = leaves.clone();
@@ -49,6 +65,9 @@ fn _generate_merkle_proof_2(
     leaf: String,
     depth: usize,
 ) -> Result<MerkleProof> {
+    // Initial log
+    log("Starting generate_merkle_proof_2");
+
     let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
 
     let tree_size = usize::pow(2, depth.try_into().unwrap());
@@ -60,44 +79,50 @@ fn _generate_merkle_proof_2(
 
     let mut leaves = Vec::<F>::new();
 
-    let leaf = F::from_bytes_le(
-        &hex::decode(leaf.replace("0x", ""))
-            .with_context(|| format!("could not decode hex for leaf {}", leaf))?,
-    );
+    let mut leaf_index: usize = 0;
 
     for i in 0..tree_size {
-        if i == 0 {
-            poseidon.update(&[leaf]);
-        } else {
-            let another_leaf = F::from_bytes_le(
-                &hex::decode(padded_leaves[i].replace("0x", "")).with_context(|| {
-                    format!("could not decode hex for leaf {}", padded_leaves[i])
-                })?,
-            );
-
-            if leaf.eq(&another_leaf) {
-                continue;
-            }
-
-            poseidon.update(&[another_leaf]);
+        if leaf.eq(&padded_leaves[i]) {
+            leaf_index = i;
         }
 
+        let another_leaf_bytes = hex::decode(padded_leaves[i].replace("0x", ""))
+            .with_context(|| format!("could not decode hex for leaf {}", padded_leaves[i]))?;
+        let another_leaf = F::from_bytes_le(&another_leaf_bytes);
+
+        poseidon.update(&[another_leaf]);
+
         leaves.push(poseidon.squeeze_and_reset());
+        log(&format!("Leaf {}: {:?}", i, leaves.last().unwrap()));
     }
 
-    let eth_membership_tree = BinaryMerkleTree2::<F, T, RATE>::new(&mut poseidon, &leaves)
+    log("Leaves number");
+    log_jsvalue(&leaves.len());
+
+    let eth_membership_tree = BinaryMerkleTree2::<F, T, RATE>::new(&mut poseidon, &mut leaves)
         .expect("Failed to construct membership tree.");
 
     let root = eth_membership_tree.get_root();
-    let (siblings, path_indices) = eth_membership_tree.get_proof(0);
+    log("Merkle tree root:");
+    log_jsvalue(&root);
 
-    Ok(MerkleProof {
+    let (siblings, path_indices) = eth_membership_tree.get_proof(leaf_index);
+    log("Merkle proof siblings:");
+    log_jsvalue(&siblings);
+    log("Merkle proof path_indices:");
+    log_jsvalue(&path_indices);
+
+    let proof = MerkleProof {
         depth,
-        leaf: leaves[0],
+        leaf: leaves[leaf_index],
         siblings,
         path_indices,
         root,
-    })
+    };
+
+    log("Merkle proof:");
+    log_jsvalue(&proof);
+    Ok(proof)
 }
 
 #[cfg(not(target_arch = "wasm32"))]
@@ -118,16 +143,37 @@ pub fn generate_merkle_proof(
     depth: usize,
 ) -> std::result::Result<Vec<u8>, JsValue> {
     std::panic::set_hook(Box::new(console_error_panic_hook::hook));
+    log("Starting generate_merkle_proof");
 
-    // Serialize the full merkle proof
-    std::result::Result::Ok(
-        _generate_merkle_proof_2(leaves, leaf, depth)
-            .map_err(|_e| JsValue::from_str("Could not "))?
-            .to_bytes_le()
-            .map_err(|_e| JsValue::from_str("Could not encode merkle proof"))?
-            .serialize()
-            .map_err(|_e| JsValue::from_str("Could not serialize merkle proof bytes"))?,
-    )
+    let result = _generate_merkle_proof_2(leaves.clone(), leaf.clone(), depth);
+    match result {
+        std::result::Result::Ok(proof) => {
+            log("Generated Merkle proof successfully");
+            match proof.to_bytes_le() {
+                std::result::Result::Ok(bytes) => {
+                    log("Serialized Merkle proof to bytes successfully");
+                    match bytes.serialize() {
+                        std::result::Result::Ok(serialized_bytes) => {
+                            log("Serialized Merkle proof bytes successfully");
+                            std::result::Result::Ok(serialized_bytes)
+                        }
+                        std::result::Result::Err(_) => {
+                            log("Failed to serialize Merkle proof bytes");
+                            Err(JsValue::from_str("Could not serialize merkle proof bytes"))
+                        }
+                    }
+                }
+                std::result::Result::Err(_) => {
+                    log("Failed to encode Merkle proof to bytes");
+                    std::result::Result::Err(JsValue::from_str("Could not encode merkle proof"))
+                }
+            }
+        }
+        std::result::Result::Err(_) => {
+            log("Failed to generate Merkle proof");
+            std::result::Result::Err(JsValue::from_str("Could not generate Merkle proof"))
+        }
+    }
 }
 
 #[cfg(test)]

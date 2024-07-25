@@ -12,7 +12,7 @@ const nextConfig = {
       config.resolve.fallback.fs = false
       config.resolve.fallback.readline = false
     }
-    config.experiments = { asyncWebAssembly: true, layers: true }
+    config.experiments = { asyncWebAssembly: true, syncWebAssembly: true, layers: true }
 
     config.plugins.push(
       new CircularDependencyPlugin({
@@ -37,6 +37,24 @@ const nextConfig = {
     );
 
     return config
+  },
+
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin',
+          },
+          {
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'require-corp',
+          },
+        ],
+      },
+    ];
   },
 }
 

@@ -1,4 +1,5 @@
 import type {
+  initSync,
   initThreadPool,
   initPanicHook,
   prove_membership,
@@ -36,6 +37,7 @@ export interface IHalo2EthMembershipaWorker {
 }
 
 export interface IHalo2EthMembershipWasm {
+  initSync: typeof initSync
   initPanicHook: typeof initPanicHook
   initThreadPool: typeof initThreadPool
   prove_membership: typeof prove_membership

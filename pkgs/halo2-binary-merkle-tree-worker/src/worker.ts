@@ -1,16 +1,25 @@
 import { expose } from 'comlink'
-import type { IMerkleTreeWasm, IMerkleTreeWorker } from './interface'
+import type { IHalo2BinaryMerkleTreeWasm, IHalo2BinaryMerkleTree } from './interface'
 
-let merkleTreeWasm: IMerkleTreeWasm
+let halo2BinaryMerkleTreeWasm: IHalo2BinaryMerkleTreeWasm
 
-export const merkleTreeWorker: IMerkleTreeWorker = {
+export const halo2BinaryMerkleTreeWorker: IHalo2BinaryMerkleTree = {
   async generateMerkleProof(leaves, leaf, depth): Promise<Uint8Array> {
-    return merkleTreeWasm.generate_merkle_proof(leaves, leaf, depth)
+    return halo2BinaryMerkleTreeWasm.generate_merkle_proof(leaves, leaf, depth)
   },
 
   async prepare() {
-    merkleTreeWasm = await import('@anonklub/halo2-binary-merkle-tree')
+    halo2BinaryMerkleTreeWasm = await import('@anonklub/halo2-binary-merkle-tree/dist/')
+
+    const wasmModuleUrl = new URL('@anonklub/halo2-binary-merkle-tree/dist/index_bg.wasm', import.meta.url);
+    const response = await fetch(wasmModuleUrl);
+    const bufferSource = await response.arrayBuffer();
+    
+    await halo2BinaryMerkleTreeWasm.initSync(bufferSource)
+    await halo2BinaryMerkleTreeWasm.initPanicHook()
+    let numThreads = navigator.hardwareConcurrency
+    await halo2BinaryMerkleTreeWasm.initThreadPool(numThreads)
   },
 }
 
-expose(merkleTreeWorker)
+expose(halo2BinaryMerkleTreeWorker)
