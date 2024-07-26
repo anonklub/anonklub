@@ -1,5 +1,11 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.6.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  // done by dprint
+  "formatter": {
+    "enabled": false
+  },
+  // done by dprint
+  "organizeImports":{"enabled":false},
   "javascript": {
     "parser": {
       "unsafeParameterDecoratorsEnabled": true
@@ -11,25 +17,16 @@
       "recommended": true
     },
     "ignore": [
-      "**/node_modules/**",
-      "**/dist/**",
-      "**/out/**",
-      "**/.next/**",
-      "**/target/**",
       "**/generated/**",
-      "**/coverage/**",
       "**/*.graphql",
       "**/.graphclient/**",
-      "**/cache/**",
       "contracts/lib/forge-std/**",
       "contracts/lib/openzeppelin-contracts/**",
       "**/package.json",
       "ui/next.config.js",
       "ui/next-env.d.ts",
       "ui/public/**",
-      ".turbo/**",
-      "queries/**",
-      ".dprint.jsonc"
+      "queries/**"
     ]
   },
   "overrides": [
@@ -145,5 +142,10 @@
         }
       }
     }
-  ]
+  ],
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  }
 }
