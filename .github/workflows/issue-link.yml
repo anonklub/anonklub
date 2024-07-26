@@ -16,5 +16,5 @@ jobs:
       - uses: tkt-actions/add-issue-links@71526d15c5fcf2c50fbe34c77f194ee91a4a8355 # 1.8.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          branch-prefix: 'issue-'
+          branch-prefix: "issue-"
           resolve: true

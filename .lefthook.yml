@@ -1,0 +1,21 @@
+assert_lefthook_installed: true
+output: [execution, failure, summary]
+pre-commit:
+  parallel: true
+  commands:
+    fmt:
+      run: pnpm fmt
+      stage_fixed: true
+    lint-jtsx:
+      glob: "**/*.{cjs,js,jsx,mjs,ts,tsx}"
+      run: pnpm lint.biome
+    lint-sol:
+      glob: "**/*.sol"
+      run: pnpm turbo lint.solhint
+    lint-rs:
+      glob: "**/*.{rs,toml}"
+      run: pnpm turbo lint.cargo
+      skip: true
+    typecheck:
+      glob: "**/*{ts,tsx}"
+      run: pnpm tsc-files --noEmit {staged_files}

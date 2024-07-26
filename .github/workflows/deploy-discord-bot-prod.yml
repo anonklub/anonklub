@@ -5,9 +5,9 @@ on:
     branches: [main]
     paths:
       [
-        'discord-bot/**',
-        '.github/workflows/deploy-discord-bot-prod.yml',
-        '!**/*.md',
+        "discord-bot/**",
+        ".github/workflows/deploy-discord-bot-prod.yml",
+        "!**/*.md",
       ]
 
 jobs:

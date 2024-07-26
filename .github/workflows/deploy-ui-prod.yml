@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['ui/**', '!**/*.md', '.github/workflows/deploy-ui-prod.yml']
+    paths: ["ui/**", "!**/*.md", ".github/workflows/deploy-ui-prod.yml"]
 
 jobs:
   deployment:

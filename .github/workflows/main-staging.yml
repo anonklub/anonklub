@@ -6,11 +6,11 @@ on:
   pull_request:
     branches: [main, staging]
     paths-ignore:
-      ['**/Dockerfile', '**/public/**', '**/.*ignore', 'contracts/lib/**']
+      ["**/Dockerfile", "**/public/**", "**/.*ignore", "contracts/lib/**"]
   push:
     branches: [main, staging]
     paths-ignore:
-      ['**/Dockerfile', '**/public/**', '**/.*ignore', 'contracts/lib/**']
+      ["**/Dockerfile", "**/public/**", "**/.*ignore", "contracts/lib/**"]
 
 jobs:
   changed-files:
@@ -180,17 +180,4 @@ jobs:
       - uses: foundry-rs/foundry-toolchain@v1.2.0
         with:
           version: nightly
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-      - uses: pnpm/action-setup@v4.0.0
-        id: pnpm-install
-        with:
-          version: 9.4.0
-          run_install: false
-      - uses: actions/cache/restore@v4
-        with:
-          key: ${{ needs.deps.outputs.cache-key }}
-          path: ${{ needs.deps.outputs.cache-path }}
-
-      - run: pnpm dprint check
+      - uses: dprint/check@v2.2

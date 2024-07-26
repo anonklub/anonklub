@@ -5,9 +5,9 @@ on:
     branches: [main]
     paths:
       [
-        'query-api/**',
-        '!**/*.md',
-        '.github/workflows/deploy-query-api-prod.yml',
+        "query-api/**",
+        "!**/*.md",
+        ".github/workflows/deploy-query-api-prod.yml",
       ]
 
 jobs:
