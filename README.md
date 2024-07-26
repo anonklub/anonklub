@@ -5,12 +5,9 @@
         <img alt="Github license" src="https://img.shields.io/github/license/anonklub/anonklub">
     </a>
 <br>
- <a href="https://github.com/anonklub/anonklub/actions?query=workflow%3Atest">
-        <img alt="GitHub Workflow test" src="https://img.shields.io/github/actions/workflow/status/anonklub/anonklub/test.yml?branch=main&label=test&logo=github">
-    </a>
- <a href="https://github.com/anonklub/anonklub/actions/workflows/static-analysis.yml">
-        <img alt="GitHub Workflow static analysis" src="https://img.shields.io/github/actions/workflow/status/anonklub/anonklub/static-analysis.yml?logo=github&label=static%20analysis">
-    </a>
+ <a href="https://github.com/anonklub/anonklub/actions?query=workflow%3Amain-staging">
+        <img alt="GitHub Workflow test" src="https://img.shields.io/github/actions/workflow/status/anonklub/anonklub/main-staging.yml?style=flat-squarebranch=main&label=main&logo=github">
+  </a>
   <a href="https://coveralls.io/github/anonklub/anonklub?branch=main">
   <img alt="Coveralls Badge" src="https://img.shields.io/coverallsCoverage/github/anonklub/anonklub.svg?label=coverage%20(ts)&logo=coveralls">
 </a>
@@ -35,7 +32,7 @@
 </a>
 <br>
 <a href="https://crates.io/crates/akli">
-<img alt="akli rust badge" src="https://img.shields.io/crates/msrv/akli?logo=rust&label=akli">
+<img alt="akli rust badge" src="https://img.shields.io/crates/v/akli?logo=rust&label=akli&color=blue">
 </a>
 <br>
 <a href="https://github.com/anonklub/anonklub/deployments/query-api-staging">
