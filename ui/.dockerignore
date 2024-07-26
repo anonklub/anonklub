@@ -2,9 +2,6 @@ node_modules
 README.md
 fly-staging.toml
 fly-prod.toml
-.prettierrc.js
-.eslintrc.yaml
-.gitignore
 .dockerignore
 .next
 Dockerfile
