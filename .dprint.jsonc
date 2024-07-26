@@ -13,7 +13,7 @@
     "public"
   ],
   "extends": [
-    "https://raw.githubusercontent.com/sripwoud/configs/main/packages/dprint/.dprint.ts.jsonc",
+    "https://raw.githubusercontent.com/sripwoud/configs/main/packages/dprint/.dprint.ts.jsonc"
   ],
   "json": {
     "trailingCommas": "never"
@@ -26,6 +26,6 @@
     "https://plugins.dprint.dev/g-plane/malva-v0.5.1.wasm",
     "https://plugins.dprint.dev/g-plane/pretty_yaml-v0.4.0.wasm",
     "https://plugins.dprint.dev/toml-0.6.2.wasm",
-    "https://plugins.dprint.dev/typescript-0.91.4.wasm",
+    "https://plugins.dprint.dev/typescript-0.91.4.wasm"
   ]
 }

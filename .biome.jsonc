@@ -5,7 +5,7 @@
     "enabled": false
   },
   // done by dprint
-  "organizeImports":{"enabled":false},
+  "organizeImports": { "enabled": false },
   "javascript": {
     "parser": {
       "unsafeParameterDecoratorsEnabled": true

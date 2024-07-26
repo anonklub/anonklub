@@ -2,7 +2,7 @@ packages:
   - circom
   - contracts
   - discord-bot
-  - 'pkgs/*'
+  - "pkgs/*"
   - test
   - ui
   - query-api

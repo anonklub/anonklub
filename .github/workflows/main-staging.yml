@@ -6,11 +6,11 @@ on:
   pull_request:
     branches: [main, staging]
     paths-ignore:
-      ['**/Dockerfile', '**/public/**', '**/.*ignore', 'contracts/lib/**']
+      ["**/Dockerfile", "**/public/**", "**/.*ignore", "contracts/lib/**"]
   push:
     branches: [main, staging]
     paths-ignore:
-      ['**/Dockerfile', '**/public/**', '**/.*ignore', 'contracts/lib/**']
+      ["**/Dockerfile", "**/public/**", "**/.*ignore", "contracts/lib/**"]
 
 jobs:
   changed-files:

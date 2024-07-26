@@ -1,13 +1,13 @@
 [profile.default]
-    src = "contracts/src"
-    out = "contracts/out"
-    libs = ["contracts/lib"]
-    test = "contracts/test"
+src = "contracts/src"
+out = "contracts/out"
+libs = ["contracts/lib"]
+test = "contracts/test"
 
-    remappings = [
-      "openzeppelin/=contracts/lib/openzeppelin-contracts/contracts"
-    ]
+remappings = [
+  "openzeppelin/=contracts/lib/openzeppelin-contracts/contracts",
+]
 
 [fmt]
-    ignore = ["lib/forge-std"]
+ignore = ["lib/forge-std"]
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
