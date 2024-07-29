@@ -1,46 +1,42 @@
-FROM node:19-alpine as base
+ARG DIR=discord-bot
 
+FROM node:19-alpine as base
 RUN apk update && apk upgrade && apk add dumb-init
 WORKDIR app
 
 FROM base as deps
-
+ARG DIR
 COPY *.json *.yaml .npmrc global.d.ts ./
 COPY test/package.json ./test/
-COPY discord-bot/package.json ./discord-bot/
-
+COPY $DIR/package.json ./$DIR/
 # FIXME: using different versions of typescript at root level and in discord-bot
 RUN npm i -g pnpm &&\
-    pnpm i --ignore-scripts  --filter discord-bot &&\
+    pnpm i --filter $DIR --ignore-scripts &&\
     pnpm remove typescript &&\
     pnpm add -Dw typescript@5.1.6
 
 FROM deps as build
-
-COPY discord-bot/ ./discord-bot/
-
-
+ARG DIR
+COPY ./$DIR/ ./$DIR/
 # pnpm prune command doesn't support recursive execution on monorepo
 # need to remove and re install only prod deps manually
-RUN pnpm --filter discord-bot run build &&\
-    rm -rf node_modules discord-bot/node_modules &&\
-    pnpm --filter discord-bot i --prod
+RUN pnpm --filter $DIR build &&\
+    rm -rf {./.$DIR}/node_modules &&\
+    pnpm --filter $DIR i --prod
 
 FROM base as deploy
-
+ARG DIR
 # FIX ME: fix mkdir access when running as non root user
 # https://github.com/nodejs/docker-node/issues/740
 #WORKDIR /home/node/app
-ARG DIR=discord-bot
-
+RUN set -x && ls .
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/discord-bot/node_modules ./$DIR/node_modules
+COPY --from=build /app/$DIR/node_modules ./$DIR/node_modules
 COPY --from=build /app/$DIR/package.json ./$DIR/
 COPY --from=build /app/$DIR/dist ./$DIR/dist
 
 ENV NODE_ENV production
 ENV NODE_PATH dist
-
 WORKDIR /app/$DIR
 
 # https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/

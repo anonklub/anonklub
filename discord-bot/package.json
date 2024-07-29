@@ -1,4 +1,5 @@
 {
+  "name": "@anonklub/discord-bot",
   "scripts": {
     "build": "tsc -p tsconfig.compile.json",
     "start": "NODE_ENV=production NODE_PATH=dist node -r module-alias/register dist",
