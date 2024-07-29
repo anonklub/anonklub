@@ -14,6 +14,7 @@ jobs:
   deployment:
     environment:
       name: discord-bot-prod
+      url: https://anonklub-discord-bot.fly.dev
     name: Deploy Discord Bot to prod
     runs-on: ubuntu-latest
     steps:
