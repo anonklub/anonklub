@@ -1,3 +1,9 @@
 .prettierrc.yaml
 .eslintrc.yaml
 node_modules
+target
+circom
+contracts
+queries
+coverage
+cache
