@@ -10,7 +10,10 @@ COPY test/package.json ./test/
 COPY discord-bot/package.json ./discord-bot/
 
 # FIXME: using different versions of typescript at root level and in discord-bot
-RUN npm i -g pnpm && pnpm i --filter discord-bot.. && pnpm remove typescript && pnpm add -Dw typescript@5.1.6
+RUN npm i -g pnpm &&\
+    pnpm i --ignore-scripts  --filter discord-bot &&\
+    pnpm remove typescript &&\
+    pnpm add -Dw typescript@5.1.6
 
 FROM deps as build
 

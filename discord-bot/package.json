@@ -1,6 +1,4 @@
 {
-  "name": "@anonklub/discord-bot",
-  "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.compile.json",
     "start": "NODE_ENV=production NODE_PATH=dist node -r module-alias/register dist",
@@ -10,7 +8,6 @@
   "_moduleAliases": {
     "~": "dist/lib"
   },
-  "author": "sripwoud",
   "dependencies": {
     "discord.js": "^14.11.0",
     "dotenv": "^16.3.1",
