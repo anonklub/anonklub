@@ -15,10 +15,12 @@ interface Config {
   VERIFIED_ROLE_ID: string
 }
 
-const { BOT_TOKEN, CLIENT_ID, GUILD_ID } = process.env
+const { BOT_TOKEN, CLIENT_ID, GUILD_ID, VERIFICATION_CHANNEL_ID, VERIFIED_ROLE_ID } = process.env
 if (BOT_TOKEN === undefined) throw new Error('No bot token provided')
 if (CLIENT_ID === undefined) throw new Error('No client id provided')
 if (GUILD_ID === undefined) throw new Error('No guild id provided')
+if (VERIFICATION_CHANNEL_ID === undefined) throw new Error('No verification channel id provided')
+if (VERIFIED_ROLE_ID === undefined) throw new Error('No verified role id provided')
 
 export const config: Config = {
   BOT_TOKEN,
@@ -37,6 +39,6 @@ export const config: Config = {
     GatewayIntentBits.MessageContent,
   ],
   urls: { ui: 'https://anonklub.xyz' },
-  VERIFICATION_CHANNEL_ID: '1133394590318202942',
-  VERIFIED_ROLE_ID: '1130886825087606924',
+  VERIFICATION_CHANNEL_ID,
+  VERIFIED_ROLE_ID,
 }
