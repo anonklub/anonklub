@@ -1,6 +1,5 @@
-import { Attachment, Collection, Events, Message, TextChannel } from 'discord.js'
-import { config, verifyOnChain } from '~'
-import { config } from '~'
+import { Attachment, Collection, Events, Message, PermissionFlagsBits, TextChannel } from 'discord.js'
+import { config, parseBin } from '~'
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
 
@@ -16,19 +15,17 @@ export class MessageCreate extends _Event {
     if (channelName !== `private-verify-${message.author.username}`) return
     if (message.attachments.size === 0) return
 
-    const { proof, publicSignals } = await this._handleAttachments(
+    const proof = await this._handleProofBinaryAttachment(
       message.attachments,
     )
 
-    // FIXME: isn't viem supposed to give the typings automagically from the JSON ABIs?
-    const valid: boolean = await verifyOnChain({
-      // FIXME
-      // @ts-expect-error
-      proof,
-      // FIXME
-      // @ts-expect-error
-      publicSignals,
-    })
+    const valid = await fetch(`${config.urls.ui}/api/verify`, {
+      body: proof,
+      headers: {
+        'Content-Type': 'application/octet-stream',
+      },
+      method: 'POST',
+    }).then(async res => res.json())
 
     if (valid) {
       if (message.member === null || message.member === undefined)
@@ -45,20 +42,34 @@ export class MessageCreate extends _Event {
 
           const verificationChannel = message.guild?.channels.cache.get(
             config.VERIFICATION_CHANNEL_ID,
-          ) as TextChannel
+          )
+          // TODO makes these check once when initializing the bot?
+          if (!(verificationChannel instanceof TextChannel)) throw new Error('No verification text channel found')
+          const permissions = verificationChannel.permissionsFor(message.client.user)
+          if (permissions === null) {
+            throw new Error(
+              `No permissions found for bot ${message.client.user.username} in #${verificationChannel.name}`,
+            )
+          }
+          if (!permissions.has(PermissionFlagsBits.ReadMessageHistory)) {
+            throw new Error(
+              `Bot ${message.client.user.username} does not have permission to read message history in #${verificationChannel.name}`,
+            )
+          }
+
           const pastMessages = await verificationChannel.messages.fetch()
           const botMessage = pastMessages.find(
             (pastMessage: Message) =>
               pastMessage.author.id === config.CLIENT_ID
               && pastMessage.content.includes(
-                `Hello **${message.author.username}**, please check #private-verify-${message.author.username} for further instructions.`,
+                message.author.username,
               ),
           )
           if (botMessage !== undefined) await botMessage.delete()
         })().catch((err) => {
           console.error(err)
         })
-      }, 10000)
+      }, 10_000)
     } else {
       await message.channel.send({
         content:
@@ -67,30 +78,11 @@ export class MessageCreate extends _Event {
     }
   }
 
-  private async _handleAttachments(
-    attachments: Collection<string, Attachment>,
-  ) {
-    const [proof, publicSignals] = await Promise.all(
-      ['proof.json', 'public.json'].map(async (name) => this._handleJsonAttachment({ attachments, name })),
-    )
-
-    return {
-      proof,
-      publicSignals,
-    }
-  }
-
-  private async _handleJsonAttachment({
-    attachments,
-    name,
-  }: {
-    attachments: Collection<string, Attachment>
-    name: string
-  }) {
-    const attachment = attachments.find((a) => a.name === name)
+  private async _handleProofBinaryAttachment(attachments: Collection<string, Attachment>) {
+    const attachment = attachments.find((a) => a.name === config.proofAttachmentName)
     if (attachment === undefined)
-      throw new Error(`No ${name} attachment in message`)
+      throw new Error(`No \`${config.proofAttachmentName}\` attachment in message`)
 
-    return fetch(attachment.url).then(async (res) => res.json())
+    return fetch(attachment.url).then(res => res.arrayBuffer())
   }
 }

@@ -18,8 +18,8 @@ Hello **${username}**,
 
 This is a private channel only visible to you, the bot and the server admins.
 
-1. Visit [anonklub.xyz](https://anonklub.xyz) to generate a proof. Upon successful proof generation you'll be able to download an \`anonklub-proof.bin\` file.
-2. Upload \`anonklub-proof.bin\` here in this private thread (plus sign >> upload a file).
+1. Visit [anonklub.xyz](https://anonklub.xyz) to generate a proof. Upon successful proof generation you'll be able to download an \`${config.proofAttachmentName}\` file.
+2. Upload \`${config.proofAttachmentName}\` here in this private thread (plus sign >> upload a file).
 3. Upon successful verification of your proof you'll be granted the *verified* role. 10s later, this private channel and your first message in <#${config.VERIFICATION_CHANNEL_ID}> will be deleted.`,
     })
     await interaction.reply({

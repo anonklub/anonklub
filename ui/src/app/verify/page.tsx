@@ -1,5 +1,5 @@
 'use client'
-import { NAVIGATION } from '#'
+import { config, NAVIGATION } from '#'
 import { ProofBinFileInput } from '@components'
 import { useSetHelp, useStore } from '@hooks'
 import Link from 'next/link'
@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 
 export default function Page() {
   useSetHelp([
-    'You need to provide a previously generated `anonklub-proof.bin` file.',
+    `You need to provide a previously generated \`${config.proofAttachmentName}\` file.`,
   ])
   const { proof, setProof } = useStore()
   const canVerify = proof !== null
