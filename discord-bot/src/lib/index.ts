@@ -1,4 +1,3 @@
-export * from './abis/groth16Verifier'
 export * from './config'
 export * from './decorators/inVerificationChannel'
 export * from './decorators/isMatchingCommand'
@@ -10,6 +9,3 @@ export * from './decorators/tryCatchReply'
 
 export * from './ErrorEmbed'
 export * from './logger'
-export * from './types'
-export * from './verify-onchain'
-export * from './web3-client'
