@@ -8,6 +8,7 @@ use pse_poseidon::Poseidon;
 /// is being used in generate_merkle_proof that has
 /// #[cfg(target_arch = "wasm32")] flag which is not
 /// readable by `cargo clippy` so we get unused import warn
+#[cfg(target_arch = "wasm32")]
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 pub mod binary_merkle_tree;

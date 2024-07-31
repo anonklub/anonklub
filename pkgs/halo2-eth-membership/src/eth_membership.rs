@@ -341,9 +341,8 @@ mod tests {
         },
         utils::ScalarField,
     };
-    use halo2_binary_merkle_tree::binary_merkle_tree::{BinaryMerkleTree, MerkleProof};
+    use halo2_binary_merkle_tree::binary_merkle_tree::MerkleProof;
     use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
-    use halo2_binary_merkle_tree::consts::ARITY;
     use halo2_ecc::fields::FpStrategy;
     use halo2_ecdsa::gadget::efficient_ecdsa::EfficientECDSAInputs;
     use halo2_ecdsa::utils::recovery::recover_pk_efficient;
@@ -387,60 +386,6 @@ mod tests {
         pk: Secp256k1Affine,
         address: H160,
     }
-
-    // fn random_ecdsa_input(
-    //     rng: &mut StdRng,
-    // ) -> Result<(
-    //     EfficientECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>,
-    //     TestInputs,
-    // )> {
-    //     let g = Secp256k1Affine::generator();
-
-    //     // Generate a key pair
-    //     let sk = <Secp256k1Affine as CurveAffine>::ScalarExt::random(rng.clone());
-    //     let _pk = Secp256k1Affine::from(g * sk);
-
-    //     // Generate a valid signature
-    //     // Suppose `m_hash` is the message hash
-    //     let msg_hash = <Secp256k1Affine as CurveAffine>::ScalarExt::random(rng.clone());
-
-    //     // Draw a randomness
-    //     let k = <Secp256k1Affine as CurveAffine>::ScalarExt::random(rng);
-    //     let k_inv = k.invert().unwrap();
-
-    //     // Calculate `r`
-    //     let r_point = Secp256k1Affine::from(g * k).coordinates().unwrap();
-    //     let x = r_point.x();
-    //     let x_bigint = fe_to_biguint(x);
-    //     let r = biguint_to_fe::<secp256k1::Fq>(&(x_bigint % modulus::<secp256k1::Fq>()));
-
-    //     // Calculate `s`
-    //     let s = k_inv * (msg_hash + (r * sk));
-
-    //     // Check if y is odd
-    //     let is_y_odd = r_point.y().to_bytes_le();
-    //     let is_y_odd = BigUint::from_bytes_le(&is_y_odd);
-    //     let is_y_odd = is_y_odd.bit(0);
-
-    //     let msg_hash = BigUint::from_bytes_le(&msg_hash.to_bytes_le());
-
-    //     // Precompile T and U
-    //     let (U, T) = recover_pk_efficient(msg_hash.clone(), r, is_y_odd)
-    //         .map_err(|e| anyhow!(e))
-    //         .context("Failed to compute random based efficient ECDSA!")?;
-
-    //     let efficient_ecdsa_inputs =
-    //         EfficientECDSAInputs::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(s, T, U);
-
-    //     Ok((
-    //         efficient_ecdsa_inputs,
-    //         TestInputs {
-    //             r,
-    //             msg_hash,
-    //             is_y_odd,
-    //         },
-    //     ))
-    // }
 
     /// @src Spartan
     fn mock_eff_ecdsa_input(
@@ -493,58 +438,6 @@ mod tests {
         };
 
         Ok((efficient_ecdsa_inputs, test_inputs))
-    }
-
-    fn mock_merkle_proof(pk: &Secp256k1Affine, address: &H160) -> MerkleProof {
-        // Initialize Poseidon Hasher
-        let mut poseidon =
-            Poseidon::<F, T_POSEIDON, RATE_POSEIDON>::new(R_F_POSEIDON, R_P_POSEIDON);
-
-        // Members MerkleTree
-        let leaf_x =
-            pk.x.to_bytes()
-                .to_vec()
-                .chunks(11)
-                .into_iter()
-                .map(|chunk| F::from_bytes_le(chunk))
-                .collect::<Vec<_>>();
-        let leaf_y =
-            pk.y.to_bytes()
-                .to_vec()
-                .chunks(11)
-                .into_iter()
-                .map(|chunk| F::from_bytes_le(chunk))
-                .collect::<Vec<_>>();
-
-        // Construct Leaves
-        let mut leaves = Vec::<F>::new();
-
-        for i in 0..(2usize.pow(TREE_DEPTH as u32) - 1) {
-            if i == 0 {
-                poseidon.update(leaf_x.as_slice());
-                poseidon.update(leaf_y.as_slice());
-            } else {
-                poseidon.update(&[F::zero()]);
-            }
-
-            leaves.push(poseidon.squeeze_and_reset());
-        }
-
-        // Construct MerkleTree
-        let mut tree = BinaryMerkleTree::<T_POSEIDON, RATE_POSEIDON>::new(&mut poseidon);
-
-        // Insert leaves
-        for leaf in leaves.iter() {
-            tree.insert(*leaf);
-        }
-
-        tree.finish();
-
-        let merkle_proof = tree.gen_proof(leaves[0], address.to_string()).unwrap();
-
-        assert_eq!(tree.verify_proof(merkle_proof.root, &merkle_proof), true);
-
-        merkle_proof
     }
 
     fn mock_merkle_proof_2(pk: &Secp256k1Affine) -> Result<MerkleProof> {
