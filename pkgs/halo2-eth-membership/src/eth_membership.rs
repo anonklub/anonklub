@@ -379,6 +379,7 @@ mod tests {
         num_limbs: usize,
     }
 
+    #[allow(dead_code)]
     pub struct TestInputs {
         r: secp256k1::Fq,
         msg_hash: BigUint,
