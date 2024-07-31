@@ -1,5 +1,6 @@
 import { Attachment, Collection, Events, Message, TextChannel } from 'discord.js'
 import { config, verifyOnChain } from '~'
+import { config } from '~'
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
 
@@ -35,7 +36,7 @@ export class MessageCreate extends _Event {
       await message.member.roles.add(config.VERIFIED_ROLE_ID)
       await message.channel.send({
         content:
-          `Congrats \`${message.author.username}\`, you proof is valid ✅! You have been granted the verified role. This private channel will be deleted in 10s.`,
+          `Congrats **${message.author.username}**, you proof is valid ✅! You have been granted the *verified* role. This private channel will be deleted in 10s.`,
       })
 
       setTimeout(() => {
@@ -50,7 +51,7 @@ export class MessageCreate extends _Event {
             (pastMessage: Message) =>
               pastMessage.author.id === config.CLIENT_ID
               && pastMessage.content.includes(
-                `Hello \`${message.author.username}\`, please check #private-verify-${message.author.username} for further instructions.`,
+                `Hello **${message.author.username}**, please check #private-verify-${message.author.username} for further instructions.`,
               ),
           )
           if (botMessage !== undefined) await botMessage.delete()
@@ -61,7 +62,7 @@ export class MessageCreate extends _Event {
     } else {
       await message.channel.send({
         content:
-          `Sorry \`${message.author.username}\`, your proof is invalid ❌. You have not been granted the verified role.`,
+          `Sorry **${message.author.username}**, your proof is invalid ❌. You have not been granted the *verified* role.`,
       })
     }
   }
