@@ -18,8 +18,7 @@
     "pino-pretty": "^10.2.0",
     "reflect-metadata": "^0.1.13",
     "tslib": "^2.6.1",
-    "typedi": "^0.10.0",
-    "viem": "^2.4.1"
+    "typedi": "^0.10.0"
   },
   "engines": {
     "node": ">=19"
