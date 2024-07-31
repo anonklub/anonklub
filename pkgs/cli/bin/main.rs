@@ -51,9 +51,9 @@ async fn main() -> Result<()> {
             }
         },
         AkliCommand::Prove {
-            merkle_root,
-            message,
-            private_key,
+            merkle_root: _,
+            message: _,
+            private_key: _,
         } => {
             println!("Not implemented");
         }
