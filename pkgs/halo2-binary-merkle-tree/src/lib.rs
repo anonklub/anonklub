@@ -4,10 +4,7 @@ use consts::{RATE, R_F, R_P, T};
 use halo2_base::utils::ScalarField;
 use halo2_wasm_ext::consts::F;
 use pse_poseidon::Poseidon;
-/// Adding this exception because wasm_bindgen
-/// is being used in generate_merkle_proof that has
-/// #[cfg(target_arch = "wasm32")] flag which is not
-/// readable by `cargo clippy` so we get unused import warn
+
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
