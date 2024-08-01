@@ -8,8 +8,15 @@
     "emitDecoratorMetadata": true,
     "importHelpers": true,
     "paths": {
+<<<<<<< HEAD
       "#": ["lib"],
       "#/*": ["lib/*"]
+||||||| parent of 35cbb99 (refactor: add info logs)
+      "~": ["lib"]
+=======
+      "~": ["lib"],
+      "~/*": ["lib/*"]
+>>>>>>> 35cbb99 (refactor: add info logs)
     }
   }
 }

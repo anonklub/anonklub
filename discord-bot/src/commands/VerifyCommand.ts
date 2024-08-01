@@ -1,6 +1,13 @@
 import { config } from '#/config'
 import { info } from '#/logger'
 import { ChannelType, CommandInteraction, PermissionsBitField, SlashCommandBuilder } from 'discord.js'
+<<<<<<< HEAD
+||||||| parent of 35cbb99 (refactor: add info logs)
+import { config } from '~'
+=======
+import { config } from '~'
+import { info } from '~/logger'
+>>>>>>> 35cbb99 (refactor: add info logs)
 import { _Command } from './_Command'
 import { CommandName } from './interface'
 
