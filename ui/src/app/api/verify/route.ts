@@ -1,6 +1,7 @@
 import * as spartanEcdsaWasm from '@anonklub/spartan-ecdsa-wasm'
 import { type NextRequest, NextResponse } from 'next/server'
-// import { config } from '~'
+
+export const dynamic = 'force-dynamic'
 
 let initialized = false
 
