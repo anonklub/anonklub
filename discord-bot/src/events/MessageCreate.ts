@@ -43,7 +43,7 @@ export class MessageCreate extends _Event {
           const verificationChannel = message.guild?.channels.cache.get(
             config.VERIFICATION_CHANNEL_ID,
           )
-          // TODO makes these check once when initializing the bot?
+          // TODO perform these checks once when initializing the bot?
           if (!(verificationChannel instanceof TextChannel)) throw new Error('No verification text channel found')
           const permissions = verificationChannel.permissionsFor(message.client.user)
           if (permissions === null) {
