@@ -19,11 +19,11 @@
    | Permission           | Reason                                                                                                 |
    | -------------------- | ------------------------------------------------------------------------------------------------------ |
    | Manage Channels      | Create a private verification per user and delete it after successful verification                     |
-   | Manage messages      | Delete messages after successful verification for better privacy                                       |
+   | Manage Messages      | Delete messages after successful verification for better privacy                                       |
    | Manage Roles         | Grant `verified` role                                                                                  |
    | Read Message History | Delete verification request message in public channel after successful verification for better privacy |
-   | View Channels        | Need to be able to read user messages in order to handle verification requests                         |
    | Send Messages        | Communicate instructions and verification result to user                                               |
+   | View Channels        | Need to be able to read user messages in order to handle verification requests                         |
 
 (Permissions integer: `2415922176`)
 
