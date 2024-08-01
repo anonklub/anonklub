@@ -1,5 +1,5 @@
 'use client'
-import { ellipsify } from '#'
+import { config, ellipsify } from '#'
 import { Loader } from '@components'
 import { useCopyToClipboard, useProofResult } from '@hooks'
 
@@ -13,7 +13,7 @@ export default function Page() {
     const file = new Blob([fullProof], { type: 'application/octet-stream' })
     const element = document.createElement('a')
     element.href = URL.createObjectURL(file)
-    element.download = 'anonklub-proof.bin'
+    element.download = config.proofAttachmentName
     document.body.appendChild(element)
     element.click()
     document.body.removeChild(element)

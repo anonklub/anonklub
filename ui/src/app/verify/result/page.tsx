@@ -1,4 +1,5 @@
 'use client'
+import { config } from '#'
 import { Loader } from '@components'
 import { useStore, useVerifyProof } from '@hooks'
 import Link from 'next/link'
@@ -10,7 +11,7 @@ export default function Page() {
   if (proof === null) {
     return (
       <div>
-        Missing proof `anonklub-proof.bin` file, go back to{' '}
+        Missing <code>{config.proofAttachmentName}</code> proof file, go back to{' '}
         <Link href='/verify' className='underline'>
           /verify
         </Link>{' '}

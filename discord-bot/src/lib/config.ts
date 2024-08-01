@@ -3,14 +3,12 @@ import { Events, GatewayIntentBits } from 'discord.js'
 import { HandledEvent } from '../events/interface'
 
 interface Config {
-  addresses: {
-    groth16Verifier: `0x${string}`
-  }
   BOT_TOKEN: string
   CLIENT_ID: string
   eventHandlerOn: Record<HandledEvent, boolean>
   GUILD_ID: string
   intents: GatewayIntentBits[]
+  proofAttachmentName: string
   urls: {
     ui: string
   }
@@ -18,15 +16,15 @@ interface Config {
   VERIFIED_ROLE_ID: string
 }
 
-const { BOT_TOKEN, CLIENT_ID, GUILD_ID } = process.env
-if (BOT_TOKEN === undefined) throw new Error('No bot token provided')
-if (CLIENT_ID === undefined) throw new Error('No client id provided')
-if (GUILD_ID === undefined) throw new Error('No guild id provided')
+const { BOT_TOKEN, CLIENT_ID, GUILD_ID, UI_URL, VERIFICATION_CHANNEL_ID, VERIFIED_ROLE_ID } = process.env
+if (BOT_TOKEN === undefined) throw new Error('No BOT_TOKEN provided')
+if (CLIENT_ID === undefined) throw new Error('No CLIENT_ID provided')
+if (GUILD_ID === undefined) throw new Error('No GUILD_ID provided')
+if (UI_URL === undefined) throw new Error('No UI_URL provided')
+if (VERIFICATION_CHANNEL_ID === undefined) throw new Error('No VERIFICATION_CHANNEL_ID provided')
+if (VERIFIED_ROLE_ID === undefined) throw new Error('No VERIFIED_ROLE_ID provided')
 
 export const config: Config = {
-  addresses: {
-    groth16Verifier: '0x893f293e3918a179bf87fb772206e9927db61b0c',
-  },
   BOT_TOKEN,
   CLIENT_ID,
   eventHandlerOn: {
@@ -42,7 +40,8 @@ export const config: Config = {
     GatewayIntentBits.Guilds,
     GatewayIntentBits.MessageContent,
   ],
-  urls: { ui: 'https://anonklub.xyz' },
-  VERIFICATION_CHANNEL_ID: '1133394590318202942',
-  VERIFIED_ROLE_ID: '1130886825087606924',
+  proofAttachmentName: 'anonklub-proof.bin',
+  urls: { ui: UI_URL },
+  VERIFICATION_CHANNEL_ID,
+  VERIFIED_ROLE_ID,
 }

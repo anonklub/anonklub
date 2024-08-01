@@ -12,15 +12,18 @@
 ## Set Up
 
 1. Create Bot in [Discord Developer Portal](https://discord.com/developers/applications)
+2. Set Bot Permissions for Installation
 
-### Bot Permissions for OAuth2 URL
+   Scopes: application.commands, bot
 
-| Section | Permission                  | Reason                                                                               |
-| ------- | --------------------------- | ------------------------------------------------------------------------------------ |
-| General | Manage Roles                | Grant `verified` role                                                                |
-| General | Read Messages/View Channels | Need to be able to read user messages (proofs rawdata/file input) in order to handle |
-| Text    | Send Messages               | Give feedback to user                                                                |
-| Text    | Use Slash Commands          | Handle `/` commands                                                                  |
+   | Permission           | Reason                                                                                                 |
+   | -------------------- | ------------------------------------------------------------------------------------------------------ |
+   | Manage Channels      | Create a private verification per user and delete it after successful verification                     |
+   | Manage Messages      | Delete messages after successful verification for better privacy                                       |
+   | Manage Roles         | Grant `verified` role                                                                                  |
+   | Read Message History | Delete verification request message in public channel after successful verification for better privacy |
+   | Send Messages        | Communicate instructions and verification result to user                                               |
+   | View Channels        | Need to be able to read user messages in order to handle verification requests                         |
 
 (Permissions integer: `2415922176`)
 

@@ -5,15 +5,17 @@ interface Config {
   appTitle: string
   chains: Chain[]
   message: string
+  proofAttachmentName: string
   typebot: string
   urls: {
+    discordBot: string
     queryApi: string
   }
   walletConnectProjectId: string
 }
 
 // need to use full reference to process.env, can't destructure or do process.env[name]
-// https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#loading-environment-variables
+// https://nextjs.org/docs/app/api-reference/next-config-js/env
 const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ''
 if (walletConnectProjectId === '') {
   // this means next build will fail
@@ -27,13 +29,21 @@ if (walletConnectProjectId === '') {
   )
 }
 
+const discordBot = process.env.DISCORD_BOT_URL ?? ''
+if (discordBot === undefined) throw new Error('No DISCORD_BOT_URL provided')
+
+const queryApi = process.env.NEXT_PUBLIC_QUERY_API_URL
+if (queryApi === undefined) throw new Error('No QUERY_API_URL provided')
+
 export const config: Config = {
   appTitle: 'Anonklub',
   chains: [sepolia],
   message: 'I am generating an anonymous proof of Ethereum address ownership with AnonKlub.',
+  proofAttachmentName: 'anonklub-proof.bin',
   typebot: 'anonklub-feedback',
   urls: {
-    queryApi: 'https://query.anonklub.xyz',
+    discordBot,
+    queryApi,
   },
   walletConnectProjectId,
 }
