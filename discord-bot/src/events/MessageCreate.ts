@@ -1,5 +1,5 @@
 import { Attachment, Collection, Events, Message, PermissionFlagsBits, TextChannel } from 'discord.js'
-import { config, parseBin } from '~'
+import { config } from '~'
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
 
