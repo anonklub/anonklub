@@ -30,10 +30,10 @@ if (walletConnectProjectId === '') {
 }
 
 const discordBot = process.env.DISCORD_BOT_URL ?? ''
-if (discordBot === undefined) throw new Error('No discord bot url provided')
+if (discordBot === undefined) throw new Error('No DISCORD_BOT_URL provided')
 
 const queryApi = process.env.NEXT_PUBLIC_QUERY_API_URL
-if (queryApi === undefined) throw new Error('No query api url provided')
+if (queryApi === undefined) throw new Error('No QUERY_API_URL provided')
 
 export const config: Config = {
   appTitle: 'Anonklub',
