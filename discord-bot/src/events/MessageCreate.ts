@@ -19,13 +19,16 @@ export class MessageCreate extends _Event {
       message.attachments,
     )
 
+    console.log(`Verifying proof for ${message.author.username} at ${config.urls.ui}`)
     const valid = await fetch(`${config.urls.ui}/api/verify`, {
       body: proof,
       headers: {
         'Content-Type': 'application/octet-stream',
       },
       method: 'POST',
-    }).then(async res => res.json())
+    }).then(async res => res.json()).catch(e => {
+      console.error(e)
+    })
 
     if (valid) {
       if (message.member === null || message.member === undefined)
