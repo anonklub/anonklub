@@ -1,7 +1,17 @@
 import { config } from '#/config'
 import { Attachment, Collection, Events, Message, PermissionFlagsBits, TextChannel } from 'discord.js'
+<<<<<<< HEAD
+||||||| parent of 3212585 (refactor: add info logs)
+import { config } from '~'
+=======
+import { config } from '~'
+import { info } from '~/logger'
+>>>>>>> 3212585 (refactor: add info logs)
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
+
+const VERIFICATION_URL = `${config.urls.ui}/api/verify`
+const DELETE_DELAY = 10_000
 
 export class MessageCreate extends _Event {
   override bind = true
@@ -15,25 +25,27 @@ export class MessageCreate extends _Event {
     if (channelName !== `private-verify-${message.author.username}`) return
     if (message.attachments.size === 0) return
 
+    info(`Fetching proof attachment uploaded by ${message.author.username}`)
     const proof = await this._handleProofBinaryAttachment(
       message.attachments,
     )
 
-    console.log(`Verifying proof for ${message.author.username} at ${config.urls.ui}`)
-    const valid = await fetch(`${config.urls.ui}/api/verify`, {
+    info(`Posting ${message.author.username}'s binary proof at ${VERIFICATION_URL} for verification`)
+    const valid = await fetch(VERIFICATION_URL, {
       body: proof,
       headers: {
         'Content-Type': 'application/octet-stream',
       },
       method: 'POST',
-    }).then(async res => res.json()).catch(e => {
-      console.error(e)
-    })
+    }).then(async res => res.json())
 
     if (valid) {
       if (message.member === null || message.member === undefined)
         throw new Error('No member found')
+
       await message.member.roles.add(config.VERIFIED_ROLE_ID)
+      info(`Granted ${message.author.username} the verified role`)
+
       await message.channel.send({
         content:
           `Congrats **${message.author.username}**, you proof is valid ✅! You have been granted the *verified* role. This private channel will be deleted in 10s.`,
@@ -69,10 +81,8 @@ export class MessageCreate extends _Event {
               ),
           )
           if (botMessage !== undefined) await botMessage.delete()
-        })().catch((err) => {
-          console.error(err)
-        })
-      }, 10_000)
+        })()
+      }, DELETE_DELAY)
     } else {
       await message.channel.send({
         content:

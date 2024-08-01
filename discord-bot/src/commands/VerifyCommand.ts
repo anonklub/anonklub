@@ -1,4 +1,5 @@
 import { config } from '#/config'
+import { info } from '#/logger'
 import { ChannelType, CommandInteraction, PermissionsBitField, SlashCommandBuilder } from 'discord.js'
 import { _Command } from './_Command'
 import { CommandName } from './interface'
@@ -10,6 +11,8 @@ export class VerifyCommand extends _Command {
 
   async handleFn(interaction: CommandInteraction): Promise<void> {
     const { username } = interaction.user
+    info(`User ${username} requested verification via /verify command`)
+
     const privateChannel = await this._createPrivateChannel(interaction)
 
     await privateChannel.send({
