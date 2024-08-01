@@ -47,7 +47,7 @@
     "build": "next build && pnpm linkwasm",
     "build.ci": "next build",
     "dev": "next dev",
-    "linkwasm": "echo 'Linking wasm files to .next/server/static as webpack5 breaks dynamic imports, see https://github.com/vercel/next.js/issues/25852#issuecomment-1057059000 && ln -s $(pwd)/.next/server/{chunks/,}static",
+    "linkwasm": "echo 'Linking wasm files to .next/server/static as webpack5 breaks dynamic imports, see https://github.com/vercel/next.js/issues/25852#issuecomment-1057059000' && ln -s $(pwd)/.next/server/{chunks/,}static",
     "start": "next start",
     "typecheck": "tsc"
   },
