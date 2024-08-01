@@ -5,6 +5,28 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // TODO: restrict to only discord bot server origin
+  async headers() {
+    return [
+      {
+        source: '/api/verify',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'POST, OPTIONS',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'X-Requested-With, Content-Type, Accept',
+          },
+        ],
+      },
+    ]
+  },
   reactStrictMode: true,
   webpack: (config, options) => {
     if (!options.isServer) {
