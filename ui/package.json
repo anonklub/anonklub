@@ -44,8 +44,10 @@
     "pinojs": "^1.0.0"
   },
   "scripts": {
-    "build": "next build",
+    "build": "next build && pnpm linkwasm",
     "dev": "next dev",
+    "testlinkwasm": "echo $(pwd)",
+    "linkwasm": "echo 'Linking wasm files to .next/server/static as webpack5 breaks dynamic imports, see https://github.com/vercel/next.js/issues/25852#issuecomment-1057059000' && ln -s $(pwd)/.next/server/{chunks/,}static",
     "start": "next start",
     "typecheck": "tsc"
   },
