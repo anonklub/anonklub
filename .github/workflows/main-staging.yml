@@ -154,7 +154,7 @@ jobs:
       - name: Get coverage files
         id: coverage-files
         run: |
-          files=$(find coverage -type f -name '*.info' -printf '%p ')
+          files=$(find coverage -type f -name '*.info' -printf '%p ' 2>/dev/null || true)
           echo "files=$files" >> $GITHUB_OUTPUT
 
       - name: debug
