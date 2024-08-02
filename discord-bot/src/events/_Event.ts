@@ -1,5 +1,6 @@
-import { Client } from 'Client'
-import { tryCatchReply } from '~'
+import { tryCatchReply } from '#/decorators'
+import { commands } from 'commands'
+import { Client as DiscordClient } from 'discord.js'
 import { _EventI, HandledEvent, ListeningMethod } from './interface'
 
 export abstract class _Event implements _EventI {
@@ -7,7 +8,7 @@ export abstract class _Event implements _EventI {
   listeningMethod = ListeningMethod.On
   abstract name: HandledEvent
 
-  constructor(public client: Client) {}
+  constructor(public client: { commands: typeof commands; discord: DiscordClient }) {}
 
   @tryCatchReply
   async handle(...args: any[]) {

@@ -1,4 +1,4 @@
-import { error } from '~'
+import { error } from '#/logger'
 
 type ErrorHandler = (err: Error, ...args: any[]) => void | Promise<void>
 

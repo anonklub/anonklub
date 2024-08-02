@@ -1,5 +1,6 @@
+import { config } from '#/config'
+import { verifyOnChain } from '#/verify-onchain'
 import { Attachment, Collection, Events, Message, TextChannel } from 'discord.js'
-import { config, verifyOnChain } from '~'
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
 

@@ -1,5 +1,5 @@
+import { ErrorEmbed } from '#/ErrorEmbed'
 import { ChatInputCommandInteraction, Message } from 'discord.js'
-import { ErrorEmbed } from '../ErrorEmbed'
 import { tryCatch } from './tryCatch'
 
 export const tryCatchReply = tryCatch(

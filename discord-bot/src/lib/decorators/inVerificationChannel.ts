@@ -1,5 +1,5 @@
+import { config } from '#/config'
 import { CommandInteraction, TextChannel } from 'discord.js'
-import { config } from '../config'
 
 export function inVerificationChannel(
   _target: any,

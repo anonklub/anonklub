@@ -7,7 +7,7 @@
     "typecheck": "tsc"
   },
   "_moduleAliases": {
-    "~": "dist/lib"
+    "#": "dist/lib"
   },
   "dependencies": {
     "discord.js": "^14.11.0",

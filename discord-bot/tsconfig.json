@@ -1,6 +1,5 @@
 {
   "extends": "../tsconfig.json",
-
   "include": ["src", "test"],
   "compilerOptions": {
     "baseUrl": "src",
@@ -9,7 +8,8 @@
     "emitDecoratorMetadata": true,
     "importHelpers": true,
     "paths": {
-      "~": ["lib"]
+      "#": ["lib"],
+      "#/*": ["lib/*"]
     }
   }
 }
