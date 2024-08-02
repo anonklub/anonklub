@@ -1,7 +1,7 @@
 import { readAnonSetJsonFile, readProofBinFile } from '#'
-import { useStore } from '@hooks'
 import { File } from '@types'
 import type { ChangeEvent } from 'react'
+import { useStore } from './useStore'
 
 export const useFile = (fileType: File) => () => {
   const { setAnonSet, setProof } = useStore()

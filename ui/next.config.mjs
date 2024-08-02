@@ -19,6 +19,7 @@ const nextConfig = {
 
 const millionConfig = {
   auto: true,
+  mute: true,
 }
 
 export default million.next(nextConfig, millionConfig)

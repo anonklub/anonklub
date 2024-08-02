@@ -1,4 +1,5 @@
-import { Footer, Header } from '@components'
+import { Footer } from './Footer'
+import { Header } from './Header'
 
 export function Layout({ children }) {
   return (

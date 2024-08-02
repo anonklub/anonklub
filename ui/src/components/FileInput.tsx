@@ -1,10 +1,12 @@
 'use client'
 import { modal } from '#'
-import { CheckMark, Modal, ScrollableJsonContainer } from '@components'
 import { ArrowUpOnSquareIcon } from '@heroicons/react/20/solid'
 import { useFile, useStore } from '@hooks'
 import { File } from '@types'
 import { useRef } from 'react'
+import { CheckMark } from './CheckMark'
+import { Modal } from './Modal'
+import { ScrollableJsonContainer } from './ScrollableJsonContainer'
 
 const ACCEPTS = new Map([
   [File.ANONSET, '.json,application/json'],

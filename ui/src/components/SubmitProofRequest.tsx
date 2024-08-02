@@ -1,9 +1,14 @@
 'use client'
 import { modal, NAVIGATION } from '#'
-import { CheckMark, ErrorContainer, Loader, Modal, ScrollableJsonContainer, WarningModal } from '@components'
 import { useProofRequest, useResetProofRequest, useStore } from '@hooks'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
+import { CheckMark } from './CheckMark'
+import { ErrorContainer } from './ErrorContainer'
+import { Loader } from './Loader'
+import { Modal } from './Modal'
+import { ScrollableJsonContainer } from './ScrollableJsonContainer'
+import { WarningModal } from './WarningModal'
 
 export function SubmitProofRequest() {
   useResetProofRequest()
