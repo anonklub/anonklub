@@ -37,7 +37,7 @@
     "build": "turbo build _compile",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
     "build.docker.query": "docker build -f query-api/Dockerfile . -t query-api",
-    "build.docker.ui": "docker build --build-arg DISCORD_BOT_URL=$STAGING_DISCORD_BOT_URL --build-arg NEXT_PUBLIC_QUERY_API_URL=$STAGING_QUERY_API_URL --build-arg=NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=$NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID -f ui/Dockerfile . -t anonklub-ui",
+    "build.docker.ui": "docker build -f ui/Dockerfile --build-arg NEXT_PUBLIC_QUERY_API_URL=$QUERY_API_URL . -t anonklub-ui",
     "build.pkgs": "turbo --filter=// --filter='./pkgs/*' build _compile",
     "build.ui": "pnpm --filter @anonklub/ui build",
     "changeset": "changeset",

@@ -8,12 +8,7 @@ allowed_public_ports = []
 auto_rollback = true
 
 [build]
-build-target = 'deploy'
-
-[build.args]
-DISCORD_BOT_URL = 'https://anonklub-discord-bot-staging.fly.dev'
-NEXT_PUBLIC_QUERY_API_URL = 'https://anonset-staging.fly.dev'
-NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID = '15d4c21cb519a86d0a3cdf1114cc56ec'
+build-target = "deploy"
 
 [[services]]
 http_checks = []

@@ -9,9 +9,6 @@ auto_rollback = true
 
 [build.args]
 NEXT_PUBLIC_QUERY_API_URL = 'https://query.anonklub.xyz'
-NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID = '15d4c21cb519a86d0a3cdf1114cc56ec'
-NEXT_PUBLIC_VERIFIER_ADDRESS = '0x893f293e3918a179bf87fb772206e9927db61b0c'
-NEXT_PUBLIC_VERIFIER_CHAIN_ID = '11155111' # sepolia
 
 [[services]]
 http_checks = []

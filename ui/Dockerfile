@@ -14,9 +14,8 @@ RUN  npm i -g pnpm && pnpm i --filter @anonklub/ui
 
 FROM deps as build
 
-ARG DISCORD_BOT_URL
 ARG NEXT_PUBLIC_QUERY_API_URL
-ARG NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
+ARG NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID 15d4c21cb519a86d0a3cdf1114cc56ec
 
 COPY ui/ ./ui
 
@@ -34,6 +33,8 @@ COPY --from=build /app/ui/public ./ui/public
 # see https://github.com/vercel/next.js/issues/25852#issuecomment-1057059000
 RUN ln -s /app/ui/.next/server/chunks/static /app/ui/.next/server/static
 
+ENV AUTH_HEADER_NAME X-API-Key
+ENV DISCORD_BOT_URL https://anonklub-discord-bot-staging.fly.dev
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
