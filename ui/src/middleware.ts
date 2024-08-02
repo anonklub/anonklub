@@ -1,4 +1,4 @@
-import { config as appConfig } from '#'
+import { config as appConfig } from '#/config'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
