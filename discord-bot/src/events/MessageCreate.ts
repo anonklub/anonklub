@@ -1,12 +1,6 @@
 import { config } from '#/config'
+import { info } from '#/logger'
 import { Attachment, Collection, Events, Message, PermissionFlagsBits, TextChannel } from 'discord.js'
-<<<<<<< HEAD
-||||||| parent of 3212585 (refactor: add info logs)
-import { config } from '~'
-=======
-import { config } from '~'
-import { info } from '~/logger'
->>>>>>> 3212585 (refactor: add info logs)
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
 
