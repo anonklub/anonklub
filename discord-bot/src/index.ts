@@ -1,8 +1,8 @@
 import 'init'
+import { info } from '#/logger'
 import { Client } from 'Client'
 import { healthProbe } from 'healthprobe'
 import { Container } from 'typedi'
-import { info } from '~'
 
 healthProbe.listen(3000)
 

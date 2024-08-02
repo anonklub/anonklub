@@ -1,5 +1,6 @@
+import { inVerificationChannel, tryCatchReply } from '#/decorators'
+import { isMatchingCommand } from '#/decorators/isMatchingCommand'
 import { CommandInteraction, SlashCommandBuilder } from 'discord.js'
-import { inVerificationChannel, isMatchingCommand, tryCatchReply } from '~'
 import { _CommandI } from './interface'
 
 export abstract class _Command implements _CommandI {

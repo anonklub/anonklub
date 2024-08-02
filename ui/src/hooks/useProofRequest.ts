@@ -1,8 +1,9 @@
 import { config } from '#'
 import { ProofRequest } from '@anonklub/proof'
-import { useMerkleTreeWasmWorker, useStore } from '@hooks'
 import { useEffect, useState } from 'react'
 import { useAccount, useSignMessage } from 'wagmi'
+import { useMerkleTreeWasmWorker } from './useMerkleTreeWorker'
+import { useStore } from './useStore'
 
 const { message } = config
 

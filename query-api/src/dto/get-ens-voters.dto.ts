@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsDefined, IsIn, IsNumberString, Length } from 'class-validator'
-import type { VoteChoice } from '../repositories'
+import type { VoteChoice } from '../repositories/graph-client/index'
 
 export class GetEnsProposalVotersDto {
   @IsDefined()

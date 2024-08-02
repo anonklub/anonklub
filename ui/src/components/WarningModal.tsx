@@ -1,8 +1,8 @@
 'use client'
 import { modal } from '#'
-import { Text } from '@components'
 import { useStore } from '@hooks'
 import { useRef } from 'react'
+import { Text } from './Text'
 
 export const WarningModal = ({ content }: { content: string[] }) => {
   const ref = useRef<HTMLDialogElement>(null)

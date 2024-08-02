@@ -1,6 +1,7 @@
+import { config } from '#/config'
+import { error, info } from '#/logger'
 import { commands } from 'commands'
 import { Events } from 'discord.js'
-import { config, error, info } from '~'
 import { _Event } from './_Event'
 import { HandledEvent, ListeningMethod } from './interface'
 

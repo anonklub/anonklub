@@ -1,5 +1,5 @@
+import { debug } from '#/logger'
 import { Events } from 'discord.js'
-import { debug } from '~'
 import { _Event } from './_Event'
 import { HandledEvent } from './interface'
 

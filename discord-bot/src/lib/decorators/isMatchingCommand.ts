@@ -1,4 +1,4 @@
-import { _Command } from 'commands/_Command'
+import { _CommandI } from 'commands/interface'
 import { CommandInteraction } from 'discord.js'
 
 export function isMatchingCommand(
@@ -11,7 +11,7 @@ export function isMatchingCommand(
   descriptor.value = async function(
     interaction: CommandInteraction,
   ): Promise<void> {
-    if (interaction.commandName !== (this as _Command).commandBuilder.name)
+    if (interaction.commandName !== (this as _CommandI).commandBuilder.name)
       return
 
     await originalMethod.call(this, interaction)
