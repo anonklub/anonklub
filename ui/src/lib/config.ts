@@ -3,6 +3,10 @@ import { sepolia } from 'wagmi/chains'
 
 interface Config {
   appTitle: string
+  auth: {
+    header: string
+    secret: string
+  }
   chains: Chain[]
   message: string
   proofAttachmentName: string
@@ -29,13 +33,23 @@ if (walletConnectProjectId === '') {
   )
 }
 
-const discordBot = process.env.DISCORD_BOT_URL ?? ''
-if (discordBot === undefined) throw new Error('No DISCORD_BOT_URL provided')
+const AUTH_HEADER_NAME = process.env.AUTH_HEADER_NAME ?? ''
+if (AUTH_HEADER_NAME === '') throw new Error('No AUTH_HEADER_NAME provided')
 
-const queryApi = process.env.NEXT_PUBLIC_QUERY_API_URL
-if (queryApi === undefined) throw new Error('No QUERY_API_URL provided')
+const DISCORD_BOT_API_KEY = process.env.DISCORD_BOT_API_KEY ?? ''
+if (DISCORD_BOT_API_KEY === '') throw new Error('No DISCORD_BOT_API_KEY provided')
+
+const discordBot = process.env.DISCORD_BOT_URL ?? ''
+if (discordBot === '') throw new Error('No DISCORD_BOT_URL provided')
+
+const queryApi = process.env.NEXT_PUBLIC_QUERY_API_URL ?? ''
+if (queryApi === '') throw new Error('No QUERY_API_URL provided')
 
 export const config: Config = {
+  auth: {
+    header: AUTH_HEADER_NAME,
+    secret: DISCORD_BOT_API_KEY,
+  },
   appTitle: 'Anonklub',
   chains: [sepolia],
   message: 'I am generating an anonymous proof of Ethereum address ownership with AnonKlub.',
