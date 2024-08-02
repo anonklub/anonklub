@@ -3,6 +3,14 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
+[build]
+build-target = "deploy"
+
+[env]
+UI_URL = "https://anonklub.xyz"
+VERIFICATION_CHANNEL_ID = 1133394590318202942
+VERIFIED_ROLE_ID = 1130886825087606924
+
 [experimental]
 allowed_public_ports = []
 auto_rollback = true
