@@ -3,12 +3,18 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
-[experimental]
-allowed_public_ports = []
-auto_rollback = true
+[build]
+build-target = "deploy"
 
 [build.args]
 NEXT_PUBLIC_QUERY_API_URL = 'https://query.anonklub.xyz'
+
+[env]
+DISCORD_BOT_URL = "https://anonklub-discord-bot.fly.dev"
+
+[experimental]
+allowed_public_ports = []
+auto_rollback = true
 
 [[services]]
 http_checks = []
