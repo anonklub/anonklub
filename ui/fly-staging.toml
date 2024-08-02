@@ -3,16 +3,15 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
+[build]
+build-target = "deploy"
+
+[env]
+NEXT_PUBLIC_QUERY_API_URL = 'https://anonset-staging.fly.dev'
+
 [experimental]
 allowed_public_ports = []
 auto_rollback = true
-
-[build]
-build-target = 'deploy'
-
-[build.args]
-DISCORD_BOT_URL = 'https://anonklub-discord-bot-staging.fly.dev'
-NEXT_PUBLIC_QUERY_API_URL = 'https://anonset-staging.fly.dev'
 
 [[services]]
 http_checks = []
