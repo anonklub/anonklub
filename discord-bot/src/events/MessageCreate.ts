@@ -25,15 +25,19 @@ export class MessageCreate extends _Event {
     )
 
     info(`Posting ${message.author.username}'s binary proof at ${VERIFICATION_URL} for verification`)
-    const valid = await fetch(VERIFICATION_URL, {
+    const res = await fetch(VERIFICATION_URL, {
       body: proof,
       headers: {
+        [config.auth.header]: config.auth.secret,
         'Content-Type': 'application/octet-stream',
       },
       method: 'POST',
-    }).then(async res => res.json())
+    })
+    const { status, statusText } = res
+    if (status !== 200) throw new Error(`${status} ${statusText}`)
 
-    if (valid) {
+    const valid = await res.json()
+    if (valid === true) {
       if (message.member === null || message.member === undefined)
         throw new Error('No member found')
 
