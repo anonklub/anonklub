@@ -1,3 +1,4 @@
+import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 import type { Chain } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
 
@@ -12,7 +13,6 @@ interface Config {
   proofAttachmentName: string
   typebot: string
   urls: {
-    discordBot: string
     queryApi: string
   }
   walletConnectProjectId: string
@@ -20,30 +20,23 @@ interface Config {
 
 // need to use full reference to process.env, can't destructure or do process.env[name]
 // https://nextjs.org/docs/app/api-reference/next-config-js/env
-const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ''
-if (walletConnectProjectId === '') {
-  // this means next build will fail
-  if (process.env.NEXT_PHASE === 'phase-production-build') {
-    throw new Error(
-      'Missing environment variable NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID',
-    )
-  }
-  console.warn(
-    'Missing environment variable NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID',
-  )
-}
-
 const AUTH_HEADER_NAME = process.env.AUTH_HEADER_NAME ?? ''
-if (AUTH_HEADER_NAME === '') throw new Error('No AUTH_HEADER_NAME provided')
-
 const DISCORD_BOT_API_KEY = process.env.DISCORD_BOT_API_KEY ?? ''
-if (DISCORD_BOT_API_KEY === '') throw new Error('No DISCORD_BOT_API_KEY provided')
+const NEXT_PUBLIC_QUERY_API_URL = process.env.NEXT_PUBLIC_QUERY_API_URL ?? ''
+const NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ''
 
-const discordBot = process.env.DISCORD_BOT_URL ?? ''
-if (discordBot === '') throw new Error('No DISCORD_BOT_URL provided')
-
-const queryApi = process.env.NEXT_PUBLIC_QUERY_API_URL ?? ''
-if (queryApi === '') throw new Error('No QUERY_API_URL provided')
+if (process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD) {
+  for (
+    const [key, value] of Object.entries({
+      AUTH_HEADER_NAME,
+      DISCORD_BOT_API_KEY,
+      NEXT_PUBLIC_QUERY_API_URL,
+      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
+    })
+  ) {
+    if (value === '') throw new Error(`Missing environment variable ${key}`)
+  }
+}
 
 export const config: Config = {
   auth: {
@@ -56,8 +49,7 @@ export const config: Config = {
   proofAttachmentName: 'anonklub-proof.bin',
   typebot: 'anonklub-feedback',
   urls: {
-    discordBot,
-    queryApi,
+    queryApi: NEXT_PUBLIC_QUERY_API_URL,
   },
-  walletConnectProjectId,
+  walletConnectProjectId: NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
 }
