@@ -1,4 +1,5 @@
 import { config } from '#/config'
+import { info } from '#/logger'
 import { ChannelType, CommandInteraction, PermissionsBitField, SlashCommandBuilder } from 'discord.js'
 import { _Command } from './_Command'
 import { CommandName } from './interface'
@@ -10,20 +11,22 @@ export class VerifyCommand extends _Command {
 
   async handleFn(interaction: CommandInteraction): Promise<void> {
     const { username } = interaction.user
+    info(`User ${username} requested verification via /verify command`)
+
     const privateChannel = await this._createPrivateChannel(interaction)
 
     await privateChannel.send({
       content: `
-Hello \`${username}\`,
+Hello **${username}**,
 
 This is a private channel only visible to you, the bot and the server admins.
 
-1. Visit [anonklub.xyz](https://anonklub.xyz) to generate a proof. Upon successful proof generation you'll be able to download two files: \`proof.json\` and \`public.json\`
-2. Upload both \`proof.json\` and \`public.json\` files here in this private thread (plus sign >> upload a file). 
-3. Upon successful verification of your proof you'll be granted the \`verified\` role. 10s later, this private channel and your first message in #verification will be deleted.`,
+1. Visit [anonklub.xyz](https://anonklub.xyz) to generate a proof. Upon successful proof generation you'll be able to download an \`${config.proofAttachmentName}\` file.
+2. Upload \`${config.proofAttachmentName}\` here in this private thread (plus sign >> upload a file).
+3. Upon successful verification of your proof you'll be granted the *verified* role. 10s later, this private channel and your first message in <#${config.VERIFICATION_CHANNEL_ID}> will be deleted.`,
     })
     await interaction.reply({
-      content: `Hello \`${username}\`, please check #private-verify-${username} for further instructions.`,
+      content: `Hello **${username}**, please check <#${privateChannel.id}> for further instructions.`,
     })
   }
 

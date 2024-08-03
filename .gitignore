@@ -32,6 +32,7 @@ circuits/circom/package-lock.json
 
 addresses.json
 !pkgs/cli/tests/fixtures/addresses.json
+anonklub-proof.bin
 
 *.zkey
 
