@@ -26,7 +26,7 @@ const isServerSideEnvVar = (key: string) => !isClientEnvVar(key) && !isClientSid
 function isEnvVarDefined(key: string, value: unknown) {
   if (
     value === ''
-    && process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD && (isClientSideEnvVar(key) || isServerSideEnvVar(key))
+    && (isClientSideEnvVar(key) || isServerSideEnvVar(key))
   ) {
     throw new Error(`Missing environment variable ${key}`)
   }
