@@ -6,14 +6,14 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   reactStrictMode: true,
-  // TODO: instead on soft linking files with a script and Dockerfile, do like https://github.com/chungwu/combat-lander/commit/a22a0d2b302b623696b3e95d85566d3a7f1f6e3b
-  webpack: (config, options) => {
-    if (!options.isServer) {
-      config.resolve.fallback.fs = false
-      config.resolve.fallback.readline = false
-    }
+  // https://github.com/chungwu/combat-lander/commit/a22a0d2b302b623696b3e95d85566d3a7f1f6e3b
+  webpack: (config, { isServer }) => {
     config.experiments = { asyncWebAssembly: true, layers: true }
 
+    if (isServer)
+      config.output.webassemblyModuleFilename = './../static/wasm/[modulehash].wasm'
+    else
+      config.output.webassemblyModuleFilename = 'static/wasm/[modulehash].wasm'
     return config
   },
 }
