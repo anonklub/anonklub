@@ -18,29 +18,37 @@ interface Config {
   walletConnectProjectId: string
 }
 
-// need to use full reference to process.env, can't destructure or do process.env[name]
-// https://nextjs.org/docs/app/api-reference/next-config-js/env
-const AUTH_HEADER_NAME = process.env.AUTH_HEADER_NAME ?? ''
+const isClientSide = () => typeof window !== 'undefined'
+const isClientEnvVar = (key: string) => key.startsWith('NEXT_PUBLIC_')
+const isClientSideEnvVar = (key: string) => isClientEnvVar(key) && isClientSide()
+const isServerSideEnvVar = (key: string) => !isClientEnvVar(key) && !isClientSide()
+
+function isEnvVarDefined(key: string, value: unknown) {
+  if (
+    value === ''
+    && process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD && (isClientSideEnvVar(key) || isServerSideEnvVar(key))
+  ) {
+    throw new Error(`Missing environment variable ${key}`)
+  }
+}
+
 const DISCORD_BOT_API_KEY = process.env.DISCORD_BOT_API_KEY ?? ''
-const NEXT_PUBLIC_QUERY_API_URL = process.env.NEXT_PUBLIC_QUERY_API_URL ?? ''
-const NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ''
+// do no destructure next public env vars or use variables to reference them
+// https://nextjs.org/docs/app/api-reference/next-config-js/env
 
 if (process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD) {
   for (
     const [key, value] of Object.entries({
-      AUTH_HEADER_NAME,
       DISCORD_BOT_API_KEY,
-      NEXT_PUBLIC_QUERY_API_URL,
-      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
+      NEXT_PUBLIC_QUERY_API_URL: process.env.NEXT_PUBLIC_QUERY_API_URL ?? '',
+      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? '',
     })
-  ) {
-    if (value === '') throw new Error(`Missing environment variable ${key}`)
-  }
+  ) { isEnvVarDefined(key, value) }
 }
 
 export const config: Config = {
   auth: {
-    header: AUTH_HEADER_NAME,
+    header: 'X-API-Key',
     secret: DISCORD_BOT_API_KEY,
   },
   appTitle: 'Anonklub',
@@ -49,7 +57,9 @@ export const config: Config = {
   proofAttachmentName: 'anonklub-proof.bin',
   typebot: 'anonklub-feedback',
   urls: {
-    queryApi: NEXT_PUBLIC_QUERY_API_URL,
+    // @ts-expect-error already checked against undefined
+    queryApi: process.env.NEXT_PUBLIC_QUERY_API_URL,
   },
-  walletConnectProjectId: NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
+  // @ts-expect-error already checked against undefined
+  walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
 }
