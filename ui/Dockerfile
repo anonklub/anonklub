@@ -17,7 +17,7 @@ FROM deps as build
 COPY ui/ ./ui
 
 ARG NEXT_PUBLIC_QUERY_API_URL
-ARG NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID 15d4c21cb519a86d0a3cdf1114cc56ec
+ARG NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=15d4c21cb519a86d0a3cdf1114cc56ec
 
 RUN pnpm --filter @anonklub/ui build &&\
     rm -rf {./,ui}/node_modules &&\
