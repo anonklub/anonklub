@@ -142,9 +142,7 @@ pub fn prove_membership(
 
     log("Starting circuit verification");
 
-    circuit
-        .verify_membership()
-        .expect("The circuit failed to verify signature!");
+    circuit.verify_membership();
     log("Circuit verification successful");
 
     // Generate proof

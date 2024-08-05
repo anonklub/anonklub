@@ -346,7 +346,7 @@ where
         )
     }
 
-    pub fn verify_membership(&mut self) -> Result<()> {
+    pub fn verify_membership(&mut self) {
         // Initialize Poseidon
         let poseidon_hasher = self.initialize_poseidon_hasher();
 
@@ -385,8 +385,6 @@ where
             &siblings,
             &path_indices,
         );
-
-        Ok(())
     }
 }
 

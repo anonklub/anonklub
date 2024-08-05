@@ -25,11 +25,7 @@ where
 {
     log_message("Starting circuit verification");
 
-    circuit
-        .verify_membership()
-        .map_err(|e| anyhow!(e))
-        .context("The circuit failed to verify signature!")?;
-
+    circuit.verify_membership();
     log_message("Circuit verification successful");
 
     // Generate proof

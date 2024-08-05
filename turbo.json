@@ -18,11 +18,15 @@
     },
     "format.cargo": {
       "cache": false,
-      "inputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs"]
+      "inputs": [
+        "pkgs/{merkle-tree-wasm,spartan-ecdsa-wasm,halo2-binary-merkle-tree,halo2-eth-membership}/src/**/*.rs"
+      ]
     },
     "format.cargo.fix": {
       "cache": false,
-      "inputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs"]
+      "inputs": [
+        "pkgs/{merkle-tree-wasm,spartan-ecdsa-wasm,halo2-binary-merkle-tree,halo2-eth-membership}/src/**/*.rs"
+      ]
     },
     "format.forge": {
       "cache": false,
@@ -57,11 +61,15 @@
     },
     "lint.cargo": {
       "cache": false,
-      "inputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs"]
+      "inputs": [
+        "pkgs/{merkle-tree-wasm,spartan-ecdsa-wasm,halo2-binary-merkle-tree,halo2-eth-membership}/src/**/*.rs"
+      ]
     },
     "lint.cargo.fix": {
       "cache": false,
-      "inputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs"]
+      "inputs": [
+        "pkgs/{merkle-tree-wasm,spartan-ecdsa-wasm,halo2-binary-merkle-tree,halo2-eth-membership}/src/**/*.rs"
+      ]
     },
     "//#lint.biome": {
       "inputs": [
@@ -95,7 +103,11 @@
       "outputs": ["src/repositories/graph-client/.graphclient/**"]
     },
     "//#_compile": {
-      "outputs": ["pkgs/{merkle-tree,spartan-ecdsa}-wasm/dist/**"]
+      "outputs": [
+        "pkgs/{merkle-tree-wasm,spartan-ecdsa-wasm}-wasm/dist/**",
+        "pkgs/halo2-{binary-merkle-tree,eth-membership}/dist/**",
+        "pkgs/halo2-{binary-merkle-tree,eth-membership}-worker/dist/**"
+      ]
     },
     "//#test.jest": {
       "dependsOn": ["^build"],
