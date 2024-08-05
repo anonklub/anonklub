@@ -30,8 +30,8 @@ COPY --from=build /app/ui/node_modules ./ui/node_modules
 COPY --from=build /app/ui/.next ./ui/.next
 COPY --from=build /app/ui/public ./ui/public
 
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 
 EXPOSE 3000
 

@@ -34,8 +34,8 @@ COPY --from=build /app/$DIR/node_modules ./$DIR/node_modules
 COPY --from=build /app/$DIR/package.json ./$DIR/
 COPY --from=build /app/$DIR/dist ./$DIR/dist
 
-ENV NODE_ENV production
-ENV NODE_PATH dist
+ENV NODE_ENV=production
+ENV NODE_PATH=dist
 WORKDIR /app/$DIR
 
 # https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/
