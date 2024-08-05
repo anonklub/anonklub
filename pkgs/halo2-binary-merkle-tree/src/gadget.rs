@@ -1,9 +1,22 @@
+use gloo_utils::format::JsValueSerdeExt;
 use halo2_base::{
     gates::{GateChip, GateInstructions},
     poseidon::hasher::PoseidonHasher,
     utils::BigPrimeField,
     AssignedValue, Context,
 };
+use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+}
+
+fn log_jsvalue(value: &impl serde::Serialize) {
+    let js_value = JsValue::from_serde(value).unwrap();
+    log(&format!("{:?}", js_value));
+}
 
 /// @src https://github.com/aerius-labs/zksnap-circuits-halo2/tree/ffa3f7e3c1102deb78520015c02342fda5e0c630/voter/src/merkletree
 fn dual_mux<F: BigPrimeField>(
@@ -39,6 +52,10 @@ pub fn verify_merkle_proof<F: BigPrimeField, const T: usize, const RATE: usize>(
         let inp = dual_mux(ctx, gate, &computed_root, sibling, path_index);
         computed_root = hasher.hash_fix_len_array(ctx, gate, &inp);
     }
+
+    let computed_root_hex = hex::encode(computed_root.value().to_bytes_le());
+    log("computed_root_hex");
+    log_jsvalue(&computed_root_hex);
 
     ctx.constrain_equal(&computed_root, root)
 }

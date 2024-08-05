@@ -4,6 +4,7 @@ use ark_ff::{BigInteger, Field, PrimeField};
 use ark_secp256k1::Affine;
 use ark_secp256k1::Fq;
 use ark_secp256k1::Fr;
+use ethers::types::U256;
 use num_bigint::BigUint;
 use sapir::wasm::prelude::*;
 
@@ -12,7 +13,8 @@ use sapir::wasm::prelude::*;
 pub fn from_x(x: Fq, is_y_odd: bool) -> Affine {
     let y_squared = x * x * x + Fq::from(7u32);
     let y = y_squared.sqrt().unwrap();
-    if y.into_bigint().to_bits_le()[0] != is_y_odd {
+    let is_y_odd_value = y.into_bigint().to_bits_le()[0];
+    if is_y_odd_value != is_y_odd {
         Affine::new(x, y)
     } else {
         Affine::new(x, -y)
@@ -142,6 +144,8 @@ pub mod test_utils {
 
 #[cfg(test)]
 mod tests {
+    use ethers::types::U256;
+
     use crate::utils::test_utils::mock_eff_ecdsa_input;
 
     use super::*;
@@ -154,5 +158,40 @@ mod tests {
         let recovered_pubkey =
             ((mock_eff_ecdsa.t * mock_eff_ecdsa.s).into_affine() + mock_eff_ecdsa.u).into_affine();
         assert_eq!(recovered_pubkey, mock_eff_ecdsa.pub_key);
+    }
+
+    #[test]
+    fn test_eff_ecdsa_mock() {
+        let msg_hash: &[u8] = &[
+            22, 135, 10, 17, 137, 45, 126, 150, 177, 100, 58, 95, 81, 26, 192, 27, 9, 169, 9, 251,
+            145, 253, 126, 58, 48, 123, 123, 33, 178, 58, 12, 67,
+        ];
+        let msg_hash_biguint = BigUint::from_bytes_be(msg_hash);
+        let r_hex = U256::from_str_radix(
+            "0x50b2d094f8f3cda8c57ef4f82988bbe84a7dd6ee1cd4c641389ecadc7b285bb5",
+            16,
+        )
+        .expect("Failed to convert r_hex");
+        let s_hex = U256::from_str_radix(
+            "0x4e2c21653c6bb5cc88c7d76da422dcc7b3a271ab783c70f324ec8462afd5a54a",
+            16,
+        )
+        .expect("Failed to convert s_hex");
+
+        let mut r_be_bytes = [0u8; 32];
+        r_hex.to_big_endian(&mut r_be_bytes);
+
+        let mut s_be_bytes = [0u8; 32];
+        s_hex.to_big_endian(&mut s_be_bytes);
+
+        let s = Fr::from(BigUint::from_bytes_be(&s_be_bytes));
+        let r = Fq::from(BigUint::from_bytes_be(&r_be_bytes));
+
+        let (u, t) = efficient_ecdsa(msg_hash_biguint.clone(), r, false);
+
+        // s * T + U = pubkey
+        let recovered_pubkey = ((t * s).into_affine() + u).into_affine();
+
+        print!("Help")
     }
 }

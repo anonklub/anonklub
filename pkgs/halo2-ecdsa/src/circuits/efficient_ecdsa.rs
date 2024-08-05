@@ -127,7 +127,7 @@ where
         fq_chip.load_private(ctx, self.eff_ecdsa_inputs.s)
     }
 
-    fn load_instances(&mut self) -> (Point<CF>, Point<CF>) {
+    fn load_instances(&mut self) -> (Point<F, CF>, Point<F, CF>) {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
@@ -175,11 +175,11 @@ where
 
     pub fn recover_pk_efficient(
         &self,
-        T: Point<CF>,
-        U: Point<CF>,
+        T: Point<F, CF>,
+        U: Point<F, CF>,
         s: ProperCrtUint<F>,
         fixed_window_bits: usize,
-    ) -> Point<CF> {
+    ) -> Point<F, CF> {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 

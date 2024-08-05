@@ -4,22 +4,22 @@ use halo2_base::{
     Context,
 };
 use halo2_ecc::{bigint::ProperCrtUint, ecc::EccChip, fields::FieldChip};
-use halo2_wasm_ext::consts::F;
 
 pub mod efficient_ecdsa;
 
 #[allow(clippy::too_many_arguments)]
-pub fn recover_pk_efficient<'a, CF, SF, GA>(
+pub fn recover_pk_efficient<'a, F, CF, SF, GA>(
     base_chip: &'a FpChip<'a, F, CF>,
     scalar_chip: &'a FqChip<'a, F, SF>,
     ecc_chip: &'a EccChip<'a, F, FpChip<'a, F, CF>>,
     ctx: &'a mut Context<F>,
     s: ProperCrtUint<F>,
-    T: Point<'a, CF>,
-    U: Point<'a, CF>,
+    T: Point<'a, F, CF>,
+    U: Point<'a, F, CF>,
     fixed_window_bits: usize,
-) -> Point<'a, CF>
+) -> Point<'a, F, CF>
 where
+    F: BigPrimeField,
     CF: BigPrimeField,
     SF: BigPrimeField,
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,

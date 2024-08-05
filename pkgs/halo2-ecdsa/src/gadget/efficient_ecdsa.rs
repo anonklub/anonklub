@@ -38,8 +38,9 @@ where
     }
 }
 
-pub struct EfficientECDSA<'a, CF, SF, GA>
+pub struct EfficientECDSA<'a, F, CF, SF, GA>
 where
+    F: BigPrimeField,
     CF: BigPrimeField,
     SF: BigPrimeField,
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
@@ -47,13 +48,11 @@ where
     pub instances: Vec<u32>,
     efficient_ecdsa_inputs: EfficientECDSAInputs<CF, SF, GA>,
     range_chip: &'a RangeChip<F>,
-    _CF_marker: PhantomData<CF>,
-    _SF_marker: PhantomData<SF>,
-    _GA_marker: PhantomData<GA>,
 }
 
-impl<'a, CF, SF, GA> EfficientECDSA<'a, CF, SF, GA>
+impl<'a, CF, SF, GA> EfficientECDSA<'a, F, CF, SF, GA>
 where
+    F: BigPrimeField,
     CF: BigPrimeField,
     SF: BigPrimeField,
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
@@ -66,9 +65,6 @@ where
             instances: vec![],
             efficient_ecdsa_inputs,
             range_chip,
-            _CF_marker: PhantomData,
-            _SF_marker: PhantomData,
-            _GA_marker: PhantomData,
         })
     }
 
@@ -94,7 +90,7 @@ where
         fq_chip.load_private(ctx, self.efficient_ecdsa_inputs.s)
     }
 
-    fn load_instances(&mut self, ctx: &mut Context<F>) -> (Point<CF>, Point<CF>) {
+    fn load_instances(&mut self, ctx: &mut Context<F>) -> (Point<F, CF>, Point<F, CF>) {
         // Get BaseField chip
         let fp_chip = self.ecc_fp_chip();
         let ecc_chip = self.ecc_chip(&fp_chip);
@@ -137,7 +133,7 @@ where
         precompile_ec_points
     }
 
-    pub fn recover_pk_efficient(&mut self, ctx: &mut Context<F>) -> Point<CF> {
+    pub fn recover_pk_efficient(&mut self, ctx: &mut Context<F>) -> Point<F, CF> {
         let s = self.load_private(ctx);
 
         // Load T and U as constants in the base field

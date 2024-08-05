@@ -13,7 +13,7 @@ crate-type = ["cdylib"]
 [dependencies]
 halo2-ecc = { version = "0.4.1", default-features = false, features = ["halo2-axiom"] }
 halo2-base = { version = "0.4.1", default-features = false, features = ["halo2-axiom"] }
-halo2-wasm = { version = "0.3.4",default-features = false }
+halo2-wasm = { version = "0.3.4" }
 halo2-wasm-ext = { path = "../halo2-wasm-ext" }
 halo2-ecdsa = { path = "../halo2-ecdsa" }
 halo2-binary-merkle-tree = { path = "../halo2-binary-merkle-tree" }
@@ -36,6 +36,14 @@ snark-verifier-sdk = { version = "0.1.7", default-features = false, features = [
 # snark-verifier-sdk = { git = "https://github.com/axiom-crypto/snark-verifier.git", branch = "main", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
 snark-verifier = { version = "0.1.7", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
 # snark-verifier = { git = "https://github.com/axiom-crypto/snark-verifier.git", branch = "main", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
+tiny-keccak = "2.0"
+
+log = "0.4"
+console_log = "0.2"
+gloo-utils = "0.2"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"
 
 [features]
 default=["rayon"]

@@ -14,7 +14,7 @@ pub type FpChip<'range, F, CF> = fp::FpChip<'range, F, CF>;
 pub type FqChip<'range, F, SF> = fp::FpChip<'range, F, SF>;
 
 // EcPoint
-pub type Point<'a, CF> = EcPoint<F, <FpChip<'a, F, CF> as FieldChip<F>>::FieldPoint>;
+pub type Point<'a, F, CF> = EcPoint<F, <FpChip<'a, F, CF> as FieldChip<F>>::FieldPoint>;
 
 pub const LIMB_BITS: usize = 88;
 pub const NUM_LIMBS: usize = 3;
