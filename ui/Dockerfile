@@ -16,6 +16,9 @@ FROM deps as build
 
 COPY ui/ ./ui
 
+ARG NEXT_PUBLIC_QUERY_API_URL
+ARG NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID 15d4c21cb519a86d0a3cdf1114cc56ec
+
 RUN pnpm --filter @anonklub/ui build &&\
     rm -rf {./,ui}/node_modules &&\
     pnpm --filter @anonklub/ui i --prod
@@ -27,7 +30,6 @@ COPY --from=build /app/ui/node_modules ./ui/node_modules
 COPY --from=build /app/ui/.next ./ui/.next
 COPY --from=build /app/ui/public ./ui/public
 
-ENV NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID 15d4c21cb519a86d0a3cdf1114cc56ec
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production
 

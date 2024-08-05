@@ -33,15 +33,17 @@ function isEnvVarDefined(key: string, value: unknown) {
 }
 
 const DISCORD_BOT_API_KEY = process.env.DISCORD_BOT_API_KEY ?? ''
-// do no destructure next public env vars or use variables to reference them
+// do no destructure next public env vars
 // https://nextjs.org/docs/app/api-reference/next-config-js/env
+const NEXT_PUBLIC_QUERY_API_URL = process.env.NEXT_PUBLIC_QUERY_API_URL ?? ''
+const NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? ''
 
 if (process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD) {
   for (
     const [key, value] of Object.entries({
       DISCORD_BOT_API_KEY,
-      NEXT_PUBLIC_QUERY_API_URL: process.env.NEXT_PUBLIC_QUERY_API_URL ?? '',
-      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ?? '',
+      NEXT_PUBLIC_QUERY_API_URL,
+      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
     })
   ) { isEnvVarDefined(key, value) }
 }
@@ -57,9 +59,7 @@ export const config: Config = {
   proofAttachmentName: 'anonklub-proof.bin',
   typebot: 'anonklub-feedback',
   urls: {
-    // @ts-expect-error already checked against undefined
-    queryApi: process.env.NEXT_PUBLIC_QUERY_API_URL,
+    queryApi: NEXT_PUBLIC_QUERY_API_URL,
   },
-  // @ts-expect-error already checked against undefined
-  walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
+  walletConnectProjectId: NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
 }
