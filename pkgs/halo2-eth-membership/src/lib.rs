@@ -246,10 +246,7 @@ mod tests {
         let instances = circuit.instances.clone();
         set_instances(&mut halo2_wasm, instances.clone(), INSTANCE_COL);
 
-        circuit
-            .verify_membership()
-            .map_err(|e| anyhow!(e))
-            .context("The circuit failed to verify signature!")?;
+        circuit.verify_membership();
 
         halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
         halo2_wasm.assign_instances();

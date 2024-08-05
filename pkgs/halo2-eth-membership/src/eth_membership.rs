@@ -711,10 +711,7 @@ mod tests {
                 eth_membership_inputs,
             )?;
 
-        circuit
-            .verify_membership()
-            .map_err(|e| anyhow!(e))
-            .context("The circuit failed to verify signature!")?;
+        circuit.verify_membership();
 
         halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
         halo2_wasm.assign_instances();
@@ -755,10 +752,7 @@ mod tests {
                 eth_membership_inputs,
             )?;
 
-        circuit
-            .verify_membership()
-            .map_err(|e| anyhow!(e))
-            .context("The circuit failed to verify signature!")?;
+        circuit.verify_membership();
 
         halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
 
@@ -903,10 +897,7 @@ mod tests {
                 eth_membership_inputs,
             )?;
 
-        circuit
-            .verify_membership()
-            .map_err(|e| anyhow!(e))
-            .context("The circuit failed to verify signature!")?;
+        circuit.verify_membership();
 
         halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
 
@@ -976,10 +967,7 @@ mod tests {
                 eth_membership_inputs,
             )?;
 
-        circuit
-            .verify_membership()
-            .map_err(|e| anyhow!(e))
-            .context("The circuit failed to verify signature!")?;
+        circuit.verify_membership();
 
         let params = ParamsKZG::<E>::setup(K, OsRng);
 
