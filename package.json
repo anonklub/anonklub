@@ -49,7 +49,7 @@
     "knip": "knip -c .knip.ts --production --strict",
     "lint": "turbo lint.cargo lint.biome lint.solhint",
     "lint.biome": "biome lint --config-path=.biome.jsonc --max-diagnostics 200 . --no-errors-on-unmatched",
-    "lint.biome.fix": "biome lint --config-path-.biome.jsonc --write --max-diagnostics 200 .",
+    "lint.biome.fix": "biome lint --config-path=.biome.jsonc --write --max-diagnostics 200 .",
     "lint.cargo.fix": "turbo lint.cargo.fix",
     "lint.fix": "turbo lint.cargo.fix lint.biome.fix lint.solhint.fix",
     "publish.pkgs": "pnpm build.pkgs && changeset version && changeset publish",
