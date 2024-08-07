@@ -2,13 +2,13 @@
 resolver = "2"
 default-members = ["pkgs/cli"]
 members = [
-    "pkgs/cli",
-    "pkgs/merkle-tree-wasm",
-    "pkgs/binary-merkle-tree-halo2",
-    "pkgs/spartan-ecdsa-wasm", 
-    "pkgs/halo2wrong-ecdsa", 
-    "pkgs/halo2-ecdsa",
-    "pkgs/halo2-binary-merkle-tree"
+  "pkgs/binary-merkle-tree-halo2",
+  "pkgs/cli",
+  "pkgs/halo2-binary-merkle-tree",
+  "pkgs/halo2-ecdsa",
+  "pkgs/halo2wrong-ecdsa",
+  "pkgs/merkle-tree-wasm",
+  "pkgs/spartan-ecdsa-wasm",
 ]
 
 [profile.release]

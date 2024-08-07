@@ -1,7 +1,10 @@
 use std::{fs::File, io::Cursor};
 
 use anyhow::{anyhow, Context, Result};
-use halo2_base::halo2_proofs::{halo2curves::secp256k1, poly::{commitment::Params, kzg::commitment::ParamsKZG}};
+use halo2_base::halo2_proofs::{
+    halo2curves::secp256k1,
+    poly::{commitment::Params, kzg::commitment::ParamsKZG},
+};
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
 use num_bigint::BigUint;
 use rand_core::OsRng;
