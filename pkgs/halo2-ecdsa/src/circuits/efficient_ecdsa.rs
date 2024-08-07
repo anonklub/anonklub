@@ -12,12 +12,14 @@ use halo2_ecc::{
 use halo2_wasm::Halo2Wasm;
 use std::{cell::RefCell, marker::PhantomData, rc::Rc};
 
-use crate::consts::{FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS};
+use crate::utils::consts::{
+    FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS,
+};
 
 // CF is the coordinate field of GA
 // SF is the scalar field of GA
 #[derive(Debug)]
-pub struct EffECDSAInputs<CF, SF, GA>
+pub struct EfficientECDSAInputs<CF, SF, GA>
 where
     CF: BigPrimeField,
     SF: BigPrimeField,
@@ -28,7 +30,7 @@ where
     U: GA,
 }
 
-impl<CF, SF, GA> EffECDSAInputs<CF, SF, GA>
+impl<CF, SF, GA> EfficientECDSAInputs<CF, SF, GA>
 where
     CF: BigPrimeField,
     SF: BigPrimeField,
@@ -39,14 +41,14 @@ where
     }
 }
 
-pub struct EffECDSAVerifyCircuit<CF, SF, GA>
+pub struct EfficientECDSACircuit<CF, SF, GA>
 where
     CF: BigPrimeField,
     SF: BigPrimeField,
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
     pub instances: Vec<u32>,
-    eff_ecdsa_inputs: EffECDSAInputs<CF, SF, GA>,
+    eff_ecdsa_inputs: EfficientECDSAInputs<CF, SF, GA>,
     range_chip: RangeChip<F>,
     builder: Rc<RefCell<BaseCircuitBuilder<F>>>,
     _CF_marker: PhantomData<CF>,
@@ -54,7 +56,7 @@ where
     _GA_marker: PhantomData<GA>,
 }
 
-impl<CF, SF, GA> EffECDSAVerifyCircuit<CF, SF, GA>
+impl<CF, SF, GA> EfficientECDSACircuit<CF, SF, GA>
 where
     CF: BigPrimeField,
     SF: BigPrimeField,
@@ -62,9 +64,9 @@ where
 {
     pub fn new(
         halo2_wasm: &Halo2Wasm,
-        eff_ecdsa_inputs: EffECDSAInputs<CF, SF, GA>,
+        eff_ecdsa_inputs: EfficientECDSAInputs<CF, SF, GA>,
     ) -> Result<Self> {
-        let eff_ecdsa_inputs = EffECDSAInputs {
+        let eff_ecdsa_inputs = EfficientECDSAInputs {
             s: eff_ecdsa_inputs.s,
             T: eff_ecdsa_inputs.T,
             U: eff_ecdsa_inputs.U,
@@ -89,7 +91,7 @@ where
                 .clone(),
         );
 
-        Ok(EffECDSAVerifyCircuit {
+        Ok(EfficientECDSACircuit {
             instances: vec![],
             eff_ecdsa_inputs,
             range_chip,
@@ -176,7 +178,7 @@ where
         precompile_ec_points
     }
 
-    fn recover_pk_eff(
+    pub fn recover_pk_efficient(
         &self,
         T: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
         U: EcPoint<F, <FpChip<F, CF> as FieldChip<F>>::FieldPoint>,
@@ -208,10 +210,6 @@ where
         );
 
         // s_mul_t + U = pk
-
-        // Check pk equals recovered_pk
-        //ecc_chip.assert_equal(ctx, pk, recovered_pk.clone());
-
         ecc_chip.add_unequal(ctx, &s_mul_t, &U, false)
     }
 
@@ -222,7 +220,7 @@ where
         let (T, U) = self.load_instances();
 
         // Recover pk from precomputed T and U.
-        self.recover_pk_eff(T, U, s, FIXED_WINDOW_BITS);
+        self.recover_pk_efficient(T, U, s, FIXED_WINDOW_BITS);
 
         Ok(())
     }
@@ -230,12 +228,6 @@ where
 
 #[cfg(test)]
 mod tests {
-    use super::{EffECDSAInputs, EffECDSAVerifyCircuit};
-    use crate::consts::E;
-
-    use crate::halo2_ext::Halo2WasmExt;
-    use crate::utils::{serialize_params_to_bytes, verify_eff_ecdsa};
-    use crate::{recovery::recover_pk_eff, utils::ct_option_ok_or};
     use anyhow::{anyhow, Ok};
     use anyhow::{Context, Result};
     use ethers::{
@@ -246,7 +238,6 @@ mod tests {
         signers::Wallet,
         utils::hash_message,
     };
-    use halo2_base::utils::CurveAffineExt;
     use halo2_base::{
         halo2_proofs::{
             arithmetic::{CurveAffine, Field},
@@ -262,6 +253,15 @@ mod tests {
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
     use std::{fs::File, time::Instant};
+
+    use crate::utils::consts::E;
+    use crate::utils::ct_option_ok_or;
+    use crate::utils::halo2_ext::Halo2WasmExt;
+    use crate::utils::halo2_utils::serialize_params_to_bytes;
+    use crate::utils::recovery::recover_pk_efficient;
+    use crate::utils::verify::verify_efficient_ecdsa;
+
+    use super::{EfficientECDSACircuit, EfficientECDSAInputs};
 
     const K: u32 = 15;
     const PRIV_KEY: u64 = 42;
@@ -288,7 +288,7 @@ mod tests {
     fn random_ecdsa_input(
         rng: &mut StdRng,
     ) -> Result<(
-        EffECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>,
+        EfficientECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>,
         TestInputs,
     )> {
         let g = Secp256k1Affine::generator();
@@ -322,12 +322,12 @@ mod tests {
         let msg_hash = BigUint::from_bytes_le(&msg_hash.to_bytes_le());
 
         // Precompile T and U
-        let (U, T) = recover_pk_eff(msg_hash.clone(), r, is_y_odd)
+        let (U, T) = recover_pk_efficient(msg_hash.clone(), r, is_y_odd)
             .map_err(|e| anyhow!(e))
             .context("Failed to compute random based efficient ECDSA!")?;
 
         Ok((
-            EffECDSAInputs { s, T, U },
+            EfficientECDSAInputs { s, T, U },
             TestInputs {
                 r,
                 msg_hash,
@@ -340,7 +340,7 @@ mod tests {
     fn mock_eff_ecdsa_input(
         priv_key: u64,
     ) -> Result<(
-        EffECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>,
+        EfficientECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>,
         TestInputs,
     )> {
         let signing_key = SigningKey::from(SecretKey::new(ScalarPrimitive::from(priv_key)));
@@ -370,12 +370,12 @@ mod tests {
             anyhow!("Failed to convert s into Fq."),
         )?;
 
-        let (U, T) = recover_pk_eff(msg_hash.clone(), r, is_y_odd)
+        let (U, T) = recover_pk_efficient(msg_hash.clone(), r, is_y_odd)
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA!")?;
 
         Ok((
-            EffECDSAInputs { s, T, U },
+            EfficientECDSAInputs { s, T, U },
             TestInputs {
                 r,
                 msg_hash,
@@ -404,7 +404,7 @@ mod tests {
         halo2_wasm.config(circuit_params);
 
         let mut circuit =
-            EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+            EfficientECDSACircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
                 &halo2_wasm,
                 ecdsa_inputs,
             )?;
@@ -441,7 +441,7 @@ mod tests {
         halo2_wasm.config(circuit_params);
 
         let mut circuit =
-            EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+            EfficientECDSACircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
                 &halo2_wasm,
                 ecdsa_inputs,
             )?;
@@ -463,7 +463,7 @@ mod tests {
         // Verify Eff ECDSA
         println!("Verifying Eff ECDSA Proof");
 
-        let is_eff_ecdsa_valid = verify_eff_ecdsa(
+        let is_eff_ecdsa_valid = verify_efficient_ecdsa(
             test_inputs.msg_hash,
             test_inputs.r,
             test_inputs.is_y_odd,
@@ -493,7 +493,7 @@ mod tests {
         halo2_wasm.config(circuit_params);
 
         let mut circuit =
-            EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+            EfficientECDSACircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
                 &halo2_wasm,
                 ecdsa_inputs,
             )?;
@@ -538,7 +538,7 @@ mod tests {
         // Verify Eff ECDSA
         println!("Verifying Eff ECDSA Proof");
 
-        let is_eff_ecdsa_valid = verify_eff_ecdsa(
+        let is_eff_ecdsa_valid = verify_efficient_ecdsa(
             test_inputs.msg_hash,
             test_inputs.r,
             test_inputs.is_y_odd,
@@ -575,7 +575,7 @@ mod tests {
         halo2_wasm.config(circuit_params);
 
         let mut circuit =
-            EffECDSAVerifyCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+            EfficientECDSACircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
                 &halo2_wasm,
                 ecdsa_inputs,
             )?;
@@ -604,7 +604,7 @@ mod tests {
         // Verify Eff ECDSA
         println!("Verifying Eff ECDSA Proof");
 
-        let is_eff_ecdsa_valid = verify_eff_ecdsa(
+        let is_eff_ecdsa_valid = verify_efficient_ecdsa(
             test_inputs.msg_hash,
             test_inputs.r,
             test_inputs.is_y_odd,

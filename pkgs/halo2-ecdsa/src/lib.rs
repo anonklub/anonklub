@@ -1,18 +1,18 @@
 #![allow(non_snake_case)]
 use anyhow::{anyhow, Context, Ok, Result};
-use consts::{INSTANCE_COL, K};
 use halo2_base::{halo2_proofs::halo2curves::secp256k1, utils::ScalarField};
-use halo2_ext::Halo2WasmExt;
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, Halo2Wasm};
 use num_bigint::BigUint;
 use serde::{Deserialize, Serialize};
-use utils::{configure_halo2_wasm, create_circuit, gen_params, generate_proof, verify_eff_ecdsa};
+use utils::{
+    consts::{INSTANCE_COL, K},
+    halo2_ext::Halo2WasmExt,
+    halo2_utils::{configure_halo2_wasm, create_circuit, gen_params},
+    prove::generate_proof,
+    verify::verify_efficient_ecdsa,
+};
 
-pub(crate) mod consts;
-pub mod ecdsa;
-pub mod eff_ecdsa;
-pub(crate) mod halo2_ext;
-pub mod recovery;
+pub mod circuits;
 pub(crate) mod utils;
 
 // `AnonklubProof` consists of a Halo2 proof
@@ -106,7 +106,7 @@ pub fn verify_membership(membership_proof: &[u8], instances: &[u8]) -> Result<bo
     // Verifications
     let is_proof_valid = halo2_wasm.verify_ext(instances, &proof, params)?;
 
-    let is_eff_ecdsa_valid = verify_eff_ecdsa(msg_hash, r, is_y_odd, instances)?;
+    let is_eff_ecdsa_valid = verify_efficient_ecdsa(msg_hash, r, is_y_odd, instances)?;
 
     Ok(is_proof_valid && is_eff_ecdsa_valid)
 }

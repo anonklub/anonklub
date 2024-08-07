@@ -1,5 +1,5 @@
-#[warn(non_camel_case_types)]
-#[warn(dead_code)]
+#![allow(non_camel_case_types)]
+#![allow(dead_code)]
 use halo2_base::halo2_proofs::halo2curves::{
     bn256::{self, Bn256, G1Affine},
     secp256k1,

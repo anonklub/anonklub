@@ -2468,6 +2468,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "halo2-binary-merkle-tree"
+version = "1.1.1"
+dependencies = [
+ "anyhow",
+ "ark-std 0.4.0",
+ "bincode",
+ "console_error_panic_hook",
+ "csv",
+ "halo2-base",
+ "halo2-ecc",
+ "halo2-wasm",
+ "hex",
+ "num-bigint",
+ "pse-poseidon",
+ "rayon",
+ "serde",
+ "serde_json",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
 name = "halo2-ecc"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2488,7 +2510,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "halo2-secp256k1-wasm"
+name = "halo2-ecdsa"
 version = "0.1.0"
 dependencies = [
  "anyhow",
