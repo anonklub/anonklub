@@ -29,15 +29,13 @@ ARG DIR
 # FIX ME: fix mkdir access when running as non root user
 # https://github.com/nodejs/docker-node/issues/740
 #WORKDIR /home/node/app
-RUN set -x && ls .
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/$DIR/node_modules ./$DIR/node_modules
 COPY --from=build /app/$DIR/package.json ./$DIR/
 COPY --from=build /app/$DIR/dist ./$DIR/dist
 
-ENV AUTH_HEADER_NAME X-API-Key
-ENV NODE_ENV production
-ENV NODE_PATH dist
+ENV NODE_ENV=production
+ENV NODE_PATH=dist
 WORKDIR /app/$DIR
 
 # https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/

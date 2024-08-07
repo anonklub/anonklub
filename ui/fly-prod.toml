@@ -6,7 +6,7 @@ processes = []
 [build]
 build-target = "deploy"
 
-[env]
+[build.args]
 NEXT_PUBLIC_QUERY_API_URL = 'https://query.anonklub.xyz'
 
 [experimental]

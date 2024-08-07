@@ -22,7 +22,6 @@ interface Config {
 }
 
 const {
-  AUTH_HEADER_NAME,
   BOT_TOKEN,
   CLIENT_ID,
   DISCORD_BOT_API_KEY,
@@ -31,7 +30,6 @@ const {
   VERIFICATION_CHANNEL_ID,
   VERIFIED_ROLE_ID,
 } = process.env
-if (AUTH_HEADER_NAME === undefined) throw new Error('No AUTH_HEADER_NAME provided')
 if (BOT_TOKEN === undefined) throw new Error('No BOT_TOKEN provided')
 if (CLIENT_ID === undefined) throw new Error('No CLIENT_ID provided')
 if (DISCORD_BOT_API_KEY === undefined) throw new Error('No DISCORD_BOT_API_KEY provided')
@@ -42,7 +40,7 @@ if (VERIFIED_ROLE_ID === undefined) throw new Error('No VERIFIED_ROLE_ID provide
 
 export const config: Config = {
   auth: {
-    header: AUTH_HEADER_NAME,
+    header: 'X-API-Key',
     secret: DISCORD_BOT_API_KEY,
   },
   BOT_TOKEN,
