@@ -72,20 +72,25 @@
 | [query-api](query-api)                                 | Query API server                                                                                                                                           |       :heavy_check_mark:        | [query.anonklub.xyz](https://query.anonklub.xyz)                                                                                                                                                           |
 | [ui](ui)                                               | User Interface (fetch anonymity sets, generate or verify membership proofs)                                                                                |       :heavy_check_mark:        | [anonklub.xyz](https://anonklub.xyz)                                                                                                                                                                       |
 
-## Environment
+## Develop
 
-Environment variables you may need: see [`.env.example`](.env.example)
+### [Requirements](./tool-versions)
+
+### Environment
+
+See [`.envrc.example`](.envrc.example).\
+Copy it in an .envrc file and source it.
+
+```commandline
+cp .envrc{.example,}
+# edit .envrc
+source .envrc
+```
+
+### Scripts
+
+Check available scripts with `pnpm run`.
+Especially, to start the ui or the query-api: `pnpm start.ui` or `pnpm start.query-api`
+Don't bother run build tasks explicitly beforehand, [turbo](https://turbo.build/repo/docs) takes care of topological dependencies between tasks).
 
 ## [Contribute](https://github.com/anonklub/anonklub/contribute)
-
-## Setup
-
-### Test coverage tool.
-
-`cargo-llvm-cov` is the tool used for doing test coverage for the workspace members.
-
-You would only need to install it in your system, also you can check other ways from here [cargo-llvm-cov/installations](https://lib.rs/crates/cargo-llvm-cov#readme-installation)
-
-```sh
-cargo +stable install cargo-llvm-cov --locked
-```
