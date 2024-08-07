@@ -13,7 +13,7 @@ tsconfig.tsbuildinfo
 circuits/circom/cache
 
 .env*
-!.env.example
+!.envrc.example
 
 *.db
 dev.db-journal
