@@ -242,7 +242,7 @@ mod tests {
 
         let depth = 10;
         let num_leaves = 1 << depth;
-        let leaves = (0..num_leaves).map(|i| F::from(i)).collect::<Vec<F>>();
+        let leaves = (0..num_leaves).map(F::from).collect::<Vec<F>>();
 
         // Insert leaves
         for leaf in leaves.iter() {
