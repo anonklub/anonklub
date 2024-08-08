@@ -1,6 +1,7 @@
 {
   "name": "@anonklub/halo2-ecdsa",
   "version": "1.1.3",
+  "private": true,
   "author": "0xisk <0xisk@proton.me>",
   "description": "Wasm Rust crate for verifying Secp256k1 signatures",
   "keywords": [

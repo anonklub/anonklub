@@ -1,6 +1,7 @@
 {
   "name": "@anonklub/halo2-binary-merkle-tree",
   "version": "1.1.3",
+  "private": true,
   "author": "0xisk <0xisk@proton.me>",
   "description": "A rust crate implements binary merkle tree using halo2 Secp256k1 F, and PSE poseidon.",
   "keywords": [
