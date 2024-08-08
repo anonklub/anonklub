@@ -2,7 +2,6 @@
 resolver = "2"
 default-members = ["pkgs/cli"]
 members = [
-  "pkgs/binary-merkle-tree-halo2",
   "pkgs/cli",
   "pkgs/halo2-binary-merkle-tree",
   "pkgs/halo2-ecdsa",
