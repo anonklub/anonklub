@@ -343,7 +343,7 @@ mod tests {
     };
     use halo2_binary_merkle_tree::binary_merkle_tree::{BinaryMerkleTree, MerkleProof};
     use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
-    use halo2_binary_merkle_tree::consts::ARITY;
+
     use halo2_ecc::fields::FpStrategy;
     use halo2_ecdsa::gadget::efficient_ecdsa::EfficientECDSAInputs;
     use halo2_ecdsa::utils::recovery::recover_pk_efficient;
@@ -505,15 +505,13 @@ mod tests {
             pk.x.to_bytes()
                 .to_vec()
                 .chunks(11)
-                .into_iter()
-                .map(|chunk| F::from_bytes_le(chunk))
+                .map(F::from_bytes_le)
                 .collect::<Vec<_>>();
         let leaf_y =
             pk.y.to_bytes()
                 .to_vec()
                 .chunks(11)
-                .into_iter()
-                .map(|chunk| F::from_bytes_le(chunk))
+                .map(F::from_bytes_le)
                 .collect::<Vec<_>>();
 
         // Construct Leaves
@@ -542,7 +540,7 @@ mod tests {
 
         let merkle_proof = tree.gen_proof(leaves[0], address.to_string()).unwrap();
 
-        assert_eq!(tree.verify_proof(merkle_proof.root, &merkle_proof), true);
+        assert!(tree.verify_proof(merkle_proof.root, &merkle_proof));
 
         merkle_proof
     }
@@ -559,15 +557,13 @@ mod tests {
             pk.x.to_bytes()
                 .to_vec()
                 .chunks(11)
-                .into_iter()
-                .map(|chunk| F::from_bytes_le(chunk))
+                .map(F::from_bytes_le)
                 .collect::<Vec<_>>();
         let leaf_y =
             pk.y.to_bytes()
                 .to_vec()
                 .chunks(11)
-                .into_iter()
-                .map(|chunk| F::from_bytes_le(chunk))
+                .map(F::from_bytes_le)
                 .collect::<Vec<_>>();
 
         // Construct Leaves
@@ -592,10 +588,7 @@ mod tests {
         let root = membership_tree.get_root();
         let (siblings, path_indices) = membership_tree.get_proof(0);
 
-        assert_eq!(
-            membership_tree.verify_proof(&leaves[0], 0, &root, &siblings),
-            true
-        );
+        assert!(membership_tree.verify_proof(&leaves[0], 0, &root, &siblings));
 
         Ok(MerkleProof {
             depth: TREE_DEPTH,

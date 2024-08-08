@@ -231,21 +231,21 @@ mod tests {
         is_y_odd: bool,
     }
 
-    struct TestCircuit<CF, SF, GA>
+    struct TestCircuit<'a, CF, SF, GA>
     where
         CF: BigPrimeField,
         SF: BigPrimeField,
         GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
     {
         pub instances: Vec<u32>,
-        efficient_ecdsa_gadget: EfficientECDSA<CF, SF, GA>,
+        efficient_ecdsa_gadget: EfficientECDSA<'a, CF, SF, GA>,
         builder: Rc<RefCell<BaseCircuitBuilder<F>>>,
         _CF_marker: PhantomData<CF>,
         _SF_marker: PhantomData<SF>,
         _GA_marker: PhantomData<GA>,
     }
 
-    impl<CF, SF, GA> TestCircuit<CF, SF, GA>
+    impl<'a, CF, SF, GA> TestCircuit<'a, CF, SF, GA>
     where
         CF: BigPrimeField,
         SF: BigPrimeField,
@@ -253,29 +253,11 @@ mod tests {
     {
         pub fn new(
             halo2_wasm: &Halo2Wasm,
+            range_chip: &'a RangeChip<F>,
             efficient_ecdsa_inputs: EfficientECDSAInputs<CF, SF, GA>,
         ) -> Result<Self> {
-            let circuit_params = halo2_wasm
-                .circuit_params
-                .clone()
-                .context("Error: Circuit params are not set")?;
-
-            let lookup_bits = circuit_params
-                .lookup_bits
-                .context("Error: Lookup bits are not set in circuit params")?;
-
-            let range_chip = RangeChip::<F>::new(
-                lookup_bits,
-                halo2_wasm
-                    .circuit
-                    .try_borrow()
-                    .unwrap()
-                    .lookup_manager()
-                    .clone(),
-            );
-
             let efficient_ecdsa_gadget =
-                EfficientECDSA::<CF, SF, GA>::new(&range_chip, efficient_ecdsa_inputs)?;
+                EfficientECDSA::<CF, SF, GA>::new(range_chip, efficient_ecdsa_inputs)?;
 
             Ok(TestCircuit {
                 instances: vec![],
@@ -419,8 +401,28 @@ mod tests {
 
         halo2_wasm.config(circuit_params);
 
+        let circuit_params = halo2_wasm
+            .circuit_params
+            .clone()
+            .context("Error: Circuit params are not set")?;
+
+        let lookup_bits = circuit_params
+            .lookup_bits
+            .context("Error: Lookup bits are not set in circuit params")?;
+
+        let range_chip = RangeChip::<F>::new(
+            lookup_bits,
+            halo2_wasm
+                .circuit
+                .try_borrow()
+                .unwrap()
+                .lookup_manager()
+                .clone(),
+        );
+
         let mut circuit = TestCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
             &halo2_wasm,
+            &range_chip,
             ecdsa_inputs,
         )?;
 
@@ -455,8 +457,28 @@ mod tests {
 
         halo2_wasm.config(circuit_params);
 
+        let circuit_params = halo2_wasm
+            .circuit_params
+            .clone()
+            .context("Error: Circuit params are not set")?;
+
+        let lookup_bits = circuit_params
+            .lookup_bits
+            .context("Error: Lookup bits are not set in circuit params")?;
+
+        let range_chip = RangeChip::<F>::new(
+            lookup_bits,
+            halo2_wasm
+                .circuit
+                .try_borrow()
+                .unwrap()
+                .lookup_manager()
+                .clone(),
+        );
+
         let mut circuit = TestCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
             &halo2_wasm,
+            &range_chip,
             ecdsa_inputs,
         )?;
 
@@ -506,8 +528,28 @@ mod tests {
 
         halo2_wasm.config(circuit_params);
 
+        let circuit_params = halo2_wasm
+            .circuit_params
+            .clone()
+            .context("Error: Circuit params are not set")?;
+
+        let lookup_bits = circuit_params
+            .lookup_bits
+            .context("Error: Lookup bits are not set in circuit params")?;
+
+        let range_chip = RangeChip::<F>::new(
+            lookup_bits,
+            halo2_wasm
+                .circuit
+                .try_borrow()
+                .unwrap()
+                .lookup_manager()
+                .clone(),
+        );
+
         let mut circuit = TestCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
             &halo2_wasm,
+            &range_chip,
             ecdsa_inputs,
         )?;
 
@@ -587,8 +629,28 @@ mod tests {
 
         halo2_wasm.config(circuit_params);
 
+        let circuit_params = halo2_wasm
+            .circuit_params
+            .clone()
+            .context("Error: Circuit params are not set")?;
+
+        let lookup_bits = circuit_params
+            .lookup_bits
+            .context("Error: Lookup bits are not set in circuit params")?;
+
+        let range_chip = RangeChip::<F>::new(
+            lookup_bits,
+            halo2_wasm
+                .circuit
+                .try_borrow()
+                .unwrap()
+                .lookup_manager()
+                .clone(),
+        );
+
         let mut circuit = TestCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
             &halo2_wasm,
+            &range_chip,
             ecdsa_inputs,
         )?;
 

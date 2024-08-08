@@ -240,7 +240,7 @@ impl<'a, const T: usize, const RATE: usize> BinaryMerkleTree<'a, T, RATE> {
 
 #[cfg(test)]
 mod tests {
-    use crate::consts::{ARITY, RATE, R_F, R_P, T};
+    use crate::consts::{RATE, R_F, R_P, T};
 
     use super::BinaryMerkleTree;
     use halo2_wasm_ext::consts::F;
@@ -249,7 +249,7 @@ mod tests {
     #[test]
     fn test_tree() {
         let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
-        let mut tree = BinaryMerkleTree::<T, RATE, ARITY>::new(&mut poseidon);
+        let mut tree = BinaryMerkleTree::<T, RATE>::new(&mut poseidon);
 
         let depth = 10;
         let num_leaves = 1 << depth;
@@ -274,13 +274,11 @@ mod tests {
     #[test]
     fn fail_to_build_proof_if_leaf_not_present() {
         let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
-        let mut tree = BinaryMerkleTree::<T, RATE, ARITY>::new(&mut poseidon);
+        let mut tree = BinaryMerkleTree::<T, RATE>::new(&mut poseidon);
 
         let depth = 10;
         let num_leaves = 1 << depth;
-        let leaves = (0..num_leaves)
-            .map(|i| F::from(i as u64))
-            .collect::<Vec<F>>();
+        let leaves = (0..num_leaves).map(F::from).collect::<Vec<F>>();
 
         // Insert leaves
         for leaf in leaves.iter() {
