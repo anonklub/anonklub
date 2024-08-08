@@ -18,21 +18,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.4
+        uses: pnpm/action-setup@v4
         id: pnpm-install
         with:
-          version: 8.6.2
+          version: 9.4.0
           run_install: false
 
       - name: Get pnpm store directory
@@ -41,7 +41,7 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -51,7 +51,7 @@ jobs:
         run: pnpm --filter "./pkgs/**" --ignore-scripts --no-frozen-lockfile i
 
       - name: Release
-        uses: changesets/action@v1
+        uses: changesets/action@v1.4.7
         with:
           publish: pnpm publish.pkgs
         env:
