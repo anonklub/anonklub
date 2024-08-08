@@ -12,12 +12,13 @@ let initialized = false
 export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async prepare() {
-    halo2EthMembershipWasm = await import('@anonklub/halo2-eth-membership')
+    const { default: init, ...halo2EthMembershipWasm } = await import('@anonklub/halo2-eth-membership')
 
     const wasmModuleUrl = new URL('@anonklub/halo2-eth-membership/dist/index_bg.wasm', import.meta.url);
     const response = await fetch(wasmModuleUrl);
     const bufferSource = await response.arrayBuffer();
 
+    await init(wasmModuleUrl)
     await halo2EthMembershipWasm.initSync(bufferSource)
     await halo2EthMembershipWasm.initPanicHook()
 
