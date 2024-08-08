@@ -1,7 +1,6 @@
 import { expose } from 'comlink'
-import { hashMessage, hexToBytes, hexToSignature } from 'viem'
+import { hashMessage, hexToBytes, parseSignature } from 'viem'
 import type { ISpartanEcdsaWasm, ISpartanEcdsaWorker } from './interface'
-import { calculateSigRecovery } from './utils'
 
 let spartanEcdsaWasm: ISpartanEcdsaWasm
 let initialized = false
@@ -19,15 +18,14 @@ export const spartanEcdsaWorker: ISpartanEcdsaWorker = {
   },
 
   proveMembership({ merkleProofBytesSerialized, message, sig }): Uint8Array {
-    const { r, s, v } = hexToSignature(sig)
-
+    const { r, s, yParity } = parseSignature(sig)
+    const isYOdd = yParity === 1
     const sBytes = hexToBytes(s, {
       size: 32,
     })
     const rBytes = hexToBytes(r, {
       size: 32,
     })
-    const isYOdd = calculateSigRecovery(v)
     const msgHash = hashMessage(message, 'bytes')
 
     return spartanEcdsaWasm.prove_membership(
