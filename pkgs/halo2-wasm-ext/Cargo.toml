@@ -1,5 +1,5 @@
 [package]
-name = "halo2-ecdsa"
+name = "halo2-wasm-ext"
 version = "0.1.0"
 edition = "2021"
 authors = ["0xisk"]
@@ -8,10 +8,8 @@ authors = ["0xisk"]
 
 [dependencies]
 halo2-ecc = { version = "0.4.1", default-features = false, features = ["halo2-axiom"] }
-halo2-base = { version = "0.4.1", default-features = false, features = ["halo2-axiom"] }
-halo2-wasm = { version = "0.3.4", default-features = false }
-halo2-wasm-ext = { path = "../halo2-wasm-ext" }
-wasm-bindgen = "0.2.87"
+halo2-base = { version = "0.4.1", default-features = false, features = ["halo2-axiom"]}
+halo2-wasm = { version = "0.3.4", default-features = false}
 rand_core = { version = "0.6", default-features = false, features = ["getrandom"] }
 rand = "0.8"
 serde_json = "1.0"
