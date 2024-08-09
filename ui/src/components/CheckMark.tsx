@@ -16,7 +16,9 @@ export function CheckMark({
         height={20}
         width={20}
       />{' '}
-      <p className='hover:underline hover:cursor-pointer'>{text}</p>
+      {text === 'Anonset' && full === true
+        ? <p className='hover:underline hover:cursor-pointer'>{text}</p>
+        : <p className='hover:cursor-default'>{text}</p>}
     </div>
   )
 }
