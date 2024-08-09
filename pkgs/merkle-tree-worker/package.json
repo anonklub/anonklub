@@ -27,7 +27,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "comlink": "^4.4.1",
-    "@anonklub/merkle-tree-wasm": "~1.1.3"
+    "@anonklub/merkle-tree-wasm": "~1.1.4",
+    "comlink": "^4.4.1"
   }
 }
