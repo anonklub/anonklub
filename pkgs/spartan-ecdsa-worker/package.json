@@ -34,6 +34,6 @@
   "dependencies": {
     "@anonklub/spartan-ecdsa-wasm": "~1.1.0",
     "comlink": "^4.4.1",
-    "viem": "^2.0.10"
+    "viem": "^1.21.4"
   }
 }
