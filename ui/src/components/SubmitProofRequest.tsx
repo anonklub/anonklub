@@ -62,12 +62,14 @@ export function SubmitProofRequest() {
       <div className='flex flex-row justify-evenly'>
         {anonSet !== null
           ? (
-            <a onClick={open}>
-              <CheckMark full text='Anonset' />
+            <>
+              <a onClick={open}>
+                <CheckMark full text='Anonset' />
+              </a>
               <Modal ref={ref}>
                 <ScrollableJsonContainer data={anonSet} />
               </Modal>
-            </a>
+            </>
           )
           : <CheckMark full={false} text='Anonset' />}
         <CheckMark full={isSuccess} text='Signed' />

@@ -33,12 +33,14 @@ export const FileInput = (file: File) =>
     <div className='flex w-full flex-col items-center space-y-5'>
       {data !== null
         ? (
-          <a onClick={open}>
+          <>
+            <a onClick={open}>
+              <CheckMark full text={title} />
+            </a>
             <Modal ref={modalRef}>
               <ScrollableJsonContainer data={data} />
             </Modal>
-            <CheckMark full text={title} />
-          </a>
+          </>
         )
         : (
           <>
