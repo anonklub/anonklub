@@ -16,7 +16,7 @@ export function CheckMark({
         height={20}
         width={20}
       />{' '}
-      <p>{text}</p>
+      <p className='hover:underline hover:cursor-pointer'>{text}</p>
     </div>
   )
 }
