@@ -1,37 +1,24 @@
 use anyhow::{Context, Ok, Result};
 use binary_merkle_tree::{BinaryMerkleTree, MerkleProof};
-use consts::{ARITY, RATE, R_F, R_P, T};
-use halo2_base::halo2_proofs::halo2curves::secp256k1;
-use halo2_base::utils::BigPrimeField;
+use consts::{RATE, R_F, R_P, T};
+use halo2_base::utils::ScalarField;
+use halo2_wasm_ext::consts::F;
 use pse_poseidon::Poseidon;
-/// Adding this exception because wasm_bindgen
-/// is being used in generate_merkle_proof that has
-/// #[cfg(target_arch = "wasm32")] flag which is not
-/// readable by `cargo clippy` so we get unused import warn
-#[allow(unused_imports)]
-use wasm_bindgen::prelude::wasm_bindgen;
 
 pub mod binary_merkle_tree;
-pub(crate) mod consts;
+pub mod binary_merkle_tree_2;
+pub mod consts;
 pub mod gadget;
+//pub mod binary_merkle_tree_2;
 
-type F = secp256k1::Fp;
-
-fn _generate_merkle_proof<F>(
-    leaves: Vec<String>,
-    leaf: String,
-    depth: usize,
-) -> Result<MerkleProof<F>>
-where
-    F: BigPrimeField,
-{
+fn _generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) -> Result<MerkleProof> {
     let mut padded_leaves = leaves.clone();
     // Pad the leaves to equal the size of the tree
     // Needs to be an even string
     padded_leaves.resize(1 << depth, "00".to_string());
 
     let mut poseidon = Poseidon::<F, T, RATE>::new(R_F, R_P);
-    let mut binary_merkle_tree = BinaryMerkleTree::<F, T, RATE, ARITY>::new(&mut poseidon);
+    let mut binary_merkle_tree = BinaryMerkleTree::<T, RATE>::new(&mut poseidon);
 
     for padded_leaf in &padded_leaves {
         binary_merkle_tree.insert(F::from_bytes_le(
@@ -54,7 +41,7 @@ where
 
 #[cfg(not(target_arch = "wasm32"))]
 pub fn generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) -> Result<Vec<u8>> {
-    Ok(_generate_merkle_proof::<F>(leaves, leaf, depth)
+    Ok(_generate_merkle_proof(leaves, leaf, depth)
         .map_err(|e| anyhow::anyhow!(e))?
         .to_bytes_le()
         .context("could not encode merkle proof into bytes")?
@@ -62,23 +49,23 @@ pub fn generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) ->
         .context("could not serialize merkle proof bytes")?)
 }
 
-#[cfg(target_arch = "wasm32")]
-#[wasm_bindgen]
-pub fn generate_merkle_proof(
-    leaves: Vec<String>,
-    leaf: String,
-    depth: usize,
-) -> std::result::Result<Vec<u8>, JsValue> {
-    std::panic::set_hook(Box::new(console_error_panic_hook::hook));
+// #[cfg(target_arch = "wasm32")]
+// #[wasm_bindgen]
+// pub fn generate_merkle_proof(
+//     leaves: Vec<String>,
+//     leaf: String,
+//     depth: usize,
+// ) -> std::result::Result<Vec<u8>, JsValue> {
+//     std::panic::set_hook(Box::new(console_error_panic_hook::hook));
 
-    // Serialize the full merkle proof
-    Ok(_generate_merkle_proof::<F>(leaves, leaf, depth)
-        .map_err(|_e| JsValue::from_str(&_e.to_string()))?
-        .to_bytes_le()
-        .map_err(|_e| JsValue::from_str("Could not encode merkle proof"))?
-        .serialize()
-        .map_err(|_e| JsValue::from_str("Could not serialize merkle proof bytes"))?)
-}
+//     // Serialize the full merkle proof
+//     Ok(_generate_merkle_proof(leaves, leaf, depth)
+//         .map_err(|_e| JsValue::from_str("Could not "))?
+//         .to_bytes_le()
+//         .map_err(|_e| JsValue::from_str("Could not encode merkle proof"))?
+//         .serialize()
+//         .map_err(|_e| JsValue::from_str("Could not serialize merkle proof bytes"))?)
+// }
 
 #[cfg(test)]
 mod tests {
@@ -123,19 +110,20 @@ mod tests {
                 assert_eq!(
                     result,
                     vec![
-                        96, 0, 0, 0, 0, 0, 0, 0, 69, 103, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 113, 215, 212, 126, 63,
-                        163, 171, 86, 101, 66, 126, 1, 200, 183, 168, 139, 51, 223, 120, 168, 10,
-                        181, 196, 244, 236, 139, 147, 59, 31, 194, 17, 10, 241, 107, 128, 125, 125,
-                        161, 248, 70, 27, 204, 2, 168, 121, 166, 246, 191, 232, 50, 144, 69, 206,
-                        147, 158, 45, 244, 28, 107, 107, 136, 15, 99, 28, 96, 0, 0, 0, 0, 0, 0, 0,
+                        3, 32, 0, 0, 0, 0, 0, 0, 0, 18, 52, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 0, 0, 0, 0, 0, 0, 0,
+                        69, 103, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 79, 176, 238, 128, 103, 7, 167, 17, 91, 25, 242,
+                        76, 185, 161, 32, 94, 164, 97, 169, 75, 213, 208, 69, 215, 25, 161, 66,
+                        176, 142, 235, 44, 43, 187, 9, 193, 87, 201, 79, 41, 42, 226, 213, 58, 41,
+                        178, 33, 9, 227, 159, 255, 248, 48, 80, 254, 169, 150, 42, 108, 158, 41,
+                        199, 228, 106, 39, 96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0,
-                        0, 0, 0, 0, 0, 124, 108, 254, 20, 241, 196, 186, 100, 171, 92, 4, 42, 174,
-                        170, 94, 26, 215, 48, 223, 246, 212, 221, 230, 249, 58, 206, 250, 175, 114,
-                        50, 110
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 189, 178, 11,
+                        228, 184, 6, 122, 252, 158, 210, 26, 132, 156, 0, 159, 92, 94, 209, 68, 92,
+                        204, 53, 67, 110, 95, 131, 83, 64, 92, 13, 147, 41
                     ]
                 )
             }
@@ -159,8 +147,8 @@ mod tests {
                 assert_eq!(
                     merkle_proof_bytes.root,
                     vec![
-                        220, 141, 62, 135, 32, 72, 185, 14, 130, 248, 251, 54, 188, 235, 60, 22,
-                        64, 172, 91, 68, 163, 83, 130, 190, 53, 168, 235, 0, 21, 235, 98, 221
+                        46, 25, 119, 243, 174, 114, 189, 54, 144, 52, 80, 137, 3, 193, 163, 30,
+                        250, 65, 237, 7, 152, 117, 246, 23, 241, 253, 152, 215, 105, 18, 217, 37
                     ]
                 )
             }

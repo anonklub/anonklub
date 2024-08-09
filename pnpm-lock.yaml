@@ -188,6 +188,10 @@ importers:
 
   pkgs/halo2-ecdsa: {}
 
+  pkgs/halo2-eth-membership: {}
+
+  pkgs/halo2-wasm-ext: {}
+
   pkgs/merkle-tree-wasm: {}
 
   pkgs/merkle-tree-worker:
