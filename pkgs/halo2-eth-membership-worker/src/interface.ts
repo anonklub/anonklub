@@ -5,7 +5,6 @@ import type {
   prove_membership,
   verify_membership,
 } from '@anonklub/halo2-eth-membership'
-import init from "@anonklub/halo2-eth-membership";
 import type { Hex } from 'viem'
 
 export interface MerkleProof {
@@ -38,7 +37,6 @@ export interface IHalo2EthMembershipaWorker {
 }
 
 export interface IHalo2EthMembershipWasm {
-  init: typeof init
   initSync: typeof initSync
   initPanicHook: typeof initPanicHook
   initThreadPool: typeof initThreadPool

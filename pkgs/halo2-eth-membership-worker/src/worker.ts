@@ -1,5 +1,5 @@
 import { expose } from 'comlink'
-import { hashMessage, hexToSignature} from 'viem'
+import { hashMessage, hexToSignature } from 'viem'
 import type {
   IHalo2EthMembershipWasm,
   IHalo2EthMembershipaWorker,
@@ -12,18 +12,20 @@ let initialized = false
 export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async prepare() {
-    const { default: init, ...halo2EthMembershipWasm } = await import('@anonklub/halo2-eth-membership')
+    halo2EthMembershipWasm = await import('@anonklub/halo2-eth-membership')
 
-    const wasmModuleUrl = new URL('@anonklub/halo2-eth-membership/dist/index_bg.wasm', import.meta.url);
-    const response = await fetch(wasmModuleUrl);
-    const bufferSource = await response.arrayBuffer();
+    const wasmModuleUrl = new URL(
+      '@anonklub/halo2-eth-membership/dist/index_bg.wasm',
+      import.meta.url,
+    )
+    const response = await fetch(wasmModuleUrl)
+    const bufferSource = await response.arrayBuffer()
 
-    await init(wasmModuleUrl)
     await halo2EthMembershipWasm.initSync(bufferSource)
     await halo2EthMembershipWasm.initPanicHook()
 
     if (!initialized) {
-      let numThreads = navigator.hardwareConcurrency
+      const numThreads = navigator.hardwareConcurrency
       await halo2EthMembershipWasm.initThreadPool(numThreads)
       initialized = true
     }
@@ -32,8 +34,8 @@ export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
   proveMembership({ merkleProofBytesSerialized, message, sig }): Uint8Array {
     const { r, s, v } = hexToSignature(sig)
 
-    const sBytes = hexToLittleEndianBytes(s, 32);
-    const rBytes = hexToLittleEndianBytes(r, 32);
+    const sBytes = hexToLittleEndianBytes(s, 32)
+    const rBytes = hexToLittleEndianBytes(r, 32)
 
     const isYOdd = calculateSigRecovery(v)
     const msgHash = hashMessage(message, 'bytes')
@@ -51,7 +53,10 @@ export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
     ethMembershipProof: Uint8Array,
     instances: Uint8Array,
   ): boolean {
-    return halo2EthMembershipWasm.verify_membership(ethMembershipProof, instances)
+    return halo2EthMembershipWasm.verify_membership(
+      ethMembershipProof,
+      instances,
+    )
   },
 }
 

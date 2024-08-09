@@ -27,17 +27,6 @@ use utils::{
 };
 use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
-}
-
-fn log_jsvalue(value: &impl serde::Serialize) {
-    let js_value = JsValue::from_serde(value).unwrap();
-    log(&format!("{:?}", js_value));
-}
-
 pub mod eth_membership;
 pub mod utils;
 
@@ -90,18 +79,15 @@ pub fn prove_membership(
 ) -> Vec<u8> {
     // Initialize and configure Halo2Wasm
     let mut halo2_wasm = Halo2Wasm::new();
-    log("Initialized Halo2Wasm");
 
     // Configure halo2-wasm
     // Initialize the config and the circuit
     let circuit_config =
         read_config_from_str(ETH_MEMBERSHIP_CONFIG).expect("Could not read Circuit Config");
     halo2_wasm.config(circuit_config);
-    log("Configured Halo2Wasm with circuit config");
 
     // Initialize a Membership proof
     let mut eth_membership_proof = EthMembershipProof::new(r.to_vec(), msg_hash.to_vec(), is_y_odd);
-    log("Initialized EthMembershipProof");
 
     let mut circuit = create_circuit(
         s,
@@ -113,46 +99,34 @@ pub fn prove_membership(
     )
     .map_err(|e| anyhow!(e))
     .expect("Failed to create circuit.");
-    log("Created circuit");
+
+    circuit.verify_membership();
 
     // Set public inputs
     halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
 
     halo2_wasm.assign_instances();
-    log("Set public inputs");
 
     // Load Params
     let params = ParamsKZG::<Bn256>::setup(K, OsRng);
     halo2_wasm.load_params(&serialize_params_to_bytes(&params));
-    log("Loaded Params");
 
     // Generate VK
     halo2_wasm.gen_vk();
-    log("Generated VK");
 
     // Generate PK
     halo2_wasm.gen_pk();
-    log("Generated PK");
 
     // Generate the proof
-    log("Generated proof");
-
-    let public = from_value::<Vec<u8>>(halo2_wasm.get_instance_values(INSTANCE_COL))
+    let public = halo2_wasm
+        .get_instance_values_ext(INSTANCE_COL)
         .expect("Failed to deserialize instance values.");
-
-    log("Starting circuit verification");
-
-    circuit.verify_membership();
-    log("Circuit verification successful");
 
     // Generate proof
     let proof = halo2_wasm.prove();
 
-    log("Proof generation successful");
-
     // Serialize Membership proof
     eth_membership_proof.set_proof(proof, public.clone());
-    log("Set proof in EthMembershipProof");
 
     let serialized_proof = eth_membership_proof
         .serialize()
@@ -198,7 +172,6 @@ mod tests {
     use super::*;
     use crate::prove_membership;
     use halo2_ecdsa::utils::recovery::recover_pk;
-    // Adjust this path according to your project structure
     use serde::{Deserialize, Serialize};
     use std::{collections::HashMap, fs::File, io::Read};
 

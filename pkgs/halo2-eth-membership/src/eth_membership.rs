@@ -37,17 +37,6 @@ use crate::utils::consts::{
     R_F_POSEIDON, R_P_POSEIDON, SECURE_MDS_POSEIDON, T_POSEIDON,
 };
 
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
-}
-
-fn log_jsvalue(value: &impl Serialize) {
-    let js_value = JsValue::from_serde(value).unwrap();
-    log(&format!("{:?}", js_value));
-}
-
 // CF is the coordinate field of GA
 // SF is the scalar field of GA
 #[derive(Debug)]
@@ -364,19 +353,6 @@ where
         let eth_address = self.ecpoint_to_eth_address(&recovered_pk);
         let leaf = self.hash(poseidon_hasher.clone(), &eth_address);
 
-        // Hex values
-        let s_hex = hex::encode(s.clone().value().to_bytes_le());
-        log("s_hex");
-        log_jsvalue(&s_hex);
-
-        let root_hex = hex::encode(root.value().to_bytes_le());
-        log("root_hex");
-        log_jsvalue(&root_hex);
-
-        let leaf_hex = hex::encode(leaf.value().to_bytes_le());
-        log("leaf_hex");
-        log_jsvalue(&leaf_hex);
-
         // Verify membership merkle proof
         self.verify_membership_merkle_proof(
             poseidon_hasher,
@@ -459,60 +435,6 @@ mod tests {
         pk: Secp256k1Affine,
         address: H160,
     }
-
-    // fn random_ecdsa_input(
-    //     rng: &mut StdRng,
-    // ) -> Result<(
-    //     EfficientECDSAInputs<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>,
-    //     TestInputs,
-    // )> {
-    //     let g = Secp256k1Affine::generator();
-
-    //     // Generate a key pair
-    //     let sk = <Secp256k1Affine as CurveAffine>::ScalarExt::random(rng.clone());
-    //     let _pk = Secp256k1Affine::from(g * sk);
-
-    //     // Generate a valid signature
-    //     // Suppose `m_hash` is the message hash
-    //     let msg_hash = <Secp256k1Affine as CurveAffine>::ScalarExt::random(rng.clone());
-
-    //     // Draw a randomness
-    //     let k = <Secp256k1Affine as CurveAffine>::ScalarExt::random(rng);
-    //     let k_inv = k.invert().unwrap();
-
-    //     // Calculate `r`
-    //     let r_point = Secp256k1Affine::from(g * k).coordinates().unwrap();
-    //     let x = r_point.x();
-    //     let x_bigint = fe_to_biguint(x);
-    //     let r = biguint_to_fe::<secp256k1::Fq>(&(x_bigint % modulus::<secp256k1::Fq>()));
-
-    //     // Calculate `s`
-    //     let s = k_inv * (msg_hash + (r * sk));
-
-    //     // Check if y is odd
-    //     let is_y_odd = r_point.y().to_bytes_le();
-    //     let is_y_odd = BigUint::from_bytes_le(&is_y_odd);
-    //     let is_y_odd = is_y_odd.bit(0);
-
-    //     let msg_hash = BigUint::from_bytes_le(&msg_hash.to_bytes_le());
-
-    //     // Precompile T and U
-    //     let (U, T) = recover_pk_efficient(msg_hash.clone(), r, is_y_odd)
-    //         .map_err(|e| anyhow!(e))
-    //         .context("Failed to compute random based efficient ECDSA!")?;
-
-    //     let efficient_ecdsa_inputs =
-    //         EfficientECDSAInputs::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(s, T, U);
-
-    //     Ok((
-    //         efficient_ecdsa_inputs,
-    //         TestInputs {
-    //             r,
-    //             msg_hash,
-    //             is_y_odd,
-    //         },
-    //     ))
-    // }
 
     /// @src Spartan
     fn mock_eff_ecdsa_input(
