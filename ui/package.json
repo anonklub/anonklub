@@ -9,7 +9,7 @@
     "@anonklub/merkle-tree-worker": "~1.1.3",
     "@anonklub/proof": "~2.1.1",
     "@anonklub/spartan-ecdsa-wasm": "~1.1.0",
-    "@anonklub/spartan-ecdsa-worker": "~1.2.0",
+    "@anonklub/spartan-ecdsa-worker": "~1.1.1",
     "@heroicons/react": "^2.0.18",
     "@typebot.io/js": "^0.2.41",
     "@typebot.io/nextjs": "^0.2.41",
