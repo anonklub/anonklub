@@ -6,7 +6,7 @@
     "net": false
   },
   "dependencies": {
-    "@anonklub/merkle-tree-worker": "~1.1.3",
+    "@anonklub/merkle-tree-worker": "~1.1.5",
     "@anonklub/proof": "~2.1.1",
     "@anonklub/spartan-ecdsa-wasm": "~1.1.0",
     "@anonklub/spartan-ecdsa-worker": "~1.1.1",
