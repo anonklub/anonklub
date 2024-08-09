@@ -1,5 +1,12 @@
 # @anonklub/merkle-tree-worker
 
+## 1.1.5
+
+### Patch Changes
+
+- 93f256b: bump `@anonklub/merkle-tree-wasm`
+- b59d882: bump `@anonklub/merkle-tree-wasm`
+
 ## 1.1.4
 
 ### Patch Changes
