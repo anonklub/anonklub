@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@anonklub/query-api", "@anonklub/ui"]
+  "ignore": ["@anonklub/query-api", "@anonklub/ui", "@anonklub/halo2-binary-merkle-tree", "@anonklub/halo2-ecdsa"]
 }

@@ -40,7 +40,7 @@
     "build.docker.ui": "docker build -f ui/Dockerfile --build-arg NEXT_PUBLIC_QUERY_API_URL=$QUERY_API_URL . -t anonklub-ui",
     "build.pkgs": "turbo --filter=// --filter='./pkgs/*' build _compile",
     "build.ui": "pnpm --filter @anonklub/ui build",
-    "changeset": "changeset",
+    "changeset": "changeset && git add .changeset && git commit -m 'chore: add changeset'",
     "clean": "find . \\( -name 'node_modules' -o -name 'dist' -o -name 'next' \\) -type d -prune -exec rm -rf '{}' +",
     "compile": "turbo _compile",
     "fix": "turbo _lint.fix && pnpm fmt",
