@@ -1,5 +1,11 @@
 # @anonklub/spartan-ecdsa-worker
 
+## 1.2.0
+
+### Minor Changes
+
+- 2346867: remove `calculateSigRecovery` util
+
 ## 1.1.2
 
 ### Patch Changes
