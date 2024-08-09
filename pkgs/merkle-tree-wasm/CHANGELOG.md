@@ -1,5 +1,11 @@
 # @anonklub/merkle-tree-wasm
 
+## 1.1.4
+
+### Patch Changes
+
+- 96475ac: republish
+
 ## 1.1.3
 
 ### Patch Changes

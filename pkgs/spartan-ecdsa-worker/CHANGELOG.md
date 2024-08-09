@@ -1,5 +1,11 @@
 # @anonklub/spartan-ecdsa-worker
 
+## 1.1.3
+
+### Patch Changes
+
+- 96475ac: downgrade `viem`
+
 ## 1.1.2
 
 ### Patch Changes
