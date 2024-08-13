@@ -25,15 +25,39 @@ use wasm_bindgen::prelude::*;
 
 use crate::eth_membership::{EthMembershipCircuit, EthMembershipInputs};
 
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
-}
+use super::consts::F;
 
-fn log_jsvalue(value: &impl Serialize) {
-    let js_value = JsValue::from_serde(value).unwrap();
-    log(&format!("{:?}", js_value));
+pub fn create_default_circuit(
+    halo2_wasm: &Halo2Wasm,
+) -> Result<EthMembershipCircuit<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>> {
+    let default_efficient_ecdsa = EfficientECDSAInputs::new(
+        secp256k1::Fq::zero(),
+        Secp256k1Affine::generator(),
+        Secp256k1Affine::generator(),
+    );
+
+    let default_merkle_proof = MerkleProof {
+        depth: 0,
+        leaf: F::from(F::zero()),
+        siblings: vec![F::zero()],
+        path_indices: vec![F::zero()],
+        root: F::from(F::zero()),
+    };
+
+    let default_eth_membership_inputs = EthMembershipInputs::<
+        secp256k1::Fp,
+        secp256k1::Fq,
+        Secp256k1Affine,
+    >::new(default_efficient_ecdsa, default_merkle_proof);
+
+    let default_circuit = EthMembershipCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+        halo2_wasm,
+        default_eth_membership_inputs,
+    )
+    .map_err(|e| anyhow!(e))
+    .context("Failed to initialize the circuit!")?;
+
+    Ok(default_circuit)
 }
 
 pub fn create_circuit(
@@ -44,9 +68,6 @@ pub fn create_circuit(
     merkle_proof_bytes_serialized: &[u8],
     halo2_wasm: &Halo2Wasm,
 ) -> Result<EthMembershipCircuit<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>> {
-    // Initialize logging
-    console_log::init_with_level(Level::Info).expect("error initializing log");
-
     // Deserialize the inputs
     let s = secp256k1::Fq::from_bytes_le(s);
     let r = secp256k1::Fp::from_bytes_le(r);

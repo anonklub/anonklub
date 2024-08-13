@@ -761,7 +761,7 @@ mod tests {
     fn test_real_eth_membership_real_verify() -> Result<()> {
         // Read the test inputs from the JSON file
         let mut file =
-            File::open("mock/test_inputs.json").expect("Failed to open test inputs file.");
+            File::open("mock/prove_test_inputs.json").expect("Failed to open test inputs file.");
         let mut data = String::new();
         file.read_to_string(&mut data)
             .expect("Failed to read test inputs file.");
@@ -842,7 +842,13 @@ mod tests {
         let proof_start = Instant::now();
 
         // Generate proof
-        let proof: Vec<u8> = halo2_wasm.prove();
+        // Get the public instance inputs
+        let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
+
+        let proof: Vec<u8> = halo2_wasm.prove_ext(&params);
+
+        // Verify proof
+        let is_verified = halo2_wasm.verify_ext(&instances, &proof, params)?;
 
         let proof_duration = proof_start.elapsed();
         println!(

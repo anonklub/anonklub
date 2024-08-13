@@ -8,7 +8,7 @@ use halo2_base::{
     gates::circuit::builder::BaseCircuitBuilder,
     halo2_proofs::{
         halo2curves::ff::PrimeField,
-        plonk::{verify_proof, VerifyingKey},
+        plonk::{verify_proof, ProvingKey, VerifyingKey},
         poly::{
             commitment::ParamsProver,
             kzg::{
@@ -23,14 +23,14 @@ use halo2_base::{
 use halo2_wasm::Halo2Wasm;
 use itertools::Itertools;
 use snark_verifier_sdk::{
-    halo2::{PoseidonTranscript, POSEIDON_SPEC},
+    halo2::{gen_snark_shplonk, PoseidonTranscript, POSEIDON_SPEC},
     NativeLoader,
 };
 use std::io::BufReader;
 
 pub trait Halo2WasmExt {
     fn get_instance_values_ext(&mut self, col: usize) -> Result<Vec<u8>>;
-
+    fn prove_ext(&self, params: &ParamsKZG<E>) -> Vec<u8>;
     fn verify_ext(&self, instances: &[u8], proof: &[u8], params: ParamsKZG<E>) -> Result<bool>;
 }
 
@@ -43,6 +43,20 @@ impl Halo2WasmExt for Halo2Wasm {
             .iter()
             .flat_map(|instance| instance.value().to_repr().to_vec())
             .collect())
+    }
+
+    fn prove_ext(&self, params: &ParamsKZG<E>) -> Vec<u8> {
+        let pk = self.get_pk();
+        let circuit_params = self.circuit_params.clone().unwrap();
+        let pk = ProvingKey::<E_AFFINE>::read::<BufReader<&[u8]>, BaseCircuitBuilder<F>>(
+            &mut BufReader::new(&pk),
+            SerdeFormat::RawBytesUnchecked,
+            circuit_params,
+        )
+        .unwrap();
+        let circuit = self.circuit.borrow().deep_clone();
+        let snark = gen_snark_shplonk(params, &pk, circuit, None::<&str>);
+        snark.proof
     }
 
     fn verify_ext(&self, instances: &[u8], proof: &[u8], params: ParamsKZG<E>) -> Result<bool> {

@@ -28,14 +28,14 @@ export const useHalo2EthMembershipWorker = () => {
 
   const verifyMembership: VerifyMembershipFn = async (
     ethMembershipProof: Uint8Array,
-    instances: Uint8Array,
   ): Promise<boolean> => {
     process.env.NODE_ENV === 'development' && console.time('==> Verify')
 
     const isVerified = await Halo2EthMembershipWorker.verifyMembership(
       ethMembershipProof,
-      instances,
     )
+
+    console.log("isVerified", isVerified)
 
     process.env.NODE_ENV === 'development' && console.timeEnd('==> Verify')
 

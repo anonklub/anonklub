@@ -2,14 +2,14 @@ import { expose } from 'comlink'
 import { hashMessage, hexToSignature } from 'viem'
 import type {
   IHalo2EthMembershipWasm,
-  IHalo2EthMembershipaWorker,
+  IHalo2EthMembershipWorker,
 } from './interface'
 import { calculateSigRecovery, hexToLittleEndianBytes } from './utils'
 
 let halo2EthMembershipWasm: IHalo2EthMembershipWasm
 let initialized = false
 
-export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
+export const halo2EcdsaWorker: IHalo2EthMembershipWorker = {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async prepare() {
     halo2EthMembershipWasm = await import('@anonklub/halo2-eth-membership')
@@ -51,11 +51,9 @@ export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
 
   verifyMembership(
     ethMembershipProof: Uint8Array,
-    instances: Uint8Array,
   ): boolean {
     return halo2EthMembershipWasm.verify_membership(
       ethMembershipProof,
-      instances,
     )
   },
 }

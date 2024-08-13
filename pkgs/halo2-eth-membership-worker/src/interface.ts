@@ -27,12 +27,11 @@ export type VerifyMembershipFn = (
   instances: Uint8Array,
 ) => Promise<boolean>
 
-export interface IHalo2EthMembershipaWorker {
+export interface IHalo2EthMembershipWorker {
   prepare: () => void
   proveMembership: (proveInputs: ProveInputs) => Uint8Array
   verifyMembership: (
     ethMembershipProof: Uint8Array,
-    instances: Uint8Array,
   ) => boolean
 }
 
