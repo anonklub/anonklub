@@ -357,6 +357,7 @@ mod native_tests {
         assert_eq!(result, ());
     }
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[tokio::test]
     async fn test_prove_and_verify_membership_real() {
         // Read the test inputs from the JSON file
@@ -396,6 +397,7 @@ mod native_tests {
         assert_eq!(is_verified, true);
     }
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[tokio::test]
     async fn test_verify_membership_mock() {
         // Read the test inputs from the JSON file
