@@ -1,5 +1,4 @@
 use anyhow::Result;
-use reqwest::Error;
 
 pub mod circuit;
 pub mod consts;

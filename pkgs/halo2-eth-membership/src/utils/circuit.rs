@@ -1,27 +1,16 @@
-use std::borrow::BorrowMut;
 
 use anyhow::{anyhow, Context, Result};
-use ethers::{abi::Address, types::U256};
-use gloo_utils::format::JsValueSerdeExt;
 use halo2_base::{
-    halo2_proofs::halo2curves::{group::Curve, secp256k1},
+    halo2_proofs::halo2curves::secp256k1,
     utils::ScalarField,
 };
 use halo2_binary_merkle_tree::binary_merkle_tree::{MerkleProof, MerkleProofBytes};
 use halo2_ecdsa::{
     gadget::efficient_ecdsa::EfficientECDSAInputs,
-    utils::recovery::{
-        pk_bytes_le, pk_bytes_swap_endianness, recover_pk, recover_pk_efficient, ToBigEndian,
-        ToLittleEndian,
-    },
+    utils::recovery::recover_pk_efficient,
 };
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, Halo2Wasm};
-use hex::encode;
-use log::{info, Level};
 use num_bigint::BigUint;
-use serde::Serialize;
-use tiny_keccak::{Hasher, Keccak};
-use wasm_bindgen::prelude::*;
 
 use crate::eth_membership::{EthMembershipCircuit, EthMembershipInputs};
 
@@ -50,12 +39,13 @@ pub fn create_default_circuit(
         Secp256k1Affine,
     >::new(default_efficient_ecdsa, default_merkle_proof);
 
-    let default_circuit = EthMembershipCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-        halo2_wasm,
-        default_eth_membership_inputs,
-    )
-    .map_err(|e| anyhow!(e))
-    .context("Failed to initialize the circuit!")?;
+    let default_circuit =
+        EthMembershipCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+            halo2_wasm,
+            default_eth_membership_inputs,
+        )
+        .map_err(|e| anyhow!(e))
+        .context("Failed to initialize the circuit!")?;
 
     Ok(default_circuit)
 }

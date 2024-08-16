@@ -1,5 +1,5 @@
 use crate::eth_membership::EthMembershipCircuit;
-use anyhow::{anyhow, Context, Result};
+use anyhow::Result;
 use halo2_base::utils::{BigPrimeField, CurveAffineExt};
 use halo2_wasm::Halo2Wasm;
 use wasm_bindgen::prelude::wasm_bindgen;

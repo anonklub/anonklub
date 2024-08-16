@@ -1,7 +1,5 @@
 #![allow(non_snake_case)]
 use anyhow::{Context, Ok, Result};
-use ethers::abi::Address;
-use gloo_utils::format::JsValueSerdeExt;
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, GateChip, RangeChip},
     halo2_proofs::halo2curves::secp256k1,
@@ -24,13 +22,10 @@ use halo2_ecdsa::{
 };
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, Halo2Wasm};
 use halo2_wasm_ext::utils::ct_option_ok_or;
-use hex::encode;
-use serde::Serialize;
 use snark_verifier::util::arithmetic::CurveAffine;
 use snark_verifier_sdk::halo2::OptimizedPoseidonSpec;
 use std::{cell::RefCell, marker::PhantomData, rc::Rc};
 use tiny_keccak::{Hasher, Keccak};
-use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 use crate::utils::consts::{
     FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS, RATE_POSEIDON,
@@ -271,9 +266,9 @@ where
         eth_address.copy_from_slice(&pk_hash[12..]);
 
         let eth_address = F::from_bytes_le(&eth_address);
-        let eth_address = ctx.load_witness(eth_address);
+        
 
-        eth_address
+        ctx.load_witness(eth_address)
     }
 
     fn hash(
@@ -389,7 +384,7 @@ mod tests {
         BinaryMerkleTree, MerkleProof, MerkleProofBytes,
     };
     use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
-    use halo2_binary_merkle_tree::consts::ARITY;
+    
     use halo2_ecc::fields::FpStrategy;
     use halo2_ecdsa::gadget::efficient_ecdsa::EfficientECDSAInputs;
     use halo2_ecdsa::utils::recovery::recover_pk_efficient;
@@ -499,15 +494,13 @@ mod tests {
             pk.x.to_bytes()
                 .to_vec()
                 .chunks(11)
-                .into_iter()
-                .map(|chunk| F::from_bytes_le(chunk))
+                .map(F::from_bytes_le)
                 .collect::<Vec<_>>();
         let leaf_y =
             pk.y.to_bytes()
                 .to_vec()
                 .chunks(11)
-                .into_iter()
-                .map(|chunk| F::from_bytes_le(chunk))
+                .map(F::from_bytes_le)
                 .collect::<Vec<_>>();
 
         // Construct Leaves
@@ -536,7 +529,7 @@ mod tests {
 
         let merkle_proof = tree.gen_proof(leaves[0], address.to_string()).unwrap();
 
-        assert_eq!(tree.verify_proof(merkle_proof.root, &merkle_proof), true);
+        assert!(tree.verify_proof(merkle_proof.root, &merkle_proof));
 
         merkle_proof
     }
@@ -553,15 +546,13 @@ mod tests {
             pk.x.to_bytes()
                 .to_vec()
                 .chunks(11)
-                .into_iter()
-                .map(|chunk| F::from_bytes_le(chunk))
+                .map(F::from_bytes_le)
                 .collect::<Vec<_>>();
         let leaf_y =
             pk.y.to_bytes()
                 .to_vec()
                 .chunks(11)
-                .into_iter()
-                .map(|chunk| F::from_bytes_le(chunk))
+                .map(F::from_bytes_le)
                 .collect::<Vec<_>>();
 
         // Construct Leaves
@@ -586,9 +577,8 @@ mod tests {
         let root = membership_tree.get_root();
         let (siblings, path_indices) = membership_tree.get_proof(0);
 
-        assert_eq!(
-            membership_tree.verify_proof(&leaves[0], 0, &root, &siblings),
-            true
+        assert!(
+            membership_tree.verify_proof(&leaves[0], 0, &root, &siblings)
         );
 
         Ok(MerkleProof {
