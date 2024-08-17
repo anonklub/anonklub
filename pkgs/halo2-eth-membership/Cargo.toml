@@ -7,7 +7,7 @@ authors = ["0xisk"]
 build = "build.rs"
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 halo2-ecc = { version = "0.4.1", default-features = false, features = ["halo2-axiom"] }
@@ -37,11 +37,9 @@ snark-verifier = { version = "0.1.7", default-features = false, features = ["loa
 tiny-keccak = "2.0"
 log = "0.4"
 gloo-utils = "0.2"
-reqwest = { version = "0.11", features = ["json", "blocking"] }
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
-tokio = { version = "1", features = ["full"] }
 
 [features]
 default=["rayon"]

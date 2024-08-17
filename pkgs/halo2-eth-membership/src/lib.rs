@@ -161,7 +161,7 @@ fn _verify(membership_proof: &[u8], params: &[u8]) -> bool {
     let is_y_odd = membership_proof.is_y_odd;
 
     // Create default circuit
-    let default_circuit = create_default_circuit(&halo2_wasm)
+    create_default_circuit(&halo2_wasm)
         .map_err(|e| anyhow!(e))
         .expect("Failed to create default circuit.");
 

@@ -9,6 +9,9 @@ export const useVerifyProof = () => {
   return useAsync(async () => {
     if (proof === null) return
 
-    return await verifyMembership(proof)
+    return await verifyMembership({
+      membershipProofSerialized: proof,
+      k: 15
+    })
   }, [proof])
 }

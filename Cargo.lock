@@ -2518,7 +2518,12 @@ dependencies = [
 name = "halo2-e2e"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "halo2-eth-membership",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tokio",
 ]
 
 [[package]]
@@ -2589,7 +2594,6 @@ dependencies = [
  "pse-poseidon",
  "rand 0.8.5",
  "rand_core 0.6.4",
- "reqwest",
  "serde",
  "serde-wasm-bindgen 0.6.5",
  "serde_json",
@@ -2597,7 +2601,6 @@ dependencies = [
  "snark-verifier-sdk",
  "subtle",
  "tiny-keccak",
- "tokio",
  "wasm-bindgen",
  "wasm-bindgen-test",
 ]

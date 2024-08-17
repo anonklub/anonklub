@@ -4,8 +4,6 @@ version = "0.1.0"
 edition = "2021"
 authors = ["0xisk"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 halo2-ecc = { version = "0.4.1", default-features = false, features = ["halo2-axiom"] }
 halo2-base = { version = "0.4.1", default-features = false, features = ["halo2-axiom"] }
@@ -25,9 +23,7 @@ ethers = "2.0.11"
 subtle = "2.5"
 itertools = "0.13.0"
 snark-verifier-sdk = { version = "0.1.7", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
-# snark-verifier-sdk = { git = "https://github.com/axiom-crypto/snark-verifier.git", branch = "main", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
 snark-verifier = { version = "0.1.7", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
-# snark-verifier = { git = "https://github.com/axiom-crypto/snark-verifier.git", branch = "main", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
 
 [features]
 default=["rayon"]

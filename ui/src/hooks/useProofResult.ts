@@ -15,6 +15,7 @@ export const useProofResult = () => {
       merkleProofBytesSerialized: proofRequest.merkleProof,
       message: proofRequest.message,
       sig: proofRequest.rawSignature as Hex,
+      k: 15
     })
   }, [isWorkerReady, proofRequest])
 }

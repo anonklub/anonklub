@@ -12,6 +12,7 @@ export const useHalo2EthMembershipWorker = () => {
     sig,
     message,
     merkleProofBytesSerialized,
+    k
   }): Promise<Uint8Array> => {
     process.env.NODE_ENV === 'development' && console.time('==> Prove')
 
@@ -19,6 +20,7 @@ export const useHalo2EthMembershipWorker = () => {
       merkleProofBytesSerialized,
       message,
       sig,
+      k
     })
 
     process.env.NODE_ENV === 'development' && console.timeEnd('==> Prove')
@@ -26,14 +28,16 @@ export const useHalo2EthMembershipWorker = () => {
     return proof
   }
 
-  const verifyMembership: VerifyMembershipFn = async (
-    ethMembershipProof: Uint8Array,
-  ): Promise<boolean> => {
+  const verifyMembership: VerifyMembershipFn = async ({
+    membershipProofSerialized,
+    k
+  }): Promise<boolean> => {
     process.env.NODE_ENV === 'development' && console.time('==> Verify')
 
-    const isVerified = await Halo2EthMembershipWorker.verifyMembership(
-      ethMembershipProof,
-    )
+    const isVerified = await Halo2EthMembershipWorker.verifyMembership({
+      membershipProofSerialized,
+      k
+    })
 
     console.log("isVerified", isVerified)
 

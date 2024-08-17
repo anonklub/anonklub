@@ -4,12 +4,12 @@ import type {
   IHalo2EthMembershipWasm,
   IHalo2EthMembershipWorker,
 } from './interface'
-import { calculateSigRecovery, hexToLittleEndianBytes } from './utils'
+import { calculateSigRecovery, fetchKzgParams, hexToLittleEndianBytes } from './utils'
 
 let halo2EthMembershipWasm: IHalo2EthMembershipWasm
 let initialized = false
 
-export const halo2EcdsaWorker: IHalo2EthMembershipWorker = {
+export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async prepare() {
     halo2EthMembershipWasm = await import('@anonklub/halo2-eth-membership')
@@ -31,7 +31,7 @@ export const halo2EcdsaWorker: IHalo2EthMembershipWorker = {
     }
   },
 
-  proveMembership({ merkleProofBytesSerialized, message, sig }): Uint8Array {
+  async proveMembership({ merkleProofBytesSerialized, message, sig, k }): Promise<Uint8Array> {
     const { r, s, v } = hexToSignature(sig)
 
     const sBytes = hexToLittleEndianBytes(s, 32)
@@ -40,22 +40,26 @@ export const halo2EcdsaWorker: IHalo2EthMembershipWorker = {
     const isYOdd = calculateSigRecovery(v)
     const msgHash = hashMessage(message, 'bytes')
 
+    const params = await fetchKzgParams(k);
+
     return halo2EthMembershipWasm.prove_membership(
       sBytes,
       rBytes,
       isYOdd,
       msgHash,
       merkleProofBytesSerialized,
+      params
     )
   },
 
-  verifyMembership(
-    ethMembershipProof: Uint8Array,
-  ): boolean {
+  async verifyMembership({ membershipProofSerialized, k }): Promise<boolean> {
+    const params = await fetchKzgParams(k);
+
     return halo2EthMembershipWasm.verify_membership(
-      ethMembershipProof,
+      membershipProofSerialized,
+      params
     )
   },
 }
 
-expose(halo2EcdsaWorker)
+expose(Halo2EthMembershipWorker)
