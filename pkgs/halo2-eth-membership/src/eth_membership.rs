@@ -266,7 +266,6 @@ where
         eth_address.copy_from_slice(&pk_hash[12..]);
 
         let eth_address = F::from_bytes_le(&eth_address);
-        
 
         ctx.load_witness(eth_address)
     }
@@ -384,7 +383,7 @@ mod tests {
         BinaryMerkleTree, MerkleProof, MerkleProofBytes,
     };
     use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
-    
+
     use halo2_ecc::fields::FpStrategy;
     use halo2_ecdsa::gadget::efficient_ecdsa::EfficientECDSAInputs;
     use halo2_ecdsa::utils::recovery::recover_pk_efficient;
@@ -577,9 +576,7 @@ mod tests {
         let root = membership_tree.get_root();
         let (siblings, path_indices) = membership_tree.get_proof(0);
 
-        assert!(
-            membership_tree.verify_proof(&leaves[0], 0, &root, &siblings)
-        );
+        assert!(membership_tree.verify_proof(&leaves[0], 0, &root, &siblings));
 
         Ok(MerkleProof {
             depth: TREE_DEPTH,
