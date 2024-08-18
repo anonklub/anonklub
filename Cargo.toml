@@ -5,6 +5,7 @@ members = [
   "pkgs/cli",
   "pkgs/halo2-binary-merkle-tree",
   "pkgs/halo2-ecdsa",
+  "pkgs/halo2-wasm-ext",
   "pkgs/halo2wrong-ecdsa",
   "pkgs/merkle-tree-wasm",
   "pkgs/spartan-ecdsa-wasm",
