@@ -1,0 +1,168 @@
+openapi: 3.0.0
+paths:
+  /asset/ETH:
+    get:
+      operationId: AnonsetController_getEthBalanceOwners
+      summary: Get ethereum addresses that have a minimum balance of ETH.
+      parameters:
+        - name: min
+          required: false
+          in: query
+          description: Minimum ETH amount the addresses must own.
+          example: "10"
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Returns a list of addresses.
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      tags:
+        - Asset
+  /asset/ERC20:
+    get:
+      operationId: AnonsetController_getErc20BalanceOwners
+      summary: Get ethereum addresses that have a minimum balance of some ERC20.
+      parameters:
+        - name: min
+          required: false
+          in: query
+          description: Minimum ERC20 amount the addresses must own.
+          example: "100"
+          schema:
+            type: number
+        - name: tokenAddress
+          required: true
+          in: query
+          description: The ERC20 contract address.
+          example: "0xc18360217d8f7ab5e7c516566761ea12ce7f9d72"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns a list of addresses.
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      tags:
+        - Asset
+  /asset/nft:
+    get:
+      operationId: AnonsetController_getNftOwners
+      summary: >-
+        Get ethereum addresses that own an NFT of a given collection (other than
+        cryptopunk).
+      parameters:
+        - name: tokenAddress
+          required: true
+          in: query
+          description: The NFT contract address.
+          example: "0xa7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns a list of addresses.
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      tags:
+        - Asset
+  /asset/cryptopunk:
+    get:
+      operationId: AnonsetController_getCryptopunkOwners
+      summary: Get ethereum addresses that own a cryptopunk.
+      parameters: []
+      responses:
+        "200":
+          description: Returns a list of addresses.
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      tags:
+        - Asset
+  /beacon:
+    get:
+      operationId: AnonsetController_getBeaconDepositors
+      summary: >-
+        Get ethereum addresses that have deposited to the beacon contract
+        (0x00000000219ab540356cbb839cbe05303d7705fa).
+      parameters: []
+      responses:
+        "200":
+          description: Returns a list of addresses.
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      tags:
+        - Beacon
+  /dao/ens:
+    get:
+      operationId: AnonsetController_getEnsProposalVoters
+      summary: Get ethereum addresses that have voted on a given ENS proposal.
+      parameters:
+        - name: id
+          required: true
+          in: query
+          description: >-
+            The ID of the ENS Proposal (can be found e.g. on
+            [tally.xyz](https://www.tally.xyz/gov/ens/proposals)).
+          example: >-
+            15706104363492914432572227540113855373051896881975394006732444538096386655538
+          schema:
+            type: string
+        - name: choice
+          required: true
+          in: query
+          description: The vote choice.
+          schema:
+            enum:
+              - FOR
+              - AGAINST
+              - ABSTAIN
+            type: string
+      responses:
+        "200":
+          description: Returns a list of addresses.
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      tags:
+        - DAO
+info:
+  title: Anonset API
+  description: ""
+  version: 1.0.0
+  contact:
+    name: Privacy Scaling Explorations
+    url: https://pse.dev
+    email: me@sripwoud.xyz
+tags: []
+servers:
+  - url: https://query.anonklub.xyz
+    description: production
+  - url: https://anonset-staging.fly.dev
+    description: staging
+  - url: http://localhost:3000
+    description: local
+components:
+  schemas: {}
