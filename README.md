@@ -1,6 +1,14 @@
 ![anonklub banner](https://raw.githubusercontent.com/anonklub/assets/main/img/anonklub-banner-2.jpg)
 
+> [!Warning]
+>
+> This project has been sunset and isn't being actively worked on anymore.
+> The previously deployed services (query API, UI, discord bot) have been shut down. So the corresponding links (_anonklub.xyz_, _docs.anonklub.xyz_, _query.anonklub.xyz_) in docs/README(s) won't work.
+
 <p align="center">
+AnonKlub focuses on building applications that allow for secure and anonymous proof of membership.
+It does so by performing both ECDSA signatures and Merkle Tree inclusion verifications in a SNARK.
+It enables privacy applications such as anonymous airdrops, anonymous NFT minting, anonymous chat groups…<br><br>
 <a href="https://github.com/anonklub/anonklub/blob/main/LICENSE">
         <img alt="Github license" src="https://img.shields.io/github/license/anonklub/anonklub">
     </a>
@@ -35,42 +43,24 @@
 <img alt="akli rust badge" src="https://img.shields.io/crates/v/akli?logo=rust&label=akli&color=blue">
 </a>
 <br>
-<a href="https://github.com/anonklub/anonklub/deployments/query-api-staging">
-<img alt="Discord" src="https://img.shields.io/github/deployments/anonklub/anonklub/query-api-staging?label=Query%20API%20Staging">
-</a>
-<a href="https://github.com/anonklub/anonklub/deployments/query-api-prod">
-<img alt="Discord" src="https://img.shields.io/github/deployments/anonklub/anonklub/query-api-prod?label=Query%20API%20Prod">
-</a>
-<a href="https://github.com/anonklub/anonklub/deployments/discord-bot-staging">
-<img alt="Discord" src="https://img.shields.io/github/deployments/anonklub/anonklub/discord-bot-staging?label=Discord%20Bot%20Staging">
-</a>
-<a href="https://github.com/anonklub/anonklub/deployments/discord-bot-prod">
-<img alt="Discord" src="https://img.shields.io/github/deployments/anonklub/anonklub/discord-bot-prod?label=Discord%20Bot%20Prod">
-</a>
-<a href="https://github.com/anonklub/anonklub/deployments/ui-staging">
-<img alt="Discord" src="https://img.shields.io/github/deployments/anonklub/anonklub/ui-staging?label=UI%20Staging">
-</a>
-<a href="https://github.com/anonklub/anonklub/deployments/ui-prod">
-<img alt="Discord" src="https://img.shields.io/github/deployments/anonklub/anonklub/ui-prod?label=UI%20Prod">
-</a>
 </p>
 
-| Content                                                | Description                                                                                                                                                |             Status              | Live Version                                                                                                                                                                                               |
-| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [circom](circom)                                       | Circom circuits                                                                                                                                            |       :heavy_check_mark:        |                                                                                                                                                                                                            |
-| [discord-bot](discord-bot)                             | Discord Verification Bot                                                                                                                                   | ✔️ (circom/snarkjs support only) | [anonklub-discord-bot.fly.dev](https://anonklub-discord-bot.fly.dev)                                                                                                                                       |
-| [contracts](contracts)                                 | Solidity contracts                                                                                                                                         |       :heavy_check_mark:        | [Groth16Verifier](https://sepolia.etherscan.io/address/0x893f293e3918a179bf87fb772206e9927db61b0c#code) [AnonMinter](https://sepolia.etherscan.io/address/0xcc639e338f9fb382d76f30928559cf14943600e0#code) |
-| nullifier                                              |                                                                                                                                                            |        :calendar: TO DO         |                                                                                                                                                                                                            |
-| [pkgs/cli](pkgs/cli)                                   | Rust CLI                                                                                                                                                   |               ⏳                |                                                                                                                                                                                                            |
-| [pkgs/merkle-tree-wasm](pkgs/merkle-tree-wasm)         | Merkle tree Rust crate & corresponding wasm TS package                                                                                                     |       :heavy_check_mark:        |                                                                                                                                                                                                            |
-| [pkgs/merkle-tree-worker](pkgs/merkle-tree-worker)     | Web worker wrapper of the [@anonklub/merkle-tree-wasm](merkle-tree-wasm/Cargo.toml) wasm package                                                           |       :heavy_check_mark:        |                                                                                                                                                                                                            |
-| [pkgs/spartan-ecdsa-wasm](pkgs/spartan-ecdsa-wasm)     | Spartan/Sapir circuits & corresponding wasm TS package.                                                                                                    |       :heavy_check_mark:        |                                                                                                                                                                                                            |
-| [pkgs/spartan-ecdsa-worker](pkgs/spartan-ecdsa-worker) | Web worker wrapper of the [@anonklub/spartan](circuits/spartan/Cargo.toml) wasm package                                                                    |       :heavy_check_mark:        |                                                                                                                                                                                                            |
-| [queries/crypto_ethereum](queries/crypto_ethereum)     | Google [`bigquery-public-data.crypto_ethereum`](https://console.cloud.google.com/marketplace/product/ethereum/crypto-ethereum-blockchain) queries examples |       :heavy_check_mark:        |                                                                                                                                                                                                            |
-| [queries/dune_analytics](queries/dune_analytics)       | [Dune Analytics](https://dune.com/) queries examples                                                                                                       |       :heavy_check_mark:        |                                                                                                                                                                                                            |
-| [queries/the_graph](queries/the_graph)                 | [The Graph](https://thegraph.com/en/) queries examples                                                                                                     |       :heavy_check_mark:        |                                                                                                                                                                                                            |
-| [query-api](query-api)                                 | Query API server                                                                                                                                           |       :heavy_check_mark:        | [query.anonklub.xyz](https://query.anonklub.xyz)                                                                                                                                                           |
-| [ui](ui)                                               | User Interface (fetch anonymity sets, generate or verify membership proofs)                                                                                |       :heavy_check_mark:        | [anonklub.xyz](https://anonklub.xyz)                                                                                                                                                                       |
+| Content                                                | Description                                                                                                                                                |             Status              |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------: |
+| [circom](circom)                                       | Circom circuits                                                                                                                                            |       :heavy_check_mark:        |
+| [discord-bot](discord-bot)                             | Discord Verification Bot                                                                                                                                   | ✔️ (circom/snarkjs support only) |
+| [contracts](contracts)                                 | Solidity contracts                                                                                                                                         |       :heavy_check_mark:        |
+| nullifier                                              |                                                                                                                                                            |        :calendar: TO DO         |
+| [pkgs/cli](pkgs/cli)                                   | Rust CLI                                                                                                                                                   |               ⏳                |
+| [pkgs/merkle-tree-wasm](pkgs/merkle-tree-wasm)         | Merkle tree Rust crate & corresponding wasm TS package                                                                                                     |       :heavy_check_mark:        |
+| [pkgs/merkle-tree-worker](pkgs/merkle-tree-worker)     | Web worker wrapper of the [@anonklub/merkle-tree-wasm](merkle-tree-wasm/Cargo.toml) wasm package                                                           |       :heavy_check_mark:        |
+| [pkgs/spartan-ecdsa-wasm](pkgs/spartan-ecdsa-wasm)     | Spartan/Sapir circuits & corresponding wasm TS package.                                                                                                    |       :heavy_check_mark:        |
+| [pkgs/spartan-ecdsa-worker](pkgs/spartan-ecdsa-worker) | Web worker wrapper of the [@anonklub/spartan](circuits/spartan/Cargo.toml) wasm package                                                                    |       :heavy_check_mark:        |
+| [queries/crypto_ethereum](queries/crypto_ethereum)     | Google [`bigquery-public-data.crypto_ethereum`](https://console.cloud.google.com/marketplace/product/ethereum/crypto-ethereum-blockchain) queries examples |       :heavy_check_mark:        |
+| [queries/dune_analytics](queries/dune_analytics)       | [Dune Analytics](https://dune.com/) queries examples                                                                                                       |       :heavy_check_mark:        |
+| [queries/the_graph](queries/the_graph)                 | [The Graph](https://thegraph.com/en/) queries examples                                                                                                     |       :heavy_check_mark:        |
+| [query-api](query-api)                                 | Query API server                                                                                                                                           |       :heavy_check_mark:        |
+| [ui](ui)                                               | User Interface (fetch anonymity sets, generate or verify membership proofs)                                                                                |       :heavy_check_mark:        |
 
 ## Develop
 
