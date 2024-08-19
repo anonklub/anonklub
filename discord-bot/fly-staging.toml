@@ -17,6 +17,10 @@ allowed_public_ports = []
 auto_rollback = true
 
 [[services]]
+auto_stop_machines = "stop"
+# project in archived status
+auto_start_machines = false
+
 http_checks = []
 internal_port = 3000
 processes = ["app"]
