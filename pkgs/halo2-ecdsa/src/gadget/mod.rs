@@ -6,8 +6,6 @@ use halo2_base::{
 use halo2_ecc::{bigint::ProperCrtUint, ecc::EccChip, fields::FieldChip};
 use halo2_wasm_ext::consts::F;
 
-pub mod efficient_ecdsa;
-
 #[allow(clippy::too_many_arguments)]
 pub fn recover_pk_efficient<'a, CF, SF, GA>(
     base_chip: &'a FpChip<'a, F, CF>,
