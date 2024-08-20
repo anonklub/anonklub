@@ -48,6 +48,24 @@ pub fn generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) ->
         .context("could not serialize merkle proof bytes")?)
 }
 
+#[cfg(target_arch = "wasm32")]
+#[wasm_bindgen]
+pub fn generate_merkle_proof(
+    leaves: Vec<String>,
+    leaf: String,
+    depth: usize,
+) -> std::result::Result<Vec<u8>, JsValue> {
+    std::panic::set_hook(Box::new(console_error_panic_hook::hook));
+
+    // Serialize the full merkle proof
+    Ok(_generate_merkle_proof(leaves, leaf, depth)
+        .map_err(|_e| JsValue::from_str("Could not "))?
+        .to_bytes_le()
+        .map_err(|_e| JsValue::from_str("Could not encode merkle proof"))?
+        .serialize()
+        .map_err(|_e| JsValue::from_str("Could not serialize merkle proof bytes"))?)
+}
+
 #[cfg(test)]
 mod tests {
     use crate::binary_merkle_tree::MerkleProofBytes;
