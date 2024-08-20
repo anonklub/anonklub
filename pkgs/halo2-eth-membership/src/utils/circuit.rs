@@ -2,7 +2,7 @@ use anyhow::{anyhow, Context, Result};
 use halo2_base::{halo2_proofs::halo2curves::secp256k1, utils::ScalarField};
 use halo2_binary_merkle_tree::binary_merkle_tree::{MerkleProof, MerkleProofBytes};
 use halo2_ecdsa::{
-    gadget::efficient_ecdsa::EfficientECDSAInputs, utils::recovery::recover_pk_efficient,
+    circuits::efficient_ecdsa::EfficientECDSAInputs, utils::recovery::recover_pk_efficient,
 };
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, Halo2Wasm};
 use num_bigint::BigUint;
