@@ -1,8 +1,5 @@
 #![allow(non_snake_case)]
 #![allow(dead_code)]
-use std::str::from_utf8;
-
-use crate::utils::ct_option_ok_or;
 use anyhow::anyhow;
 use anyhow::{Context, Result};
 use halo2_base::{
@@ -13,7 +10,9 @@ use halo2_base::{
     utils::ScalarField,
 };
 use halo2_ecc::secp256k1::SECP_B;
+use halo2_wasm_ext::utils::ct_option_ok_or;
 use num_bigint::BigUint;
+use std::str::from_utf8;
 
 // Recover the point from the x coordinate and the parity bit
 fn from_x(x: secp256k1::Fq, is_y_odd: bool) -> Result<secp256k1::Secp256k1Affine> {
@@ -157,7 +156,6 @@ pub fn recover_pk(
 #[cfg(test)]
 mod tests {
     use super::{recover_pk, recover_pk_efficient};
-    use crate::utils::ct_option_ok_or;
     use anyhow::anyhow;
     use anyhow::{Context, Result};
     use ethers::{
@@ -176,6 +174,7 @@ mod tests {
         },
         utils::{biguint_to_fe, fe_to_biguint, modulus},
     };
+    use halo2_wasm_ext::utils::ct_option_ok_or;
     use num_bigint::BigUint;
     use rand::{rngs::StdRng, SeedableRng};
 
