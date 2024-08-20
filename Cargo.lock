@@ -2541,6 +2541,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "halo2-wasm-ext"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bincode",
+ "ethers",
+ "halo2-base",
+ "halo2-ecc",
+ "halo2-wasm",
+ "hex",
+ "itertools 0.13.0",
+ "libsecp256k1",
+ "num-bigint",
+ "rand 0.8.5",
+ "rand_core 0.6.4",
+ "serde",
+ "serde_json",
+ "snark-verifier",
+ "snark-verifier-sdk",
+ "subtle",
+]
+
+[[package]]
 name = "halo2_proofs"
 version = "0.3.0"
 source = "git+https://github.com/privacy-scaling-explorations/halo2?tag=v0.3.0#73408a140737d8336490452193b21f5a7a94e7de"
