@@ -11,7 +11,6 @@ export const useMerkleTreeWasmWorker = () => {
   ): Promise<Uint8Array> => {
     process.env.NODE_ENV === 'development' && console.time('==>merkle')
 
-    // eslint-disable-next-line no-useless-catch
     try {
       const proof = await MerkleTreeWorker.generateMerkleProof(
         leaves,

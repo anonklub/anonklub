@@ -60,7 +60,6 @@ export const useProofRequest = () => {
         setIsGeneratingMerkleProof(false)
       }
     })()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, isWorkerReady, message, rawSignature, anonSet])
 
   return {

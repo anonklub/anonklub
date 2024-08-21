@@ -6,6 +6,5 @@ export function useSetHelp(helpText: string[]) {
 
   useEffect(() => {
     setHelpText(helpText)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }

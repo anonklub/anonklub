@@ -7,7 +7,6 @@ let halo2EcdsaWasm: IHalo2EthMembershipWasm
 let initialized = false
 
 export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async prepare(num_threads: number) {
     halo2EcdsaWasm = await import('@anonklub/halo2-eth-membership')
     halo2EcdsaWasm.initPanicHook()

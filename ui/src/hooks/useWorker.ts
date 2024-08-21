@@ -12,7 +12,6 @@ export const useWorker = (
       await worker.prepare()
       setIsWorkerReady(true)
     })()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return isWorkerReady
