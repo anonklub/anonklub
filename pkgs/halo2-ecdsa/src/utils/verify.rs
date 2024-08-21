@@ -1,14 +1,14 @@
-use std::iter::zip;
-
+use super::{consts::F, recovery::recover_pk_efficient};
 use anyhow::{anyhow, Result};
 use halo2_base::{
     halo2_proofs::halo2curves::secp256k1,
     utils::{biguint_to_fe, fe_to_biguint, modulus, CurveAffineExt},
 };
+use halo2_wasm_ext::utils::ct_option_ok_or;
 use num_bigint::BigUint;
+use std::iter::zip;
 
-use super::{consts::F, ct_option_ok_or, recovery::recover_pk_efficient};
-
+#[allow(dead_code)]
 pub fn verify_efficient_ecdsa(
     msg_hash: BigUint,
     r: secp256k1::Fq,

@@ -1,7 +1,6 @@
 {
-  "name": "@anonklub/halo2-ecdsa",
+  "name": "@anonklub/halo2-eth-membership",
   "version": "1.1.3",
-  "private": true,
   "author": "0xisk <0xisk@proton.me>",
   "description": "Wasm Rust crate for verifying Secp256k1 signatures",
   "keywords": [
@@ -26,6 +25,7 @@
     "dist/index.js"
   ],
   "scripts": {
+    "compile": "pnpm check-wasm-pack && pnpm clean && wasm-pack build . --release --target web --out-dir dist --out-name index --scope anonklub",
     "clean": "rm -rf dist",
     "check-wasm-pack": "command -v wasm-pack >/dev/null 2>&1 || echo \"wasm-pack is not installed\"\n",
     "format.cargo": "cargo fmt -- --check",

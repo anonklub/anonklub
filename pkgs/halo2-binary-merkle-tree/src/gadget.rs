@@ -5,16 +5,14 @@ use halo2_base::{
     AssignedValue, Context,
 };
 
-fn dual_mux<F>(
+/// @src https://github.com/aerius-labs/zksnap-circuits-halo2/tree/ffa3f7e3c1102deb78520015c02342fda5e0c630/voter/src/merkletree
+fn dual_mux<F: BigPrimeField>(
     ctx: &mut Context<F>,
     gate: &GateChip<F>,
     a: &AssignedValue<F>,
     b: &AssignedValue<F>,
     switch: &AssignedValue<F>,
-) -> [AssignedValue<F>; 2]
-where
-    F: BigPrimeField,
-{
+) -> [AssignedValue<F>; 2] {
     gate.assert_bit(ctx, *switch);
 
     let a_sub_b = gate.sub(ctx, *a, *b);
@@ -26,7 +24,7 @@ where
     [left, right]
 }
 
-pub fn verify_membership_proof<F, const T: usize, const RATE: usize>(
+pub fn verify_merkle_proof<F: BigPrimeField, const T: usize, const RATE: usize>(
     ctx: &mut Context<F>,
     gate: &GateChip<F>,
     hasher: PoseidonHasher<F, T, RATE>,
@@ -34,9 +32,7 @@ pub fn verify_membership_proof<F, const T: usize, const RATE: usize>(
     root: &AssignedValue<F>,
     siblings: &[AssignedValue<F>],
     path_indices: &[AssignedValue<F>],
-) where
-    F: BigPrimeField,
-{
+) {
     let mut computed_root = ctx.load_witness(*leaf.value());
 
     for (sibling, path_index) in siblings.iter().zip(path_indices.iter()) {

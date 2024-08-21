@@ -2,10 +2,10 @@ use anyhow::{anyhow, Context, Result};
 use halo2_base::utils::{BigPrimeField, CurveAffineExt};
 use halo2_wasm::Halo2Wasm;
 
-use crate::circuits::efficient_ecdsa::EfficientECDSACircuit;
+use crate::eth_membership::EthMembershipCircuit;
 
 pub fn generate_proof<CF, SF, GA>(
-    circuit: &mut EfficientECDSACircuit<CF, SF, GA>,
+    circuit: &mut EthMembershipCircuit<CF, SF, GA>,
     halo2_wasm: &Halo2Wasm,
 ) -> Result<Vec<u8>>
 where
@@ -14,7 +14,7 @@ where
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
     circuit
-        .verify_signature()
+        .verify_membership()
         .map_err(|e| anyhow!(e))
         .context("The circuit failed to verify signature!")?;
 
