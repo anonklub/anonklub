@@ -115,7 +115,7 @@ jobs:
           tool: cargo-llvm-cov
       - name: Run tests with coverage report
         # excluding pkg whose tests are too long
-        run: cargo llvm-cov --lcov --output-path lcov-rs.info --workspace --exclude halo2-secp256k1-wasm --exclude halo2wrong-ecdsa
+        run: cargo llvm-cov --lcov --output-path lcov-rs.info --workspace --exclude halo2-ecdsa --exclude halo2-eth-membership --exclude halo2wrong-ecdsa
       - name: Upload rs test coverage report
         uses: actions/upload-artifact@v4
         with:
