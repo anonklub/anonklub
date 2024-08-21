@@ -1,9 +1,4 @@
-import type {
-  initThreadPool,
-  initPanicHook,
-  prove_membership,
-  verify_membership,
-} from '@anonklub/halo2-eth-membership'
+import type { initPanicHook, initThreadPool, prove_membership, verify_membership } from '@anonklub/halo2-eth-membership'
 import type { Hex } from 'viem'
 
 export interface MerkleProof {

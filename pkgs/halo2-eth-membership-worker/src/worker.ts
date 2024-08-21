@@ -1,9 +1,6 @@
 import { expose } from 'comlink'
 import { hashMessage, hexToBytes, hexToSignature } from 'viem'
-import type {
-  IHalo2EthMembershipWasm,
-  IHalo2EthMembershipaWorker,
-} from './interface'
+import type { IHalo2EthMembershipaWorker, IHalo2EthMembershipWasm } from './interface'
 import { calculateSigRecovery } from './utils'
 
 let halo2EcdsaWasm: IHalo2EthMembershipWasm
