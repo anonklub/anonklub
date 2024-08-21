@@ -28,12 +28,10 @@ rand_core = { version = "0.6", default-features = false, features = ["getrandom"
 serde = { version = "1.0.188", features = ["derive"] }
 serde-wasm-bindgen = "0.6.4"
 serde_json = "1.0"
-# snark-verifier-sdk = { git = "https://github.com/axiom-crypto/snark-verifier.git", branch = "main", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
 snark-verifier = { version = "0.1.7", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
 snark-verifier-sdk = { version = "0.1.7", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
 subtle = "2.5"
 wasm-bindgen = "0.2.89"
-# snark-verifier = { git = "https://github.com/axiom-crypto/snark-verifier.git", branch = "main", default-features = false, features = ["loader_halo2", "halo2-axiom"] }
 
 [features]
 default = ["rayon"]
