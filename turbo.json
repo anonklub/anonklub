@@ -95,12 +95,6 @@
     "build.graph": {
       "outputs": ["src/repositories/graph-client/.graphclient/**"]
     },
-    "//#_compile": {
-      "outputs": [
-        "pkgs/{merkle-tree,spartan-ecdsa}-wasm/dist/**",
-        "pkgs/halo2-{binary-merkle-tree,eth-membership}/dist/**"
-      ]
-    },
     "//#test.jest": {
       "dependsOn": ["^build"],
       "inputs": [
@@ -118,8 +112,8 @@
       "dependsOn": ["test"]
     },
     "compile": {
-      "inputs": ["merkle-tree-wasm"],
-      "outputs": ["merkle-tree-wasm"]
+      "inputs": ["src/**/*.rs", "Cargo.toml", "package.json"],
+      "outputs": ["dist/**"]
     }
   }
 }

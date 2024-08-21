@@ -32,13 +32,13 @@
     "typescript": "5.1.6"
   },
   "scripts": {
-    "_compile": "pnpm --filter merkle-tree-wasm compile && pnpm --filter spartan-ecdsa-wasm compile",
+    "_compile": "turbo run --concurrency=1 compile",
     "barrels": "barrelsby --config .barrelsby.json",
     "build": "turbo build _compile",
     "build.docker.discord": "docker build -f discord-bot/Dockerfile . -t discord-bot",
     "build.docker.query": "docker build -f query-api/Dockerfile . -t query-api",
     "build.docker.ui": "docker build -f ui/Dockerfile --build-arg NEXT_PUBLIC_QUERY_API_URL=$QUERY_API_URL . -t anonklub-ui",
-    "build.pkgs": "turbo --filter=// --filter='./pkgs/*' build _compile",
+    "build.pkgs": "pnpm _compile && turbo --filter=// --filter='./pkgs/*' --filter='!./pkgs/halo2-eth-membership-worker' build",
     "build.ui": "pnpm --filter @anonklub/ui build",
     "changeset": "changeset && git add .changeset && git commit -m 'chore: add changeset'",
     "clean": "find . \\( -name 'node_modules' -o -name 'dist' -o -name 'next' \\) -type d -prune -exec rm -rf '{}' +",
