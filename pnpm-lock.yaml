@@ -190,6 +190,18 @@ importers:
 
   pkgs/halo2-eth-membership: {}
 
+  pkgs/halo2-eth-membership-worker:
+    dependencies:
+      '@anonklub/halo2-eth-membership':
+        specifier: file:../halo2-eth-membership
+        version: file:pkgs/halo2-eth-membership
+      comlink:
+        specifier: ^4.4.1
+        version: 4.4.1
+      viem:
+        specifier: ^2.0.10
+        version: 2.4.1(typescript@5.1.6)(zod@3.22.4)
+
   pkgs/halo2-wasm-ext: {}
 
   pkgs/merkle-tree-wasm: {}

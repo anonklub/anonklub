@@ -541,60 +541,7 @@ mod tests {
 
         Ok(())
     }
-
-    // #[test]
-    // fn test_secp256k1_mock_random_verify() -> Result<()> {
-    //     let path = "configs/eth_membership.config";
-    //     let circuit_params: CircuitConfig = serde_json::from_reader(
-    //         File::open(path)
-    //             .map_err(|e| anyhow!(e))
-    //             .with_context(|| format!("The circuit config file does not exist: {}", path))?,
-    //     )
-    //     .map_err(|e| anyhow!(e))
-    //     .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
-
-    //     let mut rng = StdRng::seed_from_u64(0);
-    //     let (ecdsa_inputs, test_inputs) = random_ecdsa_input(&mut rng)?;
-
-    //     let mut halo2_wasm = Halo2Wasm::new();
-
-    //     halo2_wasm.config(circuit_params);
-
-    //     let mut circuit =
-    //         EthMembershipCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-    //             &halo2_wasm,
-    //             ecdsa_inputs,
-    //         )?;
-
-    //     circuit
-    //         .verify_membership()
-    //         .map_err(|e| anyhow!(e))
-    //         .context("The circuit failed to verify signature!")?;
-
-    //     halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
-
-    //     halo2_wasm.assign_instances();
-
-    //     halo2_wasm.mock();
-
-    //     // Get the public instance inputs
-    //     let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
-
-    //     // Verify Eff ECDSA
-    //     println!("Verifying Eff ECDSA Proof");
-
-    //     let is_eff_ecdsa_valid = verify_efficient_ecdsa(
-    //         test_inputs.msg_hash,
-    //         test_inputs.r,
-    //         test_inputs.is_y_odd,
-    //         &instances,
-    //     )?;
-
-    //     assert!(is_eff_ecdsa_valid);
-
-    //     Ok(())
-    // }
-
+    
     #[test]
     fn test_eth_membership_real_verify() -> Result<()> {
         let path = "configs/eth_membership.config";
