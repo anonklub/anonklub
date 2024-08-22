@@ -1,10 +1,35 @@
 {
   "name": "@anonklub/halo2-binary-merkle-tree",
-  "private": true,
+  "version": "0.0.1",
+  "author": "0xisk <0xisk@proton.me>",
+  "description": "A rust crate implements binary merkle tree using halo2 Secp256k1 F, and PSE poseidon.",
+  "keywords": [
+    "wasm",
+    "merkle-tree",
+    "Secp256k1",
+    "rust"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/anonklub/anonklub",
+  "homepage": "https://github.com/anonklub/anonklub",
+  "bugs": "https://github.com/anonklub/anonklub/issues",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.{js,ts,wasm}",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "module": "dist/index.js",
+  "sideEffects": [
+    "dist/index.js"
+  ],
   "scripts": {
+    "compile": "rimraf dist && wasm-pack build . --release --target web --out-dir dist --out-name index --scope anonklub",
     "format.cargo": "cargo fmt -- --check",
     "format.cargo.fix": "cargo fmt",
     "lint.cargo": "cargo clippy",
-    "lint.cargo.fix": "cargo clippy --fix"
+    "lint.cargo.fix": "cargo clippy --fix",
+    "prepack": "pnpm compile"
   }
 }
