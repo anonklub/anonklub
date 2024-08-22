@@ -93,6 +93,6 @@ source .envrc
 
 Check available scripts with `pnpm run`.\
 Especially, to start the ui or the query-api: `pnpm start.ui` or `pnpm start.query-api`.\
-Don't bother run build tasks explicitly beforehand, [turbo](https://turbo.build/repo/docs) takes care of topological dependencies between tasks).
+Don't bother running build tasks explicitly beforehand: [turbo](https://turbo.build/repo/docs) takes care of topological dependencies between tasks.
 
 ## [Contribute](https://github.com/anonklub/anonklub/contribute)
