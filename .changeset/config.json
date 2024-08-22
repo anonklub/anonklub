@@ -10,7 +10,6 @@
   "ignore": [
     "@anonklub/query-api",
     "@anonklub/ui",
-    "@anonklub/halo2-binary-merkle-tree",
     "@anonklub/halo2-ecdsa",
     "@anonklub/halo2-eth-membership-worker"
   ]
