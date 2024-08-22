@@ -1,4 +1,5 @@
 import { config } from '#'
+import { useHalo2BinaryMerkleTreeWorker } from '@/hooks/useHalo2BinaryMerkleTree'
 import { useMerkleTreeWasmWorker } from '@/hooks/useMerkleTreeWorker'
 import { useStore } from '@/hooks/useStore'
 import { ProofRequest } from '@anonklub/proof'
@@ -20,7 +21,7 @@ export const useProofRequest = () => {
     message,
   })
   const [isGeneratingMerkleProof, setIsGeneratingMerkleProof] = useState(false)
-  const { generateMerkleProof, isWorkerReady } = useMerkleTreeWasmWorker()
+  const { generateMerkleProof, isWorkerReady } = useHalo2BinaryMerkleTreeWorker()
   const [merkleProofError, setMerkleProofError] = useState<string | null>(null)
 
   const canSign = rawSignature === undefined && isConnected
