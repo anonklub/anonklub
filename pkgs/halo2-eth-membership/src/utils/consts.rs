@@ -10,6 +10,7 @@ use halo2_ecc::fields::fp;
 pub type E = Bn256;
 pub type E_AFFINE = G1Affine;
 pub type F = bn256::Fr; // Scalar Native FF;
+                        //pub type F = secp256k1::Fq; // Scalar Native FF;
 pub type BF = bn256::Fq; // Base Native FF;
 pub type CF = secp256k1::Fp;
 pub type SF = secp256k1::Fq;
