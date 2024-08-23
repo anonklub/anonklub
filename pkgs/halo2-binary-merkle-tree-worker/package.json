@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "comlink": "^4.4.1",
-    "@anonklub/halo2-binary-merkle-tree": "file:../halo2-binary-merkle-tree"
+    "@anonklub/halo2-binary-merkle-tree": "0.1.0"
   }
 }
