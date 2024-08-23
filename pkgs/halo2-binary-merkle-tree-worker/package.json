@@ -1,0 +1,33 @@
+{
+  "name": "@anonklub/halo2-binary-merkle-tree-worker",
+  "version": "0.0.1",
+  "author": "0xisk <0xisk@proton.me>",
+  "description": "A Web-Worker package for managing creating merkle tree in the browser by using wasm",
+  "keywords": [
+    "web-worker",
+    "wasm",
+    "merkle-tree",
+    "halo2-ecdsa"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/anonklub/anonklub",
+  "repository": "https://github.com/anonklub/anonklub/tree/main/%40anonklub/cli",
+  "bugs": "https://github.com/anonklub/anonklub/issues",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "pnpm clean && tsc --project tsconfig.compile.json",
+    "clean": "rm -rf dist",
+    "prepack": "pnpm build",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "comlink": "^4.4.1",
+    "@anonklub/halo2-binary-merkle-tree": "file:../halo2-binary-merkle-tree"
+  }
+}
