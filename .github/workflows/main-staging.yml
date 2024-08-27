@@ -6,11 +6,11 @@ on:
   pull_request:
     branches: [main, staging]
     paths-ignore:
-      ["**/Dockerfile", "**/public/**", "**/.*ignore", "contracts/lib/**"]
+      ["**/Dockerfile", "**/public/**", "**/.*ignore"]
   push:
     branches: [main, staging]
     paths-ignore:
-      ["**/Dockerfile", "**/public/**", "**/.*ignore", "contracts/lib/**"]
+      ["**/Dockerfile", "**/public/**", "**/.*ignore"]
 
 jobs:
   changed-files:
@@ -18,7 +18,6 @@ jobs:
     outputs:
       jts_any_changed: ${{ steps.changed-files.outputs.jts_any_changed }}
       rs_any_changed: ${{ steps.changed-files.outputs.rs_any_changed }}
-      sol_any_changed: ${{ steps.changed-files.outputs.sol_any_changed }}
     steps:
       - uses: actions/checkout@v4
       - uses: tj-actions/changed-files@v44
@@ -33,8 +32,6 @@ jobs:
               - '**/*.{js,ts}'
               - pnpm-lock.yaml
               - '!ui/**'
-            sol:
-              - '**/*.sol'
 
   deps:
     needs: changed-files
@@ -122,24 +119,8 @@ jobs:
           name: lcov-rs.info
           path: lcov-rs.info
 
-  test-sol:
-    needs: changed-files
-    if: needs.changed-files.outputs.sol_any_changed == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: foundry-rs/foundry-toolchain@v1.2.0
-        with:
-          version: nightly
-      - run: forge coverage --report lcov --report-file lcov-sol.info
-      - name: Upload sol test coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: lcov-sol.info
-          path: lcov-sol.info
-
   coverage:
-    needs: [test-node, test-rust, test-sol]
+    needs: [test-node, test-rust]
     # workaround for https://github.com/orgs/community/discussions/13690
     # https://stackoverflow.com/a/77066140/9771158
     if: ${{ !(failure() || cancelled()) }}
@@ -174,7 +155,4 @@ jobs:
         with:
           components: rustfmt
       - uses: Swatinem/rust-cache@v2.7.3
-      - uses: foundry-rs/foundry-toolchain@v1.2.0
-        with:
-          version: nightly
       - uses: dprint/check@v2.2
