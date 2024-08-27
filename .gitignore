@@ -9,7 +9,6 @@ node_modules
 *.log
 !benchmark.log
 tsconfig.tsbuildinfo
-circuits/circom/cache
 
 .env*
 !.envrc.example
@@ -23,9 +22,6 @@ dev.db-journal
 .graph_api_key
 .sig
 .wallet_connect_project_id
-
-circuits/circom/node_modules
-circuits/circom/package-lock.json
 
 .privatekey
 
