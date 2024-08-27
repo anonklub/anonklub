@@ -2,7 +2,6 @@
 .eslintrc.yaml
 node_modules
 target
-circom
 queries
 coverage
 cache
