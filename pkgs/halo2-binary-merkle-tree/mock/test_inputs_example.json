@@ -1,0 +1,5 @@
+{
+  "leaves": ["0x123456", "0xabcdef", "0x789abc"],
+  "leaf": "0x123456",
+  "depth": 3
+}
