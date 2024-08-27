@@ -5,6 +5,6 @@
     "format.cargo": "cargo fmt -- --check",
     "format.cargo.fix": "cargo fmt",
     "lint.cargo": "cargo clippy",
-    "lint.cargo.fix": "cargo clippy --fix"
+    "lint.cargo.fix": "test -d node_modules || exit 0 && cargo clippy --fix"
   }
 }
