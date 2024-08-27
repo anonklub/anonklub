@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/halo2-binary-merkle-tree-worker",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "0xisk <0xisk@proton.me>",
   "description": "A Web-Worker package for managing creating merkle tree in the browser by using wasm",
   "keywords": [
