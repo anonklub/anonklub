@@ -192,6 +192,15 @@ importers:
 
   pkgs/halo2-binary-merkle-tree: {}
 
+  pkgs/halo2-binary-merkle-tree-worker:
+    dependencies:
+      '@anonklub/halo2-binary-merkle-tree':
+        specifier: 0.1.1
+        version: 0.1.1
+      comlink:
+        specifier: ^4.4.1
+        version: 4.4.1
+
   pkgs/halo2-ecdsa: {}
 
   pkgs/halo2-eth-membership: {}
@@ -520,6 +529,9 @@ packages:
   '@angular-devkit/schematics@17.3.8':
     resolution: {integrity: sha512-QRVEYpIfgkprNHc916JlPuNbLzOgrm9DZalHasnLUz4P6g7pR21olb8YCyM2OTJjombNhya9ZpckcADU5Qyvlg==}
     engines: {node: ^18.13.0 || >=20.9.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
+
+  '@anonklub/halo2-binary-merkle-tree@0.1.1':
+    resolution: {integrity: sha512-yCTT7DEBbNaoWn5gDmwS6OKXdfs8ShDEX49AKDGdvA2wOWEej5QCgKYbmvsyZ/tQ/9fEhERfduK6WFX7OR/Vow==}
 
   '@anonklub/halo2-eth-membership@0.1.0':
     resolution: {integrity: sha512-8ATWzGMBBWCMyilHMjQaHq1U652ZGuFmTopZCmwx3nxbvwmXuiwMcHjchjzi2KNLe91gDX3iaq6LJs8/8UGbYQ==}
@@ -9386,6 +9398,8 @@ snapshots:
       rxjs: 7.8.1
     transitivePeerDependencies:
       - chokidar
+
+  '@anonklub/halo2-binary-merkle-tree@0.1.1': {}
 
   '@anonklub/halo2-eth-membership@0.1.0': {}
 
