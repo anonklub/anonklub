@@ -13,12 +13,6 @@ export DISCORD_BOT_URL=update \
 export NEXT_PUBLIC_VERIFIER_ADDRESS=0x893f293e3918a179bf87fb772206e9927db61b0c \
        NEXT_PUBLIC_VERIFIER_CHAIN_ID=11155111
 
-# contracts development
-export SEPOLIA_RPC_URL=update \
-       DEPLOYER_PRIVATEKEY=update \
-       ETHERSCAN_API_KEY=get-at-https://etherscan.io/register \
-       MERKLE_ROOT=update
-
 # secret seeded from one of discord secret to restrcit request to ui to the discord discord-bot
 # eg echo -n "$CLIENT_ID" | openssl dgst -sha256 -binary | openssl base64 | tr -d '/+=' | cut -c1-32
 export DISCORD_BOT_API_KEY=update

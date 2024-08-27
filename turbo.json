@@ -10,8 +10,7 @@
     },
     "//#fmt": {
       "inputs": [
-        "**/*.{cjs,js,jsx,ts,tsx,json,jsonc,md,rs,sol,yaml,yml}",
-        "!contracts/lib/**",
+        "**/*.{cjs,js,jsx,ts,tsx,json,jsonc,md,rs,yaml,yml}",
         "!ui/public/**",
         "!query-api/src/repositories/graph-client/.graph-client/**"
       ]
@@ -22,10 +21,6 @@
         "pkgs/{merkle-tree,spartan-ecdsa}-wasm/src/**/*.rs",
         "pkgs/halo2-{binary-merkle-tree,eth-membership}/src/**/*.rs"
       ]
-    },
-    "format.forge.fix": {
-      "cache": false,
-      "inputs": ["contracts/{script,src,test}/**/*.sol"]
     },
     "//#format.biome.fix": {
       "cache": false,
@@ -42,13 +37,6 @@
         "{pkgs,circom,discord-bot,query-api,ui}/**/{package.json,*.{cjs,js,jsx,ts,tsx}}",
         "!{pkgs,circom,discord-bot,query-api,ui}/**/{build,dist,node_modules,.next}/**"
       ]
-    },
-    "lint.solhint": {
-      "inputs": ["contracts/{script,src,test}/**/*.sol"]
-    },
-    "lint.solhint.fix": {
-      "cache": false,
-      "inputs": ["contracts/{script,src,test}/**/*.sol"]
     },
     "lint.cargo": {
       "cache": false,
@@ -103,10 +91,6 @@
     },
     "//#test.cargo": {
       "inputs": ["pkgs/**/*.rs"]
-    },
-    "_test": {
-      "cache": false,
-      "inputs": ["contracts/src/**/*.sol"]
     },
     "deploy": {
       "dependsOn": ["test"]

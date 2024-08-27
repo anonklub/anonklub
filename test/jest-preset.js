@@ -38,7 +38,6 @@ module.exports = {
     'coverage',
     'dist',
     'node_modules',
-    'openzeppelin-contracts',
     'pnpm-lock.yaml',
   ],
   verbose: true,

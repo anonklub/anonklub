@@ -1,6 +1,5 @@
 packages:
   - circom
-  - contracts
   - discord-bot
   - "pkgs/*"
   - test
