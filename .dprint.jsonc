@@ -1,12 +1,10 @@
 {
   "exec": {
     "commands": [
-      { "command": "rustfmt --edition 2021", "exts": ["rs"] },
-      { "command": "forge fmt - --raw", "exts": ["sol"] }
+      { "command": "rustfmt --edition 2021", "exts": ["rs"] }
     ]
   },
   "excludes": [
-    "contracts/lib",
     "generated",
     ".graphclient",
     "pnpm-lock.yaml",

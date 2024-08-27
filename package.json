@@ -49,11 +49,11 @@
     "fmt": "dprint fmt",
     "format.biome.fix": "biome format --config-path=.biome.jsonc --write .",
     "knip": "knip -c .knip.ts --production --strict",
-    "lint": "turbo lint.cargo lint.biome lint.solhint",
+    "lint": "turbo lint.cargo lint.biome",
     "lint.biome": "biome lint --config-path=.biome.jsonc --max-diagnostics 200 . --no-errors-on-unmatched",
     "lint.biome.fix": "biome lint --config-path=.biome.jsonc --write --max-diagnostics 200 .",
     "lint.cargo.fix": "turbo lint.cargo.fix",
-    "lint.fix": "turbo lint.cargo.fix lint.biome.fix lint.solhint.fix",
+    "lint.fix": "turbo lint.cargo.fix lint.biome.fix",
     "publish.pkgs": "pnpm build.pkgs && changeset version && changeset publish",
     "start.query-api": "pnpm --filter query-api start.dev",
     "start.ui": "pnpm --filter @anonklub/ui dev",
@@ -64,15 +64,6 @@
     "test.coverage.html": "cargo llvm-cov --all-features --workspace --html --output-dir=target/llvm-cov/html",
     "test.coverage.summary": "cargo llvm-cov --all-features --workspace --summary-only",
     "typecheck": "turbo typecheck",
-    "validate": "turbo fmt lint.solhint build _compile --cache-dir=.turbo"
-  },
-  "workspaces": [
-    "contracts",
-    "circom",
-    "discord-bot",
-    "pkgs/*",
-    "query-api",
-    "test",
-    "ui"
-  ]
+    "validate": "turbo fmt build _compile --cache-dir=.turbo"
+  }
 }

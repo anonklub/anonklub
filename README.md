@@ -49,7 +49,6 @@ It enables privacy applications such as anonymous airdrops, anonymous NFT mintin
 | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------: |
 | [circom](circom)                                       | Circom circuits                                                                                                                                            |       :heavy_check_mark:        |
 | [discord-bot](discord-bot)                             | Discord Verification Bot                                                                                                                                   | ✔️ (circom/snarkjs support only) |
-| [contracts](contracts)                                 | Solidity contracts                                                                                                                                         |       :heavy_check_mark:        |
 | nullifier                                              |                                                                                                                                                            |        :calendar: TO DO         |
 | [pkgs/cli](pkgs/cli)                                   | Rust CLI                                                                                                                                                   |               ⏳                |
 | [pkgs/merkle-tree-wasm](pkgs/merkle-tree-wasm)         | Merkle tree Rust crate & corresponding wasm TS package                                                                                                     |       :heavy_check_mark:        |
@@ -61,6 +60,10 @@ It enables privacy applications such as anonymous airdrops, anonymous NFT mintin
 | [queries/the_graph](queries/the_graph)                 | [The Graph](https://thegraph.com/en/) queries examples                                                                                                     |       :heavy_check_mark:        |
 | [query-api](query-api)                                 | Query API server                                                                                                                                           |       :heavy_check_mark:        |
 | [ui](ui)                                               | User Interface (fetch anonymity sets, generate or verify membership proofs)                                                                                |       :heavy_check_mark:        |
+
+## Archive branches
+
+- [`archive/circom`](https://github.com/anonklub/anonklub/tree/archive/circom)
 
 ## Develop
 

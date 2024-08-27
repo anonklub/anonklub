@@ -1,4 +1,0 @@
-node_modules
-lib/forge-std
-lib/openzeppelin-contracts
-src/Groth16Verifier.sol
