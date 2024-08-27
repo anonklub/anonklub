@@ -17,7 +17,21 @@ It enables privacy applications such as anonymous airdrops, anonymous NFT mintin
         <img alt="GitHub Workflow test" src="https://img.shields.io/github/actions/workflow/status/anonklub/anonklub/main-staging.yml?style=flat-squarebranch=main&label=main&logo=github">
   </a>
   <a href="https://coveralls.io/github/anonklub/anonklub?branch=main">
-  <img alt="Coveralls Badge" src="https://img.shields.io/coverallsCoverage/github/anonklub/anonklub.svg?label=coverage%20(ts)&logo=coveralls">
+  <img alt="Coveralls Badge" src="https://img.shields.io/coverallsCoverage/github/anonklub/anonklub.svg?label=coverage&logo=coveralls">
+</a>
+<br>
+<a href="https://www.npmjs.com/package/@anonklub/halo2-binary-merkle-tree">
+<img alt="@anonklub/halo2-binary-merkle-tree npm badge" src="https://img.shields.io/npm/v/%40anonklub/halo2-binary-merkle-tree?logo=npm&label=%40anonklub%2Fhalo2-binary-merkle-tree">
+</a>
+<a href="https://www.npmjs.com/package/@anonklub/halo2-binary-merkle-tree-worker">
+<img alt="@anonklub/halo2-binary-merkle-tree-worker npm badge" src="https://img.shields.io/npm/v/%40anonklub/halo2-binary-merkle-tree-worker?logo=npm&label=%40anonklub%2Fhalo2-binary-merkle-tree-worker">
+</a>
+<br>
+<a href="https://www.npmjs.com/package/@anonklub/merkle-tree-wasm">
+<img alt="@anonklub/merkle-tree-wasm npm badge" src="https://img.shields.io/npm/v/%40anonklub/merkle-tree-wasm?logo=npm&label=%40anonklub%2Fmerkle-tree-wasm">
+</a>
+<a href="https://www.npmjs.com/package/@anonklub/merkle-tree-worker">
+<img alt="@anonklub/merkle-tree-worker npm badge" src="https://img.shields.io/npm/v/%40anonklub/merkle-tree-worker?logo=npm&label=%40anonklub%2Fmerkle-tree-worker">
 </a>
 <br>
 <a href="https://www.npmjs.com/package/@anonklub/proof">
@@ -26,12 +40,7 @@ It enables privacy applications such as anonymous airdrops, anonymous NFT mintin
 <a href="https://www.npmjs.com/package/@anonklub/query">
 <img alt="@anonklub/query npm badge" src="https://img.shields.io/npm/v/%40anonklub/query?logo=npm&label=%40anonklub%2Fquery">
 </a>
-<a href="https://www.npmjs.com/package/@anonklub/merkle-tree-wasm">
-<img alt="@anonklub/merkle-tree-wasm npm badge" src="https://img.shields.io/npm/v/%40anonklub/merkle-tree-wasm?logo=npm&label=%40anonklub%2Fmerkle-tree-wasm">
-</a>
-<a href="https://www.npmjs.com/package/@anonklub/merkle-tree-worker">
-<img alt="@anonklub/merkle-tree-worker npm badge" src="https://img.shields.io/npm/v/%40anonklub/merkle-tree-worker?logo=npm&label=%40anonklub%2Fmerkle-tree-worker">
-</a>
+<br>
 <a href="https://www.npmjs.com/package/@anonklub/spartan-ecdsa-wasm">
 <img alt="@anonklub/spartan-ecdsa-wasm npm badge" src="https://img.shields.io/npm/v/%40anonklub/spartan-ecdsa-wasm?logo=npm&label=%40anonklub%2Fspartan-ecdsa-wasm">
 </a>
