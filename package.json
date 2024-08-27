@@ -57,7 +57,7 @@
     "publish.pkgs": "pnpm build.pkgs && changeset version && changeset publish",
     "start.query-api": "pnpm --filter query-api start.dev",
     "start.ui": "pnpm --filter @anonklub/ui dev",
-    "test.cargo": "cargo nextest run --workspace",
+    "test.cargo": "cargo nextest run --workspace --target x86_64-unknown-linux-gnu",
     "test": "turbo _test test.jest test.cargo",
     "test.jest": "jest",
     "test.watch": "jest --watch",
