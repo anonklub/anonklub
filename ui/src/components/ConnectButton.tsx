@@ -1,8 +1,8 @@
 'use client'
-import { Loader } from '@/components/Loader'
 import { useWeb3Modal } from '@web3modal/react'
 import { useEffect, useState } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
+import { Loader } from './Loader'
 
 export function ConnectButton() {
   // to avoid hydration errors
