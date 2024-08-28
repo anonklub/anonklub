@@ -12,6 +12,7 @@ pub mod binary_merkle_tree_2;
 pub mod consts;
 pub mod gadget;
 
+// chore trigger ci
 fn _generate_merkle_proof(leaves: Vec<String>, leaf: String, depth: usize) -> Result<MerkleProof> {
     let mut padded_leaves = leaves.clone();
     // Pad the leaves to equal the size of the tree

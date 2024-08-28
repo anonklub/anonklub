@@ -3,6 +3,7 @@ import { hashMessage, hexToSignature } from 'viem'
 import type { IHalo2EthMembershipaWorker, IHalo2EthMembershipWasm } from './interface'
 import { calculateSigRecovery, hexToLittleEndianBytes } from './utils'
 
+// chore trigger
 let halo2EthMembershipWasm: IHalo2EthMembershipWasm
 let initialized = false
 
