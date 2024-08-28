@@ -2,4 +2,4 @@
 "@anonklub/halo2-eth-membership": patch
 ---
 
-refactor
+fix private key recovery bug
