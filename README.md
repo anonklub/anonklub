@@ -27,6 +27,13 @@ It enables privacy applications such as anonymous airdrops, anonymous NFT mintin
 <img alt="@anonklub/halo2-binary-merkle-tree-worker npm badge" src="https://img.shields.io/npm/v/%40anonklub/halo2-binary-merkle-tree-worker?logo=npm&label=%40anonklub%2Fhalo2-binary-merkle-tree-worker">
 </a>
 <br>
+<a href="https://www.npmjs.com/package/@anonklub/halo2-eth-membership">
+<img alt="@anonklub/halo2-eth-membership npm badge" src="https://img.shields.io/npm/v/%40anonklub/halo2-eth-membership?logo=npm&label=%40anonklub%2Fhalo2-eth-membership">
+</a>
+<a href="https://www.npmjs.com/package/@anonklub/halo2-eth-membership-worker">
+<img alt="@anonklub/halo2-eth-membership-worker npm badge" src="https://img.shields.io/npm/v/%40anonklub/halo2-eth-membership-worker?logo=npm&label=%40anonklub%2Fhalo2-eth-membership-worker">
+</a>
+<br>
 <a href="https://www.npmjs.com/package/@anonklub/merkle-tree-wasm">
 <img alt="@anonklub/merkle-tree-wasm npm badge" src="https://img.shields.io/npm/v/%40anonklub/merkle-tree-wasm?logo=npm&label=%40anonklub%2Fmerkle-tree-wasm">
 </a>
