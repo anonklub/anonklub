@@ -11,7 +11,7 @@ use std::iter::zip;
 #[allow(dead_code)]
 pub fn verify_efficient_ecdsa(
     msg_hash: BigUint,
-    r: secp256k1::Fq,
+    r: secp256k1::Fp,
     is_y_odd: bool,
     instances: &[u8],
 ) -> Result<bool> {

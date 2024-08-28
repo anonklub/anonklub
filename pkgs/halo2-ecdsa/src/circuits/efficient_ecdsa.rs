@@ -127,7 +127,7 @@ where
         fq_chip.load_private(ctx, self.eff_ecdsa_inputs.s)
     }
 
-    fn load_instances(&mut self) -> (Point<CF>, Point<CF>) {
+    fn load_instances(&mut self) -> (Point<F, CF>, Point<F, CF>) {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
@@ -175,11 +175,11 @@ where
 
     pub fn recover_pk_efficient(
         &self,
-        T: Point<CF>,
-        U: Point<CF>,
+        T: Point<F, CF>,
+        U: Point<F, CF>,
         s: ProperCrtUint<F>,
         fixed_window_bits: usize,
-    ) -> Point<CF> {
+    ) -> Point<F, CF> {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
@@ -275,7 +275,7 @@ mod tests {
     }
 
     pub struct TestInputs {
-        r: secp256k1::Fq,
+        r: secp256k1::Fp,
         msg_hash: BigUint,
         is_y_odd: bool,
     }
@@ -304,10 +304,11 @@ mod tests {
         let r_point = Secp256k1Affine::from(g * k).coordinates().unwrap();
         let x = r_point.x();
         let x_bigint = fe_to_biguint(x);
-        let r = biguint_to_fe::<secp256k1::Fq>(&(x_bigint % modulus::<secp256k1::Fq>()));
+        let r_Fq = biguint_to_fe::<secp256k1::Fq>(&(x_bigint.clone() % modulus::<secp256k1::Fq>()));
+        let r_Fp = biguint_to_fe::<secp256k1::Fp>(&(x_bigint.clone() % modulus::<secp256k1::Fp>()));
 
         // Calculate `s`
-        let s = k_inv * (msg_hash + (r * sk));
+        let s = k_inv * (msg_hash + (r_Fq * sk));
 
         // Check if y is odd
         let is_y_odd = r_point.y().to_bytes_le();
@@ -317,14 +318,14 @@ mod tests {
         let msg_hash = BigUint::from_bytes_le(&msg_hash.to_bytes_le());
 
         // Precompile T and U
-        let (U, T) = recover_pk_efficient(msg_hash.clone(), r, is_y_odd)
+        let (U, T) = recover_pk_efficient(msg_hash.clone(), r_Fp, is_y_odd)
             .map_err(|e| anyhow!(e))
             .context("Failed to compute random based efficient ECDSA!")?;
 
         Ok((
             EfficientECDSAInputs { s, T, U },
             TestInputs {
-                r,
+                r: r_Fp,
                 msg_hash,
                 is_y_odd,
             },
@@ -361,7 +362,7 @@ mod tests {
         )?;
 
         let r = ct_option_ok_or(
-            secp256k1::Fq::from_repr(r),
+            secp256k1::Fp::from_repr(r),
             anyhow!("Failed to convert s into Fq."),
         )?;
 

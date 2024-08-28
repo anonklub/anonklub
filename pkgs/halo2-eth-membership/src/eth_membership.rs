@@ -2,8 +2,9 @@
 use anyhow::{Context, Ok, Result};
 use halo2_base::{
     gates::{circuit::builder::BaseCircuitBuilder, GateChip, RangeChip},
+    halo2_proofs::halo2curves::secp256k1,
     poseidon::hasher::PoseidonHasher,
-    utils::{BigPrimeField, CurveAffineExt},
+    utils::{BigPrimeField, CurveAffineExt, ScalarField},
     AssignedValue,
 };
 use halo2_binary_merkle_tree::{binary_merkle_tree::MerkleProof, gadget::verify_merkle_proof};
@@ -13,12 +14,19 @@ use halo2_ecc::{
     fields::FieldChip,
 };
 use halo2_ecdsa::{
-    circuits::efficient_ecdsa::EfficientECDSAInputs, gadget::recover_pk_efficient,
-    utils::consts::Point,
+    circuits::efficient_ecdsa::EfficientECDSAInputs,
+    gadget::recover_pk_efficient,
+    utils::{
+        consts::Point,
+        recovery::{pk_bytes_le, pk_bytes_swap_endianness},
+    },
 };
-use halo2_wasm::Halo2Wasm;
+use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, Halo2Wasm};
+use halo2_wasm_ext::utils::ct_option_ok_or;
+use snark_verifier::util::arithmetic::CurveAffine;
 use snark_verifier_sdk::halo2::OptimizedPoseidonSpec;
 use std::{cell::RefCell, marker::PhantomData, rc::Rc};
+use tiny_keccak::{Hasher, Keccak};
 
 use crate::utils::consts::{
     FpChip, FqChip, CONTEXT_PHASE, F, FIXED_WINDOW_BITS, LIMB_BITS, NUM_LIMBS, RATE_POSEIDON,
@@ -166,7 +174,7 @@ where
         (root_assigned, siblings_assigned, path_indices_assigned)
     }
 
-    fn load_instances(&mut self) -> (Point<CF>, Point<CF>) {
+    fn load_instances(&mut self) -> (Point<F, CF>, Point<F, CF>) {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
@@ -222,30 +230,64 @@ where
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
-        let mut posiedon_hasher =
+        let mut poseidon_hasher =
             PoseidonHasher::<F, T_POSEIDON, RATE_POSEIDON>::new(OptimizedPoseidonSpec::new::<
                 R_F_POSEIDON,
                 R_P_POSEIDON,
                 SECURE_MDS_POSEIDON,
             >());
-        posiedon_hasher.initialize_consts(ctx, &self.gate_chip);
+        poseidon_hasher.initialize_consts(ctx, &self.gate_chip);
 
-        posiedon_hasher
+        poseidon_hasher
+    }
+
+    fn ecpoint_to_eth_address(&mut self, recovered_pk: &Point<F, CF>) -> AssignedValue<F> {
+        let mut builder = self.builder.borrow_mut();
+        let ctx = builder.main(CONTEXT_PHASE);
+
+        let recovered_pk = ct_option_ok_or(
+            Secp256k1Affine::from_xy(
+                secp256k1::Fp::from_bytes_le(&recovered_pk.x().value().to_bytes_le()),
+                secp256k1::Fp::from_bytes_le(&recovered_pk.y().value().to_bytes_le()),
+            ),
+            "Failed to convert ecpoint into Secp256k1Affine",
+        )
+        .expect("Failed to convert pk");
+        let recovered_pk = pk_bytes_swap_endianness(&pk_bytes_le(&recovered_pk));
+
+        // Keccak-256 hash the serialized point
+        let mut pk_hash = [0u8; 32];
+
+        let mut hasher = Keccak::v256();
+        hasher.update(recovered_pk.as_ref());
+        hasher.finalize(&mut pk_hash);
+
+        // Take the last 20 bytes of the hash to form the Ethereum address
+        let mut eth_address = [0u8; 20];
+        eth_address.copy_from_slice(&pk_hash[12..]);
+
+        let eth_address = F::from_bytes_le(&eth_address);
+
+        ctx.load_witness(eth_address)
     }
 
     fn hash(
         &mut self,
         poseidon_hasher: PoseidonHasher<F, T_POSEIDON, RATE_POSEIDON>,
-        key: Point<CF>,
+        eth_address: &AssignedValue<F>,
     ) -> AssignedValue<F> {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
-        let key_preimage = [key.x().limbs(), key.y().limbs()].concat();
-        poseidon_hasher.hash_fix_len_array(ctx, &self.gate_chip, &key_preimage[..])
+        poseidon_hasher.hash_fix_len_array(ctx, &self.gate_chip, &[*eth_address])
     }
 
-    fn recover_pk(&mut self, s: ProperCrtUint<F>, T: Point<CF>, U: Point<CF>) -> Point<CF> {
+    fn recover_pk(
+        &mut self,
+        s: ProperCrtUint<F>,
+        T: Point<F, CF>,
+        U: Point<F, CF>,
+    ) -> Point<F, CF> {
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
@@ -254,7 +296,7 @@ where
         let scalar_chip = self.ecc_scalar_chip();
         let ecc_chip = EccChip::new(&base_chip);
 
-        recover_pk_efficient::<CF, SF, GA>(
+        recover_pk_efficient::<F, CF, SF, GA>(
             &base_chip,
             &scalar_chip,
             &ecc_chip,
@@ -277,7 +319,6 @@ where
         let mut builder = self.builder.borrow_mut();
         let ctx = builder.main(CONTEXT_PHASE);
 
-        // Verify Merkle Tree proof
         verify_merkle_proof::<F, T_POSEIDON, RATE_POSEIDON>(
             ctx,
             &self.gate_chip,
@@ -289,7 +330,7 @@ where
         )
     }
 
-    pub fn verify_membership(&mut self) -> Result<()> {
+    pub fn verify_membership(&mut self) {
         // Initialize Poseidon
         let poseidon_hasher = self.initialize_poseidon_hasher();
 
@@ -302,10 +343,10 @@ where
         // Load T and U as constants in the base field
         let (T, U) = self.load_instances();
 
-        let recovered_pk = self.recover_pk(s, T, U);
-
-        // Convert PK to leaf
-        let leaf = self.hash(poseidon_hasher.clone(), recovered_pk);
+        // Recover PK (leaf)
+        let recovered_pk = self.recover_pk(s.clone(), T, U);
+        let eth_address = self.ecpoint_to_eth_address(&recovered_pk);
+        let leaf = self.hash(poseidon_hasher.clone(), &eth_address);
 
         // Verify membership merkle proof
         self.verify_membership_merkle_proof(
@@ -315,8 +356,6 @@ where
             &siblings,
             &path_indices,
         );
-
-        Ok(())
     }
 }
 
@@ -341,7 +380,7 @@ mod tests {
         },
         utils::ScalarField,
     };
-    use halo2_binary_merkle_tree::binary_merkle_tree::MerkleProof;
+    use halo2_binary_merkle_tree::binary_merkle_tree::{MerkleProof, MerkleProofBytes};
     use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
 
     use halo2_ecc::fields::FpStrategy;
@@ -357,6 +396,8 @@ mod tests {
     use pse_poseidon::Poseidon;
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
+    use std::collections::HashMap;
+    use std::io::Read;
     use std::{fs::File, time::Instant};
 
     use crate::utils::consts::{E, RATE_POSEIDON, R_F_POSEIDON, R_P_POSEIDON, T_POSEIDON};
@@ -380,9 +421,8 @@ mod tests {
         num_limbs: usize,
     }
 
-    #[allow(dead_code)]
     pub struct TestInputs {
-        r: secp256k1::Fq,
+        r: secp256k1::Fp,
         msg_hash: BigUint,
         is_y_odd: bool,
         pk: Secp256k1Affine,
@@ -420,7 +460,7 @@ mod tests {
         )?;
 
         let r = ct_option_ok_or(
-            secp256k1::Fq::from_repr(r),
+            secp256k1::Fp::from_repr(r),
             anyhow!("Failed to convert s into Fq."),
         )?;
 
@@ -529,10 +569,7 @@ mod tests {
                 eth_membership_inputs,
             )?;
 
-        circuit
-            .verify_membership()
-            .map_err(|e| anyhow!(e))
-            .context("The circuit failed to verify signature!")?;
+        circuit.verify_membership();
 
         halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
         halo2_wasm.assign_instances();
@@ -543,7 +580,7 @@ mod tests {
     }
 
     #[test]
-    fn test_eth_membership_real_verify() -> Result<()> {
+    fn test_mock_eth_membership_real_verify() -> Result<()> {
         let path = "configs/eth_membership.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
@@ -573,10 +610,7 @@ mod tests {
                 eth_membership_inputs,
             )?;
 
-        circuit
-            .verify_membership()
-            .map_err(|e| anyhow!(e))
-            .context("The circuit failed to verify signature!")?;
+        circuit.verify_membership();
 
         halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
 
@@ -641,6 +675,125 @@ mod tests {
         Ok(())
     }
 
+    fn map_to_vec(map: &HashMap<String, u8>) -> Vec<u8> {
+        let mut vec: Vec<u8> = vec![0; map.len()];
+        for (key, value) in map {
+            let index: usize = key.parse().expect("Failed to parse key to usize");
+            vec[index] = *value;
+        }
+        vec
+    }
+
+    #[derive(Deserialize)]
+    struct RealInputs {
+        s: HashMap<String, u8>,
+        r: HashMap<String, u8>,
+        is_y_odd: bool,
+        msg_hash: HashMap<String, u8>,
+        merkle_proof_bytes_serialized: HashMap<String, u8>,
+    }
+
+    #[test]
+    fn test_real_eth_membership_real_verify() -> Result<()> {
+        // Read the test inputs from the JSON file
+        let mut file =
+            File::open("mock/test_inputs.json").expect("Failed to open test inputs file.");
+        let mut data = String::new();
+        file.read_to_string(&mut data)
+            .expect("Failed to read test inputs file.");
+
+        // Parse the JSON data
+        let inputs: RealInputs = serde_json::from_str(&data).expect("Failed to parse JSON.");
+
+        // Convert HashMaps to Vec<u8>
+        let s = map_to_vec(&inputs.s);
+        let r = map_to_vec(&inputs.r);
+        let msg_hash = map_to_vec(&inputs.msg_hash);
+        let merkle_proof_bytes_serialized = map_to_vec(&inputs.merkle_proof_bytes_serialized);
+
+        let path = "configs/eth_membership.config";
+        let circuit_params: CircuitConfig = serde_json::from_reader(
+            File::open(path)
+                .map_err(|e| anyhow!(e))
+                .with_context(|| format!("The circuit config file does not exist: {}", path))?,
+        )
+        .map_err(|e| anyhow!(e))
+        .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
+
+        // Deserialize the inputs
+        let s = secp256k1::Fq::from_bytes_le(&s);
+        let r = secp256k1::Fp::from_bytes_le(&r);
+
+        let msg_hash_biguint = BigUint::from_bytes_be(&msg_hash);
+
+        let merkle_proof_bytes = MerkleProofBytes::deserialize(&merkle_proof_bytes_serialized)
+            .context("Failed to deserialize merkle proof bytes")?;
+        let merkle_proof = MerkleProof::from_bytes_le(&merkle_proof_bytes)
+            .context("Failed to deserialize merkle proof")?;
+
+        // Compute the efficient ECDSA inputs
+        // TODO: Generalize recover_pk_efficient
+        let (U, T) = recover_pk_efficient(msg_hash_biguint, r, false)
+            .context("Failed to recover the PK!")?;
+
+        let efficient_ecdsa =
+            EfficientECDSAInputs::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(s, T, U);
+
+        let eth_membership_inputs = EthMembershipInputs::<
+            secp256k1::Fp,
+            secp256k1::Fq,
+            Secp256k1Affine,
+        >::new(efficient_ecdsa, merkle_proof);
+
+        let mut halo2_wasm = Halo2Wasm::new();
+
+        halo2_wasm.config(circuit_params);
+
+        let mut circuit =
+            EthMembershipCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+                &halo2_wasm,
+                eth_membership_inputs,
+            )?;
+
+        circuit.verify_membership();
+
+        halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
+
+        halo2_wasm.assign_instances();
+
+        let params = ParamsKZG::<Bn256>::setup(K, OsRng);
+
+        // Load params
+        halo2_wasm.load_params(&serialize_params_to_bytes(&params));
+
+        // Generate VK
+        halo2_wasm.gen_vk();
+
+        // Generate PK
+        halo2_wasm.gen_pk();
+
+        let start = Instant::now();
+
+        // Time tracking for proof generation
+        let proof_start = Instant::now();
+
+        // Generate proof
+        let proof: Vec<u8> = halo2_wasm.prove();
+
+        let proof_duration = proof_start.elapsed();
+        println!(
+            "Eth Membership Proof generation executed in: {:.2?} seconds",
+            proof_duration
+        );
+
+        let duration = start.elapsed();
+        let duration_in_minutes = duration.as_secs_f64() / 60.0;
+        println!("Test executed in: {:.2?} seconds", duration);
+        println!("Test executed in: {:.2?} minutes", duration_in_minutes);
+
+        Ok(())
+    }
+
     #[test]
     fn test_eff_ecdsa_verify() -> Result<()> {
         let path = "configs/eth_membership.config";
@@ -672,10 +825,7 @@ mod tests {
                 eth_membership_inputs,
             )?;
 
-        circuit
-            .verify_membership()
-            .map_err(|e| anyhow!(e))
-            .context("The circuit failed to verify signature!")?;
+        circuit.verify_membership();
 
         let params = ParamsKZG::<E>::setup(K, OsRng);
 

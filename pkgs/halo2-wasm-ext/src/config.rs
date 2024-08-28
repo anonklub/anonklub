@@ -1,4 +1,4 @@
-use crate::{consts::E, params::serialize_params_to_bytes};
+use crate::consts::E;
 use anyhow::{anyhow, Context, Ok, Result};
 use halo2_base::halo2_proofs::poly::kzg::commitment::ParamsKZG;
 use halo2_wasm::{CircuitConfig, Halo2Wasm};
@@ -9,9 +9,10 @@ pub fn configure_halo2_wasm(halo2_wasm: &mut Halo2Wasm, params: &ParamsKZG<E>) -
     let config = read_config("configs/ecdsa.config")?;
     halo2_wasm.config(config);
 
-    // Load params
-    halo2_wasm.load_params(&serialize_params_to_bytes(params));
+    Ok(())
+}
 
+pub fn gen_keys(halo2_wasm: &mut Halo2Wasm) -> Result<()> {
     // Generate VK
     halo2_wasm.gen_vk();
 
@@ -31,5 +32,10 @@ pub fn read_config(path: &str) -> Result<CircuitConfig> {
     .map_err(|e| anyhow!(e))
     .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
 
+    Ok(config)
+}
+
+pub fn read_config_from_str(config_str: &str) -> Result<CircuitConfig> {
+    let config: CircuitConfig = serde_json::from_str(config_str)?;
     Ok(config)
 }

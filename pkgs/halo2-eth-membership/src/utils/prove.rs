@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Context, Result};
+use anyhow::Result;
 use halo2_base::utils::{BigPrimeField, CurveAffineExt};
 use halo2_wasm::Halo2Wasm;
 
@@ -13,10 +13,7 @@ where
     SF: BigPrimeField,
     GA: CurveAffineExt<Base = CF, ScalarExt = SF>,
 {
-    circuit
-        .verify_membership()
-        .map_err(|e| anyhow!(e))
-        .context("The circuit failed to verify signature!")?;
+    circuit.verify_membership();
 
     // Generate proof
     let proof = halo2_wasm.prove();
