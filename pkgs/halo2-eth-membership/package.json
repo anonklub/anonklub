@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/halo2-eth-membership",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "0xisk <0xisk@proton.me>",
   "description": "Wasm Rust crate for verifying Secp256k1 signatures",
   "keywords": [
