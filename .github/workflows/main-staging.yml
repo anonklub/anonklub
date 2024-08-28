@@ -85,6 +85,11 @@ jobs:
           node-version: 20.x
           cache: pnpm
       - run: pnpm i --ignore-scripts --no-frozen-lockfile
+      - name: Lint
+        run: pnpm lint.biome
+      - name: Check types
+        run: pnpm typecheck
+
       - name: Run tests with coverage report
         run: pnpm test.jest
         env:
@@ -110,6 +115,8 @@ jobs:
       - uses: taiki-e/install-action@v2.42.0
         with:
           tool: cargo-llvm-cov
+      - name: Lint
+        run: cargo clippy --workspace --all-features
       - name: Run tests with coverage report
         # excluding pkg whose tests are too long
         run: cargo llvm-cov --lcov --output-path lcov-rs.info --workspace --exclude halo2-ecdsa --exclude halo2-eth-membership --exclude halo2wrong-ecdsa
