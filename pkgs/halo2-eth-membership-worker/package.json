@@ -30,6 +30,6 @@
   "dependencies": {
     "@anonklub/halo2-eth-membership": "0.1.1",
     "comlink": "^4.4.1",
-    "viem": "^2.0.10"
+    "viem": "^1.21.4"
   }
 }
