@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@anonklub/halo2-eth-membership-worker",
   "version": "0.1.1",
   "author": "0xisk <0xisk@proton.me>",
