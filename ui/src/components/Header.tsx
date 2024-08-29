@@ -1,8 +1,8 @@
 'use client'
+import { ConnectButton } from '@/components/ConnectButton'
+import { HelpModal } from '@/components/HelpModal'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
-import { ConnectButton } from './ConnectButton'
-import { HelpModal } from './HelpModal'
 
 export function Header() {
   return (

@@ -1,5 +1,5 @@
+import { useStore } from '@/hooks/useStore'
 import { useEffect } from 'react'
-import { useStore } from './useStore'
 
 export function useSetHelp(helpText: string[]) {
   const { setHelpText } = useStore()

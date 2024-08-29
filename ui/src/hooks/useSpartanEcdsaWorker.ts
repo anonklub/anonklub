@@ -1,5 +1,5 @@
+import { useWorker } from '@/hooks/useWorker'
 import { type ProveMembershipFn, SpartanEcdsaWorker, type VerifyMembershipFn } from '@anonklub/spartan-ecdsa-worker'
-import { useWorker } from './useWorker'
 
 export const useSpartanEcdsaWorker = () => {
   const isWorkerReady = useWorker(SpartanEcdsaWorker)
