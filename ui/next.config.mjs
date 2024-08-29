@@ -1,4 +1,3 @@
-import CircularDependencyPlugin from 'circular-dependency-plugin'
 import million from 'million/compiler'
 
 /** @type {import('next').NextConfig} */
