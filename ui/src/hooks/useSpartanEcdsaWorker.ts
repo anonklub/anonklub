@@ -1,5 +1,5 @@
+import { useWorker } from '@/hooks/useWorker'
 import { type ProveMembershipFn, SpartanEcdsaWorker, type VerifyMembershipFn } from '@anonklub/spartan-ecdsa-worker'
-import { useWorker } from './useWorker'
 
 export const useSpartanEcdsaWorker = () => {
   const isWorkerReady = useWorker(SpartanEcdsaWorker)
@@ -11,15 +11,19 @@ export const useSpartanEcdsaWorker = () => {
   }): Promise<Uint8Array> => {
     process.env.NODE_ENV === 'development' && console.time('==> Prove')
 
-    const proof = await SpartanEcdsaWorker.proveMembership({
-      merkleProofBytesSerialized,
-      message,
-      sig,
-    })
+    try {
+      const proof = await SpartanEcdsaWorker.proveMembership({
+        merkleProofBytesSerialized,
+        message,
+        sig,
+      })
 
-    process.env.NODE_ENV === 'development' && console.timeEnd('==> Prove')
+      process.env.NODE_ENV === 'development' && console.timeEnd('==> Prove')
 
-    return proof
+      return proof
+    } catch (error) {
+      throw error
+    }
   }
 
   const verifyMembership: VerifyMembershipFn = async (
