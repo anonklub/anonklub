@@ -14,6 +14,7 @@ export const useMerkleTreeWasmWorker = () => {
     const proof = await MerkleTreeWorker.generateMerkleProof(leaves, leaf, depth)
 
     process.env.NODE_ENV === 'development' && console.timeEnd('==>merkle')
+
     return proof
   }
 
