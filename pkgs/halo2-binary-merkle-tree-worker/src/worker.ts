@@ -15,8 +15,8 @@ export const halo2BinaryMerkleTreeWorker: IHalo2BinaryMerkleTree = {
     const response = await fetch(wasmModuleUrl)
     const bufferSource = await response.arrayBuffer()
 
-    await halo2BinaryMerkleTreeWasm.initSync(bufferSource)
-    await halo2BinaryMerkleTreeWasm.initPanicHook()
+    halo2BinaryMerkleTreeWasm.initSync(bufferSource)
+    halo2BinaryMerkleTreeWasm.initPanicHook()
     const numThreads = navigator.hardwareConcurrency
     await halo2BinaryMerkleTreeWasm.initThreadPool(numThreads)
   },
