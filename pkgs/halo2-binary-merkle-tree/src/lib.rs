@@ -131,6 +131,13 @@ mod tests {
 
     const DEPTH: usize = 3;
 
+    #[derive(Deserialize)]
+    struct TestInputs {
+        leaves: Vec<String>,
+        leaf: String,
+        depth: usize,
+    }
+
     #[test]
     fn fail_to_generate_merkle_proof_if_not_hex() {
         let leaves = vec!["wxyz".to_string(), "hjkl".to_string()];

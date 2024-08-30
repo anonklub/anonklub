@@ -6,11 +6,34 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   reactStrictMode: true,
-  // https://github.com/chungwu/combat-lander/commit/a22a0d2b302b623696b3e95d85566d3a7f1f6e3b
-  webpack: (config, { isServer }) => ({
-    ...config,
-    experiments: { asyncWebAssembly: true, layers: true },
-  }),
+  // Configs below are meant to run WASM code in NEXTJS app
+  webpack: (config, options) => {
+    if (!options.isServer) {
+      config.resolve.fallback.fs = false
+      config.resolve.fallback.readline = false
+    }
+    config.experiments = { asyncWebAssembly: true, syncWebAssembly: true, layers: true }
+
+    return config
+  },
+
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin',
+          },
+          {
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'require-corp',
+          },
+        ],
+      },
+    ]
+  },
 }
 
 const millionConfig = {
