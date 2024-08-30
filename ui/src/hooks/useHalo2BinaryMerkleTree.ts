@@ -11,19 +11,15 @@ export const useHalo2BinaryMerkleTreeWorker = () => {
   ): Promise<Uint8Array> => {
     process.env.NODE_ENV === 'development' && console.time('==>merkle')
 
-    // eslint-disable-next-line no-useless-catch
-    try {
-      const proof = await Halo2BinaryMerkleTreeWorker.generateMerkleProof(
-        leaves,
-        leaf,
-        depth,
-      )
+    const proof = await Halo2BinaryMerkleTreeWorker.generateMerkleProof(
+      leaves,
+      leaf,
+      depth,
+    )
 
-      process.env.NODE_ENV === 'development' && console.timeEnd('==>merkle')
-      return proof
-    } catch (error) {
-      throw error
-    }
+    process.env.NODE_ENV === 'development' && console.timeEnd('==>merkle')
+
+    return proof
   }
 
   return {
