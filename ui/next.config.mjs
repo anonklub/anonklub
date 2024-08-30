@@ -6,6 +6,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   reactStrictMode: true,
+  // Configs below are meant to run WASM code in NEXTJS app
   webpack: (config, options) => {
     if (!options.isServer) {
       config.resolve.fallback.fs = false
