@@ -14,12 +14,10 @@ use halo2_ecc::{
     fields::FieldChip,
 };
 use halo2_ecdsa::{
-    circuits::efficient_ecdsa::EfficientECDSAInputs,
-    gadget::recover_pk_efficient,
-    utils::{
+    circuits::efficient_ecdsa::EfficientECDSAInputs, gadget::recover_pk_efficient, utils::{
         consts::Point,
         recovery::{pk_bytes_le, pk_bytes_swap_endianness},
-    },
+    }
 };
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, Halo2Wasm};
 use halo2_wasm_ext::utils::ct_option_ok_or;
@@ -380,7 +378,9 @@ mod tests {
         },
         utils::ScalarField,
     };
-    use halo2_binary_merkle_tree::binary_merkle_tree::{MerkleProof, MerkleProofBytes};
+    use halo2_binary_merkle_tree::binary_merkle_tree::{
+        BinaryMerkleTree, MerkleProof, MerkleProofBytes,
+    };
     use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
 
     use halo2_ecc::fields::FpStrategy;
@@ -482,7 +482,7 @@ mod tests {
         Ok((efficient_ecdsa_inputs, test_inputs))
     }
 
-    fn mock_merkle_proof_2(pk: &Secp256k1Affine) -> Result<MerkleProof> {
+    fn mock_merkle_proof(pk: &Secp256k1Affine) -> Result<MerkleProof> {
         // Initialize Poseidon Hasher
         let mut poseidon =
             Poseidon::<F, T_POSEIDON, RATE_POSEIDON>::new(R_F_POSEIDON, R_P_POSEIDON);
@@ -551,7 +551,7 @@ mod tests {
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA")?;
 
-        let merkle_proof = mock_merkle_proof_2(&test_inputs.pk)?;
+        let merkle_proof = mock_merkle_proof(&test_inputs.pk)?;
 
         let eth_membership_inputs = EthMembershipInputs::<
             secp256k1::Fp,
@@ -592,7 +592,7 @@ mod tests {
 
         let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
 
-        let merkle_proof = mock_merkle_proof_2(&test_inputs.pk)?;
+        let merkle_proof = mock_merkle_proof(&test_inputs.pk)?;
 
         let eth_membership_inputs = EthMembershipInputs::<
             secp256k1::Fp,
@@ -697,7 +697,7 @@ mod tests {
     fn test_real_eth_membership_real_verify() -> Result<()> {
         // Read the test inputs from the JSON file
         let mut file =
-            File::open("mock/test_inputs.json").expect("Failed to open test inputs file.");
+            File::open("mock/prove_test_inputs.json").expect("Failed to open test inputs file.");
         let mut data = String::new();
         file.read_to_string(&mut data)
             .expect("Failed to read test inputs file.");
@@ -778,7 +778,13 @@ mod tests {
         let proof_start = Instant::now();
 
         // Generate proof
-        let proof: Vec<u8> = halo2_wasm.prove();
+        // Get the public instance inputs
+        let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
+
+        let proof: Vec<u8> = halo2_wasm.prove_ext(&params);
+
+        // Verify proof
+        let is_verified = halo2_wasm.verify_ext(&instances, &proof, params)?;
 
         let proof_duration = proof_start.elapsed();
         println!(
@@ -807,7 +813,7 @@ mod tests {
 
         let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
 
-        let merkle_proof = mock_merkle_proof_2(&test_inputs.pk)?;
+        let merkle_proof = mock_merkle_proof(&test_inputs.pk)?;
 
         let eth_membership_inputs = EthMembershipInputs::<
             secp256k1::Fp,
