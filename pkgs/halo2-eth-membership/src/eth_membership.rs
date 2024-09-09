@@ -14,10 +14,12 @@ use halo2_ecc::{
     fields::FieldChip,
 };
 use halo2_ecdsa::{
-    circuits::efficient_ecdsa::EfficientECDSAInputs, gadget::recover_pk_efficient, utils::{
+    circuits::efficient_ecdsa::EfficientECDSAInputs,
+    gadget::recover_pk_efficient,
+    utils::{
         consts::Point,
         recovery::{pk_bytes_le, pk_bytes_swap_endianness},
-    }
+    },
 };
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, Halo2Wasm};
 use halo2_wasm_ext::utils::ct_option_ok_or;
@@ -379,7 +381,7 @@ mod tests {
         utils::ScalarField,
     };
     use halo2_binary_merkle_tree::binary_merkle_tree::{
-        BinaryMerkleTree, MerkleProof, MerkleProofBytes,
+        MerkleProof, MerkleProofBytes,
     };
     use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
 
