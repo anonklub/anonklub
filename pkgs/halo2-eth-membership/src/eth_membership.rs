@@ -380,9 +380,7 @@ mod tests {
         },
         utils::ScalarField,
     };
-    use halo2_binary_merkle_tree::binary_merkle_tree::{
-        MerkleProof, MerkleProofBytes,
-    };
+    use halo2_binary_merkle_tree::binary_merkle_tree::{MerkleProof, MerkleProofBytes};
     use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
 
     use halo2_ecc::fields::FpStrategy;
