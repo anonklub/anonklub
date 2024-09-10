@@ -78,7 +78,8 @@ It enables privacy applications such as anonymous airdrops, anonymous NFT mintin
 
 ## Archive branches
 
-- [`archive/circom`](https://github.com/anonklub/anonklub/tree/archive/circom)
+- [`circom`](https://github.com/iden3/circom)/[`snarkjs`](https://github.com/iden3/snarkjs) (groth16) implementation: [`archive/circom`](https://github.com/anonklub/anonklub/tree/archive/circom)
+- [`spartan-ecdsa`](https://github.com/personaelabs/spartan-ecdsa)/[`sapir`](https://github.com/personaelabs/sapir) implementation: [`archive/spartan-sapir`](https://github.com/anonklub/anonklub/tree/archive/spartan-sapir)
 
 ## Develop
 
