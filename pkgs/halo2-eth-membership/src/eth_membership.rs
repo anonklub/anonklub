@@ -14,8 +14,8 @@ use halo2_ecc::{
     fields::FieldChip,
 };
 use halo2_ecdsa::{
-    circuits::efficient_ecdsa::EfficientECDSAInputs,
     gadget::recover_pk_efficient,
+    circuits::efficient_ecdsa::EfficientECDSAInputs,
     utils::{
         consts::Point,
         recovery::{pk_bytes_le, pk_bytes_swap_endianness},
@@ -267,7 +267,7 @@ where
         eth_address.copy_from_slice(&pk_hash[12..]);
 
         let eth_address = F::from_bytes_le(&eth_address);
-
+        
         ctx.load_witness(eth_address)
     }
 
@@ -380,9 +380,11 @@ mod tests {
         },
         utils::ScalarField,
     };
-    use halo2_binary_merkle_tree::binary_merkle_tree::{MerkleProof, MerkleProofBytes};
+    use halo2_binary_merkle_tree::binary_merkle_tree::{
+        BinaryMerkleTree, MerkleProof, MerkleProofBytes,
+    };
     use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
-
+    
     use halo2_ecc::fields::FpStrategy;
     use halo2_ecdsa::circuits::efficient_ecdsa::EfficientECDSAInputs;
     use halo2_ecdsa::utils::recovery::recover_pk_efficient;
@@ -427,6 +429,24 @@ mod tests {
         is_y_odd: bool,
         pk: Secp256k1Affine,
         address: H160,
+    }
+
+    fn map_to_vec(map: &HashMap<String, u8>) -> Vec<u8> {
+        let mut vec: Vec<u8> = vec![0; map.len()];
+        for (key, value) in map {
+            let index: usize = key.parse().expect("Failed to parse key to usize");
+            vec[index] = *value;
+        }
+        vec
+    }
+
+    #[derive(Deserialize)]
+    struct RealInputs {
+        s: HashMap<String, u8>,
+        r: HashMap<String, u8>,
+        is_y_odd: bool,
+        msg_hash: HashMap<String, u8>,
+        merkle_proof_bytes_serialized: HashMap<String, u8>,
     }
 
     /// @src Spartan
@@ -673,24 +693,6 @@ mod tests {
         println!("Test executed in: {:.2?} minutes", duration_in_minutes);
 
         Ok(())
-    }
-
-    fn map_to_vec(map: &HashMap<String, u8>) -> Vec<u8> {
-        let mut vec: Vec<u8> = vec![0; map.len()];
-        for (key, value) in map {
-            let index: usize = key.parse().expect("Failed to parse key to usize");
-            vec[index] = *value;
-        }
-        vec
-    }
-
-    #[derive(Deserialize)]
-    struct RealInputs {
-        s: HashMap<String, u8>,
-        r: HashMap<String, u8>,
-        is_y_odd: bool,
-        msg_hash: HashMap<String, u8>,
-        merkle_proof_bytes_serialized: HashMap<String, u8>,
     }
 
     #[test]
