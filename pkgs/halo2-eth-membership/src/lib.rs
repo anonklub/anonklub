@@ -251,7 +251,7 @@ mod tests {
         vec
     }
 
-    fn prove_membership_mock(
+    fn prove_membership_mock_prover(
         s: &[u8],
         r: &[u8],
         is_y_odd: bool,
@@ -312,11 +312,23 @@ mod tests {
     mod native_tests {
         use super::*;
 
+        /// This test is with using real inputs from your address.
+        /// You will need to fill `mock/prove_test_inputs_example`
+        /// Otherwise this test will skip
         #[test]
-        fn test_prove_membership_mock() {
+        fn test_real_input_prove_membership_mock_prover() {
             // Read the test inputs from the JSON file
-            let mut file = File::open("mock/prove_test_inputs.json")
-                .expect("Failed to open test inputs file.");
+            let file = File::open("mock/prove_test_inputs.json");
+
+            // Check if the file was opened successfully
+            let mut file = match file {
+                Ok(f) => f,
+                Err(_) => {
+                    println!("Test skipped: 'mock/prove_test_inputs.json' file not found.");
+                    return ();
+                }
+            };
+
             let mut data = String::new();
             file.read_to_string(&mut data)
                 .expect("Failed to read test inputs file.");
@@ -332,7 +344,7 @@ mod tests {
             let merkle_proof_bytes_serialized = map_to_vec(&inputs.merkle_proof_bytes_serialized);
 
             // Call the function to be tested
-            prove_membership_mock(
+            prove_membership_mock_prover(
                 &s,
                 &r,
                 inputs.is_y_odd,
@@ -346,6 +358,10 @@ mod tests {
         }
     }
 
+    /// This test is with using real inputs from your address.
+    /// You will need to fill `mock/prove_test_inputs_example`
+    /// and also `mock/verify_test_inputs_example`
+    /// Otherwise this test will skip
     #[cfg(all(not(target_arch = "wasm32"), feature = "tokio_tests"))]
     #[cfg(test)]
     mod e2e_tests {
@@ -354,10 +370,19 @@ mod tests {
         use super::*;
 
         #[tokio::test]
-        async fn test_prove_and_verify_membership_real() {
+        async fn test__real_input_prove_and_verify_membership_real() {
             // Read the test inputs from the JSON file
-            let file = File::open("mock/prove_test_inputs.json")
-                .expect("Failed to open test inputs file.");
+            let file = File::open("mock/prove_test_inputs.json");
+
+            // Check if the file was opened successfully
+            let mut file = match file {
+                Ok(f) => f,
+                Err(_) => {
+                    println!("Test skipped: 'mock/prove_test_inputs.json' file not found.");
+                    return ();
+                }
+            };
+
             let mut data = String::new();
             file.read_to_string(&mut data)
                 .expect("Failed to read test inputs file.");
@@ -394,10 +419,19 @@ mod tests {
         }
 
         #[tokio::test]
-        async fn test_verify_membership_mock() {
+        async fn test_real_input_verify_membership_real_verifier() {
             // Read the test inputs from the JSON file
-            let mut file = File::open("mock/verify_test_inputs.json")
-                .expect("Failed to open test inputs file.");
+            let mut file = File::open("mock/verify_test_inputs.json");
+
+            // Check if the file was opened successfully
+            let mut file = match file {
+                Ok(f) => f,
+                Err(_) => {
+                    println!("Test skipped: 'mock/prove_test_inputs.json' file not found.");
+                    return ();
+                }
+            };
+
             let mut data = String::new();
             file.read_to_string(&mut data)
                 .expect("Failed to read test inputs file.");

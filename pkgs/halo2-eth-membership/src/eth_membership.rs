@@ -360,10 +360,9 @@ where
 }
 
 #[cfg(test)]
-mod tests {
+mod mock_tests {
     use anyhow::{anyhow, Ok};
     use anyhow::{Context, Result};
-    use ethers::types::H160;
     use ethers::utils::secret_key_to_address;
     use ethers::{
         core::k256::{
@@ -511,7 +510,7 @@ mod tests {
     }
 
     #[test]
-    fn test_eth_membership_mock_verify() -> Result<()> {
+    fn test_mock_inputs_eth_membership_mock_prover() -> Result<()> {
         let path = "configs/eth_membership.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
@@ -554,7 +553,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mock_eth_membership_real_verify() -> Result<()> {
+    fn test_mock_inputs_eth_membership_real_prover_verifier() -> Result<()> {
         let path = "configs/eth_membership.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
@@ -650,7 +649,7 @@ mod tests {
     }
 
     #[test]
-    fn test_eff_ecdsa_verify() -> Result<()> {
+    fn test_eff_ecdsa_verification() -> Result<()> {
         let path = "configs/eth_membership.config";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
@@ -719,6 +718,36 @@ mod tests {
 
         Ok(())
     }
+}
+
+/// This test is with using real inputs from your address.
+/// You will need to fill `mock/prove_test_inputs_example`
+/// Otherwise this test will skip
+#[cfg(test)]
+mod real_tests {
+    use anyhow::{anyhow, Context, Result};
+    use halo2_base::{
+        halo2_proofs::{
+            halo2curves::{bn256::Bn256, secp256k1},
+            poly::kzg::commitment::ParamsKZG,
+        },
+        utils::ScalarField,
+    };
+    use halo2_binary_merkle_tree::binary_merkle_tree::{MerkleProof, MerkleProofBytes};
+    use halo2_ecdsa::circuits::efficient_ecdsa::EfficientECDSAInputs;
+    use halo2_ecdsa::utils::recovery::recover_pk_efficient;
+    use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
+    use halo2_wasm_ext::{ext::Halo2WasmExt, params::serialize_params_to_bytes};
+    use num_bigint::BigUint;
+    use rand_core::OsRng;
+    use std::{collections::HashMap, fs::File, io::Read, time::Instant};
+
+    use serde::Deserialize;
+
+    use crate::{
+        eth_membership::{EthMembershipCircuit, EthMembershipInputs},
+        utils::consts::{INSTANCE_COL, K},
+    };
 
     fn map_to_vec(map: &HashMap<String, u8>) -> Vec<u8> {
         let mut vec: Vec<u8> = vec![0; map.len()];
@@ -739,10 +768,19 @@ mod tests {
     }
 
     #[test]
-    fn test_real_eth_membership_real_verify() -> Result<()> {
+    fn test_real_inputs_eth_membership_real_prover_verifier() -> Result<()> {
         // Read the test inputs from the JSON file
-        let mut file =
-            File::open("mock/prove_test_inputs.json").expect("Failed to open test inputs file.");
+        let mut file = File::open("mock/prove_test_inputs.json");
+
+        // Check if the file was opened successfully
+        let mut file = match file {
+            Ok(f) => f,
+            Err(_) => {
+                println!("Test skipped: 'mock/prove_test_inputs.json' file not found.");
+                return Ok(());
+            }
+        };
+
         let mut data = String::new();
         file.read_to_string(&mut data)
             .expect("Failed to read test inputs file.");

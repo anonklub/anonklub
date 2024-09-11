@@ -1,5 +1,11 @@
 # @anonklub/halo2-eth-membership
 
+## 0.1.2
+
+### Patch Changes
+
+- Improvement to tests
+
 ## 0.1.1
 
 ### Patch Changes
