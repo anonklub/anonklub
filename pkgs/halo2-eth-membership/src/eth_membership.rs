@@ -14,8 +14,8 @@ use halo2_ecc::{
     fields::FieldChip,
 };
 use halo2_ecdsa::{
-    gadget::recover_pk_efficient,
     circuits::efficient_ecdsa::EfficientECDSAInputs,
+    gadget::recover_pk_efficient,
     utils::{
         consts::Point,
         recovery::{pk_bytes_le, pk_bytes_swap_endianness},
@@ -267,7 +267,7 @@ where
         eth_address.copy_from_slice(&pk_hash[12..]);
 
         let eth_address = F::from_bytes_le(&eth_address);
-        
+
         ctx.load_witness(eth_address)
     }
 
@@ -384,7 +384,8 @@ mod tests {
         BinaryMerkleTree, MerkleProof, MerkleProofBytes,
     };
     use halo2_binary_merkle_tree::binary_merkle_tree_2::BinaryMerkleTree2;
-    
+
+    use halo2_binary_merkle_tree::generate_merkle_proof;
     use halo2_ecc::fields::FpStrategy;
     use halo2_ecdsa::circuits::efficient_ecdsa::EfficientECDSAInputs;
     use halo2_ecdsa::utils::recovery::recover_pk_efficient;
@@ -428,25 +429,7 @@ mod tests {
         msg_hash: BigUint,
         is_y_odd: bool,
         pk: Secp256k1Affine,
-        address: H160,
-    }
-
-    fn map_to_vec(map: &HashMap<String, u8>) -> Vec<u8> {
-        let mut vec: Vec<u8> = vec![0; map.len()];
-        for (key, value) in map {
-            let index: usize = key.parse().expect("Failed to parse key to usize");
-            vec[index] = *value;
-        }
-        vec
-    }
-
-    #[derive(Deserialize)]
-    struct RealInputs {
-        s: HashMap<String, u8>,
-        r: HashMap<String, u8>,
-        is_y_odd: bool,
-        msg_hash: HashMap<String, u8>,
-        merkle_proof_bytes_serialized: HashMap<String, u8>,
+        address: String,
     }
 
     /// @src Spartan
@@ -459,7 +442,7 @@ mod tests {
         let signing_key = SigningKey::from(SecretKey::new(ScalarPrimitive::from(priv_key)));
         let g = secp256k1::Secp256k1Affine::generator();
         let pk = (g * secp256k1::Fq::from(priv_key)).to_affine();
-        let address = secret_key_to_address(&signing_key);
+        let address = hex::encode(secret_key_to_address(&signing_key));
 
         let message = b"harry AnonKlub";
         let msg_hash = hash_message(message);
@@ -502,58 +485,29 @@ mod tests {
         Ok((efficient_ecdsa_inputs, test_inputs))
     }
 
-    fn mock_merkle_proof(pk: &Secp256k1Affine) -> Result<MerkleProof> {
+    fn mock_merkle_proof(address: &String) -> Result<MerkleProof> {
         // Initialize Poseidon Hasher
-        let mut poseidon =
-            Poseidon::<F, T_POSEIDON, RATE_POSEIDON>::new(R_F_POSEIDON, R_P_POSEIDON);
+        let mut leaves = Vec::<String>::new();
 
-        let tree_size: u32 = u32::pow(2, 15);
-
-        // Members MerkleTree
-        let leaf_x =
-            pk.x.to_bytes()
-                .to_vec()
-                .chunks(11)
-                .map(F::from_bytes_le)
-                .collect::<Vec<_>>();
-        let leaf_y =
-            pk.y.to_bytes()
-                .to_vec()
-                .chunks(11)
-                .map(F::from_bytes_le)
-                .collect::<Vec<_>>();
-
-        // Construct Leaves
-        let mut leaves = Vec::<F>::new();
+        let depth: u32 = 15;
+        let tree_size: u32 = u32::pow(2, depth);
 
         for i in 0..tree_size {
             if i == 0 {
-                poseidon.update(leaf_x.as_slice());
-                poseidon.update(leaf_y.as_slice());
+                leaves.push(address.clone())
             } else {
-                poseidon.update(&[F::zero()]);
+                leaves.push("0x0000000000000000000000000000000000000000".to_owned());
             }
-
-            leaves.push(poseidon.squeeze_and_reset());
         }
+        let mock_merkle_proof_serialized =
+            generate_merkle_proof(leaves, address.clone(), depth.try_into().unwrap()).unwrap();
 
-        // Construct MerkleTree
-        let mut membership_tree =
-            BinaryMerkleTree2::<F, T_POSEIDON, RATE_POSEIDON>::new(&mut poseidon, &mut leaves)
-                .unwrap();
+        let mock_merkle_proof_bytes = MerkleProofBytes::deserialize(&mock_merkle_proof_serialized)
+            .context("Failed to deserialize merkle proof bytes")?;
+        let mock_merkle_proof = MerkleProof::from_bytes_le(&mock_merkle_proof_bytes)
+            .context("Failed to deserialize merkle proof")?;
 
-        let root = membership_tree.get_root();
-        let (siblings, path_indices) = membership_tree.get_proof(0);
-
-        assert!(membership_tree.verify_proof(&leaves[0], 0, &root, &siblings));
-
-        Ok(MerkleProof {
-            depth: TREE_DEPTH,
-            leaf: leaves[0],
-            siblings,
-            path_indices,
-            root,
-        })
+        Ok(mock_merkle_proof)
     }
 
     #[test]
@@ -567,17 +521,17 @@ mod tests {
         .map_err(|e| anyhow!(e))
         .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
 
-        let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)
+        let (mock_ecdsa_inputs, mock_test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)
             .map_err(|e| anyhow!(e))
             .context("Failed to compute efficient ECDSA")?;
 
-        let merkle_proof = mock_merkle_proof(&test_inputs.pk)?;
+        let mock_merkle_proof = mock_merkle_proof(&mock_test_inputs.address)?;
 
-        let eth_membership_inputs = EthMembershipInputs::<
+        let mock_eth_membership_inputs = EthMembershipInputs::<
             secp256k1::Fp,
             secp256k1::Fq,
             Secp256k1Affine,
-        >::new(ecdsa_inputs, merkle_proof);
+        >::new(mock_ecdsa_inputs, mock_merkle_proof);
 
         let mut halo2_wasm = Halo2Wasm::new();
 
@@ -586,7 +540,7 @@ mod tests {
         let mut circuit =
             EthMembershipCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
                 &halo2_wasm,
-                eth_membership_inputs,
+                mock_eth_membership_inputs,
             )?;
 
         circuit.verify_membership();
@@ -612,7 +566,7 @@ mod tests {
 
         let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
 
-        let merkle_proof = mock_merkle_proof(&test_inputs.pk)?;
+        let merkle_proof = mock_merkle_proof(&test_inputs.address)?;
 
         let eth_membership_inputs = EthMembershipInputs::<
             secp256k1::Fp,
@@ -652,17 +606,17 @@ mod tests {
         // Time tracking for proof generation
         let proof_start = Instant::now();
 
+        // Get the public instance inputs
+        let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
+
         // Generate proof
-        let proof: Vec<u8> = halo2_wasm.prove();
+        let proof: Vec<u8> = halo2_wasm.prove_ext(&params);
 
         let proof_duration = proof_start.elapsed();
         println!(
             "Eth Membership Proof generation executed in: {:.2?} seconds",
             proof_duration
         );
-
-        // Get the public instance inputs
-        let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
 
         // Verify the proof
         println!("Verifying Proof");
@@ -693,6 +647,95 @@ mod tests {
         println!("Test executed in: {:.2?} minutes", duration_in_minutes);
 
         Ok(())
+    }
+
+    #[test]
+    fn test_eff_ecdsa_verify() -> Result<()> {
+        let path = "configs/eth_membership.config";
+        let circuit_params: CircuitConfig = serde_json::from_reader(
+            File::open(path)
+                .map_err(|e| anyhow!(e))
+                .with_context(|| format!("The circuit config file does not exist: {}", path))?,
+        )
+        .map_err(|e| anyhow!(e))
+        .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
+
+        let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
+
+        let merkle_proof = mock_merkle_proof(&test_inputs.address)?;
+
+        let eth_membership_inputs = EthMembershipInputs::<
+            secp256k1::Fp,
+            secp256k1::Fq,
+            Secp256k1Affine,
+        >::new(ecdsa_inputs, merkle_proof);
+
+        let mut halo2_wasm = Halo2Wasm::new();
+
+        halo2_wasm.config(circuit_params);
+
+        let mut circuit =
+            EthMembershipCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+                &halo2_wasm,
+                eth_membership_inputs,
+            )?;
+
+        circuit.verify_membership();
+
+        let params = ParamsKZG::<E>::setup(K, OsRng);
+
+        // Load params
+        halo2_wasm.load_params(&serialize_params_to_bytes(&params));
+
+        // Generate VK
+        halo2_wasm.gen_vk();
+
+        // Generate PK
+        halo2_wasm.gen_pk();
+
+        // Get the public instance inputs
+        let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
+
+        let start = Instant::now();
+
+        // Verify Eff ECDSA
+        println!("Verifying Eff ECDSA Proof");
+
+        let is_eff_ecdsa_valid = verify_efficient_ecdsa(
+            test_inputs.msg_hash,
+            test_inputs.r,
+            test_inputs.is_y_odd,
+            &instances,
+        )?;
+
+        println!("- Is Eff ECDSA valid? {}", is_eff_ecdsa_valid);
+
+        assert!(is_eff_ecdsa_valid, "Eff ECDSA is not valid");
+
+        let duration = start.elapsed();
+        let duration_in_minutes = duration.as_secs_f64() / 60.0;
+        println!("Test executed in: {:.2?} seconds", duration);
+        println!("Test executed in: {:.2?} minutes", duration_in_minutes);
+
+        Ok(())
+    }
+
+    fn map_to_vec(map: &HashMap<String, u8>) -> Vec<u8> {
+        let mut vec: Vec<u8> = vec![0; map.len()];
+        for (key, value) in map {
+            let index: usize = key.parse().expect("Failed to parse key to usize");
+            vec[index] = *value;
+        }
+        vec
+    }
+
+    #[derive(Deserialize)]
+    struct RealInputs {
+        s: HashMap<String, u8>,
+        r: HashMap<String, u8>,
+        is_y_odd: bool,
+        msg_hash: HashMap<String, u8>,
+        merkle_proof_bytes_serialized: HashMap<String, u8>,
     }
 
     #[test]
@@ -793,77 +836,6 @@ mod tests {
             "Eth Membership Proof generation executed in: {:.2?} seconds",
             proof_duration
         );
-
-        let duration = start.elapsed();
-        let duration_in_minutes = duration.as_secs_f64() / 60.0;
-        println!("Test executed in: {:.2?} seconds", duration);
-        println!("Test executed in: {:.2?} minutes", duration_in_minutes);
-
-        Ok(())
-    }
-
-    #[test]
-    fn test_eff_ecdsa_verify() -> Result<()> {
-        let path = "configs/eth_membership.config";
-        let circuit_params: CircuitConfig = serde_json::from_reader(
-            File::open(path)
-                .map_err(|e| anyhow!(e))
-                .with_context(|| format!("The circuit config file does not exist: {}", path))?,
-        )
-        .map_err(|e| anyhow!(e))
-        .with_context(|| format!("Failed to read the circuit config file: {}", path))?;
-
-        let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
-
-        let merkle_proof = mock_merkle_proof(&test_inputs.pk)?;
-
-        let eth_membership_inputs = EthMembershipInputs::<
-            secp256k1::Fp,
-            secp256k1::Fq,
-            Secp256k1Affine,
-        >::new(ecdsa_inputs, merkle_proof);
-
-        let mut halo2_wasm = Halo2Wasm::new();
-
-        halo2_wasm.config(circuit_params);
-
-        let mut circuit =
-            EthMembershipCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
-                &halo2_wasm,
-                eth_membership_inputs,
-            )?;
-
-        circuit.verify_membership();
-
-        let params = ParamsKZG::<E>::setup(K, OsRng);
-
-        // Load params
-        halo2_wasm.load_params(&serialize_params_to_bytes(&params));
-
-        // Generate VK
-        halo2_wasm.gen_vk();
-
-        // Generate PK
-        halo2_wasm.gen_pk();
-
-        // Get the public instance inputs
-        let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
-
-        let start = Instant::now();
-
-        // Verify Eff ECDSA
-        println!("Verifying Eff ECDSA Proof");
-
-        let is_eff_ecdsa_valid = verify_efficient_ecdsa(
-            test_inputs.msg_hash,
-            test_inputs.r,
-            test_inputs.is_y_odd,
-            &instances,
-        )?;
-
-        println!("- Is Eff ECDSA valid? {}", is_eff_ecdsa_valid);
-
-        assert!(is_eff_ecdsa_valid, "Eff ECDSA is not valid");
 
         let duration = start.elapsed();
         let duration_in_minutes = duration.as_secs_f64() / 60.0;
