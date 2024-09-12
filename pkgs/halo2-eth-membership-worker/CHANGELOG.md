@@ -1,5 +1,9 @@
 # @anonklub/halo2-eth-membership-worker
 
+## 0.1.2
+
+- 5c98e41: fetching params kzg from server
+
 ## 0.1.1
 
 ### Patch Changes
