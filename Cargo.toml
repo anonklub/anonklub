@@ -4,6 +4,7 @@ default-members = ["pkgs/cli"]
 members = [
   "pkgs/cli",
   "pkgs/halo2-binary-merkle-tree",
+  "pkgs/halo2-e2e",
   "pkgs/halo2-ecdsa",
   "pkgs/halo2-eth-membership",
   "pkgs/halo2-wasm-ext",
