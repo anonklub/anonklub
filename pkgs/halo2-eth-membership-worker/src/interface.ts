@@ -17,23 +17,27 @@ export interface ProveInputs {
   sig: Hex
   message: string
   merkleProofBytesSerialized: Uint8Array
+  k: number
+}
+
+export interface VerifyInputs {
+  membershipProofSerialized: Uint8Array
+  k: number
 }
 
 export type ProveMembershipFn = (
   proveInputs: ProveInputs,
 ) => Promise<Uint8Array>
 export type VerifyMembershipFn = (
-  ethMembershipProof: Uint8Array,
-  instances: Uint8Array,
+  verifyInputs: VerifyInputs,
 ) => Promise<boolean>
 
-export interface IHalo2EthMembershipaWorker {
+export interface IHalo2EthMembershipWorker {
   prepare: () => void
-  proveMembership: (proveInputs: ProveInputs) => Uint8Array
+  proveMembership: (proveInputs: ProveInputs) => Promise<Uint8Array>
   verifyMembership: (
-    ethMembershipProof: Uint8Array,
-    instances: Uint8Array,
-  ) => boolean
+    verifyInputs: VerifyInputs,
+  ) => Promise<boolean>
 }
 
 export interface IHalo2EthMembershipWasm {
