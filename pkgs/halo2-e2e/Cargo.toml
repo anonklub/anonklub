@@ -1,0 +1,8 @@
+[package]
+name = "halo2-e2e"
+version = "0.1.0"
+authors = ["0xisk"]
+edition = "2021"
+
+[dependencies]
+halo2-eth-membership = { path = "../halo2-eth-membership" }
