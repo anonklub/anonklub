@@ -8,6 +8,42 @@ use halo2_ecdsa::{
 use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, Halo2Wasm};
 use num_bigint::BigUint;
 
+use super::consts::F;
+
+pub fn create_default_circuit(
+    halo2_wasm: &Halo2Wasm,
+) -> Result<EthMembershipCircuit<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>> {
+    let default_efficient_ecdsa = EfficientECDSAInputs::new(
+        secp256k1::Fq::zero(),
+        Secp256k1Affine::generator(),
+        Secp256k1Affine::generator(),
+    );
+
+    let default_merkle_proof = MerkleProof {
+        depth: 0,
+        leaf: F::from(F::zero()),
+        siblings: vec![F::zero()],
+        path_indices: vec![F::zero()],
+        root: F::from(F::zero()),
+    };
+
+    let default_eth_membership_inputs = EthMembershipInputs::<
+        secp256k1::Fp,
+        secp256k1::Fq,
+        Secp256k1Affine,
+    >::new(default_efficient_ecdsa, default_merkle_proof);
+
+    let default_circuit =
+        EthMembershipCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+            halo2_wasm,
+            default_eth_membership_inputs,
+        )
+        .map_err(|e| anyhow!(e))
+        .context("Failed to initialize the circuit!")?;
+
+    Ok(default_circuit)
+}
+
 pub fn create_circuit(
     s: &[u8],
     r: &[u8],

@@ -3,23 +3,19 @@ use anyhow::{anyhow, Context, Result};
 use halo2_base::{
     halo2_proofs::{
         halo2curves::{bn256::Bn256, secp256k1},
-        poly::kzg::commitment::ParamsKZG,
+        poly::{commitment::Params, kzg::commitment::ParamsKZG},
     },
     utils::ScalarField,
 };
 use halo2_ecdsa::utils::verify::verify_efficient_ecdsa;
 use halo2_wasm::Halo2Wasm;
-use halo2_wasm_ext::{
-    config::{configure_halo2_wasm, read_config_from_str},
-    ext::Halo2WasmExt,
-    params::{gen_params, serialize_params_to_bytes},
-};
+use halo2_wasm_ext::{config::read_config_from_str, ext::Halo2WasmExt};
 use num_bigint::BigUint;
-use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
+use std::io::BufReader;
 use utils::{
-    circuit::create_circuit,
-    consts::{INSTANCE_COL, K},
+    circuit::{create_circuit, create_default_circuit},
+    consts::INSTANCE_COL,
 };
 use wasm_bindgen::prelude::*;
 
@@ -35,6 +31,7 @@ include!(concat!(env!("OUT_DIR"), "/eth_membership_config.rs"));
 pub struct EthMembershipProof {
     pub proof: Vec<u8>,
     pub public: Vec<u8>,
+    vk: Vec<u8>,
     r: Vec<u8>,
     msg_hash: Vec<u8>,
     is_y_odd: bool,
@@ -45,15 +42,17 @@ impl EthMembershipProof {
         Self {
             proof: vec![],
             public: vec![],
+            vk: vec![],
             r,
             msg_hash,
             is_y_odd,
         }
     }
 
-    pub fn set_proof(&mut self, proof: Vec<u8>, public: Vec<u8>) {
+    pub fn set_proof(&mut self, proof: Vec<u8>, public: Vec<u8>, vk: Vec<u8>) {
         self.proof = proof;
         self.public = public;
+        self.vk = vk
     }
 
     pub fn serialize(&self) -> Result<Vec<u8>> {
@@ -65,13 +64,13 @@ impl EthMembershipProof {
     }
 }
 
-#[wasm_bindgen]
-pub fn prove_membership(
+fn _prove(
     s: &[u8],
     r: &[u8],
     is_y_odd: bool,
     msg_hash: &[u8],
     merkle_proof_bytes_serialized: &[u8],
+    params: &[u8],
 ) -> Vec<u8> {
     // Initialize and configure Halo2Wasm
     let mut halo2_wasm = Halo2Wasm::new();
@@ -104,8 +103,7 @@ pub fn prove_membership(
     halo2_wasm.assign_instances();
 
     // Load Params
-    let params = ParamsKZG::<Bn256>::setup(K, OsRng);
-    halo2_wasm.load_params(&serialize_params_to_bytes(&params));
+    halo2_wasm.load_params(params);
 
     // Generate VK
     halo2_wasm.gen_vk();
@@ -118,11 +116,19 @@ pub fn prove_membership(
         .get_instance_values_ext(INSTANCE_COL)
         .expect("Failed to deserialize instance values.");
 
-    // Generate proof
-    let proof = halo2_wasm.prove();
+    // Generate proof based on the target architecture
+    let proof = if cfg!(target_arch = "wasm32") {
+        halo2_wasm.prove()
+    } else {
+        let params = ParamsKZG::<Bn256>::read(&mut BufReader::new(params))
+            .expect("Failed to generate params");
+        halo2_wasm.prove_ext(&params)
+    };
+
+    let vk_encoded = halo2_wasm.get_vk();
 
     // Serialize Membership proof
-    eth_membership_proof.set_proof(proof, public.clone());
+    eth_membership_proof.set_proof(proof, public.clone(), vk_encoded);
 
     eth_membership_proof
         .serialize()
@@ -130,12 +136,15 @@ pub fn prove_membership(
         .expect("Failed to serialize EthMembershipProof.")
 }
 
-#[wasm_bindgen]
-pub fn verify_membership(membership_proof: &[u8], instances: &[u8]) -> bool {
+fn _verify(membership_proof: &[u8], params: &[u8]) -> bool {
     // Initialize and configure Halo2Wasm
     let mut halo2_wasm = Halo2Wasm::new();
-    let params = gen_params(K);
-    let _ = configure_halo2_wasm(&mut halo2_wasm, &params);
+
+    // Configure halo2-wasm
+    // Initialize the config and the circuit
+    let circuit_config =
+        read_config_from_str(ETH_MEMBERSHIP_CONFIG).expect("Could not read Circuit Config");
+    halo2_wasm.config(circuit_config);
 
     // Deserialize Membership proof
     let membership_proof = EthMembershipProof::deserialize(membership_proof)
@@ -146,25 +155,90 @@ pub fn verify_membership(membership_proof: &[u8], instances: &[u8]) -> bool {
     let r = secp256k1::Fp::from_bytes_le(&membership_proof.r);
     let msg_hash = BigUint::from_bytes_be(&membership_proof.msg_hash);
     let is_y_odd = membership_proof.is_y_odd;
-    let proof = membership_proof.proof;
+
+    // Create default circuit
+    create_default_circuit(&halo2_wasm)
+        .map_err(|e| anyhow!(e))
+        .expect("Failed to create default circuit.");
+
+    // Load Params
+    halo2_wasm.load_params(params);
+
+    let params =
+        ParamsKZG::<Bn256>::read(&mut BufReader::new(params)).expect("Failed to generate params");
+
+    // Load VK
+    halo2_wasm.load_vk(&membership_proof.vk);
 
     // Verifications
     let is_proof_valid = halo2_wasm
-        .verify_ext(instances, &proof, params)
+        .verify_ext(&membership_proof.public, &membership_proof.proof, params)
         .map_err(|e| anyhow!(e))
         .expect("Failed to verify snark proof.");
 
-    let is_eff_ecdsa_valid = verify_efficient_ecdsa(msg_hash, r, is_y_odd, instances)
-        .map_err(|e| anyhow!(e))
-        .expect("Failed to verify efficient ECDSA.");
+    let is_eff_ecdsa_valid =
+        verify_efficient_ecdsa(msg_hash, r, is_y_odd, &membership_proof.public)
+            .map_err(|e| anyhow!(e))
+            .expect("Failed to verify efficient ECDSA.");
 
     is_proof_valid && is_eff_ecdsa_valid
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn prove_membership(
+    s: &[u8],
+    r: &[u8],
+    is_y_odd: bool,
+    msg_hash: &[u8],
+    merkle_proof_bytes_serialized: &[u8],
+    params: &[u8],
+) -> Vec<u8> {
+    _prove(
+        s,
+        r,
+        is_y_odd,
+        msg_hash,
+        merkle_proof_bytes_serialized,
+        params,
+    )
+}
+
+#[cfg(target_arch = "wasm32")]
+#[wasm_bindgen]
+pub fn prove_membership(
+    s: &[u8],
+    r: &[u8],
+    is_y_odd: bool,
+    msg_hash: &[u8],
+    merkle_proof_bytes_serialized: &[u8],
+    params: &[u8],
+) -> Vec<u8> {
+    _prove(
+        s,
+        r,
+        is_y_odd,
+        msg_hash,
+        merkle_proof_bytes_serialized,
+        params,
+    )
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn verify_membership(membership_proof: &[u8], params: &[u8]) -> bool {
+    _verify(membership_proof, params)
+}
+
+#[cfg(target_arch = "wasm32")]
+#[wasm_bindgen]
+pub fn verify_membership(membership_proof: &[u8], params: &[u8]) -> bool {
+    _verify(membership_proof, params)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
+    use halo2_wasm_ext::instances::set_instances;
     use serde::Deserialize;
     use std::{collections::HashMap, fs::File, io::Read};
 
@@ -177,7 +251,7 @@ mod tests {
         vec
     }
 
-    pub fn prove_membership_mock(
+    fn prove_membership_mock_prover(
         s: &[u8],
         r: &[u8],
         is_y_odd: bool,
@@ -222,7 +296,7 @@ mod tests {
     }
 
     #[derive(Deserialize)]
-    struct TestInputs {
+    struct ProveTestInputs {
         s: HashMap<String, u8>,
         r: HashMap<String, u8>,
         is_y_odd: bool,
@@ -230,66 +304,152 @@ mod tests {
         merkle_proof_bytes_serialized: HashMap<String, u8>,
     }
 
-    #[test]
-    fn test_prove_membership_mock() {
-        // Read the test inputs from the JSON file
-        let mut file =
-            File::open("mock/test_inputs.json").expect("Failed to open test inputs file.");
-        let mut data = String::new();
-        file.read_to_string(&mut data)
-            .expect("Failed to read test inputs file.");
-
-        // Parse the JSON data
-        let inputs: TestInputs = serde_json::from_str(&data).expect("Failed to parse JSON.");
-
-        // Convert HashMaps to Vec<u8>
-        let s = map_to_vec(&inputs.s);
-        let r = map_to_vec(&inputs.r);
-        let msg_hash = map_to_vec(&inputs.msg_hash);
-        let merkle_proof_bytes_serialized = map_to_vec(&inputs.merkle_proof_bytes_serialized);
-
-        // Call the function to be tested
-        prove_membership_mock(
-            &s,
-            &r,
-            inputs.is_y_odd,
-            &msg_hash,
-            &merkle_proof_bytes_serialized,
-        )
-        .expect("Failed to prove");
-
-        // Here you can add assertions to verify the result
-        assert_eq!((), ());
+    #[derive(Deserialize)]
+    struct VerifyTestInputs {
+        membership_proof: HashMap<String, u8>,
     }
 
-    // #[test]
-    // fn test_prove_membership_real() {
-    //     // Read the test inputs from the JSON file
-    //     let mut file =
-    //         File::open("mock/test_inputs.json").expect("Failed to open test inputs file.");
-    //     let mut data = String::new();
-    //     file.read_to_string(&mut data)
-    //         .expect("Failed to read test inputs file.");
+    mod native_tests {
+        use super::*;
 
-    //     // Parse the JSON data
-    //     let inputs: TestInputs = serde_json::from_str(&data).expect("Failed to parse JSON.");
+        /// This test is with using real inputs from your address.
+        /// You will need to fill `mock/prove_test_inputs_example`
+        /// Otherwise this test will skip
+        #[test]
+        fn test_real_input_prove_membership_mock_prover() {
+            // Read the test inputs from the JSON file
+            let file = File::open("mock/prove_test_inputs.json");
 
-    //     // Convert HashMaps to Vec<u8>
-    //     let s = map_to_vec(&inputs.s);
-    //     let r = map_to_vec(&inputs.r);
-    //     let msg_hash = map_to_vec(&inputs.msg_hash);
-    //     let merkle_proof_bytes_serialized = map_to_vec(&inputs.merkle_proof_bytes_serialized);
+            // Check if the file was opened successfully
+            let mut file = match file {
+                Ok(f) => f,
+                Err(_) => {
+                    println!("Test skipped: 'mock/prove_test_inputs.json' file not found.");
+                    return ();
+                }
+            };
 
-    //     // Call the function to be tested
-    //     let result = prove_membership_real(
-    //         &s,
-    //         &r,
-    //         inputs.is_y_odd,
-    //         &msg_hash,
-    //         &merkle_proof_bytes_serialized,
-    //     );
+            let mut data = String::new();
+            file.read_to_string(&mut data)
+                .expect("Failed to read test inputs file.");
 
-    //     // Here you can add assertions to verify the result
-    //     assert_eq!(result.is_empty(), false);
-    // }
+            // Parse the JSON data
+            let inputs: ProveTestInputs =
+                serde_json::from_str(&data).expect("Failed to parse JSON.");
+
+            // Convert HashMaps to Vec<u8>
+            let s = map_to_vec(&inputs.s);
+            let r = map_to_vec(&inputs.r);
+            let msg_hash = map_to_vec(&inputs.msg_hash);
+            let merkle_proof_bytes_serialized = map_to_vec(&inputs.merkle_proof_bytes_serialized);
+
+            // Call the function to be tested
+            prove_membership_mock_prover(
+                &s,
+                &r,
+                inputs.is_y_odd,
+                &msg_hash,
+                &merkle_proof_bytes_serialized,
+            )
+            .expect("Failed to prove");
+
+            // Here you can add assertions to verify the result
+            assert_eq!((), ());
+        }
+    }
+
+    /// This test is with using real inputs from your address.
+    /// You will need to fill `mock/prove_test_inputs_example`
+    /// and also `mock/verify_test_inputs_example`
+    /// Otherwise this test will skip
+    #[cfg(all(not(target_arch = "wasm32"), feature = "tokio_tests"))]
+    #[cfg(test)]
+    mod e2e_tests {
+        use utils::fetch_kzg_params;
+
+        use super::*;
+
+        #[tokio::test]
+        async fn test__real_input_prove_and_verify_membership_real() {
+            // Read the test inputs from the JSON file
+            let file = File::open("mock/prove_test_inputs.json");
+
+            // Check if the file was opened successfully
+            let mut file = match file {
+                Ok(f) => f,
+                Err(_) => {
+                    println!("Test skipped: 'mock/prove_test_inputs.json' file not found.");
+                    return ();
+                }
+            };
+
+            let mut data = String::new();
+            file.read_to_string(&mut data)
+                .expect("Failed to read test inputs file.");
+
+            // Parse the JSON data
+            let inputs: ProveTestInputs =
+                serde_json::from_str(&data).expect("Failed to parse JSON.");
+
+            // Convert HashMaps to Vec<u8>
+            let s = map_to_vec(&inputs.s);
+            let r = map_to_vec(&inputs.r);
+            let msg_hash = map_to_vec(&inputs.msg_hash);
+            let merkle_proof_bytes_serialized = map_to_vec(&inputs.merkle_proof_bytes_serialized);
+
+            // Get KZG params
+            let params = fetch_kzg_params(K).await.expect("Failed to fetch params");
+
+            // Generate the proof
+            let membership_proof = prove_membership(
+                &s,
+                &r,
+                inputs.is_y_odd,
+                &msg_hash,
+                &merkle_proof_bytes_serialized,
+                &params,
+            );
+
+            assert_eq!(membership_proof.is_empty(), false);
+
+            // Verify the proof
+            let is_verified = verify_membership(&membership_proof, &params);
+
+            assert_eq!(is_verified, true);
+        }
+
+        #[tokio::test]
+        async fn test_real_input_verify_membership_real_verifier() {
+            // Read the test inputs from the JSON file
+            let mut file = File::open("mock/verify_test_inputs.json");
+
+            // Check if the file was opened successfully
+            let mut file = match file {
+                Ok(f) => f,
+                Err(_) => {
+                    println!("Test skipped: 'mock/prove_test_inputs.json' file not found.");
+                    return ();
+                }
+            };
+
+            let mut data = String::new();
+            file.read_to_string(&mut data)
+                .expect("Failed to read test inputs file.");
+
+            // Parse the JSON data
+            let inputs: VerifyTestInputs =
+                serde_json::from_str(&data).expect("Failed to parse JSON.");
+
+            // Get KZG params
+            let params = fetch_kzg_params(K).await.expect("Failed to fetch params");
+
+            let membership_proof = map_to_vec(&inputs.membership_proof);
+
+            // Call the function to be tested
+            let result = verify_membership(&membership_proof, &params);
+
+            // Here you can add assertions to verify the result
+            assert_eq!(result, true);
+        }
+    }
 }
