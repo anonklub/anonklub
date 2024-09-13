@@ -30,6 +30,9 @@ export function hexToLittleEndianBytes(hex, size) {
 
 // @src https://github.com/RiverRuby/halo2-lib-wasm/blob/9e22a0452add207800a4aa585e345cc9fb50a549/browser/lib/halo2Prover/halo2Prover.ts#L3C1-L11C3
 export const fetchKzgParams = async (k: number) => {
+  if (k < 11 || k > 19)
+    throw new Error("Invalid parameter 'k'. It must be between 11 and 19, inclusive.")
+
   const response = await fetch(
     `https://halo2-ecdsa-params.s3.us-east-2.amazonaws.com/params_${k}.bin`,
   )
