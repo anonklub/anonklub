@@ -17,12 +17,10 @@ export interface ProveInputs {
   sig: Hex
   message: string
   merkleProofBytesSerialized: Uint8Array
-  k: number
 }
 
 export interface VerifyInputs {
   membershipProofSerialized: Uint8Array
-  k: number
 }
 
 export type ProveMembershipFn = (

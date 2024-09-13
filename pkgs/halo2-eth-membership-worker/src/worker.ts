@@ -28,7 +28,7 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     }
   },
 
-  async proveMembership({ merkleProofBytesSerialized, message, sig, k }): Promise<Uint8Array> {
+  async proveMembership({ merkleProofBytesSerialized, message, sig }): Promise<Uint8Array> {
     const { r, s, v } = hexToSignature(sig)
 
     const sBytes = hexToLittleEndianBytes(s, 32)
@@ -37,7 +37,8 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     const isYOdd = calculateSigRecovery(v)
     const msgHash = hashMessage(message, 'bytes')
 
-    const params = await fetchKzgParams(k)
+    // Please note that K = 15 only supported for now until benchmarking is finished
+    const params = await fetchKzgParams(15)
 
     return halo2EthMembershipWasm.prove_membership(
       sBytes,
@@ -49,8 +50,9 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     )
   },
 
-  async verifyMembership({ membershipProofSerialized, k }): Promise<boolean> {
-    const params = await fetchKzgParams(k)
+  async verifyMembership({ membershipProofSerialized }): Promise<boolean> {
+    // Please note that K = 15 only supported for now until benchmarking is finished
+    const params = await fetchKzgParams(15)
 
     return halo2EthMembershipWasm.verify_membership(
       membershipProofSerialized,
