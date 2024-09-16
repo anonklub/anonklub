@@ -1,12 +1,12 @@
 import { expose } from 'comlink'
 import { hashMessage, hexToSignature } from 'viem'
-import type { IHalo2EthMembershipaWorker, IHalo2EthMembershipWasm } from './interface'
-import { calculateSigRecovery, hexToLittleEndianBytes } from './utils'
+import type { IHalo2EthMembershipWasm, IHalo2EthMembershipWorker } from './interface'
+import { calculateSigRecovery, fetchKzgParams, hexToLittleEndianBytes } from './utils'
 
 let halo2EthMembershipWasm: IHalo2EthMembershipWasm
 let initialized = false
 
-export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
+export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async prepare() {
     halo2EthMembershipWasm = await import('@anonklub/halo2-eth-membership')
@@ -28,7 +28,7 @@ export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
     }
   },
 
-  proveMembership({ merkleProofBytesSerialized, message, sig }): Uint8Array {
+  async proveMembership({ merkleProofBytesSerialized, message, sig }): Promise<Uint8Array> {
     const { r, s, v } = hexToSignature(sig)
 
     const sBytes = hexToLittleEndianBytes(s, 32)
@@ -37,24 +37,28 @@ export const halo2EcdsaWorker: IHalo2EthMembershipaWorker = {
     const isYOdd = calculateSigRecovery(v)
     const msgHash = hashMessage(message, 'bytes')
 
+    // Please note that K = 15 only supported for now until benchmarking is finished
+    const params = await fetchKzgParams(15)
+
     return halo2EthMembershipWasm.prove_membership(
       sBytes,
       rBytes,
       isYOdd,
       msgHash,
       merkleProofBytesSerialized,
+      params,
     )
   },
 
-  verifyMembership(
-    ethMembershipProof: Uint8Array,
-    instances: Uint8Array,
-  ): boolean {
+  async verifyMembership({ membershipProofSerialized }): Promise<boolean> {
+    // Please note that K = 15 only supported for now until benchmarking is finished
+    const params = await fetchKzgParams(15)
+
     return halo2EthMembershipWasm.verify_membership(
-      ethMembershipProof,
-      instances,
+      membershipProofSerialized,
+      params,
     )
   },
 }
 
-expose(halo2EcdsaWorker)
+expose(Halo2EthMembershipWorker)
