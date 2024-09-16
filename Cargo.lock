@@ -2588,6 +2588,7 @@ name = "halo2-eth-membership"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "ark-std 0.4.0",
  "bincode",
  "ethers",
  "getrandom 0.2.15",
