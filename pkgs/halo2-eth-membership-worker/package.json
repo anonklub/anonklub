@@ -1,6 +1,6 @@
 {
   "name": "@anonklub/halo2-eth-membership-worker",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "author": "0xisk <0xisk@proton.me>",
   "description": "A Web-Worker package for generating spartan ECDSA proves in the browser using wasm.",
   "keywords": [
