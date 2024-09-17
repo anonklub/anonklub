@@ -648,6 +648,7 @@ mod mock_tests {
         Ok(())
     }
 
+    #[cfg(feature = "bench")]
     #[test]
     fn bench_test_mock_inputs_eth_membership_real_prover_verifier() -> Result<()> {
         use ark_std::{end_timer, start_timer};

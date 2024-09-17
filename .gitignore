@@ -46,3 +46,6 @@ prove_test_inputs.json
 verify_test_inputs.json
 
 test_inputs.json
+
+.data
+.csv
