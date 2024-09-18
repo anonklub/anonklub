@@ -61,7 +61,7 @@ export const useProofRequest = () => {
         setIsGeneratingMerkleProof(false)
       }
     })()
-  }, [address, isWorkerReady, message, rawSignature, anonSet])
+  }, [address, isWorkerReady, rawSignature, anonSet])
 
   return {
     canSign,
