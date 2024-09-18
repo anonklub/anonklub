@@ -8,7 +8,6 @@ let initialized = false
 let params: Uint8Array
 
 export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async prepare() {
     halo2EthMembershipWasm = await import('@anonklub/halo2-eth-membership')
 
