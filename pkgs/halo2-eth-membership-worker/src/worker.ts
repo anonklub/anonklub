@@ -1,6 +1,6 @@
 import { expose } from 'comlink'
 import { hashMessage, hexToSignature } from 'viem'
-import type { IHalo2EthMembershipWasm, IHalo2EthMembershipWorker } from './interface'
+import type { IHalo2EthMembershipWasm, IHalo2EthMembershipWorker, VerifyInputs } from './interface'
 import { calculateSigRecovery, fetchKzgParams, hexToLittleEndianBytes } from './utils'
 
 let halo2EthMembershipWasm: IHalo2EthMembershipWasm
@@ -52,7 +52,10 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     )
   },
 
-  async verifyMembership({ membershipProofSerialized }): Promise<boolean> {
+  async verifyMembership(membershipProofSerialized: VerifyInputs): Promise<boolean> {
+    // Please note that K = 15 only supported for now until benchmarking is finished
+    const params = await fetchKzgParams(15)
+
     return halo2EthMembershipWasm.verify_membership(
       membershipProofSerialized,
       params,
