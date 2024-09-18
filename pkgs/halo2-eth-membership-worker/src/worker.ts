@@ -34,7 +34,7 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     }
   },
 
-  async proveMembership({ merkleProofBytesSerialized, message, sig }): Promise<Uint8Array> {
+  async proveMembership({ merkleProofBytesSerialized, message, sig }) {
     const { r, s, v } = hexToSignature(sig)
 
     const sBytes = hexToLittleEndianBytes(s, 32)
@@ -53,7 +53,7 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     )
   },
 
-  async verifyMembership(membershipProofSerialized: VerifyInputs): Promise<boolean> {
+  async verifyMembership(membershipProofSerialized: VerifyInputs) {
     return halo2EthMembershipWasm.verify_membership(
       membershipProofSerialized,
       params,
