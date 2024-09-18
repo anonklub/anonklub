@@ -34,9 +34,9 @@ export const FileInput = (file: File) =>
       {data !== null
         ? (
           <>
-            <a onClick={open}>
+            <button type='button' onClick={open}>
               <CheckMark full text={title} />
-            </a>
+            </button>
             <Modal ref={modalRef}>
               <ScrollableJsonContainer data={data} />
             </Modal>
