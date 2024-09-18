@@ -63,9 +63,9 @@ export function SubmitProofRequest() {
         {anonSet !== null
           ? (
             <>
-              <a onClick={open}>
+              <button type='button' onClick={open}>
                 <CheckMark full text='Anonset' />
-              </a>
+              </button>
               <Modal ref={ref}>
                 <ScrollableJsonContainer data={anonSet} />
               </Modal>

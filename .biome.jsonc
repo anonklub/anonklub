@@ -109,7 +109,7 @@
     },
     {
       // FIXME
-      "include": ["ui/src/**/*.tsx", "ui/src/**/*.ts"],
+      "include": ["ui/src/hooks/*.ts"],
       "linter": {
         "rules": {
           "correctness": {
@@ -118,6 +118,18 @@
         }
       }
     },
+    {
+      // FIXME
+      "include": ["ui/src/hooks/useProofRequest.ts", "ui/src/hooks/useSetHelp.ts", "ui/src/hooks/useWorker.ts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "useExhaustiveDependencies": "off"
+          }
+        }
+      }
+    },
+
     {
       "include": ["pkgs/proof/src/MerkleTree.ts", "pkgs/proof/src/helpers.ts"],
       "linter": { "rules": { "style": { "noParameterAssign": "off" } } }
