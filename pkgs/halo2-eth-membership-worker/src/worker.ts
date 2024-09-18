@@ -1,14 +1,16 @@
 import { expose } from 'comlink'
 import { hashMessage, hexToSignature } from 'viem'
-import type { IHalo2EthMembershipWasm, IHalo2EthMembershipWorker } from './interface'
+import type { IHalo2EthMembershipWasm, IHalo2EthMembershipWorker, VerifyInputs } from './interface'
 import { calculateSigRecovery, fetchKzgParams, hexToLittleEndianBytes } from './utils'
+
+// Benchmarking showed that k = 14 offers the best performance
+const K = 14
 
 let halo2EthMembershipWasm: IHalo2EthMembershipWasm
 let initialized = false
 let params: Uint8Array
 
 export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async prepare() {
     halo2EthMembershipWasm = await import('@anonklub/halo2-eth-membership')
 
@@ -19,21 +21,20 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     const response = await fetch(wasmModuleUrl)
     const bufferSource = await response.arrayBuffer()
 
-    await halo2EthMembershipWasm.initSync(bufferSource)
-    await halo2EthMembershipWasm.initPanicHook()
+    halo2EthMembershipWasm.initSync(bufferSource)
+    halo2EthMembershipWasm.initPanicHook()
 
     if (!initialized) {
       const numThreads = navigator.hardwareConcurrency
       await halo2EthMembershipWasm.initThreadPool(numThreads)
 
-      // Please note that K = 14 only supported for now until benchmarking is finished
-      params = await fetchKzgParams(14)
+      params = await fetchKzgParams(K)
 
       initialized = true
     }
   },
 
-  async proveMembership({ merkleProofBytesSerialized, message, sig }): Promise<Uint8Array> {
+  async proveMembership({ merkleProofBytesSerialized, message, sig }) {
     const { r, s, v } = hexToSignature(sig)
 
     const sBytes = hexToLittleEndianBytes(s, 32)
@@ -52,7 +53,7 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     )
   },
 
-  async verifyMembership({ membershipProofSerialized }): Promise<boolean> {
+  async verifyMembership(membershipProofSerialized: VerifyInputs) {
     return halo2EthMembershipWasm.verify_membership(
       membershipProofSerialized,
       params,

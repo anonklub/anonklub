@@ -19,9 +19,7 @@ export interface ProveInputs {
   merkleProofBytesSerialized: Uint8Array
 }
 
-export interface VerifyInputs {
-  membershipProofSerialized: Uint8Array
-}
+export type VerifyInputs = Uint8Array
 
 export type ProveMembershipFn = (
   proveInputs: ProveInputs,
