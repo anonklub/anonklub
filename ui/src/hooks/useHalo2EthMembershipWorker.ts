@@ -26,14 +26,10 @@ export const useHalo2EthMembershipWorker = () => {
     return proof
   }
 
-  const verifyMembership: VerifyMembershipFn = async ({
-    membershipProofSerialized,
-  }): Promise<boolean> => {
+  const verifyMembership: VerifyMembershipFn = async (proof): Promise<boolean> => {
     process.env.NODE_ENV === 'development' && console.time('==> Verify')
 
-    const isVerified = await Halo2EthMembershipWorker.verifyMembership({
-      membershipProofSerialized,
-    })
+    const isVerified = await Halo2EthMembershipWorker.verifyMembership(proof)
 
     process.env.NODE_ENV === 'development' && console.timeEnd('==> Verify')
 
