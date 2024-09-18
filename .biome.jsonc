@@ -43,22 +43,12 @@
       }
     },
     {
-      "include": ["ui/src/**/*.tsx"],
-      "linter": {
-        "rules": {
-          "a11y": {
-            "useButtonType": "warn"
-          }
-        }
-      }
-    },
-    {
-      // TODO: why a string literal was used to get the env var here?
+      // FIXME: why a string literal was used to get the env var here?
       "include": ["query-api/src/repositories/dune-client/index.ts"],
       "linter": {
         "rules": {
           "complexity": {
-            "useLiteralKeys": "warn"
+            "useLiteralKeys": "off"
           }
         }
       }
@@ -72,13 +62,13 @@
         "query-api/src/repositories/dune-client/types.ts",
         "query-api/src/repositories/GraphRepository.ts",
         "query-api/src/decorators/handle-dune-credits-error.ts",
-        "ui/src/components/ExternalLink.tsx",
         "**/test/**"
       ],
       "linter": {
         "rules": {
           "suspicious": {
-            "noExplicitAny": "warn"
+            // FIXME
+            "noExplicitAny": "off"
           }
         }
       }
@@ -147,8 +137,8 @@
       ],
       "linter": {
         "rules": {
-          // FIXME
-          "complexity": { "noForEach": "warn" },
+          // FIXME/investigate
+          "complexity": { "noForEach": "off" },
           // using import type breaks typeDI Service/Container
           "style": { "useImportType": "off" }
         }
