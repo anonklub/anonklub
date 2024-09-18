@@ -5,6 +5,7 @@ import { calculateSigRecovery, fetchKzgParams, hexToLittleEndianBytes } from './
 
 let halo2EthMembershipWasm: IHalo2EthMembershipWasm
 let initialized = false
+let params: Uint8Array
 
 export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -24,6 +25,10 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     if (!initialized) {
       const numThreads = navigator.hardwareConcurrency
       await halo2EthMembershipWasm.initThreadPool(numThreads)
+
+      // Please note that K = 14 only supported for now until benchmarking is finished
+      params = await fetchKzgParams(14)
+
       initialized = true
     }
   },
@@ -37,9 +42,6 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     const isYOdd = calculateSigRecovery(v)
     const msgHash = hashMessage(message, 'bytes')
 
-    // Please note that K = 15 only supported for now until benchmarking is finished
-    const params = await fetchKzgParams(15)
-
     return halo2EthMembershipWasm.prove_membership(
       sBytes,
       rBytes,
@@ -51,9 +53,6 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
   },
 
   async verifyMembership({ membershipProofSerialized }): Promise<boolean> {
-    // Please note that K = 15 only supported for now until benchmarking is finished
-    const params = await fetchKzgParams(15)
-
     return halo2EthMembershipWasm.verify_membership(
       membershipProofSerialized,
       params,
