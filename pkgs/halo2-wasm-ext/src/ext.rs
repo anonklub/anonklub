@@ -22,11 +22,23 @@ use halo2_base::{
 };
 use halo2_wasm::Halo2Wasm;
 use itertools::Itertools;
+use serde::{Deserialize, Serialize};
 use snark_verifier_sdk::{
     halo2::{gen_snark_shplonk, PoseidonTranscript, POSEIDON_SPEC},
     NativeLoader,
 };
 use std::io::BufReader;
+
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CircuitConfigExt {
+    pub k: usize,
+    pub num_advice: usize,
+    pub num_lookup_advice: usize,
+    pub num_instance: usize,
+    pub num_lookup_bits: usize,
+    pub num_virtual_instance: usize,
+}
 
 pub trait Halo2WasmExt {
     fn get_instance_values_ext(&mut self, col: usize) -> Result<Vec<u8>>;

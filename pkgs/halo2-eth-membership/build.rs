@@ -8,7 +8,7 @@ fn main() {
     let dest_path = Path::new(&out_dir).join("eth_membership_config.rs");
 
     let config_data =
-        fs::read_to_string("configs/eth_membership.config").expect("Unable to read config file");
+        fs::read_to_string("configs/eth_membership.cfg").expect("Unable to read config file");
 
     fs::write(
         &dest_path,

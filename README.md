@@ -114,4 +114,73 @@ Check available scripts with `pnpm run`.\
 Especially, to start the ui or the query-api: `pnpm start.ui` or `pnpm start.query-api`.\
 Don't bother running build tasks explicitly beforehand: [turbo](https://turbo.build/repo/docs) takes care of topological dependencies between tasks.
 
+## Benchmarks
+
+### Overview
+
+This benchmarking process evaluates the relationship between the parameter `k` and the performance metrics such as a proof generation time, proof size, and verification time. The results are stored in a CSV file and visualized using plots.
+
+### Setup
+
+Before running the benchmarks, ensure that your Rust environment is set up correctly and that the appropriate target is configured.
+
+#### Configuring the Rust Target
+
+This benchmarking process is intended to run on a native Linux target, not on WebAssembly (WASM). The project uses a specific Rust toolchain version.
+
+1. Set Up the Rust Toolchain:
+   Ensure to use the same nightly Rust version in the `rust-toolchain`.
+
+```rs
+[toolchain]
+channel = "nightly-2024-07-25"
+```
+
+2. Check the Installed Targets:
+   You can check which targets are installed in your Rust toolchain with:
+
+```bash
+rustup target list --installed
+```
+
+3. Add the Required Target:
+   If the `x86_64-unknown-linux-gnu` target is not installed, you can add it with:
+
+```bash
+rustup target add x86_64-unknown-linux-gnu
+```
+
+4. Run the Benchmark:
+   Ensure that the benchmark is run with the correct target by using the following command:
+
+```bash
+cargo test --target x86_64-unknown-linux-gnu --features "bench"
+```
+
+### Results
+
+The benchmark results were obtained on `Lenovo Legion 5` running Linux (12 CPU cores, 62 GB RAM) -- no GPU was used.
+
+| k  | numAdvice | numLookupAdvice | numInstance | numLookupBits | numVirtualInstance | proof_time | proof_size | verify_time |
+| -- | --------- | --------------- | ----------- | ------------- | ------------------ | ---------- | ---------- | ----------- |
+| 19 | 1         | 1               | 1           | 18            | 1                  | 176.9s     | 992        | 2.3s        |
+| 18 | 2         | 1               | 1           | 17            | 1                  | 171.1s     | 1504       | 7.6s        |
+| 17 | 4         | 1               | 1           | 16            | 1                  | 71.7s      | 2080       | 639.7ms     |
+| 16 | 8         | 2               | 1           | 15            | 1                  | 59.3s      | 3584       | 365.1ms     |
+| 15 | 17        | 3               | 1           | 14            | 1                  | 51.2s      | 6592       | 267.6ms     |
+| 14 | 34        | 6               | 1           | 13            | 1                  | 51.6s      | 12736      | 283.8ms     |
+| 13 | 68        | 12              | 1           | 12            | 1                  | 52.5s      | 25024      | 411.5ms     |
+| 12 | 139       | 24              | 1           | 11            | 1                  | 58.3s      | 50528      | 761.7ms     |
+| 11 | 291       | 53              | 1           | 10            | 1                  | 72.4s      | 106304     | 1.5s        |
+
+> Note: those benchmark config parameters have been selected based on `halo2-lib` benchmark params [github.com/axiom-crypto/halo2-lib](https://github.com/axiom-crypto/halo2-lib?tab=readme-ov-file#secp256k1-ecdsa)
+
+The benchmark results are visualized in the plot below:
+
+![Benchmark Plot](pkgs/halo2-eth-membership/configs//benchmark_plot.png)
+
+### Results using `criterion.rs`
+
+TODO
+
 ## [Contribute](https://github.com/anonklub/anonklub/contribute)

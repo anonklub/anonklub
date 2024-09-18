@@ -391,7 +391,7 @@ mod mock_tests {
     use halo2_ecdsa::utils::verify::verify_efficient_ecdsa;
     use halo2_wasm::{halo2lib::ecc::Secp256k1Affine, CircuitConfig, Halo2Wasm};
     use halo2_wasm_ext::consts::F;
-    use halo2_wasm_ext::ext::Halo2WasmExt;
+    use halo2_wasm_ext::ext::{CircuitConfigExt, Halo2WasmExt};
     use halo2_wasm_ext::params::serialize_params_to_bytes;
     use halo2_wasm_ext::utils::ct_option_ok_or;
     use num_bigint::BigUint;
@@ -399,7 +399,7 @@ mod mock_tests {
     use rand_core::OsRng;
     use serde::{Deserialize, Serialize};
     use std::collections::HashMap;
-    use std::io::Read;
+    use std::io::{BufRead, Read, Write};
     use std::{fs::File, time::Instant};
 
     use crate::utils::consts::{E, RATE_POSEIDON, R_F_POSEIDON, R_P_POSEIDON, T_POSEIDON};
@@ -511,7 +511,7 @@ mod mock_tests {
 
     #[test]
     fn test_mock_inputs_eth_membership_mock_prover() -> Result<()> {
-        let path = "configs/eth_membership.config";
+        let path = "configs/eth_membership.cfg";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
                 .map_err(|e| anyhow!(e))
@@ -554,7 +554,7 @@ mod mock_tests {
 
     #[test]
     fn test_mock_inputs_eth_membership_real_prover_verifier() -> Result<()> {
-        let path = "configs/eth_membership.config";
+        let path = "configs/eth_membership.cfg";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
                 .map_err(|e| anyhow!(e))
@@ -648,9 +648,179 @@ mod mock_tests {
         Ok(())
     }
 
+    #[cfg(feature = "bench")]
+    #[test]
+    fn bench_test_mock_inputs_eth_membership_real_prover_verifier() -> Result<()> {
+        use ark_std::{end_timer, start_timer};
+
+        let mut folder = std::path::PathBuf::new();
+        folder.push("configs/benchmark.cfg");
+
+        let bench_params_file = std::fs::File::open(folder.as_path()).unwrap();
+        folder.pop();
+
+        folder.push("results");
+        std::fs::create_dir_all(&folder).expect("Failed to create directories");
+
+        folder.push("eff_ecdsa_bench.csv");
+        let mut fs_results =
+            std::fs::File::create(folder.as_path()).expect("Failed to create file");
+        folder.pop();
+        folder.pop();
+
+        writeln!(fs_results, "k,numAdvice,numLookupAdvice,numInstance,numLookupBits,numVirtualInstance,proof_time,proof_size,verify_time")?;
+        folder.push("data");
+
+        if !folder.is_dir() {
+            std::fs::create_dir(folder.as_path())?;
+        }
+
+        let bench_params_reader = std::io::BufReader::new(bench_params_file);
+
+        for line in bench_params_reader.lines() {
+            let line = line.expect("Failed to read a line");
+            let line_str = line.as_str();
+
+            let bench_params: CircuitConfig = serde_json::from_str(line_str)
+                .map_err(|e| anyhow!(e))
+                .with_context(|| format!("Failed to read the circuit config file"))?;
+
+            let bench_params_ext: CircuitConfigExt = serde_json::from_str(line_str)
+                .map_err(|e| anyhow!(e))
+                .with_context(|| format!("Failed to read the circuit config Ext file"))?;
+
+            println!(
+                "---------------------- degree = {} ------------------------------",
+                bench_params_ext.k
+            );
+
+            let params_time = start_timer!(|| "Time elapsed in circuit & params construction");
+
+            let (ecdsa_inputs, test_inputs) = mock_eff_ecdsa_input(PRIV_KEY)?;
+            let merkle_proof = mock_merkle_proof(&test_inputs.address)?;
+            let eth_membership_inputs = EthMembershipInputs::<
+                secp256k1::Fp,
+                secp256k1::Fq,
+                Secp256k1Affine,
+            >::new(ecdsa_inputs, merkle_proof);
+
+            let mut halo2_wasm = Halo2Wasm::new();
+            halo2_wasm.config(bench_params);
+
+            let mut circuit =
+                EthMembershipCircuit::<secp256k1::Fp, secp256k1::Fq, Secp256k1Affine>::new(
+                    &halo2_wasm,
+                    eth_membership_inputs,
+                )?;
+
+            circuit.verify_membership();
+
+            halo2_wasm.set_instances(&circuit.instances, INSTANCE_COL);
+
+            halo2_wasm.assign_instances();
+
+            let params = ParamsKZG::<Bn256>::setup(bench_params_ext.k.try_into().unwrap(), OsRng);
+
+            // Load params
+            halo2_wasm.load_params(&serialize_params_to_bytes(&params));
+
+            end_timer!(params_time);
+
+            // Generate VK
+            let vk_time = start_timer!(|| "Time elapsed in generating vkey");
+            halo2_wasm.gen_vk();
+            end_timer!(vk_time);
+
+            // Generate PK
+            let pk_time = start_timer!(|| "Time elapsed in generating pkey");
+            halo2_wasm.gen_pk();
+            end_timer!(pk_time);
+
+            let start = Instant::now();
+
+            // Time tracking for proof generation
+            let proof_start = Instant::now();
+
+            // Get the public instance inputs
+            let instances = halo2_wasm.get_instance_values_ext(INSTANCE_COL)?;
+
+            // Generate proof
+            let proof_time = start_timer!(|| "Proving time");
+            let proof: Vec<u8> = halo2_wasm.prove_ext(&params);
+            end_timer!(proof_time);
+
+            let proof_duration = proof_start.elapsed();
+            println!(
+                "Eth Membership Proof generation executed in: {:.2?} seconds",
+                proof_duration
+            );
+
+            let proof_size = {
+                folder.push(format!(
+                    "ecdsa_circuit_proof_{}_{}_{}_{}_{}_{}.data",
+                    bench_params_ext.k,
+                    bench_params_ext.num_advice,
+                    bench_params_ext.num_lookup_advice,
+                    bench_params_ext.num_instance,
+                    bench_params_ext.num_lookup_bits,
+                    bench_params_ext.num_virtual_instance
+                ));
+                let mut fd = std::fs::File::create(folder.as_path()).unwrap();
+                folder.pop();
+                fd.write_all(&proof).unwrap();
+                fd.metadata().unwrap().len()
+            };
+
+            // Verify the proof
+            println!("Verifying Proof");
+            let verify_time = start_timer!(|| "Verify time");
+            let is_proof_valid = halo2_wasm.verify_ext(&instances, &proof, params)?;
+            end_timer!(verify_time);
+
+            println!("- Is proof valid? {}", is_proof_valid);
+
+            assert!(is_proof_valid, "The proof is not valid");
+
+            // Verify Eff ECDSA
+            println!("Verifying Eth Membership Proof");
+
+            let is_eff_ecdsa_valid = verify_efficient_ecdsa(
+                test_inputs.msg_hash,
+                test_inputs.r,
+                test_inputs.is_y_odd,
+                &instances,
+            )?;
+
+            println!("- Is Eff ECDSA valid? {}", is_eff_ecdsa_valid);
+
+            assert!(is_eff_ecdsa_valid, "Eff ECDSA is not valid");
+
+            let duration = start.elapsed();
+            let duration_in_minutes = duration.as_secs_f64() / 60.0;
+            println!("Test executed in: {:.2?} seconds", duration);
+            println!("Test executed in: {:.2?} minutes", duration_in_minutes);
+
+            writeln!(
+                fs_results,
+                "{},{},{},{},{},{},{:?},{},{:?}",
+                bench_params_ext.k,
+                bench_params_ext.num_advice,
+                bench_params_ext.num_lookup_advice,
+                bench_params_ext.num_instance,
+                bench_params_ext.num_lookup_bits,
+                bench_params_ext.num_virtual_instance,
+                proof_time.time.elapsed(),
+                proof_size,
+                verify_time.time.elapsed()
+            )?;
+        }
+
+        Ok(())
+    }
+
     #[test]
     fn test_eff_ecdsa_verification() -> Result<()> {
-        let path = "configs/eth_membership.config";
+        let path = "configs/eth_membership.cfg";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
                 .map_err(|e| anyhow!(e))
@@ -794,7 +964,7 @@ mod real_tests {
         let msg_hash = map_to_vec(&inputs.msg_hash);
         let merkle_proof_bytes_serialized = map_to_vec(&inputs.merkle_proof_bytes_serialized);
 
-        let path = "configs/eth_membership.config";
+        let path = "configs/eth_membership.cfg";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
                 .map_err(|e| anyhow!(e))
