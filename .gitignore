@@ -47,5 +47,6 @@ verify_test_inputs.json
 
 test_inputs.json
 
-.data
-.csv
+# Benchmark results
+pkgs/halo2-eth-membership/configs/data
+pkgs/halo2-eth-membership/configs/results

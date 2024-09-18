@@ -45,3 +45,4 @@ wasm-bindgen-test = "0.3"
 [features]
 default = ["rayon"]
 rayon = ["halo2-wasm/rayon"]
+bench = ["rayon"]

@@ -511,7 +511,7 @@ mod mock_tests {
 
     #[test]
     fn test_mock_inputs_eth_membership_mock_prover() -> Result<()> {
-        let path = "configs/eth_membership.config";
+        let path = "configs/eth_membership.cfg";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
                 .map_err(|e| anyhow!(e))
@@ -554,7 +554,7 @@ mod mock_tests {
 
     #[test]
     fn test_mock_inputs_eth_membership_real_prover_verifier() -> Result<()> {
-        let path = "configs/eth_membership.config";
+        let path = "configs/eth_membership.cfg";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
                 .map_err(|e| anyhow!(e))
@@ -654,7 +654,7 @@ mod mock_tests {
         use ark_std::{end_timer, start_timer};
 
         let mut folder = std::path::PathBuf::new();
-        folder.push("configs/benchmark.config");
+        folder.push("configs/benchmark.cfg");
 
         let bench_params_file = std::fs::File::open(folder.as_path()).unwrap();
         folder.pop();
@@ -820,7 +820,7 @@ mod mock_tests {
 
     #[test]
     fn test_eff_ecdsa_verification() -> Result<()> {
-        let path = "configs/eth_membership.config";
+        let path = "configs/eth_membership.cfg";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
                 .map_err(|e| anyhow!(e))
@@ -964,7 +964,7 @@ mod real_tests {
         let msg_hash = map_to_vec(&inputs.msg_hash);
         let merkle_proof_bytes_serialized = map_to_vec(&inputs.merkle_proof_bytes_serialized);
 
-        let path = "configs/eth_membership.config";
+        let path = "configs/eth_membership.cfg";
         let circuit_params: CircuitConfig = serde_json::from_reader(
             File::open(path)
                 .map_err(|e| anyhow!(e))
