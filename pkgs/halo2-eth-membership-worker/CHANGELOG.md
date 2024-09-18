@@ -1,5 +1,11 @@
 # @anonklub/halo2-eth-membership-worker
 
+## 1.2.0
+
+### Minor Changes
+
+- 7c4d5f2: Use single positional argument for `verifyMembership` instead of object argument with one key
+
 ## 1.1.0
 
 ### Minor Changes
