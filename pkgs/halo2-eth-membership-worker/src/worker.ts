@@ -19,8 +19,8 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
     const response = await fetch(wasmModuleUrl)
     const bufferSource = await response.arrayBuffer()
 
-    await halo2EthMembershipWasm.initSync(bufferSource)
-    await halo2EthMembershipWasm.initPanicHook()
+    halo2EthMembershipWasm.initSync(bufferSource)
+    halo2EthMembershipWasm.initPanicHook()
 
     if (!initialized) {
       const numThreads = navigator.hardwareConcurrency
