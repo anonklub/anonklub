@@ -1,5 +1,12 @@
 # @anonklub/halo2-eth-membership-worker
 
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [4a99958]
+  - @anonklub/halo2-eth-membership@0.2.0
+
 ## 1.0.0
 
 ### Major Changes

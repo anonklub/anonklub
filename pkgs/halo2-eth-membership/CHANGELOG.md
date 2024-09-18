@@ -1,5 +1,11 @@
 # @anonklub/halo2-eth-membership
 
+## 0.2.0
+
+### Minor Changes
+
+- 4a99958: Adding benchmarking report & changing config to be using k=14
+
 ## 0.1.2
 
 ### Patch Changes
