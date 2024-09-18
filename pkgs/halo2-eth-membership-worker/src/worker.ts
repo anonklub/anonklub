@@ -3,6 +3,9 @@ import { hashMessage, hexToSignature } from 'viem'
 import type { IHalo2EthMembershipWasm, IHalo2EthMembershipWorker, VerifyInputs } from './interface'
 import { calculateSigRecovery, fetchKzgParams, hexToLittleEndianBytes } from './utils'
 
+// Benchmarking showed that k = 14 offers the best performance
+const K = 14
+
 let halo2EthMembershipWasm: IHalo2EthMembershipWasm
 let initialized = false
 let params: Uint8Array
@@ -25,8 +28,7 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
       const numThreads = navigator.hardwareConcurrency
       await halo2EthMembershipWasm.initThreadPool(numThreads)
 
-      // Please note that K = 14 only supported for now until benchmarking is finished
-      params = await fetchKzgParams(14)
+      params = await fetchKzgParams(K)
 
       initialized = true
     }
@@ -52,9 +54,6 @@ export const Halo2EthMembershipWorker: IHalo2EthMembershipWorker = {
   },
 
   async verifyMembership(membershipProofSerialized: VerifyInputs): Promise<boolean> {
-    // Please note that K = 15 only supported for now until benchmarking is finished
-    const params = await fetchKzgParams(15)
-
     return halo2EthMembershipWasm.verify_membership(
       membershipProofSerialized,
       params,
