@@ -1,5 +1,11 @@
 # @anonklub/halo2-eth-membership-worker
 
+## 1.1.0
+
+### Minor Changes
+
+- b8526b2: Change k to 14 based on the benchmark results for better client-side performance
+
 ## 1.0.0
 
 ### Major Changes
